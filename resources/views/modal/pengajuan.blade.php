@@ -1007,7 +1007,7 @@
                                 <div class="form-group col-md-5">
                                     <label for="namaSim" class="control-label">Nisbah Anggota <star>*</star></label>
                                     <div class="input-group">
-                                        <input class="form-control" type="text" id="aket_nisbah"  disabled/>
+                                        <input class="form-control" type="text" id="aket_nisbah" disabled/>
                                         <span class="input-group-addon">%</span>
                                     </div>
                                 </div>

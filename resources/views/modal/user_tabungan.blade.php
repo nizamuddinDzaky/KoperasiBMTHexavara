@@ -99,7 +99,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Total Saldo Saat ini <star>*</star></label>
+                                        <label class="control-label">Saldo Saat ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="jumlahcls"  disabled>
@@ -725,7 +725,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Total Saldo Saat ini <star>*</star></label>
+                                        <label class="control-label">Saldo Saat ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="krejumlah"  disabled>
@@ -857,7 +857,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Total Saldo Saat ini <star>*</star></label>
+                                        <label class="control-label">Saldo Saat ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="vsaldo_kre"  disabled>
@@ -1219,7 +1219,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Total Saldo Saat ini <star>*</star></label>
+                                        <label class="control-label">Saldo Nasabah Saat ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="csaldo_kre"  disabled>

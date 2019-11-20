@@ -418,6 +418,7 @@ class TellerController extends Controller
 
     public function active_pengajuan(Request $request){
 
+        // dd($request);
         $detail = [
 
             'id'  => $request->id_,
@@ -431,12 +432,9 @@ class TellerController extends Controller
         if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
 
 
-
 //        VIA TELLER atau ADMIN
 
         if($request->nama_nasabah !=null){
-
-
 
             $usr =$this->informationRepository->getUsrByKtp($request->nama_nasabah);
 
@@ -857,7 +855,7 @@ class TellerController extends Controller
 
                 ->back()
 
-                ->withInput()->with('message', 'Aktivasi Pengajuan gagal dilakukan!.');
+                ->withInput()->with('message', 'Aktivasi Pengajuan gagal dilakukan! Anggota belum memenuhi persyaratan atau identitas tidak lengkap.');
 
 
 
@@ -1955,6 +1953,8 @@ class TellerController extends Controller
 
         $home = new HomeController;
 
+        $userIdRekening = json_decode(Auth::user()->detail,true)['id_rekening'];
+
         $date = $home->date_query(0);
 
         $dropdown = $this->informationRepository->getDdTab();
@@ -1993,7 +1993,7 @@ class TellerController extends Controller
 
             'dropdown6' => $this->informationRepository->getDdBank(),
 
-            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown7' => $this->informationRepository->getDetailTeller($userIdRekening),
 
             'dropdown8' => $this->informationRepository->getAllNasabah(),
 

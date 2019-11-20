@@ -69,8 +69,12 @@ class UserController extends Controller
         }
         foreach ($data2 as $dt){
             $sumpin +=(json_decode($dt->detail,true)['pinjaman']);
-            $sumtag +=(json_decode($dt->detail,true)['sisa_pinjaman']);
-            $sumbln +=(json_decode($dt->detail,true)['tagihan_bulanan']);
+            
+            // $sumtag +=(json_decode($dt->detail,true)['sisa_pinjaman']);
+            $sumtag +=(json_decode($dt->detail,true)['sisa_angsuran']);
+
+            // $sumbln +=(json_decode($dt->detail,true)['tagihan_bulanan']);
+            $sumbln +=(json_decode($dt->detail,true)['sisa_ang_bln']);
         }
         foreach ($data3 as $dt){
             $sumdep +=(json_decode($dt->detail,true)['saldo']);
@@ -232,6 +236,8 @@ class UserController extends Controller
 
     public function detail_tabungan(Request $request)
     {
+        $data = $this->informationRepository->getTransaksiTabUsr($request->id_);
+        // dd($data);
 
         return view('users.detail_tabungan', [
             'data' => $this->informationRepository->getTransaksiTabUsr($request->id_),

@@ -81,12 +81,14 @@ class AdminController extends Controller
             elseif(str_before($p->status," ")=="Ditolak")$tol +=1;
             elseif($p->status=="Disetujui" || str_before($p->status," ")=="Disetujui"  || str_before($p->status," ")=="Sudah" ||str_before($p->status," ")=="[Disetujui" )$set +=1;
         }
+        
         return view('admin.dashboard',[
-            'nas' => count($nas),
-            'tot' => $total,
-            'setuju' =>$set,
-            'tolak' =>$tol,
-            'pending' =>$pen,
+            'users'     => $this->informationRepository->getAllTeller(),
+            'nas'       => count($nas),
+            'tot'       => $total,
+            'setuju'    => $set,
+            'tolak'     => $tol,
+            'pending'   => $pen,
         ]);
     }
     public function profile(){

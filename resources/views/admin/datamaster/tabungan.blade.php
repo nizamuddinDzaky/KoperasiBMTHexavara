@@ -37,13 +37,12 @@
 
                         <table id="bootstrap-table" class="table">
                             <thead>
-                            <th></th>
                             {{--<th data-field="state" data-checkbox="true"></th>--}}
-                            <th data-field="id" data-sortable="true" class="text-left">ID Tabungan</th>
-                            <th data-field="idRek" data-sortable="true">ID Rekening</th>
-                            <th data-field="nama" data-sortable="true">Jenis Tabungan</th>
-                            <th data-field="nisbah" data-sortable="true">Kategori</th>
-                            <th data-field="saldo" data-sortable="true">Saldo Minimal</th>
+                            <th width="10%" data-field="id" data-sortable="true" class="text-center">ID Tabungan</th>
+                            <th width="15%" data-field="idRek" data-sortable="true">ID Rekening</th>
+                            <th width="30%" data-field="nama" data-sortable="true">Jenis Tabungan</th>
+                            <th width="15%" data-field="nisbah" data-sortable="true">Kategori</th>
+                            <th width="20%" data-field="saldo" data-sortable="true">Saldo Minimal</th>
                             {{--<th data-field="actions" class="td-actions text-right" data-events="operateEvents" data-formatter="operateFormatter">Actions</th>--}}
                             <th>Actions</th>
                             </thead>
@@ -51,12 +50,11 @@
 
                             @foreach ($data as $sim)
                                 <tr>
-                                    <td></td>
-                                    <td>{{ $sim->id }}</td>
+                                    <td class="text-center">{{ $sim->id }}</td>
                                     <td>{{ $sim->id_rekening }}</td>
                                     <td>{{ $sim->nama_rekening }}</td>
                                     <td>{{ $sim->katagori_rekening }}</td>
-                                    <td>{{ number_format($sim->saldo_minimal) }}</td>
+                                    <td>{{ number_format(json_decode($sim->detail,true)['saldo_min']) }}</td>
                                     <td class="td-actions text-center">
                                         <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editTabModal" title="Edit"
                                                 data-id         = "{{$sim->id}}"

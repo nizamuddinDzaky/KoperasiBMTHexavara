@@ -19,9 +19,9 @@
 @section('content')
     <div class="content">
         <div class="container-fluid">
-            <div class="col-md-3" id="HideOptions">
-                <div class="row-md-4">
-                    <div class="col-md-12">
+            <div class="row">
+            <div id="HideOptions">
+                <div class="col-md-4">
                         <div class="card card-wizard" style="">
                             <form id="wizardForm" method="" action="#">
                                 <div class="header text-center">
@@ -38,11 +38,9 @@
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
-
                         </div>
-                    </div>
                 </div>
-                {{--<div class="row-md-4">--}}
+                {{--<div class="col-md-4">--}}
                     {{--<div class="col-md-12">--}}
                         {{--<div class="card card-wizard " style="">--}}
                             {{--<form id="wizardForm" method="" action="#">--}}
@@ -63,8 +61,7 @@
                         {{--</div>--}}
                     {{--</div>--}}
                 {{--</div>--}}
-                <div class="row-md-4">
-                    <div class="col-md-12">
+                <div class="col-md-4">
                         <div class="card card-wizard " style="">
                             <form id="wizardForm" method="" action="#">
                                 <div class="header text-center">
@@ -81,12 +78,9 @@
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
-
                         </div>
-                    </div>
                 </div>
-                <div class="row-md-4">
-                    <div class="col-md-12">
+                <div class="col-md-4">
                         <div class="card card-wizard " style="">
                             <form id="wizardForm" method="" action="#">
                                 <div class="header text-center">
@@ -105,9 +99,8 @@
                             </form>
 
                         </div>
-                    </div>
                 </div>
-                {{--<div class="row-md-4">--}}
+                {{--<div class="col-md-4">--}}
                     {{--<div class="col-md-12">--}}
                         {{--<div class="card card-wizard " style="">--}}
                             {{--<form id="wizardForm" method="" action="#">--}}
@@ -130,7 +123,9 @@
                     {{--</div>--}}
                 {{--</div>--}}
             </div>
-            <div class="col-md-9" id="ShowTable">
+            </div>
+            <div class="row">
+            <div class="col-md-12" id="ShowTable">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -302,6 +297,7 @@
                     </div><!--  end card  -->
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->
+            </div>
             </div>
         </div>
     </div>

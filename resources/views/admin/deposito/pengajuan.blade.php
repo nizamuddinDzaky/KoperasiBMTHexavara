@@ -19,8 +19,8 @@
 @section('content')
     <div class="content">
         <div class="container-fluid">
-            <div class="col-md-3" id="HideOptions">
-                <div class="row-md-4">
+            <div class="col-md-12" id="HideOptions">
+                <div class="col-md-4">
                     <div class="col-md-12">
                         <div class="card card-wizard" style="">
                             <form id="wizardForm" method="" action="#">
@@ -38,11 +38,10 @@
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
-                <div class="row-md-4">
+                <div class="col-md-4">
                     <div class="col-md-12">
                         <div class="card card-wizard " style="">
                             <form id="wizardForm" method="" action="#">
@@ -65,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row-md-4">
+                <div class="col-md-4">
                     <div class="col-md-12">
                         <div class="card card-wizard " style="">
                             <form id="wizardForm" method="" action="#">
@@ -88,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9" id="ShowTable">
+            <div class="col-md-12" id="ShowTable">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -125,10 +124,9 @@
 
                             <table id="bootstrap-table" class="table">
                                 <thead>
-                                <th></th>
                                 <th data-sortable="true" class="text-left">ID</th>
                                 <th data-sortable="true">Jenis Pengajuan</th>
-                                <th data-sortable="true">Keterangan</th>
+                                <th data-sortable="true">Nasabah</th>
                                 <th data-sortable="true">Tgl Pengajuan</th>
                                 <th data-sortable="true">Status</th>
                                 <th data-sortable="true">Teller</th>
@@ -137,15 +135,14 @@
                                 <tbody>
                                 @foreach ($data as $usr)
                                     <tr>
-                                        <td></td>
                                         <td class="text-left">{{ $usr->id }}</td>
-                                        <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
+                                        <td class="text-left">{{ $usr->jenis_pengajuan }}</td>
                                         @if(str_before($usr->kategori,' ')=="Debit" || str_before($usr->kategori,' ')=="Kredit" || str_before($usr->kategori,' ')=="Angsuran")
-                                            <td class="text-center">{{$usr->kategori }}</td>
-                                        @else    <td class="text-center">{{json_decode($usr->detail,true)['keterangan'] }}</td>
+                                            <td class="text-left">{{$usr->kategori }}</td>
+                                        @else    <td class="text-left">{{ $usr->nama }}</td>
                                         @endif
                                         <td>{{ $usr->created_at }}</td>
-                                        <td class="text-center text-uppercase">{{ $usr->status }}</td>
+                                        <td class="text-left text-uppercase">{{ $usr->status }}</td>
                                         <td class="text-center text-uppercase">{{ $usr->teller }}</td>
 
                                         <td class="td-actions text-center">
@@ -322,6 +319,7 @@
             </div>
         </div>
     </div>
+    <!-- modal action pengajuan -->
     @include('modal.pengajuan')
     @include('modal.user_deposito')
 @endsection
@@ -430,6 +428,8 @@
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            console.log(button.data());
+            
             $('#arekDep').val(button.data('kategori'));
             var selAr = $('#toHide3a');
             var selAr2 = $('#toHide4a');

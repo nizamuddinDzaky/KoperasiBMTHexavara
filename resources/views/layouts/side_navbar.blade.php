@@ -25,7 +25,8 @@
                     @if(Auth::user()->tipe=="admin")
                     <img src="{{ URL::asset('bootstrap/assets/img/man.svg') }}">
                     @else
-                    <img src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile'])}}">
+                    <img src="{{ URL::asset('bootstrap/assets/img/man.svg') }}">
+                    <!-- <img src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile'])}}"> -->
                     @endif
                 </div>
                 <div class="info">

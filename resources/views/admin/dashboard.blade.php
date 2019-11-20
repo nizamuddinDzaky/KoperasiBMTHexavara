@@ -14,6 +14,29 @@
     <div class="content">
         <div class="container-fluid">
             <div class="col-md-8">
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-wizard">
+                        <table id="bootstrap-table" class="table">
+                                <thead>
+                                    <th width="10%" data-sortable="true" class="text-center">ID Rekening</th>
+                                    <th width="40%" data-sortable="true">Teller</th>
+                                    <th width="50%" data-sortable="true">Saldo</th>
+                                </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                    <tr>
+                                        <td class="text-center">{{ $user->id }}</td>
+                                        <td>{{ $user->nama_rekening }}</td>
+                                        <td>{{ $user->bmt->saldo }}</td>
+                                    <tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card card-wizard " style="">

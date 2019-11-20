@@ -323,6 +323,11 @@ class InformationRepository
         $data = $this->user->select('id','no_ktp', 'nama', 'alamat', 'tipe', 'status','wajib_pokok')->where('tipe',"anggota")->get();
         return $data;
     }
+    function getAllTeller()
+    {
+        $data = Rekening::where('katagori_rekening','TELLER')->get();
+        return $data;
+    }
     function getAnggota($id)
     {
         $data = $this->user->where('no_ktp', $id)->first();
@@ -413,6 +418,12 @@ class InformationRepository
         $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
             ->where('tipe_rekening', "detail")
             ->where('katagori_rekening', "TELLER")->get();
+        return $data;
+    }
+    function getDetailTeller($id)
+    {
+        $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
+            ->where('id', $id)->get();
         return $data;
     }
     function getAllpengajuanTab($date)
