@@ -24,7 +24,7 @@
             @endif
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                         <div class="card card-wizard" style="">
                             <form id="wizardForm" method="" action="#">
                                 <div class="header text-center">
@@ -43,7 +43,26 @@
                             </form>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                        <div class="card card-wizard" style="">
+                            <form id="wizardForm" method="" action="#">
+                                <div class="header text-center">
+                                <span class="fa-stack fa-3x">
+                                    <i class="fas fa-square fa-stack-2x" style="color:darksalmon"></i>
+                                    <i class="fas fa-handshake-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    <h3 class="title">Angsuran Pelunasan</h3>
+                                    <p class="category">Pembayaran Pelunasan Lebih Awal </p>
+                                </div>
+
+                                <div class="footer">
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#">Angsur</button>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+                <div class="col-md-4">
                         <div class="card card-wizard " style="">
                             <form id="wizardForm" method="" action="#">
                                 <div class="header text-center">
@@ -453,6 +472,7 @@
             var selA4 =$('#toHide_angpok');
             var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
             var selRek = $('#angidRek');
+            
             selRek.on('change', function () {
                 var id = $('#idRekA').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
@@ -464,6 +484,14 @@
                 angke = parseFloat(selRek.val().split(' ')[4]);
                 angbln = parseFloat(selRek.val().split(' ')[5]);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
+                angtotal = angbln + marbln;
+
+                // $('#ang_total').on('keyup', function (){
+                //     angtotal = $('#ang_total').val();
+                //     angsuran = angtotal - marbln;
+                //     $('#bayar_margin').val(marbln);
+                //     $('#bayar_ang').val(angtotal);
+                // });
 
                 $('#showPok').hide()
                 $('#angHide').show()
@@ -479,25 +507,36 @@
                 }
                 if(rekening!=2) {
                     $('#sisa_mar').show()
+                    $('#bayar_ang_total').show()
+                    $('#ang_total').val(angtotal)
                     $('#bayar_mar').hide()
                     $('#bayar_margin').val(marbln)
                     $('#bagi_pokok').val(angbln)
                     $('#bayar_ang').val(angbln)
                     $('#bagi_margin').attr("required",false);
+                    $('#bayar_margin').attr("disabled",true);
+                    $('#bayar_ang').attr("disabled",true);
                 }
                 else if(angke == 0 ) {
                     $('#sisa_mar').hide()
+                    $('#bayar_ang_total').hide()
                     $('#bayar_mar').show()
                     $('#bagi_pokok').val(pokok-(margin/lama))
                     $('#bayar_ang').val(pokok-(margin/lama))
+                    $('#bayar_ang').attr("disabled",false);
                     $('#bagi_margin').attr("required",true);
+                    $('#bayar_margin').attr("disabled",false);
                 }
                 else {
                     $('#sisa_mar').show()
+                    $('#bayar_ang_total').show()
+                    $('#ang_total').val(angtotal)
                     $('#bagi_margin').attr("required",false);
                     $('#bayar_mar').hide()
                     $('#bayar_ang').val(angbln)
+                    $('#bayar_ang').attr("disabled",true);
                     $('#bayar_margin').val(marbln)
+                    $('#bayar_margin').attr("disabled",true);
                     $('#bagi_pokok').val(pokok-(margin/lama))
                 }
 

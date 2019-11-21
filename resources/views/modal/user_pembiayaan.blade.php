@@ -145,7 +145,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="row" id="toHideBagi">
+                                <!-- <div class="row" id="toHideBagi"> -->
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Jumlah Biaya Angsuran Pokok <star>*</star></label>
@@ -160,45 +160,53 @@
                                         <label class="control-label">Jumlah Biaya Margin Bulan ini<star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="bagi_margin" name="nisbah"  required>
+                                            <input type="text" class="currency form-control text-right" id="bagi_margin" name="nisbah"  disabled>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                                <div class="row">
-                                    <div class="col-md-5 col-md-offset-1" id="showPok"></div>
-                                    <div class="col-md-5 col-md-offset-1" id="angHide">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Bayar Angsuran Pokok<star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="bayar_ang" name="bayar_ang" >
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5" id="marginHide">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right"  id="bayar_margin" name="bayar_mar">
-                                            </div>
+                            <div class="row" id="bayar_ang_total">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Bayar Angsuran<star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="ang_total" name="ang_total" >
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <!-- <div class="col-md-5 col-md-offset-1" id="showPok"></div> -->
+                                <div class="col-md-5 col-md-offset-1" id="angHide">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Bayar Angsuran<star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="bayar_ang" name="bayar_ang" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5" id="marginHide">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right"  id="bayar_margin" name="bayar_mar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="footer">
-                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Angsur </button>
-                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="footer">
+                        <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Angsur </button>
+                        <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
                     <div class="clearfix"></div>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
