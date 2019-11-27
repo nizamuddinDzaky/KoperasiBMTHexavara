@@ -273,6 +273,7 @@
     </div>
     @include('modal.pengajuan')
     @include('modal.user_pembiayaan')
+    @include('modal.user_pelunasan_pembiayaan')
 @endsection
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
@@ -454,6 +455,7 @@
         $().ready(function(){
             var field=0;
             $('#HideJamber').hide();
+            $('#pembayaranAngsuran').hide();
             $('#ShowJamber').show();
             $('#rekPem2').val(0);
             $('#rekPem2').on('change', function () {
@@ -474,6 +476,7 @@
             var selRek = $('#angidRek');
             
             selRek.on('change', function () {
+                $('#pembayaranAngsuran').show();
                 var id = $('#idRekA').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
                 $('#idRekA').val(id);
@@ -484,14 +487,16 @@
                 angke = parseFloat(selRek.val().split(' ')[4]);
                 angbln = parseFloat(selRek.val().split(' ')[5]);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
-                angtotal = angbln + marbln;
+                angtotal = parseFloat(angbln + marbln);
 
-                // $('#ang_total').on('keyup', function (){
-                //     angtotal = $('#ang_total').val();
-                //     angsuran = angtotal - marbln;
-                //     $('#bayar_margin').val(marbln);
-                //     $('#bayar_ang').val(angtotal);
-                // });
+                $('#ang_total').on('keyup', function (){
+                    if (rekening!=2) {
+                        angtotal = parseFloat($('#ang_total').val());
+                        angsuran = parseFloat(angtotal - marbln);
+                        $('#bayar_mar').val(marbln);
+                        $('#bayar_ang').val(angsuran);   
+                    }
+                });
 
                 $('#showPok').hide()
                 $('#angHide').show()
@@ -509,34 +514,34 @@
                     $('#sisa_mar').show()
                     $('#bayar_ang_total').show()
                     $('#ang_total').val(angtotal)
-                    $('#bayar_mar').hide()
-                    $('#bayar_margin').val(marbln)
                     $('#bagi_pokok').val(angbln)
-                    $('#bayar_ang').val(angbln)
                     $('#bagi_margin').attr("required",false);
-                    $('#bayar_margin').attr("disabled",true);
-                    $('#bayar_ang').attr("disabled",true);
+                    $('#marginHide').show();
+                    $('#bayar_mar').val(marbln);
+                    $('#bayar_mar').attr("readonly",true);
+                    $('#bayar_ang').val(angbln)
+                    $('#bayar_ang').attr("readonly",true);
                 }
                 else if(angke == 0 ) {
                     $('#sisa_mar').hide()
                     $('#bayar_ang_total').hide()
-                    $('#bayar_mar').show()
                     $('#bagi_pokok').val(pokok-(margin/lama))
-                    $('#bayar_ang').val(pokok-(margin/lama))
-                    $('#bayar_ang').attr("disabled",false);
+                    $('#marginHide').show();
                     $('#bagi_margin').attr("required",true);
-                    $('#bayar_margin').attr("disabled",false);
+                    $('#bayar_ang').val(pokok-(margin/lama))                    
+                    $('#bayar_ang').attr("readonly",false);
+                    $('#bayar_mar').val(0);
+                    $('#bayar_mar').attr("readonly",false);
                 }
                 else {
-                    $('#sisa_mar').show()
-                    $('#bayar_ang_total').show()
-                    $('#ang_total').val(angtotal)
+                    $('#sisa_mar').hide()
+                    $('#bayar_ang_total').hide()
+                    $('#ang_total').val(angtotal)   
                     $('#bagi_margin').attr("required",false);
-                    $('#bayar_mar').hide()
                     $('#bayar_ang').val(angbln)
-                    $('#bayar_ang').attr("disabled",true);
-                    $('#bayar_margin').val(marbln)
-                    $('#bayar_margin').attr("disabled",true);
+                    $('#bayar_ang').attr("readonly",true);
+                    $('#bayar_mar').val(0)
+                    $('#bayar_mar').attr("readonly",true);
                     $('#bagi_pokok').val(pokok-(margin/lama))
                 }
 

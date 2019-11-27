@@ -554,6 +554,7 @@ class UserController extends Controller
 
     public function angsur_pembiayaan(Request $request)
     {
+
         $this->validate($request, [
             'file' => 'file|max:2000', // max 2MB
         ]);
@@ -567,6 +568,7 @@ class UserController extends Controller
         if(preg_match("/^[0-9,]+$/", $request->bayar_mar)) $request->bayar_mar = str_replace(',',"",$request->bayar_mar);
         if(preg_match("/^[0-9,]+$/", $request->bayar_ang)) $request->bayar_ang = str_replace(',',"",$request->bayar_ang);
         if(preg_match("/^[0-9,]+$/", $request->nisbah)) $request->nisbah = str_replace(',',"",$request->nisbah);
+        
         $detail = [
             'angsuran' => $kredit,
             'id_pembiayaan' => $request->id_,

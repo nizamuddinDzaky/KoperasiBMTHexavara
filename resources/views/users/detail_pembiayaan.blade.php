@@ -46,6 +46,7 @@
                             </thead>
                             <tbody>
                             @foreach ($data as $usr)
+                                @if(json_decode($usr->transaksi,true)['angsuran_ke'] != 0)
                                 <tr>
                                     <td></td>
                                     <td>{{ $usr->created_at }}</td>
@@ -61,7 +62,7 @@
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['sisa_pinjaman'],2) }}</td>
                                     <td></td>
                                 </tr>
-
+                                @endif
                             @endforeach
                             </tbody>
                         </table>
