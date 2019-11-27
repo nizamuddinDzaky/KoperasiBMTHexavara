@@ -56,7 +56,7 @@
                                 </div>
 
                                 <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#">Angsur</button>
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#angsurPelunasanModal">Angsur</button>
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
@@ -453,6 +453,43 @@
         }
 
         $().ready(function(){
+            var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
+            var selRek = $('#angidRekPelunasan');
+            $('#debitPelunasanTransferForm').hide();
+
+            selRek.on('change', function () {
+                console.log(selRek.val());       
+                var id = $('#idRekAPelunasan').val(selRek.find(":selected").text().split(']')[0]);
+                id = id.val().split('[')[1];
+                $('#idRekAPelunasan').val(id);
+                pokok = parseFloat(selRek.val().split(' ')[0]);
+                lama = parseFloat(selRek.val().split(' ')[2]);
+                margin = parseFloat(selRek.val().split(' ')[1]);
+                rekening = parseFloat(selRek.val().split(' ')[3]);
+                angke = parseFloat(selRek.val().split(' ')[4]);
+                angbln = parseFloat(selRek.val().split(' ')[5]);
+                marbln = parseFloat(selRek.val().split(' ')[6]);
+
+            });
+
+            var jenis = $('#debitPelunasan'); 
+            jenis.on('change', function () {
+                if(jenis .val() == 1) {
+                    $('#debitPelunasanTransferForm').show("slow");
+                    $('#debitPelunasanTransferForm').find("input").each(function () {
+                        $(this).attr("required", true);
+                    });
+                }
+                else if (jenis .val() == 0) {
+                    $('#debitPelunasanTransferForm').hide("slow");
+                    $('#debitPelunasanTransferForm').find("input").each(function () {
+                        $(this).attr("required", false);
+                    });
+                }
+            });
+        });
+
+        $().ready(function(){
             var field=0;
             $('#HideJamber').hide();
             $('#pembayaranAngsuran').hide();
@@ -678,6 +715,7 @@
             }
         }
     </script>
+    
     <script type="text/javascript">
         $().ready(function(){
 
@@ -705,8 +743,11 @@
             $("#rekPem").select2({
                 dropdownParent: $("#openPemModal")
             });
-            ;$("#angidRek").select2({
+            $("#angidRek").select2({
                 dropdownParent: $("#angsurPemModal")
+            });
+            $("#angidRekPelunasan").select2({
+                dropdownParent: $("#angsurPelunasanModal")
             });
 
             lbd.checkFullPageBackgroundImage();
@@ -1036,7 +1077,106 @@
                 }
 
             });
+            $('#wizardCardAngPelunasan').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormAngPelunasan').valid();
 
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
+            $('#wizardCardAngPelunasanv').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormAngPelunasanv').valid();
+
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
         });
 
         function onFinishWizard(){
