@@ -451,7 +451,8 @@
                 jQuery('#detailJam').append(row);
             }
         }
-
+        
+//ANGSURAN PELUNASAN
         $().ready(function(){
             var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
             var selRek = $('#angidRekPelunasan');
@@ -469,7 +470,55 @@
                 angke = parseFloat(selRek.val().split(' ')[4]);
                 angbln = parseFloat(selRek.val().split(' ')[5]);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
-
+                angsisa = parseFloat(selRek.val().split(' ')[7]);
+                peminjamanTotal = parseFloat(selRek.val().split(' ')[8]);
+                
+                $('#tagihan_pokok_pelunasan').val(angbln)
+                $('#tagihan_margin_pelunasan').val(marbln)
+                $('#sisa_ang_pelunasan').val(angbln)
+                $('#sisa_mar_pelunasan').val(marbln)
+                $('#jenis_pelunasan').val(rekening);
+                $('#pokok_pelunasan').val(pokok-(margin/lama))
+                
+                if(marbln==0) {
+                    $('#marginHide').hide()
+                    $('#bagi_margin').attr("required",false);
+                }
+                if(angbln==0) {
+                    $('#angHide').hide()
+                    $('#showPok').show()
+                    $('#bagi_margin').attr("required",false);
+                }
+                if(rekening!=2) {
+                    $('#sisa_mar').show();
+                    $('#bayar_ang_total').show();
+                    $('#bagi_pokok').val(angsisa);
+                    $('#bagi_margin').attr("required",false);
+                    $('#marginHide').show();
+                    $('#total_peminjaman').val(peminjamanTotal);
+                    $('#total_peminjaman').attr("readonly",true);
+                    $('#biaya_margin_per_bulan').val(marbln);
+                    $('#biaya_margin_per_bulan').attr("readonly",true);
+                    $('#bayar_mar_pelunasan').val(marbln*2);
+                    $('#bayar_mar_pelunasan').attr("readonly",true);
+                    $('#bayar_ang_pelunasan').val(angsisa)
+                    $('#bayar_ang_pelunasan').attr("readonly",true);
+                }
+                else {
+                    $('#sisa_mar').show();
+                    $('#bayar_ang_total').show();
+                    $('#bagi_pokok').val(angsisa);
+                    $('#bagi_margin').attr("required",false);
+                    $('#marginHide').show();
+                    $('#total_peminjaman').val(peminjamanTotal);
+                    $('#total_peminjaman').attr("readonly",true);
+                    $('#biaya_margin_per_bulan').val(marbln);
+                    $('#biaya_margin_per_bulan').attr("readonly",true);
+                    $('#bayar_mar_pelunasan').val(0);
+                    $('#bayar_mar_pelunasan').attr("readonly",false);
+                    $('#bayar_ang_pelunasan').val(angsisa)
+                    $('#bayar_ang_pelunasan').attr("readonly",true);
+                }
             });
 
             var jenis = $('#debitPelunasan'); 
@@ -488,6 +537,8 @@
                 }
             });
         });
+
+//END OF ANGSURAN PELUNASAN
 
         $().ready(function(){
             var field=0;

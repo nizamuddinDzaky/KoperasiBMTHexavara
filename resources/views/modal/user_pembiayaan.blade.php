@@ -322,44 +322,42 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row" id="vtoHideBagi">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Biaya Angsuran Pokok <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="vbagi_pokok"  disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5" id="vbayar_mar">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Biaya Margin Bulan ini<star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="vbagi_margin" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
-                                <div class="row" id="vtoHideBagi">
-                                    <div class="col-md-5 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Biaya Angsuran Pokok <star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="vbagi_pokok"  disabled />
-                                            </div>
+                                <div class="col-md-5 col-md-offset-1" id="vangHide">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Bayar Angsuran Pokok<star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="vbayar_ang" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-md-5" id="vbayar_mar">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Biaya Margin Bulan ini<star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="vbagi_margin" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                <div class="row">
-                                    <div class="col-md-5 col-md-offset-1" id="vangHide">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Bayar Angsuran Pokok<star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="vbayar_ang" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5" id="vmarginHide">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right"  id="vbayar_margin" disabled>
-                                            </div>
+                                </div>
+                                <div class="col-md-5" id="vmarginHide">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right"  id="vbayar_margin" disabled>
                                         </div>
                                     </div>
                                 </div>

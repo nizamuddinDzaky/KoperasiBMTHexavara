@@ -523,7 +523,7 @@ class UserController extends Controller
     public function pembiayaan()
     {
         $data = $this->informationRepository->getAllPemUsrActive();
-        //  dd($data[0]);
+        // dd($this->informationRepository->getAllPemUsrActive());
         $tab = $data;
         return view('users.pembiayaan', [
             'kegiatan' => $data,
@@ -568,7 +568,7 @@ class UserController extends Controller
         if(preg_match("/^[0-9,]+$/", $request->bayar_mar)) $request->bayar_mar = str_replace(',',"",$request->bayar_mar);
         if(preg_match("/^[0-9,]+$/", $request->bayar_ang)) $request->bayar_ang = str_replace(',',"",$request->bayar_ang);
         if(preg_match("/^[0-9,]+$/", $request->nisbah)) $request->nisbah = str_replace(',',"",$request->nisbah);
-        
+        // dd($request);
         $detail = [
             'angsuran' => $kredit,
             'id_pembiayaan' => $request->id_,
