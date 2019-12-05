@@ -1062,7 +1062,7 @@ class TellerController extends Controller
 
 
         if($request->teller=="teller")$request = $this->daftar_debit_kredit($request);
-
+        
         if($this->informationRepository->penyimpananDebit($request)){
 
             return redirect()
@@ -1516,7 +1516,7 @@ class TellerController extends Controller
         $data = $this->informationRepository->getAllpengajuanTabTell($date);
         
         $idRekeningTeller = json_decode(Auth::user()->detail,true)['id_rekening'];
-        // dd($this->informationRepository->getDetailTeller($idRekeningTeller));
+        
         return view('admin.tabungan.pengajuan',[
 
             'datasaldo'     => $this->informationRepository->getAllTab(),
@@ -1789,6 +1789,9 @@ class TellerController extends Controller
 
         $data = $this->informationRepository->getAllpengajuanDepTell($date);
 
+        $idRekeningTeller = json_decode(Auth::user()->detail,true)['id_rekening'];
+        $selfRekening = array($this->informationRepository->getDetailTeller($idRekeningTeller));
+
         return view('admin.deposito.pengajuan',[
 
             'datasaldoDep' =>  $this->informationRepository->getAllDep(),
@@ -1821,7 +1824,9 @@ class TellerController extends Controller
 
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
 
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
+            
+            'selfRekening'  => $selfRekening,
 
         ]);
 
@@ -1997,7 +2002,7 @@ class TellerController extends Controller
 
             'dropdown6' => $this->informationRepository->getDdBank(),
 
-            'dropdown7' => $this->informationRepository->getDetailTeller($userIdRekening),
+            'dropdown7' => array($this->informationRepository->getDetailTeller($userIdRekening)),
 
             'dropdown8' => $this->informationRepository->getAllNasabah(),
 

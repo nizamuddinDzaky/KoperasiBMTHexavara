@@ -203,6 +203,7 @@ class AdminController extends Controller
     public function pengajuan(){
         $home = new HomeController;
         $date = $home->date_query(0);
+        
         return view('admin.transaksi.pengajuan',[
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
@@ -221,13 +222,17 @@ class AdminController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
         ]);
     }
 
     public function pengajuan_maal(){
         $home = new HomeController;
         $date = $home->date_query(0);
+
+        $idRekeningTeller = json_decode(Auth::user()->detail,true)['id_rekening'];
+        $selfRekening = $this->informationRepository->getDetailTeller($idRekeningTeller);
+        
         return view('admin.maal',[
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
@@ -247,7 +252,8 @@ class AdminController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
+            'selfRekening' => $selfRekening,
         ]);
     }
 
@@ -963,6 +969,10 @@ class AdminController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanDep($date);
+
+        $idRekeningTeller = json_decode(Auth::user()->detail,true)['id_rekening'];
+        $selfRekening = array($this->informationRepository->getDetailTeller($idRekeningTeller));
+
         return view('admin.deposito.pengajuan',[
             'datasaldoDep' =>  $this->informationRepository->getAllDep(),
             'kegiatan' => $dropdown,
@@ -978,7 +988,8 @@ class AdminController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
+            'selfRekening'  => $selfRekening,
         ]);
     }
     public function periode_dep(Request $request){

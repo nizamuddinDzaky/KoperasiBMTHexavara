@@ -231,6 +231,7 @@ class UserController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'selfRekening' => array(),
         ]);
     }
 
@@ -411,6 +412,7 @@ class UserController extends Controller
     {
         $data = $this->informationRepository->getAllDepUsrActive();
         $tab = $this->informationRepository->getAllTabUsr();
+
         return view('users.deposito', [
             'datasaldoDep' => $data,
             'kegiatan' => $data,
@@ -427,6 +429,7 @@ class UserController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'selfRekening'  => array(),
         ]);
     }
 

@@ -202,6 +202,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaTabunganDepositoPencairan" class="control-label">Dicairkan ke rekening </label>
+                                        <input type="text" id="namaTabunganDepositoPencairan" name="namaTabunganDepositoPencairan" class="form-control" value="Still development" disabled>
+                                    </div>
+                                </div>
+                            </div>
                             {{----}}
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
@@ -432,7 +440,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Deposito <star>*</star></label>
-                                        <select class="form-control select2"  disabled id="vwidRek" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control select2"  disabled id="cwidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Deposito-</option>
                                             @foreach ($datasaldoDep as $rekening)
                                                 <option value="{{ $rekening->id_deposito }}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
@@ -519,10 +527,10 @@
                             <div class="row" id="toHidePenT">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Rekening Teller<star>*</star></label>
+                                        <label class="control-label">Transfer dari Rekening<star>*</star></label>
                                         <select  id="tellerpen" name="dari" class="form-control" required="true">
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
-                                            @foreach ($dropdown7 as $rekening)
+                                            @foreach ($dropdown6->merge($selfRekening)->all()  as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
                                             @endforeach
                                         </select>

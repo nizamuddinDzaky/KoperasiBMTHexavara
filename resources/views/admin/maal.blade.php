@@ -207,7 +207,7 @@
     @include('modal.pengajuan')
     @include('modal.user_pembiayaan')
     @include('modal.user_tabungan')
-    @include('modal.user_deposito')
+    {{--@include('modal.user_deposito')--}}
     {{--@include('modal.user_deposito')--}}
 @endsection
 

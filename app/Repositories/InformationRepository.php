@@ -1775,6 +1775,11 @@ class InformationRepository
     function getAllDep(){
         $data = Deposito::select('deposito.*', 'users.no_ktp', 'users.nama')
             ->join('users', 'users.id', '=', 'deposito.id_user')->get();
+        
+        foreach ($data as $data_deposito) {
+            $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
+            $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
+        }
         return $data;
     }
     function getAllPem(){
@@ -3379,6 +3384,10 @@ class InformationRepository
             ->join('users', 'users.id', '=', 'deposito.id_user')
             ->where('deposito.status',"active")
             ->where('deposito.id_user','=',Auth::user()->id)->orderBy('id','DESC')->get();
+        foreach ($data as $data_deposito) {
+            $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
+            $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
+        }
         return $data;
     }
 
