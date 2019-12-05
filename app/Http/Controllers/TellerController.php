@@ -1514,38 +1514,42 @@ class TellerController extends Controller
         $dropdown3 = $this->informationRepository->getDdPem();
 
         $data = $this->informationRepository->getAllpengajuanTabTell($date);
-
+        
+        $idRekeningTeller = json_decode(Auth::user()->detail,true)['id_rekening'];
+        // dd($this->informationRepository->getDetailTeller($idRekeningTeller));
         return view('admin.tabungan.pengajuan',[
 
-            'datasaldo' =>  $this->informationRepository->getAllTab(),
+            'datasaldo'     => $this->informationRepository->getAllTab(),
 
-            'data' => $data,
+            'data'          => $data,
 
-            'kegiatan' => $data,
+            'kegiatan'      => $data,
 
-            'tab' =>  $this->informationRepository->getAllTab(),
+            'tab'           => $this->informationRepository->getAllTab(),
 
-            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'tabactive'     => $this->informationRepository->getAllTabActive(),
 
-            'dropdown' => $dropdown,
+            'selfRekening'  => $this->informationRepository->getDetailTeller($idRekeningTeller),
 
-            'dropdown2' => $dropdown2,
+            'dropdown'      => $dropdown,
 
-            'dropdown3' => $dropdown3,
+            'dropdown2'     => $dropdown2,
 
-            'dropdown4' => $this->informationRepository->getAllrekeningNoUsrTab(),
+            'dropdown3'     => $dropdown3,
 
-            'dropdown5' => $this->informationRepository->getAllTabNoUsr(),
+            'dropdown4'     => $this->informationRepository->getAllrekeningNoUsrTab(),
 
-            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown5'     => $this->informationRepository->getAllTabNoUsr(),
 
-            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown6'     => $this->informationRepository->getDdBank(),
 
-            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown7'     => $this->informationRepository->getDdTeller(),
 
-            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown8'     => $this->informationRepository->getAllNasabah(),
 
-            'periode'  => $this->informationRepository->periode()
+            'dropdown9'     => $this->informationRepository->getAllJaminanDD(),
+
+            'periode'       => $this->informationRepository->periode()
 
 
 

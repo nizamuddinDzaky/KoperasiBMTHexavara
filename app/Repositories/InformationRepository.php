@@ -423,7 +423,7 @@ class InformationRepository
     function getDetailTeller($id)
     {
         $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
-            ->where('id', $id)->get();
+            ->where('id', $id)->first();
         return $data;
     }
     function getAllpengajuanTab($date)

@@ -205,6 +205,7 @@
                                                                 data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                                 data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
                                                                 data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
+                                                                data-selfRekening = "{{ json_decode($usr->detail,true)['id_rekening'] }}"
                                                                 @if(str_before($usr->kategori,' ')=="Kredit")
                                                                 data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
                                                                 data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"

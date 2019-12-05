@@ -1244,12 +1244,18 @@
                             <div class="row" id="toHideKreBank">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Transfer dari Rekening" ?<star>*</star></label>
-                                        <select id="daribank" name="daribank" class="form-control" required="true">
-                                            <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
-                                            @foreach ($dropdown6 as $rekening)
-                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
-                                            @endforeach
+                                        @if(Auth::user()->tipe == 'admin')
+                                            <label class="control-label">Transfer dari Rekening" ?<star>*</star></label>
+                                            <select id="daribank" name="daribank" class="form-control" required="true">
+                                                <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
+                                                @foreach ($dropdown6 as $rekening)
+                                                    <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                                @endforeach
+                                        @else
+                                            <label class="control-label"> Transfer dari Rekening Teller<star>*</star></label>
+                                            <input type="text" hidden  id="daribank" name="daribank" value="{{ $selfRekening->id }}" required="true">
+                                            <input type="text" class="form-control" value="[{{$selfRekening->id_rekening }}] {{ $selfRekening->nama_rekening }}" disabled>
+                                        @endif
                                         </select>
                                     </div>
                                 </div>
@@ -1257,6 +1263,7 @@
                             <div class="row" id="toHideKreTell">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
+                                        @if(Auth::user()->tipe == 'admin')
                                         <label class="control-label">Pilih Rekening Teller<star>*</star></label>
                                         <select  id="dariteller" name="dariteller" class="form-control" required="true">
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
@@ -1264,6 +1271,11 @@
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
                                             @endforeach
                                         </select>
+                                        @else
+                                        <label class="control-label"> Rekening Teller<star>*</star></label>
+                                        <input type="text" hidden  id="dariteller" name="dariteller" value="{{ $selfRekening->id }}" required="true">
+                                        <input type="text" class="form-control" value="[{{$selfRekening->id_rekening }}] {{ $selfRekening->nama_rekening }}" disabled>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
