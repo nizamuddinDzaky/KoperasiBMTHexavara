@@ -412,7 +412,7 @@ class UserController extends Controller
     {
         $data = $this->informationRepository->getAllDepUsrActive();
         $tab = $this->informationRepository->getAllTabUsr();
-
+        
         return view('users.deposito', [
             'datasaldoDep' => $data,
             'kegiatan' => $data,

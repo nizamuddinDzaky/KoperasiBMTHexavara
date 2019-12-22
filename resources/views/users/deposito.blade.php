@@ -413,11 +413,13 @@
 
             var selTip3 = $('#widRek');
             selTip3.on('change', function () {
+                var optionJsonValue = JSON.parse(selTip3.val());
                 var id = $('#idRekWD').val(selTip3.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
                 $('#idRekWD').val(id);
-                console.log(id);
-                $('#wjumlah').val(selTip3.val())
+                // console.log(id);
+                $('#namaTabunganDepositoPencairan').val(optionJsonValue.tabungan);
+                $('#wjumlah').val(optionJsonValue.saldo);
             });
 
             var selTip = $('#exidRek');

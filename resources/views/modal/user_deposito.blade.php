@@ -195,7 +195,10 @@
                                         <select class="form-control select2"  id="widRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Deposito-</option>
                                                 @foreach ($datasaldoDep as $rekening)
-                                                    <option value="{{ (json_decode($rekening->detail,true )['saldo'])}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
+                                                    <option value='{ 
+                                                        "saldo":"{{(json_decode($rekening->detail,true )["saldo"])}}",
+                                                        "tabungan":"{{$rekening->tabungan_pencairan_deposito}}" }'
+                                                        > [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
                                                 @endforeach
                                         </select>
                                         <input type="hidden" id="idRekWD" name="id_">
@@ -206,7 +209,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaTabunganDepositoPencairan" class="control-label">Dicairkan ke rekening </label>
-                                        <input type="text" id="namaTabunganDepositoPencairan" name="namaTabunganDepositoPencairan" class="form-control" value="Still development" disabled>
+                                        <input type="text" id="namaTabunganDepositoPencairan" name="namaTabunganDepositoPencairan" class="form-control" value="" disabled>
                                     </div>
                                 </div>
                             </div>

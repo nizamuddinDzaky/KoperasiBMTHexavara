@@ -1779,6 +1779,7 @@ class InformationRepository
         foreach ($data as $data_deposito) {
             $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
             $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
+            $data_deposito->tabungan_pencairan_deposito = "[".$data_deposito->tabungan_pencairan->id_tabungan."] ".$data_deposito->tabungan_pencairan->jenis_tabungan;
         }
         return $data;
     }
@@ -1880,6 +1881,7 @@ class InformationRepository
     }
 //    DEBIT KREDIT ADMIN
     function penyimpananDebit($request){
+        dd($request);
         $id_pengajuan = $request->id;
         $status_pengajuan = "Sudah Dikonfirmasi";
         //        DETAIL P_TABUNGAN
@@ -2760,6 +2762,7 @@ class InformationRepository
     }
 //    PENCAIRAN DEPOSITO
     function pencairanDeposito($request){
+        dd($request);
         $id_pengajuan = $request->id;
         $status_pengajuan = "Sudah Dikonfirmasi";
         //        DETAIL P_Deposito
@@ -3387,6 +3390,7 @@ class InformationRepository
         foreach ($data as $data_deposito) {
             $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
             $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
+            $data_deposito->tabungan_pencairan_deposito = "[".$data_deposito->tabungan_pencairan->id_tabungan."] ".$data_deposito->tabungan_pencairan->jenis_tabungan;
         }
         return $data;
     }

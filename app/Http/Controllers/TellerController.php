@@ -1286,7 +1286,7 @@ class TellerController extends Controller
     }
 
     public function konfirmasi_pencairan(Request $request){
-
+    
         $bmt = $this->informationRepository->getRekeningBMT($request->dari);
 
         if( floatval($bmt['saldo']) <  floatval(str_replace(',', '', $request->saldo)) )
@@ -1791,7 +1791,7 @@ class TellerController extends Controller
 
         $idRekeningTeller = json_decode(Auth::user()->detail,true)['id_rekening'];
         $selfRekening = array($this->informationRepository->getDetailTeller($idRekeningTeller));
-
+        
         return view('admin.deposito.pengajuan',[
 
             'datasaldoDep' =>  $this->informationRepository->getAllDep(),
