@@ -1,2 +1,0 @@
-# BMT
-BMT MUDA
