@@ -480,13 +480,13 @@ class AdminController extends Controller
                 if($this->informationRepository->setoranAwal($detail_pdeposito,$data)){
                     return redirect()
                         ->back()
-                        ->withSuccess(sprintf('Pembukaan Rekening Deposito berhasil dilakukan!.'));
+                        ->withSuccess(sprintf('Pembukaan Rekening Mudharabah Berjangka berhasil dilakukan!.'));
                 }
                 else{
                     if($this->informationRepository->delPengajuan($id_pengajuan))
                         return redirect()
                             ->back()
-                            ->withInput()->with('message', 'Pembukaan Rekening Deposito gagal dilakukan!.');
+                            ->withInput()->with('message', 'Pembukaan Rekening Mudharabah Berjangka gagal dilakukan!.');
                 }
             }
             elseif($request->pembiayaan !=null){

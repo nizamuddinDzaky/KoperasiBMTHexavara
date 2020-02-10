@@ -377,17 +377,17 @@ class UserController extends Controller
             'id_pencairan' => $request->rek_tabungan,
         ];
         $keterangan = [
-            'jenis' => "Buka Deposito",
+            'jenis' => "Buka Mudharabah Berjangka",
             'status' => "Menunggu Konfirmasi",
         ];
         if ($this->informationRepository->pengajuanDep($detail, $keterangan)) {
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Pengajuan pembukaan Deposito berhasil dilakukan!.'));
+                ->withSuccess(sprintf('Pengajuan pembukaan Mudharabah Berjangka berhasil dilakukan!.'));
         } else {
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Pengajuan pembukaan Deposito gagal dilakukan!.');
+                ->withInput()->with('message', 'Pengajuan pembukaan Mudharabah Berjangka gagal dilakukan!.');
         }
     }
 
