@@ -573,7 +573,7 @@
             <form id="wizardForm2" method="POST" @if(Auth::user()->tipe=="teller") action="{{route('teller.master_dep')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.master_dep')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('master_dep')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
-                    <h3 class="title">Pembukaan Deposito</h3>
+                    <h3 class="title">Pembukaan Mudharabah Berjangka</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
@@ -685,10 +685,10 @@
 
                             <div class="row">
                                 <div class="form-group col-md-5 col-md-offset-1">
-                                    <label for="namaSim" class="control-label">Jenis Deposito <star>*</star></label>
+                                    <label for="namaSim" class="control-label">Jenis Mudharabah Berjangka <star>*</star></label>
                                     <input type="hidden" id="deposito_id" name="deposito_">
                                     <select class="form-control select2" id="rekDep" name="deposito" style="width: 100%;" required>
-                                        <option class="bs-title-option" value="">Pilih Deposito</option>
+                                        <option class="bs-title-option" value="">Pilih Mudharabah Berjangka</option>
                                         @foreach ($dropdown2 as $rekening)
                                             <option value="{{ $rekening->id." ".
                                                 json_decode($rekening->detail,true )['nisbah_anggota']
@@ -749,7 +749,7 @@
         <div class="card card-wizard" id="wizardCard2v">
             <form id="wizardForm2v">
                 <div class="header text-center">
-                    <h3 class="title" id="titleVDep">Pembukaan Deposito</h3>
+                    <h3 class="title" id="titleVDep">Pembukaan Mudharabah Berjangka</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
@@ -760,7 +760,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1Depv">
-                            <h5 class="text-center">Detail pengajuan deposito Anda</h5>
+                            <h5 class="text-center">Detail pengajuan mudharabah berjangka Anda</h5>
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label class="control-label">Tabungan Pencairan<star>*</star></label>
@@ -841,9 +841,9 @@
 
                             <div class="row">
                                 <div class="form-group col-md-5 col-md-offset-1">
-                                    <label for="namaSim" class="control-label">Jenis Deposito <star>*</star></label>
+                                    <label for="namaSim" class="control-label">Jenis Mudharabah Berjangka <star>*</star></label>
                                     <select class="form-control select2" id="vrekDep" name="deposito" style="width: 100%;" required disabled>
-                                        <option class="bs-title-option" value="">Pilih Deposito</option>
+                                        <option class="bs-title-option" value="">Pilih Mudharabah Berjangka</option>
                                         @foreach ($dropdown2 as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
                                         @endforeach
@@ -904,7 +904,7 @@
                 {{csrf_field()}}
                 <input type="hidden" id="id_act_dep" name="id_">
                 <div class="header text-center">
-                    <h3 class="title">Pembukaan Deposito</h3>
+                    <h3 class="title">Pembukaan Mudharabah Berjangka</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 

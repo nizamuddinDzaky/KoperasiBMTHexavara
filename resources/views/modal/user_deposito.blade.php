@@ -8,22 +8,22 @@
                     <input type="hidden" name="teller" value="teller">
                 @endif
                 <div class="header text-center">
-                    <h3 class="title">Perpanjangan Deposito</h3>
+                    <h3 class="title">Perpanjangan Mudharabah Berjangka</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#extab1Dep" data-toggle="tab">Data Deposito</a></li>
+                        <li><a href="#extab1Dep" data-toggle="tab">Data Mudharabah Berjangka</a></li>
                     </ul>
 
                     <div class="tab-content">
                         <div class="tab-pane" id="extab1Dep">
-                            <h5 class="text-center">Pilih Rekening Deposito yang ingin anda perpanjang!</h5>
+                            <h5 class="text-center">Pilih Rekening Mudharabah Berjangka yang ingin anda perpanjang!</h5>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Pilih Rekening Deposito Anda! <star>*</star></label>
+                                        <label for="id_" class="control-label">Pilih Rekening Mudharabah Berjangka Anda! <star>*</star></label>
                                         <select class="form-control select2" id="exidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Deposito-</option>
                                             @foreach ($datasaldoDep as $rekening)
@@ -176,7 +176,7 @@
                     <input type="hidden" id="saldo_teller" name="saldo" value="">
                 @endif
                 <div class="header text-center">
-                    <h3 class="title">Pencairan Deposito</h3>
+                    <h3 class="title">Pencairan Mudharabah Berjangka</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
@@ -191,9 +191,9 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Rekening Deposito <star>*</star></label>
+                                        <label for="id_" class="control-label">Rekening Mudharabah Berjangka <star>*</star></label>
                                         <select class="form-control select2"  id="widRek" name="idRek" style="width: 100%;" required>
-                                            <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Deposito-</option>
+                                            <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Mudharabah Berjangka-</option>
                                                 @foreach ($datasaldoDep as $rekening)
                                                     <option value="{{ (json_decode($rekening->detail,true )['saldo'])}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
                                                 @endforeach

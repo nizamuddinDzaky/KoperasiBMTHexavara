@@ -313,7 +313,7 @@
                         @endif
                             <ul class="nav">
                                 <li @if(Request::is('anggota/menu/tabungan*'))class="active"@endif><a href="{{route('tabungan_anggota')}}">Tabungan</a></li>
-                                <li @if(Request::is('anggota/menu/deposito*'))class="active"@endif><a href="{{route('deposito_anggota')}}">Deposito</a></li>
+                                <li @if(Request::is('anggota/menu/deposito*'))class="active"@endif><a href="{{route('deposito_anggota')}}">Mudharabah Berjangka</a></li>
                                 <li @if(Request::is('anggota/menu/pembiayaan*'))class="active"@endif><a href="{{route('pembiayaan_anggota')}}">Pembiayaan</a></li>
                             </ul>
                         </div>

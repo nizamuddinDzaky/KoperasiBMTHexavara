@@ -29,12 +29,12 @@
                                         <i class="fas fa-square fa-stack-2x" style="color:darkslateblue"></i>
                                         <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
                                     </span>
-                                    <h3 class="title">Deposito</h3>
-                                    <p class="category">Pengajuan Pembukaan Deposito </p>
+                                    <h3 class="title">Pembukaan</h3>
+                                    <p class="category">Pengajuan Pembukaan Mudharabah Berjangka </p>
                                 </div>
 
                                 <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Buka Deposito</button>
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Pembukaan</button>
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
@@ -52,13 +52,13 @@
                                     <i class="fas fa-external-link-alt fa-stack-1x fa-inverse"></i>
                                 </span>
                                     <h3 class="title">Perpanjangan</h3>
-                                    <p class="category">Perpanjangan Deposito</p>
+                                    <p class="category">Perpanjangan Mudharabah Berjangka</p>
                                 </div>
 
                                 <div class="footer">
                                     <button type="button" class="btn btn-fill btn-block btn-info center-block"
                                             data-toggle="modal"
-                                            data-target="#extendDepModal">Perpanjang</button>
+                                            data-target="#extendDepModal">Perpanjangan</button>
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
@@ -75,7 +75,7 @@
                                     <i class="fas fa-donate fa-stack-1x fa-inverse"></i>
                                 </span>
                                     <h3 class="title">Pencairan</h3>
-                                    <p class="category">Pencairan Deposito</p>
+                                    <p class="category">Pencairan Mudharabah Berjangka</p>
                                 </div>
 
                                 <div class="footer">
@@ -94,8 +94,8 @@
                         <div class="card">
 
                             <div class="header text-center">
-                                <h4 class="title">Rekening Deposito </h4>
-                                <p class="category">Berikut ini adalah daftar rekening deposito anda</p>
+                                <h4 class="title">Rekening Mudharabah Berjangka </h4>
+                                <p class="category">Berikut ini adalah daftar rekening mudharabah berjangka anda</p>
                                 <br />
                             </div>
                             <div class="toolbar">
@@ -107,7 +107,7 @@
                                 <thead>
                                 <th></th>
                                 <th class="text-center" data-sortable="true">ID</th>
-                                <th class="text-center" data-sortable="true">Jenis Deposito</th>
+                                <th class="text-center" data-sortable="true">Jenis Mudharabah Berjangka</th>
                                 <th class="text-center" data-sortable="true">Tgl Pembuatan</th>
                                 <th class="text-center" data-sortable="true">Jumlah</th>
                                 <th class="text-center" data-sortable="true">Tgl Tempo</th>
@@ -162,8 +162,8 @@
                         <div class="card">
 
                             <div class="header text-center">
-                                <h4 class="title">Riwayat Pengajuan </h4>
-                                <p class="category">Berikut adalah riwayat pengajuan deposito anda</p>
+                                <h4 class="title">Riwayat Mudharabah Berjangka </h4>
+                                <p class="category">Berikut adalah riwayat pengajuan mudharabah berjangka anda</p>
                                 <br />
                             </div>
                             <div class="toolbar">
