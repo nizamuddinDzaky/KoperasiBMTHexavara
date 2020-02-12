@@ -142,3 +142,21 @@
         </p>
     </a>
 </li>
+
+<li @if(Request::is('admin/maal*')) class="active"@endif>
+    <a data-toggle="collapse" href="#nav_maal">
+        <i class="pe-7s-home"></i>
+        <p>Maal
+        <b class="caret"></b></p>
+    </a>
+    @if(Request::is('admin/maal*'))
+    <div class="collapse in" id="nav_maal">
+    @else
+    <div class="collapse" id="nav_maal">
+    @endif
+        <ul class="nav">
+            <li @if(Request::is('admin/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan</a></li>
+            <li @if(Request::is('admin/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi</a></li>
+        </ul>
+    </div>
+</li>

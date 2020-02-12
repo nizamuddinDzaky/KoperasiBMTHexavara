@@ -88,3 +88,25 @@
         </ul>
     </div>
 </li>
+
+<li @if(Request::is('anggota/maal*','teller/maal*')) class="active"@endif>
+    <a data-toggle="collapse" href="#nav_maalt">
+        <i class="pe-7s-home"></i>
+        <p>Maal
+            <b class="caret"></b>
+        </p>
+    </a>
+    @if(Request::is('anggota/maal*','teller/maal*'))
+    <div class="collapse in" id="nav_maalt">
+    @else
+    <div class="collapse" id="nav_maalt">
+    @endif
+        <ul class="nav">
+            <li @if(Request::is('anggota/maal/donasi*','teller/maal/donasi*'))class="active"@endif><a @if(Auth::user()->tipe=="anggota") href="{{route('anggota.donasi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.donasi.maal')}}" @endif>Donasi Kegiatan</a></li>
+            @if(Auth::user()->tipe=="teller")
+            <li @if(Request::is('anggota/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan</a></li>
+            @endif
+            <li @if(Request::is('teller/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @elseif(Auth::user()->tipe=="anggota") href="{{route('anggota.transaksi.maal')}}" @endif>Riwayat Transaksi</a></li>
+        </ul>
+    </div>
+</li>
