@@ -20,15 +20,15 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header text-center">
-                            <h4 class="title"><b>Datamaster Deposito BMT</b></h4>
-                            <p class="category">Daftar Rekening Deposito</p>
+                            <h4 class="title"><b>Datamaster Mudharabah Berjangka BMT</b></h4>
+                            <p class="category">Daftar Rekening Mudharabah Berjangka</p>
                             {{--<br />--}}
                         </div>
 
                         <div class="toolbar">
                             <!--        Here you can write extra buttons/actions for the toolbar              -->
                             <div class="col-md-12 btn-group">
-                                <button type="button" class="btn btn-primary btn-fill" style="margin-bottom:1em" data-toggle="modal" data-target="#addDepModal" title="Tambah Deposito">Tambah Deposito
+                                <button type="button" class="btn btn-primary btn-fill" style="margin-bottom:1em" data-toggle="modal" data-target="#addDepModal" title="Tambah Deposito">Tambah Mudharabah Berjangka &nbsp;
                                     <i class="pe-7s-add-user"></i>
                                 </button>
                             </div>
@@ -39,9 +39,9 @@
                             <thead>
                             <th></th>
                             {{--<th data-field="state" data-checkbox="true"></th>--}}
-                            <th data-field="id" data-sortable="true" class="text-left">ID Deposito</th>
+                            <th data-field="id" data-sortable="true" class="text-left">ID MDB</th>
                             <th data-field="idRek" data-sortable="true">ID Rekening</th>
-                            <th data-field="nama" data-sortable="true">Jenis Deposito</th>
+                            <th data-field="nama" data-sortable="true">Jenis MDB</th>
                             <th data-field="nisbah" data-sortable="true">Nisbah</th>
                             <th data-field="saldo" data-sortable="true">Saldo Minimal</th>
                             {{--<th data-field="actions" class="td-actions text-right" data-events="operateEvents" data-formatter="operateFormatter">Actions</th>--}}
@@ -75,7 +75,7 @@
                                         <button type="button" class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delDepModal" title="Edit"
                                                 data-id         = "{{$dep->id}}"
                                                 data-idrek      = "{{$dep->id_rekening}}"
-                                                data-namadep    = "{{$dep->jenis_deposito}}">
+                                                data-namadep    = "{{$dep->nama_rekening}}">
                                             <i class="fa fa-remove"></i>
                                         </button>
                                     </td>

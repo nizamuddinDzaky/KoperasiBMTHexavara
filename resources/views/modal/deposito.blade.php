@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addOrgLabel">Tambah Deposito</h5>
+                <h5 class="modal-title" id="addOrgLabel">Tambah Mudharabah Berjangka</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,9 +14,9 @@
                 <div class="modal-body">
                     <div id="ifInduk" >
                         <div class="form-group">
-                            <label for="id_" class="control-label">Pilih Jenis Deposito <star>*</star></label>
+                            <label for="id_" class="control-label">Pilih Jenis Mudharabah Berjangka <star>*</star></label>
                             <select class="form-control select2" id="idRek" name="idRek" style="width: 100%;" required>
-                                <option class="bs-title-option" value="">Pilih Jenis Deposito</option>
+                                <option class="bs-title-option" value="">Pilih Jenis Mudharabah Berjangka</option>
                                 @foreach ($dropdown_deposito as $rekening)
                                     <option value="{{ $rekening->id_rekening }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
                                 @endforeach
@@ -98,7 +98,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Tambah Deposito</button>
+                    <button type="submit" class="btn btn-primary">Tambah Mudharabah Berjangka</button>
                 </div>
             </form>
         </div>
@@ -110,7 +110,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editDepLabel">Edit Deposito</h5>
+                <h5 class="modal-title" id="editDepLabel">Edit Mudharabah Berjangka</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -194,7 +194,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Edit Deposito</button>
+                    <button type="submit" class="btn btn-primary">Edit MDB</button>
                 </div>
             </form>
         </div>
@@ -210,13 +210,13 @@
                 {{csrf_field()}}
                 <input type="hidden" id="id_del" name="id_">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="delDepLabel">Hapus Deposito</h5>
+                    <h5 class="modal-title" id="delDepLabel">Hapus Mudharabah Berjangka</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h4>Hapus Deposito</h4>
+                    <h4>Hapus Mudharabah Berjangka</h4>
                     <h5 id="toDelete"></h5>
                 </div>
                 <div class="modal-footer">

@@ -29,12 +29,12 @@
                                         <i class="fas fa-square fa-stack-2x" style="color:darkslateblue"></i>
                                         <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
                                     </span>
-                                    <h3 class="title">Deposito</h3>
-                                    <p class="category">Pembukaan Deposito </p>
+                                    <h3 class="title">Pembukaan</h3>
+                                    <p class="category">Pembukaan Mudharabah Berjangka </p>
                                 </div>
 
                                 <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Deposito</button>
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Pembukaan</button>
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
@@ -52,7 +52,7 @@
                                     <i class="fas fa-external-link-alt fa-stack-1x fa-inverse"></i>
                                 </span>
                                     <h3 class="title">Perpanjangan</h3>
-                                    <p class="category">Perpanjangan Deposito</p>
+                                    <p class="category">Perpanjangan Mudharabah Berjangka</p>
                                 </div>
 
                                 <div class="footer">
@@ -75,7 +75,7 @@
                                     <i class="fas fa-donate fa-stack-1x fa-inverse"></i>
                                 </span>
                                     <h3 class="title">Pencairan</h3>
-                                    <p class="category">Pencairan Deposito</p>
+                                    <p class="category">Pencairan Mudharabah Berjangka</p>
                                 </div>
 
                                 <div class="footer">
@@ -94,8 +94,8 @@
                         <div class="card">
 
                             <div class="header text-center">
-                                <h4 class="title"><b>Pengajuan Deposito </b></h4>
-                                <p class="category">Daftar Pengajuan Deposito Nasabah</p>
+                                <h4 class="title"><b>Pengajuan Mudharabah Berjangka </b></h4>
+                                <p class="category">Daftar Pengajuan Mudharabah Berjangka Nasabah</p>
                                 <br />
                             </div>
                             <div class="toolbar">
