@@ -18,7 +18,7 @@
                     <div class="card">
 
                         <div class="header text-center">
-                            <h4 class="title">Pengajuan Tabungan, Deposito & Pembiayaan </h4>
+                            <h4 class="title">Pengajuan Tabungan, Mudharabah Berjangka & Pembiayaan </h4>
                             <p class="category">Daftar Pengajuan Nasabah</p>
                             <br />
                         </div>
