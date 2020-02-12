@@ -18,8 +18,8 @@
                     <div class="card">
 
                         <div class="header text-center">
-                            <h4 class="title"> Deposito Nasabah</h4>
-                            <p class="category">Daftar  Deposito Nasabah</p>
+                            <h4 class="title"> Mudharabah Berjangka Nasabah</h4>
+                            <p class="category">Daftar  Mudharabah Berjangka Nasabah</p>
                             <br />
                         </div>
                         <div class="toolbar">
@@ -30,8 +30,8 @@
                         <table id="bootstrap-table" class="table">
                             <thead>
                             <th></th>
-                            <th data-sortable="true" class="text-left">ID Deposito</th>
-                            <th data-sortable="true">Jenis Deposito</th>
+                            <th data-sortable="true" class="text-left">ID MDB</th>
+                            <th data-sortable="true">Jenis MDB</th>
                             <th data-sortable="true">Nama Nasabah</th>
                             <th data-sortable="true">Saldo</th>
                             <th data-sortable="true">Tgl Pembuatan</th>

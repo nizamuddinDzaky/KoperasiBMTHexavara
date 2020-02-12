@@ -82,7 +82,7 @@
                                 <li @if(Request::is('admin/datamaster/anggota'))class="active"@endif><a href="{{route('data_anggota')}}">Master Anggota</a></li>
                                 <li @if(Request::is('admin/datamaster/rekening'))class="active"@endif><a href="{{route('data_rekening')}}">Master Rekening</a></li>
                                 <li @if(Request::is('admin/datamaster/tabungan'))class="active"@endif><a href="{{route('data_tabungan')}}">Master Tabungan</a></li>
-                                <li @if(Request::is('admin/datamaster/deposito'))class="active"@endif><a href="{{route('data_deposito')}}">Master Deposito</a></li>
+                                <li @if(Request::is('admin/datamaster/deposito'))class="active"@endif><a href="{{route('data_deposito')}}">Master Mudharabah Berjangka</a></li>
                                 <li @if(Request::is('admin/datamaster/pembiayaan'))class="active"@endif><a href="{{route('data_pembiayaan')}}">Master Pembiayaan</a></li>
                                 <li @if(Request::is('admin/datamaster/shu'))class="active"@endif><a href="{{route('data_shu')}}">Master SHU</a></li>
                                 <li @if(Request::is('admin/datamaster/jaminan'))class="active"@endif><a href="{{route('data_jaminan')}}">Master Jaminan</a></li>
@@ -130,8 +130,8 @@
                                 <li @if(Request::is('admin/maal'))class="active"@endif><a href="{{route('admin.pengajuan.maal')}}">Pengajuan Maal</a></li>
                                 <li  @if(Request::is('admin/tabungan/pengajuan'))class="active"@endif><a href="{{route('admin.pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
                                 <li  @if(Request::is('admin/tabungan/nasabah'))class="active"@endif><a href="{{route('admin.nasabah_tabungan')}}">Nasabah Tabungan</a></li>
-                                <li @if(Request::is('admin/deposito/pengajuan'))class="active"@endif><a href="{{route('admin.pengajuan_deposito')}}">Pengajuan Deposito</a></li>
-                                <li @if(Request::is('admin/deposito/nasabah'))class="active"@endif><a href="{{route('admin.nasabah_deposito')}}">Nasabah Deposito</a></li>
+                                <li @if(Request::is('admin/deposito/pengajuan'))class="active"@endif><a href="{{route('admin.pengajuan_deposito')}}">Pengajuan Mudharabah Berjangka</a></li>
+                                <li @if(Request::is('admin/deposito/nasabah'))class="active"@endif><a href="{{route('admin.nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li>
                                 <li @if(Request::is('admin/pembiayaan/pengajuan'))class="active"@endif><a href="{{route('admin.pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
                                 <li @if(Request::is('admin/pembiayaan/nasabah'))class="active"@endif><a href="{{route('admin.nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li>
                             </ul>
@@ -240,8 +240,8 @@
                                     <li @if(Request::is('teller/menu/maal*'))class="active"@endif><a href="{{route('teller.pengajuan_maal')}}">Pengajuan Maal</a></li>
                                     <li @if(Request::is('teller/menu/tabungan*'))class="active"@endif><a href="{{route('pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
                                     <li @if(Request::is('teller/nasabah/tabungan*'))class="active"@endif><a href="{{route('nasabah_tabungan')}}">Nasabah Tabungan</a></li>
-                                    <li @if(Request::is('teller/menu/deposito*'))class="active"@endif><a href="{{route('pengajuan_deposito')}}">Pengajuan Deposito</a></li>
-                                    <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Deposito</a></li>
+                                    <li @if(Request::is('teller/menu/deposito*'))class="active"@endif><a href="{{route('pengajuan_deposito')}}">Pengajuan Mudharabah Berjangka</a></li>
+                                    <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li>
                                     <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="{{route('pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
                                     <li @if(Request::is('teller/nasabah/pembiayaan*'))class="active"@endif><a href="{{route('nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li>
                                 </ul>
@@ -313,7 +313,7 @@
                         @endif
                             <ul class="nav">
                                 <li @if(Request::is('anggota/menu/tabungan*'))class="active"@endif><a href="{{route('tabungan_anggota')}}">Tabungan</a></li>
-                                <li @if(Request::is('anggota/menu/deposito*'))class="active"@endif><a href="{{route('deposito_anggota')}}">Deposito</a></li>
+                                <li @if(Request::is('anggota/menu/deposito*'))class="active"@endif><a href="{{route('deposito_anggota')}}">Mudharabah Berjangka</a></li>
                                 <li @if(Request::is('anggota/menu/pembiayaan*'))class="active"@endif><a href="{{route('pembiayaan_anggota')}}">Pembiayaan</a></li>
                             </ul>
                         </div>

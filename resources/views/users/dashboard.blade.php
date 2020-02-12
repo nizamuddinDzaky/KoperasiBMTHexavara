@@ -161,7 +161,7 @@
                                     <i class="fas fa-bank fa-stack-1x fa-inverse"></i>
                                 </span>
                                 <h3 class="title">Rp {{number_format($deposito,2)}}</h3>
-                                <p class="category">Total Saldo Deposito </p>
+                                <p class="category">Total Saldo Mudharabah Berjangka </p>
                             </div>
 
                             <div class="footer">

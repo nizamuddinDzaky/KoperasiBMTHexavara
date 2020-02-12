@@ -48,12 +48,12 @@
                                     <i class="fas fa-square fa-stack-2x" style="color:darkslateblue"></i>
                                     <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
                                 </span>
-                                <h3 class="title">Deposito</h3>
-                                <p class="category">Pengajuan Pembukaan Deposito </p>
+                                <h3 class="title">Mudharabah Berjangka</h3>
+                                <p class="category">Pengajuan Pembukaan Mudharabah Berjangka </p>
                             </div>
 
                             <div class="footer">
-                                <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Buka Deposito</button>
+                                <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Buka Mudharabah Berjangka</button>
                                 <div class="clearfix"></div>
                             </div>
                         </form>
@@ -88,7 +88,7 @@
 
                         <div class="header text-center">
                             <h4 class="title">Riwayat Pengajuan </h4>
-                            <p class="category">daftar pengajuan permohonan Tabungan, Deposito & Pembiayaan</p>
+                            <p class="category">daftar pengajuan permohonan Tabungan, Mudharabah Berjangka & Pembiayaan</p>
                             <br />
                         </div>
                         <div class="toolbar">
