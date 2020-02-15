@@ -5,8 +5,9 @@
 @endsection
 
 @section('top-navbar')
-	@include('layouts.top_navbar')
+    @include('layouts.top_navbar')
 @endsection
+
 @section('extra_style')
 
 @endsection
