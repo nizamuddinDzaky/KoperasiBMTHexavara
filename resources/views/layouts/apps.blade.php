@@ -70,6 +70,11 @@
     <link rel="stylesheet" type="text/css" href="{{URL::asset('datatables/buttons-1.5.1/css/buttons.dataTables.min.css')}}">
     {{--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--}}
 
+    <link rel="stylesheet" href="{{ asset('ChartJS/Chart.min.css') }}">
+
+    <!-- BMTMUDA themes -->
+    <link rel="stylesheet" href="{{ asset('bmtmudathemes/assets/css/main.css') }}">
+
     <style>
         .dataTables_wrapper  {
             margin: 1em;
