@@ -1,0 +1,37 @@
+.panel {
+    .panel-heading {
+        padding: 15px;
+    }
+
+    .panel-body {
+
+        .panel-group-description {
+            font-size: 12px;
+
+            &:before {
+                content: url('../images/demo.png');
+                margin-right: 5px;
+            }
+        }
+        
+        .avatar-icon {
+            i {
+                font-size: 50px;
+                color: $white;
+            }
+        }
+        .content {
+            .content-title {
+                color: $white;
+                font-size: 13px;
+                text-transform: capitalize;
+                font-weight: $font-bold;
+            }
+            .content-description {
+                color: $white;
+                margin-bottom: 0;
+                font-size: 20px;
+            }
+        }
+    }
+}
