@@ -97,3 +97,32 @@ canvas {
   width: '100%';
 }
 
+.badges {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  background-color: red;
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 0;
+  right: 7px;
+  border-radius: 50%;
+}
+
+.badges span {
+  color: white;
+  margin: 0;
+  font-size: 10px;
+}
+
