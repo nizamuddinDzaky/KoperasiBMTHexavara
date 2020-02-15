@@ -1,0 +1,128 @@
+/* ---------------------------------- 
+---- Import all your style here -----
+------------------------------------*/
+
+/* ---------------------------------- 
+- Import all your helpers file here -
+------------------------------------*/
+
+/* ---------------------------------- 
+------ Your variable is started -----
+------------------------------------*/
+
+/* ---------------------------------- 
+- Import all your component file here -
+------------------------------------*/
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.card {
+  padding: 25px;
+}
+
+.card.dashboard .card-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.card.dashboard .card-title.card-number-large {
+  font-size: 35px;
+}
+
+.card.dashboard .card-category {
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: capitalize;
+  color: #FFFFFF;
+}
+
+.card.dashboard .card-description {
+  font-size: 12px;
+  text-transform: capitalize;
+  color: #e6e6e6;
+}
+
+.card.dashboard .card-icon {
+  position: absolute;
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+.card.dashboard .card-icon.top {
+  top: 30px;
+}
+
+.card.dashboard .card-icon.right {
+  right: 40px;
+}
+
+.panel .panel-heading {
+  padding: 15px;
+}
+
+.panel .panel-body .panel-group-description {
+  font-size: 12px;
+}
+
+.panel .panel-body .panel-group-description:before {
+  content: url(/images/demo.png?d27589eb10aa3c065150de14e29fe833);
+  margin-right: 5px;
+}
+
+.panel .panel-body .avatar-icon i {
+  font-size: 50px;
+  color: #FFFFFF;
+}
+
+.panel .panel-body .content .content-title {
+  color: #FFFFFF;
+  font-size: 13px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.panel .panel-body .content .content-description {
+  color: #FFFFFF;
+  margin-bottom: 0;
+  font-size: 20px;
+}
+
+canvas {
+  height: 300px;
+  width: '100%';
+}
+
+.badges {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  background-color: red;
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 0;
+  right: 7px;
+  border-radius: 50%;
+}
+
+.badges span {
+  color: white;
+  margin: 0;
+  font-size: 10px;
+}
+
