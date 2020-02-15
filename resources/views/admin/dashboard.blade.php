@@ -12,135 +12,196 @@
 @endsection
 @section('content')
     <div class="content">
-        <div class="container-fluid">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-wizard " style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class="col-md-4">
-                                    <div class="header text-center">
-                                        <span class="fa-stack fa-3x">
-                                            <i class="fas fa-square fa-stack-2x" style="color:darkslateblue"></i>
-                                            <i class="fas fa-gear fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                        <h3 class="title">{{$pending}}</h3>
-                                        <p class="category">Belum Diproses</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="header text-center">
-                                        <span class="fa-stack fa-3x">
-                                            <i class="fas fa-square fa-stack-2x" style="color:darkgreen"></i>
-                                            <i class="fas fa-check-square fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                        <h3 class="title">{{$setuju}}</h3>
-                                        <p class="category">Pengajuan Disetujui </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="header text-center">
-                                        <span class="fa-stack fa-3x">
-                                            <i class="fas fa-square fa-stack-2x" style="color:darkred"></i>
-                                            <i class="fas fa-remove fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                        <h3 class="title">{{$tolak}}</h3>
-                                        <p class="category">Pengajuan Ditolak </p>
-                                    </div>
-                                </div>
-
-                                <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-wd btn-info center-block">Pengajuan</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-wizard " style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class=" header text-center">
-                                    <div class="col-md-6">
-                                <span class="fa-stack fa-3x">
-                                    <i class="fas fa-square fa-stack-2x" style="color:darkcyan"></i>
-                                    <i class="fas fa-money-bill-alt fa-stack-1x fa-inverse"></i>
-                                </span>
-                                        <h3 class="title">Rp {{number_format($tot,2)}}</h3>
-                                        <p class="category">Total Tagihan </p>
-                                    </div>
-                                    <div class="col-md-6">
-                                <span class="fa-stack fa-3x">
-                                    <i class="fas fa-square fa-stack-2x" style="color:darkred"></i>
-                                    <i class="fas fa-minus-square fa-stack-1x fa-inverse"></i>
-                                </span>
-                                        <h3 class="title">Rp {{number_format($tot,2)}}</h3>
-                                        <p class="category">Sisa Tagihan </p>
-                                    </div>
-                                    <br>
-                                    <div class="footer">
-                                        <button type="button" class="btn btn-fill btn-wd btn-info center-block">Tagihan</button>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card dashboard" style="height: 160px; background-color: #8892D6">
+                    <div class="card-body">
+                        <span class="card-title card-number-large" id="harta">90,000,000</span>
+                        <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
+                        <span class="card-description">Bersumber dari simpanan pokok, simpanan wajib & simpanan khusus</span>
+                        
+                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-12">
-                    <style>
-                        .ui.card {
-                            display: inline-block;
-                            margin: 10px;
-                        }
+            <div class="col-md-3">
+                <div class="card dashboard" style="height: 160px; background-color: #45BBE0">
+                    <div class="card-body">
+                        <span class="card-title card-number-large">5,750 M</span>
+                        <p class="card-category" style="margin-bottom:0">Total Tabungan Nasabah</p>
+                        <span class="card-description">Bersumber dari total tabungan semua nasabah</span>
+                        
+                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard" style="height: 160px; background-color: #F06292">
+                    <div class="card-body">
+                        <span class="card-title card-number-large">90,000,000</span>
+                        <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
+                        <span class="card-description">Bersumber dari total simpanan mudharabah berjangka nasabah</span>
 
-                        .ui.card,
-                        .ui.cards>.card {
-                            background-color: #5C5D5F;
-                            color: white;
-                        }
+                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard" style="height: 160px; background-color: #78C350">
+                    <div class="card-body">
+                        <span class="card-title card-number-large">100,000,000</span>
+                        <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
+                        <span class="card-description">Bersumber dari total pembiayaan nasabah</span>
 
-                        .ui.card.matthew {
-                            background-color: #2B4B64;
-                        }
+                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        .ui.card.kristy {
-                            background-color: #253E54;
-                        }
-
-                        .ui.card>.content>a.header,
-                        .ui.cards>.card>.content>a.header,
-                        .ui.card .meta,
-                        .ui.cards>.card .meta,
-                        .ui.card>.content>.description,
-                        .ui.cards>.card>.content>.description,
-                        .ui.card>.extra a:not(.ui),
-                        .ui.cards>.card>.extra a:not(.ui) {
-                            color: white;
-                        }
-                    </style>
-                    <div class="ui card matthew">
-                        <div class="image">
-                            <img src="{{ URL::asset('bootstrap/assets/img/man.svg') }}">
+        <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <canvas id="myChart"></canvas>
                         </div>
-                        <div class="content">
-                            <a class="header">Admin</a>
-                            <div>
-                                {{--<span class="date">Joined in 2013</span>--}}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <canvas id="myhorizBar"></canvas>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <div class="panel panel-primary">
+                            <div class="panel-body" style="background-color: #8892D6">
+                                <div class="row" style="padding: 0">
+                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                        <div class="avatar-icon">
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7 col-md-7 col-lg-7">
+                                        <div class="content" style="justify-content: 'center'">
+                                            <span class="content-title">Total setoran hari ini</span>
+                                            <p class="content-description">Rp. 300,000</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                        <div class="right">
+                                            <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="description text-center">
-                                Admin Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-body" style="background-color: #45BBE0">
+                                <div class="row" style="padding: 0">
+                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                        <div class="avatar-icon">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7 col-md-7 col-lg-7">
+                                        <div class="content" style="justify-content: 'center'">
+                                            <span class="content-title">Total penarikan hari ini</span>
+                                            <p class="content-description">Rp. 300,000</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                        <div class="right">
+                                            <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="extra content">
-                            <a>
-                                {{--<i class="fab fa-twitter span">22 Friends</i>--}}
-                            </a>
+                        <div class="panel panel-primary">
+                            <div class="panel-body" style="background-color: #F06292">
+                                <div class="row" style="padding: 0">
+                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                        <div class="avatar-icon">
+                                            <i class="fas fa-handshake-o"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7 col-md-7 col-lg-7">
+                                        <div class="content" style="justify-content: 'center'">
+                                            <span class="content-title">Total pembiayaan hari ini</span>
+                                            <p class="content-description">Rp. 300,000</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                        <div class="right">
+                                            <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <span class="panel-group-description">Laporan keluar masuk dana BMT per hari ini [ 15-02-2020 ]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Jenis Pengajuan</th>
+                                <th>Tanggal Pengajuan</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Lorem</td>
+                                    <td>Lorem ipsum dolor</td>
+                                    <td>14-02-2020</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Lorem</td>
+                                    <td>Lorem ipsum dolor</td>
+                                    <td>14-02-2020</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Lorem</td>
+                                    <td>Lorem ipsum dolor</td>
+                                    <td>14-02-2020</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Lorem</td>
+                                    <td>Lorem ipsum dolor</td>
+                                    <td>14-02-2020</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Lorem</td>
+                                    <td>Lorem ipsum dolor</td>
+                                    <td>14-02-2020</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Lorem</td>
+                                    <td>Lorem ipsum dolor</td>
+                                    <td>14-02-2020</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <span class="panel-group-description">Daftar pengajuan terbaru</span>
                     </div>
                 </div>
             </div>
@@ -148,12 +209,127 @@
     </div>
 @endsection
 
-@section('extra_script')
 
-
-	<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')
+
+    <script src="{{ asset('ChartJS/Chart.bundle.js') }}"></script>
+    <script>
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+                datasets: [{
+                    label: 'Laporan Perkembangan Pengguna Januari',
+                    data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3, 5],
+                    backgroundColor: [
+                        'transparent'
+                    ],
+                    borderColor: '#8892D6',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    align: 'start',
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+        var horiz = document.getElementById('myhorizBar');
+        var myChart = new Chart(horiz, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'],
+                datasets: [{
+                    label: 'Laporan Perkembangan Pengguna Dalam Setahun',
+                    data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        '#8892D6',
+                        '#45BBE0',
+                        '#F06292',
+                        '#78C350',
+                        '#8892D6',
+                        '#45BBE0',
+                        '#F06292',
+                        '#78C350',
+                        '#8892D6',
+                        '#45BBE0',
+                        '#F06292',
+                        '#78C350',
+                    ],
+                    borderColor: [
+                        '#8892D6',
+                        '#45BBE0',
+                        '#F06292',
+                        '#78C350',
+                        '#8892D6',
+                        '#45BBE0',
+                        '#F06292',
+                        '#78C350',
+                        '#8892D6',
+                        '#45BBE0',
+                        '#F06292',
+                        '#78C350',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    align: 'start',
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
     <script type="text/javascript">
         var $table = $('#bootstrap-table');
 
