@@ -1,0 +1,40 @@
+.card {
+    padding: 25px;
+
+    &.dashboard {
+
+        .card-title {
+            font-size: $font-large;
+            font-weight: $font-bold;
+            text-transform: uppercase;
+            color: $white;
+
+            &.card-number-large {
+                font-size: $font-number-large;
+            }
+        }
+        .card-category {
+            font-size: $font-medium;
+            font-weight: $font-normal;
+            text-transform: capitalize;
+            color: $white;
+        }
+        .card-description {
+            font-size: $font-small;
+            text-transform: capitalize;
+            color: $smoth-grey;
+        }
+        .card-icon {
+            position: absolute;
+            font-size: $font-large;
+            color: $white;
+
+            &.top {
+                top: 30px;
+            }
+            &.right {
+                right: 40px;
+            }
+        }
+    }
+}
