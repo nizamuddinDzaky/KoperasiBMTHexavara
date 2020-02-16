@@ -1,7 +1,12 @@
 .card {
-    padding: 25px;
 
+    .title {
+        font-size: 23px !important;
+    }
+    
     &.dashboard {
+
+        padding: 25px;
 
         .card-title {
             font-size: $font-large;

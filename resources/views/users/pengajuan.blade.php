@@ -29,7 +29,7 @@
                                     <i class="fas fa-archive fa-stack-1x fa-inverse"></i>
                                 </span>
                                 <h3 class="title">Tabungan</h3>
-                                <p class="category">Pengajuan Pembukaan Tabungan</p>
+                                {{-- <p class="category">Pengajuan Pembukaan Tabungan</p> --}}
                             </div>
 
                             <div class="footer">
@@ -49,7 +49,7 @@
                                     <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
                                 </span>
                                 <h3 class="title">Mudharabah Berjangka</h3>
-                                <p class="category">Pengajuan Pembukaan Mudharabah Berjangka </p>
+                                {{-- <p class="category">Pengajuan Pembukaan Mudharabah Berjangka</p> --}}
                             </div>
 
                             <div class="footer">
@@ -69,7 +69,7 @@
                                     <i class="fas fa-handshake-o fa-stack-1x fa-inverse"></i>
                                 </span>
                                 <h3 class="title">Pembiayaan</h3>
-                                <p class="category">Pengajuan Permohonan Pembiayaan </p>
+                                {{-- <p class="category">Pengajuan Permohonan Pembiayaan </p> --}}
                             </div>
 
                             <div class="footer">
@@ -85,15 +85,16 @@
                         <form id="wizardForm" method="" action="#">
                             <div class="header text-center">
                                 <span class="fa-stack fa-3x">
-                                    <i class="fas fa-square fa-stack-2x" style="color:darksalmon"></i>
+                                    <i class="fas fa-square fa-stack-2x" style="color:#3E72EA"></i>
                                     <i class="fas fa-close fa-stack-1x fa-inverse"></i>
                                 </span>
                                 <h3 class="title">Tutup Rekening</h3>
-                                <p class="category">Pengajuan Penutupan Rekening</p>
+                                {{-- <p class="category">Pengajuan Penutupan Rekening</p> --}}
                             </div>
 
                             <div class="footer">
-                                <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openPemModal">Ajukan Penutupan</button>
+                                {{-- <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openPemModal">Ajukan Penutupan</button> --}}
+                                <button type="button" class="btn btn-fill btn-block btn-info center-block">Ajukan Penutupan</button>
                                 <div class="clearfix"></div>
                             </div>
                         </form>

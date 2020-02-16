@@ -19,7 +19,11 @@
   margin-right: 0;
 }
 
-.card {
+.card .title {
+  font-size: 23px !important;
+}
+
+.card.dashboard {
   padding: 25px;
 }
 
@@ -110,6 +114,67 @@
   color: #FFFFFF;
   margin-bottom: 0;
   font-size: 20px;
+}
+
+.panel.event {
+  height: 250px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-origin: content-box;
+  border: 2px solid #000000;
+  cursor: pointer;
+}
+
+.panel.event .panel-body .card-title {
+  width: 160px;
+  height: 160px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  background-color: #FFFFFF;
+  border: 2px solid #000000;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.panel.event .panel-body .card-title .event-name {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.panel.event .panel-body .event-date {
+  right: 20px;
+  position: absolute;
+  margin-top: -10px;
+  background-color: #FFFFFF;
+  padding: 10px;
+}
+
+.panel.event .panel-body .event-date .title {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.panel.event .panel-body .event-date .date {
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 canvas {

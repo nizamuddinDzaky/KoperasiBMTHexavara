@@ -54,4 +54,55 @@
             }
         }
     }
+
+    &.event {
+        height: 250px; 
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-origin: content-box;
+        border: 2px solid $black;
+        cursor: pointer;
+
+        .panel-body {
+            .card-title {
+                width: 160px; 
+                height: 160px; 
+                transform: rotate(45deg); 
+                background-color: $white; 
+                border: 2px solid $black; 
+                justify-content: center; 
+                display: flex; 
+                flex-direction: column;
+
+                .event-name {
+                    transform: rotate(-45deg); 
+                    text-align: center;
+                    text-transform: capitalize;
+                    font-size: 15px;
+                    font-weight: $font-bold;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                }
+            }
+            .event-date {
+                right: 20px;
+                position: absolute;
+                margin-top: -10px;
+                background-color: $white;
+                padding: 10px;
+                .title {
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    font-weight: $font-bold;
+                    margin-bottom: 0;
+                }
+                .date {
+                    text-transform: uppercase;
+                    font-size: 20px;
+                    font-weight: $font-bold;
+                }
+            }
+        }
+    }
 }
