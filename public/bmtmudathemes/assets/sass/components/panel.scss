@@ -5,6 +5,26 @@
 
     .panel-body {
 
+        &.card-group {
+            height: 400px;
+            overflow: auto;
+        }
+
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-origin: content-box;
+
+        @include respond-below(sm) {
+            .icon-navigation {
+                &.right {
+                    position: absolute;
+                    right:0;
+                    top: -30px;
+                }
+            }
+        }
+
         .panel-group-description {
             font-size: 12px;
 

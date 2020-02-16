@@ -65,6 +65,26 @@
   padding: 15px;
 }
 
+.panel .panel-body {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+}
+
+.panel .panel-body.card-group {
+  height: 400px;
+  overflow: auto;
+}
+
+@media (max-width: 575px) {
+  .panel .panel-body .icon-navigation.right {
+    position: absolute;
+    right: 0;
+    top: -30px;
+  }
+}
+
 .panel .panel-body .panel-group-description {
   font-size: 12px;
 }
@@ -124,5 +144,73 @@ canvas {
   color: white;
   margin: 0;
   font-size: 10px;
+}
+
+.navbar {
+  background-color: #4075F0;
+}
+
+.navbar .navbar-brand {
+  color: #FFFFFF;
+}
+
+.navbar .navbar-collapse .nav .dropdown .dropdown-toggle:focus {
+  background-color: transparent;
+}
+
+.navbar .navbar-collapse .nav .dropdown .dropdown-toggle i {
+  color: #FFFFFF;
+}
+
+.navbar .navbar-nav.hidden-lg .dropdown {
+  position: absolute;
+  top: 0;
+  right: 50px;
+}
+
+.navbar .navbar-nav.hidden-lg .dropdown.open {
+  z-index: 1;
+}
+
+.navbar .navbar-nav.hidden-lg .dropdown.open .dropdown-menu {
+  background-color: #FFFFFF;
+  position: absolute;
+  left: auto;
+  right: 0;
+  margin-right: -35px;
+  margin-top: 10px;
+  width: calc(100vw - 28px);
+  border-radius: 0;
+}
+
+.navbar .navbar-nav.hidden-lg .dropdown.open .dropdown-menu li a {
+  padding-left: 5px;
+}
+
+.navbar .navbar-nav.hidden-lg .dropdown .dropdown-toggle {
+  background-color: transparent;
+}
+
+.navbar .navbar-nav.hidden-lg .dropdown .dropdown-toggle i {
+  color: #FFFFFF;
+}
+
+.btn.btn-white {
+  background-color: #FFFFFF;
+  color: #000000;
+  border: 1px solid #FFFFFF;
+}
+
+.btn.btn-white:hover {
+  background-color: inherit;
+}
+
+.btn.btn-white:focus {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.sidebar .sidebar-wrapper .nav.nav-mobile-menu .dropdown.hidden-sm {
+  display: none;
 }
 

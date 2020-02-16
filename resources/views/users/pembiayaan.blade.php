@@ -23,7 +23,7 @@
                 <ul>{!! implode('', $errors->all('<li style="color:red">:message</li>')) !!}</ul>
             @endif
             <div class="col-md-3">
-                <div class="row-md-6">
+                {{-- <div class="row-md-6">
                     <div class="col-md-12">
                         <div class="card card-wizard" style="">
                             <form id="wizardForm" method="" action="#">
@@ -44,7 +44,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="row-md-6">
                     <div class="col-md-12">
                         <div class="card card-wizard " style="">

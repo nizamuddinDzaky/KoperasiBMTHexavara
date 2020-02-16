@@ -20,7 +20,7 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card card-wizard" style="">
                         <form id="wizardForm" method="" action="#">
                             <div class="header text-center">
@@ -40,7 +40,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card card-wizard " style="">
                         <form id="wizardForm" method="" action="#">
                             <div class="header text-center">
@@ -60,7 +60,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card card-wizard " style="">
                         <form id="wizardForm" method="" action="#">
                             <div class="header text-center">
@@ -74,6 +74,26 @@
 
                             <div class="footer">
                                 <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openPemModal">Ajukan Pembiayaan</button>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-wizard " style="">
+                        <form id="wizardForm" method="" action="#">
+                            <div class="header text-center">
+                                <span class="fa-stack fa-3x">
+                                    <i class="fas fa-square fa-stack-2x" style="color:darksalmon"></i>
+                                    <i class="fas fa-close fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <h3 class="title">Tutup Rekening</h3>
+                                <p class="category">Pengajuan Penutupan Rekening</p>
+                            </div>
+
+                            <div class="footer">
+                                <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openPemModal">Ajukan Penutupan</button>
                                 <div class="clearfix"></div>
                             </div>
                         </form>

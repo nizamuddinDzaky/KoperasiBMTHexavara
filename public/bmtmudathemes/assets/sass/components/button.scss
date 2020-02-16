@@ -1,0 +1,16 @@
+.btn {
+    &.btn-white {
+        background-color: $white;
+        color: $black;
+        border: 1px solid $white;
+
+        &:hover {
+            background-color: inherit;
+        }
+
+        &:focus {
+            background-color: $white;
+            color: $black;
+        }
+    }
+}

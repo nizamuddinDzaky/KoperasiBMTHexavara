@@ -20,7 +20,7 @@
     <div class="content">
         <div class="container-fluid">
             <div class="col-md-3" id="HideOptions">
-                <div class="row-md-4">
+                {{-- <div class="row-md-4">
                     <div class="col-md-12">
                         <div class="card card-wizard" style="">
                             <form id="wizardForm" method="" action="#">
@@ -41,7 +41,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 {{--<div class="row-md-4">--}}
                     {{--<div class="col-md-12">--}}
                         {{--<div class="card card-wizard " style="">--}}

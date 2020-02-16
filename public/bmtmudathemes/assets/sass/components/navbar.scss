@@ -1,0 +1,60 @@
+.navbar {
+    background-color: $navbar-background-color;
+
+    .navbar-brand {
+        color: $white;
+    }
+
+    .navbar-collapse {
+        .nav {
+            .dropdown {
+                .dropdown-toggle {
+                    &:focus {
+                        background-color: transparent;
+                    }
+                    i {
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+
+    .navbar-nav {
+        &.hidden-lg {
+            .dropdown {
+                position: absolute;
+                top: 0;
+                right: 50px;
+
+                &.open {
+                    z-index: 1;
+
+                    .dropdown-menu {
+                        background-color: $white;
+                        position: absolute;
+                        left: auto;
+                        right: 0;
+                        margin-right: -35px;
+                        margin-top: 10px;
+                        width: calc(100vw - 28px);
+                        border-radius: 0;
+
+                        li {
+                            a {
+                                padding-left: 5px;
+                            }
+                        }
+                    }
+                }
+
+                .dropdown-toggle {
+                    background-color: transparent;
+                    i {
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+}

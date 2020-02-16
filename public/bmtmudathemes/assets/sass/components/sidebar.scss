@@ -1,0 +1,13 @@
+.sidebar {
+    .sidebar-wrapper {
+        .nav {
+            &.nav-mobile-menu {
+                .dropdown {
+                    &.hidden-sm {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

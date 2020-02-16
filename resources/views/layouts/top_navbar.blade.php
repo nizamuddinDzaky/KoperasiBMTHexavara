@@ -1,7 +1,7 @@
-<nav class="navbar navbar-default">
+<nav class="navbar">
     <div class="container-fluid">
         <div class="navbar-minimize">
-            <button id="minimizeSidebar" class="btn btn-default btn-fill btn-round btn-icon">
+            <button id="minimizeSidebar" class="btn btn-white btn-fill btn-round btn-icon">
                 <i class="fa fa-ellipsis-v visible-on-sidebar-regular"></i>
                 <i class="fa fa-navicon visible-on-sidebar-mini"></i>
             </button>
@@ -17,19 +17,70 @@
             {{--<a class="navbar-brand"  href="#">Dashboard PRO -- <span><i><strong>@if(Auth::user()->tipe=="teller")Rp {{ number_format($teller->saldo,2)  }}@endif</strong></i></span></a>--}}
         </div>
 
+        <ul class="nav navbar-nav navbar-left hidden-md hidden-lg">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bell"></i>
+                  <div class="badges">
+                      <span>31</span>
+                  </div>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="max-height: 400px; overflow: auto;">
+
+                  <li>
+                      <a tabindex="-1" href="#">
+                          <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
+                          <p style="font-size: 12px;">Ditemukan 50 Pengajuan Pembukaan Rekening Baru Masuk</p><br />
+                      </a>
+                  </li>
+
+                  <li>
+                      <a tabindex="-1" href="#">
+                          <p style="font-size: 14px; font-weight: bold;">Pembukaan Deposito Baru</p><br />
+                          <p style="font-size: 12px;">Ditemukan 50 Pengajuan Pembukaan Rekening Baru Masuk</p><br />
+                      </a>
+                  </li>
+
+                  <li>
+                      <a tabindex="-1" href="#">
+                          <p style="font-size: 14px; font-weight: bold;">Pengajuan Pendanaan Baru</p><br />
+                          <p style="font-size: 12px;">Ditemukan 50 Pengajuan Pembukaan Rekening Barum Masuk</p><br />
+                      </a>
+                  </li>
+
+                  <li>
+                      <a tabindex="-1" href="#">
+                          <p style="font-size: 14px; font-weight: bold;">Pengajuan Setoran Baru</p><br />
+                          <p style="font-size: 12px;">Ditemukan 50 Pengajuan Pembukaan Rekening Baru Masuk</p><br />
+                      </a>
+                  </li>
+                  <li>
+                      <a tabindex="-1" href="#">
+                          <p style="font-size: 14px; font-weight: bold;">Pengajuan Penarikan Dana Baru</p><br />
+                          <p style="font-size: 12px;">Ditemukan 50 Pengajuan Pembukaan Rekening Baru Masuk</p><br />
+                      </a>
+                  </li>
+                  <li>
+                      <a tabindex="-1" href="#">
+                          <p style="font-size: 14px; font-weight: bold;">Pengajuan Pencairan Deposito Baru</p><br />
+                          <p style="font-size: 12px;">Ditemukan 50 Pengajuan Pembukaan Rekening Baru Masuk</p><br />
+                      </a>
+                  </li>
+          
+              
+              </ul>
+            </li>
+        </ul>
+
         <div class="collapse navbar-collapse">
           
             <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown">
+              <li class="dropdown hidden-sm">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-bell"></i>
                     <div class="badges">
                         <span>31</span>
                     </div>
-                    <p class="hidden-md hidden-lg">
-                        Notification
-                        <b class="caret"></b>
-                    </p>
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="max-height: 400px; overflow: auto;">
 
@@ -108,7 +159,7 @@
                                 {{--</a>--}}
                             {{--</li>--}}
                             <li>
-    
+
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                 </form>

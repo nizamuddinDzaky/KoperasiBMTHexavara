@@ -96,7 +96,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2 col-md-2 col-lg-2">
-                                        <div class="right">
+                                        <div class="icon-navigation right">
                                             <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2 col-md-2 col-lg-2">
-                                        <div class="right">
+                                        <div class="icon-navigation right">
                                             <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
                                         </div>
                                     </div>
@@ -140,7 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2 col-md-2 col-lg-2">
-                                        <div class="right">
+                                        <div class="icon-navigation right">
                                             <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
                                         </div>
                                     </div>
