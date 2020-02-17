@@ -1092,3 +1092,31 @@ Route::middleware(['auth','permissions.required:teller'])->group(function () {
         ]);
     });
 });
+
+/** 
+ * Route grouping for rapat section
+ * @link https://laravel.com/docs/5.8/routing#route-groups
+*/
+Route::group([ 
+    'prefix' => 'rapat',
+    'middleware' => ['auth']
+], function() {
+
+    /** 
+     * Display all rapat list
+     * @return Response
+    */
+    Route::get('/', [
+        'as'    => 'rapat.index',
+        'uses'  => 'RapatController@index'   
+    ]);
+
+    /** 
+     * Show specific rapat detail
+     * @return Response
+    */
+    Route::get('show/{id}', [
+        'as'    => 'rapat.show',
+        'uses'  => 'RapatController@show'
+    ]);
+});

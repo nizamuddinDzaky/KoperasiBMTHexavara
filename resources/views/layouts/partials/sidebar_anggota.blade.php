@@ -47,8 +47,8 @@
     </div>
 </li>
 
-<li @if(Request::is('anggota/datadiri*','teller/datadiri*')) class="active"@endif>
-    <a @if(Auth::user()->tipe=="anggota")href="{{route('datadiri')}}"@elseif(Auth::user()->tipe=="teller")href="{{route('teller.datadiri')}}@endif">
+<li @if(Request::is('rapat/*')) class="active"@endif>
+    <a @if(Auth::user()->tipe=="anggota")href="{{route('rapat.index')}}"@elseif(Auth::user()->tipe=="teller")href="{{route('teller.datadiri')}}@endif">
         <i class="pe-7s-id"></i>
         <p>Rapat</p>
     </a>
