@@ -61,7 +61,7 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-4 col-lg-4">
-                <div class="panel panel-primary card-group">
+                <div class="panel panel-primary">
                     <div class="panel-body card-group">
                         <div class="panel panel-primary">
                             <div class="panel-body" style="background-color: #8892D6">
@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="col-sm-2 col-md-2 col-lg-2">
                                         <div class="icon-navigation right">
-                                            <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
+                                            <a href="#"><i class="fa fa-info-circle" style="color: white"></i></a>
                                         </div>
                                     </div>
                                 </div>

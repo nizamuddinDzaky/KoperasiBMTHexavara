@@ -12,91 +12,112 @@
 @endsection
 @section('content')
 	<div class="content">
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
-                    <div class="panel-body">
-                        <div class="card-title">
-                            <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                            <p class="event-name">renovasi langgar yusuf</p>
-                            <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">DONASI KEGIATAN</a></li>
+              <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">ZIS</a></li>
+              <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">WAKAF</a></li>
+            </ul>
+          
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="home">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
+                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
+                            <div class="panel-body">
+                                <div class="card-title">
+                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
+                                    <p class="event-name">renovasi langgar yusuf</p>
+                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
+                                </div>
+                                <div class="event-date">
+                                    <p class="title">Tanggal pelaksanaan</p>
+                                    <p class="date">Wed, 20 Peb 2020</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="event-date">
-                            <p class="title">Tanggal pelaksanaan</p>
-                            <p class="date">Wed, 20 Peb 2020</p>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
+                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
+                            <div class="panel-body">
+                                <div class="card-title">
+                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
+                                    <p class="event-name">renovasi langgar yusuf</p>
+                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
+                                </div>
+                                <div class="event-date">
+                                    <p class="title">Tanggal pelaksanaan</p>
+                                    <p class="date">Wed, 20 Peb 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
+                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
+                            <div class="panel-body">
+                                <div class="card-title">
+                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
+                                    <p class="event-name">renovasi langgar yusuf</p>
+                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
+                                </div>
+                                <div class="event-date">
+                                    <p class="title">Tanggal pelaksanaan</p>
+                                    <p class="date">Wed, 20 Peb 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
+                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
+                            <div class="panel-body">
+                                <div class="card-title">
+                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
+                                    <p class="event-name">renovasi langgar yusuf</p>
+                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
+                                </div>
+                                <div class="event-date">
+                                    <p class="title">Tanggal pelaksanaan</p>
+                                    <p class="date">Wed, 20 Peb 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="row" style="text-align: right;">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="profile">...</div>
+              <div role="tabpanel" class="tab-pane" id="messages">...</div>
+              <div role="tabpanel" class="tab-pane" id="settings">...</div>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
-                    <div class="panel-body">
-                        <div class="card-title">
-                            <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                            <p class="event-name">renovasi langgar yusuf</p>
-                            <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
-                        </div>
-                        <div class="event-date">
-                            <p class="title">Tanggal pelaksanaan</p>
-                            <p class="date">Wed, 20 Peb 2020</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
-                    <div class="panel-body">
-                        <div class="card-title">
-                            <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                            <p class="event-name">renovasi langgar yusuf</p>
-                            <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
-                        </div>
-                        <div class="event-date">
-                            <p class="title">Tanggal pelaksanaan</p>
-                            <p class="date">Wed, 20 Peb 2020</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
-                    <div class="panel-body">
-                        <div class="card-title">
-                            <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                            <p class="event-name">renovasi langgar yusuf</p>
-                            <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
-                        </div>
-                        <div class="event-date">
-                            <p class="title">Tanggal pelaksanaan</p>
-                            <p class="date">Wed, 20 Peb 2020</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row" style="text-align: right;">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                      <li>
-                        <a href="#" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
-                      </li>
-                      <li><a href="#">1</a></li>
-                      <li><a href="#">2</a></li>
-                      <li><a href="#">3</a></li>
-                      <li><a href="#">4</a></li>
-                      <li><a href="#">5</a></li>
-                      <li>
-                        <a href="#" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-            </div>
+          
+          </div>
         </div>
     </div>
     

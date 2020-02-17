@@ -49,7 +49,14 @@
 
 <li @if(Request::is('anggota/datadiri*','teller/datadiri*')) class="active"@endif>
     <a @if(Auth::user()->tipe=="anggota")href="{{route('datadiri')}}"@elseif(Auth::user()->tipe=="teller")href="{{route('teller.datadiri')}}@endif">
+        <i class="pe-7s-id"></i>
+        <p>Rapat</p>
+    </a>
+</li>
+
+{{-- <li @if(Request::is('anggota/datadiri*','teller/datadiri*')) class="active"@endif>
+    <a @if(Auth::user()->tipe=="anggota")href="{{route('datadiri')}}"@elseif(Auth::user()->tipe=="teller")href="{{route('teller.datadiri')}}@endif">
         <i class="pe-7s-user"></i>
         <p>Profile</p>
     </a>
-</li>
+</li> --}}
