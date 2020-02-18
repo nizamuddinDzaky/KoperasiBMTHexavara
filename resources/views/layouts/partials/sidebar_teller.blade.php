@@ -1,4 +1,4 @@
-<li @if(Request::is('teller/transaksi/*'))class="active"@endif>
+{{-- <li @if(Request::is('teller/transaksi/*'))class="active"@endif>
     @if(Request::is('teller/transaksi/*','teller/transaksi/pengajuan*','teller/transaksi/transfer'))
         <a data-toggle="collapse" href="#nav_transaksi" aria-expanded="true">
     @else
@@ -19,6 +19,40 @@
             <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="{{route('teller.transaksi.pengajuan')}}">Daftar Pengajuan</a></li>
         </ul>
     </div>
+</li> --}}
+
+<li @if(Request::is('teller/transaksi/*'))class="active"@endif>
+    @if(Request::is('teller/transaksi/*','teller/transaksi/pengajuan*','teller/transaksi/transfer'))
+        <a data-toggle="collapse" href="#nav_transaksi" aria-expanded="true">
+    @else
+        <a data-toggle="collapse" href="#nav_transaksi">
+    @endif
+            <i class="pe-7s-expand1"></i>
+            <p>Transaksi
+                <b class="caret"></b>
+            </p>
+        </a>
+    @if(Request::is('teller/transaksi/pengajuan*','teller/transaksi/transfer'))
+    <div class="collapse in" id="nav_transaksi">
+    @else
+    <div class="collapse" id="nav_transaksi">
+    @endif
+        <ul class="nav">
+            {{--<li @if(Request::is('teller/transaksi/transfer'))class="active"@endif><a href="{{route('teller.transaksi.transfer')}}">Transfer Antar Rekening</a></li>--}}
+            {{--<li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="{{route('teller.transaksi.pengajuan')}}">Daftar Pengajuan</a></li>--}}
+            
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Tabungan</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Mudharabah Berjangka</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Pembiayaan</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Simpanan Wajib</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Simpanan Khusus</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Kas Masuk</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Kas Keluar</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Zis</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Wakaf</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Donasi</a></li>
+        </ul>
+    </div>
 </li>
 
 <li @if(Request::is('teller/menu*','teller/nasabah*'))class="active"@endif>
@@ -37,20 +71,22 @@
             <li @if(Request::is('teller/menu/tabungan*'))class="active"@endif><a href="{{route('pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
             <li @if(Request::is('teller/nasabah/tabungan*'))class="active"@endif><a href="{{route('nasabah_tabungan')}}">Nasabah Tabungan</a></li>
             <li @if(Request::is('teller/menu/deposito*'))class="active"@endif><a href="{{route('pengajuan_deposito')}}">Pengajuan Mudharabah Berjangka</a></li>
-            <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li>
+            {{-- <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li> --}}
             <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="{{route('pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
-            <li @if(Request::is('teller/nasabah/pembiayaan*'))class="active"@endif><a href="{{route('nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li>
+            <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="#">Pengajuan Simpanan Wajib</a></li>
+            <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="#">Pengajuan Simpanan Pokok</a></li>
+            {{-- <li @if(Request::is('teller/nasabah/pembiayaan*'))class="active"@endif><a href="{{route('nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li> --}}
         </ul>
         </div>
 </li>
 
-<li @if(Request::is('teller/kolektibilitas*'))class="active"@endif>
+{{--<li @if(Request::is('teller/kolektibilitas*'))class="active"@endif>
     <a href="{{route('teller.daftar_kolektibilitas')}}">
         <i class="pe-7s-album"></i>
         <p>Kolektibilitas
         </p>
     </a>
-</li>
+</li>--}}
 
 <li @if(Request::is('teller/laporan/*'))class="active"@endif>
     <a data-toggle="collapse" href="#nav_laporan">
@@ -65,11 +101,21 @@
     <div class="collapse" id="nav_laporan">
     @endif
         <ul class="nav">
-            <li><a href="{{route('teller.pengajuan_pem')}}">Pengajuan Pembiayaan</a></li>
+            <li><a href="#">Kas Harian</a></li>
+            <li><a href="#">Kolektibilitas</a></li>
+            <li><a href="#">Saldo Tabungan</a></li>
+            <li><a href="#">Saldo Mudharabah Berjangka</a></li>
+            <li><a href="#">Saldo Pembiayaan</a></li>
+            <li><a href="#">Saldo ZIS</a></li>
+            <li><a href="#">Saldo Donasi</a></li>
+            <li><a href="#">Saldo Wakaf</a></li>
+
+            {{--<li><a href="{{route('teller.pengajuan_pem')}}">Pengajuan Pembiayaan</a></li>
             <li><a href="{{route('teller.realisasi_pem')}}">Realisasi Pembiayaan</a></li>
             <li><a href="{{route('teller.kas_harian')}}">Kas Harian</a></li>
             <li><a href="{{route('teller.neraca')}}">Neraca Saldo</a></li>
-            <li><a href="{{route('distribusi')}}">Distribusi Pendapatan</a></li>
+            <li><a href="{{route('distribusi')}}">Distribusi Pendapatan</a></li>--}}
+            
             {{-- <li><a href="{{route('teller.daftar_kolektibilitas')}}">Daftar Kolektibilitas</a></li>--}}
             {{--<li><a href="{{route('teller.rekap_jurnal')}}">Rekapitulasi Jurnal</a></li>--}}
             {{--<li><a href="{{route('teller.rekapitulasi_kas')}}">Rekapitulasi Kas</a></li>--}}
@@ -89,7 +135,7 @@
     </div>
 </li>
 
-<li @if(Request::is('anggota/maal*','teller/maal*')) class="active"@endif>
+{{--<li @if(Request::is('anggota/maal*','teller/maal*')) class="active"@endif>
     <a data-toggle="collapse" href="#nav_maalt">
         <i class="pe-7s-home"></i>
         <p>Maal
@@ -109,4 +155,4 @@
             <li @if(Request::is('teller/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @elseif(Auth::user()->tipe=="anggota") href="{{route('anggota.transaksi.maal')}}" @endif>Riwayat Transaksi</a></li>
         </ul>
     </div>
-</li>
+</li>--}}
