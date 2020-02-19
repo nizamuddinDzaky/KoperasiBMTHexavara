@@ -48,6 +48,8 @@
     @endif
         <ul class="nav">
             <li @if(Request::is('admin/transaksi/transfer'))class="active"@endif><a href="{{route('admin.transaksi.transfer')}}">Transfer Antar Rekening</a></li>
+            <li><a href="#">Kas Masuk</a></li>
+            <li><a href="#">Kas Keluar</a></li>
             {{--<li @if(Request::is('admin/transaksi/pengajuan'))class="active"@endif><a href="{{route('admin.transaksi.pengajuan')}}">Daftar Pengajuan</a></li>--}}
             {{--<li><a href="#">Deposito</a></li>--}}
             {{--<li><a href="#">Pembiayaan</a></li>--}}
