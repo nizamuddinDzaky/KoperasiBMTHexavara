@@ -17,7 +17,7 @@ $font-smoth: 300;
 $brand-primary: #3097D1;
 $brand-info: #8eb4cb;
 $brand-success: #2ab27b;
-$brand-warning: #cbb956;
+$brand-warning: #e6d262;
 $brand-danger: #bf5329;
 $grey: #999999;
 $smoth-grey: #e6e6e6;
@@ -25,6 +25,6 @@ $white: #FFFFFF;
 $black: #000000;
 $red: red;
 
-$navbar-background-color: #4075F0;
+$navbar-background-color: $brand-primary;
 $navbar-text-color: #FFFFFF;
 $navbar-button-color: #FFFFFF;

@@ -1,4 +1,15 @@
+.button-group {
+    display: flex;
+    &.right {
+        justify-content: flex-end;
+        position: absolute;
+        top: 2vw;
+        right: 10px;
+    }
+}
+
 .btn {
+    margin: 0 10px;
     &.btn-white {
         background-color: $white;
         color: $black;
@@ -12,5 +23,37 @@
             background-color: $white;
             color: $black;
         }
+    }
+
+    &.btn-primary {
+        background-color: $brand-primary;
+        color: $white;
+        border: 1px solid $brand-primary;
+    }
+
+    &.btn-danger {
+        background-color: $red;
+        color: $white;
+        border: 1px solid $red;
+    }
+
+    &.btn-warning {
+        background-color: $brand-warning;
+        color: $white;
+        border: 1px solid $brand-warning;
+    }
+
+    &.btn-success {
+        background-color: $brand-success;
+        color: $white;
+        border: 1px solid $brand-success;
+    }
+
+    &.rounded {
+        border-radius: 20px;
+    }
+
+    &.shadow-effect {
+        box-shadow: 0 3px 5px $grey;
     }
 }

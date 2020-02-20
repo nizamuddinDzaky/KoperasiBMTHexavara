@@ -628,6 +628,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'as'        => 'teller.un_block.rekening',
         'uses'      => 'TellerController@un_block_rekening'
     ]);
+
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {
             Route::get('/', [
@@ -645,7 +646,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         //Transaksi MENU ADMIN
         Route::get('/transfer', [
             'as' => 'teller.transaksi.transfer',
-            'uses' => 'AdminController@transfer'
+            'uses' => 'TellerController@transfer'
         ]);
         Route::post('/transfer', [
             'as' => 'teller.transfer',
@@ -739,8 +740,14 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         //Transaksi Mall
         Route::get('/maal', [
             'as' => 'teller.pengajuan_maal',
-            'uses' => 'AdminController@pengajuan_maal'
+            'uses' => 'TellerController@pengajuan_maal'
         ]);
+
+        Route::get('/pengajuan_simpanan', [
+            'as' => 'teller.transaksi.pengajuan_simpanan',
+            'uses' => 'TellerController@pengajuan_simpanan'
+        ]);
+
         Route::post('/konfirmasi_donasi', [
             'as' => 'teller.konfirmasi.donasimaal',
             'uses' => 'MaalController@konfirmasi_donasi'
@@ -902,7 +909,18 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'        => 'labarugi',
             'uses'      => 'LaporanController@labarugi'
         ]);
-    
+        Route::get('/saldo_zis', [
+        'as'        => 'teller.saldo.zis',
+            'uses'      => 'LaporanController@saldo_zis'
+        ]);
+        Route::get('/saldo_donasi', [
+            'as'        => 'teller.saldo.donasi',
+            'uses'      => 'LaporanController@saldo_donasi'
+        ]);
+        Route::get('/saldo_wakaf', [
+            'as'        => 'teller.saldo.wakaf',
+            'uses'      => 'LaporanController@saldo_wakaf'
+        ]);
     });
     //    MAAL
     Route::group(['prefix' => 'maal', 'middleware' => ['auth']], function () {

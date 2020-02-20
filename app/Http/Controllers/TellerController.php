@@ -760,7 +760,7 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanTabTell($date);
-        return view('admin.tabungan.pengajuan',[
+        return view('teller.transaksi.tabungan.pengajuan',[
             'datasaldo' =>  $this->informationRepository->getAllTab(),
             'data' => $data,
             'kegiatan' => $data,
@@ -895,7 +895,7 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanDepTell($date);
-        return view('admin.deposito.pengajuan',[
+        return view('teller.transaksi.deposito.pengajuan',[
             'datasaldoDep' =>  $this->informationRepository->getAllDep(),
             'kegiatan' => $dropdown,
             'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
@@ -984,7 +984,7 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanPemTell($date);
-        return view('admin.pembiayaan.pengajuan',[
+        return view('teller.transaksi.pembiayaan.pengajuan',[
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'kegiatan' => $dropdown,
@@ -1229,5 +1229,101 @@ class TellerController extends Controller
         );
 
         return response()->download($filename, "akad_deposito - " .$pihak2['nama'].".docx", $headers);
+    }
+
+    
+    /**
+     * Pengajuan maal controller
+     * @return View 
+    */
+    public function pengajuan_maal(){
+        $home = new HomeController;
+        $date = $home->date_query(0);
+        return view('teller.transaksi.maal.pengajuan',[
+            'kegiatan' => $this->informationRepository->getAllMaal(),
+            'datasaldoPem' => $this->informationRepository->getAllPem(),
+            'datasaldoPem2' => $this->informationRepository->getAllPemView(),
+            'datasaldoDep' =>  $this->informationRepository->getAllDepUsr(),
+            'datasaldo' =>  $this->informationRepository->getTabUsr(),
+            'data' =>  $this->informationRepository->getAllpengajuanMaal($date),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'data2' => $this->informationRepository->getAllpengajuanUsrTab(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'dropdown' => $this->informationRepository->getDdTab(),
+            'dropdown2' => $this->informationRepository->getDdDep(),
+            'dropdown3' => $this->informationRepository->getDdPem(),
+            'dropdown4' => $this->informationRepository->getAllrekeningNoUsrTab(),
+            'dropdown5' => $this->informationRepository->getAllTabNoUsr(),
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'periode'  => $this->informationRepository->periode()
+        ]);
+    }
+
+    /** 
+     * Pengajuan simpanan controller
+     * @return View
+    */
+    public function pengajuan_simpanan() {
+        $home = new HomeController;
+        $date = $home->date_query(0);
+        return view('teller.transaksi.simpanan.pengajuan',[
+            'kegiatan' => $this->informationRepository->getAllMaal(),
+            'datasaldoPem' => $this->informationRepository->getAllPem(),
+            'datasaldoPem2' => $this->informationRepository->getAllPemView(),
+            'datasaldoDep' =>  $this->informationRepository->getAllDepUsr(),
+            'datasaldo' =>  $this->informationRepository->getTabUsr(),
+            'data' =>  $this->informationRepository->getAllpengajuanMaal($date),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'data2' => $this->informationRepository->getAllpengajuanUsrTab(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'dropdown' => $this->informationRepository->getDdTab(),
+            'dropdown2' => $this->informationRepository->getDdDep(),
+            'dropdown3' => $this->informationRepository->getDdPem(),
+            'dropdown4' => $this->informationRepository->getAllrekeningNoUsrTab(),
+            'dropdown5' => $this->informationRepository->getAllTabNoUsr(),
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'periode'  => $this->informationRepository->periode()
+        ]);
+    }
+
+    /** 
+     * Transfer Controller
+     * @return View
+    */
+    public function transfer(){
+        return view('teller.transaksi.transfer.index',[
+            'nasabah' => count($this->informationRepository->getAllNasabah()),
+            'data' => $this->informationRepository->getAllPengajuanBMT(),
+            'dropdown' => $this->informationRepository->getDdBMT(),
+        ]);
+    }
+
+    /** 
+     * Teller kolektibilitas controller
+     * @return View
+    */
+
+    public function daftar_kolektibilitas(){
+        $dropdown = $this->informationRepository->getDd();
+        $data = $this->informationRepository->getAllPemNasabahKolek();
+        return view('teller.laporan.daftar_kolektibilitas',[
+            'kegiatan' => $dropdown,
+            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'data' => $data,
+            'dropdown' => $dropdown,
+            'dropdown2' => $dropdown,
+            'dropdown3' => $dropdown,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+        ]);
     }
 }

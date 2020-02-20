@@ -134,8 +134,6 @@
 <script src="{{URL::asset('datatables/buttons-1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{URL::to('maskmoney/src/jquery.maskMoney.js')}}"></script>
 
-@yield('extra_script')
-
 <script type="text/javascript">
     $(document).ready(function(){
         @if (session('notification'))
@@ -205,6 +203,9 @@
 //    ga('send', 'pageview');
 
 </script>
+
+
+@yield('extra_script')
 
 <!-- Mirrored from demos.creative-tim.com/light-bootstrap-dashboard-pro/examples/tables/bootstrap-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Mar 2017 13:33:44 GMT -->
 </html>

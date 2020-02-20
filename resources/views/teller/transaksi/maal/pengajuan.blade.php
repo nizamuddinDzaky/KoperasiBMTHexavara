@@ -17,6 +17,18 @@
                 <h4 class="title">Pengajuan Maal</h4>
 
                 <div class="head-filter">
+
+                    <p class="filter-title">Jenis Donasi</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="jenis" class="beautiful-select" style="height: 1.9em">
+                            <option disabled > - Jenis Donasi -</option>
+                            <option selected > - Donasi Kegiatan -</option>
+                            <option> - ZIS -</option>
+                            <option> - Wakaf -</option>
+                        </select>
+                    </form>
+                    
                     <p class="filter-title">Periode Pengajuan</p>
                     <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
                     {{ csrf_field() }}
@@ -29,7 +41,9 @@
                     </form>
                 </div>
 
-                <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-plus"></i> Tambah Pengajuan</button>
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-plus"></i> Tambah Pengajuan</button>
+                </div>
             </div>
         </div>
     </div>
