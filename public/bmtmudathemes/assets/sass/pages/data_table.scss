@@ -1,0 +1,43 @@
+.head {
+    background-color: $white;
+    padding: 20px;
+    box-shadow: 0 1px 10px $grey;
+
+    .title {
+        font-size: 20px;
+        margin-top: 10px;
+        font-weight: $font-normal;
+    }
+
+    .head-filter {
+        display: flex; 
+        flex-direction: row;
+        
+        .filter-title {
+            font-size: 1vw;
+            margin-right: 5px;
+            margin-left: 10px;
+        }
+    }
+
+    .head-noted {
+        display: flex;
+        flex-direction: row;
+
+        &.right {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+        }
+
+        span {
+            background-color: $smoth-grey;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            font-weight: $font-bold;
+            letter-spacing: 1px;
+        }
+    }
+
+}
