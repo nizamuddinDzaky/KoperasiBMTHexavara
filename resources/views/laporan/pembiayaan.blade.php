@@ -17,175 +17,186 @@
     </style>
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Realisasi Pembiayaan</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
 
-                        <div class="header text-center">
-                            @if(Request::is('admin/laporan/pengajuan'))
-                            <h4 id="titlePrint" class="title"><b>Pengajuan Pembiayaan</b> </h4>
-                            <p id="titlePrint2" class="category">Daftar Pengajuan Pembiayaan</p>
-                            @elseif(Request::is('admin/laporan/realisasi'))
-                            <h4 id="titlePrint" class="title"><b>Realisasi Pembiayaan</b> </h4>
-                            <p id="titlePrint2" class="category">Daftar Realisasi Pembiayaan</p>
-                            @endif
-                                <br />
-                        </div>
-                        <div class="toolbar">
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <span></span>
-                        </div>
+                    <div class="header text-center">
+                        @if(Request::is('admin/laporan/pengajuan'))
+                        <h4 id="titlePrint" class="title"><b>Pengajuan Pembiayaan</b> </h4>
+                        <p id="titlePrint2" class="category">Daftar Pengajuan Pembiayaan</p>
+                        @elseif(Request::is('admin/laporan/realisasi'))
+                        <h4 id="titlePrint" class="title"><b>Realisasi Pembiayaan</b> </h4>
+                        <p id="titlePrint2" class="category">Daftar Realisasi Pembiayaan</p>
+                        @endif
+                            <br />
+                    </div>
 
-                        <table id="bootstrap-table" class="table">
-                            <thead>
-                            <th></th>
-                            <th data-sortable="true" class="text-left">ID</th>
-                            <th data-sortable="true" class="text-left">Nasabah</th>
-                            <th data-sortable="true" class="text-left">KTP</th>
-                            <th data-sortable="true">Jenis Pengajuan</th>
-                            <th data-sortable="true">Keterangan</th>
-                            <th data-sortable="true">Jumlah</th>
-                            <th data-sortable="true">Tgl Pengajuan</th>
-                            <th data-sortable="true">Status</th>
-                            <th class="text-center">Actions</th>
-                            </thead>
-                            <tbody>
-                            @foreach ($data as $usr)
-                                <tr>
-                                    <td></td>
-                                    <td class="text-left">{{ $usr->id }}</td>
-                                    <td class="text-left">{{ json_decode($usr->detail,true)['nama']  }}</td>
-                                    <td class="text-left">{{ $usr->no_ktp   }}</td>
-                                    <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
-                                    <td class="text-center">{{$usr->kategori }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->detail,true)['jumlah'],2)   }}</td>
-                                    <td>{{ $usr->created_at }}</td>
-                                    <td class="text-center text-uppercase">{{ $usr->status }}</td>
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                        <th></th>
+                        <th data-sortable="true" class="text-left">ID</th>
+                        <th data-sortable="true" class="text-left">Nasabah</th>
+                        <th data-sortable="true" class="text-left">KTP</th>
+                        <th data-sortable="true">Jenis Pengajuan</th>
+                        <th data-sortable="true">Keterangan</th>
+                        <th data-sortable="true">Jumlah</th>
+                        <th data-sortable="true">Tgl Pengajuan</th>
+                        <th data-sortable="true">Status</th>
+                        <th class="text-center">Actions</th>
+                        </thead>
+                        <tbody>
+                        @foreach ($data as $usr)
+                            <tr>
+                                <td></td>
+                                <td class="text-left">{{ $usr->id }}</td>
+                                <td class="text-left">{{ json_decode($usr->detail,true)['nama']  }}</td>
+                                <td class="text-left">{{ $usr->no_ktp   }}</td>
+                                <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
+                                <td class="text-center">{{$usr->kategori }}</td>
+                                <td class="text-right">{{ number_format(json_decode($usr->detail,true)['jumlah'],2)   }}</td>
+                                <td>{{ $usr->created_at }}</td>
+                                <td class="text-center text-uppercase">{{ $usr->status }}</td>
 
-                                    <td class="td-actions text-center">
-                                        <div class="row">
-                                            @if(str_before($usr->kategori,' ')=="Angsuran")
-                                                @if($usr->status=="Sudah Dikonfirmasi" || $usr->status=="Disetujui")
-                                                @else
-                                                    {{--KONFIRMASI BUKA BARU--}}
-                                                    <button type="button" id="konfirm" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#confirm{{substr($usr->kategori,0,3)}}Modal" title="Konfirmasi Pengajuan"
-                                                            data-id       = "{{$usr->id}}"
-                                                            data-nama     = "{{ $usr->nama }}"
-                                                            data-ktp     = "{{ $usr->no_ktp  }}"
-                                                            data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
-                                                            data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
-                                                            data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
-                                                            @if($usr->kategori=="Angsuran Pembiayaan")
-                                                            data-idtab = "{{ json_decode($usr->detail,true)['id_pembiayaan'] }}"
-                                                            data-namatab = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
-                                                            data-bankuser = "{{ json_decode($usr->detail,true)['bank_user'] }}"
-                                                            data-no_bank = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                            data-atasnama = "{{ json_decode($usr->detail,true)['nama'] }}"
-                                                            data-jenis = "{{ json_decode($usr->detail,true)['angsuran'] }}"
-                                                            data-pokok = "{{ number_format(json_decode($usr->detail,true)['pokok'],2) }}"
-                                                            data-bank = "{{ json_decode($usr->detail,true)['bank'] }}"
-                                                            data-keterangan = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
-                                                            data-path       = "{{ url('/storage/transfer/'.json_decode($usr->detail,true)['path_bukti'] )}}"
-                                                            {{--data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"--}}
-                                                            @endif
-                                                    >
-                                                        <i class="fa fa-check-square"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
-                                                            data-id      = "{{$usr->id}}"
-                                                            data-id_user = "{{$usr->id_user}}"
-                                                            data-nama    = "{{$usr->jenis_pengajuan}}">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                @endif
+                                <td class="td-actions text-center">
+                                    <div class="row">
+                                        @if(str_before($usr->kategori,' ')=="Angsuran")
+                                            @if($usr->status=="Sudah Dikonfirmasi" || $usr->status=="Disetujui")
                                             @else
-                                                @if($usr->status=="Sudah Dikonfirmasi"  || $usr->status=="Disetujui")
-                                                @else
-                                                    <button type="button" id="active_" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#active{{substr($usr->kategori,0,3)}}Modal" title="Aktivasi Rekening"    data-id         = "{{$usr->id}}"
-                                                            data-id         = "{{$usr->id}}"
-                                                            data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
-                                                            data-ktp     = "{{ $usr->no_ktp }}"
-                                                            @if($usr->kategori=="Pembiayaan")
-                                                            data-kategori   = "{{ $usr->id_rekening }}"
-                                                            data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
-                                                            data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
-                                                            data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
-                                                            data-jenis       = "{{ json_decode($usr->detail,true)['jenis_Usaha'] }}"
-                                                            data-usaha       = "{{ json_decode($usr->detail,true)['usaha'] }}"
-                                                            data-jaminan       = "{{ json_decode($usr->detail,true)['jaminan'] }}"
-                                                            data-waktu       = "{{ str_before(json_decode($usr->detail,true)['keterangan'],' ')  }}"
-                                                            data-ketwaktu       = "{{ str_after(json_decode($usr->detail,true)['keterangan'],' ') }}"
-                                                            data-path       = "{{ url('/storage/'.json_decode($usr->detail,true)['path_jaminan']) }}"
-                                                            @endif
-                                                    >
-                                                        <i class="fa fa-check-square"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
-                                                            data-id      = "{{$usr->id}}"
-                                                            data-id_user = "{{$usr->id_user}}"
-                                                            data-nama    = "{{$usr->jenis_pengajuan}}">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                @endif
-                                            @endif
-                                        </div>
-                                        <div class="row">
-                                            <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr->kategori,0,3)}}Modal" title="View Detail"
-                                                    data-id         = "{{$usr->id}}"
-                                                    data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
-                                                    data-ktp     = "{{ $usr->no_ktp }}"
-
-                                                    data-kategori   = "{{ $usr->id_rekening }}"
-                                                    data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
-                                                    @if($usr->kategori=="Pembiayaan")
-                                                    data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
-                                                    data-jenis       = "{{ json_decode($usr->detail,true)['jenis_Usaha'] }}"
-                                                    data-usaha       = "{{ json_decode($usr->detail,true)['usaha'] }}"
-                                                    data-jaminan       = "{{ json_decode($usr->detail,true)['jaminan'] }}"
-                                                    data-waktu       = "{{ str_before(json_decode($usr->detail,true)['keterangan'],' ')  }}"
-                                                    data-ketwaktu       = "{{ str_after(json_decode($usr->detail,true)['keterangan'],' ') }}"
-                                                    data-path       = "{{ url('/storage/'.json_decode($usr->detail,true)['path_jaminan']) }}"
-                                                    @elseif($usr->kategori=="Angsuran Pembiayaan")
-                                                    data-idtab = "{{ json_decode($usr->detail,true)['id_pembiayaan'] }}"
-                                                    data-namatab = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
-                                                    data-bankuser = "{{ json_decode($usr->detail,true)['bank_user'] }}"
-                                                    data-no_bank = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                    data-atasnama = "{{ json_decode($usr->detail,true)['nama'] }}"
-                                                    data-jenis = "{{ json_decode($usr->detail,true)['angsuran'] }}"
-                                                    data-pokok = "{{ number_format(json_decode($usr->detail,true)['pokok'],2) }}"
-                                                    data-bank = "{{ json_decode($usr->detail,true)['bank'] }}"
-                                                    data-keterangan = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
-                                                    data-path       = "{{ url('/storage/transfer/'.json_decode($usr->detail,true)['path_bukti'] )}}"
-                                                    data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
-                                                    @else
-                                                    data-kategori   = "{{ $usr->id_rekening }}"
-                                                    data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
-                                                    {{--data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"--}}
-                                                    @endif
-                                            >
-                                                <i class="fa fa-list-alt"></i>
-                                            </button>
-                                            @if(str_before($usr->status," ")=="Disetujui" || str_before($usr->status," ")=="Sudah")
-                                            @else
-                                                <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delModal" title="Delete"
+                                                {{--KONFIRMASI BUKA BARU--}}
+                                                <button type="button" id="konfirm" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#confirm{{substr($usr->kategori,0,3)}}Modal" title="Konfirmasi Pengajuan"
                                                         data-id       = "{{$usr->id}}"
-                                                        data-nama     = "{{$usr->jenis_pengajuan}}">
-                                                    <i class="fa fa-remove"></i>
+                                                        data-nama     = "{{ $usr->nama }}"
+                                                        data-ktp     = "{{ $usr->no_ktp  }}"
+                                                        data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
+                                                        data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
+                                                        data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
+                                                        @if($usr->kategori=="Angsuran Pembiayaan")
+                                                        data-idtab = "{{ json_decode($usr->detail,true)['id_pembiayaan'] }}"
+                                                        data-namatab = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
+                                                        data-bankuser = "{{ json_decode($usr->detail,true)['bank_user'] }}"
+                                                        data-no_bank = "{{ json_decode($usr->detail,true)['no_bank'] }}"
+                                                        data-atasnama = "{{ json_decode($usr->detail,true)['nama'] }}"
+                                                        data-jenis = "{{ json_decode($usr->detail,true)['angsuran'] }}"
+                                                        data-pokok = "{{ number_format(json_decode($usr->detail,true)['pokok'],2) }}"
+                                                        data-bank = "{{ json_decode($usr->detail,true)['bank'] }}"
+                                                        data-keterangan = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
+                                                        data-path       = "{{ url('/storage/transfer/'.json_decode($usr->detail,true)['path_bukti'] )}}"
+                                                        {{--data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"--}}
+                                                        @endif
+                                                >
+                                                    <i class="fa fa-check-square"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
+                                                        data-id      = "{{$usr->id}}"
+                                                        data-id_user = "{{$usr->id_user}}"
+                                                        data-nama    = "{{$usr->jenis_pengajuan}}">
+                                                    <i class="fa fa-edit"></i>
                                                 </button>
                                             @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                        @else
+                                            @if($usr->status=="Sudah Dikonfirmasi"  || $usr->status=="Disetujui")
+                                            @else
+                                                <button type="button" id="active_" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#active{{substr($usr->kategori,0,3)}}Modal" title="Aktivasi Rekening"    data-id         = "{{$usr->id}}"
+                                                        data-id         = "{{$usr->id}}"
+                                                        data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
+                                                        data-ktp     = "{{ $usr->no_ktp }}"
+                                                        @if($usr->kategori=="Pembiayaan")
+                                                        data-kategori   = "{{ $usr->id_rekening }}"
+                                                        data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
+                                                        data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                        data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                        data-jenis       = "{{ json_decode($usr->detail,true)['jenis_Usaha'] }}"
+                                                        data-usaha       = "{{ json_decode($usr->detail,true)['usaha'] }}"
+                                                        data-jaminan       = "{{ json_decode($usr->detail,true)['jaminan'] }}"
+                                                        data-waktu       = "{{ str_before(json_decode($usr->detail,true)['keterangan'],' ')  }}"
+                                                        data-ketwaktu       = "{{ str_after(json_decode($usr->detail,true)['keterangan'],' ') }}"
+                                                        data-path       = "{{ url('/storage/'.json_decode($usr->detail,true)['path_jaminan']) }}"
+                                                        @endif
+                                                >
+                                                    <i class="fa fa-check-square"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
+                                                        data-id      = "{{$usr->id}}"
+                                                        data-id_user = "{{$usr->id_user}}"
+                                                        data-nama    = "{{$usr->jenis_pengajuan}}">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                    </div>
+                                    <div class="row">
+                                        <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr->kategori,0,3)}}Modal" title="View Detail"
+                                                data-id         = "{{$usr->id}}"
+                                                data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
+                                                data-ktp     = "{{ $usr->no_ktp }}"
 
-                    </div><!--  end card  -->
-                </div> <!-- end col-md-12 -->
-            </div> <!-- end row -->
-        </div>
+                                                data-kategori   = "{{ $usr->id_rekening }}"
+                                                data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                @if($usr->kategori=="Pembiayaan")
+                                                data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                data-jenis       = "{{ json_decode($usr->detail,true)['jenis_Usaha'] }}"
+                                                data-usaha       = "{{ json_decode($usr->detail,true)['usaha'] }}"
+                                                data-jaminan       = "{{ json_decode($usr->detail,true)['jaminan'] }}"
+                                                data-waktu       = "{{ str_before(json_decode($usr->detail,true)['keterangan'],' ')  }}"
+                                                data-ketwaktu       = "{{ str_after(json_decode($usr->detail,true)['keterangan'],' ') }}"
+                                                data-path       = "{{ url('/storage/'.json_decode($usr->detail,true)['path_jaminan']) }}"
+                                                @elseif($usr->kategori=="Angsuran Pembiayaan")
+                                                data-idtab = "{{ json_decode($usr->detail,true)['id_pembiayaan'] }}"
+                                                data-namatab = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
+                                                data-bankuser = "{{ json_decode($usr->detail,true)['bank_user'] }}"
+                                                data-no_bank = "{{ json_decode($usr->detail,true)['no_bank'] }}"
+                                                data-atasnama = "{{ json_decode($usr->detail,true)['nama'] }}"
+                                                data-jenis = "{{ json_decode($usr->detail,true)['angsuran'] }}"
+                                                data-pokok = "{{ number_format(json_decode($usr->detail,true)['pokok'],2) }}"
+                                                data-bank = "{{ json_decode($usr->detail,true)['bank'] }}"
+                                                data-keterangan = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
+                                                data-path       = "{{ url('/storage/transfer/'.json_decode($usr->detail,true)['path_bukti'] )}}"
+                                                data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
+                                                @else
+                                                data-kategori   = "{{ $usr->id_rekening }}"
+                                                data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                {{--data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"--}}
+                                                @endif
+                                        >
+                                            <i class="fa fa-list-alt"></i>
+                                        </button>
+                                        @if(str_before($usr->status," ")=="Disetujui" || str_before($usr->status," ")=="Sudah")
+                                        @else
+                                            <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delModal" title="Delete"
+                                                    data-id       = "{{$usr->id}}"
+                                                    data-nama     = "{{$usr->jenis_pengajuan}}">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
     </div>
     @include('modal.pengajuan')
     @include('modal.user_pembiayaan')

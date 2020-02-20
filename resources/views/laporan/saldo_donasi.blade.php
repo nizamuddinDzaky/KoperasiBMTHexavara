@@ -9,94 +9,74 @@
 @endsection
 @section('extra_style')
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
+    <style>
+        .fa-3x {
+            font-size: 5vmax;}
+        h3 {
+            font-size: 2vw !important;}
+    </style>
 @endsection
 @section('content')
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Mudharabah Berjangka Nasabah</h4>
+                <h4 class="title">Saldo Donasi</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
                     <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
                     {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option selected disabled>- Periode -</option>
+                            <option disabled selected > - Periode -</option>
                         </select>
                     </form>
+                </div>
+
+                <div class="head-noted right">
+                    <span>Saldo Donasi Terkumpul = Rp. 300,000,000</span>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="content">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
 
-                    <div class="header text-center">
-                        {{-- <h4 class="title"> Mudharabah Berjangka Nasabah</h4>
-                        <p class="category">Daftar  Mudharabah Berjangka Nasabah</p>
-                        <br /> --}}
-                    </div>
+                <div class="header text-center">
+                    {{-- <h4 id="titlePrint" class="title"><b>Kas Harian</b> </h4>
+                    <p id="titlePrint2" class="category">Laporan Kas Harian</p>
+                    <br /> --}}
+                </div>
 
-                    <table id="bootstrap-table" class="table">
-                        <thead>
+                
+                <table id="bootstrap-table" class="table">
+                    <thead>
                         <th></th>
-                        <th data-sortable="true" class="text-left">ID MDB</th>
-                        <th data-sortable="true">Jenis MDB</th>
-                        <th data-sortable="true">Nama Nasabah</th>
-                        <th data-sortable="true">Saldo</th>
-                        <th data-sortable="true">Tgl Pembuatan</th>
+                        <th data-sortable="true" class="text-left">ID</th>
+                        <th data-sortable="true" class="text-left">Nasabah</th>
+                        <th data-sortable="true" class="text-left">KTP</th>
+                        <th data-sortable="true">Jenis Pengajuan</th>
+                        <th data-sortable="true">Keterangan</th>
+                        <th data-sortable="true">Jumlah</th>
+                        <th data-sortable="true">Tgl Pengajuan</th>
                         <th data-sortable="true">Status</th>
-                        <th>Actions</th>
-                        </thead>
-                        <tbody>
-                        @foreach ($data as $usr)
-                            <tr>
-                                <td></td>
-                                <td>{{ $usr->id_deposito }}</td>
-                                <td>{{ $usr->jenis_deposito  }}</td>
-                                <td>{{ $usr->nama   }}</td>
-                                <td>Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2)  }}</td>
-                                <td>{{ $usr->created_at }}</td>
-                                <td class="text-uppercase text-center">{{ $usr->status   }}</td>
-                                <td class="td-actions text-center">
-                                    <form  method="post" action="{{route('teller.detail_deposito')}}">
-                                        <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
-                                        {{csrf_field()}}
-                                        <button type="submit" class="btn btn-social btn-info btn-fill" title="Detail"
-                                                data-id      = "{{$usr->no_ktp}}"
-                                                data-nama    = "{{$usr->nama}}" name="id">
-                                            <i class="fa fa-clipboard-list"></i>
-                                        </button>
-                                        <button type="button"  class="btn btn-social btn-fill @if($usr->status=="active") btn-danger" title="Blokir Rekening"
-                                                @elseif($usr->status=="blocked") btn-success title="Activasi Rekening"  @endif
-                                                @if($usr->status!="not active")data-toggle="modal" data-target="#blockRekModal" @else title="Rekening Tidak Aktif" @endif
-                                                data-id         = "{{$usr->id}}"
-                                                data-nama       = "{{$usr->jenis_deposito}}"
-                                                data-status       = "{{$usr->status}}">
-                                            @if($usr->status=="active")
-                                                <i class="fa fa-remove"></i>
-                                            @elseif($usr->status=="blocked")
-                                                <i class="fa fa-check-square"></i>
-                                            @elseif($usr->status=="not active")
-                                                <i class="fa fa-minus-square"></i>
-                                            @endif
-                                        </button>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                        <th class="text-center">Actions</th>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                </table>
 
-                </div><!--  end card  -->
-            </div> <!-- end col-md-12 -->
-        </div>
+            </div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div> <!-- end row -->
     </div>
-    @include('modal.pengajuan')
 @endsection
+
+@section('extra_script')
+
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
@@ -106,33 +86,24 @@
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">
-        $('#blockRekModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var id = button.data('id');
-            var nama = button.data('nama');
-            var status = button.data('status');
-            if(status=="blocked"){
-                status ="active";
-                $('#blockRekLabel').text("Activasi Rekening : " + nama);
-                $('#btn_block').hide();
-            }
-            else if(status=="active"){
-                status ="blocked";
-                $('#blockRekLabel').text("Blokir Rekening : " + nama);
-                $('#btn_active').hide();
-            }
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            $('#id_block').val(id);
-            $('#tipeRek').val("Deposito");
-            $('#st_block').val(status);
-            $('#toBlock').text(nama + "?");
-        });
     </script>
 
     <script type="text/javascript">
         var $table = $('#bootstrap-table');
+        function readURL5(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#pic5')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(auto)
+                };
 
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
         $().ready(function(){
             $('#bootstrap-table').dataTable({
@@ -143,8 +114,8 @@
                     $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
                 },
                 "processing": true,
-//                "dom": 'lBf<"top">rtip<"clear">',
-                "order": [],
+                // "dom": 'lBf<"top">rtp<"clear">',
+                "order": [], "paging": false,
                 "scrollX": false,
                 "dom": 'lBfrtip',
                 "buttons": {
@@ -152,17 +123,37 @@
                         "button": {
                             "tag": "button",
                             "className": "waves-effect waves-light btn mrm"
-//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
                         }
                     },
                     "buttons": [
+                        {
+                            extend: 'print',
+                            title: function () { return  $('#titlePrint2').text()+"\n"+$('#titlePrint2').text(); },
+                        },
+
                         'copyHtml5',
-                        'print',
-                        'excelHtml5',
-//                        'csvHtml5',
-                        'pdfHtml5' ]
+                        {
+                            extend: 'excelHtml5',
+                            messageTop: function () { return  $('#titlePrint').text(); },
+                            messageTop: function () { return  $('#titlePrint2').text(); },
+                        },
+                        {
+                            extend:'pdfHtml5',
+                            title: function () { return  $('#titlePrint').text()+"\n"+$('#titlePrint2').text(); },
+                            customize: function(doc) {
+                                doc.defaultStyle.fontSize = 7;
+                                doc.styles.title = {
+                                    fontSize: '11',
+                                    alignment: 'center'
+                                };
+                                doc.content.layout='Border';
+                            }
+                        }
+                    ]
                 }
             });
+
+
         });
 
     </script>
@@ -248,7 +239,7 @@
             },
         }
     </script>
-     {{--end of MODAL&DATATABLE --}}
+    {{--end of MODAL&DATATABLE --}}
 
 
     <script src="{{URL::asset('bootstrap/assets/js/moment.min.js')}}"></script>
@@ -343,108 +334,7 @@
                         $(wizard).find('.btn-finish').hide();
                     }
                 }
-
             });
-            $('#wizardCard2').bootstrapWizard({
-                tabClass: 'nav nav-pills',
-                nextSelector: '.btn-next',
-                previousSelector: '.btn-back',
-                onNext: function(tab, navigation, index) {
-                    var $valid = $('#wizardForm2').valid();
-
-                    if(!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    }
-                },
-                onInit : function(tab, navigation, index){
-
-                    //check number of tabs and fill the entire row
-                    var $total = navigation.find('li').length;
-                    $width = 100/$total;
-
-                    $display_width = $(document).width();
-
-                    if($display_width < 600 && $total > 3){
-                        $width = 50;
-                    }
-
-                    navigation.find('li').css('width',$width + '%');
-                },
-                onTabClick : function(tab, navigation, index){
-                    // Disable the posibility to click on tabs
-                    return false;
-                },
-                onTabShow: function(tab, navigation, index) {
-                    var $total = navigation.find('li').length;
-                    var $current = index+1;
-
-                    var wizard = navigation.closest('.card-wizard');
-
-                    // If it's the last tab then hide the last button and show the finish instead
-                    if($current >= $total) {
-                        $(wizard).find('.btn-next').hide();
-                        $(wizard).find('.btn-finish').show();
-                    } else if($current == 1){
-                        $(wizard).find('.btn-back').hide();
-                    } else {
-                        $(wizard).find('.btn-back').show();
-                        $(wizard).find('.btn-next').show();
-                        $(wizard).find('.btn-finish').hide();
-                    }
-                }
-
-            });
-
-        });
-        $('#wizardCard3').bootstrapWizard({
-            tabClass: 'nav nav-pills',
-            nextSelector: '.btn-next',
-            previousSelector: '.btn-back',
-            onNext: function(tab, navigation, index) {
-                var $valid = $('#wizardForm3').valid();
-
-                if(!$valid) {
-                    $validator.focusInvalid();
-                    return false;
-                }
-            },
-            onInit : function(tab, navigation, index){
-
-                //check number of tabs and fill the entire row
-                var $total = navigation.find('li').length;
-                $width = 100/$total;
-
-                $display_width = $(document).width();
-
-                if($display_width < 600 && $total > 3){
-                    $width = 50;
-                }
-
-                navigation.find('li').css('width',$width + '%');
-            },
-            onTabClick : function(tab, navigation, index){
-                // Disable the posibility to click on tabs
-                return false;
-            },
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index+1;
-
-                var wizard = navigation.closest('.card-wizard');
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if($current >= $total) {
-                    $(wizard).find('.btn-next').hide();
-                    $(wizard).find('.btn-finish').show();
-                } else if($current == 1){
-                    $(wizard).find('.btn-back').hide();
-                } else {
-                    $(wizard).find('.btn-back').show();
-                    $(wizard).find('.btn-next').show();
-                    $(wizard).find('.btn-finish').hide();
-                }
-            }
 
         });
 
@@ -454,7 +344,6 @@
             swal("Data disimpan!", "Terima kasih telah melengkapi data diri anda!", "success");
         }
     </script>
-
 @endsection
 @section('footer')
     @include('layouts.footer')

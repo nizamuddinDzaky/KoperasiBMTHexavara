@@ -14,16 +14,22 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Mudharabah Berjangka Nasabah</h4>
+                <h4 class="title">Pengelolaan Kas BMT</h4>
 
                 <div class="head-filter">
-                    <p class="filter-title">Periode</p>
+                    <p class="filter-title">Periode Pengelolaan</p>
                     <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
                     {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option selected disabled>- Periode -</option>
+                            <option disabled selected > - Periode -</option>
                         </select>
                     </form>
+                </div>
+
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#transferRekModal"><i class="fa fa-exchange-alt"></i> Transfer Rekening BMT</button>
+                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal"><i class="fa fa-credit-card"></i> Transfer Pengeluaran/Pemasukan</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#wapokRekModal"><i class="fa fa-credit-card"></i> Upgrade Simpanan Wajib/Pokok</button>
                 </div>
             </div>
         </div>
@@ -34,58 +40,37 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        {{-- <h4 class="title"> Mudharabah Berjangka Nasabah</h4>
-                        <p class="category">Daftar  Mudharabah Berjangka Nasabah</p>
-                        <br /> --}}
+                        <h4 class="title">Saldo Rekening BMT</h4>
+                        <p class="category">Daftar Pengajuan Nasabah</p>
+                        <br />
                     </div>
-
+                    <div class="toolbar">
+                        <!--        Here you can write extra buttons/actions for the toolbar              -->
+                            <span></span>
+                    </div>
                     <table id="bootstrap-table" class="table">
                         <thead>
                         <th></th>
-                        <th data-sortable="true" class="text-left">ID MDB</th>
-                        <th data-sortable="true">Jenis MDB</th>
-                        <th data-sortable="true">Nama Nasabah</th>
-                        <th data-sortable="true">Saldo</th>
-                        <th data-sortable="true">Tgl Pembuatan</th>
-                        <th data-sortable="true">Status</th>
-                        <th>Actions</th>
+                        <th class="text-center" data-sortable="true">ID</th>
+                        <th class="text-center" data-sortable="true">ID Rekening</th>
+                        <th class="text-center" data-sortable="true">Nama Rekening</th>
+                        <th class="text-center" data-sortable="true">saldo</th>
+                        <!--<th class="text-center">Actions</th>-->
                         </thead>
                         <tbody>
-                        @foreach ($data as $usr)
-                            <tr>
-                                <td></td>
-                                <td>{{ $usr->id_deposito }}</td>
-                                <td>{{ $usr->jenis_deposito  }}</td>
-                                <td>{{ $usr->nama   }}</td>
-                                <td>Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2)  }}</td>
-                                <td>{{ $usr->created_at }}</td>
-                                <td class="text-uppercase text-center">{{ $usr->status   }}</td>
-                                <td class="td-actions text-center">
-                                    <form  method="post" action="{{route('teller.detail_deposito')}}">
-                                        <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
-                                        {{csrf_field()}}
-                                        <button type="submit" class="btn btn-social btn-info btn-fill" title="Detail"
-                                                data-id      = "{{$usr->no_ktp}}"
-                                                data-nama    = "{{$usr->nama}}" name="id">
-                                            <i class="fa fa-clipboard-list"></i>
-                                        </button>
-                                        <button type="button"  class="btn btn-social btn-fill @if($usr->status=="active") btn-danger" title="Blokir Rekening"
-                                                @elseif($usr->status=="blocked") btn-success title="Activasi Rekening"  @endif
-                                                @if($usr->status!="not active")data-toggle="modal" data-target="#blockRekModal" @else title="Rekening Tidak Aktif" @endif
-                                                data-id         = "{{$usr->id}}"
-                                                data-nama       = "{{$usr->jenis_deposito}}"
-                                                data-status       = "{{$usr->status}}">
-                                            @if($usr->status=="active")
-                                                <i class="fa fa-remove"></i>
-                                            @elseif($usr->status=="blocked")
-                                                <i class="fa fa-check-square"></i>
-                                            @elseif($usr->status=="not active")
-                                                <i class="fa fa-minus-square"></i>
-                                            @endif
-                                        </button>
-                                        </button>
-                                    </form>
-                                </td>
+                        @foreach ($data as $bmt)
+                            <tr><td></td>
+                                <td>{{$bmt->id}}</td>
+                                <td>{{$bmt->id_bmt}}</td>
+                                <td>{{$bmt->nama}}</td>
+                                <td class="text-right">Rp {{  number_format( floatval($bmt->saldo),2) }}</td>
+                                <!--<td class="text-center">-->
+                                <!--    <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editSaldoModal" title="Edit Saldo Rekening"-->
+                                <!--            data-id      = "{{$bmt->id_rekening}}"-->
+                                <!--            data-saldo      = "{{$bmt->saldo}}">-->
+                                <!--        <i class="fa fa-edit"></i>-->
+                                <!--    </button>-->
+                                <!--</td>-->
                             </tr>
                         @endforeach
                         </tbody>
@@ -93,9 +78,9 @@
 
                 </div><!--  end card  -->
             </div> <!-- end col-md-12 -->
-        </div>
+        </div> <!-- end row -->
     </div>
-    @include('modal.pengajuan')
+    @include('modal.bmt')
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -106,36 +91,22 @@
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">
-        $('#blockRekModal').on('show.bs.modal', function (event) {
+        $('#editSaldoModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
-            var id = button.data('id');
-            var nama = button.data('nama');
-            var status = button.data('status');
-            if(status=="blocked"){
-                status ="active";
-                $('#blockRekLabel').text("Activasi Rekening : " + nama);
-                $('#btn_block').hide();
-            }
-            else if(status=="active"){
-                status ="blocked";
-                $('#blockRekLabel').text("Blokir Rekening : " + nama);
-                $('#btn_active').hide();
-            }
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            $('#id_block').val(id);
-            $('#tipeRek').val("Deposito");
-            $('#st_block').val(status);
-            $('#toBlock').text(nama + "?");
+            $('#id_bmt').val(button.data('id'));
+            $('#idRekS').val(button.data('id'));
+            $('#saldo').val(button.data('saldo'));
         });
+
     </script>
 
     <script type="text/javascript">
         var $table = $('#bootstrap-table');
 
-
         $().ready(function(){
-            $('#bootstrap-table').dataTable({
+              $('#bootstrap-table').dataTable({
                 initComplete: function () {
                     $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
                     $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
@@ -143,7 +114,6 @@
                     $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
                 },
                 "processing": true,
-//                "dom": 'lBf<"top">rtip<"clear">',
                 "order": [],
                 "scrollX": false,
                 "dom": 'lBfrtip',
@@ -152,14 +122,12 @@
                         "button": {
                             "tag": "button",
                             "className": "waves-effect waves-light btn mrm"
-//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
                         }
                     },
                     "buttons": [
                         'copyHtml5',
                         'print',
                         'excelHtml5',
-//                        'csvHtml5',
                         'pdfHtml5' ]
                 }
             });
@@ -167,7 +135,78 @@
 
     </script>
     <script type="text/javascript">
+
         $().ready(function(){
+            $("#ShowHide2").hide();
+            $("#saldoRek").hide();
+            $("#ShowHide").hide();
+
+            $("#sumber").on('change', function () {
+                $("#idRekWPD").attr("disable",false);
+                $("#idRekWPD").attr("value","pilih");
+                $("#idRekWPD").attr("disable",true);
+                console.log($("#idRekWPD").val())
+                if($("#sumber").val()==1){
+                    $("#ShowHide2").hide();
+                    $("#ShowHide").show();
+                    $("#saldoRek").show();
+                    $("#ShowHide").attr("required",true);
+                    $('#submit-button').prop('disabled', true);
+                }
+                else if($("#sumber").val()==0){
+                    $("#ShowHide2").show();
+                    $("#ShowHide").hide();
+                    $("#saldoRek").hide();
+                    $("#ShowHide").attr("required",false);
+                    $('#submit-button').prop('disabled', false);
+                }
+            });
+            function rupiah(angka)
+            {
+                var rupiah = '';
+                var angkarev = angka.toString().split('').reverse().join('');
+                for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+',';
+                return rupiah.split('',rupiah.length-1).reverse().join('');
+            }
+            $(document).on('keyup keydown keypress', function (event) {
+                var sum = 0;
+                var str = $("#j_upgrade").val();
+                str =str.replace(/,/g, '');
+                sum = $("#nas_").val()*str;
+                $("#tot_nas").val(rupiah(sum));
+                if($("#sumber").val()==1) {
+                    if (sum > $('#j_rek').val()) {
+                        $("#validate-status").text("Saldo Rekening tidak cukup!");
+                        $('#submit-button').prop('disabled', true);
+                    } else {
+                        $("#validate-status").text("");
+                        $('#submit-button').prop('disabled', false);
+                    }
+                }
+            });
+
+            $('#idRekWPD').on('change', function () {
+                var id  = ($('#idRekWPD').val().split(' ')[0]);
+                var saldo  = ($('#idRekWPD').val().split(' ')[1]);
+                $('#dariRek').val(id);
+                $('#j_rek').val(saldo);
+            });
+
+            $("#idRekWPD").select2({
+                dropdownParent: $("#wapokRekModal")
+            });
+            $("#idRekWPK").select2({
+                dropdownParent: $("#wapokRekModal")
+            });
+            $("#idRekD").select2({
+                dropdownParent: $("#transferRekModal")
+            });
+            $("#idRekT").select2({
+                dropdownParent: $("#transferRekModal")
+            }); $("#idRekJ").select2({
+                dropdownParent: $("#jurnalLainRekModal")
+            });
+
             lbd.checkFullPageBackgroundImage();
 
             setTimeout(function(){
@@ -182,6 +221,7 @@
             demo.initFormExtendedDatetimepickers();
 
         });
+
         type = ['','info','success','warning','danger'];
         demo = {
             showNotification: function(from, align){
@@ -256,7 +296,6 @@
     <script src="{{URL::asset('bootstrap/assets/js/bootstrap-datetimepicker.js')}}"></script>
 
     <script src="{{URL::asset('bootstrap/assets/js/jquery.validate.min.js')}}"></script>
-    <script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
     <script type="text/javascript">
         $().ready(function(){
 
@@ -292,15 +331,13 @@
                     }
                 }
             });
-
             // you can also use the nav-pills-[blue | azure | green | orange | red] for a different color of wizard
-
-            $('#wizardCard').bootstrapWizard({
+            $('#wizardCardTrans').bootstrapWizard({
                 tabClass: 'nav nav-pills',
                 nextSelector: '.btn-next',
                 previousSelector: '.btn-back',
                 onNext: function(tab, navigation, index) {
-                    var $valid = $('#wizardForm').valid();
+                    var $valid = $('#wizardFormTrans').valid();
 
                     if(!$valid) {
                         $validator.focusInvalid();
@@ -345,12 +382,12 @@
                 }
 
             });
-            $('#wizardCard2').bootstrapWizard({
+            $('#wizardCardS').bootstrapWizard({
                 tabClass: 'nav nav-pills',
                 nextSelector: '.btn-next',
                 previousSelector: '.btn-back',
                 onNext: function(tab, navigation, index) {
-                    var $valid = $('#wizardForm2').valid();
+                    var $valid = $('#wizardFormS').valid();
 
                     if(!$valid) {
                         $validator.focusInvalid();
@@ -395,57 +432,106 @@
                 }
 
             });
+            $('#wizardCardJ').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormJ').valid();
 
-        });
-        $('#wizardCard3').bootstrapWizard({
-            tabClass: 'nav nav-pills',
-            nextSelector: '.btn-next',
-            previousSelector: '.btn-back',
-            onNext: function(tab, navigation, index) {
-                var $valid = $('#wizardForm3').valid();
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
 
-                if(!$valid) {
-                    $validator.focusInvalid();
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
                     return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
                 }
-            },
-            onInit : function(tab, navigation, index){
 
-                //check number of tabs and fill the entire row
-                var $total = navigation.find('li').length;
-                $width = 100/$total;
+            });
+            $('#wizardCardWP').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormWP').valid();
 
-                $display_width = $(document).width();
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
 
-                if($display_width < 600 && $total > 3){
-                    $width = 50;
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
                 }
 
-                navigation.find('li').css('width',$width + '%');
-            },
-            onTabClick : function(tab, navigation, index){
-                // Disable the posibility to click on tabs
-                return false;
-            },
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index+1;
-
-                var wizard = navigation.closest('.card-wizard');
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if($current >= $total) {
-                    $(wizard).find('.btn-next').hide();
-                    $(wizard).find('.btn-finish').show();
-                } else if($current == 1){
-                    $(wizard).find('.btn-back').hide();
-                } else {
-                    $(wizard).find('.btn-back').show();
-                    $(wizard).find('.btn-next').show();
-                    $(wizard).find('.btn-finish').hide();
-                }
-            }
-
+            });
         });
 
         function onFinishWizard(){
@@ -454,6 +540,7 @@
             swal("Data disimpan!", "Terima kasih telah melengkapi data diri anda!", "success");
         }
     </script>
+    <script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
 
 @endsection
 @section('footer')

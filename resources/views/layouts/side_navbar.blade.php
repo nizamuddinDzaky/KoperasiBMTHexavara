@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="blue" data-image="{{ URL::asset('bmtmudathemes/assets/images/background.jpg') }}">
+<div class="sidebar">
     <!--
 
         Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"

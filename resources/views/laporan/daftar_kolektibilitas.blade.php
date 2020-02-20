@@ -14,14 +14,14 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Pembiayaan Nasabah</h4>
+                <h4 class="title">Daftar Kolektibilitas</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
                     <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
                     {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option selected disabled>- Periode -</option>
+                            <option disabled selected > - Periode -</option>
                         </select>
                     </form>
                 </div>
@@ -34,8 +34,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        {{-- <h4 class="title"> Pembiayaan Nasabah</h4>
-                        <p class="category">Daftar  Pembiayaan Nasabah</p>
+                        {{-- <h4 id="titlePrint" class="title"> Daftar Kolektibilitas</h4>
+                        <p id="titlePrint2" class="category">Daftar Kolektibilitas</p>
                         <br /> --}}
                     </div>
 
@@ -50,59 +50,235 @@
                         <th data-sortable="true">Angsuran Pokok</th>
                         <th data-sortable="true">Sisa Pinjaman</th>
                         <th data-sortable="true">Jatuh Tempo</th>
-                        <th data-sortable="true">Status</th>
-                        <th>Actions</th>
+                        <th data-sortable="true">Keterlambatan Hari)</th>
+                        <th data-sortable="true">Status Pembayaran</th>
                         </thead>
                         <tbody>
-                        @foreach ($data as $usr)
-                            <tr>
-                                <td></td>
-                                <td>{{ $usr->id_pembiayaan }}</td>
-                                <td>{{ $usr->jenis_pembiayaan  }}</td>
-                                <td>{{ $usr->nama   }}</td>
-                                <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
-                                <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
-                                <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
-                                <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
+                        @foreach ($data['data'] as $usr)
+                            @if($usr->status_== 0)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $usr->id_pembiayaan }}</td>
+                                    <td>{{ $usr->jenis_pembiayaan  }}</td>
+                                    <td>{{ $usr->nama   }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
+                                    <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
 
-                                <td class="text-center">{{ date_format($usr->created_at,"Y-m-d") }}</td>
-                                <td class="text-uppercase text-center">{{ $usr->status }}</td>
-                                <td class="td-actions text-center">
-                                    <form  method="post" action="{{route('teller.detail_pembiayaan')}}">
-                                        <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
-                                        {{csrf_field()}}
-                                        <button type="submit" class="btn btn-social btn-info btn-fill" title="Detail"
-                                                data-id      = "{{$usr->no_ktp}}"
-                                                data-nama    = "{{$usr->nama}}" name="id">
-                                            <i class="fa fa-clipboard-list"></i>
-                                        </button>
-                                        <button type="button"  class="btn btn-social btn-fill 
-                                            
-                                            @if($usr->status=="active") btn-danger" title="Blokir Rekening"
-                                                @elseif($usr->status=="blocked") btn-success title="Activasi Rekening"  @endif
-                                                @if($usr->status!="not active")data-toggle="modal" data-target="#blockRekModal" @else title="Rekening Tidak Aktif" @endif
-                                        
-                                                data-id         = "{{$usr->id}}"
-                                                data-nama       = "{{$usr->jenis_pembiayaan}}"
-                                                data-status       = "{{$usr->status}}">
-                                                @if($usr->status=="active")
-                                                <i class="fa fa-remove"></i>
-                                            @elseif($usr->status=="blocked")
-                                                <i class="fa fa-check-square"></i>
-                                            @elseif($usr->status=="not active")
-                                                <i class="fa fa-minus-square"></i>
-                                            @endif
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                    <td class="text-center">{{ $usr->tempo }}</td>
+                                    <td class="text-center">{{ $usr->hari }}</td>
+                                    @if($usr->status_ == 0 )
+                                        <td class="text-uppercase text-center">Lancar tanpa tunggakkkan</td>
+                                    @elseif($usr->status_ == 1 )
+                                        <td class="text-uppercase text-center">Lancar</td>
+                                    @elseif($usr->status_ == 2 )
+                                        <td class="text-uppercase text-center">Kurang Lancar</td>
+                                    @elseif($usr->status_ == 3 )
+                                        <td class="text-uppercase text-center">Diragukan</td>
+                                    @elseif($usr->status_ == 4 )
+                                        <td class="text-uppercase text-center">Macet</td>
+                                    @endif
+                                </tr>
+                            @endif
+
+
                         @endforeach
+
+                        @foreach ($data['data'] as $usr)
+                            @if($usr->status_== 1)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $usr->id_pembiayaan }}</td>
+                                    <td>{{ $usr->jenis_pembiayaan  }}</td>
+                                    <td>{{ $usr->nama   }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
+                                    <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
+
+                                    <td class="text-center">{{ $usr->tempo }}</td>
+                                    <td class="text-center">{{ $usr->hari }}</td>
+                                    @if($usr->status_ == 0 )
+                                        <td class="text-uppercase text-center">Lancar tanpa tunggakkkan</td>
+                                    @elseif($usr->status_ == 1 )
+                                        <td class="text-uppercase text-center">Lancar</td>
+                                    @elseif($usr->status_ == 2 )
+                                        <td class="text-uppercase text-center">Kurang Lancar</td>
+                                    @elseif($usr->status_ == 3 )
+                                        <td class="text-uppercase text-center">Diragukan</td>
+                                    @elseif($usr->status_ == 4 )
+                                        <td class="text-uppercase text-center">Macet</td>
+                                    @endif
+                                </tr>
+                            @endif
+
+
+                        @endforeach
+
+                        @foreach ($data['data'] as $usr)
+                            @if($usr->status_== 2)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $usr->id_pembiayaan }}</td>
+                                    <td>{{ $usr->jenis_pembiayaan  }}</td>
+                                    <td>{{ $usr->nama   }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
+                                    <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
+
+                                    <td class="text-center">{{ $usr->tempo }}</td>
+                                    <td class="text-center">{{ $usr->hari }}</td>
+                                    @if($usr->status_ == 0 )
+                                        <td class="text-uppercase text-center">Lancar tanpa tunggakkkan</td>
+                                    @elseif($usr->status_ == 1 )
+                                        <td class="text-uppercase text-center">Lancar</td>
+                                    @elseif($usr->status_ == 2 )
+                                        <td class="text-uppercase text-center">Kurang Lancar</td>
+                                    @elseif($usr->status_ == 3 )
+                                        <td class="text-uppercase text-center">Diragukan</td>
+                                    @elseif($usr->status_ == 4 )
+                                        <td class="text-uppercase text-center">Macet</td>
+                                    @endif
+                                </tr>
+                            @endif
+
+
+                        @endforeach
+
+                        @foreach ($data['data'] as $usr)
+                            @if($usr->status_== 3)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $usr->id_pembiayaan }}</td>
+                                    <td>{{ $usr->jenis_pembiayaan  }}</td>
+                                    <td>{{ $usr->nama   }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
+                                    <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
+
+                                    <td class="text-center">{{ $usr->tempo }}</td>
+                                    <td class="text-center">{{ $usr->hari }}</td>
+                                    @if($usr->status_ == 0 )
+                                        <td class="text-uppercase text-center">Lancar tanpa tunggakkkan</td>
+                                    @elseif($usr->status_ == 1 )
+                                        <td class="text-uppercase text-center">Lancar</td>
+                                    @elseif($usr->status_ == 2 )
+                                        <td class="text-uppercase text-center">Kurang Lancar</td>
+                                    @elseif($usr->status_ == 3 )
+                                        <td class="text-uppercase text-center">Diragukan</td>
+                                    @elseif($usr->status_ == 4 )
+                                        <td class="text-uppercase text-center">Macet</td>
+                                    @endif
+                                </tr>
+                            @endif
+
+
+                        @endforeach
+
+                        @foreach ($data['data'] as $usr)
+                            @if($usr->status_== 4)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $usr->id_pembiayaan }}</td>
+                                    <td>{{ $usr->jenis_pembiayaan  }}</td>
+                                    <td>{{ $usr->nama   }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
+                                    <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
+                                    <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
+
+                                    <td class="text-center">{{ $usr->tempo }}</td>
+                                    <td class="text-center">{{ $usr->hari }}</td>
+                                    @if($usr->status_ == 0 )
+                                        <td class="text-uppercase text-center">Lancar tanpa tunggakkkan</td>
+                                    @elseif($usr->status_ == 1 )
+                                        <td class="text-uppercase text-center">Lancar</td>
+                                    @elseif($usr->status_ == 2 )
+                                        <td class="text-uppercase text-center">Kurang Lancar</td>
+                                    @elseif($usr->status_ == 3 )
+                                        <td class="text-uppercase text-center">Diragukan</td>
+                                    @elseif($usr->status_ == 4 )
+                                        <td class="text-uppercase text-center">Macet</td>
+                                    @endif
+                                </tr>
+                            @endif
+
+
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><strong>[LANCAR TANPA TUNGGAKKAN]</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][0],2)}}</strong></td>
+                            <td></td>
+                            <td><strong>PERSENTASE</strong></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][0]/array_sum($data['total'])*100,2)}}%</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><strong>[LANCAR]</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][1],2)}}</strong></td>
+                            <td></td>
+                            <td><strong>PERSENTASE</strong></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][1]/array_sum($data['total'])*100,2)}}%</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><strong>[KURANG LANCAR]</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][2],2)}}</strong></td>
+                            <td></td>
+                            <td><strong>PERSENTASE</strong></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][2]/array_sum($data['total'])*100,2)}}%</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><strong>[DIRAGUKAN]</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][3],2)}}</strong></td>
+                            <td></td>
+                            <td><strong>PERSENTASE</strong></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][3]/array_sum($data['total'])*100,2)}}%</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><strong>[MACET]</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][4],2)}}</strong></td>
+                            <td></td>
+                            <td><strong>PERSENTASE</strong></td>
+                            <td class="text-right"><strong>{{number_format($data['total'][4]/array_sum($data['total'])*100,2)}}%</strong></td>
+                        </tr>
                         </tbody>
                     </table>
 
                 </div><!--  end card  -->
-            </div> <!-- end col-md-12 -->
-        </div> <!-- end row -->
+            </div> <!-- end row -->
+        </div>
     </div>
     @include('modal.pengajuan')
 @endsection
@@ -154,7 +330,7 @@
                 "processing": true,
 //                "dom": 'lBf<"top">rtip<"clear">',
                 "order": [],
-                "scrollX": false,
+                "scrollX": true,
                 "dom": 'lBfrtip',
                 "buttons": {
                     "dom": {
@@ -165,11 +341,30 @@
                         }
                     },
                     "buttons": [
+                        {
+                            extend: 'print',
+                            title: function () { return  $('#titlePrint2').text()+"\n"+$('#titlePrint2').text(); },
+                        },
+
                         'copyHtml5',
-                        'print',
-                        'excelHtml5',
-//                        'csvHtml5',
-                        'pdfHtml5' ]
+                        {
+                            extend: 'excelHtml5',
+                            messageTop: function () { return  $('#titlePrint').text(); },
+                            messageTop: function () { return  $('#titlePrint2').text(); },
+                        },
+                        {
+                            extend:'pdfHtml5',
+                            title: function () { return  $('#titlePrint').text()+"\n"+$('#titlePrint2').text(); },
+                            customize: function(doc) {
+                                doc.defaultStyle.fontSize = 7;
+                                doc.styles.title = {
+                                    fontSize: '11',
+                                    alignment: 'center'
+                                };
+                                doc.content.layout='Border';
+                            }
+                        }
+                    ]
                 }
             });
         });

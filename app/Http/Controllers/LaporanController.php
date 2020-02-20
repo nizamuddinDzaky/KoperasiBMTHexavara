@@ -85,7 +85,7 @@ class LaporanController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanReal();
-        return view('admin.laporan.pembiayaan',[
+        return view('laporan.pembiayaan',[
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'kegiatan' => $dropdown,
@@ -106,7 +106,7 @@ class LaporanController extends Controller
     public function daftar_kolektibilitas(){
         $dropdown = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllPemNasabahKolek();
-        return view('admin.laporan.daftar_kolektibilitas',[
+        return view('laporan.daftar_kolektibilitas',[
             'kegiatan' => $dropdown,
             'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
             'tab' =>  $this->informationRepository->getAllTab(),
@@ -216,7 +216,7 @@ class LaporanController extends Controller
 
         }
 
-        return view('admin.laporan.kas_harian',[
+        return view('laporan.kas_harian',[
             'data' => $data,
             'saldo' => $saldo,
             'plus' => $plus,
@@ -508,7 +508,7 @@ class LaporanController extends Controller
         $time_input = date_create($str);
 
 
-        return view('admin.laporan.neraca',[
+        return view('laporan.neraca',[
             'data' => $data,
             'data2' => $data2,
             'aktiva' =>$aktiva,
@@ -710,5 +710,14 @@ class LaporanController extends Controller
     }
     public function labarugi(){
         return view('admin.laporan.labarugi');
+    }
+    public function saldo_zis() {
+        return view('laporan.saldo_zis');
+    }
+    public function saldo_donasi() {
+        return view('laporan.saldo_donasi');
+    }
+    public function saldo_wakaf() {
+        return view('laporan.saldo_wakaf');
     }
 }

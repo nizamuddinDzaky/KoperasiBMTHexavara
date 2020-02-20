@@ -21,6 +21,30 @@
     </div>
 </li> --}}
 
+
+<li @if(Request::is('teller/menu*'))class="active"@endif>
+    <a data-toggle="collapse" href="#nav_tabteller">
+        <i class="pe-7s-monitor"></i>
+        <p>Monitor Transaksi
+            <b class="caret"></b></p>
+    </a>
+    @if(Request::is('teller/menu/maal*','teller/menu/tabungan*','teller/menu/deposito*','teller/menu/pembiayaan*','teller/menu/pengajuan_simpanan*'))
+        <div class="collapse in" id="nav_tabteller">
+    @else
+        <div class="collapse" id="nav_tabteller">
+    @endif
+        <ul class="nav">
+            <li @if(Request::is('teller/menu/maal*'))class="active"@endif><a href="{{route('teller.pengajuan_maal')}}">Pengajuan Maal</a></li>
+            <li @if(Request::is('teller/menu/tabungan*'))class="active"@endif><a href="{{route('pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
+            <li @if(Request::is('teller/menu/deposito*'))class="active"@endif><a href="{{route('pengajuan_deposito')}}">Pengajuan Mudharabah Berjangka</a></li>
+            {{-- <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li> --}}
+            <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="{{route('pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
+            <li @if(Request::is('teller/menu/pengajuan_simpanan*'))class="active"@endif><a href="{{ route('teller.transaksi.pengajuan_simpanan') }}">Pengajuan Simpanan Anggota</a></li>
+            {{-- <li @if(Request::is('teller/nasabah/pembiayaan*'))class="active"@endif><a href="{{route('nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li> --}}
+        </ul>
+        </div>
+</li>
+
 <li @if(Request::is('teller/transaksi/*'))class="active"@endif>
     @if(Request::is('teller/transaksi/*','teller/transaksi/pengajuan*','teller/transaksi/transfer'))
         <a data-toggle="collapse" href="#nav_transaksi" aria-expanded="true">
@@ -38,47 +62,12 @@
     <div class="collapse" id="nav_transaksi">
     @endif
         <ul class="nav">
-            {{--<li @if(Request::is('teller/transaksi/transfer'))class="active"@endif><a href="{{route('teller.transaksi.transfer')}}">Transfer Antar Rekening</a></li>--}}
+            <li @if(Request::is('teller/transaksi/transfer'))class="active"@endif><a href="{{route('teller.transaksi.transfer')}}">Kelola Kas</a></li>
             {{--<li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="{{route('teller.transaksi.pengajuan')}}">Daftar Pengajuan</a></li>--}}
-            
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Tabungan</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Mudharabah Berjangka</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Pembiayaan</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Simpanan Wajib</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Simpanan Khusus</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Kas Masuk</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Kas Keluar</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Zis</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Wakaf</a></li>
-            <li @if(Request::is('teller/transaksi/pengajuan'))class="active"@endif><a href="#">Donasi</a></li>
         </ul>
     </div>
 </li>
 
-<li @if(Request::is('teller/menu*','teller/nasabah*'))class="active"@endif>
-    <a data-toggle="collapse" href="#nav_tabteller">
-        <i class="pe-7s-monitor"></i>
-        <p>Monitor Transaksi
-            <b class="caret"></b></p>
-    </a>
-    @if(Request::is('teller/menu/maal*','teller/menu/tabungan*','teller/menu/deposito*','teller/menu/pembiayaan*','teller/nasabah/tabungan*','teller/nasabah/deposito*','teller/nasabah/pembiayaan*'))
-        <div class="collapse in" id="nav_tabteller">
-    @else
-        <div class="collapse" id="nav_tabteller">
-    @endif
-        <ul class="nav">
-            <li @if(Request::is('teller/menu/maal*'))class="active"@endif><a href="{{route('teller.pengajuan_maal')}}">Pengajuan Maal</a></li>
-            <li @if(Request::is('teller/menu/tabungan*'))class="active"@endif><a href="{{route('pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
-            <li @if(Request::is('teller/nasabah/tabungan*'))class="active"@endif><a href="{{route('nasabah_tabungan')}}">Nasabah Tabungan</a></li>
-            <li @if(Request::is('teller/menu/deposito*'))class="active"@endif><a href="{{route('pengajuan_deposito')}}">Pengajuan Mudharabah Berjangka</a></li>
-            {{-- <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li> --}}
-            <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="{{route('pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
-            <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="#">Pengajuan Simpanan Wajib</a></li>
-            <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="#">Pengajuan Simpanan Pokok</a></li>
-            {{-- <li @if(Request::is('teller/nasabah/pembiayaan*'))class="active"@endif><a href="{{route('nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li> --}}
-        </ul>
-        </div>
-</li>
 
 {{--<li @if(Request::is('teller/kolektibilitas*'))class="active"@endif>
     <a href="{{route('teller.daftar_kolektibilitas')}}">
@@ -88,27 +77,29 @@
     </a>
 </li>--}}
 
-<li @if(Request::is('teller/laporan/*'))class="active"@endif>
+<li @if(Request::is('teller/nasabah/*', 'teller/kolektibilitas', 'teller/laporan/*'))class="active"@endif>
     <a data-toggle="collapse" href="#nav_laporan">
         <i class="pe-7s-folder"></i>
         <p>Laporan
             <b class="caret"></b>
         </p>
     </a>
-    @if(Request::is('admin/laporan/*'))
+    @if(Request::is('teller/laporan/*','teller/nasabah/*', 'teller/kolektibilitas'))
     <div class="collapse in" id="nav_laporan">
     @else
     <div class="collapse" id="nav_laporan">
     @endif
         <ul class="nav">
-            <li><a href="#">Kas Harian</a></li>
-            <li><a href="#">Kolektibilitas</a></li>
-            <li><a href="#">Saldo Tabungan</a></li>
-            <li><a href="#">Saldo Mudharabah Berjangka</a></li>
-            <li><a href="#">Saldo Pembiayaan</a></li>
-            <li><a href="#">Saldo ZIS</a></li>
-            <li><a href="#">Saldo Donasi</a></li>
-            <li><a href="#">Saldo Wakaf</a></li>
+            <li @if(Request::is('teller/laporan/kas_harian')) class="active" @endif><a href="{{route('teller.kas_harian')}}">Kas Harian</a></li>
+            <li @if(Request::is('teller/laporan/realisasi')) class="active" @endif><a href="{{route('teller.realisasi_pem')}}">Realisasi Pembiayaan</a></li>
+            <li @if(Request::is('teller/kolektibilitas')) class="active" @endif><a href="{{route('teller.daftar_kolektibilitas')}}">Kolektibilitas</a></li>
+            <li @if(Request::is('teller/laporan/neraca')) class="active" @endif><a href="{{route('teller.neraca')}}">Neraca Saldo</a></li>
+            <li @if(Request::is('teller/nasabah/tabungan')) class="active" @endif><a href="{{route('nasabah_tabungan')}}">Saldo Tabungan</a></li>
+            <li @if(Request::is('teller/nasabah/deposito')) class="active" @endif><a href="{{route('nasabah_deposito')}}">Saldo Mudharabah Berjangka</a></li>
+            <li @if(Request::is('teller/nasabah/pembiayaan')) class="active" @endif><a href="{{route('nasabah_pembiayaan')}}">Saldo Pembiayaan</a></li>
+            <li @if(Request::is('teller/laporan/saldo_zis')) class="active" @endif><a href="{{ route('teller.saldo.zis') }}">Saldo ZIS</a></li>
+            <li @if(Request::is('teller/laporan/saldo_donasi')) class="active" @endif><a href="{{ route('teller.saldo.donasi') }}">Saldo Donasi</a></li>
+            <li @if(Request::is('teller/laporan/saldo_wakaf')) class="active" @endif><a href="{{ route('teller.saldo.wakaf') }}">Saldo Wakaf</a></li>
 
             {{--<li><a href="{{route('teller.pengajuan_pem')}}">Pengajuan Pembiayaan</a></li>
             <li><a href="{{route('teller.realisasi_pem')}}">Realisasi Pembiayaan</a></li>
