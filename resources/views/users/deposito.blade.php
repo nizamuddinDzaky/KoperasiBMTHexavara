@@ -17,237 +17,186 @@
     </style>
 @endsection
 @section('content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="col-md-3">
-                {{-- <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-wizard" style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class="header text-center">
-                                   <span class="fa-stack fa-3x">
-                                        <i class="fas fa-square fa-stack-2x" style="color:darkslateblue"></i>
-                                        <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                    <h3 class="title">Pembukaan</h3>
-                                    <p class="category">Pengajuan Pembukaan Mudharabah Berjangka </p>
-                                </div>
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Mudharabah Berjangka Nasabah</h4>
 
-                                <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Pembukaan</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div> --}}
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-wizard " style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class="header text-center">
-                                <span class="fa-stack fa-3x">
-                                    <i class="fas fa-square fa-stack-2x" style="color:darkorange"></i>
-                                    <i class="fas fa-external-link-alt fa-stack-1x fa-inverse"></i>
-                                </span>
-                                    <h3 class="title">Perpanjangan</h3>
-                                    <p class="category">Perpanjangan Mudharabah Berjangka</p>
-                                </div>
-
-                                <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block"
-                                            data-toggle="modal"
-                                            data-target="#extendDepModal">Perpanjangan</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-wizard " style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class="header text-center">
-                                <span class="fa-stack fa-3x">
-                                    <i class="fas fa-square fa-stack-2x" style="color:darkgoldenrod"></i>
-                                    <i class="fas fa-donate fa-stack-1x fa-inverse"></i>
-                                </span>
-                                    <h3 class="title">Pencairan</h3>
-                                    <p class="category">Pencairan Mudharabah Berjangka</p>
-                                </div>
 
-                                <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block"  data-toggle="modal" data-target="#withdrawDepModal">Pencairan</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#extendDepModal"><i class="fa fa-external-link-alt"></i> Perpanjangan MDB</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#withdrawDepModal"><i class="fa fa-donate"></i> Pencairan MDB</button>
                 </div>
-            </div>
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-
-                            <div class="header text-center">
-                                <h4 class="title">Rekening Mudharabah Berjangka </h4>
-                                <p class="category">Berikut ini adalah daftar rekening mudharabah berjangka anda</p>
-                                <br />
-                            </div>
-                            <div class="toolbar">
-                                <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                <span></span>
-                            </div>
-
-                            <table id="bootstrap-table" class="table">
-                                <thead>
-                                <th></th>
-                                <th class="text-center" data-sortable="true">ID</th>
-                                <th class="text-center" data-sortable="true">Jenis Mudharabah Berjangka</th>
-                                <th class="text-center" data-sortable="true">Tgl Pembuatan</th>
-                                <th class="text-center" data-sortable="true">Jumlah</th>
-                                <th class="text-center" data-sortable="true">Tgl Tempo</th>
-                                <th class="text-center" data-sortable="true">Status</th>
-                                <th class="text-center">Actions</th>
-                                </thead>
-                                <tbody>
-                                @foreach ($data as $usr)
-                                    <tr>
-                                        <td></td>
-                                        <td class="text-left">{{ $usr->id_deposito }}</td>
-                                        <td class="text-left">{{ $usr->jenis_deposito   }}</td>
-                                        <td class="text-center">{{ date_format($usr->created_at,'Y-m-d') }}</td>
-                                        <td class="text-left">Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2) }}</td>
-                                        <td class="text-center">{{ date_format(date_create($usr->tempo),'Y-M-d') }}</td>
-                                        <td class="text-center text-uppercase">{{ $usr->status }}</td>
-                                        <td class="td-actions text-center">
-                                            <form  method="post" action="{{route('anggota.detail_deposito')}}">
-                                                <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
-                                                {{csrf_field()}}
-                                                <button type="submit" class="btn btn-social @if($usr->status=="blocked" ||$usr->status=="not active")btn-danger @else btn-info @endif  btn-fill" title="Detail"
-                                                        data-id      = "{{$usr->no_ktp}}"
-                                                        data-nama    = "{{$usr->nama}}" name="id">
-                                                    @if($usr->status=="blocked")
-                                                        <i class="fa fa-close"></i>
-                                                    @elseif($usr->status=="active")
-                                                        <i class="fa fa-clipboard-list"></i>
-                                                    @elseif($usr->status=="not active")
-                                                        <i class="fa fa-minus-square"></i>
-                                                    @endif
-                                                </button>
-
-                                                {{--<button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delUsrModal" title="Delete"--}}
-                                                        {{--data-id         = "{{$usr->no_ktp}}"--}}
-                                                        {{--data-nama       = "{{$usr->nama}}">--}}
-                                                    {{--<i class="fa fa-remove"></i>--}}
-                                                {{--</button>--}}
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
-
-                        </div><!--  end card  -->
-                    </div> <!-- end col-md-12 -->
-                </div>
-                <!-- end row -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-
-                            <div class="header text-center">
-                                <h4 class="title">Riwayat Mudharabah Berjangka </h4>
-                                <p class="category">Berikut adalah riwayat pengajuan mudharabah berjangka anda</p>
-                                <br />
-                            </div>
-                            <div class="toolbar">
-                                <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                <span>
-                                    {{--<button id=expandTable class="btn btn-social btn-success btn-fill" style="margin-right: 0.3em"> <i class="fa fa-eye"></i></button>--}}
-                            </span>
-                            </div>
-
-                            <table id="bootstrap-table2" class="table">
-                                <thead>
-                                <th></th>
-                                <th class="text-center" data-sortable="true" >ID Pengajuan</th>
-                                <th class="text-center" data-sortable="true">Jenis Pengajuan</th>
-                                <th class="text-center" data-sortable="true">Keterangan</th>
-                                <th class="text-center" data-sortable="true">Tgl Pengajuan</th>
-                                <th class="text-center" data-sortable="true">Status</th>
-                                <th class="text-center">Actions</th>
-                                <th></th>
-                                </thead>
-                                <tbody>
-                                @foreach ($data2 as $usr)
-                                    <tr>
-                                        <td></td>
-                                        <td class="text-center">{{ $usr->id }}</td>
-                                        <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
-                                        <td class="text-left">{{ json_decode($usr->detail,true)['keterangan'] }}</td>
-                                        <td class="text-left">{{ $usr->created_at }}</td>
-                                        <td class="text-left">{{ $usr->status }}</td>
-
-                                        <td class="td-actions text-center">
-                                            <div class="row">
-                                                <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr->kategori,0,3)}}Modal" title="View Detail"
-                                                        data-id         = "{{$usr->id}}"
-                                                        data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
-                                                        data-ktp     = "{{ $usr->no_ktp }}"
-                                                        data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
-                                                        data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2)}}"
-                                                        data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
-                                                        @if($usr->jenis_pengajuan =="Perpanjangan Deposito")
-                                                        data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
-                                                        data-atasnama   = "Pribadi"
-                                                        data-saldo    = "{{ number_format(json_decode($usr->detail,true)['saldo'],2)}}"
-                                                        data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
-                                                        @elseif(str_before($usr->kategori,' ')=="Pencairan")
-                                                        data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
-                                                        data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
-                                                        data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
-                                                        data-nobank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                        data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}"
-                                                        data-kategori   = "{{ $usr->kategori}}"
-                                                        @else
-                                                        data-kategori   = "{{ $usr->id_rekening }}"
-                                                        data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
-                                                        data-rek_tab       = "{{ isset(json_decode($usr->detail,true)['id_pencairan'])?json_decode($usr->detail,true)['id_pencairan']:"" }}"
-                                                        data-nisbah       = "{{ json_decode($usr->deposito,true)['nisbah_anggota'] }}"
-                                                        @endif
-
-                                                >
-                                                    <i class="fa fa-list-alt"></i>
-                                                </button>
-                                                @if($usr->status =="Disetujui" || $usr->status =="Sudah Dikonfirmasi")
-                                                @else
-                                                    <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delModal" title="Delete"
-                                                        data-id       = "{{$usr->id}}"
-                                                        data-nama     = "{{$usr->jenis_pengajuan}}">
-                                                    <i class="fa fa-remove"></i>
-                                                </button>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
-
-                        </div><!--  end card  -->
-                    </div> <!-- end col-md-12 -->
-                </div>
-                <!-- end row -->
             </div>
         </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+
+                    <div class="header text-center">
+                        <h4 class="title">Rekening Mudharabah Berjangka </h4>
+                        <p class="category">Berikut ini adalah daftar rekening mudharabah berjangka anda</p>
+                        <br />
+                    </div>
+                    <div class="toolbar">
+                        <!--        Here you can write extra buttons/actions for the toolbar              -->
+                        <span></span>
+                    </div>
+
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                        <th></th>
+                        <th class="text-center" data-sortable="true">ID</th>
+                        <th class="text-center" data-sortable="true">Jenis Mudharabah Berjangka</th>
+                        <th class="text-center" data-sortable="true">Tgl Pembuatan</th>
+                        <th class="text-center" data-sortable="true">Jumlah</th>
+                        <th class="text-center" data-sortable="true">Tgl Tempo</th>
+                        <th class="text-center" data-sortable="true">Status</th>
+                        <th class="text-center">Actions</th>
+                        </thead>
+                        <tbody>
+                        @foreach ($data as $usr)
+                            <tr>
+                                <td></td>
+                                <td class="text-left">{{ $usr->id_deposito }}</td>
+                                <td class="text-left">{{ $usr->jenis_deposito   }}</td>
+                                <td class="text-center">{{ date_format($usr->created_at,'Y-m-d') }}</td>
+                                <td class="text-left">Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2) }}</td>
+                                <td class="text-center">{{ date_format(date_create($usr->tempo),'Y-M-d') }}</td>
+                                <td class="text-center text-uppercase">{{ $usr->status }}</td>
+                                <td class="td-actions text-center">
+                                    <form  method="post" action="{{route('anggota.detail_deposito')}}">
+                                        <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
+                                        {{csrf_field()}}
+                                        <button type="submit" class="btn btn-social @if($usr->status=="blocked" ||$usr->status=="not active")btn-danger @else btn-info @endif  btn-fill" title="Detail"
+                                                data-id      = "{{$usr->no_ktp}}"
+                                                data-nama    = "{{$usr->nama}}" name="id">
+                                            @if($usr->status=="blocked")
+                                                <i class="fa fa-close"></i>
+                                            @elseif($usr->status=="active")
+                                                <i class="fa fa-clipboard-list"></i>
+                                            @elseif($usr->status=="not active")
+                                                <i class="fa fa-minus-square"></i>
+                                            @endif
+                                        </button>
+
+                                        {{--<button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delUsrModal" title="Delete"--}}
+                                                {{--data-id         = "{{$usr->no_ktp}}"--}}
+                                                {{--data-nama       = "{{$usr->nama}}">--}}
+                                            {{--<i class="fa fa-remove"></i>--}}
+                                        {{--</button>--}}
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div>
+        <!-- end row -->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+
+                    <div class="header text-center">
+                        <h4 class="title">Riwayat Mudharabah Berjangka </h4>
+                        <p class="category">Berikut adalah riwayat pengajuan mudharabah berjangka anda</p>
+                        <br />
+                    </div>
+                    <div class="toolbar">
+                        <!--        Here you can write extra buttons/actions for the toolbar              -->
+                        <span>
+                            {{--<button id=expandTable class="btn btn-social btn-success btn-fill" style="margin-right: 0.3em"> <i class="fa fa-eye"></i></button>--}}
+                    </span>
+                    </div>
+
+                    <table id="bootstrap-table2" class="table">
+                        <thead>
+                        <th></th>
+                        <th class="text-center" data-sortable="true" >ID Pengajuan</th>
+                        <th class="text-center" data-sortable="true">Jenis Pengajuan</th>
+                        <th class="text-center" data-sortable="true">Keterangan</th>
+                        <th class="text-center" data-sortable="true">Tgl Pengajuan</th>
+                        <th class="text-center" data-sortable="true">Status</th>
+                        <th class="text-center">Actions</th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        @foreach ($data2 as $usr)
+                            <tr>
+                                <td></td>
+                                <td class="text-center">{{ $usr->id }}</td>
+                                <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
+                                <td class="text-left">{{ json_decode($usr->detail,true)['keterangan'] }}</td>
+                                <td class="text-left">{{ $usr->created_at }}</td>
+                                <td class="text-left">{{ $usr->status }}</td>
+
+                                <td class="td-actions text-center">
+                                    <div class="row">
+                                        <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr->kategori,0,3)}}Modal" title="View Detail"
+                                                data-id         = "{{$usr->id}}"
+                                                data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
+                                                data-ktp     = "{{ $usr->no_ktp }}"
+                                                data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
+                                                data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2)}}"
+                                                data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
+                                                @if($usr->jenis_pengajuan =="Perpanjangan Deposito")
+                                                data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
+                                                data-atasnama   = "Pribadi"
+                                                data-saldo    = "{{ number_format(json_decode($usr->detail,true)['saldo'],2)}}"
+                                                data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
+                                                @elseif(str_before($usr->kategori,' ')=="Pencairan")
+                                                data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
+                                                data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
+                                                data-nobank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
+                                                data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}"
+                                                data-kategori   = "{{ $usr->kategori}}"
+                                                @else
+                                                data-kategori   = "{{ $usr->id_rekening }}"
+                                                data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                data-rek_tab       = "{{ isset(json_decode($usr->detail,true)['id_pencairan'])?json_decode($usr->detail,true)['id_pencairan']:"" }}"
+                                                data-nisbah       = "{{ json_decode($usr->deposito,true)['nisbah_anggota'] }}"
+                                                @endif
+
+                                        >
+                                            <i class="fa fa-list-alt"></i>
+                                        </button>
+                                        @if($usr->status =="Disetujui" || $usr->status =="Sudah Dikonfirmasi")
+                                        @else
+                                            <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delModal" title="Delete"
+                                                data-id       = "{{$usr->id}}"
+                                                data-nama     = "{{$usr->jenis_pengajuan}}">
+                                            <i class="fa fa-remove"></i>
+                                        </button>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div>
+        <!-- end row -->
     </div>
 
     @include('modal.pengajuan')
