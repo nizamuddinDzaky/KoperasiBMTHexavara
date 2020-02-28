@@ -25,66 +25,37 @@
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="home">
                 <div class="row">
+
+                    @foreach($kegiatan as $kegiatan)
+
+                    @php
+                        $dana = json_decode($kegiatan['detail'],true)['dana'];
+                        $tanggal_pelaksanaan = Carbon\Carbon::parse($kegiatan['tanggal_pelaksanaan']);
+                    @endphp
+
                     <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
+                        <div class="panel panel-default event" 
+                            style="
+                                @if(json_decode($kegiatan['detail'], true)['path_poster'] != "") 
+                                    background-image: url({{ asset('storage/file' . json_decode($kegiatan['detail'], true)['path_poster']) }}) 
+                                @else
+                                    background-image: url({{ asset('bmtmudathemes/assets/images/no-image-available.png') }}) 
+                                @endif
+                            ">
                             <div class="panel-body">
                                 <div class="card-title">
                                     <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                                    <p class="event-name">renovasi langgar yusuf</p>
-                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
+                                    <p class="event-name">{{ $kegiatan['nama_kegiatan'] }}</p>
+                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp {{ number_format($dana) }}</p>
                                 </div>
                                 <div class="event-date">
                                     <p class="title">Tanggal pelaksanaan</p>
-                                    <p class="date">Wed, 20 Peb 2020</p>
+                                    <p class="date">{{ $tanggal_pelaksanaan->format('D, d M Y') }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
-                            <div class="panel-body">
-                                <div class="card-title">
-                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                                    <p class="event-name">renovasi langgar yusuf</p>
-                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
-                                </div>
-                                <div class="event-date">
-                                    <p class="title">Tanggal pelaksanaan</p>
-                                    <p class="date">Wed, 20 Peb 2020</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
-                            <div class="panel-body">
-                                <div class="card-title">
-                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                                    <p class="event-name">renovasi langgar yusuf</p>
-                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
-                                </div>
-                                <div class="event-date">
-                                    <p class="title">Tanggal pelaksanaan</p>
-                                    <p class="date">Wed, 20 Peb 2020</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                        <div class="panel panel-default event" style="background-image: url({{ asset('bmtmudathemes/assets/images/palestina.jpg') }})">
-                            <div class="panel-body">
-                                <div class="card-title">
-                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                                    <p class="event-name">renovasi langgar yusuf</p>
-                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp. 300,000,000</p>
-                                </div>
-                                <div class="event-date">
-                                    <p class="title">Tanggal pelaksanaan</p>
-                                    <p class="date">Wed, 20 Peb 2020</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
 
                     
                     <div class="row" style="text-align: right;">
@@ -121,7 +92,7 @@
         </div>
     </div>
     
-    @include('../modal/donasi')
+    {{-- @include('../modal/donasi') --}}
 
 @endsection
 

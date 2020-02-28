@@ -17,27 +17,32 @@
     </style>
 @endsection
 @section('content')
-    <div class="head">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Pembiayaan Nasabah</h4>
+    
+    @if(Request::is('anggota/menu/pembiayaan'))
+        <div class="head">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <h4 class="title">Pembiayaan Nasabah</h4>
 
-                <div class="head-filter">
-                    <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
-                    {{ csrf_field() }}
-                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option disabled selected > - Periode -</option>
-                        </select>
-                    </form>
-                </div>
+                    <div class="head-filter">
+                        <p class="filter-title">Periode</p>
+                        <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                        {{ csrf_field() }}
+                            <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                                <option disabled selected > - Periode -</option>
+                            </select>
+                        </form>
+                    </div>
 
-                <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#angsurPemModal"><i class="fa fa-money-bill-alt"></i> Angsuran Pembiayaan</button>
+                    <div class="button-group right">
+                        <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#angsurPemModal"><i class="fa fa-money-bill-alt"></i> Angsuran Pembiayaan</button>
+                        <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#pelunasanLebihAwalPemModal"><i class="fa fa-money-bill-alt"></i> Pelunasan Lebih Awal</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
     <div class="content">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -223,6 +228,7 @@
     </div>
     @include('modal.pengajuan')
     @include('modal.user_pembiayaan')
+    @include('modal.pembiayaan.pelunasan')
 @endsection
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
@@ -517,6 +523,37 @@
                 }
             });
 
+            var selPelunasan = $('#toHidePelunasan');
+            var selPelunasanBank =$('#toHidePelunasanBank');
+            var selPelunasanBank2 =$('#toHidePelunasanBank2');
+
+            selPelunasan.hide(); selPelunasanBank.hide(); selPelunasanBank2.hide();
+
+            var jenis_pelunasan = $('#debitPelunasan');
+            var bukti = $('#bukti');
+
+            selA.hide(); selA2.hide(); selA3.hide();selA4.hide();selA5.hide();
+            jenis_pelunasan.on('change', function () {
+                if(jenis_pelunasan .val() == 1) {
+                    bukti.attr("required",true);
+                    bank.attr("required",true);
+                    atasnama.attr("required",true);
+                    nobank.attr("required",true);
+                    selPelunasan.show();
+                    selPelunasanBank.show(); selPelunasanBank2.show()
+                }
+                else if (jenis_pelunasan .val() == 0) {
+                    $('#bank').val(0);
+                    bank.attr("required",false);
+                    atasnama.attr("required",false);
+                    nobank.attr("required",false);
+                    bukti.attr("required",false);
+                    selPelunasan.hide();
+                    selPelunasanBank.hide();selArB2.hide();
+                }
+            });
+
+
             $('#bootstrap-table').dataTable({
                 initComplete: function () {
                     $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
@@ -630,8 +667,11 @@
             $("#rekPem").select2({
                 dropdownParent: $("#openPemModal")
             });
-            ;$("#angidRek").select2({
+            $("#angidRek").select2({
                 dropdownParent: $("#angsurPemModal")
+            });
+            $("#pelunasanidRek").select2({
+                dropdownParent: $("#pelunasanLebihAwalPemModal")
             });
 
             lbd.checkFullPageBackgroundImage();
@@ -970,6 +1010,8 @@
             swal("Data disimpan!", "Terima kasih telah melengkapi data diri anda!", "success");
         }
     </script>
+
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/pelunasan.js') }}"></script>
 
 
 @endsection

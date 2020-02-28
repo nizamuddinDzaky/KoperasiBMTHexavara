@@ -90,6 +90,7 @@
          @yield('side-navbar')
         <div class="main-panel">
             @yield('top-navbar')
+            @yield('custom-component')
             @yield('content')
             @yield('footer')
         </div>

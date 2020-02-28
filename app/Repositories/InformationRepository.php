@@ -3888,22 +3888,42 @@ class InformationRepository
             ->orderby('id','DESC')->get();
         return $data;
     }
-    function getAllpengajuanUsr()
+    function getAllpengajuanUsr($limit=null)
     {
-        $data = Pengajuan::select('pengajuan.*', 'users.no_ktp', 'users.nama', 'rekening.detail as deposito')
-            ->join('users', 'users.id', '=', 'pengajuan.id_user')
-            ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
-            ->where('id_user', Auth::user()->id)
-            ->where('kategori', '!=',"Pembiayaan")
-            ->orderby('id','DESC')->get()->toArray();
-        $data2 = Pengajuan::select('pengajuan.*','users.no_ktp', 'users.nama', 'rekening.detail as deposito','penyimpanan_jaminan.transaksi','jaminan.detail as list')
-            ->join('users', 'users.id', '=', 'pengajuan.id_user')
-            ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
-            ->where('pengajuan.id_user', Auth::user()->id)
-            ->Leftjoin('penyimpanan_jaminan', 'penyimpanan_jaminan.id_pengajuan', '=', 'pengajuan.id')
-            ->join('jaminan', 'jaminan.id', '=', 'penyimpanan_jaminan.id_jaminan')
-            ->where('kategori', "Pembiayaan")
-            ->orderby('pengajuan.id','DESC')->get()->toArray();
+        if($limit == null)
+        {
+            $data = Pengajuan::select('pengajuan.*', 'users.no_ktp', 'users.nama', 'rekening.detail as deposito')
+                ->join('users', 'users.id', '=', 'pengajuan.id_user')
+                ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
+                ->where('id_user', Auth::user()->id)
+                ->where('kategori', '!=',"Pembiayaan")
+                ->orderby('created_at','DESC')->get()->toArray();
+            $data2 = Pengajuan::select('pengajuan.*','users.no_ktp', 'users.nama', 'rekening.detail as deposito','penyimpanan_jaminan.transaksi','jaminan.detail as list')
+                ->join('users', 'users.id', '=', 'pengajuan.id_user')
+                ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
+                ->where('pengajuan.id_user', Auth::user()->id)
+                ->Leftjoin('penyimpanan_jaminan', 'penyimpanan_jaminan.id_pengajuan', '=', 'pengajuan.id')
+                ->join('jaminan', 'jaminan.id', '=', 'penyimpanan_jaminan.id_jaminan')
+                ->where('kategori', "Pembiayaan")
+                ->orderby('pengajuan.created_at','DESC')->get()->toArray();
+        }
+        else {
+            $data = Pengajuan::select('pengajuan.*', 'users.no_ktp', 'users.nama', 'rekening.detail as deposito')
+                ->join('users', 'users.id', '=', 'pengajuan.id_user')
+                ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
+                ->where('id_user', Auth::user()->id)
+                ->where('kategori', '!=',"Pembiayaan")
+                ->orderby('created_at','DESC')->take($limit)->get()->toArray();
+            $data2 = Pengajuan::select('pengajuan.*','users.no_ktp', 'users.nama', 'rekening.detail as deposito','penyimpanan_jaminan.transaksi','jaminan.detail as list')
+                ->join('users', 'users.id', '=', 'pengajuan.id_user')
+                ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
+                ->where('pengajuan.id_user', Auth::user()->id)
+                ->Leftjoin('penyimpanan_jaminan', 'penyimpanan_jaminan.id_pengajuan', '=', 'pengajuan.id')
+                ->join('jaminan', 'jaminan.id', '=', 'penyimpanan_jaminan.id_jaminan')
+                ->where('kategori', "Pembiayaan")
+                ->orderby('pengajuan.created_at','DESC')->take($limit)->get()->toArray();
+        }
+
         $i=0;
         foreach ($data2 as $dt2){
             $a =  json_decode($dt2['list'],true);

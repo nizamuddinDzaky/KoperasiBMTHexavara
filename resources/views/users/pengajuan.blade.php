@@ -16,6 +16,12 @@
             font-size: 2vw !important;}
     </style>
 @endsection
+
+@section('custom-component')
+    <!-- Loader component -->
+    @include('components.loader')
+@endsection
+
 @section('content')
     <div class="head">
         <div class="row">
@@ -36,7 +42,7 @@
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal"><i class="fa fa-archive"></i> Buka Tabungan</button>
                     <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#openDepModal"><i class="fa fa-credit-card"></i> Buka Mudharabah Berjangka</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#openPemModal"><i class="fa fa-handshake-o"></i> Buka Pembiayaan</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#openPemModal"><i class="fa fa-close"></i> Tutup Rekening</button>
+                    <button class="btn btn-danger rounded right shadow-effect close-rekening-action"><i class="fa fa-close"></i> Keluar Jadi Anggota</button>
                 </div>
             </div>
         </div>
@@ -202,10 +208,17 @@
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
     </div>
+
+    <!-- For checking pembiyaan to use in penutupan rekening -->
+    @foreach($pembiayaanUser as $pembiayaan)
+        <input type="hidden" id="pembiayaan" value="{{ $pembiayaan->status }}">
+    @endforeach
+
     @include('modal.pengajuan')
     @include('modal.user_tabungan')
     @include('modal.user_deposito')
     @include('modal.user_pembiayaan')
+    @include('modal.tutup_rekening')
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -216,6 +229,8 @@
         {{--url_edit = "{{route('anggota.edit_pengajuan')}}";--}}
         {{--url_delete = "{{route('anggota.delete_pengajuan')}}";--}}
     </script>
+
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/tutup_rekening.js') }}"></script>
 
     {{-- MODAL&DATATABLE --}}
 

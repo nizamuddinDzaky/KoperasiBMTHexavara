@@ -17,6 +17,8 @@
     </style>
 @endsection
 @section('content')
+    
+    @if(Request::is('anggota/menu/deposito'))
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -39,6 +41,8 @@
             </div>
         </div>
     </div>
+    @endif
+
     <div class="content">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">

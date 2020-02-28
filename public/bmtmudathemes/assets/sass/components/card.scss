@@ -114,6 +114,13 @@
     &.dashboard {
 
         padding: 25px;
+        cursor: pointer;
+
+        &.link {
+            &:hover {
+                opacity: 0.6;
+            }
+        }
 
         .card-title {
             font-size: $font-large;
