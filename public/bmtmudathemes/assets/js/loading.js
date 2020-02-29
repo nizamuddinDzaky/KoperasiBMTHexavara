@@ -75,9 +75,7 @@ function readURL(input) {
  * Select 2 loader
 */
 $(document).ready(function() {
-    $(".select2").select2({
-        dropdownParent: $(".modal")
-    });
+    $(".select2").select2();
 });
 
 /** 
