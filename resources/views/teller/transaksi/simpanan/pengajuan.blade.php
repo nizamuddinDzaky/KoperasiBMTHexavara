@@ -28,7 +28,7 @@
 
                 <div class="button-group right">
                     <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-credit-card"></i> Bayar Simpanan Wajib</button>
-                    <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-credit-card"></i> Bayar Simpanan Khusus</button>
+                    <button class="btn btn-danger rounded right shadow-effect"><i class="fa fa-credit-card"></i> Bayar Simpanan Khusus</button>
                 </div>
             </div>
         </div>

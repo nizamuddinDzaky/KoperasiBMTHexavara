@@ -45,9 +45,9 @@
             <div class="card">
 
                 <div class="header text-center">
-                    {{-- <h4 id="titlePrint" class="title"><b>Kas Harian</b> </h4>
-                    <p id="titlePrint2" class="category">Laporan Kas Harian</p>
-                    <br /> --}}
+                    <h4 id="titlePrint" class="title"><b>Saldo Wakaf</b> </h4>
+                    <p id="titlePrint2" class="category">Laporan Saldo Wakaf</p>
+                    <br />
                 </div>
 
                 

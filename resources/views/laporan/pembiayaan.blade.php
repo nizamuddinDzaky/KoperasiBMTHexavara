@@ -46,22 +46,25 @@
                         @elseif(Request::is('admin/laporan/realisasi'))
                         <h4 id="titlePrint" class="title"><b>Realisasi Pembiayaan</b> </h4>
                         <p id="titlePrint2" class="category">Daftar Realisasi Pembiayaan</p>
+                        @elseif(Request::is('teller/laporan/realisasi'))
+                        <h4 id="titlePrint" class="title"><b>Realisasi Pembiayaan</b> </h4>
+                        <p id="titlePrint2" class="category">Daftar Realisasi Pembiayaan</p>
                         @endif
                             <br />
                     </div>
 
                     <table id="bootstrap-table" class="table">
                         <thead>
-                        <th></th>
-                        <th data-sortable="true" class="text-left">ID</th>
-                        <th data-sortable="true" class="text-left">Nasabah</th>
-                        <th data-sortable="true" class="text-left">KTP</th>
-                        <th data-sortable="true">Jenis Pengajuan</th>
-                        <th data-sortable="true">Keterangan</th>
-                        <th data-sortable="true">Jumlah</th>
-                        <th data-sortable="true">Tgl Pengajuan</th>
-                        <th data-sortable="true">Status</th>
-                        <th class="text-center">Actions</th>
+                            <th></th>
+                            <th data-sortable="true" class="text-left">ID</th>
+                            <th data-sortable="true" class="text-left">Nasabah</th>
+                            <th data-sortable="true" class="text-left">KTP</th>
+                            <th data-sortable="true">Jenis Pengajuan</th>
+                            <th data-sortable="true">Keterangan</th>
+                            <th data-sortable="true">Jumlah</th>
+                            <th data-sortable="true">Tgl Pengajuan</th>
+                            <th data-sortable="true">Status</th>
+                            <th class="text-center">Actions</th>
                         </thead>
                         <tbody>
                         @foreach ($data as $usr)

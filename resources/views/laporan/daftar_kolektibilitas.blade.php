@@ -34,9 +34,9 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        {{-- <h4 id="titlePrint" class="title"> Daftar Kolektibilitas</h4>
+                        <h4 id="titlePrint" class="title"> Daftar Kolektibilitas</h4>
                         <p id="titlePrint2" class="category">Daftar Kolektibilitas</p>
-                        <br /> --}}
+                        <br />
                     </div>
 
                     <table id="bootstrap-table" class="table">

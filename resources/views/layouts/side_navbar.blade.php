@@ -18,46 +18,6 @@
     </div>
 
     <div class="sidebar-wrapper">
-
-        {{-- User photo profile section --}}
-        <div class="user">
-			<div class="info">
-				<div class="photo">
-                    @if(Auth::user()->tipe=="admin")
-                    <img src="{{ URL::asset('bootstrap/assets/img/man.svg') }}">
-                    @elseif(json_decode(Auth::user()->pathfile,true)['profile']) != null)
-                    <img src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile'])}}">
-                    @else
-                    <img src="{{ asset('bmtmudathemes/assets/images/no-image-available.png') }}">
-                    @endif
-                </div>
-
-				<a data-toggle="collapse" href="#collapseExample" class="collapsed">
-					<span style="text-transform: capitalize">
-						{{ Auth::user()->nama}}
-                        <b class="caret"></b>
-					</span>
-                </a>
-        
-                <div class="collapse" id="collapseExample">
-                    <ul class="nav">
-                        <li><a @if(Auth::user()->tipe=="admin") href="{{route('profile')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.datadiri')}}" @else href="{{route('datadiri')}}" @endif>
-                                Edit Profile
-                            </a>
-                        </li>
-                        <li>
-                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                            </form>
-                            <a href="#" onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                                Log out
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
                 
         <ul class="nav">
             <li @if(Request::is('admin','admin/dashboard*','teller','teller/dashboard*','anggota','anggota/dashboard*'))class="active"@endif>
@@ -74,6 +34,28 @@
             @elseif(Auth::user()->tipe == "anggota")
                 @include('layouts.partials.sidebar_anggota')
             @endif
+
+            <li class="divider hidden-md hidden-lg"></li>
+
+            <li class="hidden-md hidden-lg @if(Request::is('admin/datadiri*','teller/datadiri*','anggota/datadiri*')) active @endif">
+                <a @if(Auth::user()->tipe=="admin") href="{{route('profile')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.datadiri')}}" @else href="{{route('datadiri')}}" @endif>
+                    <i class="pe-7s-tools"></i> 
+                    <p>Settings</p>
+                </a>
+            </li>
+
+            <li class="hidden-md hidden-lg">
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+                <a href="#" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                    <i class="pe-7s-close-circle"></i>
+                    <p>Log out</p>
+                </a>
+            </li>
+
         </ul>
     </div>
 </div>

@@ -41,9 +41,9 @@
             <div class="card">
 
                 <div class="header text-center">
-                    {{-- <h4 id="titlePrint" class="title"><b>Kas Harian</b> </h4>
+                    <h4 id="titlePrint" class="title"><b>Kas Harian</b> </h4>
                     <p id="titlePrint2" class="category">Laporan Kas Harian</p>
-                    <br /> --}}
+                    <br />
                 </div>
 
                 <table id="bootstrap-table" class="table">

@@ -34,9 +34,9 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        {{-- <h4 class="title"> Tabungan Nasabah</h4>
+                        <h4 class="title"> Tabungan Nasabah</h4>
                         <p class="category">Daftar  Tabungan Nasabah</p>
-                        <br /> --}}
+                        <br />
                     </div>
 
                     <table id="bootstrap-table" class="table">

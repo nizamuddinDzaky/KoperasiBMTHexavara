@@ -14,10 +14,10 @@
 <div class="content">
     <div class="row">
         <div class="col-md-3">
-            <div class="card dashboard" style="height: 160px; background-color: #8892D6">
+            <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
                 <div class="card-body">
                     <span class="card-title card-number-large" id="harta">90,000,000</span>
-                    <p class="card-category" style="margin-bottom:0">Total Dana Dala Kas Anda</p>
+                    <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
                     <span class="card-description">Bersumber dari kas dalam akun teller 1</span>
                     
                     <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card dashboard" style="height: 160px; background-color: #45BBE0">
+            <div class="card dashboard link" style="height: 160px; background-color: #45BBE0">
                 <div class="card-body">
                     <span class="card-title card-number-large">5,750 M</span>
                     <p class="card-category" style="margin-bottom:0">Total Tabungan Nasabah</p>
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card dashboard" style="height: 160px; background-color: #F06292">
+            <div class="card dashboard link" style="height: 160px; background-color: #F06292">
                 <div class="card-body">
                     <span class="card-title card-number-large">90,000,000</span>
                     <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card dashboard" style="height: 160px; background-color: #78C350">
+            <div class="card dashboard link" style="height: 160px; background-color: #78C350">
                 <div class="card-body">
                     <span class="card-title card-number-large">100,000,000</span>
                     <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
@@ -134,67 +134,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-4 col-lg-4">
-            <div class="panel panel-primary card-group">
-                <div class="panel-body card-group">
-                    <table class="table table-striped">
-                        <thead>
-                            <th>No</th>
-                            <th>Nama Kegiantan</th>
-                            <th>Dana Terkumpul</th>
-                            <th>Tanggal Pelaksanaan</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Lorem</td>
-                                <td>30,000,000</td>
-                                <td>14-02-2020</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Lorem</td>
-                                <td>30,000,000</td>
-                                <td>14-02-2020</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Lorem</td>
-                                <td>30,000,000</td>
-                                <td>14-02-2020</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Lorem</td>
-                                <td>30,000,000</td>
-                                <td>14-02-2020</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Lorem</td>
-                                <td>30,000,000</td>
-                                <td>14-02-2020</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Lorem</td>
-                                <td>30,000,000</td>
-                                <td>14-02-2020</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Lorem</td>
-                                <td>30,000,000</td>
-                                <td>14-02-2020</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <span class="panel-group-description">Daftar kegiatan aktif untuk donasi</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-4 col-lg-4">
+        <div class="col-sm-12 col-md-8 col-lg-8">
             <div class="panel panel-primary">
                 <div class="panel-body card-group">
                     <table class="table table-striped">

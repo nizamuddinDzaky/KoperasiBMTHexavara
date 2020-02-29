@@ -105,3 +105,37 @@ $(document).ready(function() {
         $('.opsi-tabungan').addClass('hide');
     });
 });
+
+/** 
+ * Bootstrap table trigger
+*/
+$(document).ready(function() {
+    $('.bootstrap-table').dataTable({
+        initComplete: function () {
+            $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
+            $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
+            $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
+            $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
+        },
+        "processing": true,
+//                "dom": 'lBf<"top">rtip<"clear">',
+        "order": [[ 1, "desc" ]],
+        "scrollX": false,
+        "dom": 'lBfrtip',
+        "buttons": {
+            "dom": {
+                "button": {
+                    "tag": "button",
+                    "className": "waves-effect waves-light btn mrm"
+//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
+                }
+            },
+            "buttons": [
+                'copyHtml5',
+                'print',
+                'excelHtml5',
+//                        'csvHtml5',
+                'pdfHtml5' ]
+        }
+    });
+});

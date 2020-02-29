@@ -427,6 +427,18 @@ canvas {
   color: #FFFFFF;
 }
 
+.navbar .navbar-collapse .nav .dropdown .dropdown-toggle.navbar-image {
+  width: 38px;
+  height: 38px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  margin-right: 5px;
+  margin-top: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .navbar .navbar-nav.hidden-lg .dropdown {
   position: absolute;
   top: 0;
@@ -544,6 +556,42 @@ canvas {
 
 .sidebar .sidebar-wrapper .nav.nav-mobile-menu .dropdown.hidden-sm {
   display: none;
+}
+
+.sidebar .sidebar-wrapper .nav.nav-mobile-menu .dropdown .dropdown-toggle.navbar-image {
+  width: 50px;
+  height: 50px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  margin-right: 5px;
+  margin-top: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sidebar .sidebar-wrapper .nav.nav-mobile-menu .dropdown .navbar-username {
+  text-align: center !important;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar .sidebar-wrapper .nav.nav-mobile-menu .dropdown .navbar-type {
+  text-align: center !important;
+  text-transform: capitalize;
+  font-weight: 400;
+  margin-top: -10px;
+  letter-spacing: 1px;
+}
+
+.sidebar .sidebar-wrapper .nav li.divider {
+  background-color: rgba(255, 255, 255, 0.2);
+  height: 1px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .sidebar:after {
