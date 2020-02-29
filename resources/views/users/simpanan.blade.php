@@ -33,8 +33,8 @@
                 </div>
 
                 <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal"><i class="fa fa-credit-card"></i> Bayar Simpanan Wajib</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#openDepModal"><i class="fa fa-credit-card"></i> Bayar Simpanan Khusus</button>
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#pengajuanSimpananWajib"><i class="fa fa-credit-card"></i> Bayar Simpanan Wajib</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#pengajuanSimpananKhusus"><i class="fa fa-credit-card"></i> Bayar Simpanan Khusus</button>
                 </div>
             </div>
         </div>
@@ -44,13 +44,50 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="ShowTable">
                 
                 {{-- @if(count($data) > 0) --}}
-                {{-- <div class="card"> --}}
+                <div class="card">
 
-                    {{-- <div class="header text-center">
+                    <div class="header text-center">
                         <h4 class="title">Rekening Tabungan </h4>
                         <p class="category">Berikut adalah daftar rekening tabungan anda</p>
                         <br />
-                    </div> --}}
+                    </div>
+
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                            <th></th>
+                            <th class="text-left" data-sortable="true">ID</th>
+                            <th class="text-left" data-sortable="true">Jenis Pembayaran</th>
+                            <th class="text-left" data-sortable="true">Tgl Pengajuan</th>
+                            <th class="text-left" data-sortable="true">Nominal</th>
+                            <th class="text-left" data-sortable="true">Status</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>0001</td>
+                                <td>29 Januari 2020</td>
+                                <td>Simpanan Wajib</td>
+                                <td>Rp. 50,000</td>
+                                <td>Menunggu Konfirmasi</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>0002</td>
+                                <td>29 Januari 2020</td>
+                                <td>Simpanan Khusus</td>
+                                <td>Rp. 10,000</td>
+                                <td>Disetujui</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>0001</td>
+                                <td>29 Januari 2020</td>
+                                <td>Simpanan Wajib</td>
+                                <td>Rp. 50,000</td>
+                                <td>Menunggu Konfirmasi</td>
+                            </tr>
+                        </tbody>
+                    </table> 
                     
                     {{-- <table id="bootstrap-table" class="table">
                         <thead>
@@ -99,14 +136,15 @@
                 <!--  end card  -->
 
                 {{-- @else --}}
-                <div class="header text-center" style="display: flex; flex-direction: column; justify-content: center; height: 400px">
+                {{-- <div class="header text-center" style="display: flex; flex-direction: column; justify-content: center; height: 400px">
                     <h4 class="title">Belum Ada Riwayat Pengajuan Simpanan </h4>
                     <br />
-                </div>
+                </div> --}}
                 {{-- @endif --}}
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
     </div>
 @endsection
 
+@include('modal/simpanan/pengajuan')
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->

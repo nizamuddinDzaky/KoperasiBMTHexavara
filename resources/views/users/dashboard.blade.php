@@ -134,67 +134,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <div class="panel panel-primary card-group">
-                    <div class="panel-body card-group">
-                        <table class="table table-striped">
-                            <thead>
-                                <th>No</th>
-                                <th>Nama Kegiantan</th>
-                                <th>Dana Terkumpul</th>
-                                <th>Tanggal Pelaksanaan</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Lorem</td>
-                                    <td>30,000,000</td>
-                                    <td>14-02-2020</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Lorem</td>
-                                    <td>30,000,000</td>
-                                    <td>14-02-2020</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Lorem</td>
-                                    <td>30,000,000</td>
-                                    <td>14-02-2020</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Lorem</td>
-                                    <td>30,000,000</td>
-                                    <td>14-02-2020</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Lorem</td>
-                                    <td>30,000,000</td>
-                                    <td>14-02-2020</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Lorem</td>
-                                    <td>30,000,000</td>
-                                    <td>14-02-2020</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>Lorem</td>
-                                    <td>30,000,000</td>
-                                    <td>14-02-2020</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <span class="panel-group-description">Daftar kegiatan aktif untuk donasi</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4 col-lg-4">
+            <div class="col-sm-12 col-md-8 col-lg-8">
                 <div class="panel panel-primary">
                     <div class="panel-body card-group">
                         <table class="table table-striped">
@@ -205,6 +145,10 @@
                                 <th>Status</th>
                             </thead>
                             <tbody>
+                                @php
+                                    $no = 1;   
+                                @endphp
+
                                 @foreach($pengajuan as $pengajuan)
 
                                 @php
@@ -212,11 +156,16 @@
                                 @endphp
 
                                 <tr>
-                                    <td>{{ $pengajuan['id'] }}</td>
+                                    <td>{{ $no }}</td>
                                     <td>{{ $pengajuan['jenis_pengajuan'] }}</td>
                                     <td>{{ $created->format('D, d M Y') }}</td>
                                     <td>{{ $pengajuan['status'] }}</td>
                                 </tr>
+
+                                @php
+                                    $no++;
+                                @endphp
+                                
                                 @endforeach
                             </tbody>
                         </table>

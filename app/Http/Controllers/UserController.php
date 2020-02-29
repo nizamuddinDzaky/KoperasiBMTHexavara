@@ -92,7 +92,7 @@ class UserController extends Controller
             'pinjaman' => $sumpin,
             'simwa' => json_decode($user,true)['wajib'],
             'simpok' => json_decode($user,true)['pokok'],
-            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(4)
+            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(7)
         ]);
     }
 

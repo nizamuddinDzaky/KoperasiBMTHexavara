@@ -205,6 +205,7 @@
 
 </script>
 
+@include('layouts/partials/scripts')
 
 @yield('extra_script')
 
