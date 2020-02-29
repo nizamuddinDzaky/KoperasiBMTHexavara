@@ -25,8 +25,10 @@
 				<div class="photo">
                     @if(Auth::user()->tipe=="admin")
                     <img src="{{ URL::asset('bootstrap/assets/img/man.svg') }}">
-                    @else
+                    @elseif(json_decode(Auth::user()->pathfile,true)['profile']) != null)
                     <img src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile'])}}">
+                    @else
+                    <img src="{{ asset('bmtmudathemes/assets/images/no-image-available.png') }}">
                     @endif
                 </div>
 

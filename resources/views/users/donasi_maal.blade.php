@@ -11,93 +11,63 @@
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
-	<div class="content">
-        <div>
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Donasi Kegiatan</h4>
 
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">DONASI KEGIATAN</a></li>
-              <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">ZIS</a></li>
-              <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">WAKAF</a></li>
-            </ul>
-          
-            <!-- Tab panes -->
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="home">
-                <div class="row">
-
-                    @foreach($kegiatan as $kegiatan)
-
-                    @php
-                        $dana = json_decode($kegiatan['detail'],true)['dana'];
-                        $tanggal_pelaksanaan = Carbon\Carbon::parse($kegiatan['tanggal_pelaksanaan']);
-                    @endphp
-
-                    <div class="col-sm-12 col-md-6 col-lg-6" data-toggle="modal" data-target="#donasi">
-                        <div class="panel panel-default event" 
-                            style="
-                                @if(json_decode($kegiatan['detail'], true)['path_poster'] != "") 
-                                    background-image: url({{ asset('storage/file' . json_decode($kegiatan['detail'], true)['path_poster']) }}) 
-                                @else
-                                    background-image: url({{ asset('bmtmudathemes/assets/images/no-image-available.png') }}) 
-                                @endif
-                            ">
-                            <div class="panel-body">
-                                <div class="card-title">
-                                    <p class="event-name" style="font-size: 11px; text-align: left">Nama Kegiatan</p>
-                                    <p class="event-name">{{ $kegiatan['nama_kegiatan'] }}</p>
-                                    <p class="event-name" style="font-size: 11px; text-align: right">Rp {{ number_format($dana) }}</p>
-                                </div>
-                                <div class="event-date">
-                                    <p class="title">Tanggal pelaksanaan</p>
-                                    <p class="date">{{ $tanggal_pelaksanaan->format('D, d M Y') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-
-                    
-                    <div class="row" style="text-align: right;">
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+                <div class="head-filter">
+                    <p class="filter-title">Periode Event</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
                 </div>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="profile">...</div>
-              <div role="tabpanel" class="tab-pane" id="messages">...</div>
-              <div role="tabpanel" class="tab-pane" id="settings">...</div>
+
+                <div class="button-group right">
+                    <div class="button-component"></div>
+                </div>
             </div>
+        </div>
+    </div>
+	<div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#kegiatan" aria-controls="kegiatan" role="tab" data-toggle="tab">DONASI KEGIATAN</a></li>
+                    <li role="presentation"><a href="#zis" aria-controls="zis" role="tab" data-toggle="tab">ZIS</a></li>
+                    <li role="presentation"><a href="#wakaf" aria-controls="wakaf" role="tab" data-toggle="tab">WAKAF</a></li>
+                </ul>
+            </div>
+        </div>
           
-          </div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="kegiatan">
+            @include('users/donasi/kegiatan')
+            </div>
+            <div role="tabpanel" class="tab-pane" id="zis">
+            @include('users/donasi/zis')
+            </div>
+            <div role="tabpanel" class="tab-pane" id="wakaf">
+            @include('users/donasi/wakaf')
+            </div>
         </div>
     </div>
     
-    {{-- @include('../modal/donasi') --}}
+    @include('../modal/donasi/kegiatan')
+    @include('../modal/donasi/zis')
+    @include('../modal/donasi/wakaf')
 
 @endsection
 
 @section('extra_script')
 
+    <!-- Tab selected index -->
+    <script src="{{ asset('bmtmudathemes/assets/js/pages/donasi_maal.js') }}"></script>
 
 	<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 	<script src="{{URL::asset('bootstrap/assets/js/moment.min.js')}}"></script>

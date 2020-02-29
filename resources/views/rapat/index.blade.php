@@ -11,10 +11,27 @@
 
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Daftar Rapat</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Tanggal Berakhir</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Tanggal Berakhir -</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="content">
         <div class="row">
             <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card">
+                <div class="card hover">
                     <div class="card-image">
                         <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
                     </div>
@@ -37,13 +54,12 @@
 
                     <a href="{{ route('rapat.show', [1]) }}">
                         <div class="overlay">
-                            <div class="text">VIEW DETAIL</div>
                         </div>
                     </a>
                 </div>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card">
+                <div class="card hover">
                     <div class="card-image">
                         <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
                     </div>
@@ -66,13 +82,12 @@
 
                     <a href="{{ route('rapat.show', [1]) }}">
                         <div class="overlay">
-                            <div class="text">VIEW DETAIL</div>
                         </div>
                     </a>
                 </div>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card">
+                <div class="card hover">
                     <div class="card-image">
                         <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
                     </div>
@@ -95,13 +110,12 @@
 
                     <a href="{{ route('rapat.show', [1]) }}">
                         <div class="overlay">
-                            <div class="text">VIEW DETAIL</div>
                         </div>
                     </a>
                 </div>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card">
+                <div class="card hover">
                     <div class="card-image">
                         <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
                     </div>
@@ -124,7 +138,6 @@
 
                     <a href="{{ route('rapat.show', [1]) }}">
                         <div class="overlay">
-                            <div class="text">VIEW DETAIL</div>
                         </div>
                     </a>
                 </div>
