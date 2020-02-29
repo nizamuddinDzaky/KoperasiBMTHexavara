@@ -833,6 +833,12 @@ canvas {
   margin-left: 10px;
 }
 
+@media (max-width: 575px) {
+  .head .head-filter {
+    display: none;
+  }
+}
+
 .head .head-noted {
   display: -webkit-box;
   display: -ms-flexbox;
