@@ -11,8 +11,30 @@
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Pengajuan Maal</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode Pengajuan</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                            @foreach($periode as $p)
+                                <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                </div>
+
+                <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-plus"></i> Tambah Pengajuan</button>
+            </div>
+        </div>
+    </div>
+
     <div class="content">
-        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -21,30 +43,6 @@
                             <h4 class="title">Pengajuan Donasi Maal </h4>
                             <p class="category">Daftar Pengajuan Nasabah</p>
                             <br />
-                        </div>
-                        <div class="toolbar">
-                            <div class="row">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-4">
-                                    {{--<h5 class="text-center">Periode Laporan</h5>--}}
-                                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
-                                        {{ csrf_field() }}
-                                        <div align="center">
-                                            <select required  name="periode" class="select pull-center" style="height: 1.9em">
-                                                <option disabled selected > - Periode -</option>
-                                                @foreach($periode as $p)
-                                                    <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
-                                                @endforeach
-                                            </select>
-                                            <button type="submit" class="btn btn-info btn-fill btn-sm"> <i class="pe-7s-search"></i> Search</button>
-
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-4"></div>
-                            </div>
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <span></span>
                         </div>
                         <table id="bootstrap-table" class="table">
                             <thead>
@@ -202,7 +200,6 @@
                     </div><!--  end card  -->
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->
-        </div>
     </div>
     @include('modal.pengajuan')
     @include('modal.user_pembiayaan')
@@ -214,6 +211,7 @@
 <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')
+
     {{-- MODAL&DATATABLE --}}
 
     <!-- Select2 plugin -->

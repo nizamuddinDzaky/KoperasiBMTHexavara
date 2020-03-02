@@ -90,6 +90,7 @@
          @yield('side-navbar')
         <div class="main-panel">
             @yield('top-navbar')
+            @yield('custom-component')
             @yield('content')
             @yield('footer')
         </div>
@@ -133,8 +134,6 @@
 <script src="{{URL::asset('datatables/pdfmake-0.1.32/vfs_fonts.js')}}"></script>
 <script src="{{URL::asset('datatables/buttons-1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{URL::to('maskmoney/src/jquery.maskMoney.js')}}"></script>
-
-@yield('extra_script')
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -205,6 +204,10 @@
 //    ga('send', 'pageview');
 
 </script>
+
+@include('layouts/partials/scripts')
+
+@yield('extra_script')
 
 <!-- Mirrored from demos.creative-tim.com/light-bootstrap-dashboard-pro/examples/tables/bootstrap-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Mar 2017 13:33:44 GMT -->
 </html>

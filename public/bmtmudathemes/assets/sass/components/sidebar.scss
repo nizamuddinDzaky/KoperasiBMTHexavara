@@ -6,8 +6,51 @@
                     &.hidden-sm {
                         display: none;
                     }
+
+                    .dropdown-toggle {
+                        &.navbar-image {
+                            width: 50px;
+                            height: 50px;
+                            background-color: $white;
+                            border-radius: 50%;
+                            margin-right: 5px;
+                            margin-top: 10px;
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                    }
+                    .navbar-username {
+                        text-align: center !important;
+                        margin-top: 10px;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                    }
+                    .navbar-type {
+                        text-align: center !important;
+                        text-transform: capitalize;
+                        font-weight: $font-normal;
+                        margin-top: -10px;
+                        letter-spacing: 1px;
+                    }
+                }
+            }
+
+            li {
+                &.divider {
+                    background-color: rgba(255,255,255,0.2);
+                    height: 1px;
+                    margin-top: 20px;
+                    margin-bottom: 20px;
                 }
             }
         }
+    }
+
+    &:after {
+        background-color: $navbar-background-color !important;
+        background-image: none !important;
     }
 }

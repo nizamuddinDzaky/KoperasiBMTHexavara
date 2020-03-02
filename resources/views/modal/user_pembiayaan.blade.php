@@ -394,7 +394,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Pembiayaan <star>*</star></label>
-                                        <select class="form-control select2" disabled id="aangidRek" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control select2" disabled id="angidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
                                             @foreach ($datasaldoPem as $rekening)
                                                 <option value="{{ $rekening->id_pembiayaan }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }}</option>
@@ -537,4 +537,5 @@
         </div>
     </div>
 </div>
+
 

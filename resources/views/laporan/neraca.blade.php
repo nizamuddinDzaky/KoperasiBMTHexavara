@@ -17,15 +17,78 @@
     </style>
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Neraca Saldo</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                            @foreach($periode as $p)
+                                <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="content">
-        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="card">
 
                         <div class="header text-center">
-                            <h4 id="titlePrint" class="title"><b>Kas Harian</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Kas Harian</p>
+                            <h4 id="titlePrint" class="title"><b>Laporan Neraca</b> </h4>
+                            <p id="titlePrint2" class="category">Laporan Aktiva periode {{$bulan}}</p>
+                            <br />
+                        </div>
+
+                        <table id="bootstrap-table" class="table ">
+                            <thead>
+                            <th class="text-left">ID</th>
+                            <th> Keterangan</th>
+                            <th> Jumlah</th>
+                            </thead>
+                            <tbody>
+                            @foreach ($data as $usr)
+                                <tr>
+                                    <td class="text-left">{{ $usr->id_bmt }}</td>
+                                    <td class="text-left">
+                                        @for ($i=0; $i<($usr->point) ;$i++)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        @endfor
+                                        {{ $usr->nama  }}</td>
+                                    @if($usr->tipe_rekening =="detail")
+                                        @if(number_format(floatval($usr->saldo),2)<0)
+                                            <td class="text-right">({{ number_format( abs(floatval($usr->saldo)),2 )}})</td>
+                                        @else
+                                            <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
+                                        @endif
+                                    @else <td></td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td></td>
+                                <td class="text-center text-uppercase"><h5><b>JUMLAH AKTIVA</b>  </h5></td>
+                                <td class="text-right"><b>{{number_format($aktiva,2)}}</b></td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div><!--  end card  -->
+                    <div class="card">
+
+                        <div class="header text-center">
+                            <h4  id="titlePrint3" class="title"><b>Laporan Neraca</b> </h4>
+                            <p  id="titlePrint4" class="category">Laporan Kewajiban dan Modal periode {{$bulan}}</p>
                             <br />
                         </div>
                         <div class="toolbar">
@@ -33,83 +96,39 @@
                             <span></span>
                         </div>
 
-                        <table id="bootstrap-table" class="table">
+                        <table id="bootstrap-table2" class="table ">
                             <thead>
-                            <th >ID</th>
-                            <th >ID Rekening</th>
-                            <th >Teller</th>
-                            <th >Tgl Transaksi</th>
-                            <th>Keterangan</th>
-
-                            <th >Debit(Pengeluaran)</th>
-                            <th >Kredit(Pemasukkan)</th>
-                            <th >jumlah</th>
+                            <th class="text-left">ID</th>
+                            <th> Keterangan</th>
+                            <th> Jumlah</th>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-
-                                @if(Auth::user()->tipe=="admin")
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                @else
-
-                                    <td class="text-center text-uppercase"><strong>Saldo Awal</strong></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-right"> {{number_format($saldo,2) }}</td>
-                                @endif
-                            </tr>
-                            @foreach ($data as $usr)
+                            @foreach ($data2 as $usr)
                                 <tr>
-                                    <td class="text-left">{{ $loop->iteration }}</td>
-                                    @if(Auth::user()->tipe=="admin")
-                                        <td></td>
-                                        <td class="text-uppercase">{{ $usr['teller'] }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right"> {{number_format($usr['saldo'],2) }}</td>
-                                    @else
-
-                                        <td class="text-uppercase">{{ $usr->idrek }} {{ $usr->nama }}</td>
-                                        <td >{{ $usr->no_ktp }}</td>
-                                        <td class="text-center">{{$usr->created_at }}</td>
-                                        <td class="text-center text-uppercase">{{ $usr->user }}</td>
-
-                                        @if(json_decode($usr->transaksi,true)['jumlah']>=0)
-                                            <td class="text-right"></td>
-                                            <td class="text-right"> {{number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                        @elseif(json_decode($usr->transaksi,true)['jumlah']<0)
-                                            <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['jumlah']),2) }}</td>
-                                            <td class="text-right"></td>
+                                    <td class="text-left">{{ $usr['id_bmt'] }}</td>
+                                    <td class="text-left">
+                                        @for ($i=0; $i<($usr['point']) ;$i++)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        @endfor
+                                        {{ $usr['nama']  }}</td>
+                                    @if($usr['tipe_rekening'] =="detail")
+                                        @if(number_format(floatval($usr['saldo']),2)<0)
+                                            <td class="text-right">({{ number_format( abs(floatval($usr['saldo'])),2 )}})</td>
+                                        @else
+                                            <td class="text-right">{{number_format(floatval($usr['saldo']),2) }}</td>
                                         @endif
-                                        <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['saldo_akhir']),2) }}</td>
+                                    @else <td></td>
                                     @endif
                                 </tr>
                             @endforeach
                             <tr>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center text-uppercase"><strong>TOTAL</strong></td>
-
-                                <td class="text-right"><strong> {{number_format(abs($min),2) }}</strong></td>
-                                <td class="text-right"><strong> {{number_format($plus,2) }}</strong></td>
-                                @if(Auth::user()->tipe=="admin")
-                                    <td class="text-right"><strong> {{number_format($saldo,2) }}</strong></td>
-                                @else
-                                    <td></td>
-                                @endif
+                                <td class="text-center text-uppercase"><h5><b>TOTAL KEWAJIBAN DAN MODAL</b>  </h5></td>
+                                <td class="text-right"><b>{{number_format($pasiva,2)}}</b></td>
                             </tr>
+
                             </tbody>
+
                         </table>
 
                     </div><!--  end card  -->
@@ -157,16 +176,20 @@
                     $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
                     $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
                 },
+
+
                 "processing": true,
-                // "dom": 'lBf<"top">rtp<"clear">',
-                "order": [], "paging": false,
+//                "dom": 'lBf<"top">rtip<"clear">',
+                "order": [],
                 "scrollX": false,
-                "dom": 'lBfrtip',
+                "dom": 'lBfrtp',
+                "paging": false,
                 "buttons": {
                     "dom": {
                         "button": {
                             "tag": "button",
                             "className": "waves-effect waves-light btn mrm"
+//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
                         }
                     },
                     "buttons": [
@@ -196,6 +219,79 @@
                     ]
                 }
             });
+            $('#bootstrap-table2').dataTable({
+                initComplete: function () {
+                    $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
+                    $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
+                    $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
+                    $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
+                },
+                "processing": true,
+//                "dom": 'lBf<"top">rtip<"clear">',
+                "order": [],
+                "scrollX": false,
+                "dom": 'lBfrtp',
+                "paging": false,
+                "buttons": {
+                    "dom": {
+                        "button": {
+                            "tag": "button",
+                            "className": "waves-effect waves-light btn mrm"
+//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
+                        }
+                    },
+                    "buttons": [
+                        {
+                            extend: 'print',
+                            title: function () { return  $('#titlePrint2').text()+"\n"+$('#titlePrint2').text(); },
+                        },
+
+                        'copyHtml5',
+                        {
+                            extend: 'excelHtml5',
+                            messageTop: function () { return  $('#titlePrint3').text(); },
+                            messageTop: function () { return  $('#titlePrint4').text(); },
+                        },
+                        {
+                            extend:'pdfHtml5',
+                            title: function () { return  $('#titlePrint3').text()+"\n"+$('#titlePrint4').text(); },
+                            customize: function(doc) {
+                                doc.defaultStyle.fontSize = 7;
+                                doc.styles.title = {
+                                    fontSize: '11',
+                                    alignment: 'center'
+                                };
+                                doc.content.layout='Border';
+                            }
+                        }]
+                }
+            });
+//            $table.bootstrapTable({
+//                pagination: true,
+//                searchAlign: 'left',
+//                pageSize: 100,
+//
+//                formatShowingRows: function(pageFrom, pageTo, totalRows){
+//                    //do nothing here, we don't want to show the text "showing x of y from..."
+//                },
+//                formatRecordsPerPage: function(pageNumber){
+//                    return pageNumber + " rows visible";
+//                },
+//                icons: {
+//                    refresh: 'fa fa-refresh',
+//                    toggle: 'fa fa-th-list',
+//                    columns: 'fa fa-columns',
+//                    detailOpen: 'fa fa-plus-circle',
+//                    detailClose: 'fa fa-minus-circle'
+//                }
+//            });
+
+//            //activate the tooltips after the data table is initialized
+//            $('[rel="tooltip"]').tooltip();
+//
+//            $(window).resize(function () {
+//                $table.bootstrapTable('resetView');
+//            });
 
 
         });
@@ -283,7 +379,7 @@
             },
         }
     </script>
-    {{--end of MODAL&DATATABLE --}}
+     {{--end of MODAL&DATATABLE --}}
 
 
     <script src="{{URL::asset('bootstrap/assets/js/moment.min.js')}}"></script>

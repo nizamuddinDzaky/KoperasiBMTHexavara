@@ -1,0 +1,40 @@
+.nav {
+    &.nav-tabs {
+        border: none;
+        margin-bottom: 20px;
+
+        @include respond-below(sm) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top:10px;
+            margin-bottom: 10px;
+        }
+
+        li {
+            margin-right: 10px;
+
+            &.active {
+                a {
+                    background-color: $navbar-background-color;
+                    color: $white;
+                    border: none;
+                    font-weight: $font-bold;
+                    &:hover {
+                        border: none;
+                    }
+                }
+            }
+
+            a {
+                background-color: transparent;
+                color: $black;
+                border: none;
+                border-radius: 100px;
+                padding: 10px 20px;
+                letter-spacing: 1px;
+            }
+        }
+    }
+}

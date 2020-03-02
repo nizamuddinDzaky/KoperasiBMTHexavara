@@ -19,8 +19,7 @@
             <li @if(Request::is('anggota/menu/tabungan*'))class="active"@endif><a href="{{route('tabungan_anggota')}}">Tabungan</a></li>
             <li @if(Request::is('anggota/menu/deposito*'))class="active"@endif><a href="{{route('deposito_anggota')}}">Mudharabah Berjangka</a></li>
             <li @if(Request::is('anggota/menu/pembiayaan*'))class="active"@endif><a href="{{route('pembiayaan_anggota')}}">Pembiayaan</a></li>
-            <li><a href="#">Simpanan Wajib</a></li>
-            <li><a href="#">Simpanan Khusus</a></li>
+            <li @if(Request::is('anggota/menu/simpanan*'))class="active"@endif><a href="{{route('anggota.menu.simpanan')}}">Simpanan Anggota</a></li>
         </ul>
     </div>
 </li>

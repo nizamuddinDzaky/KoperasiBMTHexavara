@@ -1,0 +1,254 @@
+TABUNGAN
+
+{{-- <div class="col-md-3" id="HideOptions">
+            {{-- <div class="row-md-4">
+                <div class="col-md-12">
+                    <div class="card card-wizard" style="">
+                        <form id="wizardForm" method="" action="#">
+                            <div class="header text-center">
+                            <span class="fa-stack fa-3x">
+                                <i class="fas fa-square fa-stack-2x" style="color:darkcyan"></i>
+                                <i class="fas fa-archive fa-stack-1x fa-inverse"></i>
+                            </span>
+                                <h3 class="title">Tabungan</h3>
+                                <p class="category">Pengajuan Pembukaan Tabungan</p>
+                            </div>
+
+                            <div class="footer">
+                                <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openTabModal">Buka Tabungan</button>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div> --}}
+            {{--<div class="row-md-4">--}}
+                {{--<div class="col-md-12">--}}
+                    {{--<div class="card card-wizard " style="">--}}
+                        {{--<form id="wizardForm" method="" action="#">--}}
+                            {{--<div class="header text-center">--}}
+                                {{--<span class="fa-stack fa-3x">--}}
+                                    {{--<i class="fas fa-square fa-stack-2x" style="color:darkgoldenrod"></i>--}}
+                                    {{--<i class="fas fa-bank fa-stack-1x fa-inverse"></i>--}}
+                                {{--</span>--}}
+                                {{--<h3 class="title">Simpanan Wajib</h3>--}}
+                                {{--<p class="category">Bayar Simpanan Wajib </p>--}}
+                            {{--</div>--}}
+
+                            {{--<div class="footer">--}}
+                                {{--<button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#simpWajibModal">Bayar Simpanan </button>--}}
+                                {{--<div class="clearfix"></div>--}}
+                            {{--</div>--}}
+                        {{--</form>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            <div class="row-md-4">
+                <div class="col-md-12">
+                    <div class="card card-wizard " style="">
+                        <form id="wizardForm" method="" action="#">
+                            <div class="header text-center">
+                            <span class="fa-stack fa-3x">
+                                <i class="fas fa-square fa-stack-2x" style="color:darkred   "></i>
+                                <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
+                            </span>
+                                <h3 class="title">Setor</h3>
+                                <p class="category">Setor Tunai/Transfer </p>
+                            </div>
+
+                            <div class="footer">
+                                <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#kreditTabModal">Setor</button>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row-md-4">
+                <div class="col-md-12">
+                    <div class="card card-wizard " style="">
+                        <form id="wizardForm" method="" action="#">
+                            <div class="header text-center">
+                            <span class="fa-stack fa-3x">
+                                <i class="fas fa-square fa-stack-2x" style="color:darkblue   "></i>
+                                <i class="fas fa-sign-out-alt  fa-stack-1x fa-inverse"></i>
+                            </span>
+                                <h3 class="title">Tarik</h3>
+                                <p class="category">Tarik Tunai/Transfer </p>
+                            </div>
+
+                            <div class="footer">
+                                <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#debitTabModal">Tarik</button>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {{--<div class="row-md-4">--}}
+                {{--<div class="col-md-12">--}}
+                    {{--<div class="card card-wizard " style="">--}}
+                        {{--<form id="wizardForm" method="" action="#">--}}
+                            {{--<div class="header text-center">--}}
+                            {{--<span class="fa-stack fa-3x">--}}
+                                {{--<i class="fas fa-square fa-stack-2x" style="color:darkred   "></i>--}}
+                                {{--<i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>--}}
+                            {{--</span>--}}
+                                {{--<h3 class="title">Transfer</h3>--}}
+                                {{--<p class="category">Transfer antar Rekening Nasabah </p>--}}
+                            {{--</div>--}}
+
+                            {{--<div class="footer">--}}
+                                {{--<button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#transferTabModal">Transfer</button>--}}
+                                {{--<div class="clearfix"></div>--}}
+                            {{--</div>--}}
+                        {{--</form>--}}
+
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        </div> --}}
+
+        
+                    <div class="toolbar">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <form action="{{route('detail.simpanan_wajibpokok')}}" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="id_" value="{{$data[0]['id_user']}}">
+                                    <button type="submit" class="btn btn-primary btn-fill" style="margin-bottom:1em;margin-left:1em"  title="Simpanan Wajib Pokok">Simpanan Wajib Pokok
+                                        {{--<i class="pe-7s-add-user"></i>--}}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <!--        Here you can write extra buttons/actions for the toolbar              -->
+                        <span>
+                        </span>
+                    </div>
+
+ DEPOSITO
+ 
+            <div class="col-md-3">
+                {{-- <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-wizard" style="">
+                            <form id="wizardForm" method="" action="#">
+                                <div class="header text-center">
+                                   <span class="fa-stack fa-3x">
+                                        <i class="fas fa-square fa-stack-2x" style="color:darkslateblue"></i>
+                                        <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                    <h3 class="title">Pembukaan</h3>
+                                    <p class="category">Pengajuan Pembukaan Mudharabah Berjangka </p>
+                                </div>
+
+                                <div class="footer">
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Pembukaan</button>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div> --}}
+                {{-- <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-wizard " style="">
+                            <form id="wizardForm" method="" action="#">
+                                <div class="header text-center">
+                                <span class="fa-stack fa-3x">
+                                    <i class="fas fa-square fa-stack-2x" style="color:darkorange"></i>
+                                    <i class="fas fa-external-link-alt fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    <h3 class="title">Perpanjangan</h3>
+                                    <p class="category">Perpanjangan Mudharabah Berjangka</p>
+                                </div>
+
+                                <div class="footer">
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block"
+                                            data-toggle="modal"
+                                            data-target="#extendDepModal">Perpanjangan</button>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-wizard " style="">
+                            <form id="wizardForm" method="" action="#">
+                                <div class="header text-center">
+                                <span class="fa-stack fa-3x">
+                                    <i class="fas fa-square fa-stack-2x" style="color:darkgoldenrod"></i>
+                                    <i class="fas fa-donate fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    <h3 class="title">Pencairan</h3>
+                                    <p class="category">Pencairan Mudharabah Berjangka</p>
+                                </div>
+
+                                <div class="footer">
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block"  data-toggle="modal" data-target="#withdrawDepModal">Pencairan</button>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div> --}}
+            </div>
+
+ PEMBIAYAAN
+ @if ($errors->any())
+                <ul>{!! implode('', $errors->all('<li style="color:red">:message</li>')) !!}</ul>
+            @endif
+            <div class="col-md-3">
+                {{-- <div class="row-md-6">
+                    <div class="col-md-12">
+                        <div class="card card-wizard" style="">
+                            <form id="wizardForm" method="" action="#">
+                                <div class="header text-center">
+                                <span class="fa-stack fa-3x">
+                                    <i class="fas fa-square fa-stack-2x" style="color:darksalmon"></i>
+                                    <i class="fas fa-handshake-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    <h3 class="title">Pembiayaan</h3>
+                                    <p class="category">Pengajuan Permohonan Pembiayaan </p>
+                                </div>
+
+                                <div class="footer">
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openPemModal">Ajukan Pembiayaan</button>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div> --}}
+                <div class="row-md-6">
+                    <div class="col-md-12">
+                        <div class="card card-wizard " style="">
+                            <form id="wizardForm" method="" action="#">
+                                <div class="header text-center">
+                                <span class="fa-stack fa-3x">
+                                    <i class="fas fa-square fa-stack-2x" style="color:darkslategrey"></i>
+                                    <i class="fas fa-money-bill-alt fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    <h3 class="title">Angsuran</h3>
+                                    <p class="category">Pembayaran Angsuran</p>
+                                </div>
+
+                                <div class="footer">
+                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#angsurPemModal">Angsur</button>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>

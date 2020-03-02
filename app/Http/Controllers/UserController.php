@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Rekening;
 use Illuminate\Support\Facades\Input;
 use \Validator;
+use App\Repositories\PembiayaanReporsitory;
+use App\Repositories\SimpananReporsitory;
+
 class UserController extends Controller
 {
     /**
@@ -29,7 +32,10 @@ class UserController extends Controller
                                 Pembiayaan $pembiayaan,
                                 Deposito $deposito,
                                 Pengajuan $pengajuan,
-                                InformationRepository $informationRepository)
+                                InformationRepository $informationRepository,
+                                PembiayaanReporsitory $pembiayaanReporsitory,
+                                SimpananReporsitory $simpananReporsitory
+                                )
     {
         $this->middleware(function ($request, $next) {
 
@@ -49,6 +55,8 @@ class UserController extends Controller
         $this->pembiayaan = $pembiayaan;
         $this->pengajuan = $pengajuan;
         $this->informationRepository = $informationRepository;
+        $this->pembiayaanReporsitory = $pembiayaanReporsitory;
+        $this->simpananReporsitory = $simpananReporsitory;
     }
 
     /**
@@ -84,6 +92,7 @@ class UserController extends Controller
             'pinjaman' => $sumpin,
             'simwa' => json_decode($user,true)['wajib'],
             'simpok' => json_decode($user,true)['pokok'],
+            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(7)
         ]);
     }
 
@@ -169,6 +178,8 @@ class UserController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+
+            'pembiayaanUser' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser()
         ]);
     }
 
@@ -609,7 +620,7 @@ class UserController extends Controller
 //    MAAL
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
-
+        // return response()->json($this->informationRepository->getAllMaal());
         return view('users.donasi_maal',[
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'dropdown' => $dr,
@@ -665,6 +676,54 @@ class UserController extends Controller
     public function transaksi_maal(){
         return view('admin.maal.transaksi',[
             'data' =>$this->informationRepository->getAllPenyimpananMaalUsr(),
+        ]);
+    }
+
+    /** 
+     * Harta view controller
+     * @return View
+    */
+    public function harta() {
+        $simpananWajibAndPokok = $this->simpananReporsitory->getSimwaAndSimpok();
+        return view('users.dashboard.harta', [
+            "simwaAndSimpok" => $simpananWajibAndPokok
+        ]);
+    }
+
+
+    /** 
+     * Detail simpanan wajib controller
+     * @return View
+    */
+    public function simpanan_wajib(Request $request) {
+        return view('users.harta.simpanan_wajib');
+    }
+
+    /** 
+     * Detail simpanan pokok controller
+     * @return View
+    */
+    public function simpanan_pokok(Request $request) {
+        return view('users.harta.simpanan_pokok');
+    }
+    
+    /** 
+     * Riwayat simpanan khusus controller
+     * @return View
+    */
+    public function simpanan_khusus(Request $request) {
+        return view('users.harta.simpanan_khusus');
+    }
+
+    /** 
+     * Simpanan anggota controller
+     * @return View
+    */
+    public function simpanan()
+    {
+        $simpanan = $this->simpananReporsitory->getUserPengajuanSimpanan();
+        return view('users.simpanan', [
+            'data' => $simpanan
         ]);
     }
 }

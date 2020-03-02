@@ -11,77 +11,88 @@
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Mudharabah Berjangka Nasabah</h4>
 
-                        <div class="header text-center">
-                            <h4 class="title"> Mudharabah Berjangka Nasabah</h4>
-                            <p class="category">Daftar  Mudharabah Berjangka Nasabah</p>
-                            <br />
-                        </div>
-                        <div class="toolbar">
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                          <span></span>
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option selected disabled>- Periode -</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+
+                    <div class="header text-center">
+                        <h4 class="title"> Mudharabah Berjangka Nasabah</h4>
+                        <p class="category">Daftar  Mudharabah Berjangka Nasabah</p>
+                        <br />
                     </div>
 
-                        <table id="bootstrap-table" class="table">
-                            <thead>
-                            <th></th>
-                            <th data-sortable="true" class="text-left">ID MDB</th>
-                            <th data-sortable="true">Jenis MDB</th>
-                            <th data-sortable="true">Nama Nasabah</th>
-                            <th data-sortable="true">Saldo</th>
-                            <th data-sortable="true">Tgl Pembuatan</th>
-                            <th data-sortable="true">Status</th>
-                            <th>Actions</th>
-                            </thead>
-                            <tbody>
-                            @foreach ($data as $usr)
-                                <tr>
-                                    <td></td>
-                                    <td>{{ $usr->id_deposito }}</td>
-                                    <td>{{ $usr->jenis_deposito  }}</td>
-                                    <td>{{ $usr->nama   }}</td>
-                                    <td>Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2)  }}</td>
-                                    <td>{{ $usr->created_at }}</td>
-                                    <td class="text-uppercase text-center">{{ $usr->status   }}</td>
-                                    <td class="td-actions text-center">
-                                        <form  method="post" action="{{route('teller.detail_deposito')}}">
-                                            <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
-                                            {{csrf_field()}}
-                                            <button type="submit" class="btn btn-social btn-info btn-fill" title="Detail"
-                                                    data-id      = "{{$usr->no_ktp}}"
-                                                    data-nama    = "{{$usr->nama}}" name="id">
-                                                <i class="fa fa-clipboard-list"></i>
-                                            </button>
-                                            <button type="button"  class="btn btn-social btn-fill @if($usr->status=="active") btn-danger" title="Blokir Rekening"
-                                                    @elseif($usr->status=="blocked") btn-success title="Activasi Rekening"  @endif
-                                                    @if($usr->status!="not active")data-toggle="modal" data-target="#blockRekModal" @else title="Rekening Tidak Aktif" @endif
-                                                    data-id         = "{{$usr->id}}"
-                                                    data-nama       = "{{$usr->jenis_deposito}}"
-                                                    data-status       = "{{$usr->status}}">
-                                                @if($usr->status=="active")
-                                                    <i class="fa fa-remove"></i>
-                                                @elseif($usr->status=="blocked")
-                                                    <i class="fa fa-check-square"></i>
-                                                @elseif($usr->status=="not active")
-                                                    <i class="fa fa-minus-square"></i>
-                                                @endif
-                                            </button>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                        <th></th>
+                        <th data-sortable="true" class="text-left">ID MDB</th>
+                        <th data-sortable="true">Jenis MDB</th>
+                        <th data-sortable="true">Nama Nasabah</th>
+                        <th data-sortable="true">Saldo</th>
+                        <th data-sortable="true">Tgl Pembuatan</th>
+                        <th data-sortable="true">Status</th>
+                        <th>Actions</th>
+                        </thead>
+                        <tbody>
+                        @foreach ($data as $usr)
+                            <tr>
+                                <td></td>
+                                <td>{{ $usr->id_deposito }}</td>
+                                <td>{{ $usr->jenis_deposito  }}</td>
+                                <td>{{ $usr->nama   }}</td>
+                                <td>Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2)  }}</td>
+                                <td>{{ $usr->created_at }}</td>
+                                <td class="text-uppercase text-center">{{ $usr->status   }}</td>
+                                <td class="td-actions text-center">
+                                    <form  method="post" action="{{route('teller.detail_deposito')}}">
+                                        <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
+                                        {{csrf_field()}}
+                                        <button type="submit" class="btn btn-social btn-info btn-fill" title="Detail"
+                                                data-id      = "{{$usr->no_ktp}}"
+                                                data-nama    = "{{$usr->nama}}" name="id">
+                                            <i class="fa fa-clipboard-list"></i>
+                                        </button>
+                                        <button type="button"  class="btn btn-social btn-fill @if($usr->status=="active") btn-danger" title="Blokir Rekening"
+                                                @elseif($usr->status=="blocked") btn-success title="Activasi Rekening"  @endif
+                                                @if($usr->status!="not active")data-toggle="modal" data-target="#blockRekModal" @else title="Rekening Tidak Aktif" @endif
+                                                data-id         = "{{$usr->id}}"
+                                                data-nama       = "{{$usr->jenis_deposito}}"
+                                                data-status       = "{{$usr->status}}">
+                                            @if($usr->status=="active")
+                                                <i class="fa fa-remove"></i>
+                                            @elseif($usr->status=="blocked")
+                                                <i class="fa fa-check-square"></i>
+                                            @elseif($usr->status=="not active")
+                                                <i class="fa fa-minus-square"></i>
+                                            @endif
+                                        </button>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
 
-                    </div><!--  end card  -->
-                </div> <!-- end col-md-12 -->
-            </div> <!-- end row -->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
         </div>
     </div>
     @include('modal.pengajuan')

@@ -13,6 +13,7 @@
 
 Route::get('/', function () {
     return view('home_page');
+    // return view('components/loader');
 });
 
 
@@ -628,6 +629,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'as'        => 'teller.un_block.rekening',
         'uses'      => 'TellerController@un_block_rekening'
     ]);
+
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {
             Route::get('/', [
@@ -645,7 +647,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         //Transaksi MENU ADMIN
         Route::get('/transfer', [
             'as' => 'teller.transaksi.transfer',
-            'uses' => 'AdminController@transfer'
+            'uses' => 'TellerController@transfer'
         ]);
         Route::post('/transfer', [
             'as' => 'teller.transfer',
@@ -739,8 +741,14 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         //Transaksi Mall
         Route::get('/maal', [
             'as' => 'teller.pengajuan_maal',
-            'uses' => 'AdminController@pengajuan_maal'
+            'uses' => 'TellerController@pengajuan_maal'
         ]);
+
+        Route::get('/pengajuan_simpanan', [
+            'as' => 'teller.transaksi.pengajuan_simpanan',
+            'uses' => 'TellerController@pengajuan_simpanan'
+        ]);
+
         Route::post('/konfirmasi_donasi', [
             'as' => 'teller.konfirmasi.donasimaal',
             'uses' => 'MaalController@konfirmasi_donasi'
@@ -902,7 +910,18 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'        => 'labarugi',
             'uses'      => 'LaporanController@labarugi'
         ]);
-    
+        Route::get('/saldo_zis', [
+        'as'        => 'teller.saldo.zis',
+            'uses'      => 'LaporanController@saldo_zis'
+        ]);
+        Route::get('/saldo_donasi', [
+            'as'        => 'teller.saldo.donasi',
+            'uses'      => 'LaporanController@saldo_donasi'
+        ]);
+        Route::get('/saldo_wakaf', [
+            'as'        => 'teller.saldo.wakaf',
+            'uses'      => 'LaporanController@saldo_wakaf'
+        ]);
     });
     //    MAAL
     Route::group(['prefix' => 'maal', 'middleware' => ['auth']], function () {
@@ -967,6 +986,40 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
         'uses'      => 'UserController@donasimaal'
     ]);
 
+    
+    Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
+        Route::get('harta', [
+            'as'    => 'anggota.dashboard.harta',
+            'uses'  => 'UserController@harta'
+        ]);
+        Route::get('tabungan', [
+            'as'    => 'anggota.dashboard.tabungan',
+            'uses'  => 'UserController@tabungan'
+        ]);
+        Route::get('deposito', [
+            'as'    => 'anggota.dashboard.deposito',
+            'uses'  => 'UserController@deposito'
+        ]);
+        Route::get('pembiayaan', [
+            'as'    => 'anggota.dashboard.pembiayaan',
+            'uses'  => 'UserController@pembiayaan'
+        ]);
+    });
+
+    Route::group(['prefix' => 'harta', 'middleware' => ['auth']], function() {
+        Route::get('simpanan_wajib/{id}', [
+            'as'    => 'anggota.harta.simpanan_wajib',
+            'uses'  => 'UserController@simpanan_wajib'
+        ]);
+        Route::get('simpanan_pokok/{id}', [
+            'as'    => 'anggota.harta.simpanan_pokok',
+            'uses'  => 'UserController@simpanan_pokok'
+        ]);
+        Route::get('simpanan_khusus/{id}', [
+            'as'    => 'anggota.harta.simpanan_khusus',
+            'uses'  => 'UserController@simpanan_khusus'
+        ]);
+    });
 
     Route::group(['prefix' => 'detail', 'middleware' => ['auth']], function () {
         Route::post('/tabungan', [
@@ -1047,6 +1100,13 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
             Route::post('/angsur', [
                 'as'        => 'anggota.angsur_pembiayaan',
                 'uses'      => 'UserController@angsur_pembiayaan'
+            ]);
+        });
+
+        Route::group(['prefix' => 'simpanan', 'middleware' => ['auth']], function() {
+            Route::get('/', [
+                'as'    => 'anggota.menu.simpanan',
+                'uses'  => 'UserController@simpanan'
             ]);
         });
     });
