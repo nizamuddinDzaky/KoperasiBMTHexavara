@@ -3,6 +3,15 @@
         border: none;
         margin-bottom: 20px;
 
+        @include respond-below(sm) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top:10px;
+            margin-bottom: 10px;
+        }
+
         li {
             margin-right: 10px;
 

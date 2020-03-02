@@ -12,6 +12,10 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;;
+
+            @include respond-below(sm) {
+                height: auto;
+            }
         }
     }
 
@@ -21,6 +25,10 @@
             height: 200px;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
+
+            @include respond-below(sm) {
+                height: auto;
+            }
         }
     }
     .card-body {
@@ -161,9 +169,17 @@
         flex-direction: row;
         justify-content: flex-start;
 
+        @include respond-below(sm) {
+            flex-direction: column;
+        }
+
         .side {
             width: 100%;
             height: auto;
+
+            @include respond-below(sm) {
+                height: 200px;
+            }
 
             &.background-image {
                 background-size: cover;
@@ -177,6 +193,11 @@
             padding: 20px;
             padding-top: 100px;
             width: 130%;
+
+            @include respond-below(sm) {
+                width: 100%;
+                padding-top: 20px;
+            }
 
             .title {
                 &.large {
@@ -194,6 +215,12 @@
                 position: absolute;
                 left: 10vw;
                 margin-top: -50px;
+
+                @include respond-below(sm) {
+                    position: relative;
+                    margin-top: 0;
+                    left: 0;
+                }
             }
         }
     }

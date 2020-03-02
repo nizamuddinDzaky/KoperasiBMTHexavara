@@ -1,11 +1,23 @@
 .button-group {
     display: flex;
+    flex-direction: row;
     &.right {
         justify-content: flex-end;
         position: absolute;
         top: 2vw;
         right: 10px;
+        
+        @include respond-below(sm) {
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+
+            button {
+                margin: 10px;
+            }
+        }
     }
+
 }
 
 .btn {

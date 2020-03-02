@@ -1,0 +1,14 @@
+.dataTables_wrapper {
+
+    @include respond-below(sm) {
+        overflow: auto;
+
+        .dt-buttons {
+            margin: 10px;
+
+            button {
+                margin: 10px;
+            }
+        }
+    }
+}
