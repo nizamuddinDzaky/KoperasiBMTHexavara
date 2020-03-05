@@ -1,7 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
+<<<<<<< HEAD
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+=======
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+>>>>>>> alam/BMTMuda/development
         "This file is @generated automatically"
     ],
     "content-hash": "8877cfb006a6914eca7fbdbd98f58c36",
@@ -108,6 +112,7 @@
         },
         {
             "name": "doctrine/lexer",
+<<<<<<< HEAD
             "version": "v1.0.1",
             "source": {
                 "type": "git",
@@ -122,16 +127,46 @@
             },
             "require": {
                 "php": ">=5.3.2"
+=======
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/lexer.git",
+                "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/e17f069ede36f7534b95adec71910ed1b49c74ea",
+                "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "phpstan/phpstan": "^0.11.8",
+                "phpunit/phpunit": "^8.2"
+>>>>>>> alam/BMTMuda/development
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
                     "Doctrine\\Common\\Lexer\\": "lib/"
+=======
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Lexer\\": "lib/Doctrine/Common/Lexer"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -140,18 +175,29 @@
             ],
             "authors": [
                 {
+<<<<<<< HEAD
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
                 {
+=======
+>>>>>>> alam/BMTMuda/development
                     "name": "Guilherme Blanco",
                     "email": "guilhermeblanco@gmail.com"
                 },
                 {
+<<<<<<< HEAD
+=======
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+>>>>>>> alam/BMTMuda/development
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com"
                 }
             ],
+<<<<<<< HEAD
             "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
@@ -172,6 +218,31 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/54859fabea8b3beecbb1a282888d5c990036b9e3",
                 "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3",
+=======
+            "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
+            "homepage": "https://www.doctrine-project.org/projects/lexer.html",
+            "keywords": [
+                "annotations",
+                "docblock",
+                "lexer",
+                "parser",
+                "php"
+            ],
+            "time": "2019-07-30T19:33:28+00:00"
+        },
+        {
+            "name": "egulias/email-validator",
+            "version": "2.1.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egulias/EmailValidator.git",
+                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/92dd169c32f6f55ba570c309d83f5209cefb5e23",
+                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -181,7 +252,12 @@
             "require-dev": {
                 "dominicsayers/isemail": "dev-master",
                 "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
+<<<<<<< HEAD
                 "satooshi/php-coveralls": "^1.0.1"
+=======
+                "satooshi/php-coveralls": "^1.0.1",
+                "symfony/phpunit-bridge": "^4.4@dev"
+>>>>>>> alam/BMTMuda/development
             },
             "suggest": {
                 "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
@@ -189,7 +265,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "2.0.x-dev"
+=======
+                    "dev-master": "2.1.x-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -215,6 +295,7 @@
                 "validation",
                 "validator"
             ],
+<<<<<<< HEAD
             "time": "2018-08-16T20:49:45+00:00"
         },
         {
@@ -229,6 +310,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/erusev/parsedown/zipball/92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
                 "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
+=======
+            "time": "2019-08-13T17:33:27+00:00"
+        },
+        {
+            "name": "erusev/parsedown",
+            "version": "1.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+                "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -261,7 +358,11 @@
                 "markdown",
                 "parser"
             ],
+<<<<<<< HEAD
             "time": "2018-03-08T01:11:30+00:00"
+=======
+            "time": "2019-03-17T18:48:37+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "fideloper/proxy",
@@ -322,6 +423,7 @@
         },
         {
             "name": "jakub-onderka/php-console-color",
+<<<<<<< HEAD
             "version": "0.1",
             "source": {
                 "type": "git",
@@ -342,12 +444,39 @@
                 "jakub-onderka/php-parallel-lint": "0.*",
                 "jakub-onderka/php-var-dump-check": "0.*",
                 "phpunit/phpunit": "3.7.*",
+=======
+            "version": "v0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JakubOnderka/PHP-Console-Color.git",
+                "reference": "d5deaecff52a0d61ccb613bb3804088da0307191"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JakubOnderka/PHP-Console-Color/zipball/d5deaecff52a0d61ccb613bb3804088da0307191",
+                "reference": "d5deaecff52a0d61ccb613bb3804088da0307191",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-code-style": "1.0",
+                "jakub-onderka/php-parallel-lint": "1.0",
+                "jakub-onderka/php-var-dump-check": "0.*",
+                "phpunit/phpunit": "~4.3",
+>>>>>>> alam/BMTMuda/development
                 "squizlabs/php_codesniffer": "1.*"
             },
             "type": "library",
             "autoload": {
+<<<<<<< HEAD
                 "psr-0": {
                     "JakubOnderka\\PhpConsoleColor": "src/"
+=======
+                "psr-4": {
+                    "JakubOnderka\\PhpConsoleColor\\": "src/"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -357,6 +486,7 @@
             "authors": [
                 {
                     "name": "Jakub Onderka",
+<<<<<<< HEAD
                     "email": "jakub.onderka@gmail.com",
                     "homepage": "http://www.acci.cz"
                 }
@@ -384,14 +514,48 @@
             "require-dev": {
                 "jakub-onderka/php-code-style": "~1.0",
                 "jakub-onderka/php-parallel-lint": "~0.5",
+=======
+                    "email": "jakub.onderka@gmail.com"
+                }
+            ],
+            "time": "2018-09-29T17:23:10+00:00"
+        },
+        {
+            "name": "jakub-onderka/php-console-highlighter",
+            "version": "v0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JakubOnderka/PHP-Console-Highlighter.git",
+                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JakubOnderka/PHP-Console-Highlighter/zipball/9f7a229a69d52506914b4bc61bfdb199d90c5547",
+                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "jakub-onderka/php-console-color": "~0.2",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-code-style": "~1.0",
+                "jakub-onderka/php-parallel-lint": "~1.0",
+>>>>>>> alam/BMTMuda/development
                 "jakub-onderka/php-var-dump-check": "~0.1",
                 "phpunit/phpunit": "~4.0",
                 "squizlabs/php_codesniffer": "~1.5"
             },
             "type": "library",
             "autoload": {
+<<<<<<< HEAD
                 "psr-0": {
                     "JakubOnderka\\PhpConsoleHighlighter": "src/"
+=======
+                "psr-4": {
+                    "JakubOnderka\\PhpConsoleHighlighter\\": "src/"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -405,6 +569,7 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
+<<<<<<< HEAD
             "time": "2015-04-20T18:58:01+00:00"
         },
         {
@@ -419,6 +584,68 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/84f4ed02ec6eb4a56629fb6acbee1df56891e3c7",
                 "reference": "84f4ed02ec6eb4a56629fb6acbee1df56891e3c7",
+=======
+            "description": "Highlight PHP code in terminal",
+            "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "kylekatarnls/update-helper",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kylekatarnls/update-helper.git",
+                "reference": "5786fa188e0361b9adf9e8199d7280d1b2db165e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kylekatarnls/update-helper/zipball/5786fa188e0361b9adf9e8199d7280d1b2db165e",
+                "reference": "5786fa188e0361b9adf9e8199d7280d1b2db165e",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1.0 || ^2.0.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "composer/composer": "2.0.x-dev || ^2.0.0-dev",
+                "phpunit/phpunit": ">=4.8.35 <6.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "UpdateHelper\\ComposerPlugin"
+            },
+            "autoload": {
+                "psr-0": {
+                    "UpdateHelper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle",
+                    "email": "kylekatarnls@gmail.com"
+                }
+            ],
+            "description": "Update helper",
+            "time": "2019-07-29T11:03:54+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v5.5.48",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "e3e8d585dcfab5abe6261b060f4df0d48f9924bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e3e8d585dcfab5abe6261b060f4df0d48f9924bf",
+                "reference": "e3e8d585dcfab5abe6261b060f4df0d48f9924bf",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -429,7 +656,11 @@
                 "league/flysystem": "^1.0.8",
                 "monolog/monolog": "~1.12",
                 "mtdowling/cron-expression": "~1.0",
+<<<<<<< HEAD
                 "nesbot/carbon": "^1.24.1",
+=======
+                "nesbot/carbon": "^1.26.0",
+>>>>>>> alam/BMTMuda/development
                 "php": ">=7.0",
                 "psr/container": "~1.0",
                 "psr/simple-cache": "^1.0",
@@ -539,6 +770,7 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
             "time": "2018-09-02T11:45:05+00:00"
         },
         {
@@ -559,6 +791,28 @@
                 "illuminate/console": "~5.1",
                 "illuminate/contracts": "~5.1",
                 "illuminate/support": "~5.1",
+=======
+            "time": "2019-08-20T15:46:40+00:00"
+        },
+        {
+            "name": "laravel/tinker",
+            "version": "v1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/tinker.git",
+                "reference": "ad571aacbac1539c30d480908f9d0c9614eaf1a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/ad571aacbac1539c30d480908f9d0c9614eaf1a7",
+                "reference": "ad571aacbac1539c30d480908f9d0c9614eaf1a7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.1|^6.0",
+                "illuminate/contracts": "~5.1|^6.0",
+                "illuminate/support": "~5.1|^6.0",
+>>>>>>> alam/BMTMuda/development
                 "php": ">=5.5.9",
                 "psy/psysh": "0.7.*|0.8.*|0.9.*",
                 "symfony/var-dumper": "~3.0|~4.0"
@@ -602,6 +856,7 @@
                 "laravel",
                 "psysh"
             ],
+<<<<<<< HEAD
             "time": "2018-05-17T13:42:07+00:00"
         },
         {
@@ -616,6 +871,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a11e4a75f256bdacf99d20780ce42d3b8272975c",
                 "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c",
+=======
+            "time": "2019-08-07T15:10:45+00:00"
+        },
+        {
+            "name": "league/flysystem",
+            "version": "1.0.57",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem.git",
+                "reference": "0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a",
+                "reference": "0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -686,6 +957,7 @@
                 "sftp",
                 "storage"
             ],
+<<<<<<< HEAD
             "time": "2018-09-14T15:30:29+00:00"
         },
         {
@@ -700,6 +972,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+=======
+            "time": "2019-10-16T21:01:05+00:00"
+        },
+        {
+            "name": "monolog/monolog",
+            "version": "1.25.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -764,7 +1052,11 @@
                 "logging",
                 "psr-3"
             ],
+<<<<<<< HEAD
             "time": "2017-06-19T01:22:40+00:00"
+=======
+            "time": "2019-09-06T13:49:17+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "mtdowling/cron-expression",
@@ -812,6 +1104,7 @@
         },
         {
             "name": "nesbot/carbon",
+<<<<<<< HEAD
             "version": "1.34.0",
             "source": {
                 "type": "git",
@@ -825,15 +1118,44 @@
                 "shasum": ""
             },
             "require": {
+=======
+            "version": "1.39.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/briannesbitt/Carbon.git",
+                "reference": "4be0c005164249208ce1b5ca633cd57bdd42ff33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4be0c005164249208ce1b5ca633cd57bdd42ff33",
+                "reference": "4be0c005164249208ce1b5ca633cd57bdd42ff33",
+                "shasum": ""
+            },
+            "require": {
+                "kylekatarnls/update-helper": "^1.1",
+>>>>>>> alam/BMTMuda/development
                 "php": ">=5.3.9",
                 "symfony/translation": "~2.6 || ~3.0 || ~4.0"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "friendsofphp/php-cs-fixer": "~2",
                 "phpunit/phpunit": "^4.8.35 || ^5.7"
             },
             "type": "library",
             "extra": {
+=======
+                "composer/composer": "^1.2",
+                "friendsofphp/php-cs-fixer": "~2",
+                "phpunit/phpunit": "^4.8.35 || ^5.7"
+            },
+            "bin": [
+                "bin/upgrade-carbon"
+            ],
+            "type": "library",
+            "extra": {
+                "update-helper": "Carbon\\Upgrade",
+>>>>>>> alam/BMTMuda/development
                 "laravel": {
                     "providers": [
                         "Carbon\\Laravel\\ServiceProvider"
@@ -863,6 +1185,7 @@
                 "datetime",
                 "time"
             ],
+<<<<<<< HEAD
             "time": "2018-09-20T19:36:25+00:00"
         },
         {
@@ -877,6 +1200,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fa6ee28600d21d49b2b4e1006b48426cec8e579c",
                 "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c",
+=======
+            "time": "2019-10-14T05:51:36+00:00"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v4.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
+                "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -884,7 +1223,12 @@
                 "php": ">=7.0"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "phpunit/phpunit": "^6.5 || ^7.0"
+=======
+                "ircmaxell/php-yacc": "0.0.4",
+                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
+>>>>>>> alam/BMTMuda/development
             },
             "bin": [
                 "bin/php-parse"
@@ -892,7 +1236,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "4.0-dev"
+=======
+                    "dev-master": "4.2-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -914,7 +1262,11 @@
                 "parser",
                 "php"
             ],
+<<<<<<< HEAD
             "time": "2018-09-18T07:03:24+00:00"
+=======
+            "time": "2019-10-25T18:33:07+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "paragonie/random_compat",
@@ -1207,6 +1559,7 @@
         },
         {
             "name": "psr/log",
+<<<<<<< HEAD
             "version": "1.0.2",
             "source": {
                 "type": "git",
@@ -1217,6 +1570,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
                 "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+=======
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
+                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -1225,7 +1590,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.0.x-dev"
+=======
+                    "dev-master": "1.1.x-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -1250,7 +1619,11 @@
                 "psr",
                 "psr-3"
             ],
+<<<<<<< HEAD
             "time": "2016-10-10T12:19:37+00:00"
+=======
+            "time": "2019-10-25T08:06:51+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "psr/simple-cache",
@@ -1302,6 +1675,7 @@
         },
         {
             "name": "psy/psysh",
+<<<<<<< HEAD
             "version": "v0.9.8",
             "source": {
                 "type": "git",
@@ -1312,13 +1686,29 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/bobthecow/psysh/zipball/ed3c32c4304e1a678a6e0f9dc11dd2d927d89555",
                 "reference": "ed3c32c4304e1a678a6e0f9dc11dd2d927d89555",
+=======
+            "version": "v0.9.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobthecow/psysh.git",
+                "reference": "9aaf29575bb8293206bb0420c1e1c87ff2ffa94e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/9aaf29575bb8293206bb0420c1e1c87ff2ffa94e",
+                "reference": "9aaf29575bb8293206bb0420c1e1c87ff2ffa94e",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
                 "dnoegel/php-xdg-base-dir": "0.1",
                 "ext-json": "*",
                 "ext-tokenizer": "*",
+<<<<<<< HEAD
                 "jakub-onderka/php-console-highlighter": "0.3.*",
+=======
+                "jakub-onderka/php-console-highlighter": "0.3.*|0.4.*",
+>>>>>>> alam/BMTMuda/development
                 "nikic/php-parser": "~1.3|~2.0|~3.0|~4.0",
                 "php": ">=5.4.0",
                 "symfony/console": "~2.3.10|^2.4.2|~3.0|~4.0",
@@ -1372,7 +1762,11 @@
                 "interactive",
                 "shell"
             ],
+<<<<<<< HEAD
             "time": "2018-09-05T11:40:09+00:00"
+=======
+            "time": "2018-10-13T15:16:03+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "ramsey/uuid",
@@ -1458,6 +1852,7 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
+<<<<<<< HEAD
             "version": "v6.1.3",
             "source": {
                 "type": "git",
@@ -1468,15 +1863,38 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8ddcb66ac10c392d3beb54829eef8ac1438595f4",
                 "reference": "8ddcb66ac10c392d3beb54829eef8ac1438595f4",
+=======
+            "version": "v6.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
+                "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
                 "egulias/email-validator": "~2.0",
+<<<<<<< HEAD
                 "php": ">=7.0.0"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9.1",
                 "symfony/phpunit-bridge": "~3.3@dev"
+=======
+                "php": ">=7.0.0",
+                "symfony/polyfill-iconv": "^1.0",
+                "symfony/polyfill-intl-idn": "^1.10",
+                "symfony/polyfill-mbstring": "^1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1",
+                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+>>>>>>> alam/BMTMuda/development
             },
             "suggest": {
                 "ext-intl": "Needed to support internationalized email addresses",
@@ -1485,7 +1903,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "6.1-dev"
+=======
+                    "dev-master": "6.2-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -1513,6 +1935,7 @@
                 "mail",
                 "mailer"
             ],
+<<<<<<< HEAD
             "time": "2018-09-11T07:12:52+00:00"
         },
         {
@@ -1527,6 +1950,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/console/zipball/6b217594552b9323bcdcfc14f8a0ce126e84cd73",
                 "reference": "6b217594552b9323bcdcfc14f8a0ce126e84cd73",
+=======
+            "time": "2019-04-21T09:21:45+00:00"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "4727d7f3c99b9dea0ae70ed4f34645728aa90453"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/4727d7f3c99b9dea0ae70ed4f34645728aa90453",
+                "reference": "4727d7f3c99b9dea0ae70ed4f34645728aa90453",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -1538,6 +1977,12 @@
                 "symfony/dependency-injection": "<3.4",
                 "symfony/process": "<3.3"
             },
+<<<<<<< HEAD
+=======
+            "provide": {
+                "psr/log-implementation": "1.0"
+            },
+>>>>>>> alam/BMTMuda/development
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~3.3|~4.0",
@@ -1547,7 +1992,11 @@
                 "symfony/process": "~3.3|~4.0"
             },
             "suggest": {
+<<<<<<< HEAD
                 "psr/log-implementation": "For using the console logger",
+=======
+                "psr/log": "For using the console logger",
+>>>>>>> alam/BMTMuda/development
                 "symfony/event-dispatcher": "",
                 "symfony/lock": "",
                 "symfony/process": ""
@@ -1582,6 +2031,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-07-26T11:19:56+00:00"
         },
         {
@@ -1596,6 +2046,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/css-selector/zipball/2a4df7618f869b456f9096781e78c57b509d76c7",
                 "reference": "2a4df7618f869b456f9096781e78c57b509d76c7",
+=======
+            "time": "2019-10-06T19:52:09+00:00"
+        },
+        {
+            "name": "symfony/css-selector",
+            "version": "v4.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/css-selector.git",
+                "reference": "f4b3ff6a549d9ed28b2b0ecd1781bf67cf220ee9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/f4b3ff6a549d9ed28b2b0ecd1781bf67cf220ee9",
+                "reference": "f4b3ff6a549d9ed28b2b0ecd1781bf67cf220ee9",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -1604,7 +2070,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "4.1-dev"
+=======
+                    "dev-master": "4.3-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -1621,20 +2091,31 @@
             ],
             "authors": [
                 {
+<<<<<<< HEAD
                     "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
+=======
+>>>>>>> alam/BMTMuda/development
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
                 },
                 {
+<<<<<<< HEAD
+=======
+                    "name": "Jean-François Simon",
+                    "email": "jeanfrancois.simon@sensiolabs.com"
+                },
+                {
+>>>>>>> alam/BMTMuda/development
                     "name": "Symfony Community",
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-07-26T09:10:45+00:00"
         },
         {
@@ -1649,6 +2130,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/debug/zipball/c4625e75341e4fb309ce0c049cbf7fb84b8897cd",
                 "reference": "c4625e75341e4fb309ce0c049cbf7fb84b8897cd",
+=======
+            "time": "2019-10-02T08:36:26+00:00"
+        },
+        {
+            "name": "symfony/debug",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/debug.git",
+                "reference": "b3e7ce815d82196435d16dc458023f8fb6b36ceb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/b3e7ce815d82196435d16dc458023f8fb6b36ceb",
+                "reference": "b3e7ce815d82196435d16dc458023f8fb6b36ceb",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -1691,6 +2188,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-08-03T10:42:44+00:00"
         },
         {
@@ -1709,15 +2207,48 @@
             },
             "require": {
                 "php": "^7.1.3"
+=======
+            "time": "2019-09-19T15:32:51+00:00"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "version": "v4.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/event-dispatcher.git",
+                "reference": "6229f58993e5a157f6096fc7145c0717d0be8807"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/6229f58993e5a157f6096fc7145c0717d0be8807",
+                "reference": "6229f58993e5a157f6096fc7145c0717d0be8807",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/event-dispatcher-contracts": "^1.1"
+>>>>>>> alam/BMTMuda/development
             },
             "conflict": {
                 "symfony/dependency-injection": "<3.4"
             },
+<<<<<<< HEAD
+=======
+            "provide": {
+                "psr/event-dispatcher-implementation": "1.0",
+                "symfony/event-dispatcher-implementation": "1.1"
+            },
+>>>>>>> alam/BMTMuda/development
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~3.4|~4.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/expression-language": "~3.4|~4.0",
+<<<<<<< HEAD
+=======
+                "symfony/http-foundation": "^3.4|^4.0",
+                "symfony/service-contracts": "^1.1",
+>>>>>>> alam/BMTMuda/development
                 "symfony/stopwatch": "~3.4|~4.0"
             },
             "suggest": {
@@ -1727,7 +2258,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "4.1-dev"
+=======
+                    "dev-master": "4.3-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -1754,6 +2289,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-07-26T09:10:45+00:00"
         },
         {
@@ -1768,6 +2304,80 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/finder/zipball/8a84fcb207451df0013b2c74cbbf1b62d47b999a",
                 "reference": "8a84fcb207451df0013b2c74cbbf1b62d47b999a",
+=======
+            "time": "2019-10-01T16:40:32+00:00"
+        },
+        {
+            "name": "symfony/event-dispatcher-contracts",
+            "version": "v1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/event-dispatcher-contracts.git",
+                "reference": "c43ab685673fb6c8d84220c77897b1d6cdbe1d18"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/c43ab685673fb6c8d84220c77897b1d6cdbe1d18",
+                "reference": "c43ab685673fb6c8d84220c77897b1d6cdbe1d18",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "suggest": {
+                "psr/event-dispatcher": "",
+                "symfony/event-dispatcher-implementation": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\EventDispatcher\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Generic abstractions related to dispatching event",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "time": "2019-09-17T09:54:03+00:00"
+        },
+        {
+            "name": "symfony/finder",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/finder.git",
+                "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
+                "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -1803,6 +2413,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-07-26T11:19:56+00:00"
         },
         {
@@ -1817,6 +2428,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-foundation/zipball/2fb33cb6eefe6e790e4023f7c534a9e4214252fc",
                 "reference": "2fb33cb6eefe6e790e4023f7c534a9e4214252fc",
+=======
+            "time": "2019-09-01T21:32:23+00:00"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-foundation.git",
+                "reference": "233f40cbebd595ffd91ddf291355f8a930a13777"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/233f40cbebd595ffd91ddf291355f8a930a13777",
+                "reference": "233f40cbebd595ffd91ddf291355f8a930a13777",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -1857,6 +2484,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-08-27T17:45:33+00:00"
         },
         {
@@ -1871,12 +2499,32 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-kernel/zipball/2819693b25f480966cbfa13b651abccfed4871ca",
                 "reference": "2819693b25f480966cbfa13b651abccfed4871ca",
+=======
+            "time": "2019-10-02T16:15:21+00:00"
+        },
+        {
+            "name": "symfony/http-kernel",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-kernel.git",
+                "reference": "1103850c7f34bf9c0bf8c0e6e9aab9b1f2308f01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/1103850c7f34bf9c0bf8c0e6e9aab9b1f2308f01",
+                "reference": "1103850c7f34bf9c0bf8c0e6e9aab9b1f2308f01",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
                 "php": "^5.5.9|>=7.0.8",
                 "psr/log": "~1.0",
+<<<<<<< HEAD
                 "symfony/debug": "~2.8|~3.0|~4.0",
+=======
+                "symfony/debug": "^3.3.3|~4.0",
+>>>>>>> alam/BMTMuda/development
                 "symfony/event-dispatcher": "~2.8|~3.0|~4.0",
                 "symfony/http-foundation": "~3.4.12|~4.0.12|^4.1.1",
                 "symfony/polyfill-ctype": "~1.8"
@@ -1946,6 +2594,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-08-28T06:06:12+00:00"
         },
         {
@@ -1960,6 +2609,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
                 "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+=======
+            "time": "2019-10-07T14:41:56+00:00"
+        },
+        {
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
+                "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -1971,7 +2636,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.9-dev"
+=======
+                    "dev-master": "1.12-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -1988,12 +2657,21 @@
             ],
             "authors": [
                 {
+<<<<<<< HEAD
                     "name": "Symfony Community",
                     "homepage": "https://symfony.com/contributors"
                 },
                 {
                     "name": "Gert de Pagter",
                     "email": "BackEndTea@gmail.com"
+=======
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+>>>>>>> alam/BMTMuda/development
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -2004,6 +2682,7 @@
                 "polyfill",
                 "portable"
             ],
+<<<<<<< HEAD
             "time": "2018-08-06T14:22:27+00:00"
         },
         {
@@ -2018,6 +2697,143 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/d0cd638f4634c16d8df4508e847f14e9e43168b8",
                 "reference": "d0cd638f4634c16d8df4508e847f14e9e43168b8",
+=======
+            "time": "2019-08-06T08:03:45+00:00"
+        },
+        {
+            "name": "symfony/polyfill-iconv",
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-iconv.git",
+                "reference": "685968b11e61a347c18bf25db32effa478be610f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/685968b11e61a347c18bf25db32effa478be610f",
+                "reference": "685968b11e61a347c18bf25db32effa478be610f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-iconv": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.12-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Iconv\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Iconv extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "iconv",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2019-08-06T08:03:45+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-idn",
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-intl-idn.git",
+                "reference": "6af626ae6fa37d396dc90a399c0ff08e5cfc45b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/6af626ae6fa37d396dc90a399c0ff08e5cfc45b2",
+                "reference": "6af626ae6fa37d396dc90a399c0ff08e5cfc45b2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/polyfill-mbstring": "^1.3",
+                "symfony/polyfill-php72": "^1.9"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.12-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Idn\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Laurent Bassin",
+                    "email": "laurent@bassin.info"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's idn_to_ascii and idn_to_utf8 functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "idn",
+                "intl",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2019-08-06T08:03:45+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b42a2f66e8f1b15ccf25652c3424265923eb4f17",
+                "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2029,7 +2845,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.9-dev"
+=======
+                    "dev-master": "1.12-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -2063,6 +2883,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "time": "2018-08-06T14:22:27+00:00"
         },
         {
@@ -2077,6 +2898,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/1e24b0c4a56d55aaf368763a06c6d1c7d3194934",
                 "reference": "1e24b0c4a56d55aaf368763a06c6d1c7d3194934",
+=======
+            "time": "2019-08-06T08:03:45+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php70",
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php70.git",
+                "reference": "54b4c428a0054e254223797d2713c31e08610831"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/54b4c428a0054e254223797d2713c31e08610831",
+                "reference": "54b4c428a0054e254223797d2713c31e08610831",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2086,7 +2923,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.9-dev"
+=======
+                    "dev-master": "1.12-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -2122,6 +2963,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "time": "2018-08-06T14:22:27+00:00"
         },
         {
@@ -2136,6 +2978,77 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/process/zipball/4d6b125d5293cbceedc2aa10f2c71617e76262e7",
                 "reference": "4d6b125d5293cbceedc2aa10f2c71617e76262e7",
+=======
+            "time": "2019-08-06T08:03:45+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php72",
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php72.git",
+                "reference": "04ce3335667451138df4307d6a9b61565560199e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/04ce3335667451138df4307d6a9b61565560199e",
+                "reference": "04ce3335667451138df4307d6a9b61565560199e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.12-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php72\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2019-08-06T08:03:45+00:00"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "344dc588b163ff58274f1769b90b75237f32ed16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/344dc588b163ff58274f1769b90b75237f32ed16",
+                "reference": "344dc588b163ff58274f1769b90b75237f32ed16",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2171,6 +3084,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-08-03T10:42:44+00:00"
         },
         {
@@ -2185,6 +3099,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/routing/zipball/e20f4bb79502c3c0db86d572f7683a30d4143911",
                 "reference": "e20f4bb79502c3c0db86d572f7683a30d4143911",
+=======
+            "time": "2019-09-25T14:09:38+00:00"
+        },
+        {
+            "name": "symfony/routing",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/routing.git",
+                "reference": "8b0faa681c4ee14701e76a7056fef15ac5384163"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/8b0faa681c4ee14701e76a7056fef15ac5384163",
+                "reference": "8b0faa681c4ee14701e76a7056fef15ac5384163",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2207,7 +3137,10 @@
             "suggest": {
                 "doctrine/annotations": "For using the annotation loader",
                 "symfony/config": "For using the all-in-one router or any loader",
+<<<<<<< HEAD
                 "symfony/dependency-injection": "For loading routes from a service",
+=======
+>>>>>>> alam/BMTMuda/development
                 "symfony/expression-language": "For using expression matching",
                 "symfony/http-foundation": "For using a Symfony Request object",
                 "symfony/yaml": "For using the YAML loader"
@@ -2248,6 +3181,7 @@
                 "uri",
                 "url"
             ],
+<<<<<<< HEAD
             "time": "2018-07-26T11:19:56+00:00"
         },
         {
@@ -2262,24 +3196,58 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/translation/zipball/fa2182669f7983b7aa5f1a770d053f79f0ef144f",
                 "reference": "fa2182669f7983b7aa5f1a770d053f79f0ef144f",
+=======
+            "time": "2019-08-26T07:50:50+00:00"
+        },
+        {
+            "name": "symfony/translation",
+            "version": "v4.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/translation.git",
+                "reference": "fe6193b066c457c144333c06aaa869a2d42a167f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/fe6193b066c457c144333c06aaa869a2d42a167f",
+                "reference": "fe6193b066c457c144333c06aaa869a2d42a167f",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1.3",
+<<<<<<< HEAD
                 "symfony/polyfill-mbstring": "~1.0"
+=======
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/translation-contracts": "^1.1.6"
+>>>>>>> alam/BMTMuda/development
             },
             "conflict": {
                 "symfony/config": "<3.4",
                 "symfony/dependency-injection": "<3.4",
                 "symfony/yaml": "<3.4"
             },
+<<<<<<< HEAD
+=======
+            "provide": {
+                "symfony/translation-implementation": "1.0"
+            },
+>>>>>>> alam/BMTMuda/development
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~3.4|~4.0",
                 "symfony/console": "~3.4|~4.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/finder": "~2.8|~3.0|~4.0",
+<<<<<<< HEAD
                 "symfony/intl": "~3.4|~4.0",
+=======
+                "symfony/http-kernel": "~3.4|~4.0",
+                "symfony/intl": "~3.4|~4.0",
+                "symfony/service-contracts": "^1.1.2",
+                "symfony/var-dumper": "~3.4|~4.0",
+>>>>>>> alam/BMTMuda/development
                 "symfony/yaml": "~3.4|~4.0"
             },
             "suggest": {
@@ -2290,7 +3258,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "4.1-dev"
+=======
+                    "dev-master": "4.3-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -2317,6 +3289,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2018-08-07T12:45:11+00:00"
         },
         {
@@ -2331,6 +3304,79 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f62a394bd3de96f2f5e8f4c7d685035897fb3cb3",
                 "reference": "f62a394bd3de96f2f5e8f4c7d685035897fb3cb3",
+=======
+            "time": "2019-09-27T14:37:39+00:00"
+        },
+        {
+            "name": "symfony/translation-contracts",
+            "version": "v1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/translation-contracts.git",
+                "reference": "364518c132c95642e530d9b2d217acbc2ccac3e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/364518c132c95642e530d9b2d217acbc2ccac3e6",
+                "reference": "364518c132c95642e530d9b2d217acbc2ccac3e6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "suggest": {
+                "symfony/translation-implementation": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\Translation\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Generic abstractions related to translation",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "time": "2019-09-17T11:12:18+00:00"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "version": "v3.4.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "bd54d0cc1ae78ca7366ca9056342d1f7e0b5d7fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/bd54d0cc1ae78ca7366ca9056342d1f7e0b5d7fa",
+                "reference": "bd54d0cc1ae78ca7366ca9056342d1f7e0b5d7fa",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2386,6 +3432,7 @@
                 "debug",
                 "dump"
             ],
+<<<<<<< HEAD
             "time": "2018-07-26T11:19:56+00:00"
         },
         {
@@ -2405,6 +3452,29 @@
             "require": {
                 "php": "^5.5 || ^7.0",
                 "symfony/css-selector": "^2.7 || ^3.0 || ^4.0"
+=======
+            "time": "2019-10-04T07:44:32+00:00"
+        },
+        {
+            "name": "tijsverkoyen/css-to-inline-styles",
+            "version": "2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tijsverkoyen/CssToInlineStyles.git",
+                "reference": "dda2ee426acd6d801d5b7fd1001cde9b5f790e15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tijsverkoyen/CssToInlineStyles/zipball/dda2ee426acd6d801d5b7fd1001cde9b5f790e15",
+                "reference": "dda2ee426acd6d801d5b7fd1001cde9b5f790e15",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": "^5.5 || ^7.0",
+                "symfony/css-selector": "^2.7 || ^3.0 || ^4.0 || ^5.0"
+>>>>>>> alam/BMTMuda/development
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
@@ -2433,6 +3503,7 @@
             ],
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
+<<<<<<< HEAD
             "time": "2017-11-27T11:13:29+00:00"
         },
         {
@@ -2451,6 +3522,27 @@
             },
             "require": {
                 "php": ">=5.3.9"
+=======
+            "time": "2019-10-24T08:53:34+00:00"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "v2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
+                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "symfony/polyfill-ctype": "^1.9"
+>>>>>>> alam/BMTMuda/development
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.35 || ^5.0"
@@ -2458,7 +3550,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "2.5-dev"
+=======
+                    "dev-master": "2.6-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -2483,6 +3579,7 @@
                 "env",
                 "environment"
             ],
+<<<<<<< HEAD
             "time": "2018-07-29T20:33:41+00:00"
         },
         {
@@ -2497,6 +3594,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/zendframework/zend-escaper/zipball/31d8aafae982f9568287cb4dce987e6aff8fd074",
                 "reference": "31d8aafae982f9568287cb4dce987e6aff8fd074",
+=======
+            "time": "2019-01-29T11:11:52+00:00"
+        },
+        {
+            "name": "zendframework/zend-escaper",
+            "version": "2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-escaper.git",
+                "reference": "3801caa21b0ca6aca57fa1c42b08d35c395ebd5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-escaper/zipball/3801caa21b0ca6aca57fa1c42b08d35c395ebd5f",
+                "reference": "3801caa21b0ca6aca57fa1c42b08d35c395ebd5f",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2528,7 +3641,11 @@
                 "escaper",
                 "zf"
             ],
+<<<<<<< HEAD
             "time": "2018-04-25T15:48:53+00:00"
+=======
+            "time": "2019-09-05T20:03:20+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "zendframework/zend-stdlib",
@@ -2580,6 +3697,7 @@
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
+<<<<<<< HEAD
             "version": "1.1.0",
             "source": {
                 "type": "git",
@@ -2590,17 +3708,39 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/instantiator/zipball/185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
                 "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+=======
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "a2c590166b2133a4633738648b6b064edae0814a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/a2c590166b2133a4633738648b6b064edae0814a",
+                "reference": "a2c590166b2133a4633738648b6b064edae0814a",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "athletic/athletic": "~0.1.8",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpunit/phpunit": "^6.2.3",
                 "squizlabs/php_codesniffer": "^3.0.2"
+=======
+                "doctrine/coding-standard": "^6.0",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpbench/phpbench": "^0.13",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-shim": "^0.11",
+                "phpunit/phpunit": "^7.0"
+>>>>>>> alam/BMTMuda/development
             },
             "type": "library",
             "extra": {
@@ -2625,11 +3765,16 @@
                 }
             ],
             "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+<<<<<<< HEAD
             "homepage": "https://github.com/doctrine/instantiator",
+=======
+            "homepage": "https://www.doctrine-project.org/projects/instantiator.html",
+>>>>>>> alam/BMTMuda/development
             "keywords": [
                 "constructor",
                 "instantiate"
             ],
+<<<<<<< HEAD
             "time": "2017-07-22T11:58:36+00:00"
         },
         {
@@ -2644,6 +3789,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/filp/whoops/zipball/e79cd403fb77fc8963a99ecc30e80ddd885b3311",
                 "reference": "e79cd403fb77fc8963a99ecc30e80ddd885b3311",
+=======
+            "time": "2019-03-17T17:37:11+00:00"
+        },
+        {
+            "name": "filp/whoops",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filp/whoops.git",
+                "reference": "cde50e6720a39fdacb240159d3eea6865d51fd96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/cde50e6720a39fdacb240159d3eea6865d51fd96",
+                "reference": "cde50e6720a39fdacb240159d3eea6865d51fd96",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2691,7 +3852,11 @@
                 "throwable",
                 "whoops"
             ],
+<<<<<<< HEAD
             "time": "2018-06-30T13:14:06+00:00"
+=======
+            "time": "2019-08-07T09:00:00+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "fzaninotto/faker",
@@ -2793,6 +3958,7 @@
         },
         {
             "name": "mockery/mockery",
+<<<<<<< HEAD
             "version": "1.1.0",
             "source": {
                 "type": "git",
@@ -2803,6 +3969,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/mockery/mockery/zipball/99e29d3596b16dabe4982548527d5ddf90232e99",
                 "reference": "99e29d3596b16dabe4982548527d5ddf90232e99",
+=======
+            "version": "1.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mockery/mockery.git",
+                "reference": "b3453f75fd23d9fd41685f2148f4abeacabc6405"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/b3453f75fd23d9fd41685f2148f4abeacabc6405",
+                "reference": "b3453f75fd23d9fd41685f2148f4abeacabc6405",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2811,13 +3989,21 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "phpdocumentor/phpdocumentor": "^2.9",
                 "phpunit/phpunit": "~5.7.10|~6.5"
+=======
+                "phpunit/phpunit": "~5.7.10|~6.5|~7.0|~8.0"
+>>>>>>> alam/BMTMuda/development
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.0.x-dev"
+=======
+                    "dev-master": "1.2.x-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
@@ -2855,6 +4041,7 @@
                 "test double",
                 "testing"
             ],
+<<<<<<< HEAD
             "time": "2018-05-08T08:54:48+00:00"
         },
         {
@@ -2869,6 +4056,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
                 "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+=======
+            "time": "2019-09-30T08:30:27+00:00"
+        },
+        {
+            "name": "myclabs/deep-copy",
+            "version": "1.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/DeepCopy.git",
+                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/007c053ae6f31bba39dfa19a7726f56e9763bbea",
+                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -2903,7 +4106,11 @@
                 "object",
                 "object graph"
             ],
+<<<<<<< HEAD
             "time": "2018-06-11T23:09:50+00:00"
+=======
+            "time": "2019-08-09T12:45:53+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "phar-io/manifest",
@@ -3009,6 +4216,7 @@
         },
         {
             "name": "phpdocumentor/reflection-common",
+<<<<<<< HEAD
             "version": "1.0.1",
             "source": {
                 "type": "git",
@@ -3026,18 +4234,45 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.6"
+=======
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/ReflectionCommon.git",
+                "reference": "63a995caa1ca9e5590304cd845c15ad6d482a62a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/63a995caa1ca9e5590304cd845c15ad6d482a62a",
+                "reference": "63a995caa1ca9e5590304cd845c15ad6d482a62a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6"
+>>>>>>> alam/BMTMuda/development
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.0.x-dev"
+=======
+                    "dev-master": "2.x-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
                 "psr-4": {
+<<<<<<< HEAD
                     "phpDocumentor\\Reflection\\": [
                         "src"
                     ]
+=======
+                    "phpDocumentor\\Reflection\\": "src/"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3059,6 +4294,7 @@
                 "reflection",
                 "static analysis"
             ],
+<<<<<<< HEAD
             "time": "2017-09-11T18:02:19+00:00"
         },
         {
@@ -3073,16 +4309,41 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
                 "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
+=======
+            "time": "2018-08-07T13:53:10+00:00"
+        },
+        {
+            "name": "phpdocumentor/reflection-docblock",
+            "version": "4.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
+                "reference": "b83ff7cfcfee7827e1e78b637a5904fe6a96698e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/b83ff7cfcfee7827e1e78b637a5904fe6a96698e",
+                "reference": "b83ff7cfcfee7827e1e78b637a5904fe6a96698e",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
+<<<<<<< HEAD
                 "phpdocumentor/reflection-common": "^1.0.0",
                 "phpdocumentor/type-resolver": "^0.4.0",
                 "webmozart/assert": "^1.0"
             },
             "require-dev": {
                 "doctrine/instantiator": "~1.0.5",
+=======
+                "phpdocumentor/reflection-common": "^1.0.0 || ^2.0.0",
+                "phpdocumentor/type-resolver": "~0.4 || ^1.0.0",
+                "webmozart/assert": "^1.0"
+            },
+            "require-dev": {
+                "doctrine/instantiator": "^1.0.5",
+>>>>>>> alam/BMTMuda/development
                 "mockery/mockery": "^1.0",
                 "phpunit/phpunit": "^6.4"
             },
@@ -3110,6 +4371,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
+<<<<<<< HEAD
             "time": "2017-11-30T07:14:17+00:00"
         },
         {
@@ -3133,18 +4395,52 @@
             "require-dev": {
                 "mockery/mockery": "^0.9.4",
                 "phpunit/phpunit": "^5.2||^4.8.24"
+=======
+            "time": "2019-09-12T14:27:41+00:00"
+        },
+        {
+            "name": "phpdocumentor/type-resolver",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/TypeResolver.git",
+                "reference": "2e32a6d48972b2c1976ed5d8967145b6cec4a4a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/2e32a6d48972b2c1976ed5d8967145b6cec4a4a9",
+                "reference": "2e32a6d48972b2c1976ed5d8967145b6cec4a4a9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "phpdocumentor/reflection-common": "^2.0"
+            },
+            "require-dev": {
+                "ext-tokenizer": "^7.1",
+                "mockery/mockery": "~1",
+                "phpunit/phpunit": "^7.0"
+>>>>>>> alam/BMTMuda/development
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.0.x-dev"
+=======
+                    "dev-master": "1.x-dev"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "autoload": {
                 "psr-4": {
+<<<<<<< HEAD
                     "phpDocumentor\\Reflection\\": [
                         "src/"
                     ]
+=======
+                    "phpDocumentor\\Reflection\\": "src"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3157,6 +4453,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
+<<<<<<< HEAD
             "time": "2017-07-14T14:27:02+00:00"
         },
         {
@@ -3171,12 +4468,33 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
                 "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
+=======
+            "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
+            "time": "2019-08-22T18:11:29+00:00"
+        },
+        {
+            "name": "phpspec/prophecy",
+            "version": "1.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpspec/prophecy.git",
+                "reference": "f6811d96d97bdf400077a0cc100ae56aa32b9203"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/f6811d96d97bdf400077a0cc100ae56aa32b9203",
+                "reference": "f6811d96d97bdf400077a0cc100ae56aa32b9203",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
+<<<<<<< HEAD
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0",
+=======
+                "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
+>>>>>>> alam/BMTMuda/development
                 "sebastian/comparator": "^1.1|^2.0|^3.0",
                 "sebastian/recursion-context": "^1.0|^2.0|^3.0"
             },
@@ -3191,8 +4509,13 @@
                 }
             },
             "autoload": {
+<<<<<<< HEAD
                 "psr-0": {
                     "Prophecy\\": "src/"
+=======
+                "psr-4": {
+                    "Prophecy\\": "src/Prophecy"
+>>>>>>> alam/BMTMuda/development
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3220,7 +4543,11 @@
                 "spy",
                 "stub"
             ],
+<<<<<<< HEAD
             "time": "2018-08-05T17:53:17+00:00"
+=======
+            "time": "2019-10-03T11:07:50+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3473,6 +4800,7 @@
         },
         {
             "name": "phpunit/phpunit",
+<<<<<<< HEAD
             "version": "6.5.13",
             "source": {
                 "type": "git",
@@ -3483,6 +4811,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0973426fb012359b2f18d3bd1e90ef1172839693",
                 "reference": "0973426fb012359b2f18d3bd1e90ef1172839693",
+=======
+            "version": "6.5.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/phpunit.git",
+                "reference": "bac23fe7ff13dbdb461481f706f0e9fe746334b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bac23fe7ff13dbdb461481f706f0e9fe746334b7",
+                "reference": "bac23fe7ff13dbdb461481f706f0e9fe746334b7",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -3553,7 +4893,11 @@
                 "testing",
                 "xunit"
             ],
+<<<<<<< HEAD
             "time": "2018-09-08T15:10:43+00:00"
+=======
+            "time": "2019-02-01T05:22:47+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -3612,6 +4956,10 @@
                 "mock",
                 "xunit"
             ],
+<<<<<<< HEAD
+=======
+            "abandoned": true,
+>>>>>>> alam/BMTMuda/development
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
@@ -3827,6 +5175,7 @@
         },
         {
             "name": "sebastian/exporter",
+<<<<<<< HEAD
             "version": "3.1.0",
             "source": {
                 "type": "git",
@@ -3837,6 +5186,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/234199f4528de6d12aaa58b612e98f7d36adb937",
                 "reference": "234199f4528de6d12aaa58b612e98f7d36adb937",
+=======
+            "version": "3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/exporter.git",
+                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/68609e1261d215ea5b21b7987539cbfbe156ec3e",
+                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -3864,6 +5225,13 @@
             ],
             "authors": [
                 {
+<<<<<<< HEAD
+=======
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                },
+                {
+>>>>>>> alam/BMTMuda/development
                     "name": "Jeff Welch",
                     "email": "whatthejeff@gmail.com"
                 },
@@ -3872,6 +5240,7 @@
                     "email": "github@wallbash.com"
                 },
                 {
+<<<<<<< HEAD
                     "name": "Bernhard Schussek",
                     "email": "bschussek@2bepublished.at"
                 },
@@ -3882,6 +5251,14 @@
                 {
                     "name": "Adam Harvey",
                     "email": "aharvey@php.net"
+=======
+                    "name": "Adam Harvey",
+                    "email": "aharvey@php.net"
+                },
+                {
+                    "name": "Bernhard Schussek",
+                    "email": "bschussek@gmail.com"
+>>>>>>> alam/BMTMuda/development
                 }
             ],
             "description": "Provides the functionality to export PHP variables for visualization",
@@ -3890,7 +5267,11 @@
                 "export",
                 "exporter"
             ],
+<<<<<<< HEAD
             "time": "2017-04-03T13:19:02+00:00"
+=======
+            "time": "2019-09-14T09:02:43+00:00"
+>>>>>>> alam/BMTMuda/development
         },
         {
             "name": "sebastian/global-state",
@@ -4218,6 +5599,7 @@
         },
         {
             "name": "theseer/tokenizer",
+<<<<<<< HEAD
             "version": "1.1.0",
             "source": {
                 "type": "git",
@@ -4228,6 +5610,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/theseer/tokenizer/zipball/cb2f008f3f05af2893a87208fe6a6c4985483f8b",
                 "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b",
+=======
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/theseer/tokenizer.git",
+                "reference": "11336f6f84e16a720dae9d8e6ed5019efa85a0f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/11336f6f84e16a720dae9d8e6ed5019efa85a0f9",
+                "reference": "11336f6f84e16a720dae9d8e6ed5019efa85a0f9",
+>>>>>>> alam/BMTMuda/development
                 "shasum": ""
             },
             "require": {
@@ -4254,6 +5648,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
+<<<<<<< HEAD
             "time": "2017-04-07T12:08:54+00:00"
         },
         {
@@ -4276,6 +5671,30 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.6",
                 "sebastian/version": "^1.0.1"
+=======
+            "time": "2019-06-13T22:48:21+00:00"
+        },
+        {
+            "name": "webmozart/assert",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webmozart/assert.git",
+                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/88e6d84706d09a236046d686bbea96f07b3a34f4",
+                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0",
+                "symfony/polyfill-ctype": "^1.8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.36 || ^7.5.13"
+>>>>>>> alam/BMTMuda/development
             },
             "type": "library",
             "extra": {
@@ -4304,7 +5723,11 @@
                 "check",
                 "validate"
             ],
+<<<<<<< HEAD
             "time": "2018-01-29T19:49:41+00:00"
+=======
+            "time": "2019-08-24T08:43:50+00:00"
+>>>>>>> alam/BMTMuda/development
         }
     ],
     "aliases": [],

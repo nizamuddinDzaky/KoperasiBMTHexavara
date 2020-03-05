@@ -218,7 +218,10 @@
     @include('modal.user_tabungan')
     @include('modal.user_deposito')
     @include('modal.user_pembiayaan')
+<<<<<<< HEAD
     @include('modal.tutup_rekening')
+=======
+>>>>>>> alam/BMTMuda/development
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -230,8 +233,11 @@
         {{--url_delete = "{{route('anggota.delete_pengajuan')}}";--}}
     </script>
 
+<<<<<<< HEAD
     <script src="{{ asset('bmtmudathemes/assets/js/modal/tutup_rekening.js') }}"></script>
 
+=======
+>>>>>>> alam/BMTMuda/development
     {{-- MODAL&DATATABLE --}}
 
     <!-- Select2 plugin -->

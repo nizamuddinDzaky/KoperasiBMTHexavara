@@ -85,7 +85,7 @@ class LaporanController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanReal();
-        return view('laporan.pembiayaan',[
+        return view('admin.laporan.pembiayaan',[
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'kegiatan' => $dropdown,
@@ -106,7 +106,7 @@ class LaporanController extends Controller
     public function daftar_kolektibilitas(){
         $dropdown = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllPemNasabahKolek();
-        return view('laporan.daftar_kolektibilitas',[
+        return view('admin.laporan.daftar_kolektibilitas',[
             'kegiatan' => $dropdown,
             'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
             'tab' =>  $this->informationRepository->getAllTab(),
@@ -216,7 +216,7 @@ class LaporanController extends Controller
 
         }
 
-        return view('laporan.kas_harian',[
+        return view('admin.laporan.kas_harian',[
             'data' => $data,
             'saldo' => $saldo,
             'plus' => $plus,
@@ -490,6 +490,8 @@ class LaporanController extends Controller
         foreach ($data as $dt){
             $dt['point'] = substr_count($dt->id_bmt, '.');
             $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
+            if(empty($saldo))
+                $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->orderBy('id','desc')->first();
             $dt['saldo']=$saldo['saldo'];
             $aktiva += floatval($dt['saldo']);
         }
@@ -498,6 +500,8 @@ class LaporanController extends Controller
         foreach($data2 as $dt2){
             $dt2['point'] = substr_count($dt2['id_bmt'], '.');
             $saldo2 = PenyimpananRekening::where('id_rekening',$dt2['id_rekening'])->where('periode',$date)->first();
+            if(empty($saldo2))
+                $saldo2 = PenyimpananRekening::where('id_rekening',$dt2['id_rekening'])->orderBy('id','desc')->first();
             $dt2['saldo']=$saldo2['saldo'];
             array_push($data2_array,$dt2);
             $pasiva += floatval($dt2['saldo']);
@@ -507,8 +511,7 @@ class LaporanController extends Controller
         $str = substr($date,0,4)."/".substr($date,4,2)."/01";
         $time_input = date_create($str);
 
-
-        return view('laporan.neraca',[
+        return view('admin.laporan.neraca',[
             'data' => $data,
             'data2' => $data2,
             'aktiva' =>$aktiva,

@@ -18,5 +18,7 @@ class Rekening extends Model
         'detail',
     ];
     //
-
+    public function bmt() {
+        return $this->hasOne('App\BMT', 'id_rekening');
+    }
 }

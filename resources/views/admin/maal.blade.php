@@ -211,7 +211,6 @@
 <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')
-
     {{-- MODAL&DATATABLE --}}
 
     <!-- Select2 plugin -->

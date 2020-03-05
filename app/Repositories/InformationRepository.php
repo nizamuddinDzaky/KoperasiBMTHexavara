@@ -323,6 +323,11 @@ class InformationRepository
         $data = $this->user->select('id','no_ktp', 'nama', 'alamat', 'tipe', 'status','wajib_pokok')->where('tipe',"anggota")->get();
         return $data;
     }
+    function getAllTeller()
+    {
+        $data = Rekening::where('katagori_rekening','TELLER')->get();
+        return $data;
+    }
     function getAnggota($id)
     {
         $data = $this->user->where('no_ktp', $id)->first();
@@ -413,6 +418,12 @@ class InformationRepository
         $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
             ->where('tipe_rekening', "detail")
             ->where('katagori_rekening', "TELLER")->get();
+        return $data;
+    }
+    function getDetailTeller($id)
+    {
+        $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
+            ->where('id', $id)->first();
         return $data;
     }
     function getAllpengajuanTab($date)
@@ -773,6 +784,7 @@ class InformationRepository
             ->where('id_bmt','like','1%')
             ->join('rekening','rekening.id','bmt.id_rekening')
             ->orderBy('id_bmt')->get();
+        // dd($data);
         return $data;
     }
     function getPasiva(){
@@ -1763,6 +1775,12 @@ class InformationRepository
     function getAllDep(){
         $data = Deposito::select('deposito.*', 'users.no_ktp', 'users.nama')
             ->join('users', 'users.id', '=', 'deposito.id_user')->get();
+        
+        foreach ($data as $data_deposito) {
+            $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
+            $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
+            $data_deposito->tabungan_pencairan_deposito = "[".$data_deposito->tabungan_pencairan->id_tabungan."] ".$data_deposito->tabungan_pencairan->jenis_tabungan;
+        }
         return $data;
     }
     function getAllPem(){
@@ -1863,6 +1881,7 @@ class InformationRepository
     }
 //    DEBIT KREDIT ADMIN
     function penyimpananDebit($request){
+        dd($request);
         $id_pengajuan = $request->id;
         $status_pengajuan = "Sudah Dikonfirmasi";
         //        DETAIL P_TABUNGAN
@@ -1982,6 +2001,7 @@ class InformationRepository
     }
 //    SETORAN AWAL REKENING
     function setoranAwal($detail,$data){
+        
         $id_pengajuan = $data['id_pengajuan'];
         $status_pengajuan = "Sudah Dikonfirmasi";
         //        DETAIL P_TABUNGAN, P_DEPOSITO, P_PEMBIAYAAN
@@ -2182,6 +2202,7 @@ class InformationRepository
             return true;
         }
         catch (\Exception $e) {
+            dd($e);
             return false;
         }
     }
@@ -2336,7 +2357,7 @@ class InformationRepository
                 $data2['pokok'] = str_replace(',',"",$data['pokok']);
                 $data2['wajib'] = str_replace(',',"",$data['wajib']);
             }
-            if($this->setoranAwal($detail_ptabungan,$data2))return true;
+            if($this->setoranAwal($detail_ptabungan,$data2)) return true;
             else return false;
         }
         elseif($pengajuan['kategori']=="Deposito"){
@@ -2741,6 +2762,7 @@ class InformationRepository
     }
 //    PENCAIRAN DEPOSITO
     function pencairanDeposito($request){
+        dd($request);
         $id_pengajuan = $request->id;
         $status_pengajuan = "Sudah Dikonfirmasi";
         //        DETAIL P_Deposito
@@ -3328,6 +3350,11 @@ class InformationRepository
             ->where('tabungan.id_user',Auth::user()->id)->orderBy('id','DESC')->get();
         return $data;
     }
+    function getDetailTabById($id)
+    {
+        $data = Tabungan::find($id);
+        return $data;
+    }
     function getTabUsr()
     {
         $data = Tabungan::select('tabungan.*', 'users.no_ktp', 'users.nama')
@@ -3360,6 +3387,11 @@ class InformationRepository
             ->join('users', 'users.id', '=', 'deposito.id_user')
             ->where('deposito.status',"active")
             ->where('deposito.id_user','=',Auth::user()->id)->orderBy('id','DESC')->get();
+        foreach ($data as $data_deposito) {
+            $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
+            $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
+            $data_deposito->tabungan_pencairan_deposito = "[".$data_deposito->tabungan_pencairan->id_tabungan."] ".$data_deposito->tabungan_pencairan->jenis_tabungan;
+        }
         return $data;
     }
 

@@ -406,10 +406,105 @@
                 jQuery('#detailJam').append(row);
             }
         }
+<<<<<<< HEAD
+=======
+        
+//ANGSURAN PELUNASAN
+        $().ready(function(){
+            var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
+            var selRek = $('#angidRekPelunasan');
+            $('#debitPelunasanTransferForm').hide();
+
+            selRek.on('change', function () {
+                console.log(selRek.val());       
+                var id = $('#idRekAPelunasan').val(selRek.find(":selected").text().split(']')[0]);
+                id = id.val().split('[')[1];
+                $('#idRekAPelunasan').val(id);
+                pokok = parseFloat(selRek.val().split(' ')[0]);
+                lama = parseFloat(selRek.val().split(' ')[2]);
+                margin = parseFloat(selRek.val().split(' ')[1]);
+                rekening = parseFloat(selRek.val().split(' ')[3]);
+                angke = parseFloat(selRek.val().split(' ')[4]);
+                angbln = parseFloat(selRek.val().split(' ')[5]);
+                marbln = parseFloat(selRek.val().split(' ')[6]);
+                angsisa = parseFloat(selRek.val().split(' ')[7]);
+                peminjamanTotal = parseFloat(selRek.val().split(' ')[8]);
+                
+                $('#tagihan_pokok_pelunasan').val(angbln)
+                $('#tagihan_margin_pelunasan').val(marbln)
+                $('#sisa_ang_pelunasan').val(angbln)
+                $('#sisa_mar_pelunasan').val(marbln)
+                $('#jenis_pelunasan').val(rekening);
+                $('#pokok_pelunasan').val(pokok-(margin/lama))
+                
+                if(marbln==0) {
+                    $('#marginHide').hide()
+                    $('#bagi_margin').attr("required",false);
+                }
+                if(angbln==0) {
+                    $('#angHide').hide()
+                    $('#showPok').show()
+                    $('#bagi_margin').attr("required",false);
+                }
+                if(rekening!=2) {
+                    $('#sisa_mar').show();
+                    $('#bayar_ang_total').show();
+                    $('#bagi_pokok').val(angsisa);
+                    $('#bagi_margin').attr("required",false);
+                    $('#marginHide').show();
+                    $('#total_peminjaman').val(peminjamanTotal);
+                    $('#total_peminjaman').attr("readonly",true);
+                    $('#biaya_margin_per_bulan').val(marbln);
+                    $('#biaya_margin_per_bulan').attr("readonly",true);
+                    $('#bayar_mar_pelunasan').val(marbln*2);
+                    $('#bayar_mar_pelunasan').attr("readonly",true);
+                    $('#bayar_ang_pelunasan').val(angsisa)
+                    $('#bayar_ang_pelunasan').attr("readonly",true);
+                }
+                else {
+                    $('#sisa_mar').show();
+                    $('#bayar_ang_total').show();
+                    $('#bagi_pokok').val(angsisa);
+                    $('#bagi_margin').attr("required",false);
+                    $('#marginHide').show();
+                    $('#total_peminjaman').val(peminjamanTotal);
+                    $('#total_peminjaman').attr("readonly",true);
+                    $('#biaya_margin_per_bulan').val(marbln);
+                    $('#biaya_margin_per_bulan').attr("readonly",true);
+                    $('#bayar_mar_pelunasan').val(0);
+                    $('#bayar_mar_pelunasan').attr("readonly",false);
+                    $('#bayar_ang_pelunasan').val(angsisa)
+                    $('#bayar_ang_pelunasan').attr("readonly",true);
+                }
+            });
+
+            var jenis = $('#debitPelunasan'); 
+            jenis.on('change', function () {
+                if(jenis .val() == 1) {
+                    $('#debitPelunasanTransferForm').show("slow");
+                    $('#debitPelunasanTransferForm').find("input").each(function () {
+                        $(this).attr("required", true);
+                    });
+                }
+                else if (jenis .val() == 0) {
+                    $('#debitPelunasanTransferForm').hide("slow");
+                    $('#debitPelunasanTransferForm').find("input").each(function () {
+                        $(this).attr("required", false);
+                    });
+                }
+            });
+        });
+
+//END OF ANGSURAN PELUNASAN
+>>>>>>> alam/BMTMuda/development
 
         $().ready(function(){
             var field=0;
             $('#HideJamber').hide();
+<<<<<<< HEAD
+=======
+            $('#pembayaranAngsuran').hide();
+>>>>>>> alam/BMTMuda/development
             $('#ShowJamber').show();
             $('#rekPem2').val(0);
             $('#rekPem2').on('change', function () {
@@ -428,7 +523,13 @@
             var selA4 =$('#toHide_angpok');
             var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
             var selRek = $('#angidRek');
+<<<<<<< HEAD
             selRek.on('change', function () {
+=======
+            
+            selRek.on('change', function () {
+                $('#pembayaranAngsuran').show();
+>>>>>>> alam/BMTMuda/development
                 var id = $('#idRekA').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
                 $('#idRekA').val(id);
@@ -439,6 +540,19 @@
                 angke = parseFloat(selRek.val().split(' ')[4]);
                 angbln = parseFloat(selRek.val().split(' ')[5]);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
+<<<<<<< HEAD
+=======
+                angtotal = parseFloat(angbln + marbln);
+
+                $('#ang_total').on('keyup', function (){
+                    if (rekening!=2) {
+                        angtotal = parseFloat($('#ang_total').val());
+                        angsuran = parseFloat(angtotal - marbln);
+                        $('#bayar_mar').val(marbln);
+                        $('#bayar_ang').val(angsuran);   
+                    }
+                });
+>>>>>>> alam/BMTMuda/development
 
                 $('#showPok').hide()
                 $('#angHide').show()
@@ -454,6 +568,7 @@
                 }
                 if(rekening!=2) {
                     $('#sisa_mar').show()
+<<<<<<< HEAD
                     $('#bayar_mar').hide()
                     $('#bayar_margin').val(marbln)
                     $('#bagi_pokok').val(angbln)
@@ -473,6 +588,38 @@
                     $('#bayar_mar').hide()
                     $('#bayar_ang').val(angbln)
                     $('#bayar_margin').val(marbln)
+=======
+                    $('#bayar_ang_total').show()
+                    $('#ang_total').val(angtotal)
+                    $('#bagi_pokok').val(angbln)
+                    $('#bagi_margin').attr("required",false);
+                    $('#marginHide').show();
+                    $('#bayar_mar').val(marbln);
+                    $('#bayar_mar').attr("readonly",true);
+                    $('#bayar_ang').val(angbln)
+                    $('#bayar_ang').attr("readonly",true);
+                }
+                else if(angke == 0 ) {
+                    $('#sisa_mar').hide()
+                    $('#bayar_ang_total').hide()
+                    $('#bagi_pokok').val(pokok-(margin/lama))
+                    $('#marginHide').show();
+                    $('#bagi_margin').attr("required",true);
+                    $('#bayar_ang').val(pokok-(margin/lama))                    
+                    $('#bayar_ang').attr("readonly",false);
+                    $('#bayar_mar').val(0);
+                    $('#bayar_mar').attr("readonly",false);
+                }
+                else {
+                    $('#sisa_mar').hide()
+                    $('#bayar_ang_total').hide()
+                    $('#ang_total').val(angtotal)   
+                    $('#bagi_margin').attr("required",false);
+                    $('#bayar_ang').val(angbln)
+                    $('#bayar_ang').attr("readonly",true);
+                    $('#bayar_mar').val(0)
+                    $('#bayar_mar').attr("readonly",true);
+>>>>>>> alam/BMTMuda/development
                     $('#bagi_pokok').val(pokok-(margin/lama))
                 }
 
@@ -523,6 +670,7 @@
                 }
             });
 
+<<<<<<< HEAD
             var selPelunasan = $('#toHidePelunasan');
             var selPelunasanBank =$('#toHidePelunasanBank');
             var selPelunasanBank2 =$('#toHidePelunasanBank2');
@@ -554,6 +702,8 @@
             });
 
 
+=======
+>>>>>>> alam/BMTMuda/development
             $('#bootstrap-table').dataTable({
                 initComplete: function () {
                     $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
@@ -640,6 +790,10 @@
             }
         }
     </script>
+<<<<<<< HEAD
+=======
+    
+>>>>>>> alam/BMTMuda/development
     <script type="text/javascript">
         $().ready(function(){
 
@@ -670,8 +824,13 @@
             $("#angidRek").select2({
                 dropdownParent: $("#angsurPemModal")
             });
+<<<<<<< HEAD
             $("#pelunasanidRek").select2({
                 dropdownParent: $("#pelunasanLebihAwalPemModal")
+=======
+            $("#angidRekPelunasan").select2({
+                dropdownParent: $("#angsurPelunasanModal")
+>>>>>>> alam/BMTMuda/development
             });
 
             lbd.checkFullPageBackgroundImage();
@@ -1001,7 +1160,110 @@
                 }
 
             });
+<<<<<<< HEAD
 
+=======
+            $('#wizardCardAngPelunasan').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormAngPelunasan').valid();
+
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
+            $('#wizardCardAngPelunasanv').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormAngPelunasanv').valid();
+
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
+>>>>>>> alam/BMTMuda/development
         });
 
         function onFinishWizard(){
@@ -1011,8 +1273,11 @@
         }
     </script>
 
+<<<<<<< HEAD
     <script src="{{ asset('bmtmudathemes/assets/js/modal/pelunasan.js') }}"></script>
 
+=======
+>>>>>>> alam/BMTMuda/development
 
 @endsection
 @section('footer')

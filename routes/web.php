@@ -629,7 +629,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'as'        => 'teller.un_block.rekening',
         'uses'      => 'TellerController@un_block_rekening'
     ]);
-
+    
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {
             Route::get('/', [
@@ -648,6 +648,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         Route::get('/transfer', [
             'as' => 'teller.transaksi.transfer',
             'uses' => 'TellerController@transfer'
+            // 'uses' => 'AdminController@transfer'
         ]);
         Route::post('/transfer', [
             'as' => 'teller.transfer',
@@ -748,6 +749,8 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as' => 'teller.transaksi.pengajuan_simpanan',
             'uses' => 'TellerController@pengajuan_simpanan'
         ]);
+        //     'uses' => 'AdminController@pengajuan_maal'
+        // ]);
 
         Route::post('/konfirmasi_donasi', [
             'as' => 'teller.konfirmasi.donasimaal',
@@ -910,6 +913,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'        => 'labarugi',
             'uses'      => 'LaporanController@labarugi'
         ]);
+
         Route::get('/saldo_zis', [
         'as'        => 'teller.saldo.zis',
             'uses'      => 'LaporanController@saldo_zis'
@@ -923,6 +927,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'uses'      => 'LaporanController@saldo_wakaf'
         ]);
     });
+
     //    MAAL
     Route::group(['prefix' => 'maal', 'middleware' => ['auth']], function () {
         Route::get('/daftar', [

@@ -35,10 +35,10 @@
                             <th class="text-center" data-sortable="true">Tgl Transaksi</th>
                             <th class="text-center" data-sortable="true" >Dari Rekening</th>
                             <th class="text-center" data-sortable="true">Ke Rekening</th>
-                            <th class="text-center" data-sortable="true">Jenis Transaksi</th>
-                            <th class="text-center" data-sortable="true">Jumlah</th>
-                            <th class="text-center" data-sortable="true">Saldo Awal</th>
-                            <th class="text-center" data-sortable="true">Saldo Akhir</th>
+                            <th class="text-center" data-sortable="true">No Transaksi</th>
+                            <th class="text-center" data-sortable="true">Debet</th>
+                            <th class="text-center" data-sortable="true">Kredit</th>
+                            <th class="text-center" data-sortable="true">Saldo</th>
                             {{--<th>Actions</th>--}}
                             <th></th>
                             </thead>
@@ -60,14 +60,23 @@
                                     @else
                                     <td class="text-left text-uppercase">[{{ $usr->id_rek}}] {{" ". $usr->untuk_rekening }}</td>
                                     @endif
+
                                     @if(str_before($usr->status,' ')=="Distribusi" || str_before($usr->status,' ')=="SHU")
                                         <td class="text-center text-uppercase">{{$usr->status." (Pajak: ".number_format(json_decode($usr->transaksi,true)['pajak'],2)." @".json_decode($usr->transaksi,true)['persentase']."%)"}}</td>
                                     @else
-                                    <td class="text-center text-uppercase">{{$usr->status}}</td>
+                                    <td class="text-center text-uppercase">{{$usr->id}}</td>
                                     @endif
 
+                                    @if($usr->status == "Kredit")
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_awal'],2) }}</td>
+                                    <td class="text-right"></td>
+                                    @elseif($usr->status == "Debit")
+                                    <td class="text-right"></td>
+                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                    @endif
+                                    
+                                    <!-- <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td> -->
+                                    <!-- <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_awal'],2) }}</td> -->
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
                                     <td></td>
                                 </tr>
