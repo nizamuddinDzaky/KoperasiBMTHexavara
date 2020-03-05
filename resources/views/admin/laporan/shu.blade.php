@@ -17,154 +17,160 @@
     </style>
 @endsection
 @section('content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    @if($status == true)
-                        <div class="alert alert-success text-center">
-                            <span><b>Pembagian SHU Akhir Tahun telah dilakukan</b> !</span>
-                        </div>
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Laporan SHU Tahunan</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="button-group right">
+                    @if($status == false)
+                        <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#distribusiSHUModal"><i class="fa fa-share-square"></i> Distribusi SHU</button>
                     @else
-                        <div class="alert alert-danger text-center">
-                            <span><b>Pembagian SHU Akhir Tahun belum dilakukan</b> !</span>
-                        </div>
+                        <button class="btn btn-danger rounded right shadow-effect" onclick="document.getElementById('distribusi-form').submit()"><i class="fa fa-trash"></i> Distribusi SHU</button>
                     @endif
-                    <div class="card">
-                        <div class="card">
-                            <div class="header text-center">
-                                <h4 id="titlePrint" class="title"><b>Laporan SHU</b> </h4>
-                                <p id="titlePrint2" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")-1}}@endif</p>
-                                <br />
-                            </div>
-                            <div class="toolbar">
-                                {{--<form action="{{route('distribusi.shu')}}" method="post">--}}
-                                    {{ csrf_field() }}
-                                {{--</form>--}}
-                              <form action="{{route('delete.shu')}}" method="post">
-                                    {{ csrf_field() }}
-                                    @if($status == false)
-                                    <button type="button" class="btn btn-primary btn-fill" style="margin-bottom:1em;margin-left:1em" data-toggle="modal" data-target="#distribusiSHUModal" title="Distribusi Pendapatan">Distribusi SHU
-                                    {{--<button type="submit" class="btn btn-primary btn-fill" style="margin-bottom:1em;margin-left:1em"  title="Distribusi Pendapatan">Distribusi SHU--}}
-                                    <i class="pe-7s-add-user"></i>
-                                    </button>
-                                    @else
-                                        <button type="submit" class="btn btn-primary btn-fill" style="margin-bottom:1em;margin-left:1em"  title="Hapus Distribusi Pendapatan">Hapus Distribusi SHU
-                                            <i class="pe-7s-add-user"></i>
-                                        </button>
-                                    @endif
-                                </form>
 
-                                <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                <span></span>
-                            </div>
-                            <table id="bootstrap-table" class="table">
-                                <thead>
-                                <th class="text-left">ID</th>
-                                <th> Keterangan</th>
-                                <th> Persentase</th>
-                                <th> Jumlah</th>
-                                </thead>
-                                <tbody>
-                                @for ($i=0;$i<count($data['shu']);$i++)
-                                    <tr>
-                                        <td class="text-left">{{ $data['shu'][$i]->id }}</td>
-                                        <td class="text-left">{{ $data['shu'][$i]->nama_shu  }}</td>
-                                        <td class="text-center">{{ $data['shu'][$i]->persentase*100  }}%</td>
-                                        <td class="text-right">Rp {{number_format(floatval($data['array_shu'][$i]),2) }}</td>
-                                    </tr>
-                                @endfor
-                                <tr>
-                                    <td></td>
-                                    <td class="text-center text-uppercase"><h5>Jumlah SHU Yang Harus Dibagikan  </h5></td>
-                                    <td></td>
-                                    <td class="text-right">Rp {{number_format($data['total'],2)}}</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                </tr>
-                                </tbody>
-
-                            </table>
-                        </div><!--  end card  -->
-                    </div><!--  end card  -->
-
-                    <div class="card">
-                        <div class="card">
-                            <div class="header text-center">
-                                <h4 id="titlePrint3" class="title"><b>Laporan SHU Nasabah</b> </h4>
-                                <p id="titlePrint4" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")-1}}@endif</p>
-                                <br />
-                            </div>
-                            <div class="toolbar">
-                                <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                <span></span>
-                            </div>
-                            <table id="bootstrap-table2" class="table">
-                                <thead>
-                                <th class="text-left">ID</th>
-                                <th> Nama </th>
-                                <th> Simpanan Wajib</th>
-                                <th> Simpanan Pokok</th>
-                                <th> Margin</th>
-                                <th> SHU Pengelolah</th>
-                                <th> SHU Pengurus</th>
-                                <th> SHU Anggota</th>
-                                <th> Total Pendapatan SHU</th>
-                                </thead>
-                                <tbody>
-                                @for ($i=0;$i<count($data['user']);$i++)
-                                    <tr>
-                                        <td class="text-left">{{ $data['user'][$i]->no_ktp }}</td>
-                                        <td class="text-left">{{ $data['user'][$i]->nama  }}</td>
-                                        <td class="text-right">{{number_format(floatval(json_decode($data['user'][$i]['penyimpanan'],true)['wajib']),2) }}</td>
-                                        <td class="text-right">{{number_format(floatval(json_decode($data['user'][$i]['penyimpanan'],true)['pokok']),2) }}</td>
-                                        <td class="text-right">{{number_format(floatval(isset(json_decode($data['user'][$i]['penyimpanan'],true)['margin'])?json_decode($data['user'][$i]['penyimpanan'],true)['margin']:0),2) }}</td>
-                                        <td class="text-right">{{number_format(floatval($data['user'][$i]['saldo_olah']),2) }}</td>
-                                        <td class="text-right">{{number_format(floatval($data['user'][$i]['saldo_urus']),2) }}</td>
-                                        <td class="text-right">{{number_format(floatval($data['user'][$i]['saldo_ang']),2) }}</td>
-                                        <td class="text-right">{{number_format(floatval($data['user'][$i]['total']),2) }}</td>
-                                    </tr>
-                                @endfor
-                                <tr>
-                                    <td></td>
-                                    <td class="text-center text-uppercase"><h5>Total SHU Nasabah </h5></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td  class="text-right">Rp</td>
-                                    <td class="text-right"> {{number_format($data['total_usr'],2)}}</td>
-
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                    <td></td>
-
-                                </tr>
-                                </tbody>
-
-                            </table>
-                        </div><!--  end card  -->
-                    </div><!--  end card  -->
-
-                </div><!--  end card  -->
-            </div> <!-- end row -->
+                    <form action="{{route('delete.shu')}}" method="post" id="distribusi-form">
+                        {{ csrf_field() }}
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                @if($status == true)
+                    <div class="alert alert-success text-center">
+                        <span><b>Pembagian SHU Akhir Tahun telah dilakukan</b> !</span>
+                    </div>
+                @else
+                    <div class="alert alert-danger text-center">
+                        <span><b>Pembagian SHU Akhir Tahun belum dilakukan</b> !</span>
+                    </div>
+                @endif
+                <div class="card">
+                    <div class="card">
+                        <div class="header text-center">
+                            <h4 id="titlePrint" class="title"><b>Laporan SHU</b> </h4>
+                            <p id="titlePrint2" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")-1}}@endif</p>
+                            <br />
+                        </div>
+                        <table id="bootstrap-table" class="table">
+                            <thead>
+                            <th class="text-left">ID</th>
+                            <th> Keterangan</th>
+                            <th> Persentase</th>
+                            <th> Jumlah</th>
+                            </thead>
+                            <tbody>
+                            @for ($i=0;$i<count($data['shu']);$i++)
+                                <tr>
+                                    <td class="text-left">{{ $data['shu'][$i]->id }}</td>
+                                    <td class="text-left">{{ $data['shu'][$i]->nama_shu  }}</td>
+                                    <td class="text-center">{{ $data['shu'][$i]->persentase*100  }}%</td>
+                                    <td class="text-right">Rp {{number_format(floatval($data['array_shu'][$i]),2) }}</td>
+                                </tr>
+                            @endfor
+                            <tr>
+                                <td></td>
+                                <td class="text-center text-uppercase"><h5>Jumlah SHU Yang Harus Dibagikan  </h5></td>
+                                <td></td>
+                                <td class="text-right">Rp {{number_format($data['total'],2)}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div><!--  end card  -->
+                </div><!--  end card  -->
+
+                <div class="card">
+                    <div class="card">
+                        <div class="header text-center">
+                            <h4 id="titlePrint3" class="title"><b>Laporan SHU Nasabah</b> </h4>
+                            <p id="titlePrint4" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")-1}}@endif</p>
+                            <br />
+                        </div>
+                        <div class="toolbar">
+                            <!--        Here you can write extra buttons/actions for the toolbar              -->
+                            <span></span>
+                        </div>
+                        <table id="bootstrap-table2" class="table">
+                            <thead>
+                            <th class="text-left">ID</th>
+                            <th> Nama </th>
+                            <th> Simpanan Wajib</th>
+                            <th> Simpanan Pokok</th>
+                            <th> Margin</th>
+                            <th> SHU Pengelolah</th>
+                            <th> SHU Pengurus</th>
+                            <th> SHU Anggota</th>
+                            <th> Total Pendapatan SHU</th>
+                            </thead>
+                            <tbody>
+                            @for ($i=0;$i<count($data['user']);$i++)
+                                <tr>
+                                    <td class="text-left">{{ $data['user'][$i]->no_ktp }}</td>
+                                    <td class="text-left">{{ $data['user'][$i]->nama  }}</td>
+                                    <td class="text-right">{{number_format(floatval(json_decode($data['user'][$i]['penyimpanan'],true)['wajib']),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval(json_decode($data['user'][$i]['penyimpanan'],true)['pokok']),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval(isset(json_decode($data['user'][$i]['penyimpanan'],true)['margin'])?json_decode($data['user'][$i]['penyimpanan'],true)['margin']:0),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval($data['user'][$i]['saldo_olah']),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval($data['user'][$i]['saldo_urus']),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval($data['user'][$i]['saldo_ang']),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval($data['user'][$i]['total']),2) }}</td>
+                                </tr>
+                            @endfor
+                            <tr>
+                                <td></td>
+                                <td class="text-center text-uppercase"><h5>Total SHU Nasabah </h5></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td  class="text-right">Rp</td>
+                                <td class="text-right"> {{number_format($data['total_usr'],2)}}</td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div><!--  end card  -->
+                </div><!--  end card  -->
+
+            </div><!--  end card  -->
+        </div> <!-- end row -->
     </div>
     @include('modal.distribusi')
 

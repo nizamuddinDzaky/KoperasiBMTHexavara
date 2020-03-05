@@ -14,10 +14,30 @@
 
 @section('content')
 
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Datamaster Anggota BMT</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#addUsrModal"><i class="fa fa-user-plus"></i> Tambah User</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="content">
-        <div class="container-fluid">
             @if($errors)
                 @foreach ($errors->all() as $error)
                     <div class="row ">
@@ -32,20 +52,20 @@
                         <div class="header text-center">
                             <h4 class="title"><b>Datamaster Anggota BMT</b></h4>
                             <p class="category">Daftar Nasabah</p>
-                            {{--<br />--}}
+                            {{-- <br /> --}}
                         </div>
-                        <div class="toolbar">
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <div class="col-md-12 btn-group">
+                        {{-- <div class="toolbar"> --}}
+                            <!--Here you can write extra buttons/actions for the toolbar-->
+                            {{-- <div class="col-md-12 btn-group">
                                 <button type="button" class="btn btn-primary btn-fill" style="margin-bottom:1em" data-toggle="modal" data-target="#addUsrModal" title="Tambah Anggota">Tambah User
                                     <i class="pe-7s-add-user"></i>
                                 </button>
-                                {{--<div class="col-md-2">--}}
-                                    {{--<button class="btn btn-default btn-block" onclick="demo.showNotification('top','right')">Top Right</button>--}}
-                                {{--</div>--}}
+                                <div class="col-md-2">
+                                    <button class="btn btn-default btn-block" onclick="demo.showNotification('top','right')">Top Right</button>
+                                </div>
                             </div>
                             <span></span>
-                        </div>
+                        </div> --}}
 
                         <table id="bootstrap-table" class="table">
                             <thead>
@@ -148,8 +168,6 @@
                     </div><!--  end card  -->
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->
-
-        </div>
     </div>
 
     @include('modal.anggota')

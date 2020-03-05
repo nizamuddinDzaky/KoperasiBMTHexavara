@@ -17,136 +17,143 @@
     </style>
 @endsection
 @section('content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    @if($status == true)
-                        <div class="alert alert-success text-center">
-                            <span><b>Distribusi Pendapatan telah dilakukan</b> !</span>
-                        </div>
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Distribusi Pendapatan</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="button-group right">
+                    @if($status == false)
+                        <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#distribusiModal"><i class="fa fa-share-square"></i> Distribusi Pendapatan</button>
                     @else
-                        <div class="alert alert-danger text-center">
-                            <span><b>Distribusi Pendapatan belum dilakukan</b> !</span>
-                        </div>
+                    <button class="btn btn-danger rounded right shadow-effect" onclick="document.getElementById('distribusi-form').submit()"><i class="fa fa-trash"></i> Hapus Distribusi Pendapatan</button>
                     @endif
-                    <div class="card">
 
-                        <div class="header text-center">
-                           <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan periode {{date("F Y")}}</p>
-                                <br />
-                        </div>
-                        <div class="toolbar">
-                            <!--<form action="{{route('distribusi.pendapatan')}}" method="post">-->
-                            <!--    {{ csrf_field() }}-->
-                            <!--</form>-->
-                            <form action="{{route('delete.pendapatan')}}" method="post">
-                                {{ csrf_field() }}
-                                @if($status == false)
-                                <button type="button" class="btn btn-primary btn-fill" style="margin-bottom:1em;margin-left:1em" data-toggle="modal" data-target="#distribusiModal" title="Distribusi Pendapatan">Distribusi Pendapatan
-                                <!--<button type="submit" class="btn btn-primary btn-fill" style="margin-bottom:1em;margin-left:1em"  title="Distribusi Pendapatan">Distribusi Pendapatan-->
-                                <i class="pe-7s-add-user"></i>
-                                </button>
-                                @else
-                                <button type="submit" class="btn btn-primary btn-fill" style="margin-bottom:1em;margin-left:1em"  title="Hapus Distribusi Pendapatan">Hapus Distribusi
-                                <i class="pe-7s-add-user"></i>
-                                </button>
-                                @endif
-                            </form>
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <span></span>
-                        </div>
-
-                        <table id="bootstrap-table" class="table">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" class="text-left">No</th>
-                                    <th rowspan="2"> Produk</th>
-                                    <th rowspan="2"> Saldo Rata-rata</th>
-                                    <th rowspan="2"> Pendapatan</th>
-                                    <th colspan="2" class="text-center"> Nisbah</th>
-                                    <th colspan="2" class="text-center"> Porsi</th>
-                                    <th rowspan="2"> % Nasabah</th>
-                                </tr>
-                                <tr>
-                                    <th>Nasabah</th>
-                                    <th>BMT</th>
-                                    <th>Nasabah</th>
-                                    <th>BMT</th>
-                                </tr>
-                                <tr>
-                                    <th>A</th>
-                                    <th>B</th>
-                                    <th>C</th>
-                                    <th>D</th>
-                                    <th>E</th>
-                                    <th>F</th>
-                                    <th>G</th>
-                                    <th>H</th>
-                                    <th>I</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @for($i=0;$i <count($data['tabungan']);$i++)
-                                <tr>
-                                    <td>{{$i+1}}</td>
-                                    <td>{{$data['tabungan'][$i]->nama_rekening}}</td>
-                                    <td class="text-right">{{number_format($data['tabungan'][$i]->saldo,2)}}</td>
-                                    <td class="text-right">{{ number_format($data['tabungan'][$i]['D'],2) }}</td>
-                                    <td>{{json_decode($data['tabungan'][$i]->detail,true)['nisbah_anggota']}}</td>
-                                    <td>{{json_decode($data['tabungan'][$i]->detail,true)['nisbah_bank']}}</td>
-                                    <td class="text-right">{{ number_format($data['tabungan'][$i]['G'],2)  }}</td>
-                                    <td class="text-right">{{ number_format($data['tabungan'][$i]['H'],2) }}</td>
-                                    <td>-</td>
-                                </tr>
-                            @endfor
-                            @for($j=0;$j <count($data['deposito']);$j++)
-                                <tr>
-                                    <td>{{$j+1+$i}}</td>
-                                    <td>{{$data['deposito'][$j]->nama_rekening}}</td>
-                                    <td class="text-right">{{number_format($data['deposito'][$j]->saldo,2)}}</td>
-                                    <td class="text-right">{{ number_format($data['deposito'][$j]['D'],2) }}</td>
-                                    <td>{{json_decode($data['deposito'][$j]->detail,true)['nisbah_anggota']}}</td>
-                                    <td>{{json_decode($data['deposito'][$j]->detail,true)['nisbah_bank']}}</td>
-                                    <td class="text-right">{{ number_format($data['deposito'][$j]['G'],2)  }}</td>
-                                    <td class="text-right">{{ number_format($data['deposito'][$j]['H'],2) }}</td>
-                                    <td>-</td>
-                                </tr>
-                            @endfor
-                            <tr>
-                                <td>{{$j+$i+1}}</td>
-                                <td>KEKAYAAN</td>
-                                <td class="text-right">{{number_format($data['kekayaan'],2)}}</td>
-                                <td class="text-right">{{ number_format(($data['kekayaan']/$data['total']*$data['pendapatan']),2) }}</td>
-                                <td>{{0}}</td>
-                                <td>{{100}}</td>
-                                <td></td>
-                                <td class="text-right">{{number_format(($data['kekayaan']/$data['total']*$data['pendapatan'])*100,2) }}</td>
-                                <td>-</td>
-                            </tr>
-
-
-                            <tr>
-                                <td></td>
-                                <td>TOTAL</td>
-                                <td class="text-right">{{number_format($data['total'],2)}}</td>
-                                <td class="text-right">{{number_format($data['pendapatan'],2)}}</td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-right">{{number_format($data['nasabah'],2)}}</td>
-                                <td class="text-right">{{number_format($data['bmt'],2)}}</td>
-                                <td>-</td>
-                            </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div><!--  end card  -->
-                </div> <!-- end col-md-12 -->
-            </div> <!-- end row -->
+                    <form action="{{route('delete.pendapatan')}}" method="post" id="distribusi-form">
+                        {{ csrf_field() }}
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                @if($status == true)
+                    <div class="alert alert-success text-center">
+                        <span><b>Distribusi Pendapatan telah dilakukan</b> !</span>
+                    </div>
+                @else
+                    <div class="alert alert-danger text-center">
+                        <span><b>Distribusi Pendapatan belum dilakukan</b> !</span>
+                    </div>
+                @endif
+                <div class="card">
+
+                    <div class="header text-center">
+                        <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan periode {{date("F Y")}}</p>
+                            <br />
+                    </div>
+
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="text-left">No</th>
+                                <th rowspan="2"> Produk</th>
+                                <th rowspan="2"> Saldo Rata-rata</th>
+                                <th rowspan="2"> Pendapatan</th>
+                                <th colspan="2" class="text-center"> Nisbah</th>
+                                <th colspan="2" class="text-center"> Porsi</th>
+                                <th rowspan="2"> % Nasabah</th>
+                            </tr>
+                            <tr>
+                                <th>Nasabah</th>
+                                <th>BMT</th>
+                                <th>Nasabah</th>
+                                <th>BMT</th>
+                            </tr>
+                            <tr>
+                                <th>A</th>
+                                <th>B</th>
+                                <th>C</th>
+                                <th>D</th>
+                                <th>E</th>
+                                <th>F</th>
+                                <th>G</th>
+                                <th>H</th>
+                                <th>I</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @for($i=0;$i <count($data['tabungan']);$i++)
+                            <tr>
+                                <td>{{$i+1}}</td>
+                                <td>{{$data['tabungan'][$i]->nama_rekening}}</td>
+                                <td class="text-right">{{number_format($data['tabungan'][$i]->saldo,2)}}</td>
+                                <td class="text-right">{{ number_format($data['tabungan'][$i]['D'],2) }}</td>
+                                <td>{{json_decode($data['tabungan'][$i]->detail,true)['nisbah_anggota']}}</td>
+                                <td>{{json_decode($data['tabungan'][$i]->detail,true)['nisbah_bank']}}</td>
+                                <td class="text-right">{{ number_format($data['tabungan'][$i]['G'],2)  }}</td>
+                                <td class="text-right">{{ number_format($data['tabungan'][$i]['H'],2) }}</td>
+                                <td>-</td>
+                            </tr>
+                        @endfor
+                        @for($j=0;$j <count($data['deposito']);$j++)
+                            <tr>
+                                <td>{{$j+1+$i}}</td>
+                                <td>{{$data['deposito'][$j]->nama_rekening}}</td>
+                                <td class="text-right">{{number_format($data['deposito'][$j]->saldo,2)}}</td>
+                                <td class="text-right">{{ number_format($data['deposito'][$j]['D'],2) }}</td>
+                                <td>{{json_decode($data['deposito'][$j]->detail,true)['nisbah_anggota']}}</td>
+                                <td>{{json_decode($data['deposito'][$j]->detail,true)['nisbah_bank']}}</td>
+                                <td class="text-right">{{ number_format($data['deposito'][$j]['G'],2)  }}</td>
+                                <td class="text-right">{{ number_format($data['deposito'][$j]['H'],2) }}</td>
+                                <td>-</td>
+                            </tr>
+                        @endfor
+                        <tr>
+                            <td>{{$j+$i+1}}</td>
+                            <td>KEKAYAAN</td>
+                            <td class="text-right">{{number_format($data['kekayaan'],2)}}</td>
+                            <td class="text-right">{{ number_format(($data['kekayaan']/$data['total']*$data['pendapatan']),2) }}</td>
+                            <td>{{0}}</td>
+                            <td>{{100}}</td>
+                            <td></td>
+                            <td class="text-right">{{number_format(($data['kekayaan']/$data['total']*$data['pendapatan'])*100,2) }}</td>
+                            <td>-</td>
+                        </tr>
+
+
+                        <tr>
+                            <td></td>
+                            <td>TOTAL</td>
+                            <td class="text-right">{{number_format($data['total'],2)}}</td>
+                            <td class="text-right">{{number_format($data['pendapatan'],2)}}</td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">{{number_format($data['nasabah'],2)}}</td>
+                            <td class="text-right">{{number_format($data['bmt'],2)}}</td>
+                            <td>-</td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
     </div>
 
     @include('modal.distribusi')

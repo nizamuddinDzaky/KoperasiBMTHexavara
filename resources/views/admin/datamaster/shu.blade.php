@@ -13,8 +13,30 @@
 @endsection
 
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Datamaster Pembagian SHU BMT</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#addSHUModal"><i class="fa fa-user-plus"></i> Tambah SHU</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#editSHUModal"><i class="fas fa-edit"></i> Edit Persentase SHU</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content">
-        <div class="container-fluid">
 
             <div class="row">
                 <div class="col-md-12">
@@ -25,9 +47,9 @@
                             {{--<br />--}}
                         </div>
 
-                        <div class="toolbar">
+                        {{-- <div class="toolbar"> --}}
                             <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <div class="col-md-12 btn-group">
+                            {{-- <div class="col-md-12 btn-group">
                                 <button type="button" class="btn btn-primary btn-fill" style="margin-bottom:1em" data-toggle="modal" data-target="#addSHUModal" title="Tambah SHU">Tambah SHU
                                     <i class="pe-7s-add-user"></i>
                                 </button>
@@ -38,7 +60,7 @@
                                 </button>
                             </div>
                             <span></span>
-                        </div>
+                        </div> --}}
 
                         <table id="bootstrap-table" class="table">
                             <thead>
@@ -85,7 +107,6 @@
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->
 
-        </div>
     </div>
 
     @include('modal.shu')

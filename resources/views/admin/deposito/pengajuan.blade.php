@@ -17,110 +17,44 @@
     </style>
 @endsection
 @section('content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="col-md-3" id="HideOptions">
-                <div class="row-md-4">
-                    <div class="col-md-12">
-                        <div class="card card-wizard" style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class="header text-center">
-                                   <span class="fa-stack fa-3x">
-                                        <i class="fas fa-square fa-stack-2x" style="color:darkslateblue"></i>
-                                        <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                    <h3 class="title">Pembukaan</h3>
-                                    <p class="category">Pembukaan Mudharabah Berjangka </p>
-                                </div>
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Pengajuan Mudharabah Berjangka</h4>
 
-                                <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block" data-toggle="modal" data-target="#openDepModal">Pembukaan</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                            @foreach($periode as $p)
+                                <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
+                            @endforeach
+                        </select>
+                    </form>
                 </div>
-                <div class="row-md-4">
-                    <div class="col-md-12">
-                        <div class="card card-wizard " style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class="header text-center">
-                                <span class="fa-stack fa-3x">
-                                    <i class="fas fa-square fa-stack-2x" style="color:darkorange"></i>
-                                    <i class="fas fa-external-link-alt fa-stack-1x fa-inverse"></i>
-                                </span>
-                                    <h3 class="title">Perpanjangan</h3>
-                                    <p class="category">Perpanjangan Mudharabah Berjangka</p>
-                                </div>
 
-                                <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block"
-                                            data-toggle="modal"
-                                            data-target="#extendDepModal">Perpanjang</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openDepModal"><i class="fas fa-credit-card"></i> Pembukaan MDB</button>
+                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#extendDepModal"><i class="fas fa-external-link-alt"></i> Perpanjangan MDB</button>
+                    <button class="btn btn-info rounded right shadow-effect" data-toggle="modal" data-target="#withdrawDepModal"><i class="fas fa-donate"></i> Pencairan MDB</button>
                 </div>
-                <div class="row-md-4">
-                    <div class="col-md-12">
-                        <div class="card card-wizard " style="">
-                            <form id="wizardForm" method="" action="#">
-                                <div class="header text-center">
-                                <span class="fa-stack fa-3x">
-                                    <i class="fas fa-square fa-stack-2x" style="color:darkgoldenrod"></i>
-                                    <i class="fas fa-donate fa-stack-1x fa-inverse"></i>
-                                </span>
-                                    <h3 class="title">Pencairan</h3>
-                                    <p class="category">Pencairan Mudharabah Berjangka</p>
-                                </div>
-
-                                <div class="footer">
-                                    <button type="button" class="btn btn-fill btn-block btn-info center-block"  data-toggle="modal" data-target="#withdrawDepModal">Pencairan</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
+                
             </div>
-            <div class="col-md-9" id="ShowTable">
-                <div class="row">
-                    <div class="col-md-12">
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="row">
+            <div class="col-md-12" id="ShowTable">
+
                         <div class="card">
 
                             <div class="header text-center">
                                 <h4 class="title"><b>Pengajuan Mudharabah Berjangka </b></h4>
                                 <p class="category">Daftar Pengajuan Mudharabah Berjangka Nasabah</p>
                                 <br />
-                            </div>
-                            <div class="toolbar">
-                                <div class="row">
-                                    <div class="col-md-4"></div>
-                                    <div class="col-md-4">
-                                        {{--<h5 class="text-center">Periode Laporan</h5>--}}
-                                        <form @if(Auth::user()->tipe == "admin") action="{{route('periode.pengajuan_deposito')}}" @elseif(Auth::user()->tipe == "teller") action="{{route('teller.periode.pengajuan_deposito')}}" @endif method="post">
-                                            {{ csrf_field() }}
-                                            <div align="center">
-                                                <select required  name="periode" class="select pull-center" style="height: 1.9em">
-                                                    <option disabled selected > - Periode -</option>
-                                                    @foreach($periode as $p)
-                                                        <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="submit" class="btn btn-info btn-fill btn-sm"> <i class="pe-7s-search"></i> Search</button>
-
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-4"></div>
-                                </div>
-                                <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                <span></span>
                             </div>
 
                             <table id="bootstrap-table" class="table">
@@ -317,10 +251,10 @@
                             </table>
 
                         </div><!--  end card  -->
-                    </div> <!-- end col-md-12 -->
-                </div> <!-- end row -->
-            </div>
+
+            </div> <!-- end row -->
         </div>
+
     </div>
     @include('modal.pengajuan')
     @include('modal.user_deposito')

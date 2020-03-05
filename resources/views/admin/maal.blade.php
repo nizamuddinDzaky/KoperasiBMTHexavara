@@ -29,7 +29,10 @@
                     </form>
                 </div>
 
-                <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-plus"></i> Tambah Pengajuan</button>
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-plus"></i> Tambah Pengajuan</button>
+                </div>
+                
             </div>
         </div>
     </div>

@@ -61,6 +61,22 @@
         border: 1px solid $brand-success;
     }
 
+    &.btn-info {
+        background-color: $brand-info;
+        color: $white;
+        border: 1px solid $brand-info;
+    }
+
+    &.circle {
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+
+        i {
+            margin-left: -5%;
+        }
+    }
+
     &.rounded {
         border-radius: 20px;
     }

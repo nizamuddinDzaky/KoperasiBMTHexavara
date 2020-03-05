@@ -17,88 +17,78 @@
     </style>
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Kas Harian</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
 
-                        <div class="header text-center">
-                            <h4 id="titlePrint" class="title"><b>Kas Harian</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Kas Harian</p>
-                            <br />
-                        </div>
-                        <div class="toolbar">
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <span></span>
-                        </div>
+                <div class="header text-center">
+                    <h4 id="titlePrint" class="title"><b>Kas Harian</b> </h4>
+                    <p id="titlePrint2" class="category">Laporan Kas Harian</p>
+                    <br />
+                </div>
 
-                        <table id="bootstrap-table" class="table">
-                            <thead>
-                            <th >ID</th>
-                            <th >ID Rekening</th>
-                            <th >Teller</th>
-                            <th >Tgl Transaksi</th>
-                            <th>Keterangan</th>
+                <table id="bootstrap-table" class="table">
+                    <thead>
+                    <th >ID</th>
+                    <th >ID Rekening</th>
+                    <th >Teller</th>
+                    <th >Tgl Transaksi</th>
+                    <th>Keterangan</th>
 
-                            <th >Debit(Pengeluaran)</th>
-                            <th >Kredit(Pemasukkan)</th>
-                            <th >jumlah</th>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                    <th >Debit(Pengeluaran)</th>
+                    <th >Kredit(Pemasukkan)</th>
+                    <th >jumlah</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
 
-                                @if(Auth::user()->tipe=="admin")
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                @else
+                        @if(Auth::user()->tipe=="admin")
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        @else
 
-                                    <td class="text-center text-uppercase"><strong>Saldo Awal</strong></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-right"> {{number_format($saldo,2) }}</td>
-                                @endif
-                            </tr>
-                            @foreach ($data as $usr)
-                                <tr>
-                                    <td class="text-left">{{ $loop->iteration }}</td>
-                                    @if(Auth::user()->tipe=="admin")
-                                        <td></td>
-                                        <td class="text-uppercase">{{ $usr['teller'] }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right"> {{number_format($usr['saldo'],2) }}</td>
-                                    @else
-
-                                        <td class="text-uppercase">{{ $usr->idrek }} {{ $usr->nama }}</td>
-                                        <td >{{ $usr->no_ktp }}</td>
-                                        <td class="text-center">{{$usr->created_at }}</td>
-                                        <td class="text-center text-uppercase">{{ $usr->user }}</td>
-
-                                        @if(json_decode($usr->transaksi,true)['jumlah']>=0)
-                                            <td class="text-right"></td>
-                                            <td class="text-right"> {{number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                        @elseif(json_decode($usr->transaksi,true)['jumlah']<0)
-                                            <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['jumlah']),2) }}</td>
-                                            <td class="text-right"></td>
-                                        @endif
-                                        <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['saldo_akhir']),2) }}</td>
-                                    @endif
-                                </tr>
-                            @endforeach
-                            <tr>
+                            <td class="text-center text-uppercase"><strong>Saldo Awal</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right"> {{number_format($saldo,2) }}</td>
+                        @endif
+                    </tr>
+                    @foreach ($data as $usr)
+                        <tr>
+                            <td class="text-left">{{ $loop->iteration }}</td>
+                            @if(Auth::user()->tipe=="admin")
+                                <td></td>
+                                <td class="text-uppercase">{{ $usr['teller'] }}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
+<<<<<<< HEAD
                                 <td class="text-center text-uppercase"><strong>TOTAL</strong></td>
 
                                 <td class="text-right"><strong> {{number_format(abs($min),2) }}</strong></td>
@@ -116,6 +106,48 @@
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->
         </div>
+=======
+                                <td class="text-right"> {{number_format($usr['saldo'],2) }}</td>
+                            @else
+
+                                <td class="text-uppercase">{{ $usr->idrek }} {{ $usr->nama }}</td>
+                                <td >{{ $usr->no_ktp }}</td>
+                                <td class="text-center">{{$usr->created_at }}</td>
+                                <td class="text-center text-uppercase">{{ $usr->user }}</td>
+
+                                @if(json_decode($usr->transaksi,true)['jumlah']>=0)
+                                    <td class="text-right"></td>
+                                    <td class="text-right"> {{number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                @elseif(json_decode($usr->transaksi,true)['jumlah']<0)
+                                    <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['jumlah']),2) }}</td>
+                                    <td class="text-right"></td>
+                                @endif
+                                <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['saldo_akhir']),2) }}</td>
+                            @endif
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center text-uppercase"><strong>TOTAL</strong></td>
+
+                        <td class="text-right"><strong> {{number_format(abs($min),2) }}</strong></td>
+                        <td class="text-right"><strong> {{number_format($plus,2) }}</strong></td>
+                        @if(Auth::user()->tipe=="admin")
+                            <td class="text-right"><strong> {{number_format($saldo,2) }}</strong></td>
+                        @else
+                            <td></td>
+                        @endif
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div> <!-- end row -->
+>>>>>>> feature/change-admin-frontend
     </div>
 @endsection
 

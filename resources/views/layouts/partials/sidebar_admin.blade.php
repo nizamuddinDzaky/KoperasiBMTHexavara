@@ -29,8 +29,8 @@
     </div>
 </li>
 
-<li @if(Request::is('admin/transaksi/*'))class="active"@endif>
-    @if(Request::is('admin/transaksi/*'))
+<li @if(Request::is('admin/transfer/*'))class="active"@endif>
+    @if(Request::is('admin/transfer/*'))
         <a data-toggle="collapse" href="#nav_transaksi" aria-expanded="true">
     @else
         <a data-toggle="collapse" href="#nav_transaksi">
@@ -41,13 +41,15 @@
             </p>
         </a>
 
-    @if(Request::is('admin/transaksi/*'))
+    @if(Request::is('admin/transfer/*'))
     <div class="collapse in" id="nav_transaksi">
     @else
     <div class="collapse" id="nav_transaksi">
     @endif
         <ul class="nav">
-            <li @if(Request::is('admin/transaksi/transfer'))class="active"@endif><a href="{{route('admin.transaksi.transfer')}}">Transfer Antar Rekening</a></li>
+            <li @if(Request::is('admin/transfer/transfer'))class="active"@endif><a href="{{route('admin.transaksi.transfer')}}">Transfer Antar Rekening</a></li>
+            <li><a href="#">Kas Masuk</a></li>
+            <li><a href="#">Kas Keluar</a></li>
             {{--<li @if(Request::is('admin/transaksi/pengajuan'))class="active"@endif><a href="{{route('admin.transaksi.pengajuan')}}">Daftar Pengajuan</a></li>--}}
             {{--<li><a href="#">Deposito</a></li>--}}
             {{--<li><a href="#">Pembiayaan</a></li>--}}
@@ -55,36 +57,26 @@
     </div>
 </li>
 
-<li  @if(Request::is('admin/tabungan/*','admin/pembiayaan/*','admin/deposito/*'))class="active"@endif>
+<li  @if(Request::is('admin/tabungan/*','admin/pembiayaan/*','admin/deposito/*','admin/transaksi/*'))class="active"@endif>
     <a data-toggle="collapse" href="#nav_tabungan">
         <i class="pe-7s-monitor"></i>
         <p>Monitor Transaksi
             <b class="caret"></b>
         </p>
     </a>
-    @if(Request::is('admin/tabungan/*','admin/pembiayaan/*','admin/deposito/*','admin/maal/*'))
+    @if(Request::is('admin/transaksi/*'))
     <div class="collapse in" id="nav_tabungan">
     @else
     <div class="collapse" id="nav_tabungan">
     @endif
         <ul class="nav">
-            <li @if(Request::is('admin/maal'))class="active"@endif><a href="{{route('admin.pengajuan.maal')}}">Pengajuan Maal</a></li>
-            <li  @if(Request::is('admin/tabungan/pengajuan'))class="active"@endif><a href="{{route('admin.pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
-            <li  @if(Request::is('admin/tabungan/nasabah'))class="active"@endif><a href="{{route('admin.nasabah_tabungan')}}">Nasabah Tabungan</a></li>
-            <li @if(Request::is('admin/deposito/pengajuan'))class="active"@endif><a href="{{route('admin.pengajuan_deposito')}}">Pengajuan Mudharabah Berjangka</a></li>
-            <li @if(Request::is('admin/deposito/nasabah'))class="active"@endif><a href="{{route('admin.nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li>
-            <li @if(Request::is('admin/pembiayaan/pengajuan'))class="active"@endif><a href="{{route('admin.pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
-            <li @if(Request::is('admin/pembiayaan/nasabah'))class="active"@endif><a href="{{route('admin.nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li>
+            <li @if(Request::is('admin/transaksi/simpanan'))class="active"@endif><a href="{{route('admin.transaksi.simpanan')}}">Simpanan Anggota</a></li>
+            <li @if(Request::is('admin/transaksi/tabungan'))class="active"@endif><a href="{{route('admin.transaksi.tabungan')}}">Tabungan</a></li>
+            <li @if(Request::is('admin/transaksi/deposito'))class="active"@endif><a href="{{route('admin.transaksi.deposito')}}">Mudharabah Berjangka</a></li>
+            <li @if(Request::is('admin/transaksi/kolektibilitas'))class="active"@endif><a href="{{route('admin.transaksi.kolektibilitas')}}">Kolektibilitas</a></li>
+            <li @if(Request::is('admin/transaksi/realisasi'))class="active"@endif><a href="{{route('admin.transaksi.realisasi_pembiayaan')}}">Realisasi Pembiayaan</a></li>
         </ul>
     </div>
-</li>
-
-<li @if(Request::is('admin/kolektibilitas*'))class="active"@endif>
-        <a href="{{route('daftar_kolektibilitas')}}">
-            <i class="pe-7s-album"></i>
-            <p>Kolektibilitas
-            </p>
-        </a>
 </li>
 
 <li @if(Request::is('admin/laporan/*'))class="active"@endif>
@@ -100,14 +92,19 @@
     <div class="collapse" id="nav_laporan">
     @endif
         <ul class="nav">
-            <li @if(Request::is('admin/laporan/anggota'))class="active"@endif><a href="{{route('detail_anggota')}}">Detail Anggota</a></li>
-            <li><a href="{{route('kas_harian')}}">Kas Harian</a></li>
-            <li><a href="{{route('neraca')}}">Neraca Saldo</a></li>
-            <li><a href="{{route('laba_rugi')}}">Laba Rugi</a></li>
-            <li><a href="{{route('quitas')}}">Laporan Perubahan Quitas</a></li>
-            <li><a href="{{route('buku_besar')}}">Buku Besar</a></li>
-            <li><a href="{{route('distribusi')}}">Distribusi Pendapatan</a></li>
-            <li><a href="{{route('shu')}}">SHU Tahunan</a></li>
+            <li class="@if(Request::is('admin/laporan/distribusi')) active @endif"><a href="{{route('distribusi')}}">Distribusi Pendapatan</a></li>
+            <li class="@if(Request::is('admin/laporan/buku')) active @endif"><a href="{{route('buku_besar')}}">Buku Besar</a></li>
+            <li class="@if(Request::is('admin/laporan/neraca')) active @endif"><a href="{{route('neraca')}}">Neraca Saldo</a></li>
+            <li class="@if(Request::is('admin/laporan/shu')) active @endif"><a href="{{route('shu')}}">SHU Tahunan</a></li>
+            <li class="@if(Request::is('admin/laporan/quitas')) active @endif"><a href="{{route('quitas')}}">Laporan Perubahan Quitas</a></li>
+            <li class="@if(Request::is('admin/laporan/saldo_zis')) active @endif"><a href="{{route('admin.saldo.zis')}}">Saldo ZIS</a></li>
+            <li class="@if(Request::is('admin/laporan/saldo_donasi')) active @endif"><a href="{{route('admin.saldo.donasi')}}">Saldo Donasi</a></li>
+            <li class="@if(Request::is('admin/laporan/saldo_wakaf')) active @endif"><a href="{{route('admin.saldo.wakaf')}}">Saldo Wakaf</a></li>
+            <li><a href="{{route('quitas')}}">Laporan Keuangan</a></li>
+
+
+            {{-- <li><a href="{{route('kas_harian')}}">Kas Harian</a></li>
+            <li><a href="{{route('laba_rugi')}}">Laba Rugi</a></li> --}}
             {{--<li><a href="{{route('pengajuan_pem')}}">Pengajuan Pembiayaan</a></li>--}}
             {{--<li><a href="{{route('realisasi_pem')}}">Realisasi Pembiayaan</a></li>--}}
             {{--<li><a href="{{route('daftar_kolektibilitas')}}">Daftar Kolektibilitas</a></li>--}}
@@ -126,24 +123,27 @@
 </li>
 
 <li @if(Request::is('admin/proses/akhirbulan*'))class="active"@endif>
-    <a data-toggle="collapse" href="#nav_prosest">
+    <a href="#nav_prosest">
         <i class="pe-7s-medal"></i>
-        <p>Proses Akhir Bulan
-            <b class="caret"></b>
-        </p>
+        <p>Proses Akhir Bulan</p>
     </a>
 </li>
 
 <li @if(Request::is('admin/proses/akhirtahun*'))class="active"@endif>
-    <a data-toggle="collapse" href="#nav_prosest">
+    <a href="#nav_prosest">
         <i class="pe-7s-wallet"></i>
-        <p>Proses Akhir Tahun
-            <b class="caret"></b>
-        </p>
+        <p>Proses Akhir Tahun</p>
     </a>
 </li>
 
-<li @if(Request::is('admin/maal*')) class="active"@endif>
+<li @if(Request::is('admin/rapat/*')) class="active"@endif>
+    <a href="{{route('admin.rapat.index')}}">
+        <i class="pe-7s-users"></i>
+        <p>RAPAT</p>
+    </a>
+</li>
+
+{{-- <li @if(Request::is('admin/maal*')) class="active"@endif>
     <a data-toggle="collapse" href="#nav_maal">
         <i class="pe-7s-home"></i>
         <p>Maal
@@ -159,4 +159,4 @@
             <li @if(Request::is('admin/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi</a></li>
         </ul>
     </div>
-</li>
+</li> --}}

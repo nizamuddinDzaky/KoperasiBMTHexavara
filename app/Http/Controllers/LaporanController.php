@@ -520,6 +520,7 @@ class LaporanController extends Controller
             'bulan'=> date_format($time_input,"F Y")
         ]);
     }
+    
     public function periode_neraca(Request $request){
 
         $data = $this->informationRepository->getAktiva();
@@ -715,12 +716,12 @@ class LaporanController extends Controller
         return view('admin.laporan.labarugi');
     }
     public function saldo_zis() {
-        return view('laporan.saldo_zis');
+        return view('admin.laporan.saldo_zis');
     }
     public function saldo_donasi() {
-        return view('laporan.saldo_donasi');
+        return view('admin.laporan.saldo_donasi');
     }
     public function saldo_wakaf() {
-        return view('laporan.saldo_wakaf');
+        return view('admin.laporan.saldo_wakaf');
     }
 }

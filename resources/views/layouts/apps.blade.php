@@ -75,6 +75,9 @@
     <!-- BMTMUDA themes -->
     <link rel="stylesheet" href="{{ asset('bmtmudathemes/assets/css/main.css') }}">
 
+    <!-- Materials Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <style>
         .dataTables_wrapper  {
             margin: 1em;

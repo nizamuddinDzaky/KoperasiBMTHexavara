@@ -17,10 +17,29 @@
     </style>
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Neraca Saldo</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                            @foreach($periode as $p)
+                                <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="content">
-        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="card">
 
                         <div class="header text-center">
@@ -28,6 +47,7 @@
                             <p id="titlePrint2" class="category">Laporan Aktiva periode {{$bulan}}</p>
                             <br />
                         </div>
+<<<<<<< HEAD
                         <div class="toolbar">
                             <form action="{{route('periode.neraca')}}" method="post">
                                 {{ csrf_field() }}
@@ -45,6 +65,8 @@
                             <!--        Here you can write extra buttons/actions for the toolbar              -->
                             <span></span>
                         </div>
+=======
+>>>>>>> feature/change-admin-frontend
 
                         <table id="bootstrap-table" class="table ">
                             <thead>
@@ -62,10 +84,17 @@
                                         @endfor
                                         {{ $usr->nama  }}</td>
                                     @if($usr->tipe_rekening =="detail")
+<<<<<<< HEAD
                                         @if(number_format(floatval($usr->saldo),2)< 0)
                                             <td class="text-right">{{ number_format( abs(floatval($usr->saldo)),2 )}}</td>
                                         @else
                                             <td class="text-right">{{ number_format(floatval($usr->saldo),2) }}</td>
+=======
+                                        @if(number_format(floatval($usr->saldo),2)<0)
+                                            <td class="text-right">({{ number_format( abs(floatval($usr->saldo)),2 )}})</td>
+                                        @else
+                                            <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
+>>>>>>> feature/change-admin-frontend
                                         @endif
                                     @else <td></td>
                                     @endif
