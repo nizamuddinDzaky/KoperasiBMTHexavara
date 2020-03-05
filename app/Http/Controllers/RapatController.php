@@ -67,4 +67,13 @@ class RapatController extends Controller
     {
         return view('rapat.show');
     }
+
+    /** 
+     * Admin rapat dashboar page
+     * @return Response
+    */
+    public function Admin()
+    {
+        return view('rapat.admin');
+    }
 }

@@ -9,12 +9,18 @@
 @endsection
 @section('extra_style')
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
+    <style>
+        .fa-3x {
+            font-size: 5vmax;}
+        h3 {
+            font-size: 2vw !important;}
+    </style>
 @endsection
 @section('content')
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Pembiayaan Nasabah</h4>
+                <h4 class="title">Distribusi Pendapatan</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -26,86 +32,137 @@
                     </form>
                 </div>
 
+                <div class="button-group right">
+                    @if($status == false)
+                        <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#distribusiModal"><i class="fa fa-share-square"></i> Distribusi Pendapatan</button>
+                    @else
+                    <button class="btn btn-danger rounded right shadow-effect" onclick="document.getElementById('distribusi-form').submit()"><i class="fa fa-trash"></i> Hapus Distribusi Pendapatan</button>
+                    @endif
+
+                    <form action="{{route('delete.pendapatan')}}" method="post" id="distribusi-form">
+                        {{ csrf_field() }}
+                    </form>
+                </div>
             </div>
         </div>
     </div>
     <div class="content">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
+                @if($status == true)
+                    <div class="alert alert-success text-center">
+                        <span><b>Distribusi Pendapatan telah dilakukan</b> !</span>
+                    </div>
+                @else
+                    <div class="alert alert-danger text-center">
+                        <span><b>Distribusi Pendapatan belum dilakukan</b> !</span>
+                    </div>
+                @endif
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 class="title"> Pembiayaan Nasabah</h4>
-                        <p class="category">Daftar  Pembiayaan Nasabah</p>
-                        <br />
+                        <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan periode {{date("F Y")}}</p>
+                            <br />
                     </div>
-                    <div class="toolbar">
-                        <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                        <span></span>
-                </div>
 
                     <table id="bootstrap-table" class="table">
                         <thead>
-                        <th></th>
-                        <th data-sortable="true" class="text-left">ID</th>
-                        <th data-sortable="true">Jenis Pembiayaan</th>
-                        <th data-sortable="true">Nama Nasabah</th>
-                        <th data-sortable="true">Total Pinjaman*</th>
-                        <th data-sortable="true">Lama Pinjaman</th>
-                        <th data-sortable="true">Angsuran Pokok</th>
-                        <th data-sortable="true">Sisa Pinjaman</th>
-                        <th data-sortable="true">Jatuh Tempo</th>
-                        <th data-sortable="true">Status</th>
-                        <th>Actions</th>
+                            <tr>
+                                <th rowspan="2" class="text-left">No</th>
+                                <th rowspan="2"> Produk</th>
+                                <th rowspan="2"> Saldo Rata-rata</th>
+                                <th rowspan="2"> Pendapatan</th>
+                                <th colspan="2" class="text-center"> Nisbah</th>
+                                <th colspan="2" class="text-center"> Porsi</th>
+                                <th rowspan="2"> % Nasabah</th>
+                            </tr>
+                            <tr>
+                                <th>Nasabah</th>
+                                <th>BMT</th>
+                                <th>Nasabah</th>
+                                <th>BMT</th>
+                            </tr>
+                            <tr>
+                                <th>A</th>
+                                <th>B</th>
+                                <th>C</th>
+                                <th>D</th>
+                                <th>E</th>
+                                <th>F</th>
+                                <th>G</th>
+                                <th>H</th>
+                                <th>I</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach ($data as $usr)
+                        @for($i=0;$i <count($data['tabungan']);$i++)
                             <tr>
-                                <td></td>
-                                <td>{{ $usr->id_pembiayaan }}</td>
-                                <td>{{ $usr->jenis_pembiayaan  }}</td>
-                                <td>{{ $usr->nama   }}</td>
-                                <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
-                                <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
-                                <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
-                                <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
-
-                                <td class="text-center">{{ date_format($usr->created_at,"Y-m-d") }}</td>
-                                <td class="text-uppercase text-center">{{ $usr->status }}</td>
-                                <td class="td-actions text-center">
-                                    <form  method="post" action="{{route('admin.detail_pembiayaan')}}">
-                                        <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
-                                        {{csrf_field()}}
-                                        <button type="submit" class="btn btn-social btn-info btn-fill @if($usr->status=="blocked" || $usr->status=="not active") btn-danger" @endif title="Detail"
-                                                data-id      = "{{$usr->no_ktp}}"
-                                                data-nama    = "{{$usr->nama}}" name="id">
-                                            <i class="fa fa-clipboard-list"></i>
-                                        </button>
-                                        @if($usr->status!="not active")
-                                            <button type="button"  @if($usr->status=="blocked" || $usr->status=="not active")  class="btn btn-social btn-fill btn-success" title="Aktivasi Rekening" @else  class="btn btn-social btn-fill btn-danger" title="Blokir Rekening"@endif  data-toggle="modal" data-target="#blockRekModal"
-                                                    data-id         = "{{$usr->id}}"
-                                                    data-nama       = "{{$usr->jenis_pembiayaan}}"
-                                                    data-status       = "{{$usr->status}}">
-                                                @if($usr->status=="active")
-                                                    <i class="fa fa-remove"></i>
-                                                @elseif($usr->status=="blocked")
-                                                    <i class="fa fa-check-square"></i>
-                                                @endif
-                                            </button>
-                                        @endif
-                                    </form>
-                                </td>
+                                <td>{{$i+1}}</td>
+                                <td>{{$data['tabungan'][$i]->nama_rekening}}</td>
+                                <td class="text-right">{{number_format($data['tabungan'][$i]->saldo,2)}}</td>
+                                <td class="text-right">{{ number_format($data['tabungan'][$i]['D'],2) }}</td>
+                                <td>{{json_decode($data['tabungan'][$i]->detail,true)['nisbah_anggota']}}</td>
+                                <td>{{json_decode($data['tabungan'][$i]->detail,true)['nisbah_bank']}}</td>
+                                <td class="text-right">{{ number_format($data['tabungan'][$i]['G'],2)  }}</td>
+                                <td class="text-right">{{ number_format($data['tabungan'][$i]['H'],2) }}</td>
+                                <td>-</td>
                             </tr>
-                        @endforeach
+                        @endfor
+                        @for($j=0;$j <count($data['deposito']);$j++)
+                            <tr>
+                                <td>{{$j+1+$i}}</td>
+                                <td>{{$data['deposito'][$j]->nama_rekening}}</td>
+                                <td class="text-right">{{number_format($data['deposito'][$j]->saldo,2)}}</td>
+                                <td class="text-right">{{ number_format($data['deposito'][$j]['D'],2) }}</td>
+                                <td>{{json_decode($data['deposito'][$j]->detail,true)['nisbah_anggota']}}</td>
+                                <td>{{json_decode($data['deposito'][$j]->detail,true)['nisbah_bank']}}</td>
+                                <td class="text-right">{{ number_format($data['deposito'][$j]['G'],2)  }}</td>
+                                <td class="text-right">{{ number_format($data['deposito'][$j]['H'],2) }}</td>
+                                <td>-</td>
+                            </tr>
+                        @endfor
+                        <tr>
+                            <td>{{$j+$i+1}}</td>
+                            <td>KEKAYAAN</td>
+                            <td class="text-right">{{number_format($data['kekayaan'],2)}}</td>
+                            <td class="text-right">{{ number_format(($data['kekayaan']/$data['total']*$data['pendapatan']),2) }}</td>
+                            <td>{{0}}</td>
+                            <td>{{100}}</td>
+                            <td></td>
+                            <td class="text-right">{{number_format(($data['kekayaan']/$data['total']*$data['pendapatan'])*100,2) }}</td>
+                            <td>-</td>
+                        </tr>
+
+
+                        <tr>
+                            <td></td>
+                            <td>TOTAL</td>
+                            <td class="text-right">{{number_format($data['total'],2)}}</td>
+                            <td class="text-right">{{number_format($data['pendapatan'],2)}}</td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">{{number_format($data['nasabah'],2)}}</td>
+                            <td class="text-right">{{number_format($data['bmt'],2)}}</td>
+                            <td>-</td>
+                        </tr>
+
                         </tbody>
+
                     </table>
 
                 </div><!--  end card  -->
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
     </div>
-    @include('modal.pengajuan')
+
+    @include('modal.distribusi')
+
 @endsection
+
+
+@section('extra_script')
+
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
@@ -115,33 +172,24 @@
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">
-        $('#blockRekModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var id = button.data('id');
-            var nama = button.data('nama');
-            var status = button.data('status');
-            if(status=="blocked"){
-                status ="active";
-                $('#blockRekLabel').text("Activasi Rekening : " + nama);
-                $('#btn_block').hide();
-            }
-            else if(status=="active"){
-                status ="blocked";
-                $('#blockRekLabel').text("Blokir Rekening : " + nama);
-                $('#btn_active').hide();
-            }
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            $('#id_block').val(id);
-            $('#tipeRek').val("Pembiayaan");
-            $('#st_block').val(status);
-            $('#toBlock').text(nama + "?");
-        });
     </script>
 
     <script type="text/javascript">
         var $table = $('#bootstrap-table');
+        function readURL5(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#pic5')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(auto)
+                };
 
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
         $().ready(function(){
             $('#bootstrap-table').dataTable({
@@ -151,11 +199,12 @@
                     $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
                     $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
                 },
-                "processing": true,
+                "processing": false,
 //                "dom": 'lBf<"top">rtip<"clear">',
                 "order": [],
                 "scrollX": false,
-                "dom": 'lBfrtip',
+                "paging": false,
+                "dom": 'lBfrtp',
                 "buttons": {
                     "dom": {
                         "button": {
@@ -165,13 +214,33 @@
                         }
                     },
                     "buttons": [
+                        {
+                            extend: 'print',
+                            title: function () { return  $('#titlePrint2').text()+"\n"+$('#titlePrint2').text(); },
+                        },
+
                         'copyHtml5',
-                        'print',
-                        'excelHtml5',
-//                        'csvHtml5',
-                        'pdfHtml5' ]
+                        {
+                            extend: 'excelHtml5',
+                            messageTop: function () { return  $('#titlePrint').text(); },
+                            messageTop: function () { return  $('#titlePrint2').text(); },
+                        },
+                        {
+                            extend:'pdfHtml5',
+                            title: function () { return  $('#titlePrint').text()+"\n"+$('#titlePrint2').text(); },
+                            customize: function(doc) {
+                                doc.defaultStyle.fontSize = 7;
+                                doc.styles.title = {
+                                    fontSize: '11',
+                                    alignment: 'center'
+                                };
+                                doc.content.layout='Border';
+                            }
+                        }
+                    ]
                 }
             });
+
         });
 
     </script>
@@ -352,108 +421,7 @@
                         $(wizard).find('.btn-finish').hide();
                     }
                 }
-
             });
-            $('#wizardCard2').bootstrapWizard({
-                tabClass: 'nav nav-pills',
-                nextSelector: '.btn-next',
-                previousSelector: '.btn-back',
-                onNext: function(tab, navigation, index) {
-                    var $valid = $('#wizardForm2').valid();
-
-                    if(!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    }
-                },
-                onInit : function(tab, navigation, index){
-
-                    //check number of tabs and fill the entire row
-                    var $total = navigation.find('li').length;
-                    $width = 100/$total;
-
-                    $display_width = $(document).width();
-
-                    if($display_width < 600 && $total > 3){
-                        $width = 50;
-                    }
-
-                    navigation.find('li').css('width',$width + '%');
-                },
-                onTabClick : function(tab, navigation, index){
-                    // Disable the posibility to click on tabs
-                    return false;
-                },
-                onTabShow: function(tab, navigation, index) {
-                    var $total = navigation.find('li').length;
-                    var $current = index+1;
-
-                    var wizard = navigation.closest('.card-wizard');
-
-                    // If it's the last tab then hide the last button and show the finish instead
-                    if($current >= $total) {
-                        $(wizard).find('.btn-next').hide();
-                        $(wizard).find('.btn-finish').show();
-                    } else if($current == 1){
-                        $(wizard).find('.btn-back').hide();
-                    } else {
-                        $(wizard).find('.btn-back').show();
-                        $(wizard).find('.btn-next').show();
-                        $(wizard).find('.btn-finish').hide();
-                    }
-                }
-
-            });
-
-        });
-        $('#wizardCard3').bootstrapWizard({
-            tabClass: 'nav nav-pills',
-            nextSelector: '.btn-next',
-            previousSelector: '.btn-back',
-            onNext: function(tab, navigation, index) {
-                var $valid = $('#wizardForm3').valid();
-
-                if(!$valid) {
-                    $validator.focusInvalid();
-                    return false;
-                }
-            },
-            onInit : function(tab, navigation, index){
-
-                //check number of tabs and fill the entire row
-                var $total = navigation.find('li').length;
-                $width = 100/$total;
-
-                $display_width = $(document).width();
-
-                if($display_width < 600 && $total > 3){
-                    $width = 50;
-                }
-
-                navigation.find('li').css('width',$width + '%');
-            },
-            onTabClick : function(tab, navigation, index){
-                // Disable the posibility to click on tabs
-                return false;
-            },
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index+1;
-
-                var wizard = navigation.closest('.card-wizard');
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if($current >= $total) {
-                    $(wizard).find('.btn-next').hide();
-                    $(wizard).find('.btn-finish').show();
-                } else if($current == 1){
-                    $(wizard).find('.btn-back').hide();
-                } else {
-                    $(wizard).find('.btn-back').show();
-                    $(wizard).find('.btn-next').show();
-                    $(wizard).find('.btn-finish').hide();
-                }
-            }
 
         });
 
@@ -463,7 +431,6 @@
             swal("Data disimpan!", "Terima kasih telah melengkapi data diri anda!", "success");
         }
     </script>
-
 @endsection
 @section('footer')
     @include('layouts.footer')

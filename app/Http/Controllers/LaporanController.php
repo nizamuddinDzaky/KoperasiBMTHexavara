@@ -85,7 +85,7 @@ class LaporanController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanReal();
-        return view('laporan.pembiayaan',[
+        return view('admin.laporan.pembiayaan',[
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'kegiatan' => $dropdown,
@@ -106,7 +106,7 @@ class LaporanController extends Controller
     public function daftar_kolektibilitas(){
         $dropdown = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllPemNasabahKolek();
-        return view('laporan.daftar_kolektibilitas',[
+        return view('admin.laporan.daftar_kolektibilitas',[
             'kegiatan' => $dropdown,
             'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
             'tab' =>  $this->informationRepository->getAllTab(),
@@ -508,7 +508,7 @@ class LaporanController extends Controller
         $time_input = date_create($str);
 
 
-        return view('laporan.neraca',[
+        return view('admin.laporan.neraca',[
             'data' => $data,
             'data2' => $data2,
             'aktiva' =>$aktiva,
@@ -712,12 +712,12 @@ class LaporanController extends Controller
         return view('admin.laporan.labarugi');
     }
     public function saldo_zis() {
-        return view('laporan.saldo_zis');
+        return view('admin.laporan.saldo_zis');
     }
     public function saldo_donasi() {
-        return view('laporan.saldo_donasi');
+        return view('admin.laporan.saldo_donasi');
     }
     public function saldo_wakaf() {
-        return view('laporan.saldo_wakaf');
+        return view('admin.laporan.saldo_wakaf');
     }
 }

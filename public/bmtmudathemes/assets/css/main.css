@@ -604,6 +604,22 @@ canvas {
   border: 1px solid #2ab27b;
 }
 
+.btn.btn-info {
+  background-color: #23CCEF;
+  color: #FFFFFF;
+  border: 1px solid #23CCEF;
+}
+
+.btn.circle {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
+
+.btn.circle i {
+  margin-left: -5%;
+}
+
 .btn.rounded {
   border-radius: 20px;
 }
@@ -909,6 +925,80 @@ canvas {
   .dataTables_wrapper .dt-buttons button {
     margin: 10px;
   }
+}
+
+.dataTables_wrapper .dataTable {
+  width: 100%;
+}
+
+.table.beautiful-table thead.style-head {
+  background-color: #e6e6e6;
+}
+
+.table.beautiful-table thead.style-head th {
+  padding: 15px 15px;
+  font-weight: 600;
+}
+
+.table.beautiful-table tbody tr.zoom-effect {
+  background-color: #FFFFFF;
+}
+
+.table.beautiful-table tbody tr.zoom-effect:hover {
+  -webkit-transform: scale(1.01, 1.01);
+          transform: scale(1.01, 1.01);
+  -webkit-box-shadow: 0 2px 15px #999999;
+          box-shadow: 0 2px 15px #999999;
+}
+
+.table.beautiful-table tbody tr.zoom-effect:hover td.with-icon .icon.default {
+  border: 1.2px solid #999999;
+}
+
+.table.beautiful-table tbody tr td {
+  padding: 10px;
+}
+
+.table.beautiful-table tbody tr td.with-icon .icon {
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  width: 0px;
+  height: 0px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-size: cover;
+}
+
+.table.beautiful-table tbody tr td.with-icon .icon.primary {
+  background-color: #3097D1;
+  padding: 23px;
+}
+
+.table.beautiful-table tbody tr td.with-icon .icon.primary i {
+  left: 13px;
+  top: 13px;
+  color: #FFFFFF;
+}
+
+.table.beautiful-table tbody tr td.with-icon .icon.default {
+  background-color: #FFFFFF;
+  padding: 20px;
+}
+
+.table.beautiful-table tbody tr td.with-icon .icon.default i {
+  color: #999999;
+  left: 10px;
+  top: 10px;
+}
+
+.table.beautiful-table tbody tr td.with-icon .icon i {
+  font-size: 20px;
+  position: absolute;
 }
 
 .head {

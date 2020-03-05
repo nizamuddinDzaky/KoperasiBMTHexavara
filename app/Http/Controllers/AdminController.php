@@ -853,21 +853,6 @@ class AdminController extends Controller
     }
 //end of TRANSAKSI
 
-    public function transaksi_tab(){
-        return view('admin.transaksi.tabungan',[
-            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
-            'data' => $this->informationRepository->getAllTransaksiTab(),
-            'data2' => $this->informationRepository->getAllpengajuanUsrTab(),
-            'tab' =>  $this->informationRepository->getAllTab(),
-            'dropdown' => $this->informationRepository->getDdTab(),
-            'dropdown2' => $this->informationRepository->getDdDep(),
-            'dropdown3' => $this->informationRepository->getDdPem(),
-            'dropdown4' => $this->informationRepository->getAllrekeningNoUsrTab(),
-            'dropdown5' => $this->informationRepository->getAllTabNoUsr(),
-            'dropdown6' => $this->informationRepository->getDdBank(),
-        ]);
-    }
-
     public function detail_pengajuan(Request $request){
         $dropdown = $this->informationRepository->getDdTab();
         $dropdown2 = $this->informationRepository->getDdDep();
@@ -1097,6 +1082,39 @@ class AdminController extends Controller
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
         ]);
     }
+
+
+    /* --------------------------------------------------------------------
+    -----------------------------------------------------------------------
+    ------------- Admin Dashbord Transaksi Menu Controller ----------------
+    -----------------------------------------------------------------------
+    ---------------------------------------------------------------------*/
+
+    /**
+     * Simpanan anggota controller
+     * @return View
+    */
+    public function simpanan(Request $request)
+    {
+        return view('admin.transaksi.simpanan');
+    }
+
+    /**
+     * Tabungan anggota controller
+     * @return View
+    */
+    public function tabungan(){
+        return view('admin.transaksi.tabungan');
+    }
+
+    /**
+     * Deposito anggota controller
+     * @return View
+    */
+    public function deposito(){
+        return view('admin.transaksi.deposito');
+    }
+    
 
 //end of NAVBAR PEMBIAYAAN
 

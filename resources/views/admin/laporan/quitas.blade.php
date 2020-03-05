@@ -17,83 +17,82 @@
     </style>
 @endsection
 @section('content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Laporan Perubahan Quitas</h4>
 
-                        <div class="header text-center">
-                           <h4 id="titlePrint" class="title"><b>Perubahan Quitas</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Perubahan Quitas periode {{date("F Y")}}</p>
-                                <br />
-                        </div>
-                        <div class="toolbar">
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <form action="{{route('periode.quitas')}}" method="post">
-                                {{ csrf_field() }}
-                                <div align="center">
-                                    <select required  name="periode" class="select pull-center" style="height: 1.9em">
-                                        <option disabled selected > - Periode -</option>
-                                        @foreach($periode as $p)
-                                            <option value="{{ $p }}"> {{substr($p,0,4)}} - {{substr($p,4,6)}}</option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-info btn-fill btn-sm"> <i class="pe-7s-search"></i> Search</button>
-
-                                </div>
-                            </form> <span></span>
-                        </div>
-
-                        <table id="bootstrap-table" class="table">
-                            <thead>
-                                <th class="text-left">ID</th>
-                                <th class="text-center"> Keterangan</th>
-                                <th class="text-center"> Jumlah</th>
-                                <th class="text-center"> Total</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-left"></td>
-                                    <td class="text-left text-uppercase"><h5><strong>Saldo Kekayaan Bersih Awal Bulan</strong> </h5></td>
-                                    <td class="text-right"></td>
-                                    <td class="text-right">Rp {{ isset($awal)?number_format(floatval($awal),2):0 }}</td>
-                                </tr>
-                                @foreach ($data as $usr)
-                                    <tr>
-                                        <td class="text-left">{{ $usr['id_bmt'] }}</td>
-                                        <td class="text-left">
-                                            @for ($i=0; $i<($usr['point']) ;$i++)
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            @endfor
-                                            {{ $usr['nama']  }}</td>
-                                        @if($usr['tipe_rekening'] =="detail")
-                                        <td class="text-right">Rp {{number_format(floatval($usr['saldo']),2) }}</td>
-                                        @else <td></td>
-                                        @endif
-                                        <td></td>
-                                    </tr>
-                                @endforeach
-                                <tr>
-                                    <td></td>
-                                    <td class="text-left text-uppercase"><h5><strong>Jumlah</strong> </h5></td>
-                                    <td></td>
-                                    <td class="text-right">Rp {{number_format($sum,2)}}</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td class="text-left text-uppercase"><h5><strong>Tambah Kekayaan</strong> </h5></td>
-                                    <td></td>
-                                    <td class="text-right">Rp {{number_format($sum+$awal,2)}}</td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                    </div><!--  end card  -->
-                </div> <!-- end col-md-12 -->
-            </div> <!-- end row -->
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+
+                    <div class="header text-center">
+                        <h4 id="titlePrint" class="title"><b>Perubahan Quitas</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Perubahan Quitas periode {{date("F Y")}}</p>
+                            <br />
+                    </div>
+
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                            <th class="text-left">ID</th>
+                            <th class="text-center"> Keterangan</th>
+                            <th class="text-center"> Jumlah</th>
+                            <th class="text-center"> Total</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-left"></td>
+                                <td class="text-left text-uppercase"><h5><strong>Saldo Kekayaan Bersih Awal Bulan</strong> </h5></td>
+                                <td class="text-right"></td>
+                                <td class="text-right">Rp {{ isset($awal)?number_format(floatval($awal),2):0 }}</td>
+                            </tr>
+                            @foreach ($data as $usr)
+                                <tr>
+                                    <td class="text-left">{{ $usr['id_bmt'] }}</td>
+                                    <td class="text-left">
+                                        @for ($i=0; $i<($usr['point']) ;$i++)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        @endfor
+                                        {{ $usr['nama']  }}</td>
+                                    @if($usr['tipe_rekening'] =="detail")
+                                    <td class="text-right">Rp {{number_format(floatval($usr['saldo']),2) }}</td>
+                                    @else <td></td>
+                                    @endif
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td></td>
+                                <td class="text-left text-uppercase"><h5><strong>Jumlah</strong> </h5></td>
+                                <td></td>
+                                <td class="text-right">Rp {{number_format($sum,2)}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-left text-uppercase"><h5><strong>Tambah Kekayaan</strong> </h5></td>
+                                <td></td>
+                                <td class="text-right">Rp {{number_format($sum+$awal,2)}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
     </div>
 @endsection
 

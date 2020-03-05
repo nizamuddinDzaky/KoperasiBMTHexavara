@@ -11,9 +11,32 @@
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Saldo Rekening BMT</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="button-group right">
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#transferRekModal"><i class="fas fa-exchange-alt"></i> &nbsp;Transfer Rekening BMT</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal"><i class="fas fa-credit-card"></i> &nbsp;Transfer Pengeluaran/Pemasukan</button>
+                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#wapokRekModal"><i class="fas fa-credit-card"></i> &nbsp;Upgrade Simpanan</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="content">
         <div class="container-fluid">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-4">
                     <div class="card card-wizard " style="">
                         <form id="wizardForm" method="" action="#">
@@ -75,7 +98,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">

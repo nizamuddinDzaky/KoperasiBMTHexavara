@@ -26,7 +26,13 @@ Route::get('/maal', [
     'uses'      => 'MaalController@home'
 ]);
 
-//ADMIN
+
+
+/* ---------------------------------------------------------
+------------------------------------------------------------
+------------ ADMIN DASHBOARD ROUTER WRAP -------------------
+------------------------------------------------------------
+----------------------------------------------------------*/
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required:admin']], function () {
 
     Route::get('/', [
@@ -70,6 +76,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'as'        => 'admin.detail_pengajuan',
         'uses'      => 'AdminController@detail_pengajuan'
     ]);
+
+    Route::group(['prefix' => 'transfer', 'middleware' => ['auth']], function () {
+        Route::get('/transfer', [
+            'as' => 'admin.transaksi.transfer',
+            'uses' => 'AdminController@transfer'
+        ]);
+    });
+
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {
             Route::get('/', [
@@ -81,25 +95,68 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
                 'uses' => 'AdminController@periode_pengajuan'
             ]);
         });
+
+        /** 
+         * Admin Dashboard Menu Transaksi
+         * Transaksi simpanan anggota controller
+         * @return View 
+        */
+        Route::get('simpanan', [
+            'as'    => 'admin.transaksi.simpanan',
+            'uses'  => 'AdminController@simpanan'
+        ]);
+        
+        /** 
+         * Admin Dashboard Menu Transaksi
+         * Transaksi tabungan anggota controller
+        */
+        Route::get('/tabungan', [
+            'as' => 'admin.transaksi.tabungan',
+            'uses' => 'AdminController@tabungan'
+        ]);
+
+        /** 
+         * Admin Dashboard Menu Transaksi
+         * Transaksi mudharabag berjangka anggota controller
+        */
+        Route::get('/deposito', [
+            'as' => 'admin.transaksi.deposito',
+            'uses' => 'AdminController@deposito'
+        ]);
+
+        /** 
+         * Admin Dashboard Menu Transaksi
+         * Transaksi daftar kolektibilitas anggota controller
+        */
+        Route::get('/kolektibilitas', [
+            'as'        => 'admin.transaksi.kolektibilitas',
+            'uses'      => 'LaporanController@daftar_kolektibilitas'
+        ]);
+
+        /** 
+         * Admin Dashboard Menu Transaksi
+         * Transaksi realisasi pembiayaan anggota controller
+        */
+        Route::get('/realisasi', [
+            'as'        => 'admin.transaksi.realisasi_pembiayaan',
+            'uses'      => 'LaporanController@realisasi_pem'
+        ]);
+
         //Transaksi Mall
         Route::get('/maal', [
             'as' => 'admin.pengajuan.maal',
             'uses' => 'AdminController@pengajuan_maal'
         ]);
-
+        
+        Route::post('/transfer', [
+            'as' => 'transfer',
+            'uses' => 'AdminController@transfer_rekening'
+        ]);
         Route::post('/konfirmasi_donasi', [
             'as' => 'admin.konfirmasi.donasimaal',
             'uses' => 'MaalController@konfirmasi_donasi'
         ]);
         //
-        Route::get('/transfer', [
-            'as' => 'admin.transaksi.transfer',
-            'uses' => 'AdminController@transfer'
-        ]);
-        Route::post('/transfer', [
-            'as' => 'transfer',
-            'uses' => 'AdminController@transfer_rekening'
-        ]);
         Route::post('/jurnallain', [
             'as' => 'jurnal_lain',
             'uses' => 'AdminController@jurnal_lain'
@@ -132,10 +189,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as' => 'admin.konfirmasi.donasimaal',
             'uses' => 'MaalController@konfirmasi_donasi'
         ]);
-        Route::get('/tabungan', [
-            'as' => 'admin.transaksi.tabungan',
-            'uses' => 'AdminController@transaksi_tab'
-        ]);
+        
         Route::post('/pencairan', [
             'as'        => 'admin.pencairan_deposito',
             'uses'      => 'TellerController@konfirmasi_pencairan'
@@ -399,18 +453,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
 
     });
 
-    Route::get('/kolektibilitas', [
-        'as'        => 'daftar_kolektibilitas',
-        'uses'      => 'LaporanController@daftar_kolektibilitas'
-    ]);
 
     //    LAPORAN
     Route::group(['prefix' => 'laporan', 'middleware' => ['auth']], function () {
-
-        Route::get('/realisasi', [
-            'as'        => 'realisasi_pem',
-            'uses'      => 'LaporanController@realisasi_pem'
-        ]);
         Route::get('/anggota', [
             'as'        => 'detail_anggota',
             'uses'      => 'LaporanController@detail_anggota'
@@ -551,6 +596,36 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'delete.pendapatan',
             'uses'      => 'LaporanController@delete_pendapatan'
         ]);
+
+        /** 
+         * Admin dashboard menu laporan
+         * Laporan saldo zis controller
+         * @return View
+        */
+        Route::get('/saldo_zis', [
+            'as'        => 'admin.saldo.zis',
+            'uses'      => 'LaporanController@saldo_zis'
+        ]);
+
+        /** 
+         * Admin dashboard menu laporan
+         * Laporan saldo donasi controller
+         * @return View
+        */
+        Route::get('/saldo_donasi', [
+            'as'        => 'admin.saldo.donasi',
+            'uses'      => 'LaporanController@saldo_donasi'
+        ]);
+
+        /** 
+         * Admin dashboard menu laporan
+         * Laporan saldo wakaf controller
+         * @return View
+        */
+        Route::get('/saldo_wakaf', [
+            'as'        => 'admin.saldo.wakaf',
+            'uses'      => 'LaporanController@saldo_wakaf'
+        ]);
     });
     //    MAAL
     Route::group(['prefix' => 'maal', 'middleware' => ['auth']], function () {
@@ -580,10 +655,34 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         ]);
     });
 
+    /** 
+     * Admin Dashboard Menu Rapat
+    */
+    Route::group(['prefix' => 'rapat', 'middleware' => ['auth']], function() {
+        /** 
+         * Get list rapat controller
+         * @return View
+        */
+        Route::get('admin', [
+            'as'    => 'admin.rapat.index',
+            'uses'  => 'RapatController@admin'
+        ]);
+    });
+
 
 });
 
-//TELLER
+
+
+
+
+
+
+/* ---------------------------------------------------------
+------------------------------------------------------------
+------------ TELLER DASHBOARD ROUTER WRAP ------------------
+------------------------------------------------------------
+----------------------------------------------------------*/
 Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.required:teller','permissions.user']], function () {
 
     Route::get('/datadiri', [
@@ -911,7 +1010,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'uses'      => 'LaporanController@labarugi'
         ]);
         Route::get('/saldo_zis', [
-        'as'        => 'teller.saldo.zis',
+            'as'        => 'teller.saldo.zis',
             'uses'      => 'LaporanController@saldo_zis'
         ]);
         Route::get('/saldo_donasi', [
@@ -954,7 +1053,17 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
 
 });
 
-//ANGGOTA
+
+
+
+
+
+
+/* ---------------------------------------------------------
+------------------------------------------------------------
+------------ ANGGOTA DASHBOARD ROUTER WRAP -----------------
+------------------------------------------------------------
+----------------------------------------------------------*/
 Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.required:anggota','permissions.user']], function () {
 
     Route::get('/',[

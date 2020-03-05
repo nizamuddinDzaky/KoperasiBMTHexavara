@@ -1,3 +1,4 @@
+// Data table style
 .dataTables_wrapper {
 
     @include respond-below(sm) {
@@ -8,6 +9,96 @@
 
             button {
                 margin: 10px;
+            }
+        }
+    }
+
+    .dataTable {
+        width: 100%;
+    }
+}
+
+
+// Default table style
+.table {
+
+    &.beautiful-table {
+        thead {
+            &.style-head {
+                background-color: $smoth-grey;
+
+                th {
+                    padding: 15px 15px;
+                    font-weight: $font-bold;
+                }
+            }
+        }
+        tbody {
+            tr {
+                &.zoom-effect {
+                    background-color: $white;
+                    &:hover {
+                        transform: scale(1.01, 1.01);
+                        box-shadow: 0 2px 15px $grey;
+
+                        td {
+                            &.with-icon {
+                                .icon {
+                                    &.default {
+                                        border: 1.2px solid $grey;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                td {
+                    padding: 10px;
+                    &.with-icon {
+                        .icon {
+                            cursor: pointer;
+                            position:relative;
+                            text-align:center;
+                            width:0px;
+                            height:0px;
+                            border-radius: 50%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-origin: content-box;
+                            background-size: cover;
+                            
+                            &.primary {
+                                background-color: $navbar-background-color;
+                                padding:23px;
+
+                                i {
+                                    left: 13px;
+                                    top:13px;
+                                    color: $white;
+                                }
+                            }
+                            &.default {
+                                background-color: $white;
+                                padding:20px;
+
+                                i {
+                                    color: $grey;
+                                    left: 10px;
+                                    top:10px;
+                                }
+                            }
+
+                            i {
+                                font-size:20px;
+                                position:absolute;
+                            }
+                        }
+                            
+                    }
+                }
             }
         }
     }
