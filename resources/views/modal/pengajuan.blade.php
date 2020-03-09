@@ -338,7 +338,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Akad <star>*</star></label>
-                                    <select class="form-control select2" id="vrekAkad" name="akad" style="width: 100%;" required disabled>
+                                    <select class="form-control" id="vrekAkad" name="akad" style="width: 100%;" required disabled>
                                         <option class="bs-title-option" value="">Pilih Akad</option>
                                         <option class="0" value="">Lain-lain</option>
                                         @foreach ($dropdown as $rekening)
@@ -348,7 +348,7 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="namaSim" class="control-label">Jenis Tabungan<star>*</star></label>
-                                    <select class="form-control select2" id="vrekTab" name="tabungan" style="width: 100%;" required disabled>
+                                    <select class="form-control" id="vrekTab" name="tabungan" style="width: 100%;" required disabled>
                                         <option class="bs-title-option" value="">Pilih Tabungan</option>
                                         @foreach ($dropdown as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} [{{$rekening->id_rekening }}]</option>
@@ -471,7 +471,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Akad </label>
-                                    <select class="form-control select2" id="arekAkad" name="akad" style="width: 100%;" required disabled>
+                                    <select class="form-control" id="arekAkad" name="akad" style="width: 100%;" required disabled>
                                         <option class="bs-title-option" value="">Pilih Akad</option>
                                         <option class="0" value="">Lain-lain</option>
                                         @foreach ($dropdown as $rekening)
@@ -481,7 +481,7 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="namaSim" class="control-label">Jenis Tabungan</label>
-                                    <select class="form-control select2" id="arekTab" name="tabungan" style="width: 100%;" required disabled>
+                                    <select class="form-control" id="arekTab" name="tabungan" style="width: 100%;" required disabled>
                                         <option class="bs-title-option" value="">Pilih Tabungan</option>
                                         @foreach ($dropdown as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} [{{$rekening->id_rekening }}]</option>
@@ -704,6 +704,37 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if(Auth::user()->tipe == 'anggota')
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Jenis Transaksi <star>*</star></label>
+                                        <select class="form-control opsi-pembayaran" id="adebitdeb" name="kredit" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected value="-1" disabled>-Pilih jenis Transaksi-</option>
+                                            <option value="0">Tunai</option>
+                                            <option value="1">Transfer</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row opsi-transfer hide">
+                                <div class="col-sm-12 col-md-5 col-lg-5 col-md-offset-1 {{ !$errors->has('file') ?: 'has-error' }}">
+                                    <div class="form-group">
+                                        <label>Upload Bukti Transfer <star>*</star></label><br>
+                                        <span class="btn btn-info btn-fill btn-file center-block"> Browse
+                                            <input type="file" onchange="readURL(this);" class="bukti" name="file" accept=".jpg, .png, .jpeg|images/*">
+                                        </span><br><br>
+                                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <img style="margin: auto;width:100px;height:auto" id="pic" src="" name="image" />
+                                </div>
+                            </div>    
+                            @endif
+                            
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
@@ -764,7 +795,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label class="control-label">Tabungan Pencairan<star>*</star></label>
-                                    <select class="form-control select2" id="vrek_tabungan"  style="width: 100%;" disabled>
+                                    <select class="form-control" id="vrek_tabungan"  style="width: 100%;" disabled>
                                         <option class="bs-title-option" value="">Pilih Tabungan</option>
                                         @foreach ($tab as $rekening)
                                             <option value="{{ $rekening->id }}" class="selectors {{$rekening->no_ktp}}">[{{ $rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [{{$rekening->no_ktp }}]</option>
@@ -842,7 +873,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Mudharabah Berjangka <star>*</star></label>
-                                    <select class="form-control select2" id="vrekDep" name="deposito" style="width: 100%;" required disabled>
+                                    <select class="form-control" id="vrekDep" name="deposito" style="width: 100%;" required disabled>
                                         <option class="bs-title-option" value="">Pilih Mudharabah Berjangka</option>
                                         @foreach ($dropdown2 as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
@@ -1190,7 +1221,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Pembiayaan <star>*</star></label>
-                                    <select class="form-control select2" id="rekPem" name="pembiayaan" style="width: 100%;" required>
+                                    <select class="form-control" id="rekPem" name="pembiayaan" style="width: 100%;" required>
                                         <option class="bs-title-option" value="">Pilih Pembiayaan</option>
                                         @foreach ($dropdown3 as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
@@ -1501,7 +1532,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Pembiayaan <star>*</star></label>
-                                    <select disabled class="form-control select2" id="vrekPem" name="pembiayaan" style="width: 100%;" required>
+                                    <select disabled class="form-control" id="vrekPem" name="pembiayaan" style="width: 100%;" required>
                                         <option class="bs-title-option" value="">Pilih Pembiayaan</option>
                                         @foreach ($dropdown3 as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
@@ -1575,7 +1606,7 @@
                                 <div class="row" id="vdetailJam">
                                     <div class="form-group col-md-10 col-md-offset-1">
                                         <label for="namaSim" class="control-label">Tipe Jaminan <star>*</star></label>
-                                        <select  class="form-control select2" disabled id="vrekPem2" style="width: 100%;" required>
+                                        <select  class="form-control" disabled id="vrekPem2" style="width: 100%;" required>
                                             <option class="bs-title-option" disabled value="0">Pilih Jaminan</option>
                                             @foreach ($dropdown9 as $jamrek)
                                                 <option value="{{$jamrek->nama_jaminan }}">{{ $jamrek->nama_jaminan }}</option>
@@ -1733,7 +1764,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Pembiayaan <star>*</star></label>
-                                    <select disabled class="form-control select2" id="arekPem" name="pembiayaan" style="width: 100%;" required>
+                                    <select disabled class="form-control" id="arekPem" name="pembiayaan" style="width: 100%;" required>
                                         <option class="bs-title-option" value="">Pilih Pembiayaan</option>
                                         @foreach ($dropdown3 as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
@@ -1807,7 +1838,7 @@
                                 <div class="row" id="adetailJam">
                                     <div class="form-group col-md-10 col-md-offset-1">
                                         <label for="namaSim" class="control-label">Tipe Jaminan <star>*</star></label>
-                                        <select  class="form-control select2" disabled id="arekPem2" style="width: 100%;" required>
+                                        <select  class="form-control" disabled id="arekPem2" style="width: 100%;" required>
                                             <option class="bs-title-option" disabled value="0">Pilih Jaminan</option>
                                             @foreach ($dropdown9 as $jamrek)
                                                 <option value="{{$jamrek->nama_jaminan }}">{{ $jamrek->nama_jaminan }}</option>

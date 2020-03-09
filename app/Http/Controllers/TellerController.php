@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
 use Illuminate\Support\Facades\Hash;
+use App\Repositories\TabunganReporsitories;
+
 class TellerController extends Controller
 {
     /**
@@ -32,7 +34,8 @@ class TellerController extends Controller
                                 Pembiayaan $pembiayaan,
                                 Deposito $deposito,
                                 Pengajuan $pengajuan,
-                                InformationRepository $informationRepository)
+                                InformationRepository $informationRepository,
+                                TabunganReporsitories $tabunganReporsitory)
     {
         $this->middleware(function ($request, $next) {
             $this->id_role = Auth::user()->tipe;
@@ -51,6 +54,7 @@ class TellerController extends Controller
         $this->pembiayaan = $pembiayaan;
         $this->pengajuan = $pengajuan;
         $this->informationRepository = $informationRepository;
+        $this->tabunganReporsitory = $tabunganReporsitory;
     }
 
     public function index(){
@@ -71,6 +75,7 @@ class TellerController extends Controller
         }
 
         $bmt = $this->informationRepository->getRekeningBMT(json_decode(Auth::user()->detail,true)['id_rekening']);
+        
         return view('teller.dashboard',[
             'teller' =>$bmt,
             'setuju' =>$set,

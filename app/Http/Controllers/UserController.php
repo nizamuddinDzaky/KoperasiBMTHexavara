@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Input;
 use \Validator;
 use App\Repositories\PembiayaanReporsitory;
 use App\Repositories\SimpananReporsitory;
+use App\Repositories\PengajuanReporsitories;
+use App\Repositories\TabunganReporsitories;
+use App\Repositories\AccountReporsitories;
 
 class UserController extends Controller
 {
@@ -34,7 +37,10 @@ class UserController extends Controller
                                 Pengajuan $pengajuan,
                                 InformationRepository $informationRepository,
                                 PembiayaanReporsitory $pembiayaanReporsitory,
-                                SimpananReporsitory $simpananReporsitory
+                                SimpananReporsitory $simpananReporsitory,
+                                PengajuanReporsitories $pengajuanReporsitory,
+                                TabunganReporsitories $tabunganReporsitory,
+                                AccountReporsitories $accountReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -57,6 +63,9 @@ class UserController extends Controller
         $this->informationRepository = $informationRepository;
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
         $this->simpananReporsitory = $simpananReporsitory;
+        $this->pengajuanReporsitory = $pengajuanReporsitory;
+        $this->tabunganReporsitory = $tabunganReporsitory;
+        $this->accountReporsitory = $accountReporsitory;
     }
 
     /**
@@ -179,7 +188,9 @@ class UserController extends Controller
             'dropdown8' => $this->informationRepository->getDdTeller(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
 
-            'pembiayaanUser' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser()
+            'pembiayaanUser' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser(),
+            'tabungan' => $this->tabunganReporsitory->getRekening('TABUNGAN'),
+            'all_deposito' => $this->tabunganReporsitory->getRekening('DEPOSITO')
         ]);
     }
 
@@ -237,7 +248,7 @@ class UserController extends Controller
             'dropdown6' => $this->informationRepository->getDdBank(),
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
-            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD()
         ]);
     }
 
@@ -377,6 +388,27 @@ class UserController extends Controller
             $nama = $request->nama;
             $id_user = $request->id_user;
         }
+
+        if($request->kredit == 1)
+        {
+            $kredit = "Transfer";
+
+            $file_name = $request->file->getClientOriginalName();
+            $file_name_replace = preg_replace('/\s+/', '_', $file_name);
+            $fileToUpload = time() . "-" . $file_name_replace;
+
+            $request->file('file')->storeAs(
+                'file/', $fileToUpload
+            );
+
+            $path_bukti = "storage/file/" . $fileToUpload;
+        }
+        else
+        {
+            $kredit = "Tunai";
+            $path_bukti = null;
+        }
+
         if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
         $detail = [
             'atasnama' => $atasnama,
@@ -386,6 +418,8 @@ class UserController extends Controller
             'deposito' => $request->deposito_,
             'keterangan' => $request->keterangan,
             'id_pencairan' => $request->rek_tabungan,
+            'kredit'    => $kredit,
+            'path_bukti' => $path_bukti
         ];
         $keterangan = [
             'jenis' => "Buka Mudharabah Berjangka",

@@ -236,9 +236,9 @@
                 selAr.show();
             }
             if (button.data('keterangan') === "Perpanjangan Deposito") {
-                $('#titleVDep').text("Perpanjangan Deposito");
+                $('#titleVDep').text("Perpanjangan Mudharabah Berjangka");
             }else
-                $('#titleVDep').text("Pembukaan Deposito");
+                $('#titleVDep').text("Pembukaan Mudharabah Berjangka");
             $('#vket_nisbah').val(button.data('nisbah'));
             $('#vrek_tabungan').val(button.data('rek_tab'));
             $('#vketerangan2').val(button.data('keterangan'));
