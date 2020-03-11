@@ -13,6 +13,8 @@ use App\Rekening;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use App\Repositories\DonasiReporsitories;
+
 class MaalController extends Controller
 {
     /**
@@ -28,7 +30,9 @@ class MaalController extends Controller
                                 Maal $maal,
                                 Tabungan $tabungan,
                                 Pengajuan $pengajuan,
-                                InformationRepository $informationRepository)
+                                InformationRepository $informationRepository,
+                                DonasiReporsitories $donasiReporsitory
+                                )
     {
         $this->middleware(function ($request, $next) {
             if (Auth::user()){
@@ -49,6 +53,7 @@ class MaalController extends Controller
         $this->maal = $maal;
         $this->pengajuan = $pengajuan;
         $this->informationRepository = $informationRepository;
+        $this->donasiReporsitory = $donasiReporsitory;
     }
 
     /**
@@ -62,24 +67,23 @@ class MaalController extends Controller
         ]);
     }
     public function konfirmasi_donasi(Request $request){
-        if($this->informationRepository->donasiMaal($request)){
-            $pengajuan=$this->pengajuan->where('id',$request->id_)->first();
-            $pengajuan->status ="Sudah Dikonfirmasi";
-            if($pengajuan->save())
+        $confirmDonasi = $this->donasiReporsitory->confirmDonasi($request); 
+        if($confirmDonasi['type'] == 'success') {
+            $pengajuan = Pengajuan::where('id', $request->id_)->update([ 'status' => 'Sudah Dikonfirmasi ', 'teller' => Auth::user()->id]);
+            if($pengajuan)
                 return redirect()
                     ->back()
-                    ->withSuccess(sprintf('Donasi kegiatan Maal berhasil dilakukan!.'));
+                    ->withSuccess(sprintf($confirmDonasi['message']));
             else{
                 return redirect()
                     ->back()
                     ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
-
             }
         }
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
+                ->withInput()->with('message', $confirmDonasi['message']);
 
         }
     }

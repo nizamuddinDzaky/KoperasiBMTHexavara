@@ -117,12 +117,12 @@
             var selAr2 = $('#toHideBank2Don');
             var selAr3 = $('#toHideTabDon');
             var selAr4 = $('#RekBank');
-            if(button.data('jenis')==="Transfer") {
+            if(button.data('debit')==="Transfer") {
                 selAr.show();
                 selAr2.show();
                 selAr3.hide();
                 selAr4.show();
-            }else if(button.data('jenis')==="Tabungan"){
+            }else if(button.data('debit')==="Tabungan"){
                 selAr.hide();
                 selAr2.hide();
                 selAr3.show();
@@ -143,10 +143,11 @@
                 $('#titleDon').text("Donasi Kegiatan Maal");
                 $('#vidRekDon').val(button.data('kegiatan'));
             }
-            $('#vjenisDon').val(button.data('jenis'));
+            $('#vjenisDon').val(button.data('debit'));
             $('#vnobankDon').val(button.data('no_bank'));
             $('#vjumlahDon').val(button.data('jumlah'));
             $('#vbankDon').val(button.data('bankuser'));
+            $('#vidRekTabDon').val(button.data('tabungan'));
             $('#vbank_').val(button.data('bank'));
             $('#vbuktiDon').val(button.data('path'));
             $('#vpicDon')
@@ -160,12 +161,12 @@
             var selAr2 = $('#toHideBank2Donc');
             var selAr3 = $('#toHideTabDonc');
             var selAr4 = $('#RekBank2');
-            if(button.data('jenis')==="Transfer") {
+            if(button.data('debit')==="Transfer") {
                 selAr.show();
                 selAr2.show();
                 selAr3.hide();
                 selAr4.show();
-            }else if(button.data('jenis')==="Tabungan"){
+            }else if(button.data('debit')==="Tabungan"){
                 selAr.hide();
                 selAr2.hide();
                 selAr3.show();
@@ -178,25 +179,27 @@
                 selAr4.hide();
             }
             $('#iddonasi').val(button.data('id'));
-            if(button.data('kegiatan')==0){
-                $('#cHideRekDon').hide();
-                $('#IDdonasi').val("waqaf");
-                $('#ctitleDon').text("Waqaf Nasabah");
-            }else{
-                $('#cHideRekDon').show();
-                $('#ctitleDon').text("Donasi Kegiatan Maal");
-                $('#IDdonasi').val("maal");
-                $('#cidRekDon').val(button.data('kegiatan'));
-            }
+            // if(button.data('jenis_kegiatan')=='donasi'){
+            //     $('#cHideRekDon').hide();
+            //     $('#IDdonasi').val("waqaf");
+            //     $('#ctitleDon').text("Waqaf Nasabah");
+            // }else{
+            //     $('#cHideRekDon').show();
+            //     $('#ctitleDon').text("Donasi Kegiatan Maal");
+            // }
+            $('#IDdonasi').val(button.data('kegiatan'));
+            $('#cidRekDon').val(button.data('kegiatan'));
+            $('#cidRekTabDon').val(button.data('tabungan'));
+
             $('#catasnamaDon').val(button.data('atasnama'));
-            $('#cjenisDon').val(button.data('jenis'));
+            $('#cjenisDon').val(button.data('debit'));
             $('#cnobankDon').val(button.data('no_bank'));
             $('#cjumlahDon').val(button.data('jumlah'));
             $('#cbank_').val(button.data('kebank'));
             $('#cbankDon').val(button.data('bankuser'));
             $('#cbuktiDon').val(button.data('path'));
             $('#cpicDon')
-                .attr('src',  button.data('path'))
+            .attr('src',  button.data('path'));
         });
         //  DEPOSITO
         $('#viewDepModal').on('show.bs.modal', function (event) {

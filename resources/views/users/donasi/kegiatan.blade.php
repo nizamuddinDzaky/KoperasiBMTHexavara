@@ -6,7 +6,10 @@
             $tanggal_pelaksanaan = Carbon\Carbon::parse($kegiatan['tanggal_pelaksanaan']);
         @endphp
         <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="card hover" data-toggle="modal" data-target="#donasiKegiatan">
+            <div class="card hover" data-toggle="modal" data-target="#donasiKegiatan" 
+                data-id="{{ $kegiatan['id'] }}"
+                data-jenis="donasi kegiatan"
+            >
                 <div class="card-image">
                     @if(json_decode($kegiatan['detail'], true)['path_poster'] != "") 
                         <img src="{{ asset('storage/file' . json_decode($kegiatan['detail'], true)['path_poster']) }}">

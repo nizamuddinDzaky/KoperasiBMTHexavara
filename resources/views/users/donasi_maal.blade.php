@@ -76,9 +76,14 @@
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script src="{{URL::asset('bootstrap/assets/js/jquery.validate.min.js')}}"></script>
-	<script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
+    <script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
+
+    <!-- Donasi script -->
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/donasi.js') }}"></script>
+
 	<script type="text/javascript">
         $().ready(function(){
+
             $('.currency').maskMoney({
                 allowZero: true,
                 precision: 0,

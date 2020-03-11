@@ -18,6 +18,7 @@ use App\Rekening;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
+use App\Repositories\DonasiReporsitories;
 
 class TellerController extends Controller
 {
@@ -37,7 +38,9 @@ class TellerController extends Controller
                                 Pengajuan $pengajuan,
                                 InformationRepository $informationRepository,
                                 TabunganReporsitories $tabunganReporsitory,
-                                DepositoReporsitories $depositoReporsitory)
+                                DepositoReporsitories $depositoReporsitory,
+                                DonasiReporsitories $donasiReporsitory
+                                )
     {
         $this->middleware(function ($request, $next) {
             $this->id_role = Auth::user()->tipe;
@@ -58,6 +61,7 @@ class TellerController extends Controller
         $this->informationRepository = $informationRepository;
         $this->tabunganReporsitory = $tabunganReporsitory;
         $this->depositoReporsitory = $depositoReporsitory;
+        $this->donasiReporsitory = $donasiReporsitory;
     }
 
     public function index(){
@@ -1265,7 +1269,9 @@ class TellerController extends Controller
     public function pengajuan_maal(){
         $home = new HomeController;
         $date = $home->date_query(0);
+        // return response()->json($this->donasiReporsitory->getPengajuanDonasi());
         return view('teller.transaksi.maal.pengajuan',[
+            'pengajuan' => $this->donasiReporsitory->getPengajuanDonasi(),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),

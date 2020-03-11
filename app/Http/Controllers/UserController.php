@@ -19,6 +19,7 @@ use App\Repositories\PengajuanReporsitories;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\AccountReporsitories;
 use App\Repositories\DepositoReporsitories;
+use App\Repositories\DonasiReporsitories;
 
 class UserController extends Controller
 {
@@ -42,7 +43,8 @@ class UserController extends Controller
                                 PengajuanReporsitories $pengajuanReporsitory,
                                 TabunganReporsitories $tabunganReporsitory,
                                 AccountReporsitories $accountReporsitory,
-                                DepositoReporsitories $depositoReporsitory
+                                DepositoReporsitories $depositoReporsitory,
+                                DonasiReporsitories $donasiReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -69,6 +71,7 @@ class UserController extends Controller
         $this->tabunganReporsitory = $tabunganReporsitory;
         $this->accountReporsitory = $accountReporsitory;
         $this->depositoReporsitory = $depositoReporsitory;
+        $this->donasiReporsitory = $donasiReporsitory;
     }
 
     /**
@@ -660,9 +663,10 @@ class UserController extends Controller
 //    MAAL
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
-        // return response()->json($this->informationRepository->getAllMaal());
+
         return view('users.donasi_maal',[
             'kegiatan' => $this->informationRepository->getAllMaal(),
+            'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
             'dropdown' => $dr,
             'dropdown6' => $this->informationRepository->getDdBank(),
         ]);
@@ -678,39 +682,86 @@ class UserController extends Controller
         ]);
     }
     public function donasimaal(Request $request){
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
-        $dari = $this->tabungan->where('id',$request->dari)->first();
+        // if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        // $dari = $this->tabungan->where('id',$request->dari)->first();
 
-        if($request->jenis==1){
-            if(floatval(json_decode($dari['detail'],true)['saldo'])<$request->jumlah){
+        // if($request->jenis==1){
+        //     if(floatval(json_decode($dari['detail'],true)['saldo'])<$request->jumlah){
+        //         return redirect()
+        //             ->back()
+        //             ->withInput()->with('message', 'Mohon maaf Saldo Rekening '. $dari['id_tabungan']." ". $dari['jenis_tabungan'].' Anda tidak cukup!.');
+        //     }
+        // }else{
+        //     $this->validate($request, [
+        //         'file' => 'file|max:2000', // max 2MB
+        //     ]);
+        //     if($this->informationRepository->pengajuanMaal($request))
+        //         return redirect()
+        //             ->back()
+        //             ->withSuccess(sprintf('Donasi kegiatan Maal berhasil dilakukan harap menunggu konfirmasi!.'));
+        //     else{
+        //         return redirect()
+        //             ->back()
+        //             ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
+        //     }
+        // }
+
+        // if($this->informationRepository->donasiMaal($request))
+        //     return redirect()
+        //         ->back()
+        //         ->withSuccess(sprintf('Donasi kegiatan Maal berhasil dilakukan!.'));
+        // else{
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
+        // }
+        // 'donasi' => $jenis,
+            // 'id' => Auth::user()->id,
+            // 'nama' => Auth::user()->nama,
+            // 'dari' => $request->bank,
+            // 'kegiatan' => $wamaal,
+            // 'no_bank' => $request->nobank,
+            // 'daribank' => $request->daribank,
+        
+        if($request->rekening != null)
+        {
+
+            $rekening = Tabungan::where('id_tabungan', $request->rekening)->first();
+
+            $saldo = json_decode($rekening->detail)->saldo;
+
+            if($saldo > $request->nominal) {
+                $pengajuan = $this->donasiReporsitory->sendDonasi($request); 
+                if($pengajuan['type'] == 'success') {
+                    return redirect()
+                        ->back()
+                        ->withSuccess(sprintf($pengajuan['message']));
+                } else{
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', $pengajuan['message']);
+                }
+            } else {
                 return redirect()
-                    ->back()
-                    ->withInput()->with('message', 'Mohon maaf Saldo Rekening '. $dari['id_tabungan']." ". $dari['jenis_tabungan'].' Anda tidak cukup!.');
+                        ->back()
+                        ->withInput()->with('message', 'Saldo anda tidak cukup');
             }
-        }else{
-            $this->validate($request, [
-                'file' => 'file|max:2000', // max 2MB
-            ]);
-            if($this->informationRepository->pengajuanMaal($request))
+
+        } else {
+
+            $pengajuan = $this->donasiReporsitory->sendDonasi($request); 
+            if($pengajuan['type'] == 'success') {
                 return redirect()
                     ->back()
-                    ->withSuccess(sprintf('Donasi kegiatan Maal berhasil dilakukan harap menunggu konfirmasi!.'));
-            else{
+                    ->withSuccess(sprintf($pengajuan['message']));
+            } else{
                 return redirect()
                     ->back()
-                    ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
+                    ->withInput()->with('message', $pengajuan['message']);
             }
+
         }
 
-        if($this->informationRepository->donasiMaal($request))
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf('Donasi kegiatan Maal berhasil dilakukan!.'));
-        else{
-            return redirect()
-                ->back()
-                ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
-        }
     }
 
     public function transaksi_maal(){

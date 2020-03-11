@@ -151,13 +151,13 @@
                                                 data-path       = "{{ url('/storage/public/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                 @elseif(str_before($usr['kategori'],' ')=="Donasi")
-                                                data-bankuser = "{{ json_decode($usr['detail'],true)['daribank'] }}"
+                                                data-bankuser = "{{ json_decode($usr['detail'],true)['bank'] }}"
                                                 data-no_bank = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
-                                                data-atasnama = "{{ json_decode($usr['detail'],true)['nama'] }}"
-                                                data-kegiatan = "{{ json_decode($usr['detail'],true)['kegiatan'] }}"
-                                                data-jenis = "{{ json_decode($usr['detail'],true)['donasi'] }}"
-                                                data-kebank = "{{ json_decode($usr['detail'],true)['dari'] }}"
-                                                data-path       = "{{ url('/storage/public/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
+                                                data-atasnama = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
+                                                data-kegiatan = "{{ json_decode($usr['detail'],true)['id_maal'] }}"
+                                                data-jenis = "{{ json_decode($usr['detail'],true)['debit'] }}"
+                                                {{-- data-kebank = "{{ json_decode($usr['detail'],true)['dari'] }}" --}}
+                                                data-path       = "{{ url('/storage/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                 data-keterangan = "{{ $usr['kategori'] }}"
                                                 @else
@@ -217,10 +217,7 @@
     @include('modal.pengajuan')
     @include('modal.user_tabungan')
     @include('modal.user_pembiayaan')
-<<<<<<< HEAD
     @include('modal.tutup_rekening')
-=======
->>>>>>> alam/BMTMuda/development
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -232,11 +229,8 @@
         {{--url_delete = "{{route('anggota.delete_pengajuan')}}";--}}
     </script>
 
-<<<<<<< HEAD
     <script src="{{ asset('bmtmudathemes/assets/js/modal/tutup_rekening.js') }}"></script>
 
-=======
->>>>>>> alam/BMTMuda/development
     {{-- MODAL&DATATABLE --}}
 
     <!-- Select2 plugin -->
@@ -302,6 +296,7 @@
             $('#vpicw')
                 .attr('src',  button.data('path'))
         });
+
         $('#viewDonModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -327,17 +322,18 @@
                 selAr3.hide();
                 selAr4.hide();
             }
-            $('#vatasnamaDon').val(button.data('atasnama'));
+            $('#vidRekDon').val(button.data('kegiatan'));
             $('#vjenisDon').val(button.data('jenis'));
+            $('#vatasnamaDon').val(button.data('atasnama'));
             $('#vnobankDon').val(button.data('no_bank'));
             $('#vjumlahDon').val(button.data('jumlah'));
-            console.log();
             $('#vbankDon').val(button.data('bankuser'));
             $('#vbank_').val(button.data('kebank'));
             $('#vbuktiDon').val(button.data('path'));
             $('#vpicDon')
                 .attr('src',  button.data('path'))
         });
+
         $('#viewTabModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
