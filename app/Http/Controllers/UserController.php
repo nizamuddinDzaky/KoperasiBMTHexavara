@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Input;
 use \Validator;
 use App\Repositories\PembiayaanReporsitory;
 use App\Repositories\SimpananReporsitory;
+use App\Repositories\DepositoReporsitories;
 
 class UserController extends Controller
 {
@@ -34,7 +35,8 @@ class UserController extends Controller
                                 Pengajuan $pengajuan,
                                 InformationRepository $informationRepository,
                                 PembiayaanReporsitory $pembiayaanReporsitory,
-                                SimpananReporsitory $simpananReporsitory
+                                SimpananReporsitory $simpananReporsitory,
+                                DepositoReporsitories $depositoReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -57,6 +59,7 @@ class UserController extends Controller
         $this->informationRepository = $informationRepository;
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
         $this->simpananReporsitory = $simpananReporsitory;
+        $this->depositoReporsitory = $depositoReporsitory;
     }
 
     /**
@@ -70,8 +73,10 @@ class UserController extends Controller
     {
         $data=$this->tabungan->where('id_user',Auth::user()->id)->get();
         $data2=$this->pembiayaan->where('id_user',Auth::user()->id)->get();
-        $data3=$this->deposito->where('id_user',Auth::user()->id)->get();
+        // $data3=$this->deposito->where('id_user',Auth::user()->id)->get();
+        $data3=$this->depositoReporsitory->getUserDeposito($status="active", $user=Auth::user()->id);
         $sum=$sumbln=$sumtag=$sumdep=$sumpin=0;
+
         foreach ($data as $dt){
             $sum +=(json_decode($dt->detail,true)['saldo']);
         }
