@@ -468,6 +468,7 @@ class UserController extends Controller
 
     public function extend_deposito(Request $request)
     {
+        return response()->json($request);
         $status = $this->deposito->where('id_deposito',$request->id_)->first();
 
         if($status['status']!="active"){

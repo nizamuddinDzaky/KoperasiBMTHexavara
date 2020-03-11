@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Rekening;
 use App\Tabungan;
+use App\Deposito;
+use App\PenyimpananTabungan;
+use App\Pengajuan;
 
 class TabunganReporsitories {
     
@@ -67,4 +70,5 @@ class TabunganReporsitories {
         $bmt = BMT::where('id_rekening', $id_bmt)->get();
         return $bmt;
     }
+
 }

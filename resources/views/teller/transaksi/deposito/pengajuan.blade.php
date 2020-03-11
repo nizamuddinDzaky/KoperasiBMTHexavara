@@ -92,16 +92,17 @@
                                                         data-nama     = "{{ $usr->nama }}"
                                                         data-ktp     = "{{ $usr->no_ktp  }}"
                                                         data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
-                                                        data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
+                                                        {{-- data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}" --}}
                                                         data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
-                                                        data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                        {{-- data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                         data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
                                                         data-nobank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                        data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}"
+                                                        data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}" --}}
                                                         data-kategori   = "{{ $usr->kategori}}"
                                                         data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
-                                                        data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
-                                                                                                                >
+                                                        data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"                       
+                                                        data-tabungan_pencairan = {{ json_decode($usr->detail, true)['id_pencairan']}}
+                                                    >
                                                     <i class="fa fa-check-square"></i>
                                                 </button>
                                                 @endif
@@ -126,6 +127,10 @@
                                                         data-atasnama   = "Pribadi"
                                                         data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
                                                         data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
+                                                        @elseif(str_before($usr->kategori,' ')=="Pencairan")
+                                                        data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
+                                                        data-tabungan_pencairan     = "{{ json_decode($usr->detail,true)['id_pencairan']}}"
+                                                        data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                         @else
                                                         data-kategori   = "{{ $usr->id_rekening }}"
                                                         data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
@@ -180,12 +185,13 @@
                                                 @elseif(str_before($usr->kategori,' ')=="Pencairan")
                                                 data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
                                                 data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
-                                                data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                {{-- data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                 data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
                                                 data-nobank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}"
+                                                data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}" --}}
                                                 data-kategori   = "{{ $usr->kategori}}"
                                                 data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
+                                                data-tabungan_pencairan = {{ json_decode($usr->detail, true)['id_pencairan']}}
                                                 @elseif($usr->kategori=="Angsuran Pembiayaan")
                                                 data-idtab = "{{ json_decode($usr->detail,true)['id_pembiayaan'] }}"
                                                 data-namatab = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
@@ -266,6 +272,12 @@
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">
+        $(document).on('change', '#jeniscls2', function() {
+            $('#penjumlahTeller').val($('#wjumlah').val());
+            $('#idDepositoTeller').val($('#widRek').val());
+            $('#idPencairanTeller').val($(this).val());
+            $('#idUserTeller').val($('#widRek').find(":selected").attr('id-user'));
+        });
         //  DEPOSITO
         $('#viewDepModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -315,10 +327,11 @@
                 selAr2.hide();
                 selAr.hide();
             }
-            $('#vjenisPen').val(button.data('jenis'));
-            $('#vatasnamaPen').val(button.data('atasnama'));
-            $('#vnobankPen').val(button.data('nobank'));
-            $('#vbankPen').val(button.data('bank'));
+            // $('#vjenisPen').val(button.data('jenis'));
+            // $('#vatasnamaPen').val(button.data('atasnama'));
+            // $('#vnobankPen').val(button.data('nobank'));
+            // $('#vbankPen').val(button.data('bank'));
+            $('#vtabunganPencairan').val(button.data('tabungan_pencairan'));
 
             $('#vwidRek').val(button.data('iddep'));
             $('#vwketerangan').val(button.data('keterangan'));
@@ -344,12 +357,19 @@
                 selAr2.hide();
                 selAr.hide();
             }
-            $('#cjenisPen').val(button.data('jenis'));
+            // $('#cjenisPen').val(button.data('jenis'));
+
+            $('#ctabunganPencairan').val(button.data('tabungan_pencairan'));
+
             $('#catasnamaPen').val(button.data('atasnama'));
             $('#cnobankPen').val(button.data('nobank'));
             $('#cbankPen').val(button.data('bank'));
 
             $('#cwidRek').val(button.data('iddep'));
+            $('#idDeposito').val(button.data('iddep'));
+            $('#idPencairan').val(button.data('tabungan_pencairan'));
+            $('#idUser').val(button.data('iduser'));
+
             $('#idPen').val(button.data('id'));
             $('#cwketerangan').val(button.data('keterangan'));
             $('#cwjumlah').val(button.data('jumlah'));
@@ -554,12 +574,12 @@
 
             var selTip3 = $('#widRek');
             selTip3.on('change', function () {
-                var id = $('#idRekWD').val(selTip3.find(":selected").text().split(']')[0]);
-                id = id.val().split('[')[1];
+                // var id = $('#idRekWD').val(selTip3.find(":selected").text().split(']')[0]);
+                var id = $(this).val();
                 $('#idRekWD').val(id);
-                console.log(id);
-                $('#wjumlah').val(selTip3.val());
-                $('#saldo_teller').val(selTip3.val());
+                
+                $('#wjumlah').val(selTip3.find(":selected").attr('saldo'));
+                $('#saldo_teller').val(selTip3.find(":selected").attr('saldo'));
             });
 
             var selTip = $('#exidRek');

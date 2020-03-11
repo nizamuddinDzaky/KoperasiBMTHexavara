@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Rekening;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\TabunganReporsitories;
+use App\Repositories\DepositoReporsitories;
 
 class TellerController extends Controller
 {
@@ -35,7 +36,8 @@ class TellerController extends Controller
                                 Deposito $deposito,
                                 Pengajuan $pengajuan,
                                 InformationRepository $informationRepository,
-                                TabunganReporsitories $tabunganReporsitory)
+                                TabunganReporsitories $tabunganReporsitory,
+                                DepositoReporsitories $depositoReporsitory)
     {
         $this->middleware(function ($request, $next) {
             $this->id_role = Auth::user()->tipe;
@@ -55,6 +57,7 @@ class TellerController extends Controller
         $this->pengajuan = $pengajuan;
         $this->informationRepository = $informationRepository;
         $this->tabunganReporsitory = $tabunganReporsitory;
+        $this->depositoReporsitory = $depositoReporsitory;
     }
 
     public function index(){
@@ -650,36 +653,48 @@ class TellerController extends Controller
         }
     }
     public function konfirmasi_pencairan(Request $request){
+        $konfirmasi = $this->depositoReporsitory->pencairanDeposito($request);
+        
+        // $bmt = $this->informationRepository->getRekeningBMT($request->dari);
+        // if( floatval($bmt['saldo']) <  floatval(str_replace(',', '', $request->saldo)) )
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->with('message', 'Saldo '.$this->informationRepository->getRekeningBMT($request->dari)->nama." tidak cukup!");
+        // if($request->teller=="teller"){
+        //     $status = $this->deposito->where('id_deposito',$request->id_)->first();
+        //     if($status['status']!="active"){
+        //         return redirect()
+        //             ->back()
+        //             ->withInput()->with('message', 'Pengajuan gagal dilakukan Rekening Deposito '.$request->id_." ".$status['jenis_deposito'].' Tidak Aktif!.');
+        //     }
+        //     $id_pengajuan = $this->informationRepository->withdrawDeposito($request);
+        //     $request->id = $id_pengajuan;
+        //     $request->id_user = $status['id_user'];
+        // }
 
-        $bmt = $this->informationRepository->getRekeningBMT($request->dari);
-        if( floatval($bmt['saldo']) <  floatval(str_replace(',', '', $request->saldo)) )
+        // if($this->informationRepository->pencairanDeposito($request)){
+        //     return redirect()
+        //         ->back()
+        //         ->withSuccess(sprintf('Transaksi Pencairan Deposito berhasil dilakukan!.'));
+        // }
+        // else{
+        //     if($request->teller=="teller"){
+        //         $this->informationRepository->delPengajuan($id_pengajuan);
+        //     }
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->with('message', 'Transaksi Pencairan Deposito gagal dilakukan!.');
+        // }
+
+        if($konfirmasi['status'] == 'sukses'){
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Saldo '.$this->informationRepository->getRekeningBMT($request->dari)->nama." tidak cukup!");
-        if($request->teller=="teller"){
-            $status = $this->deposito->where('id_deposito',$request->id_)->first();
-            if($status['status']!="active"){
-                return redirect()
-                    ->back()
-                    ->withInput()->with('message', 'Pengajuan gagal dilakukan Rekening Deposito '.$request->id_." ".$status['jenis_deposito'].' Tidak Aktif!.');
-            }
-            $id_pengajuan = $this->informationRepository->withdrawDeposito($request);
-            $request->id = $id_pengajuan;
-            $request->id_user = $status['id_user'];
-        }
-
-        if($this->informationRepository->pencairanDeposito($request)){
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf('Transaksi Pencairan Deposito berhasil dilakukan!.'));
+                ->withSuccess(sprintf($konfirmasi['message']));
         }
         else{
-            if($request->teller=="teller"){
-                $this->informationRepository->delPengajuan($id_pengajuan);
-            }
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Transaksi Pencairan Deposito gagal dilakukan!.');
+                ->withInput()->with('message', 'Transaksi Pencairan Mudharabah Berjangka gagal dilakukan!.');
         }
     }
 
@@ -765,6 +780,8 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanTabTell($date);
+
+        // return response()->json($this->informationRepository->getAllpengajuanTabTell($date));
         return view('teller.transaksi.tabungan.pengajuan',[
             'datasaldo' =>  $this->informationRepository->getAllTab(),
             'data' => $data,
@@ -900,8 +917,12 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanDepTell($date);
+
+        // return response()->json($this->informationRepository->getAllTab());
+
         return view('teller.transaksi.deposito.pengajuan',[
-            'datasaldoDep' =>  $this->informationRepository->getAllDep(),
+            // 'datasaldoDep' =>  $this->informationRepository->getAllDep(),
+            'datasaldoDep' =>  $this->depositoReporsitory->getDeposito($status='active'),
             'kegiatan' => $dropdown,
             'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
             'data' => $data,

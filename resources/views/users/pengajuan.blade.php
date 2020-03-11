@@ -134,10 +134,10 @@
                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                 @elseif(str_before($usr['kategori'],' ')=="Pencairan")
                                                 data-iddep     = "{{ json_decode($usr['detail'],true)['id_deposito']}}"
-                                                data-atasnama   = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
-                                                data-bank   = "{{ json_decode($usr['detail'],true)['bank'] }}"
+                                                {{-- data-atasnama   = "{{ json_decode($usr['detail'],true)['atasnama'] }}" --}}
+                                                {{-- data-bank   = "{{ json_decode($usr['detail'],true)['bank'] }}"
                                                 data-nobank   = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
-                                                data-jenis   = "{{ json_decode($usr['detail'],true)['pencairan'] }}"
+                                                data-jenis   = "{{ json_decode($usr['detail'],true)['pencairan'] }}" --}}
                                                 data-kategori   = "{{ $usr['kategori']}}"
                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                 data-keterangan = "{{ json_decode($usr['detail'],true)['keterangan'] }}"

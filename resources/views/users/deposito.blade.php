@@ -165,11 +165,9 @@
                                                 data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
                                                 @elseif(str_before($usr->kategori,' ')=="Pencairan")
                                                 data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
-                                                data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
-                                                data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
-                                                data-nobank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}"
+                                                {{-- data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}" --}}
                                                 data-kategori   = "{{ $usr->kategori}}"
+                                                data-tabungan_pencairan = "{{ json_decode($usr->detail, true)['id_pencairan'] }}"
                                                 @else
                                                 data-kategori   = "{{ $usr->id_rekening }}"
                                                 data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
@@ -268,10 +266,11 @@
                 selAr.hide();
             }
 
-            $('#vjenisPen').val(button.data('jenis'));
-            $('#vatasnamaPen').val(button.data('atasnama'));
-            $('#vnobankPen').val(button.data('nobank'));
-            $('#vbankPen').val(button.data('bank'));
+            // $('#vjenisPen').val(button.data('jenis'));
+            $('#vtabunganPencairan').val(button.data('tabungan_pencairan'));
+            // $('#vatasnamaPen').val(button.data('atasnama'));
+            // $('#vnobankPen').val(button.data('nobank'));
+            // $('#vbankPen').val(button.data('bank'));
 
             $('#vwidRek').val(button.data('iddep'));
             $('#vwketerangan').val(button.data('keterangan'));
@@ -371,11 +370,11 @@
 
             var selTip3 = $('#widRek');
             selTip3.on('change', function () {
-                var id = $('#idRekWD').val(selTip3.find(":selected").text().split(']')[0]);
-                id = id.val().split('[')[1];
+                var id = $(this).val();
                 $('#idRekWD').val(id);
-                console.log(id);
-                $('#wjumlah').val(selTip3.val())
+                
+                $('#wjumlah').val(selTip3.find(":selected").attr('saldo'));
+                $('#saldo_teller').val(selTip3.find(":selected").attr('saldo'));
             });
 
             var selTip = $('#exidRek');

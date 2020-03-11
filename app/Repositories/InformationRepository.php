@@ -3584,29 +3584,30 @@ class InformationRepository
             $id_user = Auth::user()->id;
             $nama = Auth::user()->nama;
         }
-        if ($request->jenis == 1) {
-            $jenis = "Transfer";
-            $bank = $request->bank;
-        }
-        else {
-            $jenis = "Tunai";
-            $bank = null;
-        }
+        // if ($request->jenis == 1) {
+        //     $jenis = "Transfer";
+        //     $bank = $request->bank;
+        // }
+        // else {
+        //     $jenis = "Tunai";
+        //     $bank = null;
+        // }
         $detail = [
-            'pencairan' => $jenis,
+            // 'pencairan' => $jenis,
             'id_deposito' =>$request->id_,
             'id' => $id_user,
             'nama' => $nama,
-            'bank' => $bank,
-            'no_bank' => $request->nobank,
-            'atasnama' => $request->atasnama,
+            'id_pencairan' => $request->tabungan_pencairan,
+            // 'bank' => $bank,
+            // 'no_bank' => $request->nobank,
+            // 'atasnama' => $request->atasnama,
             'keterangan' =>$request->keterangan,
             'jumlah' =>$request->idRek,
         ];
         $dt = New Pengajuan();
         $dt->id_user = $id_user;
         $dt->id_rekening = $tabUsr['id_rekening'];
-        $dt->jenis_pengajuan = "Pencairan Deposito [".$jenis."]";
+        $dt->jenis_pengajuan = "Pencairan Deposito";
         $dt->status = "Menunggu Konfirmasi";
         $dt->kategori = "Pencairan Deposito";
         $dt->detail = json_encode($detail);
