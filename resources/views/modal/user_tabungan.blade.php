@@ -556,7 +556,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" id="cRekDeb" name="idRek" style="width: 100%;" disabled>
+                                        <select class="form-control" id="cRekDeb" name="idRek" style="width: 100%;" disabled>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tab as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}  [{{$rekening->no_ktp}}]</option>
@@ -569,7 +569,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Transaksi <star>*</star></label>
-                                        <select class="form-control select2" id="cdebitdeb" name="debit" style="width: 100%;" disabled>
+                                        <select class="form-control" id="cdebitdeb" name="debit" style="width: 100%;" disabled>
                                             <option class="bs-title-option" selected value="" disabled>-Pilih jenis Transaksi-</option>
                                             <option value="Tunai">Tunai</option>
                                             <option value="Transfer">Transfer</option>

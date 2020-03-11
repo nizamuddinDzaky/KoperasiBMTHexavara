@@ -498,7 +498,6 @@
                 selAr2.hide();
                 selAr.show();
             }
-            console.log(button.data('nisbah'))
             $('#vket_nisbah').val(button.data('nisbah'));
             $('#vrek_tabungan').val(button.data('rek_tab'));
             $('#vketerangan2').val(button.data('keterangan'));

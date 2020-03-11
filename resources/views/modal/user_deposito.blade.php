@@ -103,13 +103,13 @@
 
                     <div class="tab-content">
                         <div class="tab-pane" id="extab1Depv">
-                            <h5 class="text-center"> Rekening Deposito yang ingin anda perpanjang!</h5>
+                            <h5 class="text-center">  yang ingin anda perpanjang!</h5>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Rekening Deposito Anda! <star>*</star></label>
+                                        <label for="id_" class="control-label"> Anda! <star>*</star></label>
                                         <select class="form-control select2" disabled id="vexidRek" name="idRek" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening Deposito-</option>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih -</option>
                                             @foreach ($datasaldoDep as $rekening)
                                                 <option value="{{ $rekening->id_deposito}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
                                             @endforeach
@@ -180,6 +180,12 @@
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
+                <input type="hidden" id="penjumlahTeller" name="saldo">
+                <input type="hidden" id="idPenTeller" name="id">
+                <input type="hidden" id="idDepositoTeller" name="id_deposito">
+                <input type="hidden" id="idPencairanTeller" name="id_pencairan">
+                <input type="hidden" id="idUserTeller" name="id_user_pencairan">
+
                 <div class="content">
                     <ul class="nav">
                         <li><a href="#tab1DepW" data-toggle="tab">Data Diri Pemohon</a></li>
@@ -188,14 +194,15 @@
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1DepW">
                             <h5 class="text-center">Pastikan data yang anda masukkan sesuai dengan data diri anda</h5>
+                            
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Mudharabah Berjangka <star>*</star></label>
-                                        <select class="form-control select2"  id="widRek" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control"  id="widRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Mudharabah Berjangka-</option>
                                                 @foreach ($datasaldoDep as $rekening)
-                                                    <option value="{{ (json_decode($rekening->detail,true )['saldo'])}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
+                                                    <option value="{{ $rekening->id_deposito }}" saldo="{{ (json_decode($rekening->detail,true )['saldo']) }}" id-user="{{ $rekening->id_user }}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{ $rekening->id_user }} - {{$rekening->nama }}]</option>
                                                 @endforeach
                                         </select>
                                         <input type="hidden" id="idRekWD" name="id_">
@@ -203,7 +210,7 @@
                                 </div>
                             </div>
                             {{----}}
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Kredit <star>*</star></label>
@@ -214,8 +221,21 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div> --}}
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Tujuan Pencairan <star>*</star></label>
+                                        <select class="form-control" id="jeniscls2" name="tabungan_pencairan" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih tabungan pencairan</option>
+                                            @foreach($tab as $tabungan)
+                                            <option value="{{ $tabungan->id }}">[{{$tabungan->id_tabungan}}] {{ $tabungan->jenis_tabungan }} [{{ $tabungan->id_user }} - {{ $tabungan->nama }}]</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row" id="toHidePen">
+                            {{-- <div class="row" id="toHidePen">
                                 <div class="col-md-4 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
@@ -236,7 +256,7 @@
                                         <input type="text" class="form-control text-left"  id="atasnamaPen" name="atasnama" >
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{----}}
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
@@ -263,7 +283,7 @@
                                 </div>
                             </div>
                             @if(Auth::user()->tipe!="anggota")
-                            <div class="row" id="toHidePenBC">
+                            {{-- <div class="row" id="toHidePenBC">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Transfer dari Rekening" ?<star>*</star></label>
@@ -288,7 +308,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             @endif
                         </div>
                     </div>
@@ -327,7 +347,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Deposito <star>*</star></label>
-                                        <select class="form-control select2"  disabled id="vwidRek" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control"  disabled id="vwidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Deposito-</option>
                                             @foreach ($datasaldoDep as $rekening)
                                                 <option value="{{ $rekening->id_deposito }}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
@@ -337,14 +357,27 @@
                                 </div>
                             </div>
                             {{----}}
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Kredit <star>*</star></label>
-                                        <select class="form-control select2" disabled id="vjenisPen" name="jenis" style="width: 100%;" required>
+                                        <select class="form-control" disabled id="vjenisPen" name="jenis" style="width: 100%;" required>
                                             <option class="bs-title-option" selected value="" disabled>-Pilih jenis kredit-</option>
                                             <option value="Tunai">Tunai</option>
                                             <option value="Transfer">Transfer</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Tabungan Pencairan <star>*</star></label>
+                                        <select class="form-control" id="vtabunganPencairan" name="tabungan_pencairan" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih tabungan pencairan-</option>
+                                            @foreach($tab as $tabungan)
+                                            <option value="{{ $tabungan->id }}">[{{ $tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -417,7 +450,7 @@
             <form id="wizardFormWc" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.pencairan_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.pencairan_deposito')}}" @endif  enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
-                    <h3 class="title">Pencairan Deposito</h3>
+                    <h3 class="title">Pencairan Mudharabah Berjangka</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
@@ -432,7 +465,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Deposito <star>*</star></label>
-                                        <select class="form-control select2"  disabled id="vwidRek" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control" id="cwidRek" name="idRek" style="width: 100%;" required disabled>
                                             <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Deposito-</option>
                                             @foreach ($datasaldoDep as $rekening)
                                                 <option value="{{ $rekening->id_deposito }}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
@@ -441,20 +474,32 @@
                                     </div>
                                 </div>
                             </div>
-                            {{----}}
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Kredit <star>*</star></label>
-                                        <select class="form-control select2" disabled id="cjenisPen" name="jenis" style="width: 100%;" required>
+                                        <select class="form-control" disabled id="cjenisPen" name="jenis" style="width: 100%;" required disabled>
                                             <option class="bs-title-option" selected value="" disabled>-Pilih jenis kredit-</option>
                                             <option value="Tunai">Tunai</option>
                                             <option value="Transfer">Transfer</option>
                                         </select>
                                     </div>
                                 </div>
+                            </div> --}}
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Tabungan Pencairan <star>*</star></label>
+                                        <select class="form-control" id="ctabunganPencairan" name="tabungan_pencairan" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih tabungan pencairan-</option>
+                                            @foreach ($tab as $tabungan)
+                                            <option value="{{ $tabungan->id }}">[{{ $tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row" id="toHidePenc">
+                            {{-- <div class="row" id="toHidePenc">
                                 <div class="col-md-4 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
@@ -475,7 +520,7 @@
                                         <input type="text" class="form-control text-left" disabled id="catasnamaPen" name="atasnama" >
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{----}}
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
@@ -487,6 +532,9 @@
                                         </div>
                                         <input type="hidden" id="penjumlah" name="saldo">
                                         <input type="hidden" id="idPen" name="id">
+                                        <input type="hidden" id="idDeposito" name="id_deposito">
+                                        <input type="hidden" id="idPencairan" name="id_pencairan">
+                                        <input type="hidden" id="idUser" name="id_user_pencairan">
                                     </div>
                                 </div>
                             </div>
@@ -503,7 +551,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="toHidePenB">
+                            {{-- <div class="row" id="toHidePenB">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Transfer dari Rekening" ?<star>*</star></label>
@@ -515,8 +563,8 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" id="toHidePenT">
+                            </div> --}}
+                            {{-- <div class="row" id="toHidePenT">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Pilih Rekening Teller<star>*</star></label>
@@ -528,7 +576,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
