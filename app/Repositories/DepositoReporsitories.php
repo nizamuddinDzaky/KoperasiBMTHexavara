@@ -91,4 +91,28 @@ class DepositoReporsitories {
         return $deposito;
     }
 
+    /** 
+     * Get deposito from specified user
+     * @return Response
+    */
+    public function getUserDeposito($status="", $user="")
+    {
+        if($user != "")
+        {
+            $deposito = Deposito::where('deposito.id_user', $user)
+                        ->join('users', 'deposito.id_user', 'users.id')
+                        ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama')
+                        ->get();
+        }
+        if($status != "" && $user != "")
+        {
+            $deposito = Deposito::where([ ['deposito.status', $status], ['deposito.id_user', $user] ])
+                        ->join('users', 'deposito.id_user', 'users.id')
+                        ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama')
+                        ->get();
+        }
+
+        return $deposito;
+    }
+
 }
