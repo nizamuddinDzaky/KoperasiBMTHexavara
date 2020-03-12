@@ -20,7 +20,7 @@
                                 <th class="text-left">Actions</th>
                             </thead>
                             <tbody>
-                            @foreach ($pengajuan as $usr)
+                            @foreach ($pengajuanKegiatan as $usr)
                                 <tr>
                                     <td></td>
                                     <td class="text-left">{{ $usr['id'] }}</td>

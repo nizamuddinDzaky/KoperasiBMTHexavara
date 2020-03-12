@@ -663,10 +663,14 @@ class UserController extends Controller
 //    MAAL
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
-
+        // return response()->json($this->donasiReporsitory->getUserDonasi(Auth::user()->id));
         return view('users.donasi_maal',[
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
+            'riwayat_zis' => $this->donasiReporsitory->getPengajuanDonasi($type="zis", $user=Auth::user()->id),
+            'riwayat_wakaf' => $this->donasiReporsitory->getPengajuanDonasi($type="wakaf", $user=Auth::user()->id),
+            // 'riwayat_zis' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "zis"),
+            // 'riwayat_wakaf' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "wakaf"),
             'dropdown' => $dr,
             'dropdown6' => $this->informationRepository->getDdBank(),
         ]);
@@ -723,6 +727,7 @@ class UserController extends Controller
             // 'no_bank' => $request->nobank,
             // 'daribank' => $request->daribank,
         
+
         if($request->rekening != null)
         {
 

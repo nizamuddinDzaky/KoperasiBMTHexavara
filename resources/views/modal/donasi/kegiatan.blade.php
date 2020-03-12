@@ -53,7 +53,7 @@
                                         <select class="form-control select2" name="rekening" style="width: 100%;" required>
                                             <option selected disabled>-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $tabungan)
-                                                <option value="{{ $tabungan->id_tabungan }}">[{{ $tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
+                                                <option value="{{ $tabungan->id_tabungan }}">[{{ $tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }} [ Rp. {{ number_format(json_decode($tabungan->detail)->saldo) }} ]</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <img style="margin: auto;width:100px;height:auto" id="pic" src=""/>
+                                    <img style="margin: auto;width:100px;height:auto" class="pic" src=""/>
                                 </div>
                             </div>   
 

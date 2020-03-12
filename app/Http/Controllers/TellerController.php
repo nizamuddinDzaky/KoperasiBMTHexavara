@@ -1271,9 +1271,11 @@ class TellerController extends Controller
     public function pengajuan_maal(){
         $home = new HomeController;
         $date = $home->date_query(0);
-        // return response()->json($this->donasiReporsitory->getPengajuanDonasi());
+        // return response()->json($this->donasiReporsitory->getPengajuanDonasi($type="zis"));
         return view('teller.transaksi.maal.pengajuan',[
-            'pengajuan' => $this->donasiReporsitory->getPengajuanDonasi(),
+            'pengajuanKegiatan' => $this->donasiReporsitory->getPengajuanDonasi($type="donasi kegiatan"),
+            'pengajuanZIS' => $this->donasiReporsitory->getPengajuanDonasi($type="zis"),
+            'pengajuanWakaf' => $this->donasiReporsitory->getPengajuanDonasi($type="wakaf"),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),

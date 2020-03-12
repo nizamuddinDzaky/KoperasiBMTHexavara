@@ -2291,6 +2291,7 @@
                 <div class="tab-content">
                     <div class="tab-pane" id="tab1Tabc">
                         <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
+
                         <div class="row" id="cHideRekDon">
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="form-group">
@@ -2305,6 +2306,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="form-group">

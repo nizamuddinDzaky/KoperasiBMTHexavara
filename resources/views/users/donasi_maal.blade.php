@@ -271,65 +271,6 @@
             demo.initFormExtendedDatetimepickers();
         });
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#pic')
-                        .attr('src', e.target.result)
-                        .width(200)
-                        .height(auto)
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function readURL2(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#pic2')
-                        .attr('src', e.target.result)
-                        .width(100)
-                        .height(auto)
-                };
-
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function readURL3(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#pic3')
-                        .attr('src', e.target.result)
-                        .width(100)
-                        .height(auto)
-                };
-
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function readURL4(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#pic4')
-                        .attr('src', e.target.result)
-                        .width(400)
-                        .height(auto)
-                };
-
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
         type = ['','info','success','warning','danger'];
         demo = {
             showNotification: function(from, align){
