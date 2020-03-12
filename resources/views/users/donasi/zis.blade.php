@@ -24,7 +24,7 @@
                         <td>{{ $zis->id }}</td>
                         <td>{{ $zis->created_at->format('d F Y') }}</td>
                         <td>Rp. {{ number_format(json_decode($zis->detail)->jumlah, 2) }}</td>
-                        <td>Sudah Dikonfirmasi</td>
+                        <td>{{ $zis->status }}</td>
                     </tr>
                     @endforeach
                 </tbody>
