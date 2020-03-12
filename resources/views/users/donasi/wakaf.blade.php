@@ -24,7 +24,7 @@
                         <td>{{ $wakaf->id }}</td>
                         <td>{{ $wakaf->created_at->format('d F Y') }}</td>
                         <td>Rp. {{ number_format(json_decode($wakaf->detail)->jumlah, 2) }}</td>
-                        <td>Sudah Dikonfirmasi</td>
+                        <td>{{ $wakaf->status }}</td>
                     </tr>
                     @endforeach
                 </tbody>
