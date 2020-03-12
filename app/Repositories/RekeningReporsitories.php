@@ -104,8 +104,6 @@ class RekeningReporsitories {
             { 
                 $result = array('type' => 'error', 'message' => 'Transfer Pengeluaran/Pemasukan Gagal. Pastikan data benar dan saldo pemindahan cukup.');
             }
-
-            return $result;
         }
         catch(\Exception $e)
         {
