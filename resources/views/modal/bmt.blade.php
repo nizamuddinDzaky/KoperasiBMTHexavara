@@ -94,11 +94,11 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Transfer dari Rekening <star>*</star></label>
-                                        <select class="form-control select2" id="idRekJ" name="untuk" style="width: 100%;" required>
+                                        <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
+                                        <select class="form-control select2" id="idRekJ" name="dari" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                                             @foreach ($dropdown as $rekening)
-                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
                                             @endforeach
                                         </select>
                                     </div>

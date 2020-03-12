@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Rekening;
 use Illuminate\Support\Facades\Hash;
 
+use App\Repositories\RekeningReporsitories;
+
 class AdminController extends Controller
 {
     /**
@@ -31,7 +33,9 @@ class AdminController extends Controller
                                 Deposito $deposito,
                                 Pengajuan $pengajuan,
                                 BMT $bmt,
-                                InformationRepository $informationRepository)
+                                InformationRepository $informationRepository,
+                                RekeningReporsitories $rekeningReporsitory
+                                )
     {
         $this->middleware(function ($request, $next) {
             $this->id_role = Auth::user()->tipe;
@@ -51,6 +55,7 @@ class AdminController extends Controller
         $this->pengajuan = $pengajuan;
         $this->bmt = $bmt;
         $this->informationRepository = $informationRepository;
+        $this->rekeningReporsitory = $rekeningReporsitory;
     }
 
 
@@ -308,14 +313,15 @@ class AdminController extends Controller
         }
     }
     public function jurnal_lain(Request $request){
-        if($this->informationRepository->jurnalLain($request))
+        $jurnal_lain = $this->rekeningReporsitory->transferRekening($request);
+        if($jurnal_lain['type'] == "success")
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Transfer Jurnal Lain berhasil dilakukan!.'));
+                ->withSuccess(sprintf($jurnal_lain['message']));
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Transfer Jurnal Lain gagal dilakukan!.');
+                ->withInput()->with('message', $jurnal_lain['message']);
         }
     }
     public function edit_saldo(Request $request){

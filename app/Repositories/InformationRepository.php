@@ -2856,8 +2856,8 @@ class InformationRepository
             'jumlah' => floatval($request->jumlah),
             'saldo_awal'     => $id_tujuan ['saldo'],
             'saldo_akhir'    => "",
-            'dari'      => "",
-            'ke'        => $id_tujuan['id'],
+            'dari'      => $id_tujuan['id'],
+            'ke'        => json_decode(Auth::user()->detail)->id_rekening,
             'keterangan' => $request->keterangan,
         ];
         if($request->tipe == 0){
@@ -2870,9 +2870,11 @@ class InformationRepository
             $detail_tujuan['keterangan'] ="[Pemasukkan] ".$request->keterangan;
         }
         try {
-            DB::select('CALL sp_jurnal_(?,?,?, ?)', array(
+            DB::select('CALL sp_jurnal_(?,?,?,?,?)', array(
                     $id_tujuan['id'],Auth::user()->id,
-                    floatval($detail_tujuan['jumlah']),json_encode($detail_tujuan))
+                    floatval($detail_tujuan['jumlah']),json_encode($detail_tujuan),
+                    json_decode(Auth::user()->detail)->id_rekening
+                )
             );
             $this->UpdateSaldoPemyimpanan($request->untuk,$detail_tujuan['jumlah']);
             return true;
