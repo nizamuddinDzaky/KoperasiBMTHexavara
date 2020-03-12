@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
 use App\Repositories\DonasiReporsitories;
+use App\Repositories\RekeningReporsitories;
 
 class TellerController extends Controller
 {
@@ -39,7 +40,8 @@ class TellerController extends Controller
                                 InformationRepository $informationRepository,
                                 TabunganReporsitories $tabunganReporsitory,
                                 DepositoReporsitories $depositoReporsitory,
-                                DonasiReporsitories $donasiReporsitory
+                                DonasiReporsitories $donasiReporsitory,
+                                RekeningReporsitories $rekeningReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -62,13 +64,13 @@ class TellerController extends Controller
         $this->tabunganReporsitory = $tabunganReporsitory;
         $this->depositoReporsitory = $depositoReporsitory;
         $this->donasiReporsitory = $donasiReporsitory;
+        $this->rekeningReporsitory = $rekeningReporsitory;
     }
 
     public function index(){
         $home = new HomeController;
         $date_now = $home->MonthShifter(+1)->format(('Y-m'));
         $date_prev = $home->MonthShifter(-1)->format(('Y-m-t'));
-
 
         $pengajuan =$this->pengajuan->select('status')
             ->where('pengajuan.created_at', ">" , $date_prev." 23:59:59")
@@ -1332,7 +1334,8 @@ class TellerController extends Controller
         return view('teller.transaksi.transfer.index',[
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
-            'dropdown' => $this->informationRepository->getDdBMT(),
+            // 'dropdown' => $this->informationRepository->getDdBMT(),
+            'dropdown' => $this->rekeningReporsitory->getRekeningExcludedCategory(array('kas', 'bank', 'shu berjalan'))
         ]);
     }
 

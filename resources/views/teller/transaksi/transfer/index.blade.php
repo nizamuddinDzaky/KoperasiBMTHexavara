@@ -27,8 +27,8 @@
                 </div>
 
                 <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#transferRekModal"><i class="fa fa-exchange-alt"></i> Transfer Rekening BMT</button>
-                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal"><i class="fa fa-credit-card"></i> Transfer Pengeluaran/Pemasukan</button>
+                    {{-- <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#transferRekModal"><i class="fa fa-exchange-alt"></i> Transfer Rekening BMT</button> --}}
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal"><i class="fa fa-credit-card"></i> Transfer Pengeluaran/Pemasukan</button>
                     <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#wapokRekModal"><i class="fa fa-credit-card"></i> Upgrade Simpanan Wajib/Pokok</button>
                 </div>
             </div>
