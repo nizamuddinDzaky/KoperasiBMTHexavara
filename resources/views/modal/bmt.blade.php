@@ -24,7 +24,7 @@
                                         <select class="form-control select2" id="idRekD" name="dari" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                                             @foreach ($dropdown as $rekening)
-                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -37,7 +37,7 @@
                                         <select class="form-control select2" id="idRekT" name="untuk" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                                             @foreach ($dropdown as $rekening)
-                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
                                             @endforeach
                                         </select>
                                     </div>
