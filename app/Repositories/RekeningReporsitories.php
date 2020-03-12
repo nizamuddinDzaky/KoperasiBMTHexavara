@@ -33,7 +33,7 @@ class RekeningReporsitories {
      * use in teller dashboard
      * @return Response
     */
-    public function transferRekening($data)
+    public function transferRekening($data, $type)
     {
         DB::beginTransaction();
 
@@ -60,7 +60,7 @@ class RekeningReporsitories {
 
             $id_user = Auth::user()->id;
             $id_bmt = $id_penerima;
-            $status = "Jurnal Lain";
+            $status = $type;
             $saldo = BMT::where('id', $id_bmt)->select('saldo')->first();
             
             if($saldo['saldo'] == "") {
@@ -104,8 +104,6 @@ class RekeningReporsitories {
             { 
                 $result = array('type' => 'error', 'message' => 'Transfer Pengeluaran/Pemasukan Gagal. Pastikan data benar dan saldo pemindahan cukup.');
             }
-
-            return $result;
         }
         catch(\Exception $e)
         {
