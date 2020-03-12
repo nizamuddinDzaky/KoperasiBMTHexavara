@@ -61,7 +61,7 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-            $('#pic')
+            $('.pic')
                 .attr('src', e.target.result)
                 .width(100)
                 .height(100)
@@ -103,6 +103,7 @@ $(document).ready(function() {
         $(".opsi-pembayaran").val(-1);
         $('.opsi-transfer').addClass('hide');
         $('.opsi-tabungan').addClass('hide');
+        $('.pic').attr('src', '');
     });
 });
 

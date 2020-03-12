@@ -187,6 +187,10 @@
             //     $('#cHideRekDon').show();
             //     $('#ctitleDon').text("Donasi Kegiatan Maal");
             // }
+            if(button.data('jenis') != "donasi kegiatan") {
+                $('#cHideRekDon').hide();
+            }
+            
             $('#IDdonasi').val(button.data('kegiatan'));
             $('#cidRekDon').val(button.data('kegiatan'));
             $('#cidRekTabDon').val(button.data('tabungan'));

@@ -11,26 +11,28 @@
                         <table class="table bootstrap-table">
                             <thead>
                                 <th></th>
-                                <th class="text-center" data-sortable="true">ID Pengajuan</th>
-                                <th class="text-center" data-sortable="true">Nama Anggota</th>
-                                <th class="text-center" data-sortable="true">Nominal</th>
-                                <th class="text-center" data-sortable="true">Tujuan</th>
-                                <th class="text-center">Actions</th>
+                                <th class="text-left" data-sortable="true">ID Pengajuan</th>
+                                <th class="text-left" data-sortable="true">Tanggal Pengajuan</th>
+                                <th class="text-left" data-sortable="true">Nama Anggota</th>
+                                <th class="text-left" data-sortable="true">Nominal</th>
+                                <th class="text-left" data-sortable="true">Tujuan</th>
+                                <th class="text-left" data-sortable="true">Status</th>
+                                <th class="text-left">Actions</th>
                             </thead>
                             <tbody>
-                            @foreach ($data as $usr)
+                            @foreach ($pengajuanWakaf as $usr)
                                 <tr>
                                     <td></td>
                                     <td class="text-left">{{ $usr['id'] }}</td>
-                                    <td class="text-center">{{ json_decode($usr['detail'],true)['nama'] }}</td>
+                                    <td>{{ $usr['created_at']->format('D, d F Y') }}</td>
+                                    <td class="text-left text-uppercase">{{ json_decode($usr['detail'],true)['nama'] }}</td>
+                                    <td class="text-left">Rp. {{ number_format(json_decode($usr['detail'],true)['jumlah']) }}</td>
                                     <td class="text-left">{{ $usr['jenis_pengajuan']   }}</td>
-                                     <td class="text-center">{{$usr['kategori'] }}</td>
-                                    <td>{{ $usr['created_at'] }}</td>
-                                    <td class="text-center text-uppercase">{{ $usr['status'] }}</td>
+                                    <td class="text-left">{{$usr['status'] }}</td>
                                     <td class="td-actions text-center">
                                         <div class="row">
                                             @if(str_before($usr['kategori'],' ')=="Donasi")
-                                                @if($usr['status']=="Sudah Dikonfirmasi" || $usr['status']=="Disetujui")
+                                                @if($usr['status']=="Sudah Dikonfirmasi" || $usr['status']=="Disetujui" || $usr['teller'] != 0)
                                                 @else
                                                     @if(Auth::user()->tipe=="teller")
                                                         {{--KONFIRMASI UNTUK TRANSAKSI--}}
@@ -39,7 +41,7 @@
                                                                 data-nama     = "{{ $usr['nama'] }}"
                                                                 data-ktp     = "{{ $usr['no_ktp']  }}"
                                                                 data-iduser     = "{{ json_decode($usr['detail'],true)['id']}}"
-                                                                data-debit     = "{{ json_decode($usr['detail'],true)[strtolower(str_before($usr['kategori'],' '))]}}"
+                                                                data-debit     = "{{ json_decode($usr['detail'],true)['debit']}}"
                                                                 data-jumlah     = "{{ number_format(json_decode($usr['detail'],true)['jumlah'])}}"
                                                                 @if(str_before($usr['kategori'],' ')=="Kredit")
                                                                 data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr['detail'],true)['path_bukti'])}}"
@@ -81,14 +83,16 @@
                                                                 data-keterangan = "{{ json_decode($usr['detail'],true)['nama_pembiayaan'] }}"
                                                                 data-path       = "{{ url('/storage/public/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
                                                                 @elseif(str_before($usr['kategori'],' ')=="Donasi")
-                                                                data-bankuser = "{{ json_decode($usr['detail'],true)['daribank'] }}"
+                                                                data-bankuser = "{{ json_decode($usr['detail'],true)['bank'] }}"
                                                                 data-no_bank = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
-                                                                data-bank = "{{ json_decode($usr['detail'],true)['dari'] }}"
+                                                                {{-- data-bank = "{{ json_decode($usr['detail'],true)['dari'] }}" --}}
                                                                 data-atasnama = "{{ json_decode($usr['detail'],true)['nama'] }}"
-                                                                data-kegiatan = "{{ json_decode($usr['detail'],true)['kegiatan'] }}"
-                                                                data-jenis = "{{ json_decode($usr['detail'],true)['donasi'] }}"
-                                                                data-path       = "{{ url('/storage/public/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
+                                                                data-kegiatan = "{{ json_decode($usr['detail'],true)['id_maal'] }}"
+                                                                data-jenis = "{{ json_decode($usr['detail'],true)['jenis_donasi'] }}"
+                                                                data-debit = "{{ json_decode($usr['detail'],true)['debit'] }}"
+                                                                data-path       = "{{ url('/storage/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
                                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
+                                                                data-tabungan       = "{{ json_decode($usr['detail'],true)['rekening'] }}"
                                                                 data-keterangan = "{{ $usr['kategori'] }}"
                                                                 {{--data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"--}}
                                                                 @endif
@@ -133,18 +137,20 @@
                                                     data-id         = "{{$usr['id']}}"
                                                     data-namauser   = "{{ json_decode($usr['detail'],true)['nama'] }}"
                                                     data-ktp     = "{{ $usr['no_ktp'] }}"
-                                                    data-bankuser = "{{ json_decode($usr['detail'],true)['daribank'] }}"
+                                                    data-bankuser = "{{ json_decode($usr['detail'],true)['bank'] }}"
                                                     data-no_bank = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
                                                     data-atasnama = "{{ json_decode($usr['detail'],true)['nama'] }}"
-                                                    data-kegiatan = "{{ json_decode($usr['detail'],true)['kegiatan'] }}"
-                                                    data-jenis = "{{ json_decode($usr['detail'],true)['donasi'] }}"
-                                                    data-bank = "{{ json_decode($usr['detail'],true)['dari'] }}"
-                                                    data-path       = "{{ url('/storage/public/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
+                                                    data-kegiatan = "{{ json_decode($usr['detail'],true)['id_maal'] }}"
+                                                    data-jenis = "{{ json_decode($usr['detail'],true)['jenis_donasi'] }}"
+                                                    data-debit = "{{ json_decode($usr['detail'],true)['debit'] }}"
+                                                    data-tabungan = "{{ json_decode($usr['detail'],true)['rekening'] }}"
+                                                    data-path       = "{{ url('/storage/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
                                                     data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                     data-keterangan = "{{ $usr['kategori'] }}">
                                                 <i class="fa fa-list-alt"></i>
                                             </button>
-                                            @if(str_before($usr['status']," ")=="Disetujui" || str_before($usr['status']," ")=="Sudah")
+                                            {{-- @if(str_before($usr['status']," ")=="Disetujui" || str_before($usr['status']," ")=="Sudah") --}}
+                                            @if($usr['status']=="Sudah Dikonfirmasi" || $usr['status']=="Disetujui" || $usr['teller'] != 0)
                                             @else
                                                 <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delModal" title="Delete"
                                                         data-id       = "{{$usr['id']}}"
@@ -154,6 +160,7 @@
                                             @endif
                                         </div>
                                     </td>
+                                    
                                 </tr>
                             @endforeach
                             </tbody>
