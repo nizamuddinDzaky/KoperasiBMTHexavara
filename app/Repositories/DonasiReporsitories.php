@@ -135,15 +135,15 @@ class DonasiReporsitories {
         if($penyimpananMaal['type'] == 'success') {
             // Update donasi maal dana terkumpul
             $update_dana_terkumpul = Maal::where('id', $data->rekDon)->update([ 'detail' => json_encode($detail_maal_update) ]);
-                $detail_pengajuan = json_decode($pengajuan->detail);
-                if($detail_pengajuan->debit == "Tabungan") {
-                    $dataToCheckInTabungan = [
-                        'id_tabungan' => $detail_pengajuan->rekening,
-                        'jumlah'      => $detail_pengajuan->jumlah,
-                        'id_pengajuan' => $data->id_
-                    ];
-                    $this->updateSaldoTabungan($dataToCheckInTabungan);
-                }
+            $detail_pengajuan = json_decode($pengajuan->detail);
+            if($detail_pengajuan->debit == "Tabungan") {
+                $dataToCheckInTabungan = [
+                    'id_tabungan' => $detail_pengajuan->rekening,
+                    'jumlah'      => $detail_pengajuan->jumlah,
+                    'id_pengajuan' => $data->id_
+                ];
+                $this->updateSaldoTabungan($dataToCheckInTabungan);
+            }
         }
 
         return $penyimpananMaal;
