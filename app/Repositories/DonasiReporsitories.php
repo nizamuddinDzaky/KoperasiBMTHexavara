@@ -150,6 +150,15 @@ class DonasiReporsitories {
                 ];
             }
 
+            // Update saldo rekening pengirim di bmt
+            if(json_decode($pengajuan->detail)->rekening != null) {
+                $tabungan_pengirim = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->rekening)->first();
+                $bmt_pengirim = BMT::where('nama', $tabungan_pengirim->jenis_tabungan)->first();
+
+                $saldo_bmt_pengirim = floatval($bmt_pengirim->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
+                $update_saldo_bmt_pengirim = BMT::where('nama', $tabungan_pengirim->jenis_tabungan)->update([ "saldo" => $saldo_bmt_pengirim]);
+            }
+
             $dataToInsertIntoPenyimpananMaal = [
                 'id_donatur'    => $pengajuan->id_user,
                 'id_maal'       => $data->rekDon,
@@ -265,7 +274,8 @@ class DonasiReporsitories {
             "id_pengajuan" => $data['id_pengajuan']
         ];
 
-        $update = Tabungan::where('id_tabungan', $data['id_tabungan'])->update([ 'detail' => json_encode($dataToUpdateTabungan) ]);
+        $update_tabungan = Tabungan::where('id_tabungan', $data['id_tabungan'])->update([ 'detail' => json_encode($dataToUpdateTabungan) ]);
+        
     }
 
     /** 
