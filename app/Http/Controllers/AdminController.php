@@ -314,6 +314,7 @@ class AdminController extends Controller
     }
     public function jurnal_lain(Request $request){
         $jurnal_lain = $this->rekeningReporsitory->transferRekening($request);
+        // return response()->json($jurnal_lain);
         if($jurnal_lain['type'] == "success")
             return redirect()
                 ->back()
