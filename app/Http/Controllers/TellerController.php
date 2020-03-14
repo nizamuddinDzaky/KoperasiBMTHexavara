@@ -1336,7 +1336,7 @@ class TellerController extends Controller
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
-            'dropdown' => $this->rekeningReporsitory->getRekeningExcludedCategory(array('kas', 'bank', 'shu berjalan'))
+            'dropdown' => $this->rekeningReporsitory->getRekeningExcludedCategory($excluded=array('kas', 'bank', 'shu berjalan'), $type="detail")
         ]);
     }
 

@@ -16,11 +16,15 @@ class RekeningReporsitories {
      * Get rekening with several category excluded
      * @return Response
     */
-    public function getRekeningExcludedCategory($excluded)
+    public function getRekeningExcludedCategory($excluded, $type="")
     {
         $rekening = "SELECT rekening.*, bmt.saldo FROM rekening INNER JOIN bmt ON rekening.id=bmt.id_rekening WHERE rekening.nama_rekening NOT LIKE '%" . $excluded[0] . "%'";
         for($i=1; $i < count($excluded); $i++) {
             $rekening .= " AND rekening.nama_rekening NOT LIKE '%" . $excluded[$i] . "%'";
+        }
+
+        if($type != "") {
+            $rekening .= " AND tipe_rekening='" . $type . "'";
         }
 
         $data = DB::select( DB::raw($rekening) );
