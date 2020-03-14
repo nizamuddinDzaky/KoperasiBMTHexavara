@@ -489,34 +489,38 @@ class LaporanController extends Controller
         $aktiva = $pasiva=null;
         foreach ($data as $dt){
             $dt['point'] = substr_count($dt->id_bmt, '.');
-            $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
-            if(empty($saldo))
-                $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->orderBy('id','desc')->first();
-            $dt['saldo']=$saldo['saldo'];
+            // $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
+            // if(empty($saldo)) {
+            //     $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->orderBy('id','desc')->first();
+            // }
+            $dt['saldo']=$dt->saldo;
             $aktiva += floatval($dt['saldo']);
         }
         $data2= collect ($data2);
         $data2_array = array();
         foreach($data2 as $dt2){
             $dt2['point'] = substr_count($dt2['id_bmt'], '.');
-            $saldo2 = PenyimpananRekening::where('id_rekening',$dt2['id_rekening'])->where('periode',$date)->first();
-            if(empty($saldo2))
-                $saldo2 = PenyimpananRekening::where('id_rekening',$dt2['id_rekening'])->orderBy('id','desc')->first();
-            $dt2['saldo']=$saldo2['saldo'];
+            // $saldo2 = PenyimpananRekening::where('id_rekening',$dt2['id_rekening'])->where('periode',$date)->first();
+            // if(empty($saldo2))
+            //     $saldo2 = PenyimpananRekening::where('id_rekening',$dt2['id_rekening'])->orderBy('id','desc')->first();
+            // $dt2['saldo']=$saldo2['saldo'];
+            $dt2['saldo']=$dt2['saldo'];
             array_push($data2_array,$dt2);
             $pasiva += floatval($dt2['saldo']);
         }
         $data2 = collect($data2_array);
-        $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        // $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $str = substr($date,0,4)."/".substr($date,4,2)."/01";
         $time_input = date_create($str);
+
+        // return response()->json($data2);
 
         return view('admin.laporan.neraca',[
             'data' => $data,
             'data2' => $data2,
             'aktiva' =>$aktiva,
             'pasiva' =>$pasiva,
-            'periode'  => $periode,
+            // 'periode'  => $periode,
             'bulan'=> date_format($time_input,"F Y")
         ]);
     }

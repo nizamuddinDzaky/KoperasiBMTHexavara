@@ -16,7 +16,7 @@
         <div class="col-md-3">
             <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
                 <div class="card-body">
-                    <span class="card-title card-number-large" id="harta">{{ number_format($teller->saldo) }}</span>
+                    <span class="card-title card-number-large" id="harta">0</span>
                     <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
                     <span class="card-description">Bersumber dari kas dalam akun teller 1</span>
                     
