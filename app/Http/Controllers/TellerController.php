@@ -506,59 +506,7 @@ class TellerController extends Controller
         }
         return $request;
     }
-    public function konfirmasi(Request $request){
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
-        if(isset($request->idcKre))
-           if($request->idRek<$request->jumlah){
-                $rek = "Mohon maaf Saldo Rekening Tabungan Anda tidak CUKUP!.";
-                return redirect()
-                    ->back()
-                    ->withInput()->with('message', $rek);
-            }
-        $this->validate($request, [
-            'file' => 'file|max:2000', // max 2MB
-        ]);
-        if($request->idcKre=="CK"){
-            $saldobank="-";
-            if($request->daribank)
-                $saldobank=(BMT::where('id_rekening',$request->daribank)->first());
-            elseif($request->dariteller)
-                $saldobank=(BMT::where('id_rekening',$request->dariteller)->first());
-            else
-                return redirect()
-                    ->back()
-                    ->withInput()->with('message', 'Saldo '.$saldobank->nama." Tidak Cukup!");
 
-            if(str_replace(",","",$request->jumlahCK)){
-                if(floatval(str_replace(",","",$request->jumlahCK)) > floatval($saldobank->saldo)){
-                    return redirect()
-                        ->back()
-                        ->withInput()->with('message', 'Saldo '.$saldobank->nama." Tidak Cukup!");
-                };
-            }
-            else{
-                if(floatval($request->jumlah) > floatval($saldobank->saldo)){
-                    return redirect()
-                        ->back()
-                        ->withInput()->with('message', 'Saldo '.$saldobank->nama." Tidak Cukup!");
-                };
-            }
-
-        }
-
-        if($request->teller=="teller")$request = $this->daftar_debit_kredit($request);
-        if($this->informationRepository->penyimpananDebit($request)){
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf('Konfirmasi Pembayaran berhasil dilakukan!.'));
-        }
-        else{
-            ($this->informationRepository->delPengajuan($request->id));
-            return redirect()
-                ->back()
-                ->withInput()->with('message', 'Konfirmasi Pembayaran gagal dilakukan!.');
-        }
-    }
     public function daftar_angsuran($request){
         if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
         if(preg_match("/^[0-9,]+$/", $request->jumlah_)) $request->jumlah_ = str_replace(',',"",$request->jumlah_);
@@ -1361,5 +1309,38 @@ class TellerController extends Controller
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
         ]);
+    }
+
+
+
+    /** ----------------------------------------------------------------------
+     * -----------------------------------------------------------------------
+     * -----------------------------------------------------------------------
+     * ----------------------- Teller Tabungan Menu---------------------------
+     * -----------------------------------------------------------------------
+     * -----------------------------------------------------------------------
+    */
+
+    /** 
+     * Confirm user pengajuan tabungan
+     * @return Response
+    */
+    public function confirm_tabungan(Request $request){
+        if($request->idcKre != null) {
+            $confirmTabungan = $this->tabunganReporsitory->debitTabungan($request);
+        } else {
+            $confirmTabungan = $this->tabunganReporsitory->creditTabungan($request);
+        }
+        return response()->json($confirmTabungan);
+        // if($confirmKreditTabungan['type'] == 'success'){
+        //     return redirect()
+        //         ->back()
+        //         ->withSuccess(sprintf($confirmKreditTabungan['message']));
+        // }
+        // else{
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->with('message', $confirmKreditTabungan['message']);
+        // }
     }
 }

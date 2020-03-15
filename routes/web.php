@@ -173,10 +173,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as' => 'edit.saldo',
             'uses' => 'AdminController@edit_saldo'
         ]);
-        Route::post('/konfirmasi_debit', [
-            'as' => 'admin.konfirmasi.debit',
-            'uses' => 'AdminController@konfirmasi'
-        ]);
+        // Route::post('/konfirmasi_debit', [
+        //     'as' => 'admin.konfirmasi.debit',
+        //     'uses' => 'AdminController@confirm_tabungan'
+        // ]);
         Route::post('/konfirmasi_tutup', [
             'as' => 'admin.konfirmasi.tutup',
             'uses' => 'TellerController@konfirmasi_tutup'
@@ -867,7 +867,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             ]);
             Route::post('/konfirmasi_debit', [
                 'as' => 'teller.konfirmasi.debit',
-                'uses' => 'TellerController@konfirmasi'
+                'uses' => 'TellerController@confirm_tabungan'
             ]);
             Route::post('/konfirmasi_tutup', [
                 'as' => 'teller.konfirmasi.tutup',
@@ -875,7 +875,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             ]);
             Route::post('/konfirmasi_kredit', [
                 'as' => 'teller.konfirmasi.kredit',
-                'uses' => 'TellerController@konfirmasi'
+                'uses' => 'TellerController@confirm_tabungan'
             ]);
         });
         Route::group(['prefix' => 'deposito', 'middleware' => ['auth']], function () {

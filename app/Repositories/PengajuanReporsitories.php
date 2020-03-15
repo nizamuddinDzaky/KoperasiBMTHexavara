@@ -54,6 +54,16 @@ class PengajuanReporsitories {
         return $response;
     }
 
+    /** 
+     * Find pengajuan
+     * @return Response
+    */
+    public static function findPengajuan($id)
+    {
+        $pengajuan = Pengajuan::where('id', $id)->first();
+        return $pengajuan;
+    }
+
 }
 
 ?>

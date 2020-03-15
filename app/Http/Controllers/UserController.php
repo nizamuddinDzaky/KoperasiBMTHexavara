@@ -202,6 +202,11 @@ class UserController extends Controller
         ]);
     }
 
+
+
+
+
+
 //    NAVBAR MENU->TABUNGAN
     public function pengajuan_tab(Request $request)
     {
@@ -262,7 +267,7 @@ class UserController extends Controller
 
     public function detail_tabungan(Request $request)
     {
-
+        // return response()->json($this->informationRepository->getTransaksiTabUsr($request->id_));
         return view('users.detail_tabungan', [
             'data' => $this->informationRepository->getTransaksiTabUsr($request->id_),
         ]);
@@ -383,6 +388,13 @@ class UserController extends Controller
                 ->withInput()->with('message', 'Debit Tabungan gagal dilakukan!.');
         }
     }
+
+
+
+
+
+
+
 
 //    NAVBAR MENU->DEPOSITO
     public function pengajuan_dep(Request $request)

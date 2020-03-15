@@ -24,7 +24,7 @@ class RekeningReporsitories {
             $rekening .= " AND tipe_rekening='" . $type . "'";
         }
 
-        if($type != "") {
+        if($sort != "") {
             $rekening .= " ORDER BY " . $sort . " ASC";
         }
 
@@ -324,6 +324,8 @@ class RekeningReporsitories {
 
         }
     }   
+
+
 }
 
 ?>
