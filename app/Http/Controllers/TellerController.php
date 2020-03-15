@@ -1325,22 +1325,60 @@ class TellerController extends Controller
      * Confirm user pengajuan tabungan
      * @return Response
     */
-    public function confirm_tabungan(Request $request){
+    public function confirm_tabungan(Request $request)
+    {
         if($request->idcKre != null) {
-            $confirmTabungan = $this->tabunganReporsitory->debitTabungan($request);
+            $confirmTabungan = $this->tabunganReporsitory->confirmDebitTabungan($request);
         } else {
-            $confirmTabungan = $this->tabunganReporsitory->creditTabungan($request);
+            $confirmTabungan = $this->tabunganReporsitory->confirmCreditTabungan($request);
         }
-        return response()->json($confirmTabungan);
-        // if($confirmKreditTabungan['type'] == 'success'){
-        //     return redirect()
-        //         ->back()
-        //         ->withSuccess(sprintf($confirmKreditTabungan['message']));
-        // }
-        // else{
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', $confirmKreditTabungan['message']);
-        // }
+        if($confirmKreditTabungan['type'] == 'success'){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($confirmKreditTabungan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $confirmKreditTabungan['message']);
+        }
+    }
+
+    /** 
+     * Kredit tabungan user
+     * @return Response
+    */
+    public function kredit_tabungan(Request $request)
+    {
+        $kreditTabungan = $this->tabunganReporsitory->creditTabungan($request);
+        if($kreditTabungan['type'] == 'success'){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($kreditTabungan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $kreditTabungan['message']);
+        }
+    }
+
+    /** 
+     * Debit tabungan user
+     * @return Response
+    */
+    public function debit_tabungan(Request $request)
+    {
+        $debitTabungan = $this->tabunganReporsitory->debitTabungan($request);
+        if($debitTabungan['type'] == 'success'){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($debitTabungan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $debitTabungan['message']);
+        }
     }
 }

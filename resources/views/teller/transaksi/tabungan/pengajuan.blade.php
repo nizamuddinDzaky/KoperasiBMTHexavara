@@ -415,7 +415,7 @@
             $('.currency').maskMoney({
                 allowZero: true,
                 precision: 0,
-                thousands: "."
+                thousands: ","
             });
 
         });

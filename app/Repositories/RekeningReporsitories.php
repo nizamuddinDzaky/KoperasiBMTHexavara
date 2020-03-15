@@ -16,9 +16,13 @@ class RekeningReporsitories {
      * Get all rekening
      * @return Response
     */
-    public function getRekening($type="", $sort="")
+    public function getRekening($name="", $type="", $sort="")
     {
         $rekening = "SELECT rekening.*, bmt.saldo FROM rekening INNER JOIN bmt ON rekening.id=bmt.id_rekening";
+
+        if($name != "") {
+            $rekening .= " AND nama_rekening='" . $name . "'";
+        }
 
         if($type != "") {
             $rekening .= " AND tipe_rekening='" . $type . "'";

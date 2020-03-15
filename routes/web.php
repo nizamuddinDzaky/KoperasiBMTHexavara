@@ -728,6 +728,26 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'as'        => 'teller.un_block.rekening',
         'uses'      => 'TellerController@un_block_rekening'
     ]);
+
+    Route::group(['prefix' => 'tabungan', 'middleware' => ['auth']], function() {
+
+        /** 
+         * Kredit tabungan controller
+        */
+        Route::post('kredit', [
+            'as'    => 'teller.tabungan.kredit',
+            'uses'  => 'TellerController@kredit_tabungan'
+        ]);
+
+        /** 
+         * Debit tabungan controller
+        */
+        Route::post('debit', [
+            'as'    => 'teller.tabungan.debit',
+            'uses'  => 'TellerController@debit_tabungan'
+        ]);
+
+    });
     
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {

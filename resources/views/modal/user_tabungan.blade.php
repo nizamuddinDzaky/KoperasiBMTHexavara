@@ -129,7 +129,7 @@
 <div class="modal fade" id="kreditTabModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardDeb">
-            <form id="wizardFormDeb" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.konfirmasi.debit')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.konfirmasi.debit')}}" @else action="{{route('anggota.debit_tabungan')}}" @endif enctype="multipart/form-data">
+            <form id="wizardFormDeb" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.konfirmasi.debit')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.tabungan.kredit')}}" @else action="{{route('anggota.debit_tabungan')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -654,7 +654,7 @@
 <div class="modal fade" id="debitTabModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardKre">
-            <form id="wizardFormKre" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.konfirmasi.kredit')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.konfirmasi.kredit')}}" @else action="{{route('anggota.kredit_tabungan')}}" @endif enctype="multipart/form-data">
+            <form id="wizardFormKre" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.konfirmasi.kredit')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.tabungan.debit')}}" @else action="{{route('anggota.kredit_tabungan')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                 <input type="hidden" name="idcKre" value="CK">
@@ -758,7 +758,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" id="toHideKreTellA">
+                                {{-- <div class="row" id="toHideKreTellA">
                                     <div class="col-md-10 col-md-offset-1">
                                         <div class="form-group">
                                             <label class="control-label">Pilih Rekening Teller<star>*</star></label>
@@ -770,7 +770,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             @endif
                         </div>
                     </div>
