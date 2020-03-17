@@ -122,6 +122,8 @@
                                                         data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
                                                         data-ktp     = "{{ $usr->no_ktp }}"
                                                         data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                        data-bank_bmt_tujuan       = "{{ json_decode($usr->detail,true)['bank_bmt_tujuan'] }}"
+                                                        data-kredit = {{ json_decode($usr->detail, true)['kredit']}}
                                                         @if($usr->jenis_pengajuan =="Perpanjangan Deposito")
                                                         data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                         data-atasnama   = "Pribadi"
@@ -397,7 +399,14 @@
                 selAr2.hide();
                 selAr.show();
             }
+            if(button.data('kredit') == "Tunai")
+            {   
+                $('.bank_tujuan').hide();
+                $('.jumlah_uang').removeClass('col-md-5');
+                $('.jumlah_uang').addClass('col-md-10 col-md-offset-1');
+            }
             $('#aket_nisbah').val(button.data('nisbah'));
+            $('#bank_tujuan').val(button.data('bank_bmt_tujuan'));
             $('#arek_tabungan').val(button.data('rek_tab'));
             $('#ajumlahdep').val(button.data('jumlah'));
             $('#aketerangan2').val(button.data('keterangan'));

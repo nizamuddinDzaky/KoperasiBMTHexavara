@@ -408,7 +408,7 @@ class TellerController extends Controller
 
         }
 
-//       VIA TRANSAKSI PENGAJUAN
+    //   VIA TRANSAKSI PENGAJUAN
         if($request->pembiayaan){
             $detail['nisbah']=$request->nisbah;
             $detail['bank']=$request->bank;
@@ -607,7 +607,8 @@ class TellerController extends Controller
         }
     }
     public function konfirmasi_pencairan(Request $request){
-        $konfirmasi = $this->depositoReporsitory->pencairanDeposito($request);
+        // $konfirmasi = $this->depositoReporsitory->pencairanDeposito($request);
+        return response()->json($request);
         
         // $bmt = $this->informationRepository->getRekeningBMT($request->dari);
         // if( floatval($bmt['saldo']) <  floatval(str_replace(',', '', $request->saldo)) )
@@ -872,10 +873,11 @@ class TellerController extends Controller
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanDepTell($date);
 
-        // return response()->json($this->informationRepository->getAllTab());
+        // return response()->json($this->tabunganReporsitory->getRekening('BANK'));
 
         return view('teller.transaksi.deposito.pengajuan',[
             // 'datasaldoDep' =>  $this->informationRepository->getAllDep(),
+            'bank_bmt'  => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoDep' =>  $this->depositoReporsitory->getDeposito($status='active'),
             'kegiatan' => $dropdown,
             'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
@@ -1342,5 +1344,82 @@ class TellerController extends Controller
         //         ->back()
         //         ->withInput()->with('message', $confirmKreditTabungan['message']);
         // }
+    }
+
+    /** 
+     * Confirm user pengajuan pembukaan deposito
+     * @return Response
+    */
+    public function confirm_deposito(Request $request)
+    {
+        $confirmDeposito = $this->depositoReporsitory->confirmPengajuan($request);
+        if($confirmDeposito['type'] == 'success'){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($confirmDeposito['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $confirmDeposito['message']);
+        }
+    }
+
+    /** 
+     * Confirm user pengajuan pencairan deposito
+     * @return Response
+    */
+    public function confirm_pencairan_deposito(Request $request)
+    {
+        $pencairanDeposito = $this->depositoReporsitory->pencairanDeposito($request);
+        if($pencairanDeposito['type'] == 'success'){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pencairanDeposito['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pencairanDeposito['message']);
+        }
+    }
+
+    /** 
+     * Open deposito from teller page
+     * @return Response
+    */
+    public function open_deposito(Request $request)
+    {
+        $openDeposito = $this->depositoReporsitory->openDeposito($request);
+        if($openDeposito['type'] == 'success'){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($openDeposito['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $openDeposito['message']);
+        }
+    }
+
+    /** 
+     * Withrawal deposito from teller page
+     * @return Response
+    */
+    public function withraw_deposito(Request $request)
+    {
+        $pencairanDeposito = $this->depositoReporsitory->pencairanDeposito($request);
+        if($pencairanDeposito['type'] == 'success'){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pencairanDeposito['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pencairanDeposito['message']);
+        }
+        // return response()->json($pencairanDeposito);
     }
 }

@@ -3640,7 +3640,7 @@ class InformationRepository
             // 'no_bank' => $request->nobank,
             // 'atasnama' => $request->atasnama,
             'keterangan' =>$request->keterangan,
-            'jumlah' =>$request->idRek,
+            'jumlah' => json_decode($tabUsr->detail)->saldo
         ];
         $dt = New Pengajuan();
         $dt->id_user = $id_user;

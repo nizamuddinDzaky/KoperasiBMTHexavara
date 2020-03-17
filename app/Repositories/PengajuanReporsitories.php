@@ -35,6 +35,11 @@ class PengajuanReporsitories {
     {
         $pengajuan = new Pengajuan();
         
+        if($data['teller'] == "teller")
+        {
+            $pengajuan->id = $data['id'];
+            $data = $data['id'];
+        }
         $pengajuan->id_user = $data['id_user'];
         $pengajuan->id_rekening = $data['id_rekening'];
         $pengajuan->jenis_pengajuan = $data['jenis_pengajuan'];
@@ -45,7 +50,7 @@ class PengajuanReporsitories {
 
         if($pengajuan->save())
         {
-            $response = array("type" => "success", "message" => "Pengajuan " . $data['kategori'] . " berhasil dibuat");
+            $response = array("type" => "success", "message" => "Pengajuan " . $data['kategori'] . " berhasil dibuat", "data" => $data);
         } 
         else 
         {

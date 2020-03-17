@@ -39,9 +39,14 @@ class TabunganReporsitories {
      * Find specific tabungan
      * @return Response
     */
-    public function findRekening($kategori_rekening, $id_tabungan)
+    public function findRekening($kategori_rekening, $id_tabungan, $nama_rekening="")
     {
         $tabungan = Rekening::where([ ['katagori_rekening', $kategori_rekening], ['id_rekening', $id_tabungan] ])->get();
+
+        if($nama_rekening != "")
+        {
+            $tabungan = Rekening::where([ ['katagori_rekening', $kategori_rekening], ['nama_rekening', $nama_rekening], ['tipe_rekening', 'detail'] ])->get();
+        }
         return $tabungan;
     }
 

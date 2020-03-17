@@ -35,7 +35,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Pencairan <star>*</star></label>
-                                        <select class="form-control select2" id="jeniscls2" name="jenis" style="width: 100%;" required>
+                                        <select class="form-control" id="jeniscls2" name="jenis" style="width: 100%;" required>
                                             <option class="bs-title-option" selected value="" disabled>-Pilih jenis Transaksi</option>
                                             <option value="0">Tunai</option>
                                             <option value="1">Transfer</option>
@@ -70,7 +70,7 @@
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Transfer ke Rek. BANK <star>*</star></label>
-                                        <select class="form-control select2" id="bankcls2" name="bank" style="width: 100%;" >
+                                        <select class="form-control" id="bankcls2" name="bank" style="width: 100%;" >
                                             <option class="bs-title-option" selected value="" disabled>-Pilih Rekening BANK-</option>
                                             @foreach ($dropdown6 as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
@@ -131,7 +131,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Pilih Nasabah<star>*</star></label>
-                                        <select class="form-control select2" id="nasabah" name="nama_nasabah" style="width: 100%;">
+                                        <select class="form-control" id="nasabah" name="nama_nasabah" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($dropdown8 as $usr)
                                             <option value="{{ $usr->no_ktp }}">[{{ $usr->no_ktp }}] {{ $usr->nama }}</option>
@@ -215,7 +215,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Tabungan<star>*</star></label>
-                                    <select class="form-control select2" id="rekTab" name="tabungan" style="width: 100%;" required>
+                                    <select class="form-control" id="rekTab" name="tabungan" style="width: 100%;" required>
                                         <option class="bs-title-option" value="">Pilih Tabungan</option>
                                         @foreach ($dropdown as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
@@ -570,7 +570,7 @@
 <div class="modal fade" id="openDepModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCard2">
-            <form id="wizardForm2" method="POST" @if(Auth::user()->tipe=="teller") action="{{route('teller.master_dep')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.master_dep')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('master_dep')}}" @endif enctype="multipart/form-data">
+            <form id="wizardForm2" method="POST" @if(Auth::user()->tipe=="teller") action="{{route('teller.deposito.open')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.master_dep')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('master_dep')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
                     <h3 class="title">Pembukaan Mudharabah Berjangka</h3>
@@ -590,7 +590,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Pilih Nasabah<star>*</star></label>
-                                        <select class="form-control select2" id="nasabah2" name="nama_nasabah" style="width: 100%;" required>
+                                        <select class="form-control" id="nasabah2" name="nama_nasabah" style="width: 100%;" required>
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($dropdown8 as $usr)
                                                 <option value="{{ $usr->no_ktp }}" class="{{ $usr->no_ktp }}"> [{{ $usr->no_ktp }}] {{ $usr->nama }}</option>
@@ -604,7 +604,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label class="control-label">Tabungan Pencairan<star>*</star></label>
-                                    <select class="form-control select2" id="rek_tabungan" name="rek_tabungan" style="width: 100%;" required>
+                                    <select class="form-control" id="rek_tabungan" name="rek_tabungan" style="width: 100%;" required>
                                         <option class="bs-title-option" value="">Pilih Tabungan</option>
                                         @foreach ($tab as $rekening)
                                             <option value="{{ $rekening->id }}" class="selectors {{$rekening->no_ktp}}">[{{ $rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [{{$rekening->no_ktp }}]</option>
@@ -687,7 +687,7 @@
                                 <div class="form-group col-md-5 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Mudharabah Berjangka <star>*</star></label>
                                     <input type="hidden" id="deposito_id" name="deposito_">
-                                    <select class="form-control select2" id="rekDep" name="deposito" style="width: 100%;" required>
+                                    <select class="form-control" id="rekDep" name="deposito" style="width: 100%;" required>
                                         <option class="bs-title-option" value="">Pilih Mudharabah Berjangka</option>
                                         @foreach ($dropdown2 as $rekening)
                                             <option value="{{ $rekening->id." ".
@@ -722,6 +722,17 @@
                             <div class="row opsi-transfer hide">
                                 <div class="col-sm-12 col-md-5 col-lg-5 col-md-offset-1 {{ !$errors->has('file') ?: 'has-error' }}">
                                     <div class="form-group">
+                                        <label>Rekening Bank Tujuan <star>*</star></label><br>
+                                        <select class="form-control select2" name="bank_tujuan" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected value="-1" disabled>-Pilih jenis Transaksi-</option>
+                                            @foreach($bank_bmt as $bank)
+                                            <option value="{{ $bank->id }}">[{{$bank->id_rekening}}] {{ $bank->nama_rekening }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-5 col-lg-5 {{ !$errors->has('file') ?: 'has-error' }}">
+                                    <div class="form-group">
                                         <label>Upload Bukti Transfer <star>*</star></label><br>
                                         <span class="btn btn-info btn-fill btn-file center-block"> Browse
                                             <input type="file" onchange="readURL(this);" class="bukti" name="file" accept=".jpg, .png, .jpeg|images/*">
@@ -732,7 +743,7 @@
                                 <div class="text-center">
                                     <img style="margin: auto;width:100px;height:auto" id="pic" src="" name="image" />
                                 </div>
-                            </div>    
+                            </div>
                             @endif
                             
                             <div class="row">
@@ -931,7 +942,7 @@
 <div class="modal fade" id="activeDepModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCard2a">
-            <form id="wizardForm2a" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.pengajuan.active')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.pengajuan.active')}}" @endif enctype="multipart/form-data">
+            <form id="wizardForm2a" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.pengajuan.active')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.deposito.confirm')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <input type="hidden" id="id_act_dep" name="id_">
                 <div class="header text-center">
@@ -950,7 +961,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label class="control-label">Tabungan Pencairan<star>*</star></label>
-                                    <select class="form-control select2" id="arek_tabungan" name="rek_tabungan"  style="width: 100%;" disabled>
+                                    <select class="form-control" id="arek_tabungan" name="rek_tabungan"  style="width: 100%;" disabled>
                                         <option class="bs-title-option" value="">Pilih Tabungan</option>
                                         @foreach ($tab as $rekening)
                                             <option value="{{ $rekening->id }}" class="selectors {{$rekening->no_ktp}}">[{{ $rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [{{$rekening->no_ktp }}]</option>
@@ -1028,7 +1039,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Deposito <star>*</star></label>
-                                    <select class="form-control select2" id="arekDep" name="deposito" style="width: 100%;" required disabled>
+                                    <select class="form-control" id="arekDep" name="deposito" style="width: 100%;" required disabled>
                                         <option class="bs-title-option" value="">Pilih Deposito</option>
                                         @foreach ($dropdown2 as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
@@ -1044,7 +1055,18 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-5 col-md-offset-1 bank_tujuan">
+                                    <div class="form-group">
+                                        <label class="control-label">Bank BMT Tujuan <star>*</star></label>
+                                        <select class="form-control" id="bank_tujuan" name="bank_tujuan" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" value="">Pilih Bank BMT Tujuan</option>
+                                            @foreach ($bank_bmt as $bank)
+                                                <option value="{{ $bank->id }}">{{ $bank->nama_rekening }} {{$rekening->id_rekening }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 jumlah_uang">
                                     <div class="form-group">
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
@@ -1139,7 +1161,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Pilih Nasabah<star>*</star></label>
-                                        <select id="nasabah3" name="nama_nasabah" class="form-control select2"  style="width: 100%;">
+                                        <select id="nasabah3" name="nama_nasabah" class="form-control"  style="width: 100%;">
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($dropdown8 as $usr)
                                                 <option value="{{ $usr->no_ktp }}"> [{{ $usr->no_ktp }}] {{ $usr->nama }}</option>
@@ -1295,7 +1317,7 @@
                             <div class="row" id="detailJam">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Pilih Jaminan <star>*</star></label>
-                                    <select  class="form-control select2" id="rekPem2" name="list" style="width: 100%;" required>
+                                    <select  class="form-control" id="rekPem2" name="list" style="width: 100%;" required>
                                         <option class="bs-title-option" disabled value="0">Pilih Jaminan</option>
                                         @foreach ($dropdown9 as $jamrek)
                                             <option value="{{$jamrek->id.".".$jamrek->detail.".".$jamrek->field.".".$jamrek->nama_jaminan
@@ -1420,7 +1442,7 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Pencairan dari Rekening <star>*</star></label>
-                                        <select class="form-control select2" name="bank" style="width: 100%;" required>
+                                        <select class="form-control" name="bank" style="width: 100%;" required>
                                             <option class="bs-title-option" selected value="" disabled>-Pilih Rekening-</option>
                                             @foreach ($dropdown6->merge($dropdown7)->all() as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
@@ -1952,7 +1974,7 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Pencairan dari Rekening <star>*</star></label>
-                                        <select class="form-control select2" name="bank" style="width: 100%;" required>
+                                        <select class="form-control" name="bank" style="width: 100%;" required>
                                             <option class="bs-title-option" selected value="" disabled>-Pilih Rekening-</option>
                                             @foreach ($dropdown6->merge($dropdown7)->all() as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
