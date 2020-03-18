@@ -28,9 +28,9 @@
                     {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
                             <option disabled selected > - Periode -</option>
-                            @foreach($periode as $p)
+                            {{-- @foreach($periode as $p)
                                 <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                     </form>
                 </div>
@@ -38,120 +38,99 @@
         </div>
     </div>
     <div class="content">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="card">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
 
-                        <div class="header text-center">
-                            <h4 id="titlePrint" class="title"><b>Laporan Neraca</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Aktiva periode {{$bulan}}</p>
-                            <br />
-                        </div>
-                        <div class="toolbar">
-                            <form action="{{route('periode.neraca')}}" method="post">
-                                {{ csrf_field() }}
-                                <div align="center">
-                                    <select required  name="periode" class="select pull-center" style="height: 1.9em">
-                                        <option disabled selected > - Periode -</option>
-                                        @foreach($periode as $p)
-                                            <option value="{{$p}}"> {{substr($p,0,4)}} - {{substr($p,4,6)}}</option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-info btn-fill btn-sm"> <i class="pe-7s-search"></i> Search</button>
+                    <div class="header text-center">
+                        <h4 id="titlePrint" class="title"><b>Laporan Neraca</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Aktiva periode {{$bulan}}</p>
+                        <br />
+                    </div>
 
-                                </div>
-                            </form>
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <span></span>
-                        </div>
+                    <table id="bootstrap-table" class="table ">
+                        <thead>
+                        <th class="text-left">ID</th>
+                        <th> Keterangan</th>
+                        <th> Jumlah</th>
+                        </thead>
+                        <tbody>
+                        @foreach ($data as $usr)
+                            <tr>
+                                <td class="text-left">{{ $usr->id_bmt }}</td>
+                                <td class="text-left">
+                                    @for ($i=0; $i<($usr->point); $i++)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    @endfor
+                                    {{ $usr->nama  }}</td>
 
-                        <table id="bootstrap-table" class="table ">
-                            <thead>
-                            <th class="text-left">ID</th>
-                            <th> Keterangan</th>
-                            <th> Jumlah</th>
-                            </thead>
-                            <tbody>
-                            @foreach ($data as $usr)
-                                <tr>
-                                    <td class="text-left">{{ $usr->id_bmt }}</td>
-                                    <td class="text-left">
-                                        @for ($i=0; $i<($usr->point) ;$i++)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                        @endfor
-                                        {{ $usr->nama  }}</td>
                                     @if($usr->tipe_rekening =="detail")
-                                        @if(number_format(floatval($usr->saldo),2)< 0)
+                                        @if(number_format(floatval($usr->saldo),2) < 0)
                                             <td class="text-right">{{ number_format( abs(floatval($usr->saldo)),2 )}}</td>
                                         @else
                                             <td class="text-right">{{ number_format(floatval($usr->saldo),2) }}</td>
                                         @endif
                                     @else <td></td>
                                     @endif
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td></td>
-                                <td class="text-center text-uppercase"><h5><b>JUMLAH AKTIVA</b>  </h5></td>
-                                <td class="text-right"><b>{{number_format($aktiva,2)}}</b></td>
                             </tr>
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td class="text-center text-uppercase"><h5><b>JUMLAH AKTIVA</b>  </h5></td>
+                            <td class="text-right"><b>{{number_format($aktiva,2)}}</b></td>
+                        </tr>
 
-                            </tbody>
+                        </tbody>
 
-                        </table>
+                    </table>
 
-                    </div><!--  end card  -->
-                    <div class="card">
+                </div><!--  end card  -->
+                <div class="card">
 
-                        <div class="header text-center">
-                            <h4  id="titlePrint3" class="title"><b>Laporan Neraca</b> </h4>
-                            <p  id="titlePrint4" class="category">Laporan Kewajiban dan Modal periode {{$bulan}}</p>
-                            <br />
-                        </div>
-                        <div class="toolbar">
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <span></span>
-                        </div>
+                    <div class="header text-center">
+                        <h4  id="titlePrint3" class="title"><b>Laporan Neraca</b> </h4>
+                        <p  id="titlePrint4" class="category">Laporan Kewajiban dan Modal periode {{$bulan}}</p>
+                        <br />
+                    </div>
 
-                        <table id="bootstrap-table2" class="table ">
-                            <thead>
-                            <th class="text-left">ID</th>
-                            <th> Keterangan</th>
-                            <th> Jumlah</th>
-                            </thead>
-                            <tbody>
-                            @foreach ($data2 as $usr)
-                                <tr>
-                                    <td class="text-left">{{ $usr['id_bmt'] }}</td>
-                                    <td class="text-left">
-                                        @for ($i=0; $i<($usr['point']) ;$i++)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        @endfor
-                                        {{ $usr['nama']  }}</td>
-                                    @if($usr['tipe_rekening'] =="detail")
-                                        @if(number_format(floatval($usr['saldo']),2)<0)
-                                            <td class="text-right">({{ number_format( abs(floatval($usr['saldo'])),2 )}})</td>
-                                        @else
-                                            <td class="text-right">{{number_format(floatval($usr['saldo']),2) }}</td>
-                                        @endif
-                                    @else <td></td>
+                    <table id="bootstrap-table2" class="table ">
+                        <thead>
+                        <th class="text-left">ID</th>
+                        <th> Keterangan</th>
+                        <th> Jumlah</th>
+                        </thead>
+                        <tbody>
+                        @foreach ($data2 as $usr)
+                            <tr>
+                                <td class="text-left">{{ $usr['id_bmt'] }}</td>
+                                <td class="text-left">
+                                    @for ($i=0; $i<($usr['point']) ;$i++)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    @endfor
+                                    {{ $usr['nama']  }}</td>
+                                @if($usr['tipe_rekening'] =="detail")
+                                    @if(number_format(floatval($usr['saldo']),2)<0)
+                                        <td class="text-right">({{ number_format( abs(floatval($usr['saldo'])),2 )}})</td>
+                                    @else
+                                        <td class="text-right">{{number_format(floatval($usr['saldo']),2) }}</td>
                                     @endif
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td></td>
-                                <td class="text-center text-uppercase"><h5><b>TOTAL KEWAJIBAN DAN MODAL</b>  </h5></td>
-                                <td class="text-right"><b>{{number_format($pasiva,2)}}</b></td>
+                                @else <td></td>
+                                @endif
                             </tr>
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td class="text-center text-uppercase"><h5><b>TOTAL KEWAJIBAN DAN MODAL</b>  </h5></td>
+                            <td class="text-right"><b>{{number_format($pasiva,2)}}</b></td>
+                        </tr>
 
-                            </tbody>
+                        </tbody>
 
-                        </table>
+                    </table>
 
-                    </div><!--  end card  -->
-                </div> <!-- end col-md-12 -->
-            </div> <!-- end row -->
-        </div>
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
     </div>
 @endsection
 

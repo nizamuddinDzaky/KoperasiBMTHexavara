@@ -91,6 +91,22 @@
                         <div class="tab-pane" id="tab1TabJ">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
 
+                            @if(Request::is('admin/transfer/transfer'))
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Rekening Tujuan <star>*</star></label>
+                                        <select class="form-control select2" name="tujuan" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
+                                            @foreach ($dropdown as $rekening)
+                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">

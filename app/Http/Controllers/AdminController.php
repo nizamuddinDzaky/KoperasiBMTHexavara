@@ -290,7 +290,8 @@ class AdminController extends Controller
         return view('admin.transaksi.transfer',[
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
-            'dropdown' => $this->informationRepository->getDdBMT(),
+            // 'dropdown' => $this->informationRepository->getDdBMT(),
+            'dropdown' => $this->rekeningReporsitory->getRekening($type="detail", $sort="id_rekening")
         ]);
     }
     public function transfer_rekening(Request $request){
