@@ -177,6 +177,7 @@ class UserController extends Controller
     public function pengajuan()
     {
         return view('users.pengajuan', [
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoDep' => $this->informationRepository->getAllDepUsr(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
@@ -201,6 +202,11 @@ class UserController extends Controller
             'all_deposito' => $this->tabunganReporsitory->getRekening('DEPOSITO')
         ]);
     }
+
+
+
+
+
 
 //    NAVBAR MENU->TABUNGAN
     public function pengajuan_tab(Request $request)
@@ -242,6 +248,7 @@ class UserController extends Controller
         $data = $this->informationRepository->getAllTabUsrActive();
         $dropdown2 = $this->informationRepository->getDdDep();
         return view('users.tabungan', [
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
             'datasaldo' => $data,
             'data' => $data,
@@ -262,7 +269,7 @@ class UserController extends Controller
 
     public function detail_tabungan(Request $request)
     {
-
+        // return response()->json($this->informationRepository->getTransaksiTabUsr($request->id_));
         return view('users.detail_tabungan', [
             'data' => $this->informationRepository->getTransaksiTabUsr($request->id_),
         ]);
@@ -384,6 +391,13 @@ class UserController extends Controller
         }
     }
 
+
+
+
+
+
+
+
 //    NAVBAR MENU->DEPOSITO
     public function pengajuan_dep(Request $request)
     {
@@ -410,11 +424,13 @@ class UserController extends Controller
             );
 
             $path_bukti = "storage/file/" . $fileToUpload;
+            $bank_bmt_tujuan = $request->bank_tujuan;
         }
         else
         {
             $kredit = "Tunai";
             $path_bukti = null;
+            $bank_bmt_tujuan = null;
         }
 
         if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
@@ -427,6 +443,7 @@ class UserController extends Controller
             'keterangan' => $request->keterangan,
             'id_pencairan' => $request->rek_tabungan,
             'kredit'    => $kredit,
+            'bank_bmt_tujuan' => $bank_bmt_tujuan,
             'path_bukti' => $path_bukti
         ];
         $keterangan = [
@@ -449,6 +466,7 @@ class UserController extends Controller
         $data = $this->informationRepository->getAllDepUsrActive();
         $tab = $this->informationRepository->getAllTabUsr();
         return view('users.deposito', [
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoDep' => $data,
             'kegiatan' => $data,
             'datasaldo' => $data,
@@ -469,6 +487,7 @@ class UserController extends Controller
 
     public function detail_deposito(Request $request)
     {
+        // return response()->json($this->informationRepository->getTransaksiDepUsr($request->id_));
         return view('users.detail_deposito', [
             'data' => $this->informationRepository->getTransaksiDepUsr($request->id_),
         ]);

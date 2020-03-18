@@ -173,10 +173,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as' => 'edit.saldo',
             'uses' => 'AdminController@edit_saldo'
         ]);
-        Route::post('/konfirmasi_debit', [
-            'as' => 'admin.konfirmasi.debit',
-            'uses' => 'AdminController@konfirmasi'
-        ]);
+        // Route::post('/konfirmasi_debit', [
+        //     'as' => 'admin.konfirmasi.debit',
+        //     'uses' => 'AdminController@confirm_tabungan'
+        // ]);
         Route::post('/konfirmasi_tutup', [
             'as' => 'admin.konfirmasi.tutup',
             'uses' => 'TellerController@konfirmasi_tutup'
@@ -728,6 +728,51 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'as'        => 'teller.un_block.rekening',
         'uses'      => 'TellerController@un_block_rekening'
     ]);
+
+
+
+    /**---------------------------------------------- 
+     * ----------------------------------------------
+     * ------------- TELLER DEPOSITO ROUTER ---------
+     * ----------------------------------------------
+    ------------------------------------------------*/
+    Route::group([ 'prefix' => 'deposito', 'middleware' => ['auth']], function() {
+        /** 
+         * Pengajuan pembukaan deposito confirmation
+         * @method POST
+        */
+        Route::post('confirm', [
+            'as'    => 'teller.deposito.confirm',
+            'uses'  => 'TellerController@confirm_deposito'
+        ]);
+
+        /** 
+         * Pengajuan pencairan deposito confirmation
+         * @method POST
+        */
+        Route::post('confirm_pencairan', [
+            'as'    => 'teller.deposito.confirm_pencairan_deposito',
+            'uses'  => 'TellerController@confirm_pencairan_deposito'
+        ]);
+
+        /** 
+         * Open Deposito from teller page
+         * @method POST
+        */
+        Route::post('open_deposito', [
+            'as'    => 'teller.deposito.open',
+            'uses'  => 'TellerController@open_deposito'
+        ]);
+
+        /** 
+         * Pencairan deposito from teller page
+         * @method POST
+        */
+        Route::post('withraw_deposito', [
+            'as'    => 'teller.deposito.withraw',
+            'uses'  => 'TellerController@withraw_deposito'
+        ]);
+    });
     
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {
@@ -867,7 +912,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             ]);
             Route::post('/konfirmasi_debit', [
                 'as' => 'teller.konfirmasi.debit',
-                'uses' => 'TellerController@konfirmasi'
+                'uses' => 'TellerController@confirm_tabungan'
             ]);
             Route::post('/konfirmasi_tutup', [
                 'as' => 'teller.konfirmasi.tutup',
@@ -875,7 +920,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             ]);
             Route::post('/konfirmasi_kredit', [
                 'as' => 'teller.konfirmasi.kredit',
-                'uses' => 'TellerController@konfirmasi'
+                'uses' => 'TellerController@confirm_tabungan'
             ]);
         });
         Route::group(['prefix' => 'deposito', 'middleware' => ['auth']], function () {

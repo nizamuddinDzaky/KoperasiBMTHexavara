@@ -3462,8 +3462,10 @@ class InformationRepository
         $data = PenyimpananTabungan::select('penyimpanan_tabungan.*', 'tabungan.jenis_tabungan','tabungan.id_tabungan')
             ->join('tabungan', 'tabungan.id', '=', 'penyimpanan_tabungan.id_tabungan')
             ->where('penyimpanan_tabungan.id_tabungan',$id)->orderby('id','DESC')->LIMIT(30)->get();
+        
         $tab = Tabungan::where('id',$id)->first();
         $data=array_reverse(iterator_to_array($data));
+        // $t = $this->getRekeningByid('184');
         for ($i=0;$i<count($data) ; $i++){
             if($data[$i]['status']=="Penutupan Tabungan"){
                 $data[$i]['id_rek'] = $data[$i]['untuk_rekening'];
@@ -3471,8 +3473,8 @@ class InformationRepository
             }
             elseif($data[$i]['status']!="Debit") {
                 $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['untuk_rekening']);
-                $data[$i]['id_rek'] = $rek->id_rekening;
-                $data[$i]['untuk_rekening'] = $rek->nama_rekening;
+                $data[$i]['id_rek'] = $rek['id_rekening'];
+                $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
             }elseif($data[$i]['status']=="Debit") {
                 $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['dari_rekening']);
                 $str =json_decode($data[$i]->transaksi,true)['untuk_rekening'];
@@ -3484,8 +3486,9 @@ class InformationRepository
                     $data[$i]['untuk_rekening'] = "USER";
             }
         }
+
         $saldo_rata2 = $this->nasabah_rata2($tab,"tabungan");
-//        dd($saldo_rata2);
+    //    dd($saldo_rata2); 
         $data[0]['saldo_rata2']=$saldo_rata2;
         return $data;
     }
@@ -3541,6 +3544,7 @@ class InformationRepository
             if($dt->save()) return true;
             else return false;
         }
+        // return $data;
     }
 //    Penyimpanan Deposito
     function getTransaksiDepUsr($id)
@@ -3636,7 +3640,7 @@ class InformationRepository
             // 'no_bank' => $request->nobank,
             // 'atasnama' => $request->atasnama,
             'keterangan' =>$request->keterangan,
-            'jumlah' =>$request->idRek,
+            'jumlah' => json_decode($tabUsr->detail)->saldo
         ];
         $dt = New Pengajuan();
         $dt->id_user = $id_user;

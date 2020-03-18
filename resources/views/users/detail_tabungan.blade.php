@@ -39,7 +39,7 @@
                             <th class="text-center" data-sortable="true">Debet</th>
                             <th class="text-center" data-sortable="true">Kredit</th>
                             <th class="text-center" data-sortable="true">Saldo</th>
-                            {{--<th>Actions</th>--}}
+                            {{-- <th>Actions</th> --}}
                             <th></th>
                             </thead>
                             <tbody>
@@ -58,7 +58,7 @@
                                     @if($usr->status=="Penutupan Tabungan")
                                         <td class="text-left text-uppercase">{{ $usr->untuk_rekening }}</td>
                                     @else
-                                    <td class="text-left text-uppercase">[{{ $usr->id_rek}}] {{" ". $usr->untuk_rekening }}</td>
+                                        <td class="text-left text-uppercase">[{{ $usr->id_rek}}] {{" ". $usr->untuk_rekening }}</td>
                                     @endif
 
                                     @if(str_before($usr->status,' ')=="Distribusi" || str_before($usr->status,' ')=="SHU")
@@ -73,10 +73,11 @@
                                     @elseif($usr->status == "Debit")
                                     <td class="text-right"></td>
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                    @else
+                                    <td class="text-right">0.00</td>
+                                        <td class="text-right">0.00</td>
                                     @endif
                                     
-                                    <!-- <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td> -->
-                                    <!-- <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_awal'],2) }}</td> -->
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
                                     <td></td>
                                 </tr>

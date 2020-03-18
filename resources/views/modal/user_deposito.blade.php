@@ -169,7 +169,7 @@
 <div class="modal fade" id="withdrawDepModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardW">
-            <form id="wizardFormW" method="POST" @if(Auth::user()->tipe=="anggota") action="{{route('anggota.withdraw')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.withdraw_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.withdraw_deposito')}}" @endif enctype="multipart/form-data">
+            <form id="wizardFormW" method="POST" @if(Auth::user()->tipe=="anggota") action="{{route('anggota.withdraw')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.withdraw_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.deposito.withraw')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -315,7 +315,11 @@
                 </div>
 
                 <div class="footer">
+                    @if(Auth::user()->tipe == "anggota")
                     <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Kirim Pengajuan </button>
+                    @else
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Cairkan Deposito </button>
+                    @endif
                     <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
                     <div class="clearfix"></div>
                 </div>
@@ -447,7 +451,7 @@
 <div class="modal fade" id="confirmPenModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardWc">
-            <form id="wizardFormWc" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.pencairan_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.pencairan_deposito')}}" @endif  enctype="multipart/form-data">
+            <form id="wizardFormWc" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.pencairan_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.deposito.confirm_pencairan_deposito')}}" @endif  enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
                     <h3 class="title">Pencairan Mudharabah Berjangka</h3>
