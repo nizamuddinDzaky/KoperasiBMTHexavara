@@ -583,6 +583,7 @@ class UserController extends Controller
         //  dd($data[0]);
         $tab = $data;
         return view('users.pembiayaan', [
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
             'data' => $data,
             'datasaldo' => $data,

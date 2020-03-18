@@ -738,6 +738,7 @@ class TellerController extends Controller
 
         // return response()->json($this->informationRepository->getAllpengajuanTabTell($date));
         return view('teller.transaksi.tabungan.pengajuan',[
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldo' =>  $this->informationRepository->getAllTab(),
             'data' => $data,
             'kegiatan' => $data,
@@ -967,6 +968,7 @@ class TellerController extends Controller
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanPemTell($date);
         return view('teller.transaksi.pembiayaan.pengajuan',[
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'kegiatan' => $dropdown,
@@ -1223,6 +1225,7 @@ class TellerController extends Controller
         $date = $home->date_query(0);
         // return response()->json($this->donasiReporsitory->getPengajuanDonasi($type="zis"));
         return view('teller.transaksi.maal.pengajuan',[
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'pengajuanKegiatan' => $this->donasiReporsitory->getPengajuanDonasi($type="donasi kegiatan"),
             'pengajuanZIS' => $this->donasiReporsitory->getPengajuanDonasi($type="zis"),
             'pengajuanWakaf' => $this->donasiReporsitory->getPengajuanDonasi($type="wakaf"),
@@ -1256,6 +1259,7 @@ class TellerController extends Controller
         $home = new HomeController;
         $date = $home->date_query(0);
         return view('teller.transaksi.simpanan.pengajuan',[
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
