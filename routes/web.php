@@ -633,18 +633,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'admin.maal',
             'uses'      => 'MaalController@index'
         ]);
-//        Route::post('/add', [
-//            'as'        => 'add.kegiatan',
-//            'uses'      => 'MaalController@add_kegiatan'
-//        ]);
-//        Route::post('/edit', [
-//            'as'        => 'edit.kegiatan',
-//            'uses'      => 'MaalController@edit_kegiatan'
-//        ]);
-//        Route::post('/delete', [
-//            'as'        => 'delete.kegiatan',
-//            'uses'      => 'MaalController@delete_kegiatan'
-//        ]);
+        //        Route::post('/add', [
+        //            'as'        => 'add.kegiatan',
+        //            'uses'      => 'MaalController@add_kegiatan'
+        //        ]);
+        //        Route::post('/edit', [
+        //            'as'        => 'edit.kegiatan',
+        //            'uses'      => 'MaalController@edit_kegiatan'
+        //        ]);
+        //        Route::post('/delete', [
+        //            'as'        => 'delete.kegiatan',
+        //            'uses'      => 'MaalController@delete_kegiatan'
+        //        ]);
         Route::post('/detail', [
             'as'        => 'admin.detail_transaksi',
             'uses'      => 'MaalController@detail_maal'
@@ -772,6 +772,25 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'    => 'teller.deposito.withraw',
             'uses'  => 'TellerController@withraw_deposito'
         ]);
+    });
+    Route::group(['prefix' => 'tabungan', 'middleware' => ['auth']], function() {
+
+        /** 
+         * Kredit tabungan controller
+        */
+        Route::post('kredit', [
+            'as'    => 'teller.tabungan.kredit',
+            'uses'  => 'TellerController@kredit_tabungan'
+        ]);
+
+        /** 
+         * Debit tabungan controller
+        */
+        Route::post('debit', [
+            'as'    => 'teller.tabungan.debit',
+            'uses'  => 'TellerController@debit_tabungan'
+        ]);
+
     });
     
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
