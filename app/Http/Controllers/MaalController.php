@@ -69,7 +69,6 @@ class MaalController extends Controller
     public function konfirmasi_donasi(Request $request){
         $confirmDonasi = $this->donasiReporsitory->confirmDonasi($request); 
 
-        return response()->json($confirmDonasi);
         if($confirmDonasi['type'] == 'success') {
             $pengajuan = Pengajuan::where('id', $request->id_)->update([ 'status' => 'Sudah Dikonfirmasi ', 'teller' => Auth::user()->id]);
             if($pengajuan)
