@@ -1,7 +1,7 @@
 <div class="modal fade" id="donasiKegiatan" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard wizardCard">
-            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('donasimaal')}}" @endif enctype="multipart/form-data">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.donasi.pay')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('donasimaal')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -24,6 +24,22 @@
                             <input type="hidden" name="id_donasi" id="id_donasi">
                             <input type="hidden" name="jenis_donasi" id="jenis_donasi">
 
+                            @if(Auth::user()->tipe != "anggota")
+                            <div class="row">
+                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Kegiatan Maal <star>*</star></label>
+                                        <select class="form-control select2" name="id_donasi" style="width: 100%;" required>
+                                            <option selected disabled>-Pilih Kegiatan Maal-</option>
+                                            @foreach ($kegiatan as $kegiatan)
+                                                <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama_kegiatan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             <div class="row">
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
@@ -39,6 +55,9 @@
                                         <label for="namaSim" class="control-label">Jenis Pembayaran <star>*</star></label>
                                         <select class="form-control opsi-pembayaran" id="debit" name="debit" style="width: 100%;" required>
                                             <option selected value="-1" disabled>-Pilih jenis pembayaran-</option>
+                                            @if(Auth::user()->tipe != "anggota")
+                                            <option value="0">Tunai</option>
+                                            @endif
                                             <option value="1">Transfer</option>
                                             <option value="2">Rekening Tabungan</option>
                                         </select>
@@ -53,7 +72,7 @@
                                         <select class="form-control select2" name="rekening" style="width: 100%;" required>
                                             <option selected disabled>-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $tabungan)
-                                                <option value="{{ $tabungan->id_tabungan }}">[{{ $tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }} [ Rp. {{ number_format(json_decode($tabungan->detail)->saldo) }} ]</option>
+                                                <option value="{{ $tabungan->id_tabungan }}">[@if(Auth::user()->tipe!="anggota") {{ $tabungan->nama }} @else {{ $tabungan->id_tabungan }} @endif] {{ $tabungan->jenis_tabungan }} [ Rp. {{ number_format(json_decode($tabungan->detail)->saldo) }} ]</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -76,10 +95,21 @@
                                 </div>
                             </div>
                             <div class="row opsi-transfer hide">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Nomor Rekening <star>*</star></label>
                                         <input type="text" class="form-control text-left"  id="nomor_rekening" name="nomor_rekening">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Bank Tujuan Transfer <star>*</star></label>
+                                        <select class="form-control select2" name="bank_tujuan" style="width: 100%;" required>
+                                            <option selected disabled>-Pilih Bank Tujuan-</option>
+                                            @foreach ($bank_bmt as $bank)
+                                                <option value="{{ $bank->id }}">{{ $bank->nama_rekening }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

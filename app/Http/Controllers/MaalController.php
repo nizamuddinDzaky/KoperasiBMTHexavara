@@ -70,24 +70,24 @@ class MaalController extends Controller
         $confirmDonasi = $this->donasiReporsitory->confirmDonasi($request); 
 
         return response()->json($confirmDonasi);
-        // if($confirmDonasi['type'] == 'success') {
-        //     $pengajuan = Pengajuan::where('id', $request->id_)->update([ 'status' => 'Sudah Dikonfirmasi ', 'teller' => Auth::user()->id]);
-        //     if($pengajuan)
-        //         return redirect()
-        //             ->back()
-        //             ->withSuccess(sprintf($confirmDonasi['message']));
-        //     else{
-        //         return redirect()
-        //             ->back()
-        //             ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
-        //     }
-        // }
-        // else{
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', $confirmDonasi['message']);
+        if($confirmDonasi['type'] == 'success') {
+            $pengajuan = Pengajuan::where('id', $request->id_)->update([ 'status' => 'Sudah Dikonfirmasi ', 'teller' => Auth::user()->id]);
+            if($pengajuan)
+                return redirect()
+                    ->back()
+                    ->withSuccess(sprintf($confirmDonasi['message']));
+            else{
+                return redirect()
+                    ->back()
+                    ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
+            }
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $confirmDonasi['message']);
 
-        // }
+        }
     }
     public function index(){
         if(Auth::user()->tipe=="admin")

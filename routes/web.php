@@ -792,6 +792,16 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         ]);
 
     });
+    Route::group([ 'prefix' => 'donasi', 'middleware' => ['auth']], function() {
+        /** 
+         * Pay donasi via teller
+         * @method POST
+        */
+        Route::post('teller/donasi/pay', [
+            'as'    => 'teller.donasi.pay',
+            'uses'  => 'TellerController@pay_donasi'
+        ]);
+    });
     
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {

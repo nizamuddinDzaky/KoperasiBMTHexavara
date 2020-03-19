@@ -38,11 +38,12 @@ $(document).ready(function() {
     
     var index = $($('.nav-tabs.teller a').attr('href')).index();
     if(index == 0) {
-        var button = "<button class='btn btn-primary rounded right shadow-effect' data-toggle='modal' data-target='#donasiZis'><i class='fa fa-external-link-alt'></i> Pembayaran Donasi</button>";
+        var button = "<button class='btn btn-primary rounded right shadow-effect' data-toggle='modal' data-target='#donasiKegiatan'><i class='fa fa-external-link-alt'></i> Pembayaran Donasi</button>";
         $(".button-component-teller").html(button);
 
         $(".head .title").html("Pengajuan Donasi Kegiatan")
         $(".head .head-filter .filter-title").html("Periode Kegiatan")
+        $('#jenis_donasi').val('donasi kegiatan')
     }
 
     $('.nav-tabs.teller a').click(function (e) {
@@ -50,11 +51,12 @@ $(document).ready(function() {
         var index = $($(this).attr('href')).index();
         
         if(index == 0) {
-            var button = "<button class='btn btn-primary rounded right shadow-effect' data-toggle='modal' data-target='#donasiZis'><i class='fa fa-external-link-alt'></i> Pembayaran Donasi</button>";
+            var button = "<button class='btn btn-primary rounded right shadow-effect' data-toggle='modal' data-target='#donasiKegiatan'><i class='fa fa-external-link-alt'></i> Pembayaran Donasi</button>";
             $(".button-component-teller").html(button);
 
             $(".head .title").html("Pengajuan Donasi Kegiatan")
             $(".head .head-filter .filter-title").html("Periode Kegiatan")
+            $('#jenis_donasi').val('donasi kegiatan')
         }
 
         if(index == 1) {
@@ -63,6 +65,7 @@ $(document).ready(function() {
 
             $(".head .title").html("Zakat Infaq Sodaqoh")
             $(".head .head-filter .filter-title").html("Periode ZIS")
+            $('#jenis_donasi').val('zis')
         }
         if(index == 2) {
             var button = "<button class='btn btn-primary rounded right shadow-effect' data-toggle='modal' data-target='#donasiWakaf'><i class='fa fa-external-link-alt'></i> Pembayaran Wakaf</button>";
@@ -70,6 +73,7 @@ $(document).ready(function() {
 
             $(".head .title").html("Donasi Wakaf")
             $(".head .head-filter .filter-title").html("Periode Wakaf")
+            $('#jenis_donasi').val('wakaf')
         }
     });
 });

@@ -65,6 +65,9 @@
     @include('modal.user_pembiayaan')
     @include('modal.user_tabungan')
     @include('modal.user_deposito')
+    @include('modal.donasi.kegiatan')
+    @include('modal.donasi.zis')
+    @include('modal.donasi.wakaf')
     {{--@include('modal.user_deposito')--}}
 @endsection
 

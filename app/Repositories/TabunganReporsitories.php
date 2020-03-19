@@ -26,7 +26,19 @@ class TabunganReporsitories {
     }
 
     /** 
-     * Get All Tabungan
+     *  Get All Tabungan
+     * @return Response
+    */
+    public function getTabungan()
+    {
+        $tabungan = Tabungan::join('users', 'users.id', 'tabungan.id_user')
+                    ->select('tabungan.*', 'users.detail as user_detail', 'users.nama')
+                    ->get();
+        return $tabungan;
+    }
+
+    /** 
+     * Get All Kind Of Tabungan
      * @return Response
     */
     public function getRekening($kategori_rekening)
@@ -90,12 +102,12 @@ class TabunganReporsitories {
     */
     public function getUserTabungan($id_user, $id="")
     {
-        if($id == "") 
+        if($id !== "") 
         {
-            $tabunganUser = Tabungan::where('id_user', $id_user)->with('user')->get();
+            $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id', $id] ])->get();
         }
-
-        $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id', $id] ])->get();
+        
+        $tabunganUser = Tabungan::where('id_user', $id_user)->with('user')->get();
 
         return $tabunganUser;
     }

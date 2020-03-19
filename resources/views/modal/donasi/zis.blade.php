@@ -1,7 +1,7 @@
 <div class="modal fade" id="donasiZis" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard wizardCard">
-            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('donasimaal')}}" @ENDIF enctype="multipart/form-data">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.donasi.pay')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('donasimaal')}}" @ENDIF enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -37,7 +37,10 @@
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Pembayaran <star>*</star></label>
                                         <select class="form-control opsi-pembayaran" id="debit" name="debit" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected value="-1" disabled>-Pilih jenis pembayaran-</option>
+                                            <option selected value="-1" disabled>-Pilih jenis pembayaran-</option>
+                                            @if(Auth::user()->tipe != "anggota")
+                                            <option value="0">Tunai</option>
+                                            @endif
                                             <option value="1">Transfer</option>
                                             <option value="2">Rekening Tabungan</option>
                                         </select>
@@ -75,10 +78,21 @@
                                 </div>
                             </div>
                             <div class="row opsi-transfer hide">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Nomor Rekening <star>*</star></label>
                                         <input type="text" class="form-control text-left"  id="nomor_rekening" name="nomor_rekening">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Bank Tujuan Transfer <star>*</star></label>
+                                        <select class="form-control select2" name="bank_tujuan" style="width: 100%;" required>
+                                            <option selected disabled>-Pilih Bank Tujuan-</option>
+                                            @foreach ($bank_bmt as $bank)
+                                                <option value="{{ $bank->id }}">{{ $bank->nama_rekening }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

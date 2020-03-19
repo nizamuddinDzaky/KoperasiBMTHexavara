@@ -1223,9 +1223,10 @@ class TellerController extends Controller
     public function pengajuan_maal(){
         $home = new HomeController;
         $date = $home->date_query(0);
-        // return response()->json($this->donasiReporsitory->getPengajuanDonasi($type="zis"));
+        // return response()->json($this->informationRepository->getAllMaal());
         return view('teller.transaksi.maal.pengajuan',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
+            'tabungan' => $this->tabunganReporsitory->getTabungan(),
             'pengajuanKegiatan' => $this->donasiReporsitory->getPengajuanDonasi($type="donasi kegiatan"),
             'pengajuanZIS' => $this->donasiReporsitory->getPengajuanDonasi($type="zis"),
             'pengajuanWakaf' => $this->donasiReporsitory->getPengajuanDonasi($type="wakaf"),
@@ -1465,5 +1466,14 @@ class TellerController extends Controller
                 ->withInput()->with('message', $pencairanDeposito['message']);
         }
         // return response()->json($pencairanDeposito);
+    }
+
+    /** 
+     * Pay donasi via teller page controller
+     * @return Response
+    */
+    public function pay_donasi(Request $request)
+    {
+        return response()->json($this->donasiReporsitory->payDonasi($request));
     }
 }

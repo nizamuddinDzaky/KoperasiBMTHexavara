@@ -20,6 +20,7 @@ use App\Repositories\TabunganReporsitories;
 use App\Repositories\AccountReporsitories;
 use App\Repositories\DepositoReporsitories;
 use App\Repositories\DonasiReporsitories;
+use App\Repositories\RekeningReporsitories;
 
 class UserController extends Controller
 {
@@ -44,7 +45,8 @@ class UserController extends Controller
                                 TabunganReporsitories $tabunganReporsitory,
                                 AccountReporsitories $accountReporsitory,
                                 DepositoReporsitories $depositoReporsitory,
-                                DonasiReporsitories $donasiReporsitory
+                                DonasiReporsitories $donasiReporsitory,
+                                RekeningReporsitories $rekeningReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -72,6 +74,7 @@ class UserController extends Controller
         $this->accountReporsitory = $accountReporsitory;
         $this->depositoReporsitory = $depositoReporsitory;
         $this->donasiReporsitory = $donasiReporsitory;
+        $this->rekeningReporsitory = $rekeningReporsitory;
     }
 
     /**
@@ -683,8 +686,9 @@ class UserController extends Controller
 //    MAAL
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
-        // return response()->json($this->donasiReporsitory->getUserDonasi(Auth::user()->id));
+        // return response()->json($this->tabunganReporsitory->getRekening("BANK"));
         return view('users.donasi_maal',[
+            'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
             'riwayat_zis' => $this->donasiReporsitory->getPengajuanDonasi($type="zis", $user=Auth::user()->id),
@@ -747,7 +751,7 @@ class UserController extends Controller
             // 'no_bank' => $request->nobank,
             // 'daribank' => $request->daribank,
         
-
+            // return response()->json($request);
         if($request->rekening != null)
         {
 
