@@ -1341,15 +1341,15 @@ class TellerController extends Controller
         } else {
             $confirmTabungan = $this->tabunganReporsitory->confirmCreditTabungan($request);
         }
-        if($confirmKreditTabungan['type'] == 'success'){
+        if($confirmTabungan['type'] == 'success'){
             return redirect()
                 ->back()
-                ->withSuccess(sprintf($confirmKreditTabungan['message']));
+                ->withSuccess(sprintf($confirmTabungan['message']));
         }
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', $confirmKreditTabungan['message']);
+                ->withInput()->with('message', $confirmTabungan['message']);
         }
     }
 
