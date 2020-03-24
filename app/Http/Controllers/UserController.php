@@ -842,8 +842,31 @@ class UserController extends Controller
     public function simpanan()
     {
         $simpanan = $this->simpananReporsitory->getUserPengajuanSimpanan();
+        $tabungan_user = $this->tabunganReporsitory->getUserTabungan(Auth::user()->id);
+        $bank_bmt = $this->tabunganReporsitory->getRekening('BANK');
+
         return view('users.simpanan', [
-            'data' => $simpanan
+            'data' => $simpanan,
+            'tabungan' => $tabungan_user,
+            'bank_bmt' => $bank_bmt
         ]);
+    }
+
+    /** 
+     * Pengajuan simpanan anggota controller
+     * @return Response
+    */
+    public function pengajuan_simpanan(Request $request)
+    {
+        $simpanan = $this->simpananReporsitory->pengajuanSimpanan($request);
+        if($simpanan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($simpanan['message']));
+        } else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $simpanan['message']);
+        }
     }
 }

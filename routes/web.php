@@ -711,6 +711,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'uses'      => 'TellerController@index'
     ]);
 
+    /** 
+     * Konfirmasi pengajuan simpanan anggota 
+     * @method POST
+    */
+    Route::post('confirm_simpanan', [
+        'as'    => 'teller.simpanan.confirm',
+        'uses'  => 'TellerController@confirm_simpanan'
+    ]);
+
     Route::get('/maal', [
         'as'        => 'teller.donasi.maal',
         'uses'      => 'UserController@donasi_maalt'
@@ -1297,6 +1306,22 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
                 'uses'  => 'UserController@simpanan'
             ]);
         });
+    });
+
+    /** 
+     * Simpanan anggota router wrap
+     * Router Group
+    */
+    Route::group(['prefix' => 'penyimpanan', 'middleware' => ['auth']], function() {
+
+        /** 
+         * Pengajuan penyimpanan anggota 
+         * @method POST
+        */
+        Route::post('pengajuan', [
+            'as'    => 'anggota.penyimpanan.pengajuan',
+            'uses'  => 'UserController@pengajuan_simpanan'
+        ]);
     });
 
 });

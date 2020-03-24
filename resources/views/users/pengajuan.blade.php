@@ -147,7 +147,7 @@
                                                 data-jenis = "{{ json_decode($usr['detail'],true)['jenis'] }}"
                                                 data-iduser = "{{ json_decode($usr['detail'],true)['id'] }}"
                                                 data-atasnama = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
-                                                data-bank = "{{ json_decode($usr['detail'],true)['bank'] }}"
+                                                data-bank = "{{ json_decode($usr['detail'],true)['bank_tujuan_transfer'] }}"
                                                 data-path       = "{{ url('/storage/public/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                 @elseif(str_before($usr['kategori'],' ')=="Donasi")

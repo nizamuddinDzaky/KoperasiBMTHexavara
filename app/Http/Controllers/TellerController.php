@@ -20,6 +20,7 @@ use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
 use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
+use App\Repositories\SimpananReporsitory;
 
 class TellerController extends Controller
 {
@@ -41,7 +42,8 @@ class TellerController extends Controller
                                 TabunganReporsitories $tabunganReporsitory,
                                 DepositoReporsitories $depositoReporsitory,
                                 DonasiReporsitories $donasiReporsitory,
-                                RekeningReporsitories $rekeningReporsitory
+                                RekeningReporsitories $rekeningReporsitory,
+                                SimpananReporsitory $simpananReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -65,6 +67,7 @@ class TellerController extends Controller
         $this->depositoReporsitory = $depositoReporsitory;
         $this->donasiReporsitory = $donasiReporsitory;
         $this->rekeningReporsitory = $rekeningReporsitory;
+        $this->simpananReporsitory = $simpananReporsitory;
     }
 
     public function index(){
@@ -1260,6 +1263,8 @@ class TellerController extends Controller
         $home = new HomeController;
         $date = $home->date_query(0);
         return view('teller.transaksi.simpanan.pengajuan',[
+            'tabungan' => $tabungan_user = $this->tabunganReporsitory->getTabungan(),
+            'simpanan' => $this->simpananReporsitory->getUserPengajuanSimpanan(),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
@@ -1484,6 +1489,26 @@ class TellerController extends Controller
             return redirect()
                 ->back()
                 ->withInput()->with('message', $donasi['message']);
+
+        }
+    }
+
+    /** 
+     * Konfirmasi pengajuan simpanan anggota
+     * @return Response
+    */
+    public function confirm_simpanan(Request $request)
+    {
+        $pengajuan = $this->simpananReporsitory->confirmPengajuanSimpanan($request);
+        if($pengajuan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pengajuan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pengajuan['message']);
 
         }
     }
