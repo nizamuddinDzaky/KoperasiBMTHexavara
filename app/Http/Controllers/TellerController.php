@@ -1522,6 +1522,16 @@ class TellerController extends Controller
     public function bayar_simpanan(Request $request)
     {
         $simpanan = $this->simpananReporsitory->paySimpanan($request);
-        return response()->json($simpanan);
+        if($simpanan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($simpanan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $simpanan['message']);
+
+        }
     }
 }
