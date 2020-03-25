@@ -475,11 +475,18 @@ class SimpananReporsitory {
             }
             if($data->debit == 1)
             {
+                $file_name = $data->file->getClientOriginalName();
+                $fileToUpload = time() . "-" . $file_name;
+                $data->file('file')->storeAs(
+                    'transfer/', $fileToUpload
+                );
+                $path_bukti_file = "storage/transfer/" . $fileToUpload;
+
                 $debit = "Transfer";
                 $daribank = $data->daribank;
                 $nobank = $data->nobank;
                 $atasnama = $data->atasnama;
-                $pathbukti = null;
+                $pathbukti = $path_bukti_file;
                 $bank_tujuan_transfer = $data->bank;
 
                 $bmt_bank_pengirim = BMT::where('id_rekening', $bank_tujuan_transfer)->first();
