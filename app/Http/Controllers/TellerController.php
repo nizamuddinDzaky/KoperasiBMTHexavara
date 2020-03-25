@@ -1262,8 +1262,10 @@ class TellerController extends Controller
     public function pengajuan_simpanan() {
         $home = new HomeController;
         $date = $home->date_query(0);
+        // return response()->json($this->tabunganReporsitory->getTabungan());
         return view('teller.transaksi.simpanan.pengajuan',[
-            'tabungan' => $tabungan_user = $this->tabunganReporsitory->getTabungan(),
+            'users'    => User::where('tipe', 'anggota')->get(),
+            'tabungan' => $this->tabunganReporsitory->getTabungan(),
             'simpanan' => $this->simpananReporsitory->getUserPengajuanSimpanan(),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
@@ -1511,5 +1513,15 @@ class TellerController extends Controller
                 ->withInput()->with('message', $pengajuan['message']);
 
         }
+    }
+
+    /** 
+     * Bayar simpanan anggota
+     * @return Response
+    */
+    public function bayar_simpanan(Request $request)
+    {
+        $simpanan = $this->simpananReporsitory->paySimpanan($request);
+        return response()->json($simpanan);
     }
 }

@@ -425,4 +425,279 @@ class SimpananReporsitory {
             return "error";
         }
     }
+
+    /** 
+     * Bayar simpanan anggota
+     * @return Response
+    */
+    public function paySimpanan($data)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $statement = DB::select("SHOW TABLE STATUS LIKE 'pengajuan'");
+            $nextId = $statement[0]->Auto_increment;
+
+            $user = User::where('id', $data->user)->first();
+
+            if($data->debit == 0)
+            {
+                $debit = "Tunai";
+                $daribank = null;
+                $nobank = null;
+                $atasnama = null;
+                $pathbukti = null;
+                $bank_tujuan_transfer = json_decode(Auth::user()->detail)->id_rekening;
+
+                $bmt_bank_pengirim = BMT::where('id_rekening', $bank_tujuan_transfer)->first();
+                $saldo_bmt_pengirim = $bmt_bank_pengirim->saldo;
+                $id_bmt_bank_pengirim = $bmt_bank_pengirim->id;
+            }
+            if($data->debit == 1)
+            {
+                $debit = "Transfer";
+                $daribank = $data->daribank;
+                $nobank = $data->nobank;
+                $atasnama = $data->atasnama;
+                $pathbukti = null;
+                $bank_tujuan_transfer = $data->bank;
+
+                $bmt_bank_pengirim = BMT::where('id_rekening', $bank_tujuan_transfer)->first();
+                $saldo_bmt_pengirim = $bmt_bank_pengirim->saldo;
+                $id_bmt_bank_pengirim = $bmt_bank_pengirim->id;
+            }
+            if($data->debit == 2)
+            {
+                $debit = "Tabungan";
+                $daribank = null;
+                $nobank = null;
+                $atasnama = null;
+                $pathbukti = null;
+                $bank_tujuan_transfer = $data->dari_tabungan;
+
+                $rekening_tabungan = Tabungan::where('id_tabungan', $bank_tujuan_transfer)->first();
+                $saldo_bmt_pengirim = json_decode($rekening_tabungan->detail)->saldo;
+                $bmt_bank_pengirim = BMT::where('id_rekening', $rekening_tabungan->id_rekening)->first();
+                $id_bmt_bank_pengirim = $bmt_bank_pengirim->id;
+
+                $dataToUpdateTabungan = [
+                    "saldo" => $saldo_bmt_pengirim - $data->nominal,
+                    "id_pengajuan" => $nextId
+                ];
+            }
+            if($data->id_rekening_simpanan == 119)
+            {
+                $nama_rekening = "Simpanan Wajib";
+                $bmt_simpanan = BMT::where('id_rekening', 119)->first();
+                $saldo_bmt_simpanan = $bmt_simpanan->saldo;
+                $id_bmt_simpanan = $bmt_simpanan->id;
+
+                if(isset(json_decode($user->wajib_pokok)->margin))
+                {
+                    $dataToUpdateUsers = [
+                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + $data->nominal,
+                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                        "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                    ];
+                }
+                else
+                {
+                    $dataToUpdateUsers = [
+                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + $data->nominal,
+                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                    ];
+                }
+            }
+            if($data->id_rekening_simpanan == 117)
+            {
+                $nama_rekening = "Simpanan Pokok";
+
+                $bmt_simpanan = BMT::where('id_rekening', 117)->first();
+                $saldo_bmt_simpanan = $bmt_simpanan->saldo;
+                $id_bmt_simpanan = $bmt_simpanan->id;
+
+                if(isset(json_decode($user->wajib_pokok)->margin))
+                {
+                    $dataToUpdateUsers = [
+                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + $data->nominal,
+                        "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                    ];
+                }
+                else
+                {
+                    $dataToUpdateUsers = [
+                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + $data->nominal,
+                    ];
+                }
+            } 
+
+            if($data->id_rekening_simpanan == 120)
+            {
+                $nama_rekening = "Simpanan Khusus";
+
+                $bmt_simpanan = BMT::where('id_rekening', 120)->first();
+                $saldo_bmt_simpanan = $bmt_simpanan->saldo;
+                $id_bmt_simpanan = $bmt_simpanan->id;
+
+                if(isset(json_decode($user->wajib_pokok)->khusus))
+                {
+                    $saldo_awal_simpanan = json_decode($user->wajib_pokok)->khusus;
+                }
+                else
+                {
+                    $saldo_awal_simpanan = 0;
+                }
+
+                if(isset(json_decode($user->wajib_pokok)->margin))
+                {
+                    $dataToUpdateUsers = [
+                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                        "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + $data->nominal,
+                        "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                    ];
+                }
+                else
+                {
+                    $dataToUpdateUsers = [
+                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                        "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + $data->nominal,
+                    ];
+                }
+            }
+
+            $detailToPengajuan = [
+                "daribank"  => $daribank,
+                "nobank"    => $nobank,
+                "jenis"     => $debit,
+                "id"        => $user->id,
+                "nama"      => $user->nama,
+                "atasnama"  => $atasnama,
+                "bank_tujuan_transfer" => $bank_tujuan_transfer,
+                "path_bukti"    => $pathbukti,
+                "jumlah"    => $data->nominal
+            ];
+            $dataToPengajuan = [
+                "id"                => $nextId,
+                "id_user"           => $user->id,
+                "id_rekening"       => $data->id_rekening_simpanan,
+                "jenis_pengajuan"   => $nama_rekening,
+                "status"            => "Sudah Dikonfirmasi",
+                "kategori"          => $nama_rekening,
+                "detail"            => $detailToPengajuan,
+                "teller"            => Auth::user()->id
+            ];
+
+            if($this->pengajuanReporsitory->createPengajuan($dataToPengajuan)["type"] == "success")
+            {
+                $detailToPenyimpananBMT = [
+                    "jumlah"    => $data->nominal,
+                    "saldo_awal"=> floatval($saldo_bmt_simpanan),
+                    "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval($data->nominal),
+                    "id_pengajuan" => $nextId
+                ];
+                $dataToPenyimpananBMT = [
+                    "id_user"   => $user->id,
+                    "id_bmt"    => $id_bmt_simpanan,
+                    "status"    => $nama_rekening,
+                    "transaksi" => $detailToPenyimpananBMT,
+                    "teller"    => Auth::user()->id
+                ];
+                
+                if($this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success")
+                {
+                    $detailToPenyimpananBMT['saldo_awal'] = $saldo_bmt_pengirim;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $saldo_bmt_pengirim + $data->nominal;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+                    $dataToPenyimpananBMT['id_bmt'] = $id_bmt_bank_pengirim;
+
+                    $simpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    $detailToPenyimpananWajibPokok = [
+                        "teller"    => Auth::user()->id,
+                        "dari_rekening" => $bank_tujuan_transfer,
+                        "untuk_rekening" => $data->id_rekening_simpanan,
+                        "jumlah"    => $data->nominal,
+                        "saldo_awal" => floatval($saldo_bmt_simpanan),
+                        "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval($data->nominal)
+                    ];
+                    $dataToPenyimpananWajibPokok = [
+                        "id_user"       => $user->id,
+                        "id_rekening"   => $data->id_rekening_simpanan,
+                        "status"        => $nama_rekening,
+                        "transaksi"     => $detailToPenyimpananWajibPokok,
+                        "teller"        => Auth::user()->id
+                    ];
+
+                    $penyimpananWajibPokok = $this->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+                    if($penyimpananWajibPokok == "success")
+                    {
+                        if($data->debit == 2)
+                        {
+                            if($saldo_bmt_pengirim > $data->nominal)
+                            {
+                                $updateUser = User::where('id', $data->user)->update([ 'wajib_pokok' => json_encode($dataToUpdateUsers) ]);
+                                $updateTabungan = Tabungan::where('id_tabungan', $data->dari_tabungan)->update([
+                                    'detail' => json_encode($dataToUpdateTabungan)
+                                ]);
+                                $updateBMTPengirim = BMT::where('id', $bmt_bank_pengirim->id)->update([
+                                    'saldo' => $saldo_bmt_pengirim - $data->nominal
+                                ]);
+                                $updateBMTSimpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->update([
+                                    'saldo' => $saldo_bmt_simpanan + $data->nominal
+                                ]);
+
+                                DB::commit();
+                                $response = array("type" => "success", "message" => "Pembayaran simpanan berhasil.");
+                            }
+                            else
+                            {
+                                DB::rollback();
+                                $response = array("type" => "error", "message" => "Pembayaran simpanan gagal.");
+                            }
+                        }
+                        else
+                        {
+                            $updateUser = User::where('id', $data->user)->update([ 'wajib_pokok' => json_encode($dataToUpdateUsers) ]);
+                            $updateBMTPengirim = BMT::where('id', $bmt_bank_pengirim->id)->update([
+                                'saldo' => $saldo_bmt_pengirim + $data->nominal
+                            ]);
+                            $updateBMTSimpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->update([
+                                'saldo' => $saldo_bmt_simpanan + $data->nominal
+                            ]);
+
+                            DB::commit();
+                            $response = array("type" => "success", "message" => "Pembayaran simpanan berhasil.");
+                        }
+                    }
+                    else
+                    {
+                        DB::rollback();
+                        $response = array("type" => "error", "message" => "Pembayaran simpanan gagal 4.");
+                    }
+                }
+                else
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pembayaran simpanan gagal 3.");
+                }
+            }
+            else
+            {
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pembayaran simpanan gagal 2.");
+            }
+        }
+        catch(Exception $ex)
+        {
+            DB::rollback();
+            $response = array("type" => "error", "message" => "Pembayaran simpanan gagal dilakukan 1");
+        }
+
+        return $response;
+        
+    }
 }

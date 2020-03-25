@@ -720,6 +720,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'uses'  => 'TellerController@confirm_simpanan'
     ]);
 
+    /** 
+     * Bayar simpanan anggota
+     * @method POST
+    */
+    Route::post('pay_simpanan', [
+        'as'    => 'teller.simpanan.bayar',
+        'uses'  => 'TellerController@bayar_simpanan'
+    ]);
+
     Route::get('/maal', [
         'as'        => 'teller.donasi.maal',
         'uses'      => 'UserController@donasi_maalt'

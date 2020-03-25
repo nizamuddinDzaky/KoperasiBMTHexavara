@@ -27,8 +27,9 @@
                 </div>
 
                 <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-credit-card"></i> Bayar Simpanan Wajib</button>
-                    <button class="btn btn-danger rounded right shadow-effect"><i class="fa fa-credit-card"></i> Bayar Simpanan Khusus</button>
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#pengajuanSimpananWajib"><i class="fa fa-credit-card"></i> Bayar Simpanan Wajib</button>
+                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#pengajuanSimpananPokok"><i class="fa fa-credit-card"></i> Bayar Simpanan Pokok</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#pengajuanSimpananKhusus"><i class="fa fa-credit-card"></i> Bayar Simpanan Khusus</button>
                 </div>
             </div>
         </div>
@@ -111,6 +112,7 @@
     @include('modal.user_tabungan')
     @include('modal.user_deposito')
     @include('modal.simpanan.confirm')
+    @include('modal.simpanan.teller.pengajuan')
     {{--@include('modal.user_deposito')--}}
 
 @endsection
