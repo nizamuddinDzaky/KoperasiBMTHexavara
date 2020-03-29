@@ -729,6 +729,33 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'uses'  => 'TellerController@bayar_simpanan'
     ]);
 
+    /** 
+     * Konfirmasi pengajuan pembiayaan anggota
+     * @method POST
+    */
+    Route::post('konfirmasi_pembiayaan', [
+        'as'    => 'teller.pembiayaan.confirm',
+        'uses'  => 'TellerController@konfirmasi_pembiayaan'
+    ]);
+
+    /** 
+     * Open pengajuan pembiayaan anggota
+     * @method POST
+    */
+    Route::post('open_pembiayaan', [
+        'as'    => 'teller.pembiayaan.open',
+        'uses'  => 'TellerController@open_pembiayaan'
+    ]);
+
+    /** 
+     * Konfirmasi pengajuan angsuran pembiayaan
+     * @method POST
+    */
+    Route::post('konfirmasi_angsuran', [
+        'as'    => 'teller.pembiayaan.konfirmasi_angsuran',
+        'uses'  => 'TellerController@konfirmasi_angsuran'
+    ]);
+    
     Route::get('/maal', [
         'as'        => 'teller.donasi.maal',
         'uses'      => 'UserController@donasi_maalt'

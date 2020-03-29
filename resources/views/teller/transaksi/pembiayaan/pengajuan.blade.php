@@ -229,16 +229,16 @@
     @include('modal.user_pembiayaan')
 @endsection
 
-@section('extra_script')
-
-
-    <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')
     {{-- MODAL&DATATABLE --}}
 
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
+    
+    <!-- Angsuran pembiayaan -->
+    <script src=" {{  asset('bmtmudathemes/assets/js/modal/angsuran_pembiayaan.js') }}"></script>
+
     <script type="text/javascript">
        //  PEMBIAYAAN
         $('#viewPemModal').on('show.bs.modal', function (event) {
@@ -376,37 +376,6 @@
             $("#vnobankAng").val(button.data('no_bank') );
             $("#vatasnamaAng").val(button.data('atasnama') );
             $("#vpicAng").attr("src", button.data('path') );
-
-        });
-        $('#confirmAngModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            if(button.data('jenis')=="Tunai"){
-                $("#atoHideAng").hide();
-                $("#atoHideAngBank").hide();
-                $("#atoHideAngBank2").hide();
-            }
-            else if(button.data('jenis')=="Transfer"){
-                $("#atoHideAng").show();
-                $("#atoHideAngBank").show();
-                $("#atoHideAngBank2").show();
-            }
-            $("#aidRekA").val(button.data('id') );
-            $("#aidTabA").val(button.data('idtab') );
-            $("#aangidRek").val(button.data('idtab') );
-            $("#ajenisAng").val(button.data('jenis') );
-            $("#abankAng").val(button.data('bankuser') );
-            $("#abank").val(button.data('bank') );
-            $("#abagi_pokok").val(button.data('pokok') );
-            $("#abagi_margin").val(button.data('nisbah') );
-            $("#abayar_ang").val(button.data('ang') );
-            $("#abayar_margin").val(button.data('mar') );
-            $("#atagihan_pokok").val(button.data('sisa_ang') )
-            $("#atagihan_margin").val(button.data('sisa_mar') );
-            $("#aatasnamaAng").val(button.data('atasnama') );
-            $("#apicAng").attr("src", button.data('path') );
 
         });
 
@@ -680,8 +649,8 @@
             });
             $("#nasabah3").select2({
                 dropdownParent: $("#openPemModal")
-            })
-            ;$("#angidRek").select2({
+            });
+            $("#angidRek").select2({
                 dropdownParent: $("#angsurPemModal")
             });
 

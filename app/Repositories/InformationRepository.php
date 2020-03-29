@@ -2436,6 +2436,7 @@ class InformationRepository
                 'alamat2'           =>  $data['alamat2'],
                 'ktp2'              =>  $data['ktp2']
             ];
+
             if($this->setoranAwal($detail_ppembiayaan,$data))return true;
             else return false;
         }

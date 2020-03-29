@@ -21,6 +21,7 @@ use App\Repositories\DepositoReporsitories;
 use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\SimpananReporsitory;
+use App\Repositories\PembiayaanReporsitory;
 
 class TellerController extends Controller
 {
@@ -43,7 +44,8 @@ class TellerController extends Controller
                                 DepositoReporsitories $depositoReporsitory,
                                 DonasiReporsitories $donasiReporsitory,
                                 RekeningReporsitories $rekeningReporsitory,
-                                SimpananReporsitory $simpananReporsitory
+                                SimpananReporsitory $simpananReporsitory,
+                                PembiayaanReporsitory $pembiayaanReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -68,6 +70,7 @@ class TellerController extends Controller
         $this->donasiReporsitory = $donasiReporsitory;
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->simpananReporsitory = $simpananReporsitory;
+        $this->pembiayaanReporsitory = $pembiayaanReporsitory;
     }
 
     public function index(){
@@ -1533,5 +1536,55 @@ class TellerController extends Controller
                 ->withInput()->with('message', $simpanan['message']);
 
         }
+    }
+
+    /** 
+     * Konfirmasi pembiayaan pengguna
+     * @return Response
+    */
+    public function konfirmasi_pembiayaan(Request $request)
+    {
+        $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaan($request);
+        if($pembiayaan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pembiayaan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pembiayaan['message']);
+
+        }
+    }
+
+    /** 
+     * Open pembiayaan pengguna
+     * @return Response
+    */
+    public function open_pembiayaan(Request $request)
+    {
+        $pembiayaan = $this->pembiayaanReporsitory->openPembiayaan($request);
+        if($pembiayaan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pembiayaan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pembiayaan['message']);
+
+        }
+    }
+
+    /**
+     * Konfirmasi pengajuan angsuran pembiayaan anggota
+     * @return Response
+     */
+    public function konfirmasi_angsuran(Request $request)
+    {
+        $angsuran = $this->pembiayaanReporsitory->confirmAngsuran($request);
+        return response()->json($angsuran);
     }
 }

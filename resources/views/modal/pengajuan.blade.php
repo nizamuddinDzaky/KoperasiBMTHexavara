@@ -1137,7 +1137,7 @@
     <div class="container-fluid">
     <div class="modal-dialog" role="document">
       <div class="card card-wizard" id="wizardCard3">
-            <form id="wizardForm3" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.master_pem')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.master_pemt')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('master_pem')}}" @endif enctype="multipart/form-data">
+            <form id="wizardForm3" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.master_pem')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.pembiayaan.open')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('master_pem')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
                     <h3 class="title">Permohonan Pembiayaan</h3>
@@ -1700,7 +1700,7 @@
 <div class="modal fade" id="activePemModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCard3a">
-            <form id="wizardForm3a" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.pengajuan.active')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.pengajuan.active')}}" @endif enctype="multipart/form-data">
+            <form id="wizardForm3a" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.pengajuan.active')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.pembiayaan.confirm')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <input type="hidden" id="id_act_pem" name="id_">
                 <input type="hidden" value="ya" name="identitas">

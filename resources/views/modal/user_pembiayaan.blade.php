@@ -226,8 +226,8 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Pembiayaan <star>*</star></label>
-                                        <select class="form-control select2" disabled id="vangidRek" name="idRek" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
+                                        <select class="form-control" disabled id="vangidRek" name="idRek" style="width: 100%;" required>
+                                            <option selected disabled value="">-Pilih Rekening Pembiayaan-</option>
                                             @foreach ($datasaldoPem2 as $rekening)
                                                 <option value="{{ $rekening->id_pembiayaan }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }}</option>
                                             @endforeach
@@ -283,8 +283,8 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Angsuran <star>*</star></label>
-                                        <select class="form-control select2" disabled id="vjenisAng" name="debit" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected value="" disabled>-Pilih jenis angsuran-</option>
+                                        <select class="form-control" disabled id="vjenisAng" name="debit" style="width: 100%;" required>
+                                            <option selected value="" disabled>-Pilih jenis angsuran-</option>
                                             <option value="Tunai">Tunai</option>
                                             <option value="Transfer">Transfer</option>
                                         </select>
@@ -373,7 +373,7 @@
 <div class="modal fade" id="confirmAngModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardAnga">
-            <form id="wizardFormAnga" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.konfirmasi.angsur')}}"  @elseif(Auth::user()->tipe=="teller")action="{{route('teller.konfirmasi.angsur')}}" @endif  enctype="multipart/form-data">
+            <form id="wizardFormAnga" method="POST" @if(Auth::user()->tipe=="admin")action="{{route('admin.konfirmasi.angsur')}}"  @elseif(Auth::user()->tipe=="teller")action="{{route('teller.pembiayaan.konfirmasi_angsuran')}}" @endif  enctype="multipart/form-data">
                 {{csrf_field()}}
                 <input type="hidden" id="aidRekA" name="id_">
                 <input type="hidden" id="aidTabA" name="idtab">
@@ -394,8 +394,8 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Pembiayaan <star>*</star></label>
-                                        <select class="form-control select2" disabled id="angidRek" name="idRek" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
+                                        <select class="form-control" id="jenis_pembiayaan_angsuran" name="idRek" style="width: 100%;" required disabled>
+                                            <option selected disabled value="">-Pilih Rekening Pembiayaan-</option>
                                             @foreach ($datasaldoPem as $rekening)
                                                 <option value="{{ $rekening->id_pembiayaan }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }}</option>
                                             @endforeach
@@ -407,8 +407,8 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Angsuran <star>*</star></label>
-                                        <select class="form-control select2" disabled id="ajenisAng" name="debit" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected value="" disabled>-Pilih jenis angsuran-</option>
+                                        <select class="form-control" disabled id="ajenisAng" name="debit" style="width: 100%;" required>
+                                            <option selected value="" disabled>-Pilih jenis angsuran-</option>
                                             <option value="Tunai">Tunai</option>
                                             <option value="Transfer">Transfer</option>
                                         </select>
