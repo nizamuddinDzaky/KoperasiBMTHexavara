@@ -31,7 +31,7 @@
                     <div class="card">
                         <div class="header text-center">
                             <h4 id="titlePrint" class="title"><b>Detail Anggota BMT</b></h4>
-                            <p id="titlePrint2" class="category">Daftar Nasabah</p>
+                            <p id="titlePrint2" class="category">Daftar Anggota</p>
                             {{--<br />--}}
                         </div>
                         <div class="toolbar">

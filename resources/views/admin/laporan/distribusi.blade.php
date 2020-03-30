@@ -75,12 +75,12 @@
                                 <th rowspan="2"> Pendapatan</th>
                                 <th colspan="2" class="text-center"> Nisbah</th>
                                 <th colspan="2" class="text-center"> Porsi</th>
-                                <th rowspan="2"> % Nasabah</th>
+                                <th rowspan="2"> % Anggota</th>
                             </tr>
                             <tr>
-                                <th>Nasabah</th>
+                                <th>Anggota</th>
                                 <th>BMT</th>
-                                <th>Nasabah</th>
+                                <th>Anggota</th>
                                 <th>BMT</th>
                             </tr>
                             <tr>

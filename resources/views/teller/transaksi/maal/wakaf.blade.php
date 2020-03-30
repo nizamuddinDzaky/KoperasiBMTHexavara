@@ -5,7 +5,7 @@
 
                         <div class="header text-center">
                             <h4 class="title">Pengajuan Wakaf </h4>
-                            <p class="category">Daftar Pengajuan Wakaf Nasabah</p>
+                            <p class="category">Daftar Pengajuan Wakaf Anggota</p>
                             <br />
                         </div>
                         <table class="table bootstrap-table">

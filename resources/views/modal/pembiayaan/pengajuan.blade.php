@@ -26,7 +26,7 @@
                             <div class="row" id="toHideNasabah3">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Nasabah<star>*</star></label>
+                                        <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select id="nasabah3" name="nama_nasabah" class="form-control select2"  style="width: 100%;">
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($all_nasabah as $user)

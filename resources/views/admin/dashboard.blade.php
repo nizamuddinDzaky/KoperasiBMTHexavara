@@ -29,8 +29,8 @@
                 <div class="card dashboard" style="height: 160px; background-color: #45BBE0">
                     <div class="card-body">
                         <span class="card-title card-number-large">5,750 M</span>
-                        <p class="card-category" style="margin-bottom:0">Total Tabungan Nasabah</p>
-                        <span class="card-description">Bersumber dari total tabungan semua nasabah</span>
+                        <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
+                        <span class="card-description">Bersumber dari total tabungan semua anggota</span>
                         
                         <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
                     </div>
@@ -41,7 +41,7 @@
                     <div class="card-body">
                         <span class="card-title card-number-large">90,000,000</span>
                         <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
-                        <span class="card-description">Bersumber dari total simpanan mudharabah berjangka nasabah</span>
+                        <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
 
                         <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
                     </div>
@@ -52,7 +52,7 @@
                     <div class="card-body">
                         <span class="card-title card-number-large">100,000,000</span>
                         <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
-                        <span class="card-description">Bersumber dari total pembiayaan nasabah</span>
+                        <span class="card-description">Bersumber dari total pembiayaan anggota</span>
 
                         <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
                     </div>

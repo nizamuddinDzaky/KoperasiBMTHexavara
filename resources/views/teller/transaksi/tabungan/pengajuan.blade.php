@@ -20,7 +20,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Pengajuan Tabungan Nasabah</h4>
+                <h4 class="title">Pengajuan Tabungan Anggota</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode Pengajuan</p>
@@ -48,7 +48,7 @@
 
                     <div class="header text-center">
                         <h4 class="title"><b>Pengajuan Tabungan</b> </h4>
-                        <p class="category">Daftar Pengajuan Tabungan Nasabah</p>
+                        <p class="category">Daftar Pengajuan Tabungan Anggota</p>
                         <br />
                     </div>
 

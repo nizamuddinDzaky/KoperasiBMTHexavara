@@ -14,7 +14,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Pengajuan Simpanan Nasabah</h4>
+                <h4 class="title">Pengajuan Simpanan Anggota</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode Pengajuan</p>
@@ -40,8 +40,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 class="title">Pengajuan Simpanan Nasabah </h4>
-                        <p class="category">Daftar Pengajuan Nasabah</p>
+                        <h4 class="title">Pengajuan Simpanan Anggota </h4>
+                        <p class="category">Daftar Pengajuan Anggota</p>
                         <br />
                     </div>
                     <table id="bootstrap-table" class="table">
@@ -186,7 +186,7 @@
             $('#vatasnamaDon').val(button.data('atasnama'));
             if(button.data('kegiatan')==0){
                 $('#HideRekDon').hide();
-                $('#titleDon').text("Waqaf Nasabah");
+                $('#titleDon').text("Waqaf Anggota");
             }else{
                 $('#HideRekDon').show();
                 $('#titleDon').text("Donasi Kegiatan Maal");
@@ -230,7 +230,7 @@
             if(button.data('kegiatan')==0){
                 $('#cHideRekDon').hide();
                 $('#IDdonasi').val("waqaf");
-                $('#ctitleDon').text("Waqaf Nasabah");
+                $('#ctitleDon').text("Waqaf Anggota");
             }else{
                 $('#cHideRekDon').show();
                 $('#ctitleDon').text("Donasi Kegiatan Maal");

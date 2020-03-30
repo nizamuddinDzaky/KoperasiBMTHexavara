@@ -14,7 +14,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Pembiayaan Nasabah</h4>
+                <h4 class="title">Pembiayaan Anggota</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -35,8 +35,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 class="title"> Pembiayaan Nasabah</h4>
-                        <p class="category">Daftar  Pembiayaan Nasabah</p>
+                        <h4 class="title"> Pembiayaan Anggota</h4>
+                        <p class="category">Daftar  Pembiayaan Anggota</p>
                         <br />
                     </div>
                     <div class="toolbar">
@@ -49,7 +49,7 @@
                         <th></th>
                         <th data-sortable="true" class="text-left">ID</th>
                         <th data-sortable="true">Jenis Pembiayaan</th>
-                        <th data-sortable="true">Nama Nasabah</th>
+                        <th data-sortable="true">Nama Anggota</th>
                         <th data-sortable="true">Total Pinjaman*</th>
                         <th data-sortable="true">Lama Pinjaman</th>
                         <th data-sortable="true">Angsuran Pokok</th>

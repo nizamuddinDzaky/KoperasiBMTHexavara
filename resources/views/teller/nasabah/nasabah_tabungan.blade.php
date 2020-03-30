@@ -14,7 +14,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Tabungan Nasabah</h4>
+                <h4 class="title">Tabungan Anggota</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -34,8 +34,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 class="title"> Tabungan Nasabah</h4>
-                        <p class="category">Daftar  Tabungan Nasabah</p>
+                        <h4 class="title"> Tabungan Anggota</h4>
+                        <p class="category">Daftar  Tabungan Anggota</p>
                         <br />
                     </div>
 
@@ -44,7 +44,7 @@
                         <th></th>
                         <th data-sortable="true" class="text-left">ID Tabungan</th>
                         <th data-sortable="true">Jenis Tabungan</th>
-                        <th data-sortable="true">Nama Nasabah</th>
+                        <th data-sortable="true">Nama Anggota</th>
                         <th data-sortable="true">Saldo</th>
                         <th data-sortable="true">Tgl Pembuatan</th>
                         <th data-sortable="true">Status</th>

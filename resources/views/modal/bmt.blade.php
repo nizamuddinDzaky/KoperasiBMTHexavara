@@ -325,7 +325,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Jumlah Nasabah <star>*</star></label>
+                                        <label class="control-label">Jumlah Anggota <star>*</star></label>
                                         <input type="text" class="form-control text-right" id="nas_" value="{{$nasabah}}"  disabled>
                                     </div>
                                 </div>
@@ -344,7 +344,7 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Jumlah Upgrade per Nasabah <star>*</star></label>
+                                        <label class="control-label">Jumlah Upgrade per Anggota <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="j_upgrade" name="jumlah" required="true">

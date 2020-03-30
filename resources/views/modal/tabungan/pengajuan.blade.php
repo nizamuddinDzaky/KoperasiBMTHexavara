@@ -21,9 +21,9 @@
                             <div class="row" id="toHideNasabah">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Nasabah<star>*</star></label>
+                                        <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select class="form-control select2" id="nasabah" name="nama_nasabah" style="width: 100%;">
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Nasabah Tabungan-</option>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Anggota Tabungan-</option>
                                             @foreach ($all_nasabah as $user)
                                             <option value="{{ $user->no_ktp }}">[{{ $user->no_ktp }}] {{ $user->nama }}</option>
                                             @endforeach

@@ -60,7 +60,7 @@
     
                             <div class="header text-center">
                                 <h4 class="title">Simpanan Pokok </h4>
-                                <p class="category">Daftar Pengajuan Nasabah</p>
+                                <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
                             <table id="bootstrap-table" class="bootstrap-table table">
@@ -101,7 +101,7 @@
     
                             <div class="header text-center">
                                 <h4 class="title">Simpanan Wajib </h4>
-                                <p class="category">Daftar Pengajuan Nasabah</p>
+                                <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
                             <table id="bootstrap-table" class="bootstrap-table table">
@@ -142,7 +142,7 @@
     
                             <div class="header text-center">
                                 <h4 class="title">Simpanan Khusus </h4>
-                                <p class="category">Daftar Pengajuan Nasabah</p>
+                                <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
                             <table id="bootstrap-table" class="bootstrap-table table">
@@ -183,7 +183,7 @@
     
                             <div class="header text-center">
                                 <h4 class="title">Kontribusi Nisbah </h4>
-                                <p class="category">Daftar Pengajuan Nasabah</p>
+                                <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
                             <table id="bootstrap-table" class="bootstrap-table table">

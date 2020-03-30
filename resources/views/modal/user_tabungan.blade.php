@@ -15,7 +15,7 @@
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#tabclose" data-toggle="tab">Data Nasabah</a></li>
+                        <li><a href="#tabclose" data-toggle="tab">Data Anggota</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane" id="tabclose">
@@ -273,17 +273,17 @@
 
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1TabDebv">
-                            <h5 class="text-center">Detail Setoran Nasabah</h5>
+                            <h5 class="text-center">Detail Setoran Anggota</h5>
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">ID Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">ID Anggota <star>*</star></label>
                                         <input type="text" class="form-control" id="vdebktp" name="jumlah"  disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Nama Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">Nama Anggota <star>*</star></label>
                                         <input type="text" class="form-control" id="vdebnama" name="jumlah"  disabled>
                                     </div>
                                 </div>
@@ -404,17 +404,17 @@
 
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1TabDeba">
-                            <h5 class="text-center">Detail Setoran Nasabah</h5>
+                            <h5 class="text-center">Detail Setoran Anggota</h5>
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">ID Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">ID Anggota <star>*</star></label>
                                         <input type="text" class="form-control" id="adebktp" name="jumlah"  disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Nama Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">Nama Anggota <star>*</star></label>
                                         <input type="text" class="form-control" id="adebnama" name="jumlah"  disabled>
                                     </div>
                                 </div>
@@ -541,13 +541,13 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">ID Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">ID Anggota <star>*</star></label>
                                         <input type="text" class="form-control" id="cdebktp" name="jumlah"  disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Nama Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">Nama Anggota <star>*</star></label>
                                         <input type="text" class="form-control" id="cdebnama" name="jumlah"  disabled>
                                     </div>
                                 </div>
@@ -916,7 +916,7 @@
                             <div class="row" id="toHideNasabah2">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Nasabah<star>*</star></label>
+                                        <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select class="form-control" id="nasabah_wajib" name="nama_nasabah" style="width: 100%;" required>
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($dropdown8 as $usr)
@@ -1052,7 +1052,7 @@
                             <div class="row" id="vtoHideNasabah2">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Nasabah<star>*</star></label>
+                                        <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select class="form-control" id="vnasabah_wajib" name="nama_nasabah" style="width: 100%;" disabled>
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($dropdown8 as $usr)
@@ -1307,9 +1307,9 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Pilih Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
                                         <select class="form-control" id="idUsrT" name="idUsrRek" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Nasabah-</option>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Anggota-</option>
                                             @foreach ($dropdown4 as $usr)
                                                 <option value="{{ $usr->id }}"> {{$usr->nama }}</option>
                                             @endforeach
@@ -1394,7 +1394,7 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Pilih Nasabah <star>*</star></label>
+                                        <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
                                         <select class="form-control" id="vRekDeb" name="idRek" style="width: 100%;" disabled>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($data as $rekening)

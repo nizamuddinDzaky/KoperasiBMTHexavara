@@ -87,7 +87,7 @@ class UserController extends Controller
     public function index()
     {
         $data=$this->tabungan->where('id_user',Auth::user()->id)->get();
-        $data2=$this->pembiayaan->where('id_user',Auth::user()->id)->get();
+        $data2=$this->pembiayaan->where([ ['id_user',Auth::user()->id], ['status', 'active'] ])->get();
         // $data3=$this->deposito->where('id_user',Auth::user()->id)->get();
         $data3=$this->depositoReporsitory->getUserDeposito($status="active", $user=Auth::user()->id);
         $sum=$sumbln=$sumtag=$sumdep=$sumpin=0;
@@ -112,6 +112,7 @@ class UserController extends Controller
             'pinjaman' => $sumpin,
             'simwa' => json_decode($user,true)['wajib'],
             'simpok' => json_decode($user,true)['pokok'],
+            'simsus' => json_decode($user,true)['khusus'],
             'pengajuan' => $this->informationRepository->getAllpengajuanUsr(7)
         ]);
     }

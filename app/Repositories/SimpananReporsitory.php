@@ -43,7 +43,7 @@ class SimpananReporsitory {
     */
     public function getSimwaAndSimpok()
     {
-        $simwaAndSimpok = User::where('id', Auth::user()->id)->select(['wajib_pokok', 'created_at'])->get();
+        $simwaAndSimpok = User::where('id', Auth::user()->id)->first();
 
         return $simwaAndSimpok;
     }

@@ -20,7 +20,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Pengajuan Pembiayaan Nasabah</h4>
+                <h4 class="title">Pengajuan Pembiayaan Anggota</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode Pengajuan</p>
@@ -45,7 +45,7 @@
 
                 <div class="header text-center">
                     <h4 class="title"><b>Pengajuan Pembiayaan</b> </h4>
-                    <p class="category">Daftar Pengajuan Pembiayaan Nasabah</p>
+                    <p class="category">Daftar Pengajuan Pembiayaan Anggota</p>
                     <br />
                 </div>
                 

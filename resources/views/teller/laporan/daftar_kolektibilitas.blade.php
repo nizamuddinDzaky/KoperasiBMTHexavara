@@ -44,7 +44,7 @@
                         <th></th>
                         <th data-sortable="true" class="text-left">ID</th>
                         <th data-sortable="true">Jenis Pembiayaan</th>
-                        <th data-sortable="true">Nama Nasabah</th>
+                        <th data-sortable="true">Nama Anggota</th>
                         <th data-sortable="true">Total Pinjaman*</th>
                         <th data-sortable="true">Lama Pinjaman</th>
                         <th data-sortable="true">Angsuran Pokok</th>

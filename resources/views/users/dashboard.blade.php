@@ -17,7 +17,7 @@
                 <a href="{{ route("anggota.dashboard.harta") }}">
                     <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
                         <div class="card-body">
-                            <span class="card-title card-number-large" id="harta">{{ number_format($simpok + $simwa)}}</span>
+                            <span class="card-title card-number-large" id="harta">{{ number_format($simpok + $simwa + $simsus)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
                             <span class="card-description">Bersumber dari simpanan pokok, simpanan wajib & simpanan khusus</span>
                         </div>
@@ -29,8 +29,8 @@
                     <div class="card dashboard link" style="height: 160px; background-color: #45BBE0">
                         <div class="card-body">
                             <span class="card-title card-number-large">{{number_format($tab)}}</span>
-                            <p class="card-category" style="margin-bottom:0">Total Tabungan Nasabah</p>
-                            <span class="card-description">Bersumber dari total tabungan semua nasabah</span>
+                            <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
+                            <span class="card-description">Bersumber dari total tabungan semua Anggota</span>
                         </div>
                     </div>
                 </a>
@@ -41,7 +41,7 @@
                         <div class="card-body">
                             <span class="card-title card-number-large">{{number_format($deposito)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
-                            <span class="card-description">Bersumber dari total simpanan mudharabah berjangka nasabah</span>
+                            <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
                         </div>
                     </div>
                 </a>
@@ -52,7 +52,7 @@
                         <div class="card-body">
                             <span class="card-title card-number-large">{{number_format($pinjaman)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
-                            <span class="card-description">Bersumber dari total pembiayaan nasabah</span>
+                            <span class="card-description">Bersumber dari total pembiayaan anggota</span>
                         </div>
                     </div>
                 </a>

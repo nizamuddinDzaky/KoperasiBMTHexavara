@@ -75,7 +75,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="namaSim" class="control-label">Nasabah wajib pajak <star>*</star></label>
+                            <label for="namaSim" class="control-label">Anggota wajib pajak <star>*</star></label>
                             <select class="form-control select2" name="wajib" style="width: 100%;" required>
                                 <option class="bs-title-option" value="">Pilih</option>
                                 <option value="1">YA</option>
@@ -172,7 +172,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="namaSim" class="control-label">Nasabah wajib pajak <star>*</star></label>
+                            <label for="namaSim" class="control-label">Anggota wajib pajak <star>*</star></label>
                             <select class="form-control select2" id="edwajib" name="wajib" style="width: 100%;" required>
                                 <option class="bs-title-option" value="">Pilih</option>
                                 <option value="1">YA</option>

@@ -55,7 +55,7 @@
 
                         <div class="header text-center">
                             <h4 class="title"><b>Pengajuan Tabungan</b> </h4>
-                            <p class="category">Daftar Pengajuan Tabungan Nasabah</p>
+                            <p class="category">Daftar Pengajuan Tabungan Anggota</p>
                             <br />
                         </div>
 

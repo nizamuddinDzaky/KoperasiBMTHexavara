@@ -103,7 +103,7 @@
                 <div class="card">
                     <div class="card">
                         <div class="header text-center">
-                            <h4 id="titlePrint3" class="title"><b>Laporan SHU Nasabah</b> </h4>
+                            <h4 id="titlePrint3" class="title"><b>Laporan SHU Anggota</b> </h4>
                             <p id="titlePrint4" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")-1}}@endif</p>
                             <br />
                         </div>
@@ -139,7 +139,7 @@
                             @endfor
                             <tr>
                                 <td></td>
-                                <td class="text-center text-uppercase"><h5>Total SHU Nasabah </h5></td>
+                                <td class="text-center text-uppercase"><h5>Total SHU Anggota </h5></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

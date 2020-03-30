@@ -221,7 +221,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane" id="vtab1Ang">
-                            <h5 class="text-center">Data Angsuran Nasabah!</h5>
+                            <h5 class="text-center">Data Angsuran Anggota!</h5>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
@@ -389,7 +389,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane" id="atab1Ang">
-                            <h5 class="text-center">Data Angsuran Nasabah!</h5>
+                            <h5 class="text-center">Data Angsuran Anggota!</h5>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">

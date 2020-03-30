@@ -19,7 +19,7 @@
 
                         <div class="header text-center">
                             <h4 class="title">Riwayat Transaksi </h4>
-                            <p class="category">Pembiayaan Nasabah <b>{{ isset($data[0])? ($data[0]['jenis_pembiayaan']." [ID : ".$data[0]['id_pembiayaan']."]"):""}}</b></p>
+                            <p class="category">Pembiayaan Anggota <b>{{ isset($data[0])? ($data[0]['jenis_pembiayaan']." [ID : ".$data[0]['id_pembiayaan']."]"):""}}</b></p>
                             <br />
                         </div>
                         <div class="toolbar">

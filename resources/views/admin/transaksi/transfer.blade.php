@@ -105,7 +105,7 @@
 
                         <div class="header text-center">
                             <h4 class="title">Saldo Rekening BMT</h4>
-                            <p class="category">Daftar Pengajuan Nasabah</p>
+                            <p class="category">Daftar Pengajuan Anggota</p>
                             <br />
                         </div>
                         <div class="toolbar">

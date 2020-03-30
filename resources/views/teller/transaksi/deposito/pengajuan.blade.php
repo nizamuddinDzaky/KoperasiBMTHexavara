@@ -50,7 +50,7 @@
 
                     <div class="header text-center">
                         <h4 class="title"><b>Pengajuan Mudharabah Berjangka </b></h4>
-                        <p class="category">Daftar Pengajuan Mudharabah Berjangka Nasabah</p>
+                        <p class="category">Daftar Pengajuan Mudharabah Berjangka Anggota</p>
                         <br />
                     </div>
 

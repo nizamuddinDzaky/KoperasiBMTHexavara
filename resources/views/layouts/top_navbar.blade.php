@@ -30,31 +30,31 @@
                 <li>
                     <a tabindex="-1" href="#">
                         <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                     </a>
                 </li>
                 <li>
                     <a tabindex="-1" href="#">
                         <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                     </a>
                 </li>
                 <li>
                     <a tabindex="-1" href="#">
                         <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                     </a>
                 </li>
                 <li>
                     <a tabindex="-1" href="#">
                         <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                     </a>
                 </li>
                 <li>
                     <a tabindex="-1" href="#">
                         <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                     </a>
                 </li>
           
@@ -77,31 +77,31 @@
                         <li>
                             <a tabindex="-1" href="#">
                                 <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                             </a>
                         </li>
                         <li>
                             <a tabindex="-1" href="#">
                                 <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                             </a>
                         </li>
                         <li>
                             <a tabindex="-1" href="#">
                                 <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                             </a>
                         </li>
                         <li>
                             <a tabindex="-1" href="#">
                                 <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                             </a>
                         </li>
                         <li>
                             <a tabindex="-1" href="#">
                                 <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Nasabah</p><br />
+                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                             </a>
                         </li>
                     </ul>

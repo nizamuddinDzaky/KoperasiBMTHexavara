@@ -50,7 +50,7 @@
 
                         <div class="header text-center">
                             <h4 class="title"><b>Pengajuan Pembiayaan</b> </h4>
-                            <p class="category">Daftar Pengajuan Pembiayaan Nasabah</p>
+                            <p class="category">Daftar Pengajuan Pembiayaan Anggota</p>
                             <br />
                         </div>
 

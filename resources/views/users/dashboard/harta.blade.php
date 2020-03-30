@@ -20,7 +20,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Harta Nasabah</h4>
+                <h4 class="title">Harta Anggota</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -41,12 +41,12 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        {{-- <h4 class="title">Rekening Tabungan </h4>
-                        <p class="category">Berikut adalah daftar rekening tabungan anda</p> --}}
+                        <h4 class="title">Rekening Tabungan </h4>
+                        <p class="category">Berikut adalah daftar rekening tabungan anda</p>
                         <br />
                     </div>
 
-                    <table id="bootstrap-table" class="table">
+                    <table id="bootstrap-table" class="table bootstrap-table">
                         <thead>
                             <th></th>
                             <th class="text-left" data-sortable="true">NO</th>
@@ -55,28 +55,39 @@
                             <th class="text-left">Actions</th>
                         </thead>
                         <tbody>
-                            @php
-                                $no = 1;   
-                            @endphp
-
-                            @foreach($simwaAndSimpok as $simwapok)
                             <tr>
                                 <td></td>
-                                <td class="text-left">{{ $no }}</td>
-                                <td class="text-left">Simpanan Wajib & Simpanan Pokok</td>
-                                <td class="text-left">{{ number_format(json_decode($simwapok->wajib_pokok,true)['pokok'] + json_decode($simwapok->wajib_pokok,true)['wajib']) }}</td>
+                                <td class="text-left">1</td>
+                                <td class="text-left">Simpanan Wajib</td>
+                                <td class="text-left">{{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->wajib) }}</td>
                                 <td class="td-actions text-left">
                                     <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
                                     </a>
                                 </td>
                             </tr>
-
-                            @php
-                                $no++
-                            @endphp
-
-                            @endforeach
+                            <tr>
+                                <td></td>
+                                <td class="text-left">2</td>
+                                <td class="text-left">Simpanan Pokok</td>
+                                <td class="text-left">{{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->pokok) }}</td>
+                                <td class="td-actions text-left">
+                                    <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
+                                        <i class="fa fa-clipboard-list"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-left">3</td>
+                                <td class="text-left">Simpanan Khusus</td>
+                                <td class="text-left">{{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->khusus) }}</td>
+                                <td class="td-actions text-left">
+                                    <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
+                                        <i class="fa fa-clipboard-list"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 

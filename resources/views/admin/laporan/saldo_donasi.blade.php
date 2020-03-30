@@ -55,7 +55,7 @@
                     <thead>
                         <th></th>
                         <th data-sortable="true" class="text-left">ID</th>
-                        <th data-sortable="true" class="text-left">Nasabah</th>
+                        <th data-sortable="true" class="text-left">Anggota</th>
                         <th data-sortable="true" class="text-left">KTP</th>
                         <th data-sortable="true">Jenis Pengajuan</th>
                         <th data-sortable="true">Keterangan</th>

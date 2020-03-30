@@ -140,7 +140,7 @@
             $('#vatasnamaDon').val(button.data('atasnama'));
             if(button.data('kegiatan')==0){
                 $('#HideRekDon').hide();
-                $('#titleDon').text("Waqaf Nasabah");
+                $('#titleDon').text("Waqaf Anggota");
             }else{
                 $('#HideRekDon').show();
                 $('#titleDon').text("Donasi Kegiatan Maal");
@@ -185,7 +185,7 @@
             // if(button.data('jenis_kegiatan')=='donasi'){
             //     $('#cHideRekDon').hide();
             //     $('#IDdonasi').val("waqaf");
-            //     $('#ctitleDon').text("Waqaf Nasabah");
+            //     $('#ctitleDon').text("Waqaf Anggota");
             // }else{
             //     $('#cHideRekDon').show();
             //     $('#ctitleDon').text("Donasi Kegiatan Maal");

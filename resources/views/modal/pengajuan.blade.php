@@ -15,7 +15,7 @@
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#tabclose2" data-toggle="tab">Data Nasabah</a></li>
+                        <li><a href="#tabclose2" data-toggle="tab">Data Anggota</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -130,7 +130,7 @@
                             <div class="row" id="toHideNasabah">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Nasabah<star>*</star></label>
+                                        <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select class="form-control" id="nasabah" name="nama_nasabah" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($dropdown8 as $usr)
@@ -589,7 +589,7 @@
                             <div class="row" id="toHideNasabah2">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Nasabah<star>*</star></label>
+                                        <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select class="form-control" id="nasabah2" name="nama_nasabah" style="width: 100%;" required>
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($dropdown8 as $usr)
@@ -1160,7 +1160,7 @@
                             <div class="row" id="toHideNasabah3">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label class="control-label">Pilih Nasabah<star>*</star></label>
+                                        <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select id="nasabah3" name="nama_nasabah" class="form-control"  style="width: 100%;">
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($dropdown8 as $usr)

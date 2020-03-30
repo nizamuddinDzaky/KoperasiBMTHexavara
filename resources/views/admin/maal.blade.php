@@ -44,7 +44,7 @@
 
                         <div class="header text-center">
                             <h4 class="title">Pengajuan Donasi Maal </h4>
-                            <p class="category">Daftar Pengajuan Nasabah</p>
+                            <p class="category">Daftar Pengajuan Anggota</p>
                             <br />
                         </div>
                         <table id="bootstrap-table" class="table">
@@ -276,7 +276,7 @@
             $('#vatasnamaDon').val(button.data('atasnama'));
             if(button.data('kegiatan')==0){
                 $('#HideRekDon').hide();
-                $('#titleDon').text("Waqaf Nasabah");
+                $('#titleDon').text("Waqaf Anggota");
             }else{
                 $('#HideRekDon').show();
                 $('#titleDon').text("Donasi Kegiatan Maal");
@@ -320,7 +320,7 @@
             if(button.data('kegiatan')==0){
                 $('#cHideRekDon').hide();
                 $('#IDdonasi').val("waqaf");
-                $('#ctitleDon').text("Waqaf Nasabah");
+                $('#ctitleDon').text("Waqaf Anggota");
             }else{
                 $('#cHideRekDon').show();
                 $('#ctitleDon').text("Donasi Kegiatan Maal");

@@ -5,7 +5,7 @@
 
                         <div class="header text-center">
                             <h4 class="title">Pengajuan Donasi Kegiatan </h4>
-                            <p class="category">Daftar Pengajuan Donasi Kegiatan Nasabah</p>
+                            <p class="category">Daftar Pengajuan Donasi Kegiatan Anggota</p>
                             <br />
                         </div>
                         <table class="table bootstrap-table">

@@ -51,7 +51,7 @@
                     <div class="card">
                         <div class="header text-center">
                             <h4 class="title"><b>Datamaster Anggota BMT</b></h4>
-                            <p class="category">Daftar Nasabah</p>
+                            <p class="category">Daftar Anggota</p>
                             {{-- <br /> --}}
                         </div>
                         {{-- <div class="toolbar"> --}}
