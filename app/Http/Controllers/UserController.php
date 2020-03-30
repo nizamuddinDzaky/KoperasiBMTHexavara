@@ -110,9 +110,7 @@ class UserController extends Controller
             'bulanan' => $sumbln,
             'deposito' => $sumdep,
             'pinjaman' => $sumpin,
-            'simwa' => json_decode($user,true)['wajib'],
-            'simpok' => json_decode($user,true)['pokok'],
-            'simsus' => json_decode($user,true)['khusus'],
+            'simpanan' => json_decode($user,true),
             'pengajuan' => $this->informationRepository->getAllpengajuanUsr(7)
         ]);
     }

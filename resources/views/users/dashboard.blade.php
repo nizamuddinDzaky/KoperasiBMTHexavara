@@ -17,7 +17,17 @@
                 <a href="{{ route("anggota.dashboard.harta") }}">
                     <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
                         <div class="card-body">
-                            <span class="card-title card-number-large" id="harta">{{ number_format($simpok + $simwa + $simsus)}}</span>
+                            
+                            @if(isset($simpanan['wajib']) && isset($simpanan['khusus']) && isset($simpanan['pokok']))
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['pokok'] + $simpanan['khusus'])}}</span>
+                            @elseif(isset($simpanan['wajib']) && isset($simpanan['pokok']))
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['pokok']) }}</span>
+                            @elseif(isset($simpanan['wajib']) && isset($simpanan['khusus']))
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['khusus']) }}</span>
+                            @elseif(isset($simpanan['pokok']) && isset($simpanan['khusus']))
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['pokok'] + $simpanan['khusus']) }}</span>
+                            @endif
+
                             <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
                             <span class="card-description">Bersumber dari simpanan pokok, simpanan wajib & simpanan khusus</span>
                         </div>
