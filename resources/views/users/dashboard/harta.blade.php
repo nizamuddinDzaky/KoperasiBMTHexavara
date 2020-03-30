@@ -59,7 +59,12 @@
                                 <td></td>
                                 <td class="text-left">1</td>
                                 <td class="text-left">Simpanan Wajib</td>
-                                <td class="text-left">{{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->wajib) }}</td>
+                                <td class="text-left">
+                                    @if(isset(json_decode($simwaAndSimpok->wajib_pokok)->wajib) && json_decode($simwaAndSimpok->wajib_pokok)->wajib != "") 
+                                        {{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->wajib) }}  
+                                    @else 
+                                        0 
+                                    @endif</td>
                                 <td class="td-actions text-left">
                                     <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
@@ -70,7 +75,12 @@
                                 <td></td>
                                 <td class="text-left">2</td>
                                 <td class="text-left">Simpanan Pokok</td>
-                                <td class="text-left">{{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->pokok) }}</td>
+                                <td class="text-left">
+                                    @if(isset(json_decode($simwaAndSimpok->wajib_pokok)->pokok) && json_decode($simwaAndSimpok->wajib_pokok)->pokok != "") 
+                                        {{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->pokok) }}
+                                    @else 
+                                        0
+                                    @endif</td>
                                 <td class="td-actions text-left">
                                     <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
@@ -81,7 +91,12 @@
                                 <td></td>
                                 <td class="text-left">3</td>
                                 <td class="text-left">Simpanan Khusus</td>
-                                <td class="text-left">{{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->khusus) }}</td>
+                                <td class="text-left">
+                                    @if(isset(json_decode($simwaAndSimpok->wajib_pokok)->khusus) && json_decode($simwaAndSimpok->wajib_pokok)->khusus != "") 
+                                        {{ number_format(json_decode($simwaAndSimpok->wajib_pokok)->khusus) }}
+                                    @else 
+                                        0
+                                    @endif</td>
                                 <td class="td-actions text-left">
                                     <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
