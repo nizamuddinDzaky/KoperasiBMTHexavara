@@ -60,14 +60,14 @@
                 
                     <table id="bootstrap-table" class="table">
                         <thead>
-                        <th></th>
-                        <th data-field="id" data-sortable="true" class="text-left">ID Pengajuan</th>
-                        <th data-field="nama" data-sortable="true">Jenis Pengajuan</th>
-                        <th data-field="alamat" data-sortable="true">Keterangan</th>
-                        <th data-field="jenis" data-sortable="true">Tgl Pengajuan</th>
-                        <th data-field="registrasi" data-sortable="true">Status</th>
-                        <th>Actions</th>
-                        <th></th>
+                            <th></th>
+                            <th data-field="id" data-sortable="true" class="text-left">ID Pengajuan</th>
+                            <th data-field="nama" data-sortable="true">Jenis Pengajuan</th>
+                            <th data-field="alamat" data-sortable="true">Keterangan</th>
+                            <th data-field="jenis" data-sortable="true">Tgl Pengajuan</th>
+                            <th data-field="registrasi" data-sortable="true">Status</th>
+                            <th>Actions</th>
+                            <th></th>
                         </thead>
                         <tbody>
                         @foreach ($data as $usr)
