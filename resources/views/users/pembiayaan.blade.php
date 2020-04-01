@@ -227,7 +227,9 @@
         <!-- end row -->
     </div>
     @include('modal.pengajuan')
-    @include('modal.user_pembiayaan')
+    @include('modal.pembiayaan.angsuran')
+    @include('modal.pembiayaan.view_angsuran')
+    @include('modal.pembiayaan.konfirmasi_angsuran')
     @include('modal.pembiayaan.pelunasan')
 @endsection
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -416,8 +418,7 @@
             var selRek = $('#angidRekPelunasan');
             $('#debitPelunasanTransferForm').hide();
 
-            selRek.on('change', function () {
-                console.log(selRek.val());       
+            selRek.on('change', function () {   
                 var id = $('#idRekAPelunasan').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
                 $('#idRekAPelunasan').val(id);
@@ -547,6 +548,13 @@
                 $('#showPok').hide()
                 $('#angHide').show()
                 $('#marginHide').show()
+                if(marbln <= 1 && angbln <= 1) {
+                    $('.footer').css("display", "none")
+                }
+                if(marbln > 1 && angbln > 1) {
+                {
+                    $('.footer').css("display", "block")
+                }
                 if(marbln==0) {
                     $('#marginHide').hide()
                     $('#bagi_margin').attr("required",false);
@@ -747,7 +755,6 @@
     
     <script type="text/javascript">
         $().ready(function(){
-
             var selHk3 = $('#idhukum3');
             var selHkn3 = $('#namahukum3');
             var selAr5 = $('#toHide5');
@@ -777,6 +784,7 @@
             });
             $("#pelunasanidRek").select2({
                 dropdownParent: $("#pelunasanLebihAwalPemModal")
+            });
             $("#angidRekPelunasan").select2({
                 dropdownParent: $("#angsurPelunasanModal")
             });

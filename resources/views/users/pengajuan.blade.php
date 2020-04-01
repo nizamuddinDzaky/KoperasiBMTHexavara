@@ -216,7 +216,9 @@
 
     @include('modal.pengajuan')
     @include('modal.user_tabungan')
-    @include('modal.user_pembiayaan')
+    @include('modal.pembiayaan.angsuran')
+    @include('modal.pembiayaan.view_angsuran')
+    @include('modal.pembiayaan.konfirmasi_angsuran')
     @include('modal.tutup_rekening')
 @endsection
 
