@@ -278,6 +278,11 @@ class PembiayaanReporsitory {
                 $jenis_pembiayaan = "PEMBIAYAAN MRB";
                 $id_rekening_pembiayaan = 100;
             }
+            if($data->pembiayaan == 99)
+            {
+                $jenis_pembiayaan = "PEMBIAYAAN MDA";
+                $id_rekening_pembiayaan = 99;
+            }
 
             $bmt_pembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->first();
             $bmt_pengirim = BMT::where('id_rekening', $data->bank)->first();
@@ -480,6 +485,12 @@ class PembiayaanReporsitory {
                 $id_rekening_pembiayaan = 100;
                 $status_angsuran = "Angsuran Pembiayaan[Pokok+Margin]";
             }
+            if(json_decode($pengajuan->detail)->id_rekening == 99)
+            {
+                $jenis_pembiayaan = "PEMBIAYAAN MDA";
+                $id_rekening_pembiayaan = 99;
+                $status_angsuran = "Angsuran Pembiayaan[Pokok+Margin]";
+            }
 
             if(json_decode($pengajuan->detail)->angsuran == "Tunai")
             {
@@ -499,11 +510,14 @@ class PembiayaanReporsitory {
             $kekurangan_pembayaran_angsuran = 0;
             $kekurangan_pembayaran_margin = 0;
 
-            if($jumlah_bayar_margin < $tagihan_pokok_margin)
+            if(json_decode($pengajuan->detail)->id_rekening == 100)
             {
-                $kekurangan_pembayaran_margin = $tagihan_pokok_margin - $jumlah_bayar_margin;
-                $jumlah_bayar_angsuran = $jumlah_bayar_angsuran - $kekurangan_pembayaran_margin;
-                $jumlah_bayar_margin = $jumlah_bayar_margin + $kekurangan_pembayaran_margin;
+                if($jumlah_bayar_margin < $tagihan_pokok_margin)
+                {
+                    $kekurangan_pembayaran_margin = $tagihan_pokok_margin - $jumlah_bayar_margin;
+                    $jumlah_bayar_angsuran = $jumlah_bayar_angsuran - $kekurangan_pembayaran_margin;
+                    $jumlah_bayar_margin = $jumlah_bayar_margin + $kekurangan_pembayaran_margin;
+                }
             }
 
             if($jumlah_bayar_angsuran < $tagihan_pokok_angsuran)
@@ -612,7 +626,12 @@ class PembiayaanReporsitory {
                 "sisa_margin"       => $sisa_margin - $jumlah_bayar_margin,
                 "sisa_pinjaman"     => $sisa_pinjaman,
             ];
-                        
+            
+            if(json_decode($pengajuan->detail)->id_rekening == 99)
+            {
+                $detailToPenyimpananPembiayaan['margin_bulanan'] = $jumlah_bayar_margin;
+            }
+
             $dataToPenyimpananPembiayaan = [
                 "id_user"       => $pengajuan->id_user,
                 "id_pembiayaan" => $pembiayaan->id,
