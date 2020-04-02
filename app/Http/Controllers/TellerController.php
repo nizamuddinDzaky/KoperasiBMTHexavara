@@ -1585,6 +1585,16 @@ class TellerController extends Controller
     public function konfirmasi_angsuran(Request $request)
     {
         $angsuran = $this->pembiayaanReporsitory->confirmAngsuran($request);
-        return response()->json($angsuran);
+        if($angsuran['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($angsuran['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $angsuran['message']);
+
+        }
     }
 }
