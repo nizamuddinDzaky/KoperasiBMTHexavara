@@ -133,6 +133,14 @@ class DepositoReporsitories {
 
                 if($insertToPenyimpananBMT == "success" && $insertToPenyimpananDeposito == "success")
                 {
+                    
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmtTabunganPencairan->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTabunganPencairan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                    $dataToPenyimpananBMT['id_bmt'] = $bmtTabunganPencairan->id;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
                     $dataToUpdateBMTDeposito = [
                         "bmtBankTujuan" => $bmtTabunganPencairan,
                         "bmtDeposito"   => $bmtDepositoDicairkan,
@@ -257,7 +265,7 @@ class DepositoReporsitories {
                 if(json_decode($pengajuan->detail)->kredit == "Tunai")
                 {
                     $untukRekening = json_decode(Auth::user()->detail)->id_rekening;
-                    $bmtTellerLoged = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
+                    $bmtBankTujuan = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
                 }
                 if(json_decode($pengajuan->detail)->kredit == "Transfer")
                 {
@@ -310,7 +318,7 @@ class DepositoReporsitories {
                 if(json_decode($pengajuan->detail)->kredit == "Tunai")
                 {
                     $dataToUpdateBMTDeposito = [
-                        "bmtBankTujuan" => $bmtTellerLoged,
+                        "bmtBankTujuan" => $bmtBankTujuan,
                         "bmtDeposito"   => $bmtDeposito,
                         "jumlah"        => json_decode($pengajuan->detail)->jumlah,
                         "id_pengajuan"  => $pengajuan->id
@@ -319,6 +327,14 @@ class DepositoReporsitories {
 
                 if($insertToPenyimpananBMT == "success" && $insertToPenyimpananDeposito == "success")
                 {
+
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmtBankTujuan->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtBankTujuan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                    $dataToPenyimpananBMT['id_bmt'] = $bmtBankTujuan->id;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
                     $updateDataBMT = $this->updateBMTDeposito($dataToUpdateBMTDeposito);
 
                     if($updateDataBMT)
@@ -621,10 +637,18 @@ class DepositoReporsitories {
                         $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success"
                     )
                     {
+                        $BMTTeller = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
+
+                        $detailToPenyimpananBMT['saldo_awal'] = $BMTTeller->saldo;
+                        $detailToPenyimpananBMT['saldo_akhir'] = floatval($BMTTeller->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
+                        $dataToPenyimpananBMT['id_bmt'] = $BMTTeller->id;
+                        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
                         // Update saldo BMT bank/teller
-                        $saldoBMTTeller = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
                         $updateBMTTeller = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->update([
-                            "saldo" => $saldoBMTTeller->saldo + preg_replace('/[^\d.]/', '', $data->jumlah)
+                            "saldo" => $BMTTeller->saldo + preg_replace('/[^\d.]/', '', $data->jumlah)
                         ]);
 
                         // Update saldo rekening deposito

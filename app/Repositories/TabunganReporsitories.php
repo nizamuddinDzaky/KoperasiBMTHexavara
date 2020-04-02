@@ -138,18 +138,19 @@ class TabunganReporsitories {
             foreach($tabungan as $tabung) {
                 $tabungan = $tabung;
             }
-            $bmtUser = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
-            // Use for transfer method
-            $bmtTujuanKreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank)->first();
-            // Use for tunai method
-            $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
-            $userLogedBMT = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
-            
-            $dariRekening = "";
-            $untukRekening = $userLogedBMT->id_rekening;
+
+            $bmtTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
+
             if(json_decode($pengajuan->detail)->kredit == "Transfer") {
+                $bmtTujuanKreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank)->first();
                 $dariRekening = "Transfer";
                 $untukRekening = json_decode($pengajuan->detail)->bank;
+            }
+            if(json_decode($pengajuan->detail)->kredit == "Tunai") {
+                $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
+                $bmtTujuanKreditTabungan = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
+                $dariRekening = "";
+                $untukRekening = $bmtTujuanKreditTabungan->id_rekening;
             }
 
             $detailToPenyimpananTabungan = [
@@ -170,13 +171,13 @@ class TabunganReporsitories {
 
             $detailToPenyimpananBMT = [
                 "jumlah"        => json_decode($pengajuan->detail)->jumlah,
-                "saldo_awal"    => $bmtUser->saldo,
-                "saldo_akhir"   => floatval($bmtUser->saldo) + floatval(json_decode($pengajuan->detail)->jumlah),
+                "saldo_awal"    => $bmtTabungan->saldo,
+                "saldo_akhir"   => floatval($bmtTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah),
                 "id_pengajuan"  => $pengajuan->id
             ];
             $dataToPenyimpananBMT = [
                 "id_user"       => $pengajuan->id_user,
-                "id_bmt"        => $bmtUser->id,
+                "id_bmt"        => $bmtTabungan->id,
                 "status"        => "Kredit",
                 "transaksi"     => $detailToPenyimpananBMT,
                 "teller"        => Auth::user()->id
@@ -187,6 +188,14 @@ class TabunganReporsitories {
                 $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
               ) 
             {
+
+                $detailToPenyimpananBMT['saldo_awal'] = $bmtTujuanKreditTabungan->saldo;
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTujuanKreditTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                $dataToPenyimpananBMT['id_bmt'] = $bmtTujuanKreditTabungan->id;
+                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
                 // Update tabungan user in table tabungan
                 $updateTabunganDetail = [
                     "saldo" => floatval(json_decode($tabungan->detail)->saldo) + floatval(json_decode($pengajuan->detail)->jumlah),
@@ -197,8 +206,8 @@ class TabunganReporsitories {
                 ]);
 
                 // Update bmt user in table tabungan
-                $updateBMTUser = BMT::where('id', $bmtUser->id)->update([
-                    "saldo" => floatval($bmtUser->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
+                $updateBMTUser = BMT::where('id', $bmtTabungan->id)->update([
+                    "saldo" => floatval($bmtTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
                 ]);
 
                 // Update Pengajuan table
@@ -210,16 +219,10 @@ class TabunganReporsitories {
                 /** 
                  * Filter transaction method 
                 * */
-                if(json_decode($pengajuan->detail)->kredit == "Transfer") {
-                    $updateBMTTujuan = BMT::where('id', $bmtTujuanKreditTabungan->id)->update([
-                        "saldo" => floatval($bmtTujuanKreditTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
-                    ]);
-                }
-                if(json_decode($pengajuan->detail)->kredit == "Tunai") {
-                    $updateBMTTujuan = BMT::where('id_rekening', $userLogedBMT->id_rekening)->update([
-                        "saldo" => floatval($userLogedBMT->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
-                    ]);
-                }
+                $updateBMTTujuan = BMT::where('id_rekening', $bmtTujuanKreditTabungan->id_rekening)->update([
+                    "saldo" => floatval($bmtTujuanKreditTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
+                ]);
+
 
                 DB::commit();
 
@@ -300,6 +303,14 @@ class TabunganReporsitories {
                 $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
             ) 
             {
+
+                $detailToPenyimpananBMT['saldo_awal'] = $userLogedBMT->saldo;
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                $dataToPenyimpananBMT['id_bmt'] = $userLogedBMT->id;
+                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
                 /** 
                  * Filter transaction method 
                 * */
@@ -483,6 +494,14 @@ class TabunganReporsitories {
                 $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
             ) 
             {
+
+                $detailToPenyimpananBMT['saldo_awal'] = $bmtTellerLoged->saldo;
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
+                $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;
+                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                
                 // Update tabungan user in table tabungan
                 $updateTabunganDetail = [
                     "saldo" => floatval(json_decode($tabungan->detail)->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
@@ -587,6 +606,14 @@ class TabunganReporsitories {
                 $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
             ) 
             {
+
+                $detailToPenyimpananBMT['saldo_awal'] = $bmtTellerLoged->saldo;
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
+                $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;
+                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
                 /** 
                  * Filter transaction method 
                 * */
