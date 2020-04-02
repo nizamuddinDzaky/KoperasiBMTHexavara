@@ -53,6 +53,11 @@ class PembiayaanReporsitory {
                 $jenis_pembiayaan = "PEMBIAYAAN MRB";
                 $id_rekening_pembiayaan = 100;
             }
+            if(json_decode($pengajuan->detail)->pembiayaan == 99)
+            {
+                $jenis_pembiayaan = "PEMBIAYAAN MDA";
+                $id_rekening_pembiayaan = 99;
+            }
 
             $bmt_pembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->first();
             $bmt_pengirim = BMT::where('id_rekening', $data->bank)->first();
@@ -164,7 +169,7 @@ class PembiayaanReporsitory {
                     "transaksi" => $detailToPenyimpananBMT,
                     "teller"    => Auth::user()->id
                 ];
-
+                
                 if($this->insertPembiayaan($dataToPembiayaan) == "success" &&
                    $this->insertPenyimpananPembiayaan($dataToPenyimpananPembiayaan) == "success" &&
                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success"

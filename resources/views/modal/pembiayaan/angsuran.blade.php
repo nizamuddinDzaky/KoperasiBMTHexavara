@@ -158,26 +158,25 @@
                             </div>
                             <div class="row">
                                 <div class="row" id="toHideBagi">
-                                <div class="col-md-5 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label class="control-label">Jumlah Biaya Angsuran Pokok <star>*</star></label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="bagi_pokok"  disabled />
+                                    <div class="col-md-5 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Jumlah Biaya Angsuran Pokok <star>*</star></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input type="text" class="currency form-control text-right" id="bagi_pokok"  disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5" id="bayar_mar">
+                                        <div class="form-group">
+                                            <label class="control-label">Jumlah Biaya Margin Bulan ini<star>*</star></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input type="text" class="currency form-control text-right" id="bagi_margin" name="nisbah"  required>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-5" id="bayar_mar">
-                                    <div class="form-group">
-                                        <label class="control-label">Jumlah Biaya Margin Bulan ini<star>*</star></label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="bagi_margin" name="nisbah"  required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
                                 <div class="row">
                                     <div class="col-md-5 col-md-offset-1" id="showPok"></div>
                                     <div class="col-md-5 col-md-offset-1" id="angHide">
