@@ -92,6 +92,7 @@
         <ul class="nav">
             <li @if(Request::is('teller/laporan/kas_harian')) class="active" @endif><a href="{{route('teller.kas_harian')}}">Kas Harian</a></li>
             <li @if(Request::is('teller/laporan/realisasi')) class="active" @endif><a href="{{route('teller.realisasi_pem')}}">Realisasi Pembiayaan</a></li>
+            <li class="@if(Request::is('admin/laporan/buku')) active @endif"><a href="{{route('teller.buku_besar')}}">Buku Besar</a></li>
             <li @if(Request::is('teller/kolektibilitas')) class="active" @endif><a href="{{route('teller.daftar_kolektibilitas')}}">Kolektibilitas</a></li>
             <li @if(Request::is('teller/laporan/neraca')) class="active" @endif><a href="{{route('teller.neraca')}}">Neraca Saldo</a></li>
             <li @if(Request::is('teller/nasabah/tabungan')) class="active" @endif><a href="{{route('nasabah_tabungan')}}">Saldo Tabungan</a></li>
