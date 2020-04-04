@@ -63,8 +63,8 @@
                                     <td></td>
                                     <td>{{ $usr->id }}</td>
                                     <td>{{ $usr->created_at  }}</td>
-                                    <td>{{ $usr->nama }}</td>
-                                    <td>{{ $usr->nama_kegiatan  }}</td>
+                                    <td style="text-transform: uppercase;">{{ $usr->nama }}</td>
+                                    <td style="text-transform: uppercase;">{{ $usr->nama_kegiatan  }}</td>
                                     @if(Auth::user()->tipe!="anggota")
                                     <td>{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
                                     <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
