@@ -96,7 +96,7 @@ class UserController extends Controller
             $sum +=(json_decode($dt->detail,true)['saldo']);
         }
         foreach ($data2 as $dt){
-            $sumpin +=(json_decode($dt->detail,true)['pinjaman']);
+            $sumpin +=(json_decode($dt->detail,true)['sisa_pinjaman']);
             $sumtag +=(json_decode($dt->detail,true)['sisa_pinjaman']);
             $sumbln +=(json_decode($dt->detail,true)['tagihan_bulanan']);
         }
