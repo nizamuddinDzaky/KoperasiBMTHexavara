@@ -91,11 +91,10 @@ class PembiayaanReporsitory {
             $saldo_akhir_pengirim = floatval($bmt_pengirim->saldo) - floatval($pinjaman);
 
             $saldo_awal_pembiayaan = floatval($bmt_pembiayaan->saldo);
-            $saldo_akhir_pembiayaan = floatval($bmt_pembiayaan->saldo) + floatval($pinjaman);
+            $saldo_akhir_pembiayaan = floatval($bmt_pembiayaan->saldo) + (floatval($pinjaman) + floatval($margin));
 
-            // $saldo_awal_piutang_mrb = floatval($bmt_piutang_MRB->saldo);
-            // $saldo_akhir_piutang_mrb = floatval($bmt_piutang_MRB->saldo) - floatval($pinjaman);
-            // $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
+            $saldo_awal_piutang_mrb = floatval($bmt_piutang_MRB->saldo);
+            $saldo_akhir_piutang_mrb = floatval($bmt_piutang_MRB->saldo) - floatval($margin);
 
             if($saldo_awal_pengirim > $pinjaman)
             {
@@ -185,6 +184,7 @@ class PembiayaanReporsitory {
 
                     $updateBMTPengirim = BMT::where('id_rekening', $data->bank)->update([ 'saldo' => $saldo_akhir_pengirim ]);
                     $updateBMTPembiayaan = BMT::where('id_rekening',  json_decode($pengajuan->detail)->pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
+                    $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
                     $updatePengajuan = Pengajuan::where('id', $data->id_)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
 
                     DB::commit();
@@ -286,6 +286,7 @@ class PembiayaanReporsitory {
 
             $bmt_pembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->first();
             $bmt_pengirim = BMT::where('id_rekening', $data->bank)->first();
+            $bmt_piutang_MRB = BMT::where('id_rekening', '101')->first();
 
             $created_date = Carbon::now();
             if($data->ketWaktu == "Bulan")
@@ -313,7 +314,10 @@ class PembiayaanReporsitory {
             $saldo_akhir_pengirim = floatval($bmt_pengirim->saldo) - floatval($pinjaman);
 
             $saldo_awal_pembiayaan = floatval($bmt_pembiayaan->saldo);
-            $saldo_akhir_pembiayaan = floatval($bmt_pembiayaan->saldo) + floatval($pinjaman);
+            $saldo_akhir_pembiayaan = floatval($bmt_pembiayaan->saldo) + (floatval($pinjaman) + floatval($margin));
+
+            $saldo_awal_piutang_mrb = floatval($bmt_piutang_MRB->saldo);
+            $saldo_akhir_piutang_mrb = floatval($bmt_piutang_MRB->saldo) - floatval($margin);
 
             if($data->atasnama == 1)
             {
@@ -446,6 +450,7 @@ class PembiayaanReporsitory {
 
                     $updateBMTPengirim = BMT::where('id_rekening', $data->bank)->update([ 'saldo' => $saldo_akhir_pengirim ]);
                     $updateBMTPembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
+                    $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
 
                     DB::commit();
                     $response = array("type" => "success", "message" => "Pembukaan " . $jenis_pembiayaan . " Berhasil.");
@@ -605,12 +610,13 @@ class PembiayaanReporsitory {
             $bmt_aktiva = BMT::where('id_rekening', 1)->first();
             $bmt_shu_berjalan = BMT::where('id_rekening', 122)->first();
             $bmt_pendapatan_mrb = BMT::where('id_rekening', 130)->first();
+            $bmt_piutang_mrb = BMT::where('id_rekening', 101)->first();
 
             $saldo_awal_pengirim = floatval($bmt_tujuan_angsuran->saldo);
             $saldo_akhir_pengirim = floatval($bmt_tujuan_angsuran->saldo) + floatval($jumlah_bayar_angsuran);
             
             $saldo_awal_pembiayaan = floatval($bmt_pembiayaan->saldo);
-            $saldo_akhir_pembiayaan = floatval($bmt_pembiayaan->saldo) - floatval($jumlah_bayar_angsuran);
+            $saldo_akhir_pembiayaan = floatval($bmt_pembiayaan->saldo) - (floatval($jumlah_bayar_angsuran) + floatval($jumlah_bayar_margin));
 
             $detailToPenyimpananPembiayaan = [
                 "teller"            => Auth::user()->id,
@@ -695,6 +701,7 @@ class PembiayaanReporsitory {
                 $updateSHUBerjalan = BMT::where('id_rekening', 122)->update([ "saldo" => $bmt_shu_berjalan->saldo + $jumlah_bayar_margin ]);
                 $updateAktiva = BMT::where('id_rekening', 1)->update([ "saldo" => $bmt_aktiva->saldo + $jumlah_bayar_margin ]);
                 $updatePendapatanMRB = BMT::where('id_rekening', 130)->update([ "saldo" => $bmt_pendapatan_mrb->saldo + $jumlah_bayar_margin ]);
+                $updatePiutangMRB = BMT::where('id_rekening', 101)->update([ "saldo" => $bmt_piutang_mrb->saldo + $jumlah_bayar_margin ]);
                 $updatePembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->update([
                     'detail'    => json_encode($detailToUpdatePembiayaan),
                     'angsuran_ke' => $pembiayaan->angsuran_ke + 1
