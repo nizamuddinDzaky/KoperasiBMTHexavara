@@ -723,8 +723,8 @@
                                 <div class="col-sm-12 col-md-5 col-lg-5 col-md-offset-1 {{ !$errors->has('file') ?: 'has-error' }}">
                                     <div class="form-group">
                                         <label>Rekening Bank Tujuan <star>*</star></label><br>
-                                        <select class="form-control select2" name="bank_tujuan" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected value="-1" disabled>-Pilih jenis Transaksi-</option>
+                                        <select class="form-control select2" name="bank_tujuan" style="width: 100%;">
+                                            <option class="bs-title-option" selected value="-1" disabled>-Pilih Rekening Bank-</option>
                                             @foreach($bank_bmt as $bank)
                                             <option value="{{ $bank->id }}">[{{$bank->id_rekening}}] {{ $bank->nama_rekening }}</option>
                                             @endforeach
