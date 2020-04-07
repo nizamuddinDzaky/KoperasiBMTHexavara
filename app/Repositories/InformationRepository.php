@@ -3670,10 +3670,13 @@ class InformationRepository
             ->join('pembiayaan', 'pembiayaan.id', '=', 'penyimpanan_pembiayaan.id_pembiayaan')
             ->where('penyimpanan_pembiayaan.id_pembiayaan',$id)->orderby('id','DESC')->LIMIT(100)->get();
         $pokok = Pembiayaan::where('id',$id)->first();
-        $pokok = json_decode($pokok['detail'], true)['pinjaman']/json_decode($pokok['detail'], true)['lama_angsuran'];
-        $data=array_reverse(iterator_to_array($data));
+        $angsuran_pokok = round(json_decode($pokok['detail'], true)['pinjaman']/json_decode($pokok['detail'], true)['lama_angsuran']);
+        $angsuran_margin = round(json_decode($pokok['detail'], true)['margin']/json_decode($pokok['detail'], true)['lama_angsuran']);
+        // $rekening_tujuan = Rekening::where('id', )
+        $data = array_reverse(iterator_to_array($data));
         for ($i=0;$i<count($data) ; $i++){
-            if($data[$i]['status']=="Angsuran") {
+            if(strpos($data[$i]['status'], "Angsuran") !== false) {
+                $data[$i]['ayam'] = "A";
                 $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['untuk_rekening']);
                 $data[$i]['id_rek'] = $rek['id_rekening'];
                 $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
@@ -3687,8 +3690,9 @@ class InformationRepository
                 }else
                     $data[$i]['untuk_rekening'] = "USER";
             }
+            $data[$i]['pokok']=$angsuran_pokok;
+            $data[$i]['margin']=$angsuran_margin;
         }
-        $data[0]['pokok']=$pokok;
         return $data;
     }
     function TransaksiPemUsrAng($data,$request)

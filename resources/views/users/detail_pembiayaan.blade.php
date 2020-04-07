@@ -34,12 +34,9 @@
                             <th class="text-center" data-sortable="true" class="text-left">Dari Rekening</th>
                             <th class="text-center" data-sortable="true">Ke Rekening</th>
                             <th class="text-center" data-sortable="true">Jenis Transaksi</th>
-                            <th class="text-center" data-sortable="true">Angsuran Pokok</th>
                             <th class="text-center" data-sortable="true">Angsuran Ke</th>
-                            <th class="text-center" data-sortable="true">Jumlah</th>
+                            <th class="text-center" data-sortable="true">Jumlah Bayar</th>
                             <th class="text-center" data-sortable="true">Sisa Tagihan Bulanan</th>
-                            <th class="text-center" data-sortable="true">Sisa Angsuran</th>
-                            <th class="text-center" data-sortable="true">Sisa Margin Perkiraan</th>
                             <th class="text-center" data-sortable="true">Sisa Pinjaman</th>
                             {{--<th>Actions</th>--}}
                             <th></th>
@@ -49,17 +46,22 @@
                                 @if(json_decode($usr->transaksi,true)['angsuran_ke'] != 0)
                                 <tr>
                                     <td></td>
-                                    <td>{{ $usr->created_at }}</td>
+                                    <td>{{ $usr->created_at->format('D, d L Y h:i:s') }}</td>
                                     <td class="text-center text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
-                                    <td class="text-center text-uppercase">{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
+                                    <td class="text-center text-uppercase">{{ $usr->untuk_rekening }}</td>
                                     <td class="text-center text-uppercase">{{$usr->status}}</td>
-                                    <td class="text-right">{{ number_format($data[0]['pokok'],2) }}</td>
                                     <td class="text-center">{{ number_format(json_decode($usr->transaksi,true)['angsuran_ke']) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                    <td class="text-right">@if(json_decode($usr->transaksi,true)['tagihan']>0){{ number_format(json_decode($usr->transaksi,true)['tagihan'],2) }}@elseif(json_decode($usr->transaksi,true)['tagihan']<0) +pokok @endif</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['sisa_angsuran'],2) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['sisa_margin'],2) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['sisa_pinjaman'],2) }}</td>
+                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah_bayar'], 2) }}</td>
+                                    @if($usr->status == "Angsuran Pembiayaan [Pokok]")
+                                        <td class="text-right">{{ number_format(floatval($usr->pokok) - floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td>
+                                    @else
+                                        <td class="text-right">{{ number_format(floatval($usr->margin) - floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td>
+                                    @endif
+                                    @if($usr->status == "Angsuran Pembiayaan [Pokok]")
+                                        <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['jumlah']) - floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td>
+                                    @else
+                                        <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['margin']) - floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td>
+                                    @endif
                                     <td></td>
                                 </tr>
                                 @endif

@@ -488,13 +488,11 @@ class PembiayaanReporsitory {
             {
                 $jenis_pembiayaan = "PEMBIAYAAN MRB";
                 $id_rekening_pembiayaan = 100;
-                $status_angsuran = "Angsuran Pembiayaan[Pokok+Margin]";
             }
             if(json_decode($pengajuan->detail)->id_rekening == 99)
             {
                 $jenis_pembiayaan = "PEMBIAYAAN MDA";
                 $id_rekening_pembiayaan = 99;
-                $status_angsuran = "Angsuran Pembiayaan[Pokok+Margin]";
             }
 
             if(json_decode($pengajuan->detail)->angsuran == "Tunai")
@@ -626,11 +624,12 @@ class PembiayaanReporsitory {
                 "angsuran_ke"       => $pembiayaan->angsuran_ke + 1,
                 "nisbah"            => json_decode($pembiayaan->detail)->nisbah,
                 "margin"            => json_decode($pembiayaan->detail)->margin,
-                "jumlah"            => $jumlah_bayar_angsuran + $jumlah_bayar_margin,
+                "jumlah"            => json_decode($pembiayaan->detail)->pinjaman,
                 "tagihan"           => $tagihan,
                 "sisa_angsuran"     => $sisa_angsuran - $jumlah_bayar_angsuran,
                 "sisa_margin"       => $sisa_margin - $jumlah_bayar_margin,
                 "sisa_pinjaman"     => $sisa_pinjaman,
+                "jumlah_bayar"      => $jumlah_bayar_angsuran
             ];
             
             if(json_decode($pengajuan->detail)->id_rekening == 99)
@@ -641,7 +640,7 @@ class PembiayaanReporsitory {
             $dataToPenyimpananPembiayaan = [
                 "id_user"       => $pengajuan->id_user,
                 "id_pembiayaan" => $pembiayaan->id,
-                "status"        => $status_angsuran,
+                "status"        => "Angsuran Pembiayaan [Pokok]",
                 "transaksi"     => $detailToPenyimpananPembiayaan,
                 "teller"        => Auth::user()->id
             ];
@@ -664,6 +663,15 @@ class PembiayaanReporsitory {
                 $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success"
             )
             {
+                if($jumlah_bayar_margin > 0)
+                {
+                    $dataToPenyimpananPembiayaan['status'] = "Angsuran Pembiayaan [Margin]";
+                    $detailToPenyimpananPembiayaan['jumlah_bayar'] = $jumlah_bayar_margin;
+                    $dataToPenyimpananPembiayaan['transaksi'] = $detailToPenyimpananPembiayaan;
+                    $this->insertPenyimpananPembiayaan($dataToPenyimpananPembiayaan);
+                }
+
+
                 $dataToPenyimpananBMT['id_bmt'] = $bmt_tujuan_angsuran->id;
                 $detailToPenyimpananBMT['jumlah'] = $jumlah_bayar_angsuran + $jumlah_bayar_margin;
                 $detailToPenyimpananBMT['saldo_awal'] = $saldo_awal_pengirim;
