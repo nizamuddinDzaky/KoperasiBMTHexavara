@@ -329,11 +329,11 @@ class UserController extends Controller
         if ($this->informationRepository->TransaksiTabUsrDeb($data, $request)) {
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Kredit Tabungan berhasil dilakukan!.'));
+                ->withSuccess(sprintf('Pengajuan Debit Tabungan berhasil dilakukan!.'));
         } else {
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Kredit Tabungan gagal dilakukan!.');
+                ->withInput()->with('message', 'Pengajuan Debit Tabungan gagal dilakukan!.');
         }
     }
 
@@ -385,11 +385,11 @@ class UserController extends Controller
         if ($this->informationRepository->TransaksiTabUsrKre($data, $request)) {
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Debit Tabungan berhasil dilakukan!.'));
+                ->withSuccess(sprintf('Pengajuan Kredit Tabungan berhasil dilakukan!.'));
         } else {
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Debit Tabungan gagal dilakukan!.');
+                ->withInput()->with('message', 'Pengajuan Kredit Tabungan gagal dilakukan!.');
         }
     }
 

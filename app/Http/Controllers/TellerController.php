@@ -78,6 +78,47 @@ class TellerController extends Controller
         $date_now = $home->MonthShifter(+1)->format(('Y-m'));
         $date_prev = $home->MonthShifter(-1)->format(('Y-m-t'));
 
+        $bmtTeller = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->select(['saldo'])->first();
+        
+        $rekeningTabungan = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'TABUNGAN'] ])->get();
+        $idRekeningTabungan = array();
+        foreach($rekeningTabungan as $tabungan)
+        {
+            array_push($idRekeningTabungan, $tabungan->id);
+        }
+        $bmtTabungan = BMT::whereIn('id_rekening', $idRekeningTabungan)->select(['saldo', 'nama'])->get();
+        $saldoTabungan = 0;
+        foreach($bmtTabungan as $bmttabungan)
+        {
+            $saldoTabungan = $saldoTabungan + $bmttabungan->saldo;
+        }
+
+        $rekeningDeposito = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'DEPOSITO'] ])->get();
+        $idRekeningDeposito = array();
+        foreach($rekeningDeposito as $deposito)
+        {
+            array_push($idRekeningDeposito, $deposito->id);
+        }
+        $bmtDeposito = BMT::whereIn('id_rekening', $idRekeningDeposito)->select(['saldo', 'nama'])->get();
+        $saldoDeposito = 0;
+        foreach($bmtDeposito as $bmtdeposito)
+        {
+            $saldoDeposito = $saldoDeposito + $bmtdeposito->saldo;
+        }
+
+        $rekeningPembiayaan = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'PEMBIAYAAN'] ])->get();
+        $idRekeningPembiayaan = array();
+        foreach($rekeningPembiayaan as $pembiayaan)
+        {
+            array_push($idRekeningPembiayaan, $pembiayaan->id);
+        }
+        $bmtPembiayaan = BMT::whereIn('id_rekening', $idRekeningPembiayaan)->select(['saldo', 'nama'])->get();
+        $saldoPembiayaan = 0;
+        foreach($bmtPembiayaan as $bmtpembiayaan)
+        {
+            $saldoPembiayaan = $saldoPembiayaan + $bmtpembiayaan->saldo;
+        }
+
         $pengajuan =$this->pengajuan->select('status')
             ->where('pengajuan.created_at', ">" , $date_prev." 23:59:59")
             ->where('pengajuan.created_at', "<" , $date_now."-01")
@@ -96,6 +137,10 @@ class TellerController extends Controller
             'setuju' =>$set,
             'tolak' =>$tol,
             'pending' =>$pen,
+            'saldo_kas' => $bmtTeller->saldo,
+            'saldo_tabungan' => $saldoTabungan,
+            'saldo_deposito' => $saldoDeposito,
+            'saldo_pembiayaan' => $saldoPembiayaan
         ]);
     }
 

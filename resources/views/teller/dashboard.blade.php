@@ -16,7 +16,7 @@
         <div class="col-md-3">
             <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
                 <div class="card-body">
-                    <span class="card-title card-number-large" id="harta">0</span>
+                    <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas) }}</span>
                     <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
                     <span class="card-description">Bersumber dari kas dalam akun teller 1</span>
                     
@@ -27,7 +27,7 @@
         <div class="col-md-3">
             <div class="card dashboard link" style="height: 160px; background-color: #45BBE0">
                 <div class="card-body">
-                    <span class="card-title card-number-large">5,750 M</span>
+                    <span class="card-title card-number-large">{{ number_format($saldo_tabungan) }}</span>
                     <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
                     <span class="card-description">Bersumber dari total tabungan semua anggota</span>
                     
@@ -38,7 +38,7 @@
         <div class="col-md-3">
             <div class="card dashboard link" style="height: 160px; background-color: #F06292">
                 <div class="card-body">
-                    <span class="card-title card-number-large">90,000,000</span>
+                    <span class="card-title card-number-large">{{ number_format($saldo_deposito) }}</span>
                     <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
                     <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
 
@@ -49,7 +49,7 @@
         <div class="col-md-3">
             <div class="card dashboard link" style="height: 160px; background-color: #78C350">
                 <div class="card-body">
-                    <span class="card-title card-number-large">100,000,000</span>
+                    <span class="card-title card-number-large">{{ number_format($saldo_pembiayaan) }}</span>
                     <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
                     <span class="card-description">Bersumber dari total pembiayaan anggota</span>
 
