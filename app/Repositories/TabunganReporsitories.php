@@ -456,7 +456,7 @@ class TabunganReporsitories {
             if($data->debit == 1) {
                 $dariRekening = "Transfer";
                 $untukRekening = $data->bank;
-                $bmtTujuanKreditTabungan = BMT::where('id_rekening', $data->bank)->select('saldo')->first();
+                $bmtTellerLoged = BMT::where('id_rekening', $data->bank)->select('saldo')->first();
             }
 
             $detailToPenyimpananTabungan = [
@@ -521,7 +521,7 @@ class TabunganReporsitories {
                 * */
                 if($data->debit == 1) {
                     $updateBMTTujuan = BMT::where('id_rekening', $data->bank)->update([
-                        "saldo" => floatval($bmtTujuanKreditTabungan->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
+                        "saldo" => floatval($bmtTellerLoged->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
                     ]);
                 }
                 if($data->debit == 0) {
@@ -569,7 +569,7 @@ class TabunganReporsitories {
             if($data->kredit == 1) {
                 $dariRekening = "Transfer";
                 $untukRekening = $data->bank;
-                $bmtTujuanKreditTabungan = BMT::where('id_rekening', $data->bank)->select('saldo')->first();
+                $bmtTellerLoged = BMT::where('id_rekening', $data->bank)->select('saldo')->first();
             }
 
             $detailToPenyimpananTabungan = [

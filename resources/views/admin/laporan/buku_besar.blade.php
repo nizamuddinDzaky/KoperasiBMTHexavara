@@ -146,70 +146,69 @@
                         <table id="bootstrap-table" class="table">
                             <thead>
                             <th class="text-center"></th>
-                            <th class="text-center" data-sortable="true">Tgl Transaksi</th>
-                            <th class="text-center" data-sortable="true" >Nama User</th>
-                            <th class="text-center" data-sortable="true" >Dari Rekening</th>
-                            <th class="text-center" data-sortable="true">Ke Rekening</th>
-                            <th class="text-center" data-sortable="true">Jenis Transaksi</th>
-                            <th class="text-center" data-sortable="true">Jumlah</th>
-                            <th class="text-center" data-sortable="true">Saldo Awal</th>
-                            <th class="text-center" data-sortable="true">Saldo Akhir</th>
-                            {{--<th>Actions</th>--}}
-                            <th></th>
+                            <th data-sortable="true">Tgl Transaksi</th>
+                            <th data-sortable="true" >Nama User</th>
+                            <th data-sortable="true">Jenis Transaksi</th>
+                            <th data-sortable="true">Kredit</th>
+                            <th data-sortable="true" >Debit</th>
+                            <th data-sortable="true">Saldo</th>
                             </thead>
                             @if(!isset($data))
                             @else
                             <tbody>
+                                <tr>
+                                    <td colspan="6" align="center"><b>Saldo Awal</b></td>
+                                    <td><b>Rp.00</b></td>
+                                </tr>
                               @foreach ($data['data'] as $usr)
                                 <tr>
                                     <td></td>
-                                    <td>{{ $usr->created_at }}</td>
-                                    <td>{{ $usr->nama_user }}</td>
-                                    {{--<td class="text-left text-uppercase">-</td>--}}
-                                    @if(json_decode($usr->transaksi,true)['jumlah']<0)
-                                        <td class="text-left text-uppercase">[{{ $usr->id_rek }}] {{ $usr->nama }}</td>
-                                        <td class="text-left text-uppercase">-</td>
-                                    @elseif(json_decode($usr->transaksi,true)['jumlah']>=0)
-                                        <td class="text-left text-uppercase">-</td>
-                                        <td class="text-left text-uppercase">[{{ $usr->id_rek }}] {{ $usr->nama }}</td>
-                                    @endif
-                                    <td class="text-center text-uppercase">{{$usr->status}}</td>
-                                    @if(json_decode($usr->transaksi,true)['jumlah']<0)
-                                        <td class="text-right">({{ number_format(-json_decode($usr->transaksi,true)['jumlah'],2) }})</td>
-                                    @elseif(json_decode($usr->transaksi,true)['jumlah']>=0)
-                                        <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                    <td>{{ $usr->created_at->format("D, d F Y h:i:s") }}</td>
+                                    <td style="text-transform: uppercase">{{ $usr->nama_user }}</td>
+                                    
+                                    @if($usr->status == "Kredit")
+                                    <td>Setoran Tabungan</td>
+                                    @elseif($usr->status == "Debit")
+                                    <td>Penarikan Tabungan</td>
+                                    @else
+                                    <td>{{ $usr->status }}</td>
                                     @endif
 
-                                    <td class="text-right">{{ number_format(floatval(isset(json_decode($usr->transaksi,true)['saldo_awal'])?json_decode($usr->transaksi,true)['saldo_awal']:0),2) }}</td>
-                                    <td class="text-right">{{ number_format(floatval(isset(json_decode($usr->transaksi,true)['saldo_akhir'])?json_decode($usr->transaksi,true)['saldo_akhir']:0),2) }}</td>
-                                    <td></td>
+                                    @if(json_decode($usr->transaksi)->saldo_awal < json_decode($usr->transaksi)->saldo_akhir)
+                                    <td>{{ number_format(json_decode($usr->transaksi)->jumlah, 2) }}</td>
+                                    @else
+                                    <td>0</td>
+                                    @endif
+
+                                    @if(json_decode($usr->transaksi)->saldo_awal > json_decode($usr->transaksi)->saldo_akhir)
+                                        @if(json_decode($usr->transaksi)->jumlah < 0)
+                                        <td>({{ number_format(-json_decode($usr->transaksi)->jumlah, 2) }})</td>
+                                        @else
+                                        <td>{{ number_format(json_decode($usr->transaksi)->jumlah, 2) }}</td>
+                                        @endif
+                                    @else
+                                    <td>0</td>
+                                    @endif
+
+                                    <td>{{ number_format(floatval(json_decode($usr->transaksi)->saldo_akhir), 2) }}</td>
                                 </tr>
 
                             @endforeach
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-center text-uppercase"><h5><b>Jumlah Total Bulanan</b>  </h5></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-right"><b>Rp</b></td>
-                                    <td class="text-right"><b> {{number_format(isset($data['total'])?$data['total']:0,2)}}</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colspan="7" align="center">&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colspan="5" class="text-center text-uppercase"><h5><b>Jumlah Total Bulanan</b>  </h5></td>
+                                    <td class="text-right"><b>Rp</b></td>
+                                    <td><b> {{number_format(isset($data['total'])?$data['total']:0,2)}}</b></td>
                                 </tr>
+                                {{
+                                    isset($data['data'][0]['saldo'])
+                                    ?
+                                    number_format($data['data'][0]['saldo'],2)
+                                    :
+                                    ""
+                                }}
                             </tbody>
                             @endif
                         </table>

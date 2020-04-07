@@ -858,7 +858,10 @@ class InformationRepository
             ->get();
         $data['data'] = $dt;
         $tot=0;
-        foreach ($dt as $dat) $tot=floatval($tot)+floatval(json_decode($dat['transaksi'],true)['jumlah']);
+        foreach ($dt as $dat) 
+        {
+            $tot = json_decode($dat['transaksi'],true)['saldo_akhir'];
+        }
         $data['total'] = $tot;
         return $data;
     }
