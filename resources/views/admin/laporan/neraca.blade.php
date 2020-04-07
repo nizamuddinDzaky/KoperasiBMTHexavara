@@ -66,7 +66,7 @@
 
                                     @if($usr->tipe_rekening =="detail")
                                         @if(number_format(floatval($usr->saldo),2) < 0)
-                                            <td class="text-right">{{ number_format( abs(floatval($usr->saldo)),2 )}}</td>
+                                            <td class="text-right">({{ number_format( abs(floatval($usr->saldo)),2 )}})</td>
                                         @else
                                             <td class="text-right">{{ number_format(floatval($usr->saldo),2) }}</td>
                                         @endif

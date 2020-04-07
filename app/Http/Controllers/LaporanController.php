@@ -580,7 +580,6 @@ class LaporanController extends Controller
     }
     public function buku_besar(){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
-
         return view('admin.laporan.buku_besar',[
             'data' => null,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),
@@ -591,7 +590,7 @@ class LaporanController extends Controller
     public function rekening_buku(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
-        // return response()->json($data);
+        
         return view('admin.laporan.buku_besar',[
             'data' => $data,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),

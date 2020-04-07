@@ -156,7 +156,7 @@ class PembiayaanReporsitory {
                     "teller"        => Auth::user()->id
                 ];
                 $detailToPenyimpananBMT = [
-                    "jumlah"        => floatval(json_decode($pengajuan->detail)->jumlah),
+                    "jumlah"        => floatval(json_decode($pengajuan->detail)->jumlah) + floatval($margin),
                     "saldo_awal"    => $saldo_awal_pembiayaan,
                     "saldo_akhir"   => $saldo_akhir_pembiayaan,
                     "id_pengajuan"  => $data->id_
@@ -419,7 +419,7 @@ class PembiayaanReporsitory {
             ];
 
             $detailToPenyimpananBMT = [
-                "jumlah"        => $pinjaman,
+                "jumlah"        => $pinjaman + $margin,
                 "saldo_awal"    => $saldo_awal_pembiayaan,
                 "saldo_akhir"   => $saldo_akhir_pembiayaan,
                 "id_pengajuan"  => $nextIdPengajuan

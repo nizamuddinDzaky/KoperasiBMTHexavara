@@ -26,7 +26,7 @@
                         <div class="header text-center">
                            <h4 id="titlePrint" class="title"><b>Buku Besar</b> </h4>
                             <p id="titlePrint2" class="category">Laporan Buku Besar <b>{{isset($data['id_rek'])?$data['id_rek']:""}} {{isset($data['nama_rek'])?$data['nama_rek']:""}}</b></p>
-                            <p class="category">Saldo Total : <b>Rp {{isset($data['data'][0]['saldo'])?number_format($data['data'][0]['saldo'],2):""}}</b></p>
+                            <p class="category">Saldo Total : <b>Rp {{isset($data['data'][0]['saldo'])?number_format($data['data'][0]['saldo'],2):number_format(0,2)}}</b></p>
                             <br />
                         </div>
                         <div class="toolbar">
@@ -182,7 +182,7 @@
 
                                     @if(json_decode($usr->transaksi)->saldo_awal > json_decode($usr->transaksi)->saldo_akhir)
                                         @if(json_decode($usr->transaksi)->jumlah < 0)
-                                        <td>({{ number_format(-json_decode($usr->transaksi)->jumlah, 2) }})</td>
+                                        <td>{{ number_format(-json_decode($usr->transaksi)->jumlah, 2) }}</td>
                                         @else
                                         <td>{{ number_format(json_decode($usr->transaksi)->jumlah, 2) }}</td>
                                         @endif
@@ -202,13 +202,6 @@
                                     <td class="text-right"><b>Rp</b></td>
                                     <td><b> {{number_format(isset($data['total'])?$data['total']:0,2)}}</b></td>
                                 </tr>
-                                {{
-                                    isset($data['data'][0]['saldo'])
-                                    ?
-                                    number_format($data['data'][0]['saldo'],2)
-                                    :
-                                    ""
-                                }}
                             </tbody>
                             @endif
                         </table>
