@@ -876,4 +876,18 @@ class UserController extends Controller
                 ->withInput()->with('message', 'Pengajuan Pencairan Deposito gagal dilakukan!.');
         }
     }
+
+    /** 
+     * Detail simpanan wajib anggota
+     * @return Response
+    */
+    // public function detail_wajibpokok(Request $request)
+    // {
+    //     $data = $this->informationRepository->getUsrByID($request->id_)['wajib_pokok'];
+    //     return view('users.detail_wajibpokok', [
+    //         'data' => $this->informationRepository->getTransaksiWajibPokokUsr($request->id_),
+    //         'pokok' => json_decode($data,true)['pokok'],
+    //         'wajib' => json_decode($data,true)['wajib'],
+    //     ]);
+    // }
 }

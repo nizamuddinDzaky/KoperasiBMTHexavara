@@ -1267,6 +1267,19 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
             'as'        => 'anggota.detail_pembiayaan',
             'uses'      => 'UserController@detail_pembiayaan'
         ]);
+
+        Route::get('/simpanan_wajib', [
+            'as'        => 'anggota.detail.simpanan_wajib',
+            'uses'      => 'UserController@detail_simpanan_wajib'
+        ]);
+        Route::get('/simpanan_pokok', [
+            'as'        => 'anggota.detail.simpanan_pokok',
+            'uses'      => 'UserController@detail_simpanan_pokok'
+        ]);
+        Route::get('/simpanan_khusus', [
+            'as'        => 'anggota.detail.simpanan_khusus',
+            'uses'      => 'UserController@detail_simpanan_khusus'
+        ]);
     });
 
     Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {

@@ -41,8 +41,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 class="title">Rekening Tabungan </h4>
-                        <p class="category">Berikut adalah daftar rekening tabungan anda</p>
+                        <h4 class="title">Rekening Simpanan </h4>
+                        <p class="category">Berikut adalah daftar rekening simpanan anda</p>
                         <br />
                     </div>
 
@@ -98,7 +98,7 @@
                                         0
                                     @endif</td>
                                 <td class="td-actions text-left">
-                                    <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
+                                    <a href="{{ route('anggota.detail.simpanan_wajib') }}" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
                                     </a>
                                 </td>
