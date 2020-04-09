@@ -75,9 +75,9 @@
                                 <td></td>
                                 <td class="text-left">{{ $usr->id_deposito }}</td>
                                 <td class="text-left">{{ $usr->jenis_deposito   }}</td>
-                                <td class="text-center">{{ date_format($usr->created_at,'Y-m-d') }}</td>
+                                <td class="text-center">{{ $usr->created_at->format('D, d F Y') }}</td>
                                 <td class="text-left">Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2) }}</td>
-                                <td class="text-center">{{ date_format(date_create($usr->tempo),'Y-M-d') }}</td>
+                                <td class="text-center">{{ Carbon\Carbon::parse($usr->tempo)->format('D, d F Y') }}</td>
                                 <td class="text-center text-uppercase">{{ $usr->status }}</td>
                                 <td class="td-actions text-center">
                                     <form  method="post" action="{{route('anggota.detail_deposito')}}">
@@ -173,6 +173,7 @@
                                                 data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                 data-rek_tab       = "{{ isset(json_decode($usr->detail,true)['id_pencairan'])?json_decode($usr->detail,true)['id_pencairan']:"" }}"
                                                 data-nisbah       = "{{ json_decode($usr->deposito,true)['nisbah_anggota'] }}"
+                                                data-perpanjang_otomatis = "{{ json_decode($usr->detail,true)['perpanjangan_otomatis'] }}"
                                                 @endif
 
                                         >
@@ -241,6 +242,11 @@
             $('#vrek_tabungan').val(button.data('rek_tab'));
             $('#vketerangan2').val(button.data('keterangan'));
             $('#vjumlahdep').val(button.data('jumlah'));
+            
+            if(button.data('perpanjang_otomatis') == true)
+            {
+                $('#vPerpanjanganOtomatisDeposito').attr('checked', 'checked');
+            }
         });
         $('#viewPerModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal

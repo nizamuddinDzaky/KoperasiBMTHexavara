@@ -78,7 +78,7 @@
                                 <td>{{ $usr->created_at }}</td>
                                 <td class="text-center text-uppercase">{{ $usr->status }}</td>
                                 <td class="text-center text-uppercase">{{ $usr->teller }}</td>
-
+                                {{-- <td>{{ json_decode($usr->detail,true)['perpanjangan_otomatis'] ? "true" : "false" }}</td> --}}
                                 <td class="td-actions text-center">
                                     <div class="row">
                                         @if(str_before($usr->kategori,' ')=="Pencairan")
@@ -86,25 +86,25 @@
                                             @else
                                                 {{--KONFIRMASI UNTUK TRANSAKSI--}}
                                                 
-                                        @if(Auth::user()->tipe=="teller")
-                                            <button type="button" id="konfirm" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#confirm{{substr($usr->kategori,0,3)}}Modal" title="Konfirmasi Pengajuan"
-                                                        data-id       = "{{$usr->id}}"
-                                                        data-nama     = "{{ $usr->nama }}"
-                                                        data-ktp     = "{{ $usr->no_ktp  }}"
-                                                        data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
-                                                        {{-- data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}" --}}
-                                                        data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
-                                                        {{-- data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
-                                                        data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
-                                                        data-nobank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                        data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}" --}}
-                                                        data-kategori   = "{{ $usr->kategori}}"
-                                                        data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
-                                                        data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"                       
-                                                        data-tabungan_pencairan = {{ json_decode($usr->detail, true)['id_pencairan']}}
-                                                    >
-                                                    <i class="fa fa-check-square"></i>
-                                                </button>
+                                                @if(Auth::user()->tipe=="teller")
+                                                    <button type="button" id="konfirm" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#confirm{{substr($usr->kategori,0,3)}}Modal" title="Konfirmasi Pengajuan"
+                                                            data-id       = "{{$usr->id}}"
+                                                            data-nama     = "{{ $usr->nama }}"
+                                                            data-ktp     = "{{ $usr->no_ktp  }}"
+                                                            data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
+                                                            {{-- data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}" --}}
+                                                            data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
+                                                            {{-- data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                            data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
+                                                            data-nobank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
+                                                            data-jenis   = "{{ json_decode($usr->detail,true)['pencairan'] }}" --}}
+                                                            data-kategori   = "{{ $usr->kategori}}"
+                                                            data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
+                                                            data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"                       
+                                                            data-tabungan_pencairan = {{ json_decode($usr->detail, true)['id_pencairan']}}
+                                                        >
+                                                        <i class="fa fa-check-square"></i>
+                                                    </button>
                                                 @endif
                                                 <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
                                                         data-id      = "{{$usr->id}}"
@@ -122,9 +122,10 @@
                                                         data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
                                                         data-ktp     = "{{ $usr->no_ktp }}"
                                                         data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
-                                                        data-bank_bmt_tujuan       = "{{ json_decode($usr->detail,true)['bank_bmt_tujuan'] }}"
-                                                        data-kredit = {{ json_decode($usr->detail, true)['kredit']}}
                                                         @if($usr->jenis_pengajuan =="Perpanjangan Deposito")
+                                                        data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
+                                                        data-saldo    = "{{ number_format(json_decode($usr->detail,true)['saldo'],2)}}"
+                                                        data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
                                                         data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                         data-atasnama   = "Pribadi"
                                                         data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
@@ -134,10 +135,13 @@
                                                         data-tabungan_pencairan     = "{{ json_decode($usr->detail,true)['id_pencairan']}}"
                                                         data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                         @else
+                                                        data-bank_bmt_tujuan       = "{{ json_decode($usr->detail,true)['bank_bmt_tujuan'] }}"
                                                         data-kategori   = "{{ $usr->id_rekening }}"
                                                         data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
                                                         data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                         data-rek_tab       = "{{ isset(json_decode($usr->detail,true)['id_pencairan'])?json_decode($usr->detail,true)['id_pencairan']:"" }}"
+                                                        data-kredit = {{ json_decode($usr->detail, true)['kredit']}}
+                                                        data-perpanjang_otomatis = "{{ json_decode($usr->detail,true)['perpanjangan_otomatis'] }}"
                                                         @endif
                                                 >
                                                     <i class="fa fa-check-square"></i>
@@ -157,7 +161,6 @@
                                                 data-id         = "{{$usr->id}}"
                                                 data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
                                                 data-ktp     = "{{ $usr->no_ktp }}"
-
                                                 @if(str_before($usr->kategori,' ')=="Debit" || str_before($usr->kategori,' ')=="Kredit")
                                                 data-nama     = "{{ $usr->nama }}"
                                                 data-ktp     = "{{ $usr->no_ktp  }}"
@@ -207,6 +210,7 @@
                                                 data-path       = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'] )}}"
                                                 data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
                                                 @else
+                                                data-perpanjang_otomatis = "{{ json_decode($usr->detail,true)['perpanjangan_otomatis'] }}"
                                                 data-kategori   = "{{ $usr->id_rekening }}"
                                                 data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                 data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
@@ -305,6 +309,11 @@
             $('#vrek_tabungan').val(button.data('rek_tab'));
             $('#vketerangan2').val(button.data('keterangan'));
             $('#vjumlahdep').val(button.data('jumlah'));
+            
+            if(button.data('perpanjang_otomatis') == true)
+            {
+                $('#vPerpanjanganOtomatisDeposito').attr('checked', 'checked');
+            }
         });
         $('#viewPerModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -315,6 +324,18 @@
             $('#vsaldo_per').val(button.data('saldo'));
             $('#vketerangan').val(button.data('keterangan'));
             $('#vextjumlah').val(button.data('jumlah'));
+        });
+        $('#activePerModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            console.log(button.data('jumlah'))
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            $('#activeexidRek').val(button.data('iddep'));
+            $('#id_pengajuan_perpanjangan').val(button.data('id'));
+            $('#activeexlama').val(button.data('kategori'));
+            $('#activesaldo_per').val(button.data('saldo'));
+            $('#vketerangan').val(button.data('keterangan'));
+            $('#activeextjumlah').val(button.data('jumlah'));
         });
         $('#viewPenModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -411,6 +432,11 @@
             $('#ajumlahdep').val(button.data('jumlah'));
             $('#aketerangan2').val(button.data('keterangan'));
             $('#id_act_dep').val(button.data('id'));
+
+            if(button.data('perpanjang_otomatis') == true)
+            {
+                $('#activePerpanjanganOtomatisDeposito').attr('checked', 'checked');
+            }
         });
 
         $('#activePengajuanModal').on('show.bs.modal', function (event) {

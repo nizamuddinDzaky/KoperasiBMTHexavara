@@ -1012,7 +1012,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             ]);
             Route::post('/konfirmasi_perpanjangan', [
                 'as'        => 'teller.extend_deposito',
-                'uses'      => 'TellerController@konfirmasi_perpanjangan'
+                'uses'      => 'TellerController@konfirmasi_perpanjangan_deposito'
             ]);
         });
         Route::group(['prefix' => 'pembiayaan', 'middleware' => ['auth']], function () {

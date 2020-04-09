@@ -45,7 +45,7 @@
                             @foreach ($data as $usr)
                                 <tr>
                                     <td></td>
-                                    <td>{{ $usr->created_at }}</td>
+                                    <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
                                     @if(json_decode($usr->transaksi,true)['dari_rekening']==null || json_decode($usr->transaksi,true)['dari_rekening']=="Tunai")
                                         <td class="text-center text-uppercase">Tunai</td>
                                     @else

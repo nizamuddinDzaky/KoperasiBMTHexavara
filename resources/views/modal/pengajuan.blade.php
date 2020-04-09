@@ -771,6 +771,17 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="perpanjang_otomatis" @if(Auth::user()->tipe != 'anggota') disabled @endif>
+                                            <span class="form-check-label" for="exampleCheck1">Perpanjangan Otomatis</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -925,7 +936,16 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="vPerpanjanganOtomatisDeposito" name="perpanjang_otomatis" disabled>
+                                            <span class="form-check-label" for="exampleCheck1">Perpanjangan Otomatis</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1113,6 +1133,17 @@
                                             <option value="ya">Ya</option>
                                             <option value="tidak">Tidak</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="activePerpanjanganOtomatisDeposito" name="perpanjang_otomatis">
+                                            <span class="form-check-label" for="exampleCheck1">Perpanjangan Otomatis</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

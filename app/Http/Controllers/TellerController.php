@@ -1520,7 +1520,6 @@ class TellerController extends Controller
                 ->back()
                 ->withInput()->with('message', $pencairanDeposito['message']);
         }
-        // return response()->json($pencairanDeposito);
     }
 
     /** 
@@ -1641,5 +1640,15 @@ class TellerController extends Controller
                 ->withInput()->with('message', $angsuran['message']);
 
         }
+    }
+
+    /** 
+     * Konfirmasi pengajuan perpanjangan deposito
+     * @return Response
+    */
+    public function konfirmasi_perpanjangan_deposito(Request $request)
+    {
+        $deposito = $this->depositoReporsitory->confirmPePerpanjangan($request);
+        return response()->json($deposito);
     }
 }

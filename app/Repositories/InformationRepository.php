@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class InformationRepository
 {
@@ -3401,6 +3402,21 @@ class InformationRepository
         return $data;
     }
 
+    function getAllDepUsrActiveInDate()
+    {
+        $data = Deposito::select('deposito.*', 'users.no_ktp', 'users.nama')
+            ->join('users', 'users.id', '=', 'deposito.id_user')
+            ->where('deposito.status',"active")
+            ->where('deposito.tempo', '<=', Carbon::now()->format('Y-m-d'))
+            ->where('deposito.id_user','=',Auth::user()->id)->orderBy('id','DESC')->get();
+        foreach ($data as $data_deposito) {
+            $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
+            $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
+            $data_deposito->tabungan_pencairan_deposito = "[".$data_deposito->tabungan_pencairan->id_tabungan."] ".$data_deposito->tabungan_pencairan->jenis_tabungan;
+        }
+        return $data;
+    }
+
     function getAllPemUsr()
     {
 
@@ -3597,7 +3613,7 @@ class InformationRepository
             'jenis_deposito_baru' =>$tabUsrBr->nama_rekening,
             'keterangan' =>"Perpanjangan Deposito",
             'jumlah' =>$request->jumlah,
-            'saldo' =>$request->idRek,
+            'saldo' =>$request->idRek
         ];
         $dt = New Pengajuan();
         $dt->id_user = Auth::user()->id;

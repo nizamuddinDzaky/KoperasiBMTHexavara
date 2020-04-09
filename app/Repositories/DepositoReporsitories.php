@@ -256,10 +256,8 @@ class DepositoReporsitories {
         try
         {
             $pengajuan = $this->pengajuanReporsitory->findPengajuan($data['id_']);
-
             $statement = DB::select("SHOW TABLE STATUS LIKE 'deposito'");
             $nextId = $statement[0]->Auto_increment;
-
             if($this->insertToDeposito($pengajuan)['type'] == "success")
             {
                 if(json_decode($pengajuan->detail)->kredit == "Tunai")
@@ -398,12 +396,26 @@ class DepositoReporsitories {
             $id_pengajuan = $data->id;
             $jenis_deposito = json_decode($data->detail)->nama_rekening;
             $detailToDeposito = [
-                "saldo" => json_decode($data->detail)->jumlah,
                 "id_pengajuan"  => $data->id,
-                "id_pencairan"  => json_decode($data->detail)->id_pencairan
+                "perpanjangan_otomatis" => json_decode($data->detail)->perpanjangan_otomatis,
+                "atasnama" => json_decode($data->detail)->atasnama,
+                "nama" => json_decode($data->detail)->nama,
+                "id" => json_decode($data->detail)->id,
+                "jumlah" => json_decode($data->detail)->jumlah,
+                "deposito" => json_decode($data->detail)->deposito,
+                "keterangan" => json_decode($data->detail)->keterangan,
+                "id_pencairan" => json_decode($data->detail)->id_pencairan,
+                "kredit" => json_decode($data->detail)->kredit,
+                "bank_bmt_tujuan" => json_decode($data->detail)->bank_bmt_tujuan,
+                "path_bukti" => json_decode($data->detail)->path_bukti,
+                "nama_rekening" => json_decode($data->detail)->nama_rekening,
+                "saldo" => json_decode($data->detail)->jumlah
             ];
         }
 
+        $rekeningDeposito = Rekening::where('nama_rekening', json_decode($data->detail)->nama_rekening)->first();
+        $jatuh_tempo = Carbon::now()->addMonth(json_decode($rekeningDeposito->detail)->jangka_waktu)->format('Y-m-d');
+        
         $deposito = new Deposito();
         $deposito->id = $nextId;
         $deposito->id_deposito = $id_deposito;
@@ -412,7 +424,7 @@ class DepositoReporsitories {
         $deposito->id_pengajuan = $id_pengajuan;
         $deposito->jenis_deposito = $jenis_deposito;
         $deposito->detail = json_encode($detailToDeposito);
-        $deposito->tempo = Carbon::now()->format('Y-m-d');
+        $deposito->tempo = $jatuh_tempo;
         $deposito->status = "active";
         
         if($deposito->save())
@@ -584,10 +596,29 @@ class DepositoReporsitories {
 
             if($pengajuan['type'] == "success")
             {
+                if(isset($data->perpanjang_otomatis) && $data->perpanjang_otomatis == "on")
+                {
+                    $perpanjang_otomatis = true;
+                }
+                else
+                {
+                    $perpanjang_otomatis = false;
+                }
                 $detailDeposito = [
-                    "saldo" => preg_replace('/[^\d.]/', '', $data->jumlah),
                     "id_pengajuan"  => $nextIdPengajuan,
-                    "id_pencairan"  => $data->rek_tabungan
+                    "perpanjangan_otomatis" => $perpanjang_otomatis,
+                    "atasnama"  => $atasnama,
+                    "nama"      => $userDeposito->nama,
+                    "id"        => $userDeposito->id,
+                    "jumlah"    => preg_replace('/[^\d.]/', '', $data->jumlah),
+                    "deposito"  => $data->deposito_,
+                    "keterangan"=> $data->keterangan,
+                    "id_pencairan"=> $data->rek_tabungan,
+                    "kredit"    => $kredit,
+                    "bank_bmt_tujuan" => $bmt_tujuan,
+                    "path_bukti" => $path_bukti,
+                    "nama_rekening" => $rekening->nama_rekening,
+                    "saldo"    => preg_replace('/[^\d.]/', '', $data->jumlah)
                 ];
                 $dataToDeposito = [
                     "id"    => $nextId,
@@ -692,6 +723,156 @@ class DepositoReporsitories {
             $response = array("type" => "error", "message" => "Pembukaan deposito gagal 3.");
         }
         
+        return $response;
+    }
+
+    /** 
+     * Confirm Pengajuan Deposito
+     * @return Response
+    */
+    public function confirmPePerpanjangan($data)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $pengajuan = $this->pengajuanReporsitory->findPengajuan($data['id_']);
+
+            $statement = DB::select("SHOW TABLE STATUS LIKE 'deposito'");
+            $nextId = $statement[0]->Auto_increment;
+            // if($this->insertToDeposito($pengajuan)['type'] == "success")
+            // {
+                
+                $depositoDiperpanjang = Deposito::where('id_deposito', json_decode($pengajuan->detail)->id_deposito)->first();
+                $tabunganPencairan = Tabungan::where('id', json_decode($depositoDiperpanjang->detail)->id_pencairan)->first();
+                $bmtTabunganPencairan = BMT::where('id_rekening', $tabunganPencairan->id_rekening)->first();
+
+                $untukRekening = json_decode($pengajuan->detail)->id_rekening_baru;
+                $bmtDepositoTujuan = BMT::where('id_rekening', $untukRekening)->first();
+                
+                $dariRekening = json_decode($pengajuan->detail)->id_rekening_lama;
+                $bmtDepositoDicairkan = BMT::where('id_rekening', $dariRekening)->first();
+                
+                
+                $detailToPenyimpananDeposito = [
+                    "teller"    => Auth::user()->id,
+                    "dari_rekening" => $dariRekening,
+                    "untuk_rekening" => $untukRekening,
+                    "jumlah"    => json_decode($pengajuan->detail)->jumlah,
+                    "saldo_awal"    => $bmtDepositoTujuan->saldo,
+                    "saldo_akhir"   => $bmtDepositoTujuan->saldo + json_decode($pengajuan->detail)->jumlah
+                ];
+                $dataToPenyimpananDeposito = [
+                    "id_user"       => $pengajuan->id_user,
+                    "id_deposito"   => $nextId,
+                    "status"        => "Perpanjangan Deposito",
+                    "transaksi"     => $detailToPenyimpananDeposito,
+                    "teller"        => Auth::user()->id
+                ];
+
+                $jumlahSaldoDiperpanjang = json_decode($pengajuan->detail)->jumlah;
+                $saldoDeposito = json_decode($pengajuan->detail)->saldo;
+                $jumlahSaldoTidakDiperpanjang = $saldoDeposito - $jumlahSaldoDiperpanjang;
+                $lama_perpanjangan = explode(" ", json_decode($pengajuan->detail)->lama)[0];
+
+                $detailToDeposito = [
+                    "id_pengajuan" => $pengajuan->id,
+                    "perpanjangan_otomatis" => true,
+                    "atasnama" => "Pribadi",
+                    "nama" => "demo",
+                    "id" => 59,
+                    "jumlah" => "2000000",
+                    "deposito" => "48",
+                    "keterangan" => null,
+                    "id_pencairan" => "9",
+                    "kredit" => "Tunai",
+                    "bank_bmt_tujuan" => null,
+                    "path_bukti" => null,
+                    "nama_rekening" => "MUDHARABAH 1 BULAN",
+                    "saldo" => "2000000"
+                ];
+                $dataToDeposito = [
+                    "id_rekening"   => $bmtDepositoTujuan->id_rekening,
+                    "jenis_deposito"=> $bmtDepositoTujuan->nama
+                ];
+                $response = $detailToDeposito;
+            //     $insertToPenyimpananDeposito = $this->insertToPenyimpananDeposito($dataToPenyimpananDeposito);
+
+            //     $bmtDeposito = BMT::where('id_rekening', $pengajuan->id_rekening)->first();
+            //     $detailToPenyimpananBMT = [
+            //         "jumlah"    => json_decode($pengajuan->detail)->jumlah,
+            //         "saldo_awal"    => 0,
+            //         "saldo_akhir"   => json_decode($pengajuan->detail)->jumlah,
+            //         "id_pengajuan"  => $pengajuan->id
+            //     ];
+            //     $dataToPenyimpananBMT = [
+            //         "id_user"   => $pengajuan->id_user,
+            //         "id_bmt"    => $bmtDeposito->id,
+            //         "status"    => "Deposit Awal",
+            //         "transaksi" => $detailToPenyimpananBMT,
+            //         "teller"    => Auth::user()->id
+            //     ];
+            //     $insertToPenyimpananBMT = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+            //     if(json_decode($pengajuan->detail)->kredit == "Transfer")
+            //     {
+            //         $dataToUpdateBMTDeposito = [
+            //             "bmtBankTujuan" => $bmtBankTujuan,
+            //             "bmtDeposito"   => $bmtDeposito,
+            //             "jumlah"        => json_decode($pengajuan->detail)->jumlah,
+            //             "id_pengajuan"  => $pengajuan->id
+            //         ];
+            //     }
+            //     if(json_decode($pengajuan->detail)->kredit == "Tunai")
+            //     {
+            //         $dataToUpdateBMTDeposito = [
+            //             "bmtBankTujuan" => $bmtBankTujuan,
+            //             "bmtDeposito"   => $bmtDeposito,
+            //             "jumlah"        => json_decode($pengajuan->detail)->jumlah,
+            //             "id_pengajuan"  => $pengajuan->id
+            //         ];
+            //     }
+
+            //     if($insertToPenyimpananBMT == "success" && $insertToPenyimpananDeposito == "success")
+            //     {
+
+            //         $detailToPenyimpananBMT['saldo_awal'] = $bmtBankTujuan->saldo;
+            //         $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtBankTujuan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+            //         $dataToPenyimpananBMT['id_bmt'] = $bmtBankTujuan->id;
+            //         $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+            //         $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+            //         $updateDataBMT = $this->updateBMTDeposito($dataToUpdateBMTDeposito);
+
+            //         if($updateDataBMT)
+            //         {
+            //             DB::commit();
+            //             return array("type" => "success", "message" => "Pengajuan Pembukaan Deposito Berhasil Dikonfirmasi");
+            //         }
+            //         else
+            //         {
+            //             DB::rollback();
+            //             return array("type" => "error", "message" => "Pengajuan Pembukaan Deposito Gagal Dikonfirmasi");
+            //         }
+            //     }
+            //     else
+            //     {
+            //         DB::rollback();
+            //         $response = array("type" => "error", "message" => "Pengajuan Pembukaan Deposito Gagal Dikonfirmasi");
+            //     }
+            // }
+            // else
+            // {
+            //     DB::rollback();
+            //     $response = array("type" => "error", "message" => "Pengajuan Pembukaan Deposito Gagal Dikonfirmasi");
+            // }
+        }
+        catch(Excaption $ex)
+        {
+            DB::rollback();
+            $response =  array("type" => "error", "message" => "Pengajuan Pembukaan Deposito Gagal Dikonfirmasi");
+        }
+
         return $response;
     }
 }

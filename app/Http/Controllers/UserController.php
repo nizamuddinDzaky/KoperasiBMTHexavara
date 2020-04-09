@@ -21,6 +21,7 @@ use App\Repositories\AccountReporsitories;
 use App\Repositories\DepositoReporsitories;
 use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -403,6 +404,14 @@ class UserController extends Controller
 //    NAVBAR MENU->DEPOSITO
     public function pengajuan_dep(Request $request)
     {
+        if(isset($request->perpanjang_otomatis) && $request->perpanjang_otomatis == "on")
+        {
+            $perpanjang_otomatis = true;
+        }
+        else
+        {
+            $perpanjang_otomatis = false;
+        }
         if ($request->atasnama == 1) {
             $atasnama = "Pribadi";
             $nama = Auth::user()->nama;
@@ -446,7 +455,8 @@ class UserController extends Controller
             'id_pencairan' => $request->rek_tabungan,
             'kredit'    => $kredit,
             'bank_bmt_tujuan' => $bank_bmt_tujuan,
-            'path_bukti' => $path_bukti
+            'path_bukti' => $path_bukti,
+            "perpanjangan_otomatis" => $perpanjang_otomatis
         ];
         $keterangan = [
             'jenis' => "Buka Mudharabah Berjangka",
@@ -465,10 +475,16 @@ class UserController extends Controller
 
     public function deposito()
     {
+        $dataInDate = $this->informationRepository->getAllDepUsrActiveInDate();
         $data = $this->informationRepository->getAllDepUsrActive();
+        // return response()->json(Carbon::now()->format('Y-m-d'));
+        // foreach ($data as $dt) {
+        //     return response()->json(Carbon::now()->format('Y-m-d') > $dt->tempo);
+        // }
         $tab = $this->informationRepository->getAllTabUsr();
         return view('users.deposito', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
+            'datasaldoDepInDate' => $dataInDate,
             'datasaldoDep' => $data,
             'kegiatan' => $data,
             'datasaldo' => $data,
@@ -489,51 +505,9 @@ class UserController extends Controller
 
     public function detail_deposito(Request $request)
     {
-        // return response()->json($this->informationRepository->getTransaksiDepUsr($request->id_));
         return view('users.detail_deposito', [
             'data' => $this->informationRepository->getTransaksiDepUsr($request->id_),
         ]);
-    }
-
-    public function extend_deposito(Request $request)
-    {
-        return response()->json($request);
-        $status = $this->deposito->where('id_deposito',$request->id_)->first();
-
-        if($status['status']!="active"){
-            return redirect()
-                ->back()
-                ->withInput()->with('message', 'Pengajuan gagal dilakukan Rekening Deposito '.$request->id_." ".$status['jenis_deposito'].' Tidak Aktif!.');
-        }
-        if ($this->informationRepository->extendDeposito($request)) {
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf('Pengajuan Perpanjangan Deposito berhasil dilakukan!.'));
-        } else {
-            return redirect()
-                ->back()
-                ->withInput()->with('message', 'Pengajuan Perpanjangan Deposito gagal dilakukan!.');
-        }
-    }
-
-    public function withdraw_deposito(Request $request)
-    {
-        $status = $this->deposito->where('id_deposito',$request->id_)->first();
-
-        if($status['status']!="active"){
-            return redirect()
-                ->back()
-                ->withInput()->with('message', 'Pengajuan gagal dilakukan Rekening Deposito '.$request->id_." ".$status['jenis_deposito'].' Tidak Aktif!.');
-        }
-        if ($this->informationRepository->withdrawDeposito($request)) {
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf('Pengajuan Pencairan Deposito berhasil dilakukan!.'));
-        } else {
-            return redirect()
-                ->back()
-                ->withInput()->with('message', 'Pengajuan Pencairan Deposito gagal dilakukan!.');
-        }
     }
 
 
@@ -867,6 +841,39 @@ class UserController extends Controller
             return redirect()
                 ->back()
                 ->withInput()->with('message', $simpanan['message']);
+        }
+    }
+
+    public function extend_deposito(Request $request)
+    {
+        if ($this->informationRepository->extendDeposito($request)) {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Pengajuan Perpanjangan Deposito berhasil dilakukan!.'));
+        } else {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan Perpanjangan Deposito gagal dilakukan!.');
+        }
+    }
+
+    public function withdraw_deposito(Request $request)
+    {
+        $status = $this->deposito->where('id_deposito',$request->id_)->first();
+
+        if($status['status']!="active"){
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan gagal dilakukan Rekening Deposito '.$request->id_." ".$status['jenis_deposito'].' Tidak Aktif!.');
+        }
+        if ($this->informationRepository->withdrawDeposito($request)) {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Pengajuan Pencairan Deposito berhasil dilakukan!.'));
+        } else {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan Pencairan Deposito gagal dilakukan!.');
         }
     }
 }

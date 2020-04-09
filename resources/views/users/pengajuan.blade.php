@@ -184,6 +184,7 @@
                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                 data-rek_tab       = "{{ isset(json_decode($usr['detail'],true)['id_pencairan'])?json_decode($usr['detail'],true)['id_pencairan']:"" }}"
                                                 data-nisbah       = "{{ json_decode($usr['deposito'],true)['nisbah_anggota'] }}"
+                                                data-perpanjang_otomatis       = "{{ json_decode($usr['detail'],true)['perpanjangan_otomatis'] }}"
                                                 @endif
                                         >
                                             <i class="fa fa-list-alt"></i>
@@ -383,6 +384,11 @@
             $('#vrek_tabungan').val(button.data('rek_tab'));
             $('#vketerangan2').val(button.data('keterangan'));
             $('#vjumlahdep').val(button.data('jumlah'));
+
+            if(button.data('perpanjang_otomatis') == true)
+            {
+                $('#vPerpanjanganOtomatisDeposito').attr('checked', 'checked');
+            }
         });
         $('#viewPemModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal

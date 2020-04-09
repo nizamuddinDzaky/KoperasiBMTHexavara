@@ -2,7 +2,7 @@
 <div class="modal fade" id="extendDepModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardDep">
-            <form id="wizardFormDep" method="POST" @if(Auth::user()->tipe=="anggota"))action="{{route('anggota.extend_deposito')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.extend_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.extend_deposito')}}" @endif enctype="multipart/form-data">
+            <form id="wizardFormDep" method="POST" @if(Auth::user()->tipe=="anggota")action="{{route('anggota.extend_deposito')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.extend_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.extend_deposito')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -26,6 +26,7 @@
                                         <label for="id_" class="control-label">Pilih Rekening Mudharabah Berjangka Anda! <star>*</star></label>
                                         <select class="form-control select2" id="exidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Deposito-</option>
+                                            {{-- @foreach ($datasaldoDepInDate as $rekening) --}}
                                             @foreach ($datasaldoDep as $rekening)
                                                 <option value="{{ (json_decode($rekening->detail,true )['saldo'])}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
                                             @endforeach
@@ -108,7 +109,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label"> Anda! <star>*</star></label>
-                                        <select class="form-control select2" disabled id="vexidRek" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control" disabled id="vexidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih -</option>
                                             @foreach ($datasaldoDep as $rekening)
                                                 <option value="{{ $rekening->id_deposito}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
@@ -121,7 +122,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Lama Perpanjangan <star>*</star></label>
-                                        <select class="form-control select2" id="vlama" disabled name="lama" style="width: 100%;" required>
+                                        <select class="form-control" id="vlama" disabled name="lama" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Lama Perpanjangan-</option>
                                             @foreach ($dropdown2 as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
@@ -156,6 +157,87 @@
                 </div>
 
                 <div class="footer">
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{{--Modal Konfirmasi Perpanjangan Deposito--}}
+<div class="modal fade" id="activePerModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard wizardCard">
+            <form class="wizardForm" method="POST" action="{{route('teller.extend_deposito')}}" enctype="multipart/form-data">
+                {{csrf_field()}}
+                <div class="header text-center">
+                    <h3 class="title">Perpanjangan Deposito</h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+                <input type="hidden" name="id_" id="id_pengajuan_perpanjangan">
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#extab1Depa" data-toggle="tab">Data Deposito</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="extab1Depa">
+                            <h5 class="text-center">  yang ingin anda perpanjang!</h5>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label"> Rekening Mudharabah Berjangka Anda! <star>*</star></label>
+                                        <select class="form-control" disabled id="activeexidRek" name="idRek" style="width: 100%;" required>
+                                            <option selected disabled value="">-Pilih -</option>
+                                            @foreach ($datasaldoDep as $rekening)
+                                                <option value="{{ $rekening->id_deposito}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Lama Perpanjangan <star>*</star></label>
+                                        <select class="form-control" id="activeexlama" disabled name="lama" style="width: 100%;" required>
+                                            <option selected disabled value="">-Pilih Lama Perpanjangan-</option>
+                                            @foreach ($dropdown2 as $rekening)
+                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Total Saldo Saat ini <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text"  class="form-control text-right" id="activesaldo_per" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="control-label">Saldo yang ingin diperpanjang <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" disabled class="form-control text-right" id="activeextjumlah" name="jumlah" required="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Perpanjang </button>
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
                     <div class="clearfix"></div>
                 </div>
             </form>
