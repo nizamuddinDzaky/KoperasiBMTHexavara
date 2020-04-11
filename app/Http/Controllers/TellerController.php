@@ -926,11 +926,17 @@ class TellerController extends Controller
         $data = $this->informationRepository->getAllpengajuanDepTell($date);
         $dataInDate = $this->informationRepository->getAllDepUsrActiveInDate();
 
-        // return response()->json($this->tabunganReporsitory->getRekening('BANK'));
+        $depositoExpiredNotAutoExtended = array();
+        foreach ($dataInDate as $value) {
+            if(json_decode($value->detail)->perpanjangan_otomatis == true)
+            {
+                array_push($depositoExpiredNotAutoExtended, $value);
+            }
+        }
 
         return view('teller.transaksi.deposito.pengajuan',[
             // 'datasaldoDep' =>  $this->informationRepository->getAllDep(),
-            'datasaldoDepInDate' => $dataInDate,
+            'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'bank_bmt'  => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoDep' =>  $this->depositoReporsitory->getDeposito($status='active'),
             'kegiatan' => $dropdown,

@@ -477,14 +477,18 @@ class UserController extends Controller
     {
         $dataInDate = $this->informationRepository->getAllDepUsrActiveInDate();
         $data = $this->informationRepository->getAllDepUsrActive();
-        // return response()->json(Carbon::now()->format('Y-m-d'));
-        // foreach ($data as $dt) {
-        //     return response()->json(Carbon::now()->format('Y-m-d') > $dt->tempo);
-        // }
+        
+        $depositoExpiredNotAutoExtended = array();
+        foreach ($dataInDate as $value) {
+            if(json_decode($value->detail)->perpanjangan_otomatis == true)
+            {
+                array_push($depositoExpiredNotAutoExtended, $value);
+            }
+        }
         $tab = $this->informationRepository->getAllTabUsr();
         return view('users.deposito', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
-            'datasaldoDepInDate' => $dataInDate,
+            'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'datasaldoDep' => $data,
             'kegiatan' => $data,
             'datasaldo' => $data,
