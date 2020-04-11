@@ -1648,7 +1648,7 @@ class TellerController extends Controller
     */
     public function konfirmasi_perpanjangan_deposito(Request $request)
     {
-        $deposito = $this->depositoReporsitory->confirmPePerpanjangan($request);
+        $deposito = $this->depositoReporsitory->confirmPerpanjangan($request);
         if($deposito['type'] == 'success') {
             return redirect()
                 ->back()
@@ -1660,5 +1660,26 @@ class TellerController extends Controller
                 ->withInput()->with('message', $deposito['message']);
 
         }
+    }
+
+    /** 
+     * Perpanjangan deposito via dashboard teller
+     * @return Response
+    */
+    public function perpanjangan_deposito(Request $request)
+    {
+        $deposito = $this->depositoReporsitory->perpanjanganDeposito($request);
+        return response()->json($deposito);
+        // if($deposito['type'] == 'success') {
+        //     return redirect()
+        //         ->back()
+        //         ->withSuccess(sprintf($deposito['message']));
+        // }
+        // else{
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->with('message', $deposito['message']);
+
+        // }
     }
 }

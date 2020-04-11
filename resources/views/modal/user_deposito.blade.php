@@ -169,7 +169,7 @@
 <div class="modal fade" id="activePerModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard wizardCard">
-            <form class="wizardForm" method="POST" action="{{route('teller.extend_deposito')}}" enctype="multipart/form-data">
+            <form class="wizardForm" method="POST" action="{{route('teller.confirm_extend_deposito')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
                     <h3 class="title">Perpanjangan Deposito</h3>

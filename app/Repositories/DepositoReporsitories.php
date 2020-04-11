@@ -730,7 +730,7 @@ class DepositoReporsitories {
      * Confirm Pengajuan Deposito
      * @return Response
     */
-    public function confirmPePerpanjangan($data)
+    public function confirmPerpanjangan($data)
     {
         DB::beginTransaction();
         try
@@ -872,6 +872,170 @@ class DepositoReporsitories {
                     'status'    => "Sudah Dikonfirmasi",
                     'teller'    => Auth::user()->id
                 ]);
+
+                DB::commit();
+                $response = array("type" => "success", "message" => "Pengajuan Perpanjangan Deposito Berhasil Dikonfirmasi");
+            }
+            else
+            {
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pengajuan Pembukaan Deposito Gagal Dikonfirmasi");
+            }
+        }
+        catch(Excaption $ex)
+        {
+            DB::rollback();
+            $response =  array("type" => "error", "message" => "Pengajuan Pembukaan Deposito Gagal Dikonfirmasi");
+        }
+
+        return $response;
+    }
+
+    /** 
+     * Perpanjangan deposito via dashboard teller
+     * @return Response
+    */
+    public function perpanjanganDeposito($data)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $depositoDiperpanjang = Deposito::where('id_deposito', $data->id_)->first();
+            $tabunganPencairan = Tabungan::where('id', json_decode($depositoDiperpanjang->detail)->id_pencairan)->first();
+            $bmtTabunganPencairan = BMT::where('id_rekening', $tabunganPencairan->id_rekening)->first();
+
+            $untukRekening = $data->lama;
+            $rekeningDepositoTujuan = Rekening::where('id', $untukRekening)->first();
+            $bmtDepositoTujuan = BMT::where('id_rekening', $untukRekening)->first();
+
+            $dariRekening = $depositoDiperpanjang->id_rekening;
+            $bmtDepositoDiperpanjang = BMT::where('id_rekening', $dariRekening)->first();
+            
+            $saldoDeposito = json_decode($depositoDiperpanjang->detail)->jumlah;
+            $jumlahSaldoDiperpanjang = preg_replace('/[^\d.]/', '', $data->jumlah);
+            $jumlahSaldoTidakDiperpanjang = $saldoDeposito - $jumlahSaldoDiperpanjang;
+            $lama_perpanjangan = json_decode($rekeningDepositoTujuan->detail)->jangka_waktu;
+
+            $detailToDeposito = [
+                "id_pengajuan" => json_decode($depositoDiperpanjang->detail)->id_pengajuan,
+                "perpanjangan_otomatis" => json_decode($depositoDiperpanjang->detail)->perpanjangan_otomatis,
+                "atasnama" => json_decode($depositoDiperpanjang->detail)->atasnama,
+                "nama" => json_decode($depositoDiperpanjang->detail)->nama,
+                "id" => json_decode($depositoDiperpanjang->detail)->id,
+                "jumlah" => preg_replace('/[^\d.]/', '', $data->jumlah),
+                "deposito" => $untukRekening,
+                "keterangan" => json_decode($depositoDiperpanjang->detail)->keterangan,
+                "id_pencairan" => json_decode($depositoDiperpanjang->detail)->id_pencairan,
+                "kredit" => json_decode($depositoDiperpanjang->detail)->kredit,
+                "bank_bmt_tujuan" => json_decode($depositoDiperpanjang->detail)->bank_bmt_tujuan,
+                "path_bukti" => json_decode($depositoDiperpanjang->detail)->path_bukti,
+                "nama_rekening" => $bmtDepositoTujuan->nama,
+                "saldo" => preg_replace('/[^\d.]/', '', $data->jumlah)
+            ];
+            $dataToDeposito = [
+                "id_rekening"   => $bmtDepositoTujuan->id_rekening,
+                "jenis_deposito"=> $bmtDepositoTujuan->nama,
+                "id_pengajuan"  => json_decode($depositoDiperpanjang->detail)->id_pengajuan,
+                "tempo"         => Carbon::parse($depositoDiperpanjang->tempo)->addMonth($lama_perpanjangan)->format('Y-m-d')
+            ];
+
+            $updateDepositoDiperpanjang = Deposito::where('id', $depositoDiperpanjang->id)->update([
+                "id_rekening"   => $bmtDepositoTujuan->id_rekening,
+                "jenis_deposito"=> $bmtDepositoTujuan->nama,
+                "id_pengajuan"  => json_decode($depositoDiperpanjang->detail)->id_pengajuan,
+                "detail"        => json_encode($detailToDeposito),
+                "tempo"         => Carbon::parse($depositoDiperpanjang->tempo)->addMonth($lama_perpanjangan)->format('Y-m-d')
+            ]);
+            
+            if($updateDepositoDiperpanjang)
+            {
+                $detailToPenyimpananDeposito = [
+                    "teller"    => Auth::user()->id,
+                    "dari_rekening" => $dariRekening,
+                    "untuk_rekening" => $untukRekening,
+                    "jumlah"    => $jumlahSaldoDiperpanjang,
+                    "saldo_awal"    => $bmtDepositoTujuan->saldo,
+                    "saldo_akhir"   => $bmtDepositoTujuan->saldo + preg_replace('/[^\d.]/', '', $data->jumlah)
+                ];
+                $dataToPenyimpananDeposito = [
+                    "id_user"       => $depositoDiperpanjang->id_user,
+                    "id_deposito"   => $depositoDiperpanjang->id,
+                    "status"        => "Perpanjangan Deposito",
+                    "transaksi"     => $detailToPenyimpananDeposito,
+                    "teller"        => Auth::user()->id
+                ];
+
+                $insertToPenyimpananDeposito = $this->insertToPenyimpananDeposito($dataToPenyimpananDeposito);
+
+                $detailToPenyimpananBMT = [
+                    "jumlah"    => $jumlahSaldoDiperpanjang,
+                    "saldo_awal"    => $bmtDepositoTujuan->saldo,
+                    "saldo_akhir"   => floatval($bmtDepositoTujuan->saldo) + $jumlahSaldoDiperpanjang,
+                    "id_pengajuan"  => json_decode($depositoDiperpanjang->detail)->id_pengajuan
+                ];
+                $dataToPenyimpananBMT = [
+                    "id_user"   => $depositoDiperpanjang->id_user,
+                    "id_bmt"    => $bmtDepositoTujuan->id,
+                    "status"    => "Perpanjangan Deposito",
+                    "transaksi" => $detailToPenyimpananBMT,
+                    "teller"    => Auth::user()->id
+                ];
+
+                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                $dataToPenyimpananBMT['id_bmt'] = $bmtDepositoDiperpanjang->id;
+                $detailToPenyimpananBMT['jumlah'] = $jumlahSaldoTidakDiperpanjang;
+                $detailToPenyimpananBMT['saldo_awal'] = $bmtDepositoDiperpanjang->saldo;
+                $detailToPenyimpananBMT['saldo_akhir'] = 0;
+                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                if(preg_replace('/[^\d.]/', '', $data->jumlah) < json_decode($depositoDiperpanjang->detail)->saldo)
+                {
+                    $saldoDicairkan = json_decode($depositoDiperpanjang->detail)->saldo - preg_replace('/[^\d.]/', '', $data->jumlah);
+                    $dataToUpdateTabungan = [
+                        "saldo" => json_decode($tabunganPencairan->detail)->saldo + $jumlahSaldoTidakDiperpanjang,
+                        "id_pengajuan" => json_decode($depositoDiperpanjang->detail)->id_pengajuan
+                    ];
+
+                    $detailToPenyimpananTabungan = [
+                        "teller"    => Auth::user()->id,
+                        "dari_rekening" => $dariRekening,
+                        "untuk_rekening" => $untukRekening,
+                        "jumlah" => $jumlahSaldoTidakDiperpanjang,
+                        "saldo_awal" => json_decode($tabunganPencairan->detail)->saldo,
+                        "saldo_akhir" => json_decode($tabunganPencairan->detail)->saldo + $jumlahSaldoTidakDiperpanjang
+                    ];
+                    $dataToPenyimpananTabungan = [
+                        "id_user"   => $depositoDiperpanjang->id_user,
+                        "id_tabungan" => $tabunganPencairan->id,
+                        "status"    => "Perpanjangan Deposito",
+                        "transaksi" => $detailToPenyimpananTabungan,
+                        "teller"    => Auth::user()->id
+                    ];
+
+                    $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+
+                    $dataToPenyimpananBMT['id_bmt'] = $bmtTabunganPencairan->id;
+                    $detailToPenyimpananBMT['jumlah'] = $jumlahSaldoTidakDiperpanjang;
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmtTabunganPencairan->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmtTabunganPencairan->saldo + $jumlahSaldoTidakDiperpanjang;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $response = $dataToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    $updateSaldoBMTPencairan = Tabungan::where('id', json_decode($depositoDiperpanjang->detail)->id_pencairan)->update([
+                        "id_pengajuan"   => json_decode($depositoDiperpanjang->detail)->id_pengajuan,
+                        "detail"         => json_encode($dataToUpdateTabungan)
+                    ]);
+                }
+
+                $updateSaldoDepositoDiperpanjang = BMT::where('id_rekening', $dariRekening)->update([ "saldo" => 0 ]);
+                $updateSaldoDepositoTujuan = BMT::where('id_rekening', $untukRekening)->update([ "saldo" => $bmtDepositoTujuan->saldo + preg_replace('/[^\d.]/', '', $data->jumlah) ]);
+                $updateSaldoBMTTabunganPencairan = $bmtTabunganPencairan->update([ 'saldo' => $bmtTabunganPencairan->saldo + $jumlahSaldoTidakDiperpanjang ]);
 
                 DB::commit();
                 $response = array("type" => "success", "message" => "Pengajuan Perpanjangan Deposito Berhasil Dikonfirmasi");

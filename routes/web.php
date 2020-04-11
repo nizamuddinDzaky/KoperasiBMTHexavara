@@ -1010,9 +1010,23 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
                 'as'        => 'teller.withdraw_deposito',
                 'uses'      => 'TellerController@konfirmasi_pencairan'
             ]);
+
+            /** 
+             * Konfirmasi pengajuan perpanjangan deposito
+             * @method POST
+            */
             Route::post('/konfirmasi_perpanjangan', [
-                'as'        => 'teller.extend_deposito',
+                'as'        => 'teller.confirm_extend_deposito',
                 'uses'      => 'TellerController@konfirmasi_perpanjangan_deposito'
+            ]);
+            
+            /** 
+             * Perpanjangan deposito via dashboard teller
+             * @method POST
+            */
+            Route::post('/perpanjangan_deposito', [
+                'as'        => 'teller.extend_deposito',
+                'uses'      => 'TellerController@perpanjangan_deposito'
             ]);
         });
         Route::group(['prefix' => 'pembiayaan', 'middleware' => ['auth']], function () {
@@ -1266,19 +1280,6 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
         Route::post('/pembiayaan', [
             'as'        => 'anggota.detail_pembiayaan',
             'uses'      => 'UserController@detail_pembiayaan'
-        ]);
-
-        Route::get('/simpanan_wajib', [
-            'as'        => 'anggota.detail.simpanan_wajib',
-            'uses'      => 'UserController@detail_simpanan_wajib'
-        ]);
-        Route::get('/simpanan_pokok', [
-            'as'        => 'anggota.detail.simpanan_pokok',
-            'uses'      => 'UserController@detail_simpanan_pokok'
-        ]);
-        Route::get('/simpanan_khusus', [
-            'as'        => 'anggota.detail.simpanan_khusus',
-            'uses'      => 'UserController@detail_simpanan_khusus'
         ]);
     });
 
