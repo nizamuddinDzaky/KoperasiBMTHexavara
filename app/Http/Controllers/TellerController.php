@@ -924,11 +924,13 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanDepTell($date);
+        $dataInDate = $this->informationRepository->getAllDepUsrActiveInDate();
 
         // return response()->json($this->tabunganReporsitory->getRekening('BANK'));
 
         return view('teller.transaksi.deposito.pengajuan',[
             // 'datasaldoDep' =>  $this->informationRepository->getAllDep(),
+            'datasaldoDepInDate' => $dataInDate,
             'bank_bmt'  => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoDep' =>  $this->depositoReporsitory->getDeposito($status='active'),
             'kegiatan' => $dropdown,

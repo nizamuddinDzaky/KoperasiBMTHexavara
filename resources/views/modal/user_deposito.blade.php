@@ -27,7 +27,7 @@
                                         <select class="form-control select2" id="exidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Deposito-</option>
                                             {{-- @foreach ($datasaldoDepInDate as $rekening) --}}
-                                            @foreach ($datasaldoDep as $rekening)
+                                            @foreach ($datasaldoDepInDate as $rekening)
                                                 <option value="{{ (json_decode($rekening->detail,true )['saldo'])}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
                                             @endforeach
                                             <input type="hidden" id="idRekSP" name="id_">
