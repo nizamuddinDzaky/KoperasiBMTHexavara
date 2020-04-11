@@ -1669,17 +1669,15 @@ class TellerController extends Controller
     public function perpanjangan_deposito(Request $request)
     {
         $deposito = $this->depositoReporsitory->perpanjanganDeposito($request);
-        return response()->json($deposito);
-        // if($deposito['type'] == 'success') {
-        //     return redirect()
-        //         ->back()
-        //         ->withSuccess(sprintf($deposito['message']));
-        // }
-        // else{
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', $deposito['message']);
-
-        // }
+        if($deposito['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($deposito['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $deposito['message']);
+        }
     }
 }
