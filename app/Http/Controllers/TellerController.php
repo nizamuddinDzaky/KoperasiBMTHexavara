@@ -1282,8 +1282,19 @@ class TellerController extends Controller
     public function pengajuan_maal(){
         $home = new HomeController;
         $date = $home->date_query(0);
+
+        $dataInDate = $this->informationRepository->getAllDepUsrActiveInDate();
+        $data = $this->informationRepository->getAllDepUsrActive();
+        $depositoExpiredNotAutoExtended = array();
+        foreach ($dataInDate as $value) {
+            if(json_decode($value->detail)->perpanjangan_otomatis == true)
+            {
+                array_push($depositoExpiredNotAutoExtended, $value);
+            }
+        }
         // return response()->json($this->informationRepository->getAllMaal());
         return view('teller.transaksi.maal.pengajuan',[
+            'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'tabungan' => $this->tabunganReporsitory->getTabungan(),
             'pengajuanKegiatan' => $this->donasiReporsitory->getPengajuanDonasi($type="donasi kegiatan"),
@@ -1318,8 +1329,19 @@ class TellerController extends Controller
     public function pengajuan_simpanan() {
         $home = new HomeController;
         $date = $home->date_query(0);
+
+        $dataInDate = $this->informationRepository->getAllDepUsrActiveInDate();
+        $data = $this->informationRepository->getAllDepUsrActive();
+        $depositoExpiredNotAutoExtended = array();
+        foreach ($dataInDate as $value) {
+            if(json_decode($value->detail)->perpanjangan_otomatis == true)
+            {
+                array_push($depositoExpiredNotAutoExtended, $value);
+            }
+        }
         // return response()->json($this->tabunganReporsitory->getTabungan());
         return view('teller.transaksi.simpanan.pengajuan',[
+            'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'users'    => User::where('tipe', 'anggota')->get(),
             'tabungan' => $this->tabunganReporsitory->getTabungan(),
             'simpanan' => $this->simpananReporsitory->getUserPengajuanSimpanan(),

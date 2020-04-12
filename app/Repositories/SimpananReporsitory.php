@@ -727,4 +727,28 @@ class SimpananReporsitory {
         return $response;
         
     }
+
+    /** 
+     * Riwayat simpanan anggota
+     * @return Response
+    */
+    public function detailSimpanan($data)
+    {
+        if($data == "khusus")
+        {
+            $jenis = "Simpanan Khusus";
+        }
+        if($data == "wajib")
+        {
+            $jenis = "Simpanan Wajib";
+        }
+        if($data == "pokok")
+        {
+            $jenis = "Simpanan Pokok";
+        }
+
+        $penyimpanan = PenyimpananWajibPokok::where([ ['status', $jenis], ['id_user', Auth::user()->id] ])->get();
+
+        return $penyimpanan;
+    }
 }

@@ -1281,6 +1281,15 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
             'as'        => 'anggota.detail_pembiayaan',
             'uses'      => 'UserController@detail_pembiayaan'
         ]);
+
+        /** 
+         * Detail simpanan anggota route
+         * @method GET
+        */
+        Route::get('simpanan/{jenis}', [
+            'as'        => 'anggota.detail_simpanan',
+            'uses'      => 'UserController@detail_simpanan'
+        ]);
     });
 
     Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {

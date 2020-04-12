@@ -18,8 +18,8 @@
                     <div class="card">
                         <div class="header text-center">
                             <h4 class="title">Riwayat Transaksi </h4>
-                            <p class="category">Simpanan Pokok </p>
-                            <p class="category"> <b>Total Simpanan Pokok : Rp {{number_format($pokok,2)}}</b> </p>
+                            <p class="category">Simpanan {{ ucfirst($jenis) }} </p>
+                            <p class="category"> <b>Total Simpanan {{ ucfirst($jenis) }} : Rp {{number_format($saldo,2)}}</b> </p>
 
                             <br />
                         </div>
@@ -42,73 +42,19 @@
                             <th></th>
                             </thead>
                             <tbody>
-                            @if(count($data['data2']>1))
-                            @foreach ($data['data2'] as $usr)
-                                <tr>
-                                    <td></td>
-                                    <td>{{ $usr->created_at }}</td>
-                                    <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
-                                    <td class="text-left text-uppercase">[{{ $usr->id_rek}}] {{" ". $usr->untuk_rekening }}</td>
-                                    <td class="text-center text-uppercase">{{$usr->status}}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_awal'],2) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
-                                    <td></td>
-                                </tr>
-
-                            @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-
-                    </div><!--  end card  -->
-                </div> <!-- end col-md-12 -->
-            </div> <!-- end row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-
-                        <div class="header text-center">
-                            <h4 class="title">Riwayat Transaksi </h4>
-                            <p class="category">Simpanan Wajib </p>
-                            <p class="category"> <b>Total Simpanan Wajib : Rp {{number_format($wajib,2)}}</b> </p>
-
-                            <br />
-                        </div>
-                        <div class="toolbar">
-                            <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                          <span></span>
-                    </div>
-
-                        <table id="bootstrap-table2" class="table">
-                            <thead>
-                            <th class="text-center"></th>
-                            <th class="text-center" data-sortable="true">Tgl Transaksi</th>
-                            <th class="text-center" data-sortable="true" >Dari Rekening</th>
-                            <th class="text-center" data-sortable="true">Ke Rekening</th>
-                            <th class="text-center" data-sortable="true">Jenis Transaksi</th>
-                            <th class="text-center" data-sortable="true">Jumlah</th>
-                            <th class="text-center" data-sortable="true">Saldo Awal</th>
-                            <th class="text-center" data-sortable="true">Saldo Akhir</th>
-                            {{--<th>Actions</th>--}}
-                            <th></th>
-                            </thead>
-                            <tbody>
-                            @if(count($data['data']>1))
-                                @foreach ($data['data'] as $usr)
-                                <tr>
-                                    <td></td>
-                                    <td>{{ $usr->created_at }}</td>
-                                    <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
-                                    <td class="text-left text-uppercase">[{{ $usr->id_rek}}] {{" ". $usr->untuk_rekening }}</td>
-                                    <td class="text-center text-uppercase">{{$usr->status}}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_awal'],2) }}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
-                                    <td></td>
-                                </tr>
+                                @foreach ($data as $usr)
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ $usr['created_at']->format('D, d F Y h:i:s') }}</td>
+                                        <td class="text-left text-uppercase">{{ $usr['dari_rekening'] }}</td>
+                                        <td class="text-left text-uppercase">[ {{ $usr['untuk_rekening'] }} ]</td>
+                                        <td class="text-center text-uppercase">{{$usr['status'] }}</td>
+                                        <td class="text-right">{{ number_format(json_decode($usr['transaksi'], true)['jumlah'],2) }}</td>
+                                        <td class="text-right">{{ number_format(json_decode($usr['transaksi'],true)['saldo_awal'],2) }}</td>
+                                        <td class="text-right">{{ number_format(json_decode($usr['transaksi'],true)['saldo_akhir'],2) }}</td>
+                                        <td></td>
+                                    </tr>
                                 @endforeach
-                            @endif
                             </tbody>
                         </table>
 

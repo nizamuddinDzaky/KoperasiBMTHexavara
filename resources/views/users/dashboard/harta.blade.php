@@ -66,7 +66,7 @@
                                         0 
                                     @endif</td>
                                 <td class="td-actions text-left">
-                                    <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
+                                    <a href="{{ route('anggota.detail_simpanan', ['wajib']) }}" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
                                     </a>
                                 </td>
@@ -82,7 +82,7 @@
                                         0
                                     @endif</td>
                                 <td class="td-actions text-left">
-                                    <a href="#" class="btn btn-primary btn-social btn-fill" title="Detail">
+                                    <a href="{{ route('anggota.detail_simpanan', ['pokok']) }}" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
                                     </a>
                                 </td>
@@ -98,7 +98,7 @@
                                         0
                                     @endif</td>
                                 <td class="td-actions text-left">
-                                    <a href="{{ route('anggota.detail.simpanan_wajib') }}" class="btn btn-primary btn-social btn-fill" title="Detail">
+                                    <a href="{{ route('anggota.detail_simpanan', ['khusus']) }}" class="btn btn-primary btn-social btn-fill" title="Detail">
                                         <i class="fa fa-clipboard-list"></i>
                                     </a>
                                 </td>
