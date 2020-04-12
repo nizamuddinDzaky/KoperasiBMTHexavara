@@ -27,6 +27,17 @@ class PembiayaanReporsitory {
     }
 
     /** 
+     * Ambil data pembiayaan
+     * @return Array
+    */
+    public function getPembiayaan()
+    {
+        $pembiayaan = Pembiayaan::All();
+
+        return $pembiayaan;
+    }
+
+    /** 
      * Ambil data pembiayaan specific user
      * @return Array
     */

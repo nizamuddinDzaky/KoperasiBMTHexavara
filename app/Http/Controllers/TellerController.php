@@ -1731,9 +1731,20 @@ class TellerController extends Controller
     public function daftar_deposito()
     {
         $deposito = $this->depositoReporsitory->getDeposito();
-        // return response()->json($deposito);
         return view('teller.nasabah.nasabah_deposito', [
             'data'  => $deposito
+        ]);
+    }
+
+    /** 
+     * Data pembiayaan anggota
+     * @return Response
+    */
+    public function daftar_pembiayaan()
+    {
+        $pembiayaan = $this->pembiayaanReporsitory->getPembiayaan();
+        return view('teller.nasabah.nasabah_pembiayaan', [
+            'data'  => $pembiayaan
         ]);
     }
 }

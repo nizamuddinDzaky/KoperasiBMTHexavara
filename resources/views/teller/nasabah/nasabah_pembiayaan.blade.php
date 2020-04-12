@@ -65,7 +65,7 @@
                                 <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
                                 <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2)  }}</td>
 
-                                <td class="text-center">{{ date_format($usr->created_at,"Y-m-d") }}</td>
+                                <td class="text-center">{{ Carbon\Carbon::parse($usr->tempo)->format('d F Y') }}</td>
                                 <td class="text-uppercase text-center">{{ $usr->status }}</td>
                                 <td class="td-actions text-center">
                                     <form  method="post" action="{{route('teller.detail_pembiayaan')}}">
@@ -104,7 +104,7 @@
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
     </div>
-    @include('modal.pengajuan')
+    {{-- @include('modal.pengajuan') --}}
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->

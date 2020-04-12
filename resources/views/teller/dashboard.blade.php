@@ -53,17 +53,19 @@
             </div>
         </a>
 
-        <div class="col-md-3">
-            <div class="card dashboard link" style="height: 160px; background-color: #78C350">
-                <div class="card-body">
-                    <span class="card-title card-number-large">{{ number_format($saldo_pembiayaan) }}</span>
-                    <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
-                    <span class="card-description">Bersumber dari total pembiayaan anggota</span>
+        <a href="{{ route("teller.dashboard.pembiayaan") }}">
+            <div class="col-md-3">
+                <div class="card dashboard link" style="height: 160px; background-color: #78C350">
+                    <div class="card-body">
+                        <span class="card-title card-number-large">{{ number_format($saldo_pembiayaan) }}</span>
+                        <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
+                        <span class="card-description">Bersumber dari total pembiayaan anggota</span>
 
-                    <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                        <a href="{{ route("teller.dashboard.pembiayaan") }}"><i class="fa fa-cog card-icon top right"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <div class="row">
