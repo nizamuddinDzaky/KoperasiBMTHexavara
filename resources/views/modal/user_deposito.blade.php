@@ -283,7 +283,7 @@
                                         <label for="id_" class="control-label">Rekening Mudharabah Berjangka <star>*</star></label>
                                         <select class="form-control"  id="widRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Mudharabah Berjangka-</option>
-                                                @foreach ($datasaldoDep as $rekening)
+                                                @foreach ($datasaldoDepInDate as $rekening)
                                                     <option value="{{ $rekening->id_deposito }}" saldo="{{ (json_decode($rekening->detail,true )['saldo']) }}" id-user="{{ $rekening->id_user }}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{ $rekening->id_user }} - {{$rekening->nama }}]</option>
                                                 @endforeach
                                         </select>
@@ -347,6 +347,170 @@
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="wjumlah" disabled="" name="jumlah"  required>
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Keterangan</label>
+                                        <input class="form-control"
+                                               type="text"
+                                               name="keterangan"
+                                               value=""
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            @if(Auth::user()->tipe!="anggota")
+                            {{-- <div class="row" id="toHidePenBC">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Transfer dari Rekening" ?<star>*</star></label>
+                                        <select id="bankpenc" name="dari" class="form-control" required="true">
+                                            <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
+                                            @foreach ($dropdown6 as $rekening)
+                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="toHidePenTC">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Pilih Rekening Teller<star>*</star></label>
+                                        <select  id="tellerpenc" name="dari" class="form-control" required="true">
+                                            <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
+                                            @foreach ($dropdown7 as $rekening)
+                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    @if(Auth::user()->tipe == "anggota")
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Kirim Pengajuan </button>
+                    @else
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Cairkan Deposito </button>
+                    @endif
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{{--Modal Pencairan Lebih Awal Deposito--}}
+<div class="modal fade" id="pencairanLebihAwal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard wizardCard" id="wizardCardW">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="anggota") action="{{route('anggota.withdraw')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.withdraw_deposito')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.deposito.withraw')}}" @endif enctype="multipart/form-data">
+                {{csrf_field()}}
+                @if(Auth::user()->tipe!="anggota")
+                    <input type="hidden" name="teller" value="teller">
+                    <input type="hidden" id="saldo_teller_lebih_awal" name="saldo" value="">
+                @endif
+                <div class="header text-center">
+                    <h3 class="title">Pencairan Mudharabah Berjangka</h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+
+                <input type="hidden" id="penjumlahTeller" name="saldo">
+                <input type="hidden" id="idPenTeller" name="id">
+                <input type="hidden" id="idDepositoTeller" name="id_deposito">
+                <input type="hidden" id="idPencairanTeller" name="id_pencairan">
+                <input type="hidden" id="idUserTeller" name="id_user_pencairan">
+
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#tabPencairanLebihAwal" data-toggle="tab">Data Diri Pemohon</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tabPencairanLebihAwal">
+                            <h5 class="text-center">Pastikan data yang anda masukkan sesuai dengan data diri anda</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Rekening Mudharabah Berjangka <star>*</star></label>
+                                        <select class="form-control select2" id="rekDeposito" name="idRek" style="width: 100%;" required>
+                                            <option class="bs-title-option" disabled selected  value="">-Pilih Rekening Mudharabah Berjangka-</option>
+                                                @foreach ($datasaldoDep as $rekening)
+                                                    <option value="{{ $rekening->id_deposito }}" saldo="{{ (json_decode($rekening->detail,true )['saldo']) }}" id-user="{{ $rekening->id_user }}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{ $rekening->id_user }} - {{$rekening->nama }}]</option>
+                                                @endforeach
+                                        </select>
+                                        <input type="hidden" id="idRekWDLebihAwal" name="id_">
+                                    </div>
+                                </div>
+                            </div>
+                            {{----}}
+                            {{-- <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Jenis Kredit <star>*</star></label>
+                                        <select class="form-control select2" id="jenisPen" name="jenis" style="width: 100%;" required>
+                                            <option class="bs-title-option"  selected disabled>-Pilih jenis kredit-</option>
+                                            <option value="0">Tunai</option>
+                                            <option value="1">Transfer</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            {{-- <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Tujuan Pencairan <star>*</star></label>
+                                        <select class="form-control" id="jeniscls2" name="tabungan_pencairan" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih tabungan pencairan</option>
+                                            @foreach($tab as $tabungan)
+                                            <option value="{{ $tabungan->id }}">[{{$tabungan->id_tabungan}}] {{ $tabungan->jenis_tabungan }} [{{ $tabungan->id_user }} - {{ $tabungan->nama }}]</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            {{-- <div class="row" id="toHidePen">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="bankPen" name="bank" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">No. Rekening BANK user <star>*</star></label>
+                                        <input type="number" class="form-control text-left"  id="nobankPen" name="nobank" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="toHidePen2">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Atas Nama <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="atasnamaPen" name="atasnama" >
+                                    </div>
+                                </div>
+                            </div> --}}
+                            {{----}}
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Uang <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="wLebihAwalJumlah" disabled="" name="jumlah"  required>
                                             <span class="input-group-addon">.00</span>
                                         </div>
                                     </div>

@@ -39,6 +39,7 @@
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openDepModal"><i class="fa fa-credit-card"></i> Pembukaan MDB</button>
                     <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#extendDepModal"><i class="fa fa-external-link-alt"></i> Perpanjangan MDB</button>
                     <button class="btn btn-danger rounded right shadow-effect"  data-toggle="modal" data-target="#withdrawDepModal"><i class="fa fa-donate"></i> Pencairan MDB</button>
+                    <button class="btn btn-success rounded right shadow-effect"  data-toggle="modal" data-target="#pencairanLebihAwal"><i class="fa fa-donate"></i> Pencairan Lebih Awal</button>
                 </div>
             </div>
         </div>
@@ -615,6 +616,16 @@
                 
                 $('#wjumlah').val(selTip3.find(":selected").attr('saldo'));
                 $('#saldo_teller').val(selTip3.find(":selected").attr('saldo'));
+            });
+
+            var selTip4 = $('#rekDeposito');
+            selTip4.on('change', function () {
+                // var id = $('#idRekWD').val(selTip3.find(":selected").text().split(']')[0]);
+                var id = $(this).val();
+                $('#idRekWDLebihAwal').val(id);
+                
+                $('#wLebihAwalJumlah').val(selTip4.find(":selected").attr('saldo'));
+                $('#saldo_teller_lebih_awal').val(selTip4.find(":selected").attr('saldo'));
             });
 
             var selTip = $('#exidRek');

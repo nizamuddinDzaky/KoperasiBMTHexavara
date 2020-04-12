@@ -1518,7 +1518,6 @@ class TellerController extends Controller
     */
     public function withraw_deposito(Request $request)
     {
-        // return response()->json($request);
         $pencairanDeposito = $this->depositoReporsitory->pencairanDeposito($request);
         if($pencairanDeposito['type'] == 'success'){
             return redirect()
