@@ -706,10 +706,28 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'uses'      => 'TellerController@index'
     ]);
 
-    Route::get('/dashboard', [
-        'as'        => 'dashboard',
-        'uses'      => 'TellerController@index'
-    ]);
+    Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
+        Route::get('/', [
+            'as'        => 'dashboard',
+            'uses'      => 'TellerController@index'
+        ]);
+        Route::get('harta', [
+            'as'    => 'teller.dashboard.kas',
+            'uses'  => 'UserController@harta'
+        ]);
+        Route::get('tabungan', [
+            'as'    => 'teller.dashboard.tabungan',
+            'uses'  => 'TellerController@daftar_tabungan'
+        ]);
+        Route::get('deposito', [
+            'as'    => 'teller.dashboard.deposito',
+            'uses'  => 'TellerController@daftar_deposito'
+        ]);
+        Route::get('pembiayaan', [
+            'as'    => 'teller.dashboard.pembiayaan',
+            'uses'  => 'UserController@pembiayaan'
+        ]);
+    });
 
     /** 
      * Konfirmasi pengajuan simpanan anggota 

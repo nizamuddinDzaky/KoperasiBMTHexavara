@@ -1711,4 +1711,30 @@ class TellerController extends Controller
                 ->withInput()->with('message', $deposito['message']);
         }
     }
+
+    /** 
+     * Data tabungan anggota
+     * @return Response
+    */
+    public function daftar_tabungan()
+    {
+        $tabungan = $this->tabunganReporsitory->getTabungan();
+
+        return view('teller.nasabah.nasabah_tabungan', [
+            'data'  => $tabungan
+        ]);
+    }
+
+    /** 
+     * Data deposito anggota
+     * @return Response
+    */
+    public function daftar_deposito()
+    {
+        $deposito = $this->depositoReporsitory->getDeposito();
+        return response()->json($deposito);
+        // return view('teller.nasabah.nasabah_deposito', [
+        //     'data'  => $deposito
+        // ]);
+    }
 }

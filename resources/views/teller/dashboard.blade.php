@@ -18,34 +18,41 @@
                 <div class="card-body">
                     <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas) }}</span>
                     <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
-                    <span class="card-description">Bersumber dari kas dalam akun teller 1</span>
+                    <span class="card-description">Bersumber dari kas dalam akun Teller</span>
                     
                     <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card dashboard link" style="height: 160px; background-color: #45BBE0">
-                <div class="card-body">
-                    <span class="card-title card-number-large">{{ number_format($saldo_tabungan) }}</span>
-                    <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
-                    <span class="card-description">Bersumber dari total tabungan semua anggota</span>
-                    
-                    <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card dashboard link" style="height: 160px; background-color: #F06292">
-                <div class="card-body">
-                    <span class="card-title card-number-large">{{ number_format($saldo_deposito) }}</span>
-                    <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
-                    <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
 
-                    <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+        <a href="{{ route("teller.dashboard.tabungan") }}">
+            <div class="col-md-3">
+                <div class="card dashboard link" style="height: 160px; background-color: #45BBE0">
+                    <div class="card-body">
+                        <span class="card-title card-number-large">{{ number_format($saldo_tabungan) }}</span>
+                        <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
+                        <span class="card-description">Bersumber dari total tabungan semua anggota</span>
+                        
+                        <a href="{{ route('teller.dashboard.tabungan') }}"><i class="fa fa-cog card-icon top right"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
+
+        <a href="{{ route("teller.dashboard.deposito") }}">
+            <div class="col-md-3">
+                <div class="card dashboard link" style="height: 160px; background-color: #F06292">
+                    <div class="card-body">
+                        <span class="card-title card-number-large">{{ number_format($saldo_deposito) }}</span>
+                        <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
+                        <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
+
+                        <a href="{{ route("teller.dashboard.deposito") }}"><i class="fa fa-cog card-icon top right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </a>
+
         <div class="col-md-3">
             <div class="card dashboard link" style="height: 160px; background-color: #78C350">
                 <div class="card-body">

@@ -106,7 +106,7 @@
             </div><!--  end card  -->
         </div> <!-- end col-md-12 -->
     </div>
-    @include('modal.pengajuan')
+    {{-- @include('modal.pengajuan') --}}
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
