@@ -775,7 +775,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="perpanjang_otomatis" @if(Auth::user()->tipe != 'anggota') disabled @endif>
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="perpanjang_otomatis">
                                             <span class="form-check-label" for="exampleCheck1">Perpanjangan Otomatis</span>
                                         </div>
                                     </div>

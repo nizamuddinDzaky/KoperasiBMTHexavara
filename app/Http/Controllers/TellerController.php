@@ -1521,7 +1521,6 @@ class TellerController extends Controller
     public function open_deposito(Request $request)
     {
         $openDeposito = $this->depositoReporsitory->openDeposito($request);
-        return response()->json($openDeposito);
         if($openDeposito['type'] == 'success'){
             return redirect()
                 ->back()

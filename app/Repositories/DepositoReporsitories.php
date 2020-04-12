@@ -392,6 +392,8 @@ class DepositoReporsitories {
             $id_pengajuan = $data['id_pengajuan'];
             $jenis_deposito = $data['jenis_deposito'];
             $detailToDeposito = $data['detail'];
+
+            $rekeningDeposito = Rekening::where('nama_rekening', $data['detail']['nama_rekening'])->first();
         }
         else
         {
@@ -420,9 +422,10 @@ class DepositoReporsitories {
                 "nama_rekening" => json_decode($data->detail)->nama_rekening,
                 "saldo" => json_decode($data->detail)->jumlah
             ];
+
+            $rekeningDeposito = Rekening::where('nama_rekening', json_decode($data->detail)->nama_rekening)->first();
         }
 
-        $rekeningDeposito = Rekening::where('nama_rekening', $data['detail']['nama_rekening'])->first();
         $jatuh_tempo = Carbon::now()->addMonth(json_decode($rekeningDeposito->detail)->jangka_waktu)->format('Y-m-d');
         
         $deposito = new Deposito();
@@ -576,6 +579,16 @@ class DepositoReporsitories {
                 $bmt_tujuan = null;
                 $path_bukti = null;
             }
+
+            if(isset($data->perpanjangan_otomatis) && $data->perpanjangan_otomatis == "on")
+            {
+                $perpanjang_otomatis = true;
+            }
+            else
+            {
+                $perpanjang_otomatis = false;
+            }
+
             $detailToPengajuan = [
                 "atasnama"  => $atasnama,
                 "nama"      => $userDeposito->nama,
@@ -587,6 +600,7 @@ class DepositoReporsitories {
                 "kredit"    => $kredit,
                 "bank_bmt_tujuan" => $bmt_tujuan,
                 "path_bukti" => $path_bukti,
+                "perpanjangan_otomatis" => $perpanjang_otomatis,
                 "nama_rekening" => $rekening->nama_rekening
             ];
             $dataToPengajuan = [
@@ -640,7 +654,6 @@ class DepositoReporsitories {
                     "teller"    => "teller"
                 ];
 
-                $response = $this->insertToDeposito($dataToDeposito);
                 if($this->insertToDeposito($dataToDeposito)["type"] == "success")
                 {
                     $detailToPenyimpananDeposito = [
