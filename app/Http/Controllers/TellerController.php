@@ -1499,6 +1499,7 @@ class TellerController extends Controller
     public function open_deposito(Request $request)
     {
         $openDeposito = $this->depositoReporsitory->openDeposito($request);
+        return response()->json($openDeposito);
         if($openDeposito['type'] == 'success'){
             return redirect()
                 ->back()
@@ -1517,6 +1518,7 @@ class TellerController extends Controller
     */
     public function withraw_deposito(Request $request)
     {
+        // return response()->json($request);
         $pencairanDeposito = $this->depositoReporsitory->pencairanDeposito($request);
         if($pencairanDeposito['type'] == 'success'){
             return redirect()

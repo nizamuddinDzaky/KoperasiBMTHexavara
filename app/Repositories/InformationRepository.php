@@ -3390,10 +3390,21 @@ class InformationRepository
     }
     function getAllDepUsrActive()
     {
-        $data = Deposito::select('deposito.*', 'users.no_ktp', 'users.nama')
-            ->join('users', 'users.id', '=', 'deposito.id_user')
-            ->where('deposito.status',"active")
-            ->where('deposito.id_user','=',Auth::user()->id)->orderBy('id','DESC')->get();
+        if(Auth::user()->tipe == "anggota")
+        {
+            $data = Deposito::select('deposito.*', 'users.no_ktp', 'users.nama')
+                ->join('users', 'users.id', '=', 'deposito.id_user')
+                ->where('deposito.status',"active")
+                ->where('deposito.tempo', '>', Carbon::now()->format('Y-m-d'))
+                ->where('deposito.id_user','=',Auth::user()->id)->orderBy('id','DESC')->get();
+        }
+        else
+        {
+            $data = Deposito::select('deposito.*', 'users.no_ktp', 'users.nama')
+                ->join('users', 'users.id', '=', 'deposito.id_user')
+                ->where('deposito.status',"active")
+                ->where('deposito.tempo', '>', Carbon::now()->format('Y-m-d'))->get();
+        }
         foreach ($data as $data_deposito) {
             $id_tabungan_pencairan = json_decode($data_deposito->detail,true)['id_pencairan'];
             $data_deposito->tabungan_pencairan = Tabungan::find($id_tabungan_pencairan);
@@ -3660,12 +3671,13 @@ class InformationRepository
         //     $jenis = "Tunai";
         //     $bank = null;
         // }
+        $deposito = Deposito::where('id_deposito', $request->id_)->first();
         $detail = [
             // 'pencairan' => $jenis,
             'id_deposito' =>$request->id_,
             'id' => $id_user,
             'nama' => $nama,
-            'id_pencairan' => $request->tabungan_pencairan,
+            'id_pencairan' => json_decode($deposito->detail)->id_pencairan,
             // 'bank' => $bank,
             // 'no_bank' => $request->nobank,
             // 'atasnama' => $request->atasnama,

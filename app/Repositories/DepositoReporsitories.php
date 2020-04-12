@@ -43,25 +43,34 @@ class DepositoReporsitories {
     {
         DB::beginTransaction();
         try {
-            $tabungan = Tabungan::where('id', $data->id_pencairan)->get();
-            $saldo = floatval(preg_replace('/[^\d.]/', '', $data->saldo));
-            foreach($tabungan as $tabungan)
+            if($data->teller == null)
             {
-                $saldo_awal = json_decode($tabungan->detail, true)['saldo'];
+                $deposito = Deposito::where('id_deposito', $data->id_deposito)->first();
+                $tabungan = Tabungan::where('id', json_decode($deposito->detail)->id_pencairan)->first();
+                $saldo = floatval(preg_replace('/[^\d.]/', '', $data->saldo));
             }
+            else
+            {
+                $deposito = Deposito::where('id_deposito', $data->idRek)->first();
+                $tabungan = Tabungan::where('id', json_decode($deposito->detail)->id_pencairan)->first();
+                $saldo = json_decode($deposito->detail)->saldo;
+            }
+            
+            $saldo_awal = json_decode($tabungan->detail)->saldo;
+            $untukRekening = $tabungan->id_rekening;
 
             // Insert data to penyimpanan tabungan to record the history of tabungan
             $detailToPenyimpananTabungan = [
                 "teller" => Auth::user()->id,
-                "dari_rekening" => $data->id_deposito,
-                "untuk_rekening" => $data->id_pencairan,
+                "dari_rekening" => $deposito->id_rekening,
+                "untuk_rekening" => $untukRekening,
                 "jumlah" => $saldo,
                 "saldo_awal" => $saldo_awal,
                 "saldo_akhir" => $saldo_awal + $saldo
             ];
             $dataToPenyimpananTabungan = [
-                "id_user"       => $data->id_user_pencairan,
-                "id_tabungan"   => $data->id_pencairan,
+                "id_user"       => $deposito->id_user,
+                "id_tabungan"   => json_decode($deposito->detail)->id_pencairan,
                 "status"        => "Pencairan Mudharabah Berjangka",
                 "transaksi"     => $detailToPenyimpananTabungan,
                 "teller"        => Auth::user()->id
@@ -74,7 +83,7 @@ class DepositoReporsitories {
                 {
                     $pengajuan = $this->pengajuanReporsitory->findPengajuan($data->id);
                 }
-                $tabunganPencairan = $this->tabunganReporsitory->findTabungan($id=$data->id_pencairan, $id_tabungan="");
+                $tabunganPencairan = $this->tabunganReporsitory->findTabungan($id=json_decode($deposito->detail)->id_pencairan, $id_tabungan="");
                 $bmtTabunganPencairan = $this->tabunganReporsitory->findRekening($kategori_rekening="TABUNGAN", $id_tabungan="", $nama_rekening=$tabunganPencairan->jenis_tabungan);
                 foreach($bmtTabunganPencairan as $bmtTabunganPencairan)
                 {
@@ -93,21 +102,21 @@ class DepositoReporsitories {
                 {
                     $depositoDicairkan = Deposito::where('id_deposito', $data->idRek)->first();
                     $bmtDepositoDicairkan = BMT::where('id_rekening', $depositoDicairkan->id_rekening)->first();
-                    $jumlah = $data->saldo;
-                    $id_pengajuan = null;
+                    $jumlah = json_decode($deposito->detail)->saldo;
+                    $id_pengajuan = json_decode($deposito->detail)->id_pengajuan;
                     $teller = "teller";
                 }
 
                 $detailToPenyimpananDeposito = [
                     "teller"        => Auth::user()->id,
                     "dari_rekening" => $data->idRek,
-                    "untuk_rekening"=> $data->id_pencairan,
+                    "untuk_rekening"=> json_decode($deposito->detail)->id_pencairan,
                     "jumlah"        => $jumlah,
                     "saldo_awal"    => $bmtDepositoDicairkan->saldo,
                     "saldo_akhir"   => floatval($bmtDepositoDicairkan->saldo) - floatval($jumlah)
                 ];
                 $dataToPenyimpananDeposito = [
-                    "id_user"       => $data->id_user_pencairan,
+                    "id_user"       => $deposito->id_user,
                     "id_deposito"   => $depositoDicairkan->id,
                     "status"        => "Pencairan Deposito",
                     "transaksi"     => $detailToPenyimpananDeposito,
@@ -121,7 +130,7 @@ class DepositoReporsitories {
                     "id_pengajuan"  => $id_pengajuan
                 ];
                 $dataToPenyimpananBMT = [
-                    "id_user"   => $data->id_user_pencairan,
+                    "id_user"   => $deposito->id_user,
                     "id_bmt"    => $bmtDepositoDicairkan->id,
                     "status"    => "Pencairan Deposito",
                     "transaksi" => $detailToPenyimpananBMT,
@@ -135,7 +144,7 @@ class DepositoReporsitories {
                 {
                     
                     $detailToPenyimpananBMT['saldo_awal'] = $bmtTabunganPencairan->saldo;
-                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTabunganPencairan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTabunganPencairan->saldo) + $jumlah;
                     $dataToPenyimpananBMT['id_bmt'] = $bmtTabunganPencairan->id;
                     $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
@@ -150,14 +159,14 @@ class DepositoReporsitories {
                     $updateBMTDeposito = $this->updateBMTDeposito($dataToUpdateBMTDeposito, $teller=$teller, $status="pencairan");
 
                     // Update deposito status
-                    $updateDeposito = Deposito::where('id_deposito', $data->id_deposito)->update([ 'status' => 'closed']);
+                    $updateDeposito = Deposito::where('id_deposito', $deposito->id_deposito)->update([ 'status' => 'closed']);
 
                     // Update saldo in tabungan table
                     $detailTabungan = [
                         "saldo" => $saldo_awal + $saldo,
-                        "id_pengajuan" => $data->id
+                        "id_pengajuan" => $id_pengajuan
                     ];
-                    $updateTabungan = Tabungan::where('id', $data->id_pencairan)->update([ 'detail' => json_encode($detailTabungan) ]);
+                    $updateTabungan = Tabungan::where('id', json_decode($deposito->detail)->id_pencairan)->update([ 'detail' => json_encode($detailTabungan) ]);
 
                     // update BMT deposito
 
@@ -413,7 +422,7 @@ class DepositoReporsitories {
             ];
         }
 
-        $rekeningDeposito = Rekening::where('nama_rekening', json_decode($data->detail)->nama_rekening)->first();
+        $rekeningDeposito = Rekening::where('nama_rekening', $data['detail']['nama_rekening'])->first();
         $jatuh_tempo = Carbon::now()->addMonth(json_decode($rekeningDeposito->detail)->jangka_waktu)->format('Y-m-d');
         
         $deposito = new Deposito();
@@ -631,6 +640,7 @@ class DepositoReporsitories {
                     "teller"    => "teller"
                 ];
 
+                $response = $this->insertToDeposito($dataToDeposito);
                 if($this->insertToDeposito($dataToDeposito)["type"] == "success")
                 {
                     $detailToPenyimpananDeposito = [

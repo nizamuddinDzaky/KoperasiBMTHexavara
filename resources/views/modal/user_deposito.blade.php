@@ -111,7 +111,7 @@
                                         <label for="id_" class="control-label"> Anda! <star>*</star></label>
                                         <select class="form-control" disabled id="vexidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih -</option>
-                                            @foreach ($datasaldoDep as $rekening)
+                                            @foreach ($datasaldoDepInDate as $rekening)
                                                 <option value="{{ $rekening->id_deposito}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
                                             @endforeach
                                         </select>
@@ -190,7 +190,7 @@
                                         <label for="id_" class="control-label"> Rekening Mudharabah Berjangka Anda! <star>*</star></label>
                                         <select class="form-control" disabled id="activeexidRek" name="idRek" style="width: 100%;" required>
                                             <option selected disabled value="">-Pilih -</option>
-                                            @foreach ($datasaldoDep as $rekening)
+                                            @foreach ($datasaldoDepInDate as $rekening)
                                                 <option value="{{ $rekening->id_deposito}}"> [{{$rekening->id_deposito }}] {{ $rekening->jenis_deposito }} [{{$rekening->nama }}]</option>
                                             @endforeach
                                         </select>
@@ -304,7 +304,7 @@
                                     </div>
                                 </div>
                             </div> --}}
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Tujuan Pencairan <star>*</star></label>
@@ -316,7 +316,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{-- <div class="row" id="toHidePen">
                                 <div class="col-md-4 col-md-offset-1">
                                     <div class="form-group">
