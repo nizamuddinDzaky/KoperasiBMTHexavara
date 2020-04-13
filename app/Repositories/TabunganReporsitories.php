@@ -104,10 +104,10 @@ class TabunganReporsitories {
     {
         if($id !== "") 
         {
-            $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id', $id] ])->get();
+            $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id', $id] ])->first();
         }
         
-        $tabunganUser = Tabungan::where('id_user', $id_user)->with('user')->get();
+        $tabunganUser = Tabungan::where('id_user', $id_user)->with('user')->first();
 
         return $tabunganUser;
     }
@@ -135,12 +135,9 @@ class TabunganReporsitories {
         {
             $pengajuan = PengajuanReporsitories::findPengajuan($data->id);
             $tabungan = $this->getUserTabungan($pengajuan->id_user, json_decode($pengajuan->detail)->id_tabungan); 
-            foreach($tabungan as $tabung) {
-                $tabungan = $tabung;
-            }
-
+            
             $bmtTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
-
+            
             if(json_decode($pengajuan->detail)->kredit == "Transfer") {
                 $bmtTujuanKreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank)->first();
                 $dariRekening = "Transfer";
@@ -251,12 +248,9 @@ class TabunganReporsitories {
         try 
         {
             $pengajuan = PengajuanReporsitories::findPengajuan($data->id);
-            $tabungan = $this->getUserTabungan($pengajuan->id_user, $pengajuan->id_rekening); 
-            foreach($tabungan as $tabung) {
-                $tabungan = $tabung;
-            }
-            $bmtUser = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
+            $tabungan = Tabungan::where([ ['id_user', $pengajuan->id_user], ['id_tabungan', json_decode($pengajuan->detail)->id_tabungan] ])->first();
             
+            $bmtUser = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
             // Use for tunai method
             $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
             $userLogedBMT = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
@@ -296,6 +290,11 @@ class TabunganReporsitories {
                 "status"        => "Debit",
                 "transaksi"     => $detailToPenyimpananBMT,
                 "teller"        => Auth::user()->id
+            ];
+
+            $updateTabunganDetail = [
+                "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
+                "id_pengajuan" => $pengajuan->id
             ];
 
             if(
@@ -400,7 +399,6 @@ class TabunganReporsitories {
                 }
 
             }
-            return $result;
         }
         catch(Exception $e)
         {
@@ -408,6 +406,7 @@ class TabunganReporsitories {
             $result = array('type' => 'error', 'message' => 'Pengajuan Gagal Dikonfirmasi.');
         }
 
+        return $result;
     }
 
     /** 
@@ -456,7 +455,7 @@ class TabunganReporsitories {
             if($data->debit == 1) {
                 $dariRekening = "Transfer";
                 $untukRekening = $data->bank;
-                $bmtTellerLoged = BMT::where('id_rekening', $data->bank)->select('saldo')->first();
+                $bmtTellerLoged = BMT::where('id_rekening', $data->bank)->first();
             }
 
             $detailToPenyimpananTabungan = [
@@ -499,7 +498,7 @@ class TabunganReporsitories {
                 $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
                 $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
-
+                
                 $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
                 
                 // Update tabungan user in table tabungan
@@ -568,8 +567,8 @@ class TabunganReporsitories {
             $untukRekening = $bmtTellerLoged->id_rekening;
             if($data->kredit == 1) {
                 $dariRekening = "Transfer";
-                $untukRekening = $data->bank;
-                $bmtTellerLoged = BMT::where('id_rekening', $data->bank)->select('saldo')->first();
+                $untukRekening = $data->daribank;
+                $bmtTellerLoged = BMT::where('id_rekening', $data->daribank)->first();
             }
 
             $detailToPenyimpananTabungan = [
@@ -583,7 +582,7 @@ class TabunganReporsitories {
             $dataToPenyimpananTabungan = [
                 "id_user"       => $tabungan->id_user,
                 "id_tabungan"   => $tabungan->id,
-                "status"        => "Kredit",
+                "status"        => "Debit",
                 "transaksi"     => $detailToPenyimpananTabungan,
                 "teller"        => Auth::user()->id
             ];
@@ -597,10 +596,11 @@ class TabunganReporsitories {
             $dataToPenyimpananBMT = [
                 "id_user"       => $tabungan->id_user,
                 "id_bmt"        => $bmtUserDebit->id,
-                "status"        => "Kredit",
+                "status"        => "Debit",
                 "transaksi"     =>  $detailToPenyimpananBMT,
                 "teller"        => Auth::user()->id
             ];
+            
             if(
                 $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == 'success' &&
                 $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
@@ -608,7 +608,7 @@ class TabunganReporsitories {
             {
 
                 $detailToPenyimpananBMT['saldo_awal'] = $bmtTellerLoged->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
                 $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
