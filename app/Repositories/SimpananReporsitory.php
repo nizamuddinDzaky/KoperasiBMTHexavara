@@ -185,6 +185,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                         "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
+                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
                         "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
                     ];
                 }
@@ -193,6 +194,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                         "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
+                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
                     ];
                 }
 
@@ -223,6 +225,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
                         "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
                         "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
                     ];
                 }
@@ -231,6 +234,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
                         "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
                     ];
                 }
 
@@ -524,6 +528,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + $data->nominal,
                         "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
                         "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
                     ];
                 }
@@ -532,6 +537,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + $data->nominal,
                         "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
                     ];
                 }
             }
@@ -548,6 +554,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
                         "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + $data->nominal,
+                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
                         "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
                     ];
                 }
@@ -556,6 +563,7 @@ class SimpananReporsitory {
                     $dataToUpdateUsers = [
                         "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
                         "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + $data->nominal,
+                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
                     ];
                 }
             } 
