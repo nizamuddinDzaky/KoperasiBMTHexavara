@@ -42,7 +42,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="form-control text-left currency"  id="nominal" name="nominal" required>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#tabSimsusTeller" data-toggle="tab">Data Simpanan Wajib</a></li>
+                        <li><a href="#tabSimsusTeller" data-toggle="tab">Data Simpanan Khusus</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -185,7 +185,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="form-control text-left currency"  id="nominal" name="nominal" required>
                                     </div>
                                 </div>
                             </div>
@@ -304,7 +304,7 @@
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#tabSimpokTeller" data-toggle="tab">Data Simpanan Wajib</a></li>
+                        <li><a href="#tabSimpokTeller" data-toggle="tab">Data Simpanan Pokok</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -329,7 +329,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="form-control text-left currency"  id="nominal" name="nominal" required>
                                     </div>
                                 </div>
                             </div>

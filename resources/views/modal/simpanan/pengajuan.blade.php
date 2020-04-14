@@ -28,7 +28,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="form-control text-left currency" name="nominal" required>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#tabSimsus" data-toggle="tab">Data Simpnan Khusus</a></li>
+                        <li><a href="#tabSimsus" data-toggle="tab">Data Simpanan Khusus</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -158,7 +158,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="form-control text-left currency" name="nominal" required>
                                     </div>
                                 </div>
                             </div>
@@ -289,7 +289,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="currency form-control text-left" name="nominal" required>
                                     </div>
                                 </div>
                             </div>

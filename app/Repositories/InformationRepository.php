@@ -862,7 +862,7 @@ class InformationRepository
         $tot=0;
         foreach ($dt as $dat) 
         {
-            $tot = json_decode($dat['transaksi'],true)['saldo_akhir'];
+            $tot += json_decode($dat['transaksi'],true)['saldo_akhir'];
         }
         $data['total'] = $tot;
         return $data;

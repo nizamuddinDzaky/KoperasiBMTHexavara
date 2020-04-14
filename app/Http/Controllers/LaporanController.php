@@ -590,7 +590,6 @@ class LaporanController extends Controller
     public function rekening_buku(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
-        
         return view('admin.laporan.buku_besar',[
             'data' => $data,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),

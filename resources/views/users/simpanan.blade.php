@@ -91,4 +91,19 @@
 @endsection
 
 @include('modal/simpanan/pengajuan')
+
+@section('extra_script')
+    {{-- <script type="text/javascript">
+        $(document).ready(function() {
+            $('.nominal').on('keyup keydown', function(e){
+                    console.log($(this).val());
+                if ($(this).val() > 1000)
+                {
+                    // e.preventDefault();
+                    $(this).val(parseInt(($(this).val() / 1000)));
+                }
+            });
+        });
+    </script> --}}
+@endsection
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->

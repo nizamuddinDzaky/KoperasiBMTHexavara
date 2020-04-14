@@ -30,9 +30,24 @@ class SimpananReporsitory {
      * Get pengajuan data with kategory Simpanan from specific user
      * @return Array
     */
+    public function getUserPengajuanSimpananFromSpecificUser()
+    {
+        $simpanan = Pengajuan::where([ ['kategori', 'Simpanan Wajib'], ['id_user', Auth::user()->id] ])
+                                ->orWhere([ ['kategori', 'Simpanan Pokok'], ['id_user', Auth::user()->id] ])
+                                ->orWhere([ ['kategori', 'Simpanan Khusus'], ['id_user', Auth::user()->id] ])->get();
+
+        return $simpanan;
+    }
+
+    /** 
+     * Get pengajuan data with kategory Simpanan
+     * @return Array
+    */
     public function getUserPengajuanSimpanan()
     {
-        $simpanan = Pengajuan::where('kategori', 'Simpanan Wajib')->orWhere('kategori', 'Simpanan Pokok')->orWhere('kategori', 'Simpanan Khusus')->get();
+        $simpanan = Pengajuan::where('kategori', 'Simpanan Wajib')
+                                ->orWhere('kategori', 'Simpanan Pokok')
+                                ->orWhere('kategori', 'Simpanan Khusus')->get();
 
         return $simpanan;
     }
@@ -114,7 +129,7 @@ class SimpananReporsitory {
                 "atasnama"      => $atasnama,
                 "bank_tujuan_transfer" => $bank_tujuan_transfer,
                 "path_bukti"    => $path_bukti,
-                "jumlah"        => $data->nominal
+                "jumlah"        => floatval(preg_replace('/[^\d.]/', '', $data->nominal))
             ];
             $dataToPengajuan = [
                 "id_user"       => Auth::user()->id,
@@ -182,20 +197,43 @@ class SimpananReporsitory {
 
                 if(isset(json_decode($user_simpanan->wajib_pokok)->margin))
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
-                        "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
-                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
-                        "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
-                    ];
+                    if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
+                            "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
+                            "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
+                            "khusus"     => 0,
+                            "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
+                        ];
+                    }
                 }
                 else
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
-                        "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
-                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
-                    ];
+                    if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
+                            "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok) + json_decode($pengajuan->detail)->jumlah,
+                            "khusus"     => 0,
+                        ];
+                    }
                 }
 
                 if(json_decode($pengajuan->detail)->jenis == "Tabungan")
@@ -222,20 +260,43 @@ class SimpananReporsitory {
 
                 if(isset(json_decode($user_simpanan->wajib_pokok)->margin))
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
-                        "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
-                        "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
-                    ];
+                    if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
+                            "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => 0,
+                            "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
+                        ];
+                    }
                 }
                 else
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
-                        "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
-                    ];
+                    if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($user_simpanan->wajib_pokok)->khusus),
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => 0
+                        ];
+                    }
                 }
 
                 if(json_decode($pengajuan->detail)->jenis == "Tabungan")
@@ -269,20 +330,43 @@ class SimpananReporsitory {
 
                 if(isset(json_decode($user_simpanan->wajib_pokok)->margin))
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
-                        "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
-                        "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
-                    ];
+                    if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
+                            "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => 0,
+                            "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
+                        ];
+                    }
                 }
                 else
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
-                        "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
-                    ];
+                    if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
+                            "khusus"     => 0
+                        ];
+                    }
                 }
 
                 if(json_decode($pengajuan->detail)->jenis == "Tabungan")
@@ -512,7 +596,7 @@ class SimpananReporsitory {
                 $id_bmt_bank_pengirim = $bmt_bank_pengirim->id;
 
                 $dataToUpdateTabungan = [
-                    "saldo" => $saldo_bmt_pengirim - $data->nominal,
+                    "saldo" => $saldo_bmt_pengirim - floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                     "id_pengajuan" => $nextId
                 ];
             }
@@ -525,20 +609,43 @@ class SimpananReporsitory {
 
                 if(isset(json_decode($user->wajib_pokok)->margin))
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + $data->nominal,
-                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
-                        "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
-                    ];
+                    if(isset(json_decode($user->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
+                            "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => 0,
+                            "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                        ];
+                    }
                 }
                 else
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + $data->nominal,
-                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
-                    ];
+                    if(isset(json_decode($user->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => 0
+                        ];
+                    }
                 }
             }
             if($data->id_rekening_simpanan == 117)
@@ -551,20 +658,43 @@ class SimpananReporsitory {
 
                 if(isset(json_decode($user->wajib_pokok)->margin))
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
-                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + $data->nominal,
-                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
-                        "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
-                    ];
+                    if(isset(json_decode($user->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
+                            "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "khusus"     => 0,
+                            "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                        ];
+                    }
                 }
                 else
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
-                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + $data->nominal,
-                        "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
-                    ];
+                    if(isset(json_decode($user->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "khusus"     => 0
+                        ];
+                    }
                 }
             } 
 
@@ -587,20 +717,43 @@ class SimpananReporsitory {
 
                 if(isset(json_decode($user->wajib_pokok)->margin))
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
-                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + $data->nominal,
-                        "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
-                    ];
+                    if(isset(json_decode($user->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => 0,
+                            "margin"    => floatval(json_decode($user->wajib_pokok)->margin)
+                        ];
+                    }
                 }
                 else
                 {
-                    $dataToUpdateUsers = [
-                        "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
-                        "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
-                        "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + $data->nominal,
-                    ];
+                    if(isset(json_decode($user->wajib_pokok)->khusus))
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                        ];
+                    }
+                    else
+                    {
+                        $dataToUpdateUsers = [
+                            "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib),
+                            "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
+                            "khusus"     => 0
+                        ];
+                    }
                 }
             }
 
@@ -613,7 +766,7 @@ class SimpananReporsitory {
                 "atasnama"  => $atasnama,
                 "bank_tujuan_transfer" => $bank_tujuan_transfer,
                 "path_bukti"    => $pathbukti,
-                "jumlah"    => $data->nominal
+                "jumlah"    => floatval(preg_replace('/[^\d.]/', '', $data->nominal))
             ];
             $dataToPengajuan = [
                 "id"                => $nextId,
@@ -629,9 +782,9 @@ class SimpananReporsitory {
             if($this->pengajuanReporsitory->createPengajuan($dataToPengajuan)["type"] == "success")
             {
                 $detailToPenyimpananBMT = [
-                    "jumlah"    => $data->nominal,
+                    "jumlah"    => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                     "saldo_awal"=> floatval($saldo_bmt_simpanan),
-                    "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval($data->nominal),
+                    "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                     "id_pengajuan" => $nextId
                 ];
                 $dataToPenyimpananBMT = [
@@ -645,7 +798,7 @@ class SimpananReporsitory {
                 if($this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success")
                 {
                     $detailToPenyimpananBMT['saldo_awal'] = $saldo_bmt_pengirim;
-                    $detailToPenyimpananBMT['saldo_akhir'] = $saldo_bmt_pengirim + $data->nominal;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $saldo_bmt_pengirim + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
                     $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
                     $dataToPenyimpananBMT['id_bmt'] = $id_bmt_bank_pengirim;
 
@@ -655,9 +808,9 @@ class SimpananReporsitory {
                         "teller"    => Auth::user()->id,
                         "dari_rekening" => $bank_tujuan_transfer,
                         "untuk_rekening" => $data->id_rekening_simpanan,
-                        "jumlah"    => $data->nominal,
+                        "jumlah"    => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                         "saldo_awal" => floatval($saldo_bmt_simpanan),
-                        "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval($data->nominal)
+                        "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval(preg_replace('/[^\d.]/', '', $data->nominal))
                     ];
                     $dataToPenyimpananWajibPokok = [
                         "id_user"       => $user->id,
@@ -672,17 +825,17 @@ class SimpananReporsitory {
                     {
                         if($data->debit == 2)
                         {
-                            if($saldo_bmt_pengirim > $data->nominal)
+                            if($saldo_bmt_pengirim > floatval(preg_replace('/[^\d.]/', '', $data->nominal)))
                             {
                                 $updateUser = User::where('id', $data->user)->update([ 'wajib_pokok' => json_encode($dataToUpdateUsers) ]);
                                 $updateTabungan = Tabungan::where('id_tabungan', $data->dari_tabungan)->update([
                                     'detail' => json_encode($dataToUpdateTabungan)
                                 ]);
                                 $updateBMTPengirim = BMT::where('id', $bmt_bank_pengirim->id)->update([
-                                    'saldo' => $saldo_bmt_pengirim - $data->nominal
+                                    'saldo' => $saldo_bmt_pengirim - floatval(preg_replace('/[^\d.]/', '', $data->nominal))
                                 ]);
                                 $updateBMTSimpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->update([
-                                    'saldo' => $saldo_bmt_simpanan + $data->nominal
+                                    'saldo' => $saldo_bmt_simpanan + floatval(preg_replace('/[^\d.]/', '', $data->nominal))
                                 ]);
 
                                 DB::commit();
@@ -698,10 +851,10 @@ class SimpananReporsitory {
                         {
                             $updateUser = User::where('id', $data->user)->update([ 'wajib_pokok' => json_encode($dataToUpdateUsers) ]);
                             $updateBMTPengirim = BMT::where('id', $bmt_bank_pengirim->id)->update([
-                                'saldo' => $saldo_bmt_pengirim + $data->nominal
+                                'saldo' => $saldo_bmt_pengirim + floatval(preg_replace('/[^\d.]/', '', $data->nominal))
                             ]);
                             $updateBMTSimpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->update([
-                                'saldo' => $saldo_bmt_simpanan + $data->nominal
+                                'saldo' => $saldo_bmt_simpanan + floatval(preg_replace('/[^\d.]/', '', $data->nominal))
                             ]);
 
                             DB::commit();
