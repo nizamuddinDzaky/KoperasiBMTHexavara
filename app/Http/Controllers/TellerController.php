@@ -1426,7 +1426,6 @@ class TellerController extends Controller
         } else {
             $confirmTabungan = $this->tabunganReporsitory->confirmCreditTabungan($request);
         }
-        
         if($confirmTabungan['type'] == 'success'){
             return redirect()
                 ->back()
