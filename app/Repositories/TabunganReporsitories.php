@@ -102,13 +102,13 @@ class TabunganReporsitories {
     */
     public function getUserTabungan($id_user, $id="")
     {
+        $tabunganUser = Tabungan::where('id_user', $id_user)->with('user')->first();
+        
         if($id !== "") 
         {
             $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id', $id] ])->first();
         }
         
-        $tabunganUser = Tabungan::where('id_user', $id_user)->with('user')->first();
-
         return $tabunganUser;
     }
 
@@ -135,7 +135,7 @@ class TabunganReporsitories {
         {
             $pengajuan = PengajuanReporsitories::findPengajuan($data->id);
             $tabungan = $this->getUserTabungan($pengajuan->id_user, json_decode($pengajuan->detail)->id_tabungan); 
-            
+
             $bmtTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
             
             if(json_decode($pengajuan->detail)->kredit == "Transfer") {
@@ -304,7 +304,7 @@ class TabunganReporsitories {
             {
 
                 $detailToPenyimpananBMT['saldo_awal'] = $userLogedBMT->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
                 $dataToPenyimpananBMT['id_bmt'] = $userLogedBMT->id;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
