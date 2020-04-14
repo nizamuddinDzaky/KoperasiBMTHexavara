@@ -822,7 +822,6 @@ class UserController extends Controller
         $simpanan = $this->simpananReporsitory->getUserPengajuanSimpanan();
         $tabungan_user = $this->tabunganReporsitory->getUserTabungan(Auth::user()->id);
         $bank_bmt = $this->tabunganReporsitory->getRekening('BANK');
-
         return view('users.simpanan', [
             'data' => $simpanan,
             'tabungan' => $tabungan_user,
