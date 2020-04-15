@@ -149,8 +149,8 @@
                             <th data-sortable="true">Tgl Transaksi</th>
                             <th data-sortable="true" >Nama User</th>
                             <th data-sortable="true">Jenis Transaksi</th>
-                            <th data-sortable="true">Kredit</th>
-                            <th data-sortable="true" >Debit</th>
+                            <th data-sortable="true">Debit</th>
+                            <th data-sortable="true" >Kredit</th>
                             <th data-sortable="true">Saldo</th>
                             </thead>
                             @if(!isset($data))
