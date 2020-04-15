@@ -1422,9 +1422,9 @@ class TellerController extends Controller
     public function confirm_tabungan(Request $request)
     {
         if($request->idcKre != null) {
-            $confirmTabungan = $this->tabunganReporsitory->confirmDebitTabungan($request);
-        } else {
             $confirmTabungan = $this->tabunganReporsitory->confirmCreditTabungan($request);
+        } else {
+            $confirmTabungan = $this->tabunganReporsitory->confirmDebitTabungan($request);
         }
         if($confirmTabungan['type'] == 'success'){
             return redirect()

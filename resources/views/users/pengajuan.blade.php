@@ -98,10 +98,10 @@
                                                 data-iduser     = "{{ json_decode($usr['detail'],true)['id']}}"
                                                 data-debit     = "{{ json_decode($usr['detail'],true)[strtolower(str_before($usr['kategori'],' '))]}}"
                                                 data-jumlah     = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2)}}"
-                                                @if(str_before($usr['kategori'],' ')=="Kredit")
+                                                @if(str_before($usr['kategori'],' ')=="Debit")
                                                 data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr['detail'],true)['path_bukti'])}}"
                                                 data-idtab     = "{{ json_decode($usr['detail'],true)['id_tabungan'] }}"
-                                                @elseif(str_before($usr['kategori'],' ')=="Debit")
+                                                @elseif(str_before($usr['kategori'],' ')=="Kredit")
                                                 data-atasnama     = "{{ json_decode($usr['detail'],true)['bank']}}"
                                                 data-no_bank   = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
                                                 data-idtab     = "{{ json_decode($usr['detail'],true)['id_tabungan'] }}"

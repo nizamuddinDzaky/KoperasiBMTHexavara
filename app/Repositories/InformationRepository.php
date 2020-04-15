@@ -455,7 +455,7 @@ class InformationRepository
             ->where('pengajuan.created_at', "<" , $date['now'])
             ->orderBy('pengajuan.created_at','DESC')->get();
         foreach ($data as $dt){
-            if($dt->kategori=="Debit Tabungan"){
+            if($dt->kategori=="Kredit Tabungan"){
                 $id=(json_decode($dt['detail'],true)['id_tabungan']);
                 $tab = Tabungan::select('id','detail')->where('id_tabungan',$id)->first();
                 $dt['detail_tabungan'] =$tab['detail'];
@@ -3537,7 +3537,7 @@ class InformationRepository
     function TransaksiTabUsrDeb($data,$request)
     {
         $filename =null;
-        if($data['detail']['kredit']== "Transfer"){
+        if($data['detail']['debit']== "Transfer"){
             $uploadedFile = $request->file('file');
             $path = $uploadedFile->store('public/transfer');
             $filename =str_after($path, 'public/transfer/');
@@ -3551,7 +3551,7 @@ class InformationRepository
         $dt->id_rekening = $tab->id_rekening;
         $dt->jenis_pengajuan = $data['keterangan']['jenis'];
         $dt->status = $data['keterangan']['status'];
-        $dt->kategori = "Kredit Tabungan";
+        $dt->kategori = "Debit Tabungan";
         $dt->detail = json_encode($data['detail']);
 
         if($request->teller=="teller"){
@@ -3568,6 +3568,8 @@ class InformationRepository
     function TransaksiTabUsrKre($data,$request)
     {
         $tab=$this->tabungan->where('id_tabungan', $data['detail']['id_tabungan'])->first();
+        $filename =null;
+        $data['detail']['path_bukti'] =$filename;
         $data['detail']['id_rekening'] =$tab->id_rekening;
         $data['detail']['nama_tabungan'] =$tab->jenis_tabungan;
         $dt = New Pengajuan();
@@ -3575,7 +3577,7 @@ class InformationRepository
         $dt->id_rekening = $tab->id_rekening;
         $dt->jenis_pengajuan = $data['keterangan']['jenis'];
         $dt->status = $data['keterangan']['status'];
-        $dt->kategori = "Debit Tabungan";
+        $dt->kategori = "Kredit Tabungan";
         $dt->detail = json_encode($data['detail']);
         if($request->teller=="teller"){
             $dt->teller=Auth::user()->id;

@@ -33,8 +33,8 @@
                 </div>
 
                 <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-credit-card"></i> Setor Tunai</button>
-                    <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#debitTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#debitTabModal"><i class="fa fa-credit-card"></i> Setor Tunai</button>
+                    <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal"><i class="fa fa-archive"></i> Buka Tabungan</button>
                     <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#tutupTabModal"><i class="fa fa-close"></i> Tutup Tabungan</button>
                 </div>
@@ -92,18 +92,18 @@
                                                         data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
                                                         data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
                                                         @if(str_before($usr->kategori,' ')=="Kredit")
+                                                        data-saldo     = "{{ number_format(isset(json_decode($usr->detail_tabungan,true)['saldo'])?json_decode($usr->detail_tabungan,true)['saldo']:0)}}"
+                                                        data-atasnama     = "{{ json_decode($usr->detail,true)['atasnama']}}"
+                                                        data-no_bank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
+                                                        data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
+                                                        data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
+                                                        @elseif(str_before($usr->kategori,' ')=="Debit")
                                                         data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
                                                         data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                         data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
                                                         data-atasnamabank     = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                         data-banktr     = "{{ json_decode($usr->detail,true)['daribank']}}"
                                                         data-no_banktr     = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                        @elseif(str_before($usr->kategori,' ')=="Debit")
-                                                        data-saldo     = "{{ number_format(isset(json_decode($usr->detail_tabungan,true)['saldo'])?json_decode($usr->detail_tabungan,true)['saldo']:0)}}"
-                                                        data-atasnama     = "{{ json_decode($usr->detail,true)['atasnama']}}"
-                                                        data-no_bank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                        data-idtab     = "{{ $usr->id_tabungan }}"
-                                                        data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
                                                         @endif
                                                 >
                                                     <i class="fa fa-check-square"></i>
@@ -131,12 +131,12 @@
                                                         data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
                                                         data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
                                                         @if(str_before($usr->kategori,' ')=="Kredit")
-                                                        data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
-                                                        data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
-                                                        @elseif(str_before($usr->kategori,' ')=="Debit")
                                                         data-atasnama     = "{{ json_decode($usr->detail,true)['bank']}}"
                                                         data-no_bank   = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                         data-idtab     = "{{$usr->id_tabungan}}"
+                                                        @elseif(str_before($usr->kategori,' ')=="Debit")
+                                                        data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
+                                                        data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                         @endif
                                                         data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
                                                         @elseif($usr->jenis_pengajuan =="Perpanjangan Deposito")
@@ -189,16 +189,16 @@
                                                 data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
                                                 data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
                                                 @if(str_before($usr->kategori,' ')=="Kredit")
+                                                data-saldo     = "{{ number_format(isset(json_decode($usr->detail_tabungan,true)['saldo'])?json_decode($usr->detail_tabungan,true)['saldo']:0)}}"
+                                                data-atasnama     = "{{ json_decode($usr->detail,true)['atasnama']}}"
+                                                data-no_bank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
+                                                data-idtab     = "{{ $usr->id_tabungan }}"
+                                                @elseif(str_before($usr->kategori,' ')=="Debit")
                                                 data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
                                                 data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                 data-atasnamabank     = "{{ isset(json_decode($usr->detail,true)['atasnama'])?json_decode($usr->detail,true)['atasnama']:'' }}"
                                                 data-banktr     = "{{ isset(json_decode($usr->detail,true)['daribank'])?json_decode($usr->detail,true)['daribank']:'' }}"
                                                 data-no_banktr     = "{{ isset(json_decode($usr->detail,true)['no_bank'])?json_decode($usr->detail,true)['no_bank']:'' }}"
-                                                @elseif(str_before($usr->kategori,' ')=="Debit")
-                                                data-saldo     = "{{ number_format(isset(json_decode($usr->detail_tabungan,true)['saldo'])?json_decode($usr->detail_tabungan,true)['saldo']:0)}}"
-                                                data-atasnama     = "{{ json_decode($usr->detail,true)['atasnama']}}"
-                                                data-no_bank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                data-idtab     = "{{ $usr->id_tabungan }}"
                                                 @endif
                                                 data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
                                                 @elseif($usr->kategori =="Perpanjangan Deposito")
@@ -381,6 +381,95 @@
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var selAr = $('#toHideKrec');
+            var selAr2 = $('#toHideKre2c');
+            var selBank = $('#toHideKreBank');
+            var selBank2 = $('#toHideKreTell');
+            selAr.hide();
+            selAr2.hide();
+            if(button.data('debit') === "Tunai"){
+                selAr.hide();
+                selAr2.hide();
+                selBank.hide();selBank2.show();
+                $('#daribank').attr("required",false);
+                $('#dariteller').attr("required",true);
+            }
+
+            else if(button.data('debit') === "Transfer"){
+                selAr.show();
+                selAr2.show();
+                selBank2.hide();selBank.show();
+                $('#dariteller').attr("required",false);
+                $('#daribank').attr("required",true);
+            }
+            
+            console.log(button.data('idtab'));
+
+            $('#idconfirmKre').val(button.data('id'));
+            $('#idtabKre').val(button.data('idtab'));
+            $('#cRekKre').val(button.data('idtab'));
+            $('#ckredit').val(button.data('debit'));
+            $('#cnobankKre').val(button.data('no_bank'));
+            $('#catasnamaKre').val(button.data('atasnama'));
+            $('#cjumlahKre').val(button.data('jumlah'));
+            $('#jumlahCK').val(button.data('jumlah'));
+            $('#cbankKre').val(button.data('bank'));
+            $('#CK').val(button.data('bank'));
+            $('#csaldo_kre').val(button.data('saldo'));
+            var saldo =button.data('saldo');
+            var jumlah =button.data('jumlah');
+            var i = 0,j = 0;
+            for(i; i < saldo.length; i++) {
+                saldo = saldo.replace(",", "");
+            }
+            for(j; j < jumlah.length; j++) {
+                jumlah = jumlah.replace(",", "");
+            }
+            if( parseFloat(saldo) < parseFloat(jumlah)){
+                $('#warning').text("*Saldo tidak cukup");
+            }
+            else if( parseFloat(saldo) > parseFloat(jumlah)) {
+                $('#submit_kredit').removeAttr("disabled");
+            }
+        });
+        $('.modal').on('show.bs.modal', function (event) {
+
+            $('.currency').maskMoney({
+                allowZero: true,
+                precision: 0,
+                thousands: ","
+            });
+
+        });
+        $('#viewDebModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            // Button that triggered the modal
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var selAr = $('#toHideKrev');
+            var selAr2 = $('#toHideKre2v');
+            selAr.hide();
+            selAr2.hide();
+            if(button.data('debit') === "Tunai"){
+                selAr.hide();
+                selAr2.hide();
+            }
+            else if(button.data('debit') === "Transfer"){
+                selAr.show();
+                selAr2.show();
+            }
+            $('#vRekKre').val(button.data('idtab'));
+            $('#vkredit').val(button.data('debit'));
+            $('#vnobankKre').val(button.data('no_bank'));
+            $('#vatasnamaKre').val(button.data('atasnama'));
+            $('#vjumlahKre').val(button.data('jumlah'));
+            $('#vsaldo_kre').val(button.data('saldo'));
+            $('#vbankKre').val(button.data('bank'));
+        });
+        $('#confirmDebModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var selAr = $('#toHideDebc');
             var selB = $('#toHideDebBankc');
             var selB2 = $('#toHideDebBank2c');
@@ -409,95 +498,6 @@
             $('#cjumlahdeb').val(button.data('jumlah'));
             $('#cpicDeb')
                 .attr('src', button.data('path'))
-        });
-        $('.modal').on('show.bs.modal', function (event) {
-
-            $('.currency').maskMoney({
-                allowZero: true,
-                precision: 0,
-                thousands: ","
-            });
-
-        });
-        $('#viewDebModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var selAr = $('#toHideKrev');
-            var selAr2 = $('#toHideKre2v');
-            selAr.hide();
-            selAr2.hide();
-            if(button.data('debit') === "Tunai"){
-                selAr.hide();
-                selAr2.hide();
-            }
-            else if(button.data('debit') === "Transfer"){
-                selAr.show();
-                selAr2.show();
-            }
-            $('#vRekKre').val(button.data('idtab'));
-            $('#vkredit').val(button.data('debit'));
-            $('#vnobankKre').val(button.data('no_bank'));
-            $('#vatasnamaKre').val(button.data('atasnama'));
-            $('#vjumlahKre').val(button.data('jumlah'));
-            $('#vsaldo_kre').val(button.data('saldo'));
-            $('#vbankKre').val(button.data('bank'));
-        });
-        $('#confirmDebModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var selAr = $('#toHideKrec');
-            var selAr2 = $('#toHideKre2c');
-            var selBank = $('#toHideKreBank');
-            var selBank2 = $('#toHideKreTell');
-            selAr.hide();
-            selAr2.hide();
-            if(button.data('debit') === "Tunai"){
-                selAr.hide();
-                selAr2.hide();
-                selBank.hide();selBank2.show();
-                $('#daribank').attr("required",false);
-                $('#dariteller').attr("required",true);
-                console.log(button.data('idtab'));
-            }
-
-            else if(button.data('debit') === "Transfer"){
-                selAr.show();
-                selAr2.show();
-                selBank2.hide();selBank.show();
-                $('#dariteller').attr("required",false);
-                $('#daribank').attr("required",true);
-            }
-
-            $('#idconfirmKre').val(button.data('id'));
-            $('#idtabKre').val(button.data('idtab'));
-            $('#cRekKre').val(button.data('idtab'));
-            $('#ckredit').val(button.data('debit'));
-            $('#cnobankKre').val(button.data('no_bank'));
-            $('#catasnamaKre').val(button.data('atasnama'));
-            $('#cjumlahKre').val(button.data('jumlah'));
-            $('#jumlahCK').val(button.data('jumlah'));
-            $('#cbankKre').val(button.data('bank'));
-            $('#CK').val(button.data('bank'));
-            $('#csaldo_kre').val(button.data('saldo'));
-            var saldo =button.data('saldo');
-            var jumlah =button.data('jumlah');
-            var i = 0,j = 0;
-            for(i; i < saldo.length; i++) {
-                saldo = saldo.replace(",", "");
-            }
-            for(j; j < jumlah.length; j++) {
-                jumlah = jumlah.replace(",", "");
-            }
-            if( parseFloat(saldo) < parseFloat(jumlah)){
-                $('#warning').text("*Saldo tidak cukup");
-            }
-            else if( parseFloat(saldo) > parseFloat(jumlah)) {
-                $('#submit_kredit').removeAttr("disabled");
-            }
-
-
         });
 
         $('#activePengajuanModal').on('show.bs.modal', function (event) {
@@ -798,10 +798,10 @@
                 dropdownParent: $("#tutupTabModal")
             });
             $("#idRek").select2({
-                dropdownParent: $("#kreditTabModal")
+                dropdownParent: $("#debitTabModal")
             });
             $("#kreidRek").select2({
-                dropdownParent: $("#debitTabModal")
+                dropdownParent: $("#kreditTabModal")
             });
             $("#nasabah").select2({
                 dropdownParent: $("#openTabModal")

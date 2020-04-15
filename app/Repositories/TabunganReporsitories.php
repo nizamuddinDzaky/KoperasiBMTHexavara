@@ -135,25 +135,23 @@ class TabunganReporsitories {
         {
             $pengajuan = PengajuanReporsitories::findPengajuan($data->id);
             $tabungan = $this->getUserTabungan($pengajuan->id_user, json_decode($pengajuan->detail)->id_tabungan); 
-
+            
             foreach ($tabungan as $tabung) {
                 $tabungan = $tabung;
             }
-
-            $result = $tabungan;
-
+            
             $bmtTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
             
-            if(json_decode($pengajuan->detail)->kredit == "Transfer") {
-                $bmtTujuanKreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank)->first();
+            if(json_decode($pengajuan->detail)->debit == "Transfer") {
+                $bmtTujuanDebitTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank)->first();
                 $dariRekening = "Transfer";
                 $untukRekening = json_decode($pengajuan->detail)->bank;
             }
-            if(json_decode($pengajuan->detail)->kredit == "Tunai") {
+            if(json_decode($pengajuan->detail)->debit == "Tunai") {
                 $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
-                $bmtTujuanKreditTabungan = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
+                $bmtTujuanDebitTabungan = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
                 $dariRekening = "";
-                $untukRekening = $bmtTujuanKreditTabungan->id_rekening;
+                $untukRekening = $bmtTujuanDebitTabungan->id_rekening;
             }
 
             $detailToPenyimpananTabungan = [
@@ -171,7 +169,7 @@ class TabunganReporsitories {
                 "transaksi"     => $detailToPenyimpananTabungan,
                 "teller"        => Auth::user()->id
             ];
-
+            
             $detailToPenyimpananBMT = [
                 "jumlah"        => json_decode($pengajuan->detail)->jumlah,
                 "saldo_awal"    => $bmtTabungan->saldo,
@@ -192,9 +190,9 @@ class TabunganReporsitories {
               ) 
             {
 
-                $detailToPenyimpananBMT['saldo_awal'] = $bmtTujuanKreditTabungan->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTujuanKreditTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
-                $dataToPenyimpananBMT['id_bmt'] = $bmtTujuanKreditTabungan->id;
+                $detailToPenyimpananBMT['saldo_awal'] = $bmtTujuanDebitTabungan->saldo;
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTujuanDebitTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                $dataToPenyimpananBMT['id_bmt'] = $bmtTujuanDebitTabungan->id;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
                 $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
@@ -222,8 +220,8 @@ class TabunganReporsitories {
                 /** 
                  * Filter transaction method 
                 * */
-                $updateBMTTujuan = BMT::where('id_rekening', $bmtTujuanKreditTabungan->id_rekening)->update([
-                    "saldo" => floatval($bmtTujuanKreditTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
+                $updateBMTTujuan = BMT::where('id_rekening', $bmtTujuanDebitTabungan->id_rekening)->update([
+                    "saldo" => floatval($bmtTujuanDebitTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
                 ]);
 
 
@@ -263,7 +261,7 @@ class TabunganReporsitories {
             
             $dariRekening = "";
             $untukRekening = $userLogedBMT->id_rekening;
-            if(json_decode($pengajuan->detail)->debit == "Transfer") {
+            if(json_decode($pengajuan->detail)->kredit == "Transfer") {
                 $dariRekening = "Transfer";
                 $untukRekening = json_decode($pengajuan->detail)->bank;
             }
@@ -321,7 +319,7 @@ class TabunganReporsitories {
                 * */
                 if(floatval(json_decode($tabungan->detail)->saldo) >= floatval(json_decode($pengajuan->detail)->jumlah)) 
                 {
-                    if(json_decode($pengajuan->detail)->debit == "Transfer") 
+                    if(json_decode($pengajuan->detail)->kredit == "Transfer") 
                     {
                         $bmtPencairDana = BMT::where('id_rekening', $data->daribank)->select('saldo')->first();
                         if(floatval($bmtPencairDana->saldo) >= floatval(json_decode($pengajuan->detail)->jumlah)) 
@@ -352,7 +350,7 @@ class TabunganReporsitories {
                         }
                     }
 
-                    if(json_decode($pengajuan->detail)->debit == "Tunai") 
+                    if(json_decode($pengajuan->detail)->kredit == "Tunai") 
                     {
                         $bmtPencairDana = BMT::where('id_rekening', $userLogedBMT->id_rekening)->select('saldo')->first();
                         if(floatval($bmtPencairDana->saldo) >=  floatval(json_decode($pengajuan->detail)->jumlah))
@@ -449,6 +447,7 @@ class TabunganReporsitories {
         {
             $tabungan = $this->findTabungan($data->idRek, "");
             $rekening = $this->rekeningReporsitory->getRekening($name=$tabungan->jenis_tabungan, $type='detail');
+
             foreach($rekening as $rekening)
             {
                 $rekening = $rekening;
@@ -561,6 +560,7 @@ class TabunganReporsitories {
         {
             $tabungan = $this->findTabungan("", $data->id_);
             $rekening = $this->rekeningReporsitory->getRekening($name=$tabungan->jenis_tabungan, $type='detail');
+
             foreach($rekening as $rekening)
             {
                 $rekening = $rekening;

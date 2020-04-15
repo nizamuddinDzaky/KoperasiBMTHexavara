@@ -308,7 +308,7 @@ class UserController extends Controller
             $bank = null;
         }
         $detail = [
-            'kredit' => $debit,
+            'debit' => $debit,
             'id_tabungan' => $request->idRek,
             'id' => Auth::user()->id,
             'nama' => Auth::user()->nama,
@@ -319,7 +319,7 @@ class UserController extends Controller
             'jumlah' => $request->jumlah,
         ];
         $keterangan = [
-            'jenis' => "Kredit Tabungan [" . $debit . "]",
+            'jenis' => "Debit Tabungan [" . $debit . "]",
             'status' => "Menunggu Konfirmasi",
         ];
         $data = [
@@ -366,17 +366,18 @@ class UserController extends Controller
             $atasnama = Auth::user()->nama;
         }
         $detail = [
-            'debit' => $kredit,
+            'kredit' => $kredit,
             'id_tabungan' => $request->id_,
             'id' => Auth::user()->id,
             'nama' => Auth::user()->nama,
             'bank' => $request->bank,
             'no_bank' => $request->nobank,
+            'daribank' => null,
             'atasnama' => $atasnama,
             'jumlah' => $request->jumlah,
         ];
         $keterangan = [
-            'jenis' => "Debit Tabungan [" . $kredit . "]",
+            'jenis' => "Kredit Tabungan [" . $kredit . "]",
             'status' => "Menunggu Konfirmasi",
         ];
         $data = [
