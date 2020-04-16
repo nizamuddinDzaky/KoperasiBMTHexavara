@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openPemModal"><i class="fa fa-handshake-o"></i> Buka Pembiyaan</button>
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openPemModal"><i class="fa fa-handshake-o"></i> Buka Pembiayaan</button>
                     <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#angsurPemModal"><i class="fa fa-money-bill-alt"></i> Angsur Pembiayaan</button>
                 </div>
             </div>

@@ -22,6 +22,7 @@ use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\SimpananReporsitory;
 use App\Repositories\PembiayaanReporsitory;
+use App\Repositories\PengajuanReporsitories;
 
 class TellerController extends Controller
 {
@@ -45,7 +46,8 @@ class TellerController extends Controller
                                 DonasiReporsitories $donasiReporsitory,
                                 RekeningReporsitories $rekeningReporsitory,
                                 SimpananReporsitory $simpananReporsitory,
-                                PembiayaanReporsitory $pembiayaanReporsitory
+                                PembiayaanReporsitory $pembiayaanReporsitory,
+                                PengajuanReporsitories $pengajuanReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -71,6 +73,7 @@ class TellerController extends Controller
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->simpananReporsitory = $simpananReporsitory;
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
+        $this->pengajuanReporsitory = $pengajuanReporsitory;
     }
 
     public function index(){
@@ -1618,7 +1621,15 @@ class TellerController extends Controller
     */
     public function konfirmasi_pembiayaan(Request $request)
     {
-        $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaan($request);
+        $pengajuan = $this->pengajuanReporsitory->findPengajuan($request->id_);
+        if($pengajuan->id_rekening == 100)
+        {
+            $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaanMRB($request);
+        }
+        if($pengajuan->id_rekening == 99)
+        {
+            $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaanMDA($request);
+        }
         if($pembiayaan['type'] == 'success') {
             return redirect()
                 ->back()
@@ -1638,7 +1649,14 @@ class TellerController extends Controller
     */
     public function open_pembiayaan(Request $request)
     {
-        $pembiayaan = $this->pembiayaanReporsitory->openPembiayaan($request);
+        if($request->pembiayaan == 100)
+        {
+            $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanMRB($request);
+        }
+        if($request->pembiayaan == 99)
+        {
+            $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanMDA($request);
+        }
         if($pembiayaan['type'] == 'success') {
             return redirect()
                 ->back()
