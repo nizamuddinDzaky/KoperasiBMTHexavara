@@ -586,7 +586,6 @@ class UserController extends Controller
 
     public function detail_pembiayaan(Request $request)
     {
-        // return response()->json($this->informationRepository->getTransaksiPemUsr($request->id_));
         return view('users.detail_pembiayaan', [
             'data' => $this->informationRepository->getTransaksiPemUsr($request->id_),
         ]);
@@ -606,6 +605,8 @@ class UserController extends Controller
         }
         if(preg_match("/^[0-9,]+$/", $request->bayar_mar)) $request->bayar_mar = str_replace(',',"",$request->bayar_mar);
         if(preg_match("/^[0-9,]+$/", $request->bayar_ang)) $request->bayar_ang = str_replace(',',"",$request->bayar_ang);
+        if(preg_match("/^[0-9,]+$/", $request->sisa_mar)) $request->sisa_mar = str_replace(',',"",$request->sisa_mar);
+        if(preg_match("/^[0-9,]+$/", $request->sisa_ang)) $request->sisa_ang = str_replace(',',"",$request->sisa_ang);
         if(preg_match("/^[0-9,]+$/", $request->nisbah)) $request->nisbah = str_replace(',',"",$request->nisbah);
         $detail = [
             'angsuran' => $kredit,

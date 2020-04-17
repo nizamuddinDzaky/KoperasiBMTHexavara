@@ -73,7 +73,7 @@
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Transfer ke Rek. BANK <star>*</star></label>
-                                        <select class="form-control select2" disabled id="abank" name="bank" style="width: 100%;" >
+                                        <select class="form-control" disabled id="abank" name="bank" style="width: 100%;" >
                                             <option class="bs-title-option" selected value="" disabled>-Pilih Rekening BANK-</option>
                                             @foreach ($dropdown6 as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>

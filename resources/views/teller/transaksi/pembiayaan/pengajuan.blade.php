@@ -226,7 +226,7 @@
         </div>
     </div>
     @include('modal.pengajuan')
-    @include('modal.pembiayaan.angsuran')
+    @include('modal.pembiayaan.angsurans')
     @include('modal.pembiayaan.view_angsuran')
     @include('modal.pembiayaan.konfirmasi_angsuran')
 @endsection

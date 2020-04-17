@@ -16,7 +16,6 @@
                     <ul class="nav">
                         <li><a href="#tab1Ang" data-toggle="tab">Data Angsuran</a></li>
                     </ul>
-
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1Ang">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
@@ -29,8 +28,8 @@
                                             @foreach ($datasaldoPem as $rekening)
                                                 @if(Carbon\Carbon::now() >= $rekening->updated_at->addMonth(1))
                                                     <option value="{{
-                                                        json_decode($rekening->detail,true )['angsuran_pokok']." ".
-                                                        json_decode($rekening->detail,true )['margin']." ".
+                                                        json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                        json_decode($rekening->detail,true )['margin'] . " " .
                                                         json_decode($rekening->detail,true )['lama_angsuran']." ".
                                                         json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
                                                         $rekening->status_angsuran." ".
@@ -39,12 +38,12 @@
                                                     }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                 @else
                                                     <option value="{{
-                                                        json_decode($rekening->detail,true )['angsuran_pokok']." ".
-                                                        json_decode($rekening->detail,true )['margin']." ".
+                                                        json_decode($rekening->detail,true )['angsuran_pokok'] ." ".
+                                                        json_decode($rekening->detail,true )['margin'] ." ".
                                                         json_decode($rekening->detail,true )['lama_angsuran']." ".
                                                         json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
                                                         $rekening->status_angsuran." ".
-                                                        json_decode($rekening->detail,true )['sisa_ang_bln']." ".
+                                                        json_decode($rekening->detail,true )['sisa_ang_bln'] ." ".
                                                         json_decode($rekening->detail,true )['sisa_mar_bln']
                                                     }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                 @endif
@@ -92,13 +91,13 @@
                                 <div class="col-md-4 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="bankDeb" name="daribank" required>
+                                        <input type="text" class="form-control text-left"  id="bankDeb" name="daribank">
                                     </div>
                                 </div>
                                 <div class="col-md-6 ">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">No. Rekening BANK User <star>*</star></label>
-                                        <input type="number" class="form-control text-left"  id="nobankDeb" name="nobank" required>
+                                        <input type="number" class="form-control text-left"  id="nobankDeb" name="nobank">
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +105,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Atas Nama <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="atasnamaDeb" name="atasnama" required>
+                                        <input type="text" class="form-control text-left"  id="atasnamaDeb" name="atasnama">
                                     </div>
                                 </div>
                             </div>

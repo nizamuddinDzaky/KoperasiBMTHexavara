@@ -1676,18 +1676,27 @@ class TellerController extends Controller
      */
     public function konfirmasi_angsuran(Request $request)
     {
-        $angsuran = $this->pembiayaanReporsitory->confirmAngsuran($request);
-        if($angsuran['type'] == 'success') {
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf($angsuran['message']));
+        $pengajuan = $this->pengajuanReporsitory->findPengajuan($request->id_);
+        if($pengajuan->id_rekening == 100)
+        {
+            $angsuran = $this->pembiayaanReporsitory->confirmAngsuranMRB($request);
         }
-        else{
-            return redirect()
-                ->back()
-                ->withInput()->with('message', $angsuran['message']);
+        else
+        {
+            return "MDA";
+        }
+        return response()->json($angsuran);
+        // if($angsuran['type'] == 'success') {
+        //     return redirect()
+        //         ->back()
+        //         ->withSuccess(sprintf($angsuran['message']));
+        // }
+        // else{
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->with('message', $angsuran['message']);
 
-        }
+        // }
     }
 
     /** 
