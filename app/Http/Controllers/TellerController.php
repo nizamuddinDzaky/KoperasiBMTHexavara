@@ -1683,20 +1683,47 @@ class TellerController extends Controller
         }
         else
         {
-            return "MDA";
+            $angsuran = $this->pembiayaanReporsitory->confirmAngsuranMDA($request);
         }
-        return response()->json($angsuran);
-        // if($angsuran['type'] == 'success') {
-        //     return redirect()
-        //         ->back()
-        //         ->withSuccess(sprintf($angsuran['message']));
-        // }
-        // else{
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', $angsuran['message']);
+        if($angsuran['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($angsuran['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $angsuran['message']);
 
-        // }
+        }
+    }
+
+    /**
+     * Konfirmasi angsuran pembiayaan via teller
+     * @return Response
+     */
+    public function angsuran_pembiayaan(Request $request)
+    {
+        $id_rekening = explode(" ", $request->idRek)[7];
+        if($id_rekening == 100)
+        {
+            $angsuran = $this->pembiayaanReporsitory->angsuranMRB($request);
+        }
+        else
+        {
+            $angsuran = $this->pembiayaanReporsitory->angsuranMDA($request);
+        }
+        if($angsuran['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($angsuran['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $angsuran['message']);
+
+        }
     }
 
     /** 

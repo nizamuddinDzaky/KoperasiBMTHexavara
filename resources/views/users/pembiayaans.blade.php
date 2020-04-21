@@ -227,7 +227,7 @@
         <!-- end row -->
     </div>
     @include('modal.pengajuan')
-    @include('modal.pembiayaan.angsurans')
+    @include('modal.pembiayaan.angsuranss')
     @include('modal.pembiayaan.view_angsuran')
     @include('modal.pembiayaan.konfirmasi_angsuran')
     @include('modal.pembiayaan.pelunasan')
@@ -523,7 +523,6 @@
             var selRek = $('#angidRek');
             
             selRek.on('change', function () {
-                
                 $('#pembayaranAngsuran').show();
                 var id = $('#idRekA').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
@@ -536,7 +535,7 @@
                 angbln = parseFloat(selRek.val().split(' ')[5]);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
                 angtotal = parseFloat(angbln + marbln);
-
+                
                 var formatter = new Intl.NumberFormat();
                 $('#ang_total').on('keyup', function (){
                     if (rekening!=2) {
@@ -550,12 +549,6 @@
                 $('#showPok').hide()
                 $('#angHide').show()
                 $('#marginHide').show()
-                if(marbln <= 1 && angbln <= 1) {
-                    $('.footer').css("display", "none")
-                }
-                if(marbln > 1 || angbln > 1) {
-                    $('.footer').css("display", "block")
-                }
                 if(marbln==0) {
                     $('#marginHide').hide()
                     $('#bagi_margin').attr("required",false);
@@ -576,8 +569,18 @@
                 else if(angke == 0 ) {
                     $('#sisa_mar').hide()
                     $('#bayar_mar').show()
-                    $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
-                    $('#bayar_ang').val(formatter.format(pokok-(margin/lama)))
+
+                    if(parseFloat(selRek.val().split(' ')[7]) !== 99)
+                    {
+                        $('#bayar_ang').val(formatter.format(pokok-(margin/lama)))
+                        $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
+                    }
+                    else
+                    {
+                        $('#bayar_ang').val(formatter.format(angbln))
+                        $('#bagi_pokok').val(formatter.format(angbln))
+                    }
+
                     $('#bagi_margin').attr("required",true);
                 }
                 else {
@@ -594,7 +597,15 @@
                 $('#sisa_ang_').val(formatter.format(angbln))
                 $('#sisa_mar_').val(formatter.format(marbln))
                 $('#jenis_').val(rekening);
-                $('#pokok_').val(pokok-(margin/lama))
+
+                if(parseFloat(selRek.val().split(' ')[7]) !== 99)
+                {
+                    $('#pokok_').val(pokok-(margin/lama))
+                }
+                else
+                {
+                    $('#pokok_').val(angbln)
+                }
                 selA4.hide();
             });
 

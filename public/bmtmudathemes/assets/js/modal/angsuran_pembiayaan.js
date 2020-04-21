@@ -15,11 +15,6 @@ $(document).ready(function() {
             $("#atoHideAngBank2").show();
         }
 
-        if(button.data('sisa_mar') <= 0 && button.data('sisa_ang') <= 0)
-        {
-            $('.footer-form').hide();
-        }
-
         $("#aidRekA").val(button.data('id') );
         $("#aidTabA").val(button.data('idtab') );
         $("#jenis_pembiayaan_angsuran").val(button.data('idtab') );

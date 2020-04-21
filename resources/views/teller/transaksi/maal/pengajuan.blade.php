@@ -62,7 +62,7 @@
 
     </div>
     @include('modal.pengajuan')    
-    @include('modal.pembiayaan.angsuran')
+    @include('modal.pembiayaan.angsuranss')
     @include('modal.pembiayaan.view_angsuran')
     @include('modal.pembiayaan.konfirmasi_angsuran')
     @include('modal.user_tabungan')

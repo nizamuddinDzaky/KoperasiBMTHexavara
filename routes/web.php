@@ -913,7 +913,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         ]);
         Route::post('/angsur', [
             'as'        => 'teller.angsur_pembiayaan',
-            'uses'      => 'TellerController@konfirmasi_angsur'
+            'uses'      => 'TellerController@angsuran_pembiayaan'
         ]);
         Route::get('/tabungan', [
             'as' => 'teller.transaksi.tabungan',

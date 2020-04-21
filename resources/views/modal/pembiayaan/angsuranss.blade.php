@@ -25,29 +25,83 @@
                                         <label for="id_" class="control-label">Pilih Rekening Pembiayaan <star>*</star></label>
                                         <select class="form-control select2" id="angidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
+                                            
                                             @foreach ($datasaldoPem as $rekening)
-                                                @if(Carbon\Carbon::now() >= $rekening->updated_at->addMonth(1))
-                                                    <option value="{{
-                                                        json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
-                                                        json_decode($rekening->detail,true )['margin'] . " " .
-                                                        json_decode($rekening->detail,true )['lama_angsuran']." ".
-                                                        json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
-                                                        $rekening->status_angsuran." ".
-                                                        (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] - json_decode($rekening->detail,true )['kelebihan_angsuran_bulanan']) ." ".
-                                                        (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] - json_decode($rekening->detail,true )['kelebihan_margin_bulanan'])
-                                                    }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                @if(json_decode($rekening->detail,true )['sisa_ang_bln'] > 0)
+                                                    @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] + json_decode($rekening->detail,true)['sisa_ang_bln'] )." " .
+                                                            (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] + json_decode($rekening->detail,true)['sisa_mar_bln']) . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @else
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['sisa_angsuran'])." " .
+                                                            (json_decode($rekening->detail,true )['sisa_margin']) . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @endif
+                                                @elseif(json_decode($rekening->detail,true )['kelebihan_angsuran_bulanan'] > 0)
+                                                    @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] - json_decode($rekening->detail,true)['kelebihan_angsuran_bulanan']) ." " .
+                                                            (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] - json_decode($rekening->detail,true)['kelebihan_margin_bulanan']) . " " . 
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @else
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['sisa_angsuran']) ." " .
+                                                            (json_decode($rekening->detail,true )['sisa_margin']) . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @endif
                                                 @else
-                                                    <option value="{{
-                                                        json_decode($rekening->detail,true )['angsuran_pokok'] ." ".
-                                                        json_decode($rekening->detail,true )['margin'] ." ".
-                                                        json_decode($rekening->detail,true )['lama_angsuran']." ".
-                                                        json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
-                                                        $rekening->status_angsuran." ".
-                                                        json_decode($rekening->detail,true )['sisa_ang_bln'] ." ".
-                                                        json_decode($rekening->detail,true )['sisa_mar_bln']
-                                                    }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] ." " .
+                                                            json_decode($rekening->detail,true )['jumlah_margin_bulanan'] . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @else
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            json_decode($rekening->detail,true )['sisa_angsuran'] ." " .
+                                                            json_decode($rekening->detail,true )['sisa_margin'] . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @endif
                                                 @endif
                                             @endforeach
+
                                             <input type="hidden" id="idRekA" name="id_">
                                             <input type="hidden" id="pokok_" name="pokok_">
                                             <input type="hidden" id="jumlah_" name="jumlah_">

@@ -560,7 +560,7 @@ class UserController extends Controller
 
     public function pembiayaan()
     {
-        $data = $this->informationRepository->getAllPemUsrActive();
+        $data = $this->informationRepository->getAllPemUsr();
         //  dd($data[0]);
         $tab = $data;
         return view('users.pembiayaans', [
