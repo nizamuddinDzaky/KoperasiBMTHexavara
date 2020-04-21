@@ -36,7 +36,7 @@
 
                     <div class="button-group right">
                         <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#angsurPemModal"><i class="fa fa-money-bill-alt"></i> Angsuran Pembiayaan</button>
-                        <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#pelunasanLebihAwalPemModal"><i class="fa fa-money-bill-alt"></i> Pelunasan Lebih Awal</button>
+                        <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#pelunasanLebihAwalPembiayaanModal"><i class="fa fa-money-bill-alt"></i> Pelunasan Lebih Awal</button>
                     </div>
                 </div>
             </div>

@@ -1,44 +1,108 @@
-
-{{--Pelunasan Lebih Awal Pembiayaan--}}
-<div class="modal fade" id="pelunasanLebihAwalPemModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+{{--Modal Pelunasan Lebih Awal Pembiayaan--}}
+<div class="modal fade" id="pelunasanLebihAwalPembiayaanModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="card card-wizard" id="wizardCardCloseRek">
-            <form id="wizardFormCloseRek" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('anggota.angsur_pembiayaan')}}" @ENDIF enctype="multipart/form-data">
+        <div class="card card-wizard" id="wizardCardPelunasanLebihAwal">
+            <form id="wizardFormPelunasanLebihAwal" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('anggota.angsur_pembiayaan')}}" @ENDIF enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
                 @endif
                 <div class="header text-center">
-                    <h3 class="title">Pelunasan Pembiayaan </h3>
+                    <h3 class="title">Angsuran Pembiayaan</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#tab1Pelunasan" data-toggle="tab">Data Pembiayaan</a></li>
+                        <li><a href="#tab1PelunasanLebihAwal" data-toggle="tab">Data Angsuran</a></li>
                     </ul>
-
                     <div class="tab-content">
-                        <div class="tab-pane" id="tab1Pelunasan">
+                        <div class="tab-pane" id="tab1PelunasanLebihAwal">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Pembiayaan <star>*</star></label>
-                                        <select class="form-control select2" id="pelunasanidRek" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control select2" id="idRekPelunasan" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
+                                            
                                             @foreach ($datasaldoPem as $rekening)
-                                                <option value="{{
-                                                json_decode($rekening->detail,true )['angsuran_pokok']." ".
-                                                json_decode($rekening->detail,true )['margin']." ".
-                                                json_decode($rekening->detail,true )['lama_angsuran']." ".
-                                                json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
-                                                $rekening->status_angsuran." ".
-                                                json_decode($rekening->detail,true )['sisa_ang_bln']." ".
-                                                json_decode($rekening->detail,true )['sisa_mar_bln']
-                                                }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                @if(json_decode($rekening->detail,true )['sisa_ang_bln'] > 0)
+                                                    @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] + json_decode($rekening->detail,true)['sisa_ang_bln'] )." " .
+                                                            (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] + json_decode($rekening->detail,true)['sisa_mar_bln']) . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @else
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['sisa_angsuran'])." " .
+                                                            (json_decode($rekening->detail,true )['sisa_margin']) . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @endif
+                                                @elseif(json_decode($rekening->detail,true )['kelebihan_angsuran_bulanan'] > 0)
+                                                    @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] - json_decode($rekening->detail,true)['kelebihan_angsuran_bulanan']) ." " .
+                                                            (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] - json_decode($rekening->detail,true)['kelebihan_margin_bulanan']) . " " . 
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @else
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            (json_decode($rekening->detail,true )['sisa_angsuran']) ." " .
+                                                            (json_decode($rekening->detail,true )['sisa_margin']) . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @endif
+                                                @else
+                                                    @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] ." " .
+                                                            json_decode($rekening->detail,true )['jumlah_margin_bulanan'] . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @else
+                                                        <option value="{{
+                                                            json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
+                                                            json_decode($rekening->detail,true )['margin'] . " " .
+                                                            json_decode($rekening->detail,true )['lama_angsuran']." ".
+                                                            json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                            $rekening->status_angsuran." ".
+                                                            json_decode($rekening->detail,true )['sisa_angsuran'] ." " .
+                                                            json_decode($rekening->detail,true )['sisa_margin'] . " " .
+                                                            $rekening->id_rekening
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    @endif
+                                                @endif
                                             @endforeach
-                                            <input type="hidden" id="idRekPelunasan" name="id_">
+
+                                            <input type="hidden" id="idRekA" name="id_">
                                             <input type="hidden" id="pokok_" name="pokok_">
                                             <input type="hidden" id="jumlah_" name="jumlah_">
                                             <input type="hidden" id="jenis_" name="jenis_">
@@ -62,44 +126,30 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--<div class="row">--}}
-                                {{--<div class="col-md-10 col-md-offset-1">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label for="namaSim" class="control-label">Jenis Pembayaran Angsuran <star>*</star></label>--}}
-                                        {{--<select class="form-control select2" id="pembayaran" name="jenis_bayar" style="width: 100%;" required>--}}
-                                            {{--<option class="bs-title-option" selected value="default" disabled>-Pilih jenis pembayaran-</option>--}}
-                                            {{--<option value="0">Biaya Angsuran Bulanan [Pokok + Margin]</option>--}}
-                                            {{--<option value="1">Biaya Angsuran Pokok</option>--}}
-                                            {{--<option value="2">Biaya Margin</option>--}}
-                                            {{--<option value="3">Custom Pembayaran</option>--}}
-                                        {{--</select>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
 
-                            <div class="row" id="toHidePelunasanBank">
+                            <div class="row toHideBankTransfer">
                                 <div class="col-md-4 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="bankDeb" name="daribank" required>
+                                        <input type="text" class="form-control text-left"  id="bankDeb" name="daribank">
                                     </div>
                                 </div>
                                 <div class="col-md-6 ">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">No. Rekening BANK User <star>*</star></label>
-                                        <input type="number" class="form-control text-left"  id="nobankDeb" name="nobank" required>
+                                        <input type="number" class="form-control text-left"  id="nobankDeb" name="nobank">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="toHidePelunasanBank2">
+                            <div class="row toHideBankTransfer">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Atas Nama <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="atasnamaDeb" name="atasnama" required>
+                                        <input type="text" class="form-control text-left"  id="atasnamaDeb" name="atasnama">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="toHidePelunasan">
+                            <div class="row toHideBankTransfer">
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Transfer ke Rek. BANK <star>*</star></label>
@@ -131,7 +181,7 @@
                                         <label class="control-label">Sisa Tagihan Pokok Bulanan <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="tagihan_pokok_pelunasan" name="tagihan_pokok" disabled>
+                                            <input type="text" class="currency form-control text-right" id="tagihan_pokok" name="tagihan_pokok" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +190,7 @@
                                         <label class="control-label">Sisa Tagihan Margin Bulanan <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="tagihan_margin_pelunasan" name="tagihan_margin" disabled>
+                                            <input type="text" class="currency form-control text-right" id="tagihan_margin" name="tagihan_margin" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +202,7 @@
                                             <label class="control-label">Jumlah Biaya Angsuran Pokok <star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="bagi_pokok_pelunasan"  disabled />
+                                                <input type="text" class="currency form-control text-right" id="bagi_pokok"  disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -161,23 +211,23 @@
                                             <label class="control-label">Jumlah Biaya Margin Bulan ini<star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="bagi_margin_pelunasan" name="nisbah"  required>
+                                                <input type="text" class="currency form-control text-right" id="bagi_margin" name="nisbah"  required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-5 col-md-offset-1" id="showPokPelunasan"></div>
-                                    <div class="col-md-5 col-md-offset-1" id="angHidePelunasan">
+                                    {{-- <div class="col-md-5 col-md-offset-1" id="showPok"></div> --}}
+                                    <div class="col-md-5 col-md-offset-1" id="angHide">
                                         <div class="form-group">
                                             <label class="control-label">Jumlah Bayar Angsuran Pokok<star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="bayar_ang_pelunasan" name="bayar_ang" >
+                                                <input type="text" class="currency form-control text-right" id="bayar_ang" name="bayar_ang" >
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5" id="marginHidePelunasan">
+                                    <div class="col-md-5" id="marginHide">
                                         <div class="form-group">
                                             <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
                                             <div class="input-group">
@@ -193,7 +243,7 @@
                 </div>
 
                 <div class="footer">
-                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Lunasi </button>
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Angsur </button>
                     <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
                     <div class="clearfix"></div>
                 </div>
