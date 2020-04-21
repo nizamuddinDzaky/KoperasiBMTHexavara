@@ -193,14 +193,6 @@ class PembiayaanReporsitory {
                     
                     $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
-                    $dataToPenyimpananBMT['id_bmt'] = $bmt_shu_berjalan->id;
-                    $detailToPenyimpananBMT['jumlah'] = floatval($margin);
-                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_shu_berjalan->saldo;
-                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmt_shu_berjalan->saldo) + floatval($jumlah_bayar_margin);
-                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
-
-                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
-
                     $updateBMTPengirim = BMT::where('id_rekening', $data->bank)->update([ 'saldo' => $saldo_akhir_pengirim ]);
                     $updateBMTPembiayaan = BMT::where('id_rekening',  json_decode($pengajuan->detail)->pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
                     $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
