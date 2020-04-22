@@ -9,7 +9,7 @@
                 <br />
             </div>
 
-            <table id="bootstrap-table" class="table bootstrap-table">
+            <table class="table bootstrap-table">
                 <thead>
                     <th></th>
                     <th class="text-left" data-sortable="true">ID</th>

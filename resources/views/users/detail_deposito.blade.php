@@ -28,7 +28,7 @@
                                           <span></span>
                     </div>
 
-                        <table id="bootstrap-table" class="table">
+                        <table class="table bootstrap-table">
                             <thead>
                                 <th class="text-center"></th>
                                 <th class="text-center" data-sortable="true">Tgl Transaksi</th>
@@ -117,42 +117,6 @@
         });
     </script>
 
-    <script type="text/javascript">
-        var $table = $('#bootstrap-table');
-
-
-        $().ready(function(){
-            $('#bootstrap-table').dataTable({
-                initComplete: function () {
-                    $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
-                    $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
-                    $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
-                    $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
-                },
-                "processing": true,
-//                "dom": 'lBf<"top">rtip<"clear">',
-                "order": [],
-                "scrollX": false,
-                "dom": 'lBfrtip',
-                "buttons": {
-                    "dom": {
-                        "button": {
-                            "tag": "button",
-                            "className": "waves-effect waves-light btn mrm"
-//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
-                        }
-                    },
-                    "buttons": [
-                        'copyHtml5',
-                        'print',
-                        'excelHtml5',
-//                        'csvHtml5',
-                        'pdfHtml5' ]
-                }
-            });
-        });
-
-    </script>
     <script type="text/javascript">
         $().ready(function(){
             var selHk = $('#idhukum');

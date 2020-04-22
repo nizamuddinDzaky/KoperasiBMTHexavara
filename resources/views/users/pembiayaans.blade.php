@@ -59,18 +59,18 @@
                         <span></span>
                     </div>
 
-                    <table id="bootstrap-table" class="table">
+                    <table class="table bootstrap-table">
                         <thead>
-                        <th data-sortable="true" class="text-left">ID</th>
-                        <th data-sortable="true">Jenis Pembiayaan</th>
-                        <th data-sortable="true">Total Pinjaman*</th>
-                        <th data-sortable="true">Nisbah BMT*</th>
-                        <th data-sortable="true">Lama Pinjaman</th>
-                        <th data-sortable="true">Angsuran Pokok</th>
-                        <th data-sortable="true">Sisa Angsuran</th>
-                        <th data-sortable="true">Jatuh Tempo</th>
-                        <th data-sortable="true">Status</th>
-                        <th class="text-center">Actions</th>
+                            <th data-sortable="true" class="text-left">ID</th>
+                            <th data-sortable="true">Jenis Pembiayaan</th>
+                            <th data-sortable="true">Total Pinjaman*</th>
+                            <th data-sortable="true">Nisbah BMT*</th>
+                            <th data-sortable="true">Lama Pinjaman</th>
+                            <th data-sortable="true">Angsuran Pokok</th>
+                            <th data-sortable="true">Sisa Angsuran</th>
+                            <th data-sortable="true">Jatuh Tempo</th>
+                            <th data-sortable="true">Status</th>
+                            <th class="text-center">Actions</th>
                         </thead>
                         <tbody>
                         @foreach ($data as $usr)
@@ -133,7 +133,7 @@
                     </span>
                     </div>
 
-                    <table id="bootstrap-table2" class="table">
+                    <table class="table bootstrap-table">
                         <thead>
                         <th></th>
                         <th class="text-center" data-sortable="true" >ID Pengajuan</th>
@@ -239,7 +239,6 @@
 
     <!-- Select2 plugin -->
     <script src="{{ asset('bmtmudathemes/assets/js/modal/pelunasan.js') }}"></script>
-    <script src="{{ asset('bmtmudathemes/assets/js/loading.js') }}"></script>
 
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">
@@ -376,9 +375,6 @@
     </script>
 
     <script type="text/javascript">
-        var $table = $('#bootstrap-table');
-        var $table2 = $('#bootstrap-table2');
-
         function remove(field){
             for (i=0;i<= field ;i++){
                 jQuery('#rowNum'+i).remove();
@@ -674,64 +670,6 @@
                     bukti.attr("required",false);
                     selPelunasan.hide();
                     selPelunasanBank.hide();selArB2.hide();
-                }
-            });
-
-
-            $('#bootstrap-table').dataTable({
-                initComplete: function () {
-                    $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
-                    $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
-                    $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
-                    $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
-                },
-                "processing": true,
-//                "dom": 'lBf<"top">rtip<"clear">',
-                "order": [],
-                "scrollX": true,
-                "dom": 'lBfrtip',
-                "buttons": {
-                    "dom": {
-                        "button": {
-                            "tag": "button",
-                            "className": "waves-effect waves-light btn mrm"
-//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
-                        }
-                    },
-                    "buttons": [
-                        'copyHtml5',
-                        'print',
-                        'excelHtml5',
-//                        'csvHtml5',
-                        'pdfHtml5' ]
-                }
-            });
-            $('#bootstrap-table2').dataTable({
-                initComplete: function () {
-                    $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
-                    $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
-                    $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
-                    $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
-                },
-                "processing": true,
-//                "dom": 'lBf<"top">rtip<"clear">',
-                "order": [],
-                "scrollX": false,
-                "dom": 'lBfrtip',
-                "buttons": {
-                    "dom": {
-                        "button": {
-                            "tag": "button",
-                            "className": "waves-effect waves-light btn mrm"
-//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
-                        }
-                    },
-                    "buttons": [
-                        'copyHtml5',
-                        'print',
-                        'excelHtml5',
-//                        'csvHtml5',
-                        'pdfHtml5' ]
                 }
             });
         });

@@ -8,6 +8,8 @@
     .navbar-collapse {
         .nav {
             .dropdown {
+                display: flex;
+
                 .dropdown-toggle {
                     &:focus {
                         background-color: transparent;
@@ -27,6 +29,20 @@
                         background-position: center;
                         background-repeat: no-repeat;
                     }
+
+                    &.navbar-name {
+                        margin-left: -10px;
+                        color: $navbar-text-color;
+                        align-self: center;
+                        text-transform: capitalize;
+                    }
+                }
+            }
+
+            .open
+            {
+                a {
+                    background-color: transparent;
                 }
             }
         }

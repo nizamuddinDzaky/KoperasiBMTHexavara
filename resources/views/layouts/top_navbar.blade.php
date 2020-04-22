@@ -116,6 +116,9 @@
                         @endif
                     "></a>
 
+                    <a href="#" class="dropdown-toggle navbar-name" data-toggle="dropdown">{{ Auth::user()->nama }}</a>
+                    
+
                     <ul class="dropdown-menu dropdown-with-icons">
                         <li>
                             <a @if(Auth::user()->tipe=="admin")href="{{route('admin.transaksi.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")href="{{route('teller.transaksi.pengajuan')}}" @elseif(Auth::user()->tipe=="anggota")href="{{route('pengajuan')}}" @endif>

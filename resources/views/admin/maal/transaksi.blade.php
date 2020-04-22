@@ -42,19 +42,19 @@
                             <span></span>
                         </div>
 
-                        <table id="bootstrap-table" class="table">
+                        <table class="table bootstrap-table">
                             <thead>
                             <th></th>
                             <th data-sortable="true" class="text-left">ID</th>
-                            <th class="text-center" data-sortable="true">Tgl Transaksi</th>
-                            <th class="text-center" data-sortable="true">Donatur</th>
-                            <th class="text-center" data-sortable="true">Kegiatan</th>
+                            <th class="text-left" data-sortable="true">Tgl Transaksi</th>
+                            <th class="text-left" data-sortable="true">Donatur</th>
+                            <th class="text-left" data-sortable="true">Kegiatan</th>
                             @if(Auth::user()->tipe!="anggota")
-                            <th class="text-center" data-sortable="true">Dari Rekening</th>
-                            <th class="text-center" data-sortable="true">Ke Rekening</th>
+                            <th class="text-left" data-sortable="true">Dari Rekening</th>
+                            <th class="text-left" data-sortable="true">Ke Rekening</th>
                             @endif
-                            <th class="text-center" data-sortable="true">Jenis Transaksi</th>
-                            <th class="text-center" data-sortable="true">Jumlah</th>
+                            <th class="text-left" data-sortable="true">Jenis Transaksi</th>
+                            <th class="text-left" data-sortable="true">Jumlah</th>
                             {{--<th>Actions</th>--}}
                             </thead>
                             <tbody>
@@ -70,7 +70,7 @@
                                     <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
                                     @endif
                                     <td>{{ $usr->status }}</td>
-                                    <td class="text-right">Rp {{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                    <td class="text-left">Rp {{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
 
                                     {{--<td class="td-actions text-center">--}}
                                         {{--<button type="button" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#editPassUsrModal" title="Ubah Password"--}}
@@ -158,7 +158,6 @@
     
 
     <script type="text/javascript">
-        var $table = $('#bootstrap-table');
 
         $().ready(function(){
             var jenis = $('#toShow');
@@ -178,34 +177,6 @@
                     jenis2.show();
                     jenis.hide();
                     $('#idrekteller').attr("required",false);
-                }
-            });
-            $('#bootstrap-table').dataTable({
-                initComplete: function () {
-                    $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
-                    $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
-                    $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
-                    $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
-                },
-                "processing": true,
-//                "dom": 'lBf<"top">rtip<"clear">',
-                "order": [],
-                "scrollX": false,
-                "dom": 'lBfrtip',
-                "buttons": {
-                    "dom": {
-                        "button": {
-                            "tag": "button",
-                            "className": "waves-effect waves-light btn mrm"
-//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
-                        }
-                    },
-                    "buttons": [
-                        'copyHtml5',
-                        'print',
-                        'excelHtml5',
-//                        'csvHtml5',
-                        'pdfHtml5' ]
                 }
             });
 

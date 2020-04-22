@@ -461,6 +461,12 @@ canvas {
   color: #FFFFFF;
 }
 
+.navbar .navbar-collapse .nav .dropdown {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .navbar .navbar-collapse .nav .dropdown .dropdown-toggle:focus {
   background-color: transparent;
 }
@@ -479,6 +485,18 @@ canvas {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.navbar .navbar-collapse .nav .dropdown .dropdown-toggle.navbar-name {
+  margin-left: -10px;
+  color: #FFFFFF;
+  -ms-flex-item-align: center;
+      align-self: center;
+  text-transform: capitalize;
+}
+
+.navbar .navbar-collapse .nav .open a {
+  background-color: transparent;
 }
 
 .navbar .navbar-nav.hidden-lg .dropdown {
