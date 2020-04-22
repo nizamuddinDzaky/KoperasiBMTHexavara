@@ -188,6 +188,10 @@ class SimpananReporsitory {
                 $id_bmt_bank_pengirim = $bmt_bank_pengirim->id;
             }
 
+            $bmt_simpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->first();
+            $saldo_awal_bmt_simpanan = $bmt_simpanan->saldo;
+            $saldo_akhir_bmt_simpanan = $saldo_awal_bmt_simpanan + floatval(json_decode($pengajuan->detail)->jumlah);
+
             if($data->id_rekening_simpanan == 117)
             {
                 $nama_rekening = "Simpanan Pokok";
@@ -402,8 +406,8 @@ class SimpananReporsitory {
             $insertIntoPenyimpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
             if($insertIntoPenyimpananBMTPengirim == "success")
             {
-                $detailToPenyimpananBMT['saldo_awal'] = floatval($saldo_awal_simpanan);
-                $detailToPenyimpananBMT['saldo_akhir'] = floatval($saldo_akhir_simpanan);
+                $detailToPenyimpananBMT['saldo_awal'] = floatval($saldo_awal_bmt_simpanan);
+                $detailToPenyimpananBMT['saldo_akhir'] = floatval($saldo_akhir_bmt_simpanan);
                 $dataToPenyimpananBMT['id_bmt'] = $id_bmt_simpanan;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
                 
@@ -600,6 +604,7 @@ class SimpananReporsitory {
                     "id_pengajuan" => $nextId
                 ];
             }
+
             if($data->id_rekening_simpanan == 119)
             {
                 $nama_rekening = "Simpanan Wajib";
@@ -779,12 +784,15 @@ class SimpananReporsitory {
                 "teller"            => Auth::user()->id
             ];
 
+            $bmt_simpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->first();
+            $saldo_awal_bmt_simpanan = $bmt_simpanan->saldo;
+
             if($this->pengajuanReporsitory->createPengajuan($dataToPengajuan)["type"] == "success")
             {
                 $detailToPenyimpananBMT = [
                     "jumlah"    => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
-                    "saldo_awal"=> floatval($saldo_bmt_simpanan),
-                    "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                    "saldo_awal"=> floatval($saldo_awal_bmt_simpanan),
+                    "saldo_akhir" => floatval($saldo_awal_bmt_simpanan) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                     "id_pengajuan" => $nextId
                 ];
                 $dataToPenyimpananBMT = [

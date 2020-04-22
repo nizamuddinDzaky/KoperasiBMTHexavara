@@ -56,7 +56,7 @@
                                         <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
-                                            <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} [ {{ $rekening['detail']['saldo'] }} ]</option>
+                                            <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} [ {{ number_format(json_decode($rekening['detail'])->saldo,2) }} ]</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -184,7 +184,7 @@
                                         <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
-                                            <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} [ {{ $rekening['detail']['saldo'] }} ]</option>
+                                            <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} [ {{ number_format(json_decode($rekening['detail'])->saldo,2) }} ]</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -313,7 +313,7 @@
                                         <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
-                                            <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} [ {{ $rekening['detail']['saldo'] }} ]</option>
+                                            <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} ] [ {{ number_format(json_decode($rekening['detail'])->saldo,2) }} ]</option>
                                             @endforeach
                                         </select>
                                     </div>
