@@ -17,6 +17,7 @@ use App\PenyimpananTabungan;
 use App\Pengajuan;
 use App\Repositories\PengajuanReporsitories;
 use App\Repositories\TabunganReporsitories;
+use App\Repositories\RekeningReporsitories;
 use App\Maal;
 use App\PenyimpananMaal;
 use App\PenyimpananBMT;
@@ -26,11 +27,13 @@ class DonasiReporsitories {
 
     public function __construct(
                                 PengajuanReporsitories $pengajuanReporsitory,
-                                TabunganReporsitories $tabunganReporsitory
+                                TabunganReporsitories $tabunganReporsitory,
+                                RekeningReporsitories $rekeningReporsitory
                                 )
     {
         $this->pengajuanReporsitory = $pengajuanReporsitory;
         $this->tabunganReporsitory = $tabunganReporsitory;
+        $this->rekeningReporsitory = $rekeningReporsitory;
     }
 
     /** 
@@ -92,14 +95,14 @@ class DonasiReporsitories {
                 'nama'      => Auth::user()->nama,
                 'debit'     => $debit,
                 'path_bukti'=> $path_bukti,
-                'jumlah'    => $data->nominal,
+                'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
                 'rekening'  => $rekening,
                 'atasnama'  => $atasnama,
                 'bank'      => $namabank,
                 'no_bank'   => $norek,
                 'bank_tujuan_transfer' => $bank_tujuan_transfer
             ];
-
+            
             $dataToSave = [
                 'id_user'           => Auth::user()->id,
                 'id_rekening'       => $id_rekening,
@@ -159,7 +162,10 @@ class DonasiReporsitories {
 
         try {
             $pengajuan = Pengajuan::where('id', $data->id_)->first();
-            $bmt = BMT::where('id_rekening', $pengajuan->id_rekening)->select(['id', 'saldo'])->first();
+            $bmt_donasi = BMT::where('id_rekening', $pengajuan->id_rekening)->select(['id', 'saldo'])->first();
+            $saldo_awal_donasi = $bmt_donasi->saldo;
+            $saldo_akhir_donasi = $bmt_donasi->saldo + json_decode($pengajuan->detail)->jumlah;
+
             if($data->rekDon != null) {
                 $maal = Maal::where('id', $data->rekDon)->first();
                 $dana_terkumpul = json_decode($maal->detail)->terkumpul;
@@ -176,25 +182,28 @@ class DonasiReporsitories {
             // Update saldo rekening pengirim di bmt
             // Execute for pengajuan via tabungan
             if(json_decode($pengajuan->detail)->debit == "Tabungan") {
-                    $tabungan_pengirim = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->rekening)->first();
-                    $rekening_pengirim = Rekening::where([ ['nama_rekening', $tabungan_pengirim->jenis_tabungan], ['tipe_rekening', 'detail'] ])->select('id')->first();
-                    $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+                $tabungan_pengirim = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->rekening)->first();
+                $rekening_pengirim = Rekening::where([ ['nama_rekening', $tabungan_pengirim->jenis_tabungan], ['tipe_rekening', 'detail'] ])->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
 
-                    $detailToPenyimpananTabungan = [
-                        "teller"    => Auth::user()->id,
-                        "dari_rekening" => json_decode($pengajuan->detail)->rekening,
-                        "untuk_rekening" => $data->rekDon,
-                        "jumlah" => json_decode($pengajuan->detail)->jumlah,
-                        "saldo_awal" => json_decode($tabungan_pengirim->detail)->saldo,
-                        "saldo_akhir" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
-                    ];
-                    $dataToPenyimpananTabungan = [
-                        "id_user"       => json_decode($pengajuan->detail)->id,
-                        "id_tabungan"   => $tabungan_pengirim->id,
-                        "status"        => "Donasi",
-                        "transaksi"     => $detailToPenyimpananTabungan,
-                        "teller"        => Auth::user()->id
-                    ];
+                $saldo_awal_pengirim = $bmt_pengirim->saldo;
+                $saldo_akhir_pengirim = $bmt_pengirim->saldo + json_decode($pengajuan->detail)->jumlah;
+
+                $detailToPenyimpananTabungan = [
+                    "teller"    => Auth::user()->id,
+                    "dari_rekening" => json_decode($pengajuan->detail)->rekening,
+                    "untuk_rekening" => $data->rekDon,
+                    "jumlah" => json_decode($pengajuan->detail)->jumlah,
+                    "saldo_awal" => json_decode($tabungan_pengirim->detail)->saldo,
+                    "saldo_akhir" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
+                ];
+                $dataToPenyimpananTabungan = [
+                    "id_user"       => json_decode($pengajuan->detail)->id,
+                    "id_tabungan"   => $tabungan_pengirim->id,
+                    "status"        => "Donasi",
+                    "transaksi"     => $detailToPenyimpananTabungan,
+                    "teller"        => Auth::user()->id
+                ];
 
                     
                 if(floatval($bmt_pengirim->saldo) > floatval(json_decode($pengajuan->detail)->jumlah))
@@ -220,6 +229,9 @@ class DonasiReporsitories {
                 $saldo_bmt_pengirim = floatval($bmt_pengirim->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
                 $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_bmt_pengirim]);
 
+                $saldo_awal_pengirim = $bmt_pengirim->saldo;
+                $saldo_akhir_pengirim = $bmt_pengirim->saldo + json_decode($pengajuan->detail)->jumlah;
+
                 $update_saldo_pengirim_response = "success";
             }
 
@@ -231,11 +243,17 @@ class DonasiReporsitories {
                 'teller'        => Auth::user()->id
             ];
 
+            $detailToPenyimpananBMT = [
+                "jumlah"        => json_decode($pengajuan->detail)->jumlah,
+                "saldo_awal"    => $saldo_awal_donasi,
+                "saldo_akhir"   => $saldo_akhir_donasi,
+                "id_pengajuan"  => $pengajuan->id
+            ];
             $dataToInsertIntoPenyimpananBMT = [
                 'id_user'       => $pengajuan->id_user,
-                'id_bmt'        => $bmt->id,
+                'id_bmt'        => $bmt_donasi->id,
                 'status'        => json_decode($pengajuan->detail)->jenis_donasi,
-                'transaksi'     => $pengajuan->detail,
+                'transaksi'     => $detailToPenyimpananBMT,
                 'teller'        => Auth::user()->id
             ];
 
@@ -248,15 +266,23 @@ class DonasiReporsitories {
 
                     if($penyimpananMaal['type'] == 'success') {
                         
-                        $penyimpananBMT = $this->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+                        $penyimpananBMT = $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
                         
+                        $dataToInsertIntoPenyimpananBMT['id_bmt'] = $bmt_pengirim->id;
+                        $detailToPenyimpananBMT['jumlah'] = json_decode($pengajuan->detail)->jumlah;
+                        $detailToPenyimpananBMT['saldo_awal'] = $saldo_awal_pengirim;
+                        $detailToPenyimpananBMT['saldo_akhir'] = $saldo_akhir_pengirim;
+                        $dataToInsertIntoPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                        $penyimpananBMT = $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+
                         $detail_pengajuan = json_decode($pengajuan->detail);
 
                         // Update donasi maal dana terkumpul
                         $update_dana_terkumpul = Maal::where('id', $data->rekDon)->update([ 'detail' => json_encode($detail_maal_update) ]);
 
                         // update saldo in bmt table
-                        $update_saldo_bmt = BMT::where('id', $bmt->id)->update([ 'saldo' => floatval($bmt->saldo) + floatval($detail_pengajuan->jumlah) ]);
+                        $update_saldo_bmt = BMT::where('id', $bmt_donasi->id)->update([ 'saldo' => floatval($bmt_donasi->saldo) + floatval($detail_pengajuan->jumlah) ]);
 
                         if($detail_pengajuan->debit == "Tabungan") {
                             $dataToCheckInTabungan = [
@@ -271,12 +297,20 @@ class DonasiReporsitories {
 
                 // This is for other donasi action
                 else {
-                    $penyimpananBMT = $this->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+                    $penyimpananBMT = $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+
+                    $dataToInsertIntoPenyimpananBMT['id_bmt'] = $bmt_pengirim->id;
+                    $detailToPenyimpananBMT['jumlah'] = json_decode($pengajuan->detail)->jumlah;
+                    $detailToPenyimpananBMT['saldo_awal'] = $saldo_awal_pengirim;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $saldo_akhir_pengirim;
+                    $dataToInsertIntoPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $penyimpananBMT = $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
 
                     $detail_pengajuan = json_decode($pengajuan->detail);
                     
                     // update saldo in bmt table
-                    $update_saldo_bmt = BMT::where('id', $bmt->id)->update([ 'saldo' => floatval($bmt->saldo) + floatval($detail_pengajuan->jumlah) ]);
+                    $update_saldo_bmt = BMT::where('id', $bmt_donasi->id)->update([ 'saldo' => floatval($bmt_donasi->saldo) + floatval($detail_pengajuan->jumlah) ]);
 
                     if($detail_pengajuan->debit == "Tabungan") {
                         $dataToCheckInTabungan = [
@@ -375,30 +409,6 @@ class DonasiReporsitories {
     }
 
     /** 
-     * Insert data to penyimpanan bmt
-     * @return Response
-    */
-    public function insertPenyimpananBMT($data) {
-        $penyimpanan = new PenyimpananBMT();
-        $penyimpanan->id_user = $data['id_user'];
-        $penyimpanan->id_bmt = $data['id_bmt'];
-        $penyimpanan->status = $data['status'];
-        $penyimpanan->transaksi = $data['transaksi'];
-        $penyimpanan->teller = $data['teller'];
-        
-        if($penyimpanan->save())
-        {
-            $response = array("type" => "success", "message" => "Pengajuan Donasi Maal Berhasil Dikonfirmasi");
-        }
-        else
-        {
-            $response = array("type" => "error", "message" => "Pengajuan Donasi Maal Gagal Dikonfirmasi");
-        }
-
-        return $response;
-    }
-
-    /** 
      * Pay donasi from teller page
      * @return Response
     */
@@ -410,6 +420,8 @@ class DonasiReporsitories {
         {
             $statement = DB::select("SHOW TABLE STATUS LIKE 'pengajuan'");
             $nextId = $statement[0]->Auto_increment;
+
+            $donatur = User::where('id', $data->donatur)->first();
 
             if($data->debit == 1) {
                 $file = $data->file->getClientOriginalName();
@@ -426,9 +438,8 @@ class DonasiReporsitories {
                 $namabank = $data->nama_bank;
                 $norek = $data->nomor_rekening;
                 $bank_tujuan_transfer = $data->bank_tujuan;
-                $id_user_pengirim = Auth::user()->id;
-                $nama_user_pengirim = Auth::user()->nama;
             }
+
             if($data->debit == 2) {
                 $debit = "Tabungan";
                 $path_bukti = null;
@@ -439,9 +450,6 @@ class DonasiReporsitories {
                 $bank_tujuan_transfer = null;
 
                 $tabungan_pengirim = Tabungan::where('id_tabungan', $data->rekening)->first();
-                $user_pengirim = User::where('id', $tabungan_pengirim->id_user)->first();
-                $id_user_pengirim = $user_pengirim->id;
-                $nama_user_pengirim = $user_pengirim->nama;
             }
 
             if($data->debit == 0) {
@@ -452,10 +460,6 @@ class DonasiReporsitories {
                 $namabank = null;
                 $norek = null;
                 $bank_tujuan_transfer = null;
-
-                $user_pengirim = User::where('id', Auth::user()->id)->first();
-                $id_user_pengirim = $user_pengirim->id;
-                $nama_user_pengirim = $user_pengirim->nama;
             }
 
             // Get jenis donasi (donasi kegiatan/maal, zis, wakaf)
@@ -475,16 +479,18 @@ class DonasiReporsitories {
                 $id_rekening = 118;
             }
 
-            $bmt = BMT::where('id_rekening', $id_rekening)->first();
-
+            $bmt_donasi = BMT::where('id_rekening', $id_rekening)->first();
+            $saldo_awal_donasi = $bmt_donasi->saldo;
+            $saldo_akhir_donasi = $bmt_donasi->saldo + preg_replace('/[^\d.]/', '', $data->nominal);
+            
             $detail = [
                 'id_maal'   => $data->id_donasi,
                 'jenis_donasi'    => $data->jenis_donasi,
-                'id'        => $id_user_pengirim,
-                'nama'      => $nama_user_pengirim,
+                'id'        => $donatur->id,
+                'nama'      => $donatur->nama,
                 'debit'     => $debit,
                 'path_bukti'=> $path_bukti,
-                'jumlah'    => $data->nominal,
+                'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
                 'rekening'  => $rekening,
                 'atasnama'  => $atasnama,
                 'bank'      => $namabank,
@@ -494,7 +500,7 @@ class DonasiReporsitories {
 
             $dataToSave = [
                 'id'                => $nextId,
-                'id_user'           => $id_user_pengirim,
+                'id_user'           => $donatur->id,
                 'id_rekening'       => $id_rekening,
                 'jenis_pengajuan'   => $jenis_pengajuan,
                 'status'            => 'Sudah Konfirmasi',
@@ -506,26 +512,31 @@ class DonasiReporsitories {
             $pengajuan = $this->pengajuanReporsitory->createPengajuan($dataToSave);
 
             $dataToInsertIntoPenyimpananMaal = [
-                'id_donatur'    => $id_user_pengirim,
+                'id_donatur'    => $donatur->id,
                 'id_maal'       => $data->id_donasi,
                 'status'        => $debit,
                 'transaksi'     => json_encode($detail),
                 'teller'        => Auth::user()->id
             ];
 
+            $detailToPenyimpananBMT = [
+                "jumlah"        => preg_replace('/[^\d.]/', '', $data->nominal),
+                "saldo_awal"    => $saldo_awal_donasi,
+                "saldo_akhir"   => $saldo_akhir_donasi,
+                "id_pengajuan"  => $nextId
+            ];
+
             $dataToInsertIntoPenyimpananBMT = [
-                'id_user'       => $id_user_pengirim,
-                'id_bmt'        => $bmt->id,
+                'id_user'       => $donatur->id,
+                'id_bmt'        => $bmt_donasi->id,
                 'status'        => $data->jenis_donasi,
-                'transaksi'     => json_encode($detail),
+                'transaksi'     => $detailToPenyimpananBMT,
                 'teller'        => Auth::user()->id
             ];
             
             if($pengajuan['type'] == "success")
             {
-                // Update saldo rekening pengirim di bmt
-                // Execute for pengajuan via tabungan
-                if($data->debit == 2) {                    
+                if($data->debit == 2) {     // Pembayaran VIA Tabungan                
                     $tabungan_pengirim = Tabungan::where('id_tabungan', $data->rekening)->first();
                     $rekening_pengirim = Rekening::where([ ['nama_rekening', $tabungan_pengirim->jenis_tabungan], ['tipe_rekening', 'detail'] ])->select('id')->first();
                     $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
@@ -534,22 +545,22 @@ class DonasiReporsitories {
                         "teller"    => Auth::user()->id,
                         "dari_rekening" => $data->rekening,
                         "untuk_rekening" => $id_rekening,
-                        "jumlah" => floatval($data->nominal),
+                        "jumlah" => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                         "saldo_awal" => json_decode($tabungan_pengirim->detail)->saldo,
-                        "saldo_akhir" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval($data->nominal)
+                        "saldo_akhir" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->nominal))
                     ];
                     $dataToPenyimpananTabungan = [
-                        "id_user"       => $id_user_pengirim,
+                        "id_user"       => $donatur->id,
                         "id_tabungan"   => $tabungan_pengirim->id,
                         "status"        => "Donasi",
                         "transaksi"     => $detailToPenyimpananTabungan,
                         "teller"        => Auth::user()->id
                     ];
 
-                    if(floatval($bmt_pengirim->saldo) > floatval($data->nominal))
+                    if(floatval($bmt_pengirim->saldo) > floatval(preg_replace('/[^\d.]/', '', $data->nominal)))
                     {
-                        $saldo_bmt_pengirim = floatval($bmt_pengirim->saldo) - floatval($data->nominal);
-                        $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_bmt_pengirim]);
+                        $saldo_akhir_bmt_pengirim = floatval($bmt_pengirim->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                        $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_akhir_bmt_pengirim]);
 
                         $update_saldo_pengirim_response = "success";
 
@@ -561,30 +572,25 @@ class DonasiReporsitories {
                     }
                 }
                 
-                // Update saldo rekening pengirim di bmt
-                // Execute for pengajuan via transfer
-                if($bank_tujuan_transfer != null) {
+                if($bank_tujuan_transfer != null) { // Pembayaran VIA Transfer
                     $rekening_pengirim = Rekening::where('id', $data->bank_tujuan)->select('id')->first();
                     $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
 
-                    $saldo_bmt_pengirim = floatval($bmt_pengirim->saldo) + floatval($data->nominal);
-                    $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_bmt_pengirim]);
+                    $saldo_akhir_bmt_pengirim = floatval($bmt_pengirim->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                    $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_akhir_bmt_pengirim]);
 
                     $update_saldo_pengirim_response = "success";
                 }
 
-                // Update saldo rekening pengirim di bmt
-                // Execute for pengajuan via tunai
-                if($data->debit == 0) {
+                if($data->debit == 0) { // Pembayaran VIA Tunai
                     $rekening_pengirim = Rekening::where('id', json_decode(Auth::user()->detail)->id_rekening)->select('id')->first();
                     $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
-                    $saldo_bmt_pengirim = floatval($bmt_pengirim->saldo) + floatval($data->nominal);
-                    $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_bmt_pengirim]);
+                    $saldo_akhir_bmt_pengirim = floatval($bmt_pengirim->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                    $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_akhir_bmt_pengirim]);
 
                     $update_saldo_pengirim_response = "success";
                 }
 
-                // This is for donasi kegiatan action 
                 if($update_saldo_pengirim_response == "success")
                 {
                     if($data->jenis_donasi == "donasi kegiatan")
@@ -592,9 +598,16 @@ class DonasiReporsitories {
                         $penyimpananMaal = $this->insertPenyimpananMaal($dataToInsertIntoPenyimpananMaal);
                     }
 
-                    $penyimpananBMT = $this->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
                     
-                    
+                    $dataToInsertIntoPenyimpananBMT['id_bmt'] = $bmt_pengirim->id;
+                    $detailToPenyimpananBMT['jumlah'] = preg_replace('/[^\d.]/', '', $data->nominal);
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_pengirim->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_pengirim->saldo + preg_replace('/[^\d.]/', '', $data->nominal);
+                    $dataToInsertIntoPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+
                     if($data->jenis_donasi == "donasi kegiatan")
                     {
                         $kegiatan_maal_didonasi = Maal::where('id', $data->id_donasi)->first();
@@ -602,21 +615,19 @@ class DonasiReporsitories {
                         $detail_maal_update = [
                             "detail"    => json_decode($kegiatan_maal_didonasi->detail)->detail,
                             "dana"      => json_decode($kegiatan_maal_didonasi->detail)->dana,
-                            "terkumpul" => floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval($data->nominal),
+                            "terkumpul" => floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                             "path_poster" => json_decode($kegiatan_maal_didonasi->detail)->path_poster
                         ];
 
-                        // Update donasi maal dana terkumpul
                         $update_dana_terkumpul = Maal::where('id', $data->id_donasi)->update([ 'detail' => json_encode($detail_maal_update) ]);
                     }
 
-                    // update saldo in bmt table
-                    $update_saldo_bmt = BMT::where('id', $bmt->id)->update([ 'saldo' => floatval($bmt->saldo) + floatval($data->nominal) ]);
+                    $update_saldo_bmt_jenis_donasi = BMT::where('id', $bmt_donasi->id)->update([ 'saldo' => floatval($bmt_donasi->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)) ]);
 
                     if($data->debit == 2) {
                         $dataToCheckInTabungan = [
                             'id_tabungan' => $data->rekening,
-                            'jumlah'      => $data->nominal,
+                            'jumlah'      => preg_replace('/[^\d.]/', '', $data->nominal),
                             'id_pengajuan' => $nextId
                         ];
                         $this->updateSaldoTabungan($dataToCheckInTabungan);

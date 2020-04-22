@@ -23,11 +23,27 @@
                             <input type="hidden" name="id_donasi" id="id_donasi">
                             <input type="hidden" name="jenis_donasi" id="jenis_donasi" value="zis">
 
+                            @if(Auth::user()->tipe != "anggota")
+                            <div class="row">
+                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Donatur <star>*</star></label>
+                                        <select class="form-control select2" name="donatur" style="width: 100%;" required>
+                                            <option selected disabled>- Pilih Donatur -</option>
+                                            @foreach ($anggota as $anggota)
+                                                <option value="{{ $anggota->id }}">{{ $anggota->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             <div class="row">
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="currency form-control text-left"  id="nominal" name="nominal" required>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +68,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="rekening" style="width: 100%;">
+                                        <select class="form-control select2 rekening-tabungan" name="rekening" style="width: 100%;">
                                             <option selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $tabungan)
                                                 <option value="{{ $tabungan->id_tabungan }}">[{{ $tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }} [ Rp. {{ number_format(json_decode($tabungan->detail)->saldo) }} ]</option>
@@ -66,14 +82,14 @@
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Nama Bank <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nama_bank" name="nama_bank">
+                                        <input type="text" class="form-control text-left namabank"  id="nama_bank" name="nama_bank">
                                     </div>
                                 </div>
 
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Atas Nama <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="atas_nama" name="atas_nama">
+                                        <input type="text" class="form-control text-left atasnama"  id="atas_nama" name="atas_nama">
                                     </div>
                                 </div>
                             </div>
@@ -81,13 +97,13 @@
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Nomor Rekening <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="nomor_rekening" name="nomor_rekening">
+                                        <input type="text" class="form-control text-left norekening"  id="nomor_rekening" name="nomor_rekening">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Bank Tujuan Transfer <star>*</star></label>
-                                        <select class="form-control select2" name="bank_tujuan" style="width: 100%;" required>
+                                        <select class="form-control select2 bank-tujuan" name="bank_tujuan" style="width: 100%;" required>
                                             <option selected disabled>-Pilih Bank Tujuan-</option>
                                             @foreach ($bank_bmt as $bank)
                                                 <option value="{{ $bank->id }}">{{ $bank->nama_rekening }}</option>

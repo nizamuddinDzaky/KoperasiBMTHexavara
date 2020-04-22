@@ -84,13 +84,38 @@ $(document).ready(function() {
 $(document).ready(function() {
     $(".opsi-pembayaran").change(function() {
         var opsi = $(this).val();
+        if(opsi == 0) {
+            $('.opsi-transfer').addClass('hide');
+            $('.opsi-tabungan').addClass('hide');
+
+            // $(".namabank").attr("required", "false")
+            // $(".atasnama").attr("required", "false")
+            // $(".norekening").attr("required", "false")
+            // $(".bank-tujuan").attr("required", "false")
+            // $(".bukti").attr("required", "false")
+            // $(".rekening-tabungan").attr("required", "false")
+        }
         if(opsi == 1) {
             $('.opsi-transfer').removeClass('hide');
             $('.opsi-tabungan').addClass('hide');
+
+            $(".namabank").attr("required", "true")
+            $(".atasnama").attr("required", "true")
+            $(".norekening").attr("required", "true")
+            $(".bank-tujuan").attr("required", "true")
+            $(".bukti").attr("required", "true")
         }
         if(opsi == 2) {
             $('.opsi-tabungan').removeClass('hide');
             $('.opsi-transfer').addClass('hide');
+
+            $(".rekening-tabungan").attr("required", "true")
+
+            $(".namabank").attr("required", "false")
+            $(".atasnama").attr("required", "false")
+            $(".norekening").attr("required", "false")
+            $(".bank-tujuan").attr("required", "false")
+            $(".bukti").attr("required", "false")
         }
     });
 });

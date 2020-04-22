@@ -690,48 +690,6 @@ class UserController extends Controller
         ]);
     }
     public function donasimaal(Request $request){
-        // if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
-        // $dari = $this->tabungan->where('id',$request->dari)->first();
-
-        // if($request->jenis==1){
-        //     if(floatval(json_decode($dari['detail'],true)['saldo'])<$request->jumlah){
-        //         return redirect()
-        //             ->back()
-        //             ->withInput()->with('message', 'Mohon maaf Saldo Rekening '. $dari['id_tabungan']." ". $dari['jenis_tabungan'].' Anda tidak cukup!.');
-        //     }
-        // }else{
-        //     $this->validate($request, [
-        //         'file' => 'file|max:2000', // max 2MB
-        //     ]);
-        //     if($this->informationRepository->pengajuanMaal($request))
-        //         return redirect()
-        //             ->back()
-        //             ->withSuccess(sprintf('Donasi kegiatan Maal berhasil dilakukan harap menunggu konfirmasi!.'));
-        //     else{
-        //         return redirect()
-        //             ->back()
-        //             ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
-        //     }
-        // }
-
-        // if($this->informationRepository->donasiMaal($request))
-        //     return redirect()
-        //         ->back()
-        //         ->withSuccess(sprintf('Donasi kegiatan Maal berhasil dilakukan!.'));
-        // else{
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
-        // }
-        // 'donasi' => $jenis,
-            // 'id' => Auth::user()->id,
-            // 'nama' => Auth::user()->nama,
-            // 'dari' => $request->bank,
-            // 'kegiatan' => $wamaal,
-            // 'no_bank' => $request->nobank,
-            // 'daribank' => $request->daribank,
-        
-            // return response()->json($request);
         if($request->rekening != null)
         {
 

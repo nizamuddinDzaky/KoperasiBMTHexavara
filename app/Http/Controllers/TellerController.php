@@ -23,6 +23,7 @@ use App\Repositories\RekeningReporsitories;
 use App\Repositories\SimpananReporsitory;
 use App\Repositories\PembiayaanReporsitory;
 use App\Repositories\PengajuanReporsitories;
+use App\Repositories\AccountReporsitories;
 
 class TellerController extends Controller
 {
@@ -47,7 +48,8 @@ class TellerController extends Controller
                                 RekeningReporsitories $rekeningReporsitory,
                                 SimpananReporsitory $simpananReporsitory,
                                 PembiayaanReporsitory $pembiayaanReporsitory,
-                                PengajuanReporsitories $pengajuanReporsitory
+                                PengajuanReporsitories $pengajuanReporsitory,
+                                AccountReporsitories $accountReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -74,6 +76,7 @@ class TellerController extends Controller
         $this->simpananReporsitory = $simpananReporsitory;
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
         $this->pengajuanReporsitory = $pengajuanReporsitory;
+        $this->accountReporsitory = $accountReporsitory;
     }
 
     public function index(){
@@ -1295,10 +1298,11 @@ class TellerController extends Controller
                 array_push($depositoExpiredNotAutoExtended, $value);
             }
         }
-        // return response()->json($this->informationRepository->getAllMaal());
+        // return response()->json();
         return view('teller.transaksi.maal.pengajuan',[
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
+            'anggota'  => $this->accountReporsitory->getAccount('anggota'),
             'tabungan' => $this->tabunganReporsitory->getTabungan(),
             'pengajuanKegiatan' => $this->donasiReporsitory->getPengajuanDonasi($type="donasi kegiatan"),
             'pengajuanZIS' => $this->donasiReporsitory->getPengajuanDonasi($type="zis"),
@@ -1561,6 +1565,7 @@ class TellerController extends Controller
     */
     public function pay_donasi(Request $request)
     {
+        // return response()->json($request);
         $donasi = $this->donasiReporsitory->payDonasi($request);
         if($donasi['type'] == 'success') {
             return redirect()
