@@ -727,6 +727,10 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'    => 'teller.dashboard.pembiayaan',
             'uses'  => 'TellerController@daftar_pembiayaan'
         ]);
+        Route::get('kas_teller', [
+            'as'    => 'teller.dashboard.kas',
+            'uses'  => 'TellerController@kas_teller'
+        ]);
     });
 
     /** 

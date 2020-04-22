@@ -13,17 +13,20 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-md-3">
-            <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
-                <div class="card-body">
-                    <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas) }}</span>
-                    <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
-                    <span class="card-description">Bersumber dari kas dalam akun Teller</span>
-                    
-                    <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+
+        <a href="{{ route("teller.dashboard.kas") }}">
+            <div class="col-md-3">
+                <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
+                    <div class="card-body">
+                        <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas) }}</span>
+                        <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
+                        <span class="card-description">Bersumber dari kas dalam akun Teller</span>
+                        
+                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
 
         <a href="{{ route("teller.dashboard.tabungan") }}">
             <div class="col-md-3">

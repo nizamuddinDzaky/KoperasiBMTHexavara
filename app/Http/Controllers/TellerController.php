@@ -7,6 +7,7 @@ use App\Deposito;
 use App\Pembiayaan;
 use App\Pengajuan;
 use App\PenyimpananDeposito;
+use App\PenyimpananBMT;
 use App\PenyimpananJaminan;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
@@ -1804,6 +1805,20 @@ class TellerController extends Controller
         $pembiayaan = $this->pembiayaanReporsitory->getPembiayaan();
         return view('teller.nasabah.nasabah_pembiayaan', [
             'data'  => $pembiayaan
+        ]);
+    }
+
+    /** 
+     * Detail kas teller controller
+     * @return Response
+    */
+    public function kas_teller()
+    {
+        $id_rekening_user_loged = json_decode(Auth::user()->detail)->id_rekening;
+        $id_bmt_user_loged = BMT::where('id_rekening', $id_rekening_user_loged)->first();
+        $data = PenyimpananBMT::where([ ['id_bmt', $id_bmt_user_loged->id], ['status', '!=', 'Setoran Awal'] ])->get();
+        return view('teller.nasabah.nasabah_kas_teller', [
+            'data'  => $data
         ]);
     }
 }
