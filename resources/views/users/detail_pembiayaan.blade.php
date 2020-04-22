@@ -34,9 +34,8 @@
                                 <th class="text-center" data-sortable="true" class="text-left">Dari Rekening</th>
                                 <th class="text-center" data-sortable="true">Ke Rekening</th>
                                 <th class="text-center" data-sortable="true">Pokok</th>
-                                <th class="text-center" data-sortable="true">Margin</th>
-                                <th class="text-center" data-sortable="true">Total</th>
-                                <th class="text-center" data-sortable="true">Baki Debet</th>
+                                <th class="text-center" data-sortable="true">Bagi Hasil</th>
+                                <th class="text-center" data-sortable="true">Saldo</th>
                             {{--<th>Actions</th>--}}
                             </thead>
                             <tbody>
@@ -49,7 +48,7 @@
                                     <td class="text-center text-uppercase">{{ $usr->untuk_rekening }}</td>
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['bayar_angsuran']), 2)  }}</td>
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['bayar_margin']), 2)  }}</td>
-                                    <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td>
+                                    {{-- <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td> --}}
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['sisa_pinjaman']), 2)  }}</td>
                                 </tr>
                                 @endif
