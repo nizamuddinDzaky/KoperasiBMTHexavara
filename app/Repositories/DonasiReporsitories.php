@@ -503,7 +503,7 @@ class DonasiReporsitories {
                 'id_user'           => $donatur->id,
                 'id_rekening'       => $id_rekening,
                 'jenis_pengajuan'   => $jenis_pengajuan,
-                'status'            => 'Sudah Konfirmasi',
+                'status'            => 'Sudah Dikonfirmasi',
                 'kategori'          => 'Donasi',
                 'detail'            => $detail,
                 'teller'            => Auth::user()->id
