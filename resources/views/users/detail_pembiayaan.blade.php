@@ -24,19 +24,19 @@
                         </div>
                         <div class="toolbar">
                             <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                          <span></span>
-                    </div>
+                            <span></span>
+                        </div>
 
-                        <table id="bootstrap-table" class="table">
+                        <table class="table bootstrap-table">
                             <thead>
-                            <th class="text-center"></th>
-                            <th class="text-center" data-sortable="true">Tgl Transaksi</th>
-                            <th class="text-center" data-sortable="true" class="text-left">Dari Rekening</th>
-                            <th class="text-center" data-sortable="true">Ke Rekening</th>
-                            <th class="text-center" data-sortable="true">Pokok</th>
-                            <th class="text-center" data-sortable="true">Margin</th>
-                            <th class="text-center" data-sortable="true">Total</th>
-                            <th class="text-center" data-sortable="true">Baki Debet</th>
+                                <th class="text-center"></th>
+                                <th class="text-center" data-sortable="true">Tgl Transaksi</th>
+                                <th class="text-center" data-sortable="true" class="text-left">Dari Rekening</th>
+                                <th class="text-center" data-sortable="true">Ke Rekening</th>
+                                <th class="text-center" data-sortable="true">Pokok</th>
+                                <th class="text-center" data-sortable="true">Margin</th>
+                                <th class="text-center" data-sortable="true">Total</th>
+                                <th class="text-center" data-sortable="true">Baki Debet</th>
                             {{--<th>Actions</th>--}}
                             </thead>
                             <tbody>

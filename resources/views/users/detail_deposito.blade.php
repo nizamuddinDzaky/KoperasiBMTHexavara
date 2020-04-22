@@ -30,14 +30,14 @@
 
                         <table id="bootstrap-table" class="table">
                             <thead>
-                            <th class="text-center"></th>
-                            <th class="text-center" data-sortable="true">Tgl Transaksi</th>
-                            <th class="text-center" data-sortable="true">Dari Rekening</th>
-                            <th class="text-center" data-sortable="true">Ke Rekening</th>
-                            <th class="text-center" data-sortable="true">Jenis Transaksi</th>
-                            <th class="text-center" data-sortable="true">Jumlah</th>
+                                <th class="text-center"></th>
+                                <th class="text-center" data-sortable="true">Tgl Transaksi</th>
+                                <th class="text-center" data-sortable="true">Dari Rekening</th>
+                                <th class="text-center" data-sortable="true">Ke Rekening</th>
+                                <th class="text-center" data-sortable="true">Jenis Transaksi</th>
+                                <th class="text-center" data-sortable="true">Jumlah</th>
                             {{--<th>Actions</th>--}}
-                            <th></th>
+                                <th></th>
                             </thead>
                             <tbody>
                             @foreach ($data as $usr)
