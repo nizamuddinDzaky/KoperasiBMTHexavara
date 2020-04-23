@@ -1048,6 +1048,27 @@ input[type="checkbox"]:checked::after {
   color: #99a1a7;
 }
 
+.notification .column {
+  position: absolute;
+  right: 50px;
+  top: 100px;
+  z-index: 1;
+}
+
+.notification .column .card {
+  background-color: #3097D1;
+  margin-top: -30px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  padding: 0;
+}
+
+.notification .column .card p {
+  margin: 0;
+  color: #FFFFFF;
+  text-transform: capitalize;
+}
+
 .head {
   background-color: #FFFFFF;
   padding: 20px;

@@ -57,6 +57,10 @@
     
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="bootstrap/assets/css/demo.css" rel="stylesheet" />
+
+    
+    <!-- BMTMUDA themes -->
+    <link rel="stylesheet" href="{{ asset('bmtmudathemes/assets/css/notification.css') }}">
     
         
     <!--     Fonts and icons     -->
@@ -95,9 +99,13 @@
 <div class="wrapper wrapper-full-page">
     <div class="full-page login-page" data-color="default" data-image="bootstrap/assets/img/full-screen-image-3.jpg">
         
-    <!--   you can change the color of the filter page using: data-color="blue | azure | green | orange | red | purple" -->
+        <!--   you can change the color of the filter page using: data-color="blue | azure | green | orange | red | purple" -->
         <div class="content">
             <div class="container">
+                
+                
+                @include('layouts.partials.notification')
+
                 <div class="row">                   
                     <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
                         <form method="POST" action=""  >
@@ -110,17 +118,14 @@
                                     <div class="form-group {{ $errors->has('no_ktp') ? 'errors' : '' }}">
                                         <label>No. KTP</label>
                                         <input id="username" type="text" class="form-control" name="no_ktp" placeholder="No KTP " value="{{ old('no_ktp') }}" required }}>
-                                        @if ($errors->has('no_ktp'))
-                                            <span class="help-block">
-                                              <strong>{{ $errors->first('no_ktp') }}</strong>
-                                          </span>
-                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <label>Password</label>
                                         <input type="password" placeholder="Password" class="form-control" name="password">
                                     </div>
                                 </div>
+                                
+
                                 <div class="footer text-center">
                                     <button type="submit" class="btn btn-fill btn-info btn-wd">Login</button>
                                 </div>

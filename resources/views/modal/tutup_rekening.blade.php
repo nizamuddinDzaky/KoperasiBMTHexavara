@@ -1,4 +1,4 @@
-{{--Modal Tutup Tabungan--}}
+{{--Modal Keluar dari anggota exception --}}
 <div class="modal fade" id="closeRekPembiayaan" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardCloseRekPembiayaan">
@@ -21,20 +21,23 @@
 
 <div class="modal fade" id="closeRek" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="card card-wizard" id="wizardCardCloseRek">
-            <div class="header text-center">
-                <h3 class="title">Keluar Dari Anggota </h3>
-                <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+        <form method="POST" action="{{route('anggota.keluar_dari_anggota')}}" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="card card-wizard" id="wizardCardCloseRek">
+                <div class="header text-center">
+                    <h3 class="title">Keluar Dari Anggota </h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+                <div class="content">
+                    <p class="category text-center"><b>PENGAJUAN KELUAR DARI ANGGOTA ANDA AKAN DIPROSES.</b></p><br />
+                    <p class="category text-center">MOHON CEK KEMBALI SELURUH REKENING ANDA SEBELUM KELUAR DARI KEANGGOTAAN DI BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+                <div class="footer">
+                    <button type="submit" class="btn btn-primary btn-fill btn-wd pull-right">Tutup Rekening</button>
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="clearfix"></div>
+                </div>
             </div>
-            <div class="content">
-                <p class="category text-center"><b>PENGAJUAN KELUAR DARI ANGGOTA ANDA AKAN DIPROSES.</b></p><br />
-                <p class="category text-center">ANDA DIHARUSKAN MELUNASI SELURUH PEMBIAYAAN SEBELUM MENGAKHIRI KEANGGOTAAN ANDA DI BMT MANDIRI UKHUWAH PERSADA</p>
-            </div>
-            <div class="footer">
-                <button type="submit" class="btn btn-primary btn-fill btn-wd pull-right">Tutup Rekening</button>
-                <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
-                <div class="clearfix"></div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>

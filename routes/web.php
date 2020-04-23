@@ -1255,6 +1255,11 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
         'uses'      => 'UserController@donasimaal'
     ]);
 
+    Route::post('/keluar_dari_anggota', [
+        'as'        => 'anggota.keluar_dari_anggota',
+        'uses'      => 'UserController@keluar_dari_anggota'
+    ]);
+
     
     Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
         Route::get('harta', [

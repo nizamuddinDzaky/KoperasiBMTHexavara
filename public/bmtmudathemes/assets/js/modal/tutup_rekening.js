@@ -1,9 +1,9 @@
 $(document).ready(function() {
     /** Action modal for close rekening request */
     $(".close-rekening-action").click(function() {
-        var pembiayaan = $("#pembiayaan").val();
+        var pembiayaan = $(this).attr('data-pembiayaan');
 
-        if(pembiayaan == "active") {
+        if(pembiayaan == 1) {
             $("#closeRekPembiayaan").modal('show');
         }
         else {

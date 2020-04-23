@@ -179,6 +179,16 @@ class UserController extends Controller
 //    NAVBAR PENGAJUAN
     public function pengajuan()
     {
+        $pembiayaan = $this->pembiayaanReporsitory->getPembiayaanSpecificUser();
+        $is_pembiayaan = false;
+        foreach($pembiayaan as $pem)
+        {
+            if($pem->status == "active")
+            {
+                $is_pembiayaan = true;
+            }
+        }
+        
         return view('users.pengajuan', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
@@ -202,7 +212,8 @@ class UserController extends Controller
 
             'pembiayaanUser' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser(),
             'tabungan' => $this->tabunganReporsitory->getRekening('TABUNGAN'),
-            'all_deposito' => $this->tabunganReporsitory->getRekening('DEPOSITO')
+            'all_deposito' => $this->tabunganReporsitory->getRekening('DEPOSITO'),
+            'is_active_pembiayaan' => $is_pembiayaan
         ]);
     }
 
@@ -950,5 +961,18 @@ class UserController extends Controller
                 ->withSuccess(sprintf('Belum ada riwayat simpanan ' . $jenis . ' di rekening anda.'));
             }
         }
+    }
+
+    /** 
+     * Keluar dari anggota controller
+     * @return Response
+    */
+    public function keluar_dari_anggota(Request $request)
+    {
+        $close_user = User::where('id', Auth::user()->id)->update([ 'is_active' => 0 ]);
+        Auth::logout();
+
+        $request->session()->put('status', "Akun Anda Telah Dinonaktifkan. Silahkan Hubungi Admin Untuk Informasi Lebih Lanjut.");
+        return redirect('anggota');
     }
 }

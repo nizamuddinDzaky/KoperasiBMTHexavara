@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'No.KTP atau password salah!',
+    'failed' => 'Kombinasi NIK & Password salah atau akun anda tidak aktif!',
 //    'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
