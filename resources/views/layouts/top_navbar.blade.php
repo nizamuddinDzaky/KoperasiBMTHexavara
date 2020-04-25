@@ -111,7 +111,7 @@
                 <li class="dropdown dropdown-with-icons hidden-sm">
                     
                     <a href="#" class="dropdown-toggle navbar-image" data-toggle="dropdown" style="
-                        @if(json_decode(Auth::user()->pathfile,true)['profile']) != null) background-image: url({{ asset('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile']) }})
+                        @if(json_decode(Auth::user()->pathfile,true)['profile'] !== null) background-image: url({{ asset('storage/public/file/' . json_decode(Auth::user()->pathfile,true)['profile']) }})
                         @else background-image: url({{ asset('bmtmudathemes/assets/images/avatar.jpg') }})
                         @endif
                     "></a>

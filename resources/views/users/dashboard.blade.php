@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-3">
                 <a href="{{ route("anggota.dashboard.harta") }}">
-                    <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
+                    <div class="card dashboard link" style="background-color: #8892D6">
                         <div class="card-body">
                             
                             @if(isset($simpanan['wajib']) && isset($simpanan['khusus']) && isset($simpanan['pokok']))
@@ -29,40 +29,40 @@
                             @endif
 
                             <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
-                            <span class="card-description">Bersumber dari simpanan pokok, simpanan wajib & simpanan khusus</span>
+                            {{-- <span class="card-description">Bersumber dari simpanan pokok, simpanan wajib & simpanan khusus</span> --}}
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-3">
                 <a href="{{ route("anggota.dashboard.tabungan") }}">
-                    <div class="card dashboard link" style="height: 160px; background-color: #45BBE0">
+                    <div class="card dashboard link" style="background-color: #45BBE0">
                         <div class="card-body">
                             <span class="card-title card-number-large">{{number_format($tab)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
-                            <span class="card-description">Bersumber dari total tabungan semua Anggota</span>
+                            {{-- <span class="card-description">Bersumber dari total tabungan semua Anggota</span> --}}
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-3">
                 <a href="{{ route("anggota.dashboard.deposito") }}">
-                    <div class="card dashboard link" style="height: 160px; background-color: #F06292">
+                    <div class="card dashboard link" style="background-color: #F06292">
                         <div class="card-body">
                             <span class="card-title card-number-large">{{number_format($deposito)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
-                            <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
+                            {{-- <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span> --}}
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-3">
                 <a href="{{ route("anggota.dashboard.pembiayaan") }}">
-                    <div class="card dashboard link" style="height: 160px; background-color: #78C350">
+                    <div class="card dashboard link" style="background-color: #78C350">
                         <div class="card-body">
                             <span class="card-title card-number-large">{{number_format($pinjaman)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
-                            <span class="card-description">Bersumber dari total pembiayaan anggota</span>
+                            {{-- <span class="card-description">Bersumber dari total pembiayaan anggota</span> --}}
                         </div>
                     </div>
                 </a>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4">
+            {{-- <div class="col-sm-12 col-md-4 col-lg-4">
                 <div class="panel panel-primary">
                     <div class="panel-body card-group">
                         <div class="panel panel-primary">
@@ -143,8 +143,8 @@
                         <span class="panel-group-description">Laporan keluar masuk tabungan anggota</span>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-12 col-md-8 col-lg-8">
+            </div> --}}
+            <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-body card-group">
                         <table class="table table-striped">
