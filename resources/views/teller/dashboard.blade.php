@@ -16,13 +16,13 @@
 
         <a href="{{ route("teller.dashboard.kas") }}">
             <div class="col-md-3">
-                <div class="card dashboard link" style="height: 160px; background-color: #8892D6">
+                <div class="card dashboard link" style="background-color: #8892D6">
                     <div class="card-body">
                         <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
-                        <span class="card-description">Bersumber dari kas dalam akun Teller</span>
+                        {{-- <span class="card-description">Bersumber dari kas dalam akun Teller</span> --}}
                         
-                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                        {{-- <a href="#"><i class="fa fa-cog card-icon top right"></i></a> --}}
                     </div>
                 </div>
             </div>
@@ -30,13 +30,13 @@
 
         <a href="{{ route("teller.dashboard.tabungan") }}">
             <div class="col-md-3">
-                <div class="card dashboard link" style="height: 160px; background-color: #45BBE0">
+                <div class="card dashboard link" style="background-color: #45BBE0">
                     <div class="card-body">
                         <span class="card-title card-number-large">{{ number_format($saldo_tabungan) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
-                        <span class="card-description">Bersumber dari total tabungan semua anggota</span>
+                        {{-- <span class="card-description">Bersumber dari total tabungan semua anggota</span> --}}
                         
-                        <a href="{{ route('teller.dashboard.tabungan') }}"><i class="fa fa-cog card-icon top right"></i></a>
+                        {{-- <a href="{{ route('teller.dashboard.tabungan') }}"><i class="fa fa-cog card-icon top right"></i></a> --}}
                     </div>
                 </div>
             </div>
@@ -44,13 +44,13 @@
 
         <a href="{{ route("teller.dashboard.deposito") }}">
             <div class="col-md-3">
-                <div class="card dashboard link" style="height: 160px; background-color: #F06292">
+                <div class="card dashboard link" style="background-color: #F06292">
                     <div class="card-body">
                         <span class="card-title card-number-large">{{ number_format($saldo_deposito) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
-                        <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
+                        {{-- <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span> --}}
 
-                        <a href="{{ route("teller.dashboard.deposito") }}"><i class="fa fa-cog card-icon top right"></i></a>
+                        {{-- <a href="{{ route("teller.dashboard.deposito") }}"><i class="fa fa-cog card-icon top right"></i></a> --}}
                     </div>
                 </div>
             </div>
@@ -58,13 +58,13 @@
 
         <a href="{{ route("teller.dashboard.pembiayaan") }}">
             <div class="col-md-3">
-                <div class="card dashboard link" style="height: 160px; background-color: #78C350">
+                <div class="card dashboard link" style="background-color: #78C350">
                     <div class="card-body">
                         <span class="card-title card-number-large">{{ number_format($saldo_pembiayaan) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
-                        <span class="card-description">Bersumber dari total pembiayaan anggota</span>
+                        {{-- <span class="card-description">Bersumber dari total pembiayaan anggota</span> --}}
 
-                        <a href="{{ route("teller.dashboard.pembiayaan") }}"><i class="fa fa-cog card-icon top right"></i></a>
+                        {{-- <a href="{{ route("teller.dashboard.pembiayaan") }}"><i class="fa fa-cog card-icon top right"></i></a> --}}
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12 col-md-4 col-lg-4">
+        {{-- <div class="col-sm-12 col-md-4 col-lg-4">
             <div class="panel panel-primary">
                 <div class="panel-body card-group">
                     <div class="panel panel-primary">
@@ -145,8 +145,8 @@
                     <span class="panel-group-description">Laporan keluar masuk tabungan anggota</span>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-12 col-md-8 col-lg-8">
+        </div> --}}
+        <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-body card-group">
                     <table class="table table-striped">
