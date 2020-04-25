@@ -106,6 +106,7 @@ class SimpananReporsitory {
                 $atasnama = null;
                 $bank_tujuan_transfer = $data->dari_tabungan;
                 $path_bukti = null;
+                $tabungan = Tabungan::where('id_tabungan', $bank_tujuan_transfer)->first();
             }
 
             if($data->id_rekening_simpanan == "119")
@@ -141,15 +142,39 @@ class SimpananReporsitory {
                 "teller"        => 0
             ];
 
-            if($this->pengajuanReporsitory->createPengajuan($dataToPengajuan)['type'] == "success")
+            if($data->debit == 2)
             {
-                DB::commit();
-                return array("type" => "success", "message" => "Pengajuan simpanan berhasil dibuat.");
+                if(floatval(json_decode($tabungan->detail)->saldo) > floatval(preg_replace('/[^\d.]/', '', $data->nominal)))
+                {
+                    if($this->pengajuanReporsitory->createPengajuan($dataToPengajuan)['type'] == "success")
+                    {
+                        DB::commit();
+                        return array("type" => "success", "message" => "Pengajuan simpanan berhasil dibuat.");
+                    }
+                    else
+                    {
+                        DB::rollback();
+                        return array("type" => "error", "message" => "Pengajuan simpanan gagal dibuat.");
+                    }
+                }
+                else
+                {
+                    DB::rollback();
+                    return array("type" => "error", "message" => "Pengajuan simpanan gagal dibuat. Saldo " . $tabungan->jenis_tabungan . " tidak cukup.");
+                }
             }
             else
             {
-                DB::rollback();
-                return array("type" => "error", "message" => "Pengajuan simpanan gagal dibuat.");
+                if($this->pengajuanReporsitory->createPengajuan($dataToPengajuan)['type'] == "success")
+                {
+                    DB::commit();
+                    return array("type" => "success", "message" => "Pengajuan simpanan berhasil dibuat.");
+                }
+                else
+                {
+                    DB::rollback();
+                    return array("type" => "error", "message" => "Pengajuan simpanan gagal dibuat.");
+                }
             }
         }
         catch(Exception $ex)
@@ -611,6 +636,7 @@ class SimpananReporsitory {
                 $bmt_simpanan = BMT::where('id_rekening', 119)->first();
                 $saldo_bmt_simpanan = $bmt_simpanan->saldo;
                 $id_bmt_simpanan = $bmt_simpanan->id;
+                $saldo_awal_simpanan_user = json_decode($user->wajib_pokok)->wajib;
 
                 if(isset(json_decode($user->wajib_pokok)->margin))
                 {
@@ -653,6 +679,7 @@ class SimpananReporsitory {
                     }
                 }
             }
+
             if($data->id_rekening_simpanan == 117)
             {
                 $nama_rekening = "Simpanan Pokok";
@@ -660,6 +687,7 @@ class SimpananReporsitory {
                 $bmt_simpanan = BMT::where('id_rekening', 117)->first();
                 $saldo_bmt_simpanan = $bmt_simpanan->saldo;
                 $id_bmt_simpanan = $bmt_simpanan->id;
+                $saldo_awal_simpanan_user = json_decode($user->wajib_pokok)->pokok;
 
                 if(isset(json_decode($user->wajib_pokok)->margin))
                 {
@@ -710,6 +738,7 @@ class SimpananReporsitory {
                 $bmt_simpanan = BMT::where('id_rekening', 120)->first();
                 $saldo_bmt_simpanan = $bmt_simpanan->saldo;
                 $id_bmt_simpanan = $bmt_simpanan->id;
+                $saldo_awal_simpanan_user = json_decode($user->wajib_pokok)->khusus;
 
                 if(isset(json_decode($user->wajib_pokok)->khusus))
                 {
@@ -817,8 +846,8 @@ class SimpananReporsitory {
                         "dari_rekening" => $bank_tujuan_transfer,
                         "untuk_rekening" => $data->id_rekening_simpanan,
                         "jumlah"    => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
-                        "saldo_awal" => floatval($saldo_bmt_simpanan),
-                        "saldo_akhir" => floatval($saldo_bmt_simpanan) + floatval(preg_replace('/[^\d.]/', '', $data->nominal))
+                        "saldo_awal" => $saldo_awal_simpanan_user,
+                        "saldo_akhir" => floatval($saldo_awal_simpanan_user) + floatval(preg_replace('/[^\d.]/', '', $data->nominal))
                     ];
                     $dataToPenyimpananWajibPokok = [
                         "id_user"       => $user->id,
@@ -901,7 +930,7 @@ class SimpananReporsitory {
      * Riwayat simpanan anggota
      * @return Response
     */
-    public function detailSimpanan($data)
+    public function detailSimpanan($data, $limit="")
     {
         if($data == "khusus")
         {
@@ -916,7 +945,14 @@ class SimpananReporsitory {
             $jenis = "Simpanan Pokok";
         }
 
-        $penyimpanan = PenyimpananWajibPokok::where([ ['status', $jenis], ['id_user', Auth::user()->id] ])->get();
+        if($limit != "")
+        {
+            $penyimpanan = PenyimpananWajibPokok::where([ ['status', $jenis], ['id_user', Auth::user()->id] ])->take($limit)->get();
+        }
+        else
+        {
+            $penyimpanan = PenyimpananWajibPokok::where([ ['status', $jenis], ['id_user', Auth::user()->id] ])->get();
+        }
 
         return $penyimpanan;
     }

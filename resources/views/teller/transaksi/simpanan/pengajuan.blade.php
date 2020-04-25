@@ -44,7 +44,7 @@
                         <p class="category">Daftar Pengajuan Anggota</p>
                         <br />
                     </div>
-                    <table id="bootstrap-table" class="table">
+                    <table class="table bootstrap-table">
                         <thead>
                             <th></th>
                             <th class="text-left" data-sortable="true">ID Pengajuan</th>
@@ -64,7 +64,7 @@
                                 <td class="text-center">{{ json_decode($usr['detail'],true)['nama'] }}</td>
                                 <td class="text-left">{{$usr['kategori'] }}</td>
                                 <td>{{ $usr['created_at']->format('d F Y') }}</td>
-                                <td class="text-left text-uppercase">{{ $usr['status'] }}</td>
+                                <td class="text-left">{{ $usr['status'] }}</td>
                                 <td class="td-actions text-center">
                                     <div class="row">
                                         @if($usr['status']=="Sudah Dikonfirmasi" || $usr['status']=="Disetujui")

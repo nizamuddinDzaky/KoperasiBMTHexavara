@@ -861,13 +861,19 @@ class UserController extends Controller
         {
             if(isset(json_decode(Auth::user()->wajib_pokok)->khusus))
             {
-                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis);
+                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis, $limit=20);
 
                 $riwayat_simpanan = array();
                 foreach($detail_simpanan as $detail)
                 {
                     $rekening_pengirim = Rekening::where('id', json_decode($detail->transaksi)->dari_rekening)->select('nama_rekening', 'katagori_rekening')->first();
-                    $rekening_penerima = Rekening::where('id', json_decode($detail->transaksi)->untuk_rekening)->select('nama_rekening')->first();
+                    $rekening_penerima = Rekening::where('id', json_decode($detail->transaksi)->untuk_rekening)->select('nama_rekening', 'katagori_rekening')->first();
+
+                    if(strpos(json_decode($detail->transaksi)->dari_rekening, '.'))
+                    {
+                        $rekening_tabungan = Tabungan::where('id_tabungan', json_decode($detail->transaksi)->dari_rekening)->first();
+                        $rekening_pengirim = Rekening::where('id', $rekening_tabungan->id_rekening)->select('nama_rekening', 'katagori_rekening')->first();
+                    }
 
                     if($rekening_pengirim->katagori_rekening == "TELLER")
                     {
@@ -895,7 +901,6 @@ class UserController extends Controller
                         "untuk_rekening" => $rekening_penerima->nama_rekening
                     ]);
                 }
-                
                 return view('users.detail_wajibpokok', [
                     'data' => $riwayat_simpanan,
                     'saldo' => json_decode(Auth::user()->wajib_pokok)->$jenis,
@@ -911,15 +916,21 @@ class UserController extends Controller
         }
         else
         {
-            if(json_decode(Auth::user()->wajib_pokok)->$jenis > 0)
-            {
-                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis);
+            // if(json_decode(Auth::user()->wajib_pokok)->$jenis > 0)
+            // {
+                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis, $limit=20);
 
                 $riwayat_simpanan = array();
                 foreach($detail_simpanan as $detail)
                 {
                     $rekening_pengirim = Rekening::where('id', json_decode($detail->transaksi)->dari_rekening)->select('nama_rekening', 'katagori_rekening')->first();
                     $rekening_penerima = Rekening::where('id', json_decode($detail->transaksi)->untuk_rekening)->select('nama_rekening')->first();
+
+                    if(strpos(json_decode($detail->transaksi)->dari_rekening, '.'))
+                    {
+                        $rekening_tabungan = Tabungan::where('id_tabungan', json_decode($detail->transaksi)->dari_rekening)->first();
+                        $rekening_pengirim = Rekening::where('id', $rekening_tabungan->id_rekening)->select('nama_rekening', 'katagori_rekening')->first();
+                    }
 
                     if($rekening_pengirim->katagori_rekening == "TELLER")
                     {
@@ -953,13 +964,13 @@ class UserController extends Controller
                     'saldo' => json_decode(Auth::user()->wajib_pokok)->$jenis,
                     'jenis' => $jenis
                 ]);
-            }
-            else
-            {
-                return redirect()
-                ->back()
-                ->withSuccess(sprintf('Belum ada riwayat simpanan ' . $jenis . ' di rekening anda.'));
-            }
+            // }
+            // else
+            // {
+            //     return redirect()
+            //     ->back()
+            //     ->withSuccess(sprintf('Belum ada riwayat simpanan ' . $jenis . ' di rekening anda.'));
+            // }
         }
     }
 

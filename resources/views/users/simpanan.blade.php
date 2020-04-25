@@ -70,7 +70,7 @@
                                 <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
                                 <td class="text-left">{{ $usr->created_at->format('d F Y') }}</td>
                                 <td class="text-left">Rp{{" ". number_format(json_decode($usr->detail,true)['jumlah'],2) }}</td>
-                                <td class="text-left text-uppercase">{{ $usr->status }}</td>
+                                <td class="text-left">{{ $usr->status }}</td>
                             </tr>
                         @endforeach
                         </tbody>
