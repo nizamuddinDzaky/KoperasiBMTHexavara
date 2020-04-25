@@ -861,7 +861,7 @@ class UserController extends Controller
         {
             if(isset(json_decode(Auth::user()->wajib_pokok)->khusus))
             {
-                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis, $limit=20);
+                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis);
 
                 $riwayat_simpanan = array();
                 foreach($detail_simpanan as $detail)
@@ -918,7 +918,7 @@ class UserController extends Controller
         {
             // if(json_decode(Auth::user()->wajib_pokok)->$jenis > 0)
             // {
-                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis, $limit=20);
+                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis);
 
                 $riwayat_simpanan = array();
                 foreach($detail_simpanan as $detail)
