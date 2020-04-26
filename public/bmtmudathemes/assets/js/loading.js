@@ -82,7 +82,7 @@ $(document).ready(function() {
  * Opsi pembayaran loader
 */
 $(document).ready(function() {
-    $(".opsi-pembayaran").change(function() {
+    $('.opsi-pembayaran').change(function() {
         var opsi = $(this).val();
         if(opsi == 0) {
             $('.opsi-transfer').addClass('hide');
@@ -92,30 +92,30 @@ $(document).ready(function() {
             // $(".atasnama").attr("required", "false")
             // $(".norekening").attr("required", "false")
             // $(".bank-tujuan").attr("required", "false")
-            // $(".bukti").attr("required", "false")
             // $(".rekening-tabungan").attr("required", "false")
         }
         if(opsi == 1) {
             $('.opsi-transfer').removeClass('hide');
             $('.opsi-tabungan').addClass('hide');
 
-            $(".namabank").attr("required", "true")
-            $(".atasnama").attr("required", "true")
-            $(".norekening").attr("required", "true")
-            $(".bank-tujuan").attr("required", "true")
-            $(".bukti").attr("required", "true")
+            $(".namabank").prop("required", true)
+            $(".atasnama").prop("required", true)
+            $(".norekening").prop("required", true)
+            $(".bank-tujuan").prop("required", true)
+            $(".bukti").prop("required", true)
+            $(".rekening-tabungan").prop("required", false)
         }
         if(opsi == 2) {
             $('.opsi-tabungan').removeClass('hide');
             $('.opsi-transfer').addClass('hide');
 
-            $(".rekening-tabungan").attr("required", "true")
+            $(".namabank").prop("required", false);
+            $(".atasnama").prop("required", false);
+            $(".norekening").prop("required", false);
+            $(".bank-tujuan").prop("required", false);
+            $(".bukti").prop("required", false);
+            $(".rekening-tabungan").prop("required", true)
 
-            $(".namabank").attr("required", "false")
-            $(".atasnama").attr("required", "false")
-            $(".norekening").attr("required", "false")
-            $(".bank-tujuan").attr("required", "false")
-            $(".bukti").attr("required", "false")
         }
     });
 });

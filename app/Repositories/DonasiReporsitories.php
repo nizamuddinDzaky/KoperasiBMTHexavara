@@ -187,7 +187,7 @@ class DonasiReporsitories {
                 $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
 
                 $saldo_awal_pengirim = $bmt_pengirim->saldo;
-                $saldo_akhir_pengirim = $bmt_pengirim->saldo + json_decode($pengajuan->detail)->jumlah;
+                $saldo_akhir_pengirim = $bmt_pengirim->saldo - json_decode($pengajuan->detail)->jumlah;
 
                 $detailToPenyimpananTabungan = [
                     "teller"    => Auth::user()->id,
@@ -603,7 +603,7 @@ class DonasiReporsitories {
                     $dataToInsertIntoPenyimpananBMT['id_bmt'] = $bmt_pengirim->id;
                     $detailToPenyimpananBMT['jumlah'] = preg_replace('/[^\d.]/', '', $data->nominal);
                     $detailToPenyimpananBMT['saldo_awal'] = $bmt_pengirim->saldo;
-                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_pengirim->saldo + preg_replace('/[^\d.]/', '', $data->nominal);
+                    $detailToPenyimpananBMT['saldo_akhir'] = $saldo_akhir_bmt_pengirim;
                     $dataToInsertIntoPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
                     $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
