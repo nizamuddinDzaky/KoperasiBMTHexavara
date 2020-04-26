@@ -149,7 +149,7 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-body card-group">
-                    <table class="table table-striped">
+                    <table class="table bootstrap-table-no-export">
                         <thead>
                             <th>No</th>
                             <th>Jenis Pengajuan</th>

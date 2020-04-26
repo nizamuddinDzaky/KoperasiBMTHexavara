@@ -112,7 +112,7 @@ class UserController extends Controller
             'deposito' => $sumdep,
             'pinjaman' => $sumpin,
             'simpanan' => json_decode($user,true),
-            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(7)
+            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(10)
         ]);
     }
 

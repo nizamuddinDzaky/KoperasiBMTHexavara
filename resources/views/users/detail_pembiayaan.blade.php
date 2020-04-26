@@ -27,7 +27,7 @@
                             <span></span>
                         </div>
 
-                        <table class="table bootstrap-table">
+                        <table class="table bootstrap-table-asc">
                             <thead>
                                 <th class="text-center"></th>
                                 <th class="text-center" data-sortable="true">Tgl Transaksi</th>

@@ -220,7 +220,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5" id="bayar_mar">
+                                    {{-- <div class="col-md-5" id="bayar_mar">
                                         <div class="form-group">
                                             <label class="control-label">Jumlah Biaya Margin Bulan ini<star>*</star></label>
                                             <div class="input-group">
@@ -228,7 +228,7 @@
                                                 <input type="text" class="currency form-control text-right" id="bagi_margin" name="nisbah"  required>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5 col-md-offset-1" id="showPok"></div>

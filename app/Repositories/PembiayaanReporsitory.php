@@ -273,10 +273,10 @@ class PembiayaanReporsitory {
                     "pinjaman"          => $pinjaman,
                     "margin"            => $margin,
                     "nisbah"            => $nisbah,
-                    "total_pinjaman"    => floatval($pinjaman) + floatval($margin),
+                    "total_pinjaman"    => floatval($pinjaman),
                     "sisa_angsuran"     => $pinjaman,
                     "sisa_margin"       => $margin,
-                    "sisa_pinjaman"     => floatval($pinjaman) + floatval($margin),
+                    "sisa_pinjaman"     => floatval($pinjaman),
                     "angsuran_pokok"    => round((floatval($pinjaman) + floatval($margin)) / $tempo),
                     "lama_angsuran"     => $tempo,
                     "angsuran_ke"       => 0,
@@ -1067,7 +1067,7 @@ class PembiayaanReporsitory {
                 if($sisa_pinjaman <= 50)
                 {
                     $updateStatusPembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->update([
-                        'status'    => 'not active'
+                        'status'    => 'lunas'
                     ]);
                 }
 
@@ -1278,7 +1278,7 @@ class PembiayaanReporsitory {
                 if($sisa_pinjaman <= 50)
                 {
                     $updateStatusPembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->update([
-                        'status'    => 'not active'
+                        'status'    => 'lunas'
                     ]);
                 }
 

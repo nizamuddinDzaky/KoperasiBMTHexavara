@@ -147,7 +147,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-body card-group">
-                        <table class="table table-striped">
+                        <table class="table bootstrap-table-no-export">
                             <thead>
                                 <th>No</th>
                                 <th>Jenis Pengajuan</th>
@@ -155,10 +155,6 @@
                                 <th>Status</th>
                             </thead>
                             <tbody>
-                                @php
-                                    $no = 1;   
-                                @endphp
-
                                 @foreach($pengajuan as $pengajuan)
 
                                 @php
@@ -166,15 +162,11 @@
                                 @endphp
 
                                 <tr>
-                                    <td>{{ $no }}</td>
+                                    <td>{{ $pengajuan['id'] }}</td>
                                     <td>{{ $pengajuan['jenis_pengajuan'] }}</td>
                                     <td>{{ $created->format('D, d M Y') }}</td>
                                     <td>{{ $pengajuan['status'] }}</td>
                                 </tr>
-
-                                @php
-                                    $no++;
-                                @endphp
                                 
                                 @endforeach
                             </tbody>

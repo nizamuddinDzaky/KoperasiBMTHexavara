@@ -93,7 +93,7 @@
                                                 data-nama    = "{{$usr->nama}}" name="id">
                                             @if($usr->status=="blocked")
                                                 <i class="fa fa-close"></i>
-                                            @elseif($usr->status=="not active")
+                                            @elseif($usr->status=="lunas")
                                                 <i class="fa fa-clipboard-list"></i>
                                             @elseif($usr->status=="active")
                                                 <i class="fa fa-clipboard-list"></i>

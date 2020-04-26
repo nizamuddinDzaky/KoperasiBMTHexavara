@@ -201,6 +201,24 @@ $(document).ready(function() {
 });
 
 /** 
+ * Bootstrap table trigger ascending sorting
+*/
+$(document).ready(function() {
+    $('.bootstrap-table-no-export').dataTable({
+        initComplete: function () {
+            $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
+            $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
+            $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
+            $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
+        },
+        "processing": true,
+        "sDom": '<"top"><"clear">',
+        "order": [[ 1, "asc" ]],
+        "scrollX": false
+    });
+});
+
+/** 
  * Number formatiting function
  * @return Response
 */

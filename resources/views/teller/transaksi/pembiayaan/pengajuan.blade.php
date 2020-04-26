@@ -49,7 +49,7 @@
                     <br />
                 </div>
                 
-                <table id="bootstrap-table" class="table">
+                <table class="table bootstrap-table-asc">
                     <thead>
                     <th></th>
                     <th data-sortable="true" class="text-left">ID</th>
