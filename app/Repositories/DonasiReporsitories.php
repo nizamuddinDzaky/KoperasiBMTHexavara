@@ -235,11 +235,17 @@ class DonasiReporsitories {
                 $update_saldo_pengirim_response = "success";
             }
 
+            $detailToPenyimpananMaal = [
+                "jumlah"        => json_decode($pengajuan->detail)->jumlah,
+                "saldo_awal"    => $saldo_awal_donasi,
+                "saldo_akhir"   => $saldo_akhir_donasi,
+                "id_pengajuan"  => $pengajuan->id
+            ];
             $dataToInsertIntoPenyimpananMaal = [
                 'id_donatur'    => $pengajuan->id_user,
                 'id_maal'       => $data->rekDon,
                 'status'        => json_decode($pengajuan->detail)->debit,
-                'transaksi'     => $pengajuan->detail,
+                'transaksi'     => $detailToPenyimpananMaal,
                 'teller'        => Auth::user()->id
             ];
 
@@ -356,7 +362,7 @@ class DonasiReporsitories {
         $penyimpanan->id_donatur = $data['id_donatur'];
         $penyimpanan->id_maal = $data['id_maal'];
         $penyimpanan->status = $data['status'];
-        $penyimpanan->transaksi = $data['transaksi'];
+        $penyimpanan->transaksi = json_encode($data['transaksi']);
         $penyimpanan->teller = $data['teller'];
         
         if($penyimpanan->save())

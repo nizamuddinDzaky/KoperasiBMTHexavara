@@ -700,15 +700,37 @@ class UserController extends Controller
             'dropdown6' => $this->informationRepository->getDdBank(),
         ]);
     }
-    public function donasimaal(Request $request){
-        if($request->rekening != null)
+    
+    public function donasimaal(Request $request) {
+
+        if($request->debit == 2 && isset($request->rekening))
         {
+            if($request->rekening != null)
+            {
 
-            $rekening = Tabungan::where('id_tabungan', $request->rekening)->first();
+                $rekening = Tabungan::where('id_tabungan', $request->rekening)->first();
 
-            $saldo = json_decode($rekening->detail)->saldo;
+                $saldo = json_decode($rekening->detail)->saldo;
 
-            if($saldo > $request->nominal) {
+                if($saldo > $request->nominal) {
+                    $pengajuan = $this->donasiReporsitory->sendDonasi($request); 
+                    if($pengajuan['type'] == 'success') {
+                        return redirect()
+                            ->back()
+                            ->withSuccess(sprintf($pengajuan['message']));
+                    } else{
+                        return redirect()
+                            ->back()
+                            ->withInput()->with('message', $pengajuan['message']);
+                    }
+                } else {
+                    return redirect()
+                            ->back()
+                            ->withInput()->with('message', 'Saldo anda tidak cukup');
+                }
+
+            } else {
+
                 $pengajuan = $this->donasiReporsitory->sendDonasi($request); 
                 if($pengajuan['type'] == 'success') {
                     return redirect()
@@ -719,25 +741,55 @@ class UserController extends Controller
                         ->back()
                         ->withInput()->with('message', $pengajuan['message']);
                 }
+
+            }
+        }
+        elseif($request->debit == 2 && !isset($request->rekening))
+        {
+            return redirect()
+                            ->back()
+                            ->withInput()->with('message', 'Tidak ada rekening tabungan dipilih.');
+        }
+        elseif($request->debit !== 2)
+        {
+            if($request->rekening != null)
+            {
+
+                $rekening = Tabungan::where('id_tabungan', $request->rekening)->first();
+
+                $saldo = json_decode($rekening->detail)->saldo;
+
+                if($saldo > $request->nominal) {
+                    $pengajuan = $this->donasiReporsitory->sendDonasi($request); 
+                    if($pengajuan['type'] == 'success') {
+                        return redirect()
+                            ->back()
+                            ->withSuccess(sprintf($pengajuan['message']));
+                    } else{
+                        return redirect()
+                            ->back()
+                            ->withInput()->with('message', $pengajuan['message']);
+                    }
+                } else {
+                    return redirect()
+                            ->back()
+                            ->withInput()->with('message', 'Saldo anda tidak cukup');
+                }
+
             } else {
-                return redirect()
+
+                $pengajuan = $this->donasiReporsitory->sendDonasi($request); 
+                if($pengajuan['type'] == 'success') {
+                    return redirect()
                         ->back()
-                        ->withInput()->with('message', 'Saldo anda tidak cukup');
+                        ->withSuccess(sprintf($pengajuan['message']));
+                } else{
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', $pengajuan['message']);
+                }
+
             }
-
-        } else {
-
-            $pengajuan = $this->donasiReporsitory->sendDonasi($request); 
-            if($pengajuan['type'] == 'success') {
-                return redirect()
-                    ->back()
-                    ->withSuccess(sprintf($pengajuan['message']));
-            } else{
-                return redirect()
-                    ->back()
-                    ->withInput()->with('message', $pengajuan['message']);
-            }
-
         }
 
     }

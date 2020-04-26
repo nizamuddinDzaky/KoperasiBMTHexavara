@@ -42,7 +42,7 @@
                             <span></span>
                         </div>
 
-                        <table class="table bootstrap-table">
+                        <table class="table bootstrap-table-asc">
                             <thead>
                             <th></th>
                             <th data-sortable="true" class="text-left">ID</th>
