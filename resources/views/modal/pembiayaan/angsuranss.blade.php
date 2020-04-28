@@ -122,6 +122,21 @@
                                             <option class="bs-title-option" selected value="default" disabled>-Pilih jenis angsuran-</option>
                                             <option value="0">Tunai</option>
                                             <option value="1">Transfer</option>
+                                            <option value="2">Rekening Tabungan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="toHideTabungan">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Rekening Tabungan <star>*</star></label>
+                                        <select class="form-control select2" name="tabungan" style="width: 100%;" >
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih Rekening Tabungan-</option>
+                                            @foreach ($tabungan as $rekening)
+                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [ {{number_format(json_decode($rekening->detail)->saldo,2) }} ] </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

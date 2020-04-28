@@ -1585,7 +1585,7 @@
                             <div class="row">
                                 <div class="form-group col-md-10 col-md-offset-1">
                                     <label for="namaSim" class="control-label">Jenis Pembiayaan <star>*</star></label>
-                                    <select disabled class="form-control" id="vrekPem" name="pembiayaan" style="width: 100%;" required>
+                                    <select class="form-control" id="vrekPem" name="pembiayaan" style="width: 100%;" disabled required>
                                         <option class="bs-title-option" value="">Pilih Pembiayaan</option>
                                         @foreach ($dropdown3 as $rekening)
                                             <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>

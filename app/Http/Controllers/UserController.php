@@ -188,7 +188,7 @@ class UserController extends Controller
                 $is_pembiayaan = true;
             }
         }
-        
+        // return response()->json($this->informationRepository->getAllpengajuanUsr());
         return view('users.pengajuan', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
@@ -211,9 +211,10 @@ class UserController extends Controller
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
 
             'pembiayaanUser' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser(),
-            'tabungan' => $this->tabunganReporsitory->getRekening('TABUNGAN'),
+            'rekening_tabungan' => $this->tabunganReporsitory->getRekening('TABUNGAN'),
             'all_deposito' => $this->tabunganReporsitory->getRekening('DEPOSITO'),
-            'is_active_pembiayaan' => $is_pembiayaan
+            'is_active_pembiayaan' => $is_pembiayaan,
+            'tabungan'  => $this->informationRepository->getAllTabUsrActive()
         ]);
     }
 
@@ -261,6 +262,7 @@ class UserController extends Controller
     {
         $data = $this->informationRepository->getAllTabUsrActive();
         $dropdown2 = $this->informationRepository->getDdDep();
+        // return response()->json($this->informationRepository->getAllpengajuanUsrTab());
         return view('users.tabungan', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
@@ -283,7 +285,6 @@ class UserController extends Controller
 
     public function detail_tabungan(Request $request)
     {
-        // return response()->json($this->informationRepository->getTransaksiTabUsr($request->id_));
         return view('users.detail_tabungan', [
             'data' => $this->informationRepository->getTransaksiTabUsr($request->id_),
         ]);
@@ -574,11 +575,13 @@ class UserController extends Controller
         $data = $this->informationRepository->getAllPemUsr();
         //  dd($data[0]);
         $tab = $data;
+        // return response()->json("work");
         return view('users.pembiayaans', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
             'data' => $data,
             'datasaldo' => $data,
+            'tabungan'  => $this->informationRepository->getAllTabUsrActive(),
             'datasaldoPem' => $this->informationRepository->getAllPemUsrActive(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'data2' => $this->informationRepository->getAllpengajuanUsrPem(),
@@ -604,15 +607,22 @@ class UserController extends Controller
 
     public function angsur_pembiayaan(Request $request)
     {
-        $this->validate($request, [
-            'file' => 'file|max:2000', // max 2MB
-        ]);
+        $tabungan = Tabungan::where('id', $request->tabungan)->first();
+        // $this->validate($request, [
+        //     'file' => 'file|max:2000', // max 2MB
+        // ]);
         if ($request->debit == 1) {
             $kredit = "Transfer";
             $atasnama = $request->atasnama;
+            $bank = $request->bank;
+        } elseif($request->debit == 2) {
+            $kredit = "Tabungan";
+            $atasnama = $tabungan->jenis_tabungan;
+            $bank = $tabungan->id;
         } else {
             $kredit = "Tunai";
             $atasnama = Auth::user()->nama;
+            $bank = null;
         }
         if(preg_match("/^[0-9,]+$/", $request->bayar_mar)) $request->bayar_mar = str_replace(',',"",$request->bayar_mar);
         if(preg_match("/^[0-9,]+$/", $request->bayar_ang)) $request->bayar_ang = str_replace(',',"",$request->bayar_ang);
@@ -627,7 +637,7 @@ class UserController extends Controller
             'bank_user' => $request->daribank,
             'no_bank' => $request->nobank,
             'atasnama' => $atasnama,
-            'bank' => $request->bank,
+            'bank' => $bank,
             'pokok' => $request->pokok_,
             'tipe_pembayaran' => $request->tipe_,
             'sisa_ang' => floatval($request->sisa_ang),

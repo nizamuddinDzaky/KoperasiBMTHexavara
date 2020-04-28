@@ -49,7 +49,7 @@
                     <br />
                 </div>
                 
-                <table class="table bootstrap-table-asc">
+                <table class="table bootstrap-table">
                     <thead>
                     <th></th>
                     <th data-sortable="true" class="text-left">ID</th>
@@ -352,22 +352,30 @@
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-                if(button.data('jenis')=="Tunai"){
+            if(button.data('jenis')=="Tunai"){
                 $("#vtoHideAng").hide();
                 $("#vtoHideAngBank").hide();
                 $("#vtoHideAngBank2").hide();
+                $("#vtoHideTabungan").hide();
             }
             else if(button.data('jenis')=="Transfer"){
                 $("#vtoHideAng").show();
                 $("#vtoHideAngBank").show();
                 $("#vtoHideAngBank2").show();
+                $("#vtoHideTabungan").hide();
+            }
+            else if(button.data('jenis')=="Tabungan"){
+                $("#vtoHideAng").hide();
+                $("#vtoHideAngBank").hide();
+                $("#vtoHideAngBank2").hide();
+                $("#vtoHideTabungan").show();
             }
             $("#vangidRek").val(button.data('idtab') );
             $("#vjenisAng").val(button.data('jenis') );
             $("#vjenisPAng").val(button.data('tipe_pem') );
             $("#vbankAng").val(button.data('bankuser') );
             $("#vbank").val(button.data('bank') );
+            $("#vtabungan").val(button.data('bank') );
             $("#vban").val(button.data('bankuser') );
             $("#vbagi_pokok").val(button.data('pokok') );
             $("#vbagi_margin").val(button.data('nisbah') );
@@ -615,7 +623,7 @@
             var jenis = $('#debit');
             var bukti = $('#bukti');
 
-            selAr.hide(); selArB.hide(); selArB2.hide();
+            selAr.hide(); selArB.hide(); selArB2.hide(); $("#toHideTabungan").hide();
             selA.hide(); selA2.hide(); selA3.hide();selA4.hide();selA5.hide();
             jenis.on('change', function () {
                 if(jenis .val() == 1) {
@@ -634,6 +642,16 @@
                     bukti.attr("required",false);
                     selAr.hide();
                     selArB.hide();selArB2.hide();
+                }
+                else if (jenis .val() == 2) {
+                    $('#bank').val(0);
+                    bank.attr("required",false);
+                    atasnama.attr("required",false);
+                    nobank.attr("required",false);
+                    bukti.attr("required",false);
+                    selAr.hide();
+                    selArB.hide();selArB2.hide();
+                    $("#toHideTabungan").show();
                 }
             });
 

@@ -455,7 +455,7 @@ class InformationRepository
             ->where('pengajuan.created_at', "<" , $date['now'])
             ->orderBy('pengajuan.created_at','DESC')->get();
         foreach ($data as $dt){
-            if($dt->kategori=="Kredit Tabungan"){
+            if($dt->kategori=="Debit Tabungan" || $dt->kategori == "Kredit Tabungan"){
                 $id=(json_decode($dt['detail'],true)['id_tabungan']);
                 $tab = Tabungan::select('id','detail')->where('id_tabungan',$id)->first();
                 $dt['detail_tabungan'] =$tab['detail'];
@@ -3518,14 +3518,14 @@ class InformationRepository
                 $data[$i]['id_rek'] = $rek['id_rekening'];
                 $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
             }elseif($data[$i]['status']=="Debit") {
-                $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['dari_rekening']);
+                $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['untuk_rekening']);
                 $str =json_decode($data[$i]->transaksi,true)['untuk_rekening'];
-                $data[$i]['untuk_rekening'] = str_before($str,"[");
+                $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
                 $data[$i]['id_rek']= str_before(str_after($str,"["),"]");
                 $data[$i]['dari_rekening'] ="[".$rek['id_rekening']."] ".$rek['nama_rekening'];
-                if(strlen($str) >10){
-                }else
-                    $data[$i]['untuk_rekening'] = "USER";
+                // if(strlen($str) >10){
+                // }else
+                //     $data[$i]['untuk_rekening'] = "USER";
             }
         }
 
@@ -3546,6 +3546,7 @@ class InformationRepository
         $data['detail']['path_bukti'] =$filename;
         $data['detail']['id_rekening'] =$tab->id_rekening;
         $data['detail']['nama_tabungan'] =$tab->jenis_tabungan;
+        $data['detail']['id_tabungan'] =$tab->id_tabungan;
         $dt = New Pengajuan();
         $dt->id_user = Auth::user()->id;
         $dt->id_rekening = $tab->id_rekening;
@@ -3937,7 +3938,7 @@ class InformationRepository
             ->where('id_user', Auth::user()->id)
             ->orderby('id','DESC')->get();
         foreach ($data as $dt){
-            if($dt->kategori=="Debit Tabungan"){
+            if($dt->kategori=="Debit Tabungan" || $dt->kategori == "Kredit Tabungan"){
                 $id=(json_decode($dt['detail'],true)['id_tabungan']);
                 $tab = Tabungan::select('id','detail')->where('id_tabungan',$id)->first();
                 $dt['detail_tabungan'] =$tab['detail'];
@@ -4026,7 +4027,8 @@ class InformationRepository
         $obj =  (object) array_merge((array) $data, (array) $data2);
         $data = collect($obj);
         foreach ($data as $dt){
-            if($dt['kategori']=="Debit Tabungan"){
+            // $kategori = $dt['kategori'];
+            if($dt['kategori']=="Debit Tabungan" || $dt['kategori']=="Kredit Tabungan"){
                 $id=(json_decode($dt['detail'],true)['id_tabungan']);
                 $tab = Tabungan::select('id','detail')->where('id_tabungan',$id)->first();
                 $dt['detail_tabungan'] =$tab['detail'];

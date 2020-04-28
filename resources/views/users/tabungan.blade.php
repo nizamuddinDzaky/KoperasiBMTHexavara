@@ -155,21 +155,22 @@
                                                     data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
                                                     data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                     @elseif(str_before($usr->kategori,' ')=="Debit")
-                                                    data-atasnama     = "{{ json_decode($usr->detail,true)['bank']}}"
+                                                    data-atasnama     = "{{ json_decode($usr->detail,true)['atasnama']}}"
+                                                    data-saldo     = "{{ json_decode($usr->detail_tabungan,true)['saldo']}}"
                                                     data-no_bank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
-                                                    data-idtab     = "{{ $usr['id_tabungan'] }}"
+                                                    data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                     @endif
-                                                data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
+                                                data-bank     = "{{ json_decode($usr->detail,true)['daribank']}}"
                                                 @else
                                                 data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                 data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
                                                 data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                 @endif
 
-                                                @if($usr->kategori=="Tabungan Awal" || str_before($usr->kategori,' ') == "Kredit Tabungan" || str_before($usr->kategori,' ') == "Debit Tabungan" )
+                                                @if($usr->kategori=="Tabungan Awal" || str_before($usr->kategori,' ') == "Kredit" || str_before($usr->kategori,' ') == "Debit" )
                                                 data-kategori   = "tabungan"
                                                 @else
-                                                {{-- data-kategori   = "{{ json_decode($usr->detail,true)[strtolower($usr->kategori)] }}" --}}
+                                                data-kategori   = "{{ json_decode($usr->detail,true)[strtolower($usr->kategori)] }}"
                                                 @endif
 
                                                 @if($usr->kategori=="Tabungan" || $usr->kategori=="Tabungan Awal")
@@ -341,11 +342,12 @@
             $('#idtab').val(button.data('idtab'));
             $('#cRekDeb').val(button.data('idtab'));
             $('#cdebitdeb').val(button.data('debit'));
-            $('#cjumlahdeb').val(button.data('jumlah'));
+            $('#cjumlahdeb').val(button.data('saldo'));
             $('#cpicDeb')
                 .attr('src', button.data('path'))
         });
         $('#viewDebModal').on('show.bs.modal', function (event) {
+            var formatter = new Intl.NumberFormat();
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -361,13 +363,14 @@
                 selAr.show();
                 selAr2.show();
             }
-            console.log(button.data('idtab'));
+
             $('#vRekKre').val(button.data('idtab'));
             $('#vkredit').val(button.data('debit'));
             $('#vnobankKre').val(button.data('no_bank'));
             $('#vatasnamaKre').val(button.data('atasnama'));
-            $('#vjumlahKre').val(button.data('jumlah'));
-            $('#vsaldo_kre').val(button.data('saldo'));
+            $('#vjumlahKre').val(button.data('saldo'));
+            console.log(button.data('saldo'));
+            $('#vsaldo_kre').val(formatter.format(button.data('saldo')));
             $('#vbankKre').val(button.data('bank'));
         });
         $('#confirmKreModal').on('show.bs.modal', function (event) {
@@ -448,12 +451,13 @@
     
     <script type="text/javascript">
         $().ready(function(){
+            var formatter = new Intl.NumberFormat();
             var selRek = $('#kreidRek');
             selRek.on('change', function () {
                 var id = $('#idRekKR').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
                 $('#idRekKR').val(id);
-                $('#krejumlah').val(selRek.val())
+                $('#krejumlah').val(formatter.format(selRek.val()))
             });
             $('#saldo_kre').on('keyup keydown', function(e){
                 if ($(this).val() > parseInt(selRek.val())

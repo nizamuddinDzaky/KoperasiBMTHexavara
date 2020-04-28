@@ -794,7 +794,6 @@ class TellerController extends Controller
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanTabTell($date);
 
-        // return response()->json($this->informationRepository->getAllpengajuanTabTell($date));
         return view('teller.transaksi.tabungan.pengajuan',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldo' =>  $this->informationRepository->getAllTab(),
@@ -1051,7 +1050,8 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
+            'tabungan'  => $this->informationRepository->getAllTab()
         ]);
     }
     public function periode_pem(Request $request){
@@ -1691,6 +1691,7 @@ class TellerController extends Controller
         {
             $angsuran = $this->pembiayaanReporsitory->confirmAngsuranMDA($request);
         }
+        
         if($angsuran['type'] == 'success') {
             return redirect()
                 ->back()

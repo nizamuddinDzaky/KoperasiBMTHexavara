@@ -106,7 +106,7 @@ class TabunganReporsitories {
         
         if($id !== "") 
         {
-            $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id', $id] ])->get();
+            $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id_tabungan', $id] ])->get();
         }
         
         return $tabunganUser;
@@ -135,7 +135,6 @@ class TabunganReporsitories {
         {
             $pengajuan = PengajuanReporsitories::findPengajuan($data->id);
             $tabungan = $this->getUserTabungan($pengajuan->id_user, json_decode($pengajuan->detail)->id_tabungan); 
-            
             foreach ($tabungan as $tabung) {
                 $tabungan = $tabung;
             }
@@ -202,7 +201,7 @@ class TabunganReporsitories {
                     "saldo" => floatval(json_decode($tabungan->detail)->saldo) + floatval(json_decode($pengajuan->detail)->jumlah),
                     "id_pengajuan" => $pengajuan->id
                 ];   
-                $updateTabungan = Tabungan::where('id', json_decode($pengajuan->detail)->id_tabungan)->update([
+                $updateTabungan = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->id_tabungan)->update([
                     "detail" => json_encode($updateTabunganDetail)
                 ]);
 

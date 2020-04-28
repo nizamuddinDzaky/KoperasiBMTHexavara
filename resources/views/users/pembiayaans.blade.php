@@ -331,11 +331,19 @@
                 $("#vtoHideAng").hide();
                 $("#vtoHideAngBank").hide();
                 $("#vtoHideAngBank2").hide();
+                $("#vtoHideTabungan").hide();
             }
             else if(button.data('jenis')=="Transfer"){
                 $("#vtoHideAng").show();
                 $("#vtoHideAngBank").show();
                 $("#vtoHideAngBank2").show();
+                $("#vtoHideTabungan").hide();
+            }
+            else if(button.data('jenis')=="Tabungan"){
+                $("#vtoHideAng").hide();
+                $("#vtoHideAngBank").hide();
+                $("#vtoHideAngBank2").hide();
+                $("#vtoHideTabungan").show();
             }
 //            if(button.data('piutang')==1)
 //                $("#vlabel_bagi").text('Sisa Tagihan Margin Bulanan') ;
@@ -347,6 +355,7 @@
             $("#vjenisPAng").val(button.data('tipe_pem') );
             $("#vbankAng").val(button.data('bankuser') );
             $("#vbank").val(button.data('bank') );
+            $("#vtabungan").val(button.data('bank') );
             $("#vban").val(button.data('bankuser') );
             $("#vbagi_pokok").val(button.data('pokok') );
             $("#vbagi_margin").val(button.data('nisbah') );
@@ -621,7 +630,7 @@
             var jenis = $('#debit');
             var bukti = $('#bukti');
 
-            selAr.hide(); selArB.hide(); selArB2.hide();
+            selAr.hide(); selArB.hide(); selArB2.hide(); $("#toHideTabungan").hide();
             selA.hide(); selA2.hide(); selA3.hide();selA4.hide();selA5.hide();
             jenis.on('change', function () {
                 if(jenis .val() == 1) {
@@ -630,7 +639,8 @@
                     atasnama.attr("required",true);
                     nobank.attr("required",true);
                     selAr.show();
-                    selArB.show(); selArB2.show()
+                    selArB.show(); selArB2.show();
+                    $("#toHideTabungan").hide();
                 }
                 else if (jenis .val() == 0) {
                     $('#bank').val(0);
@@ -640,6 +650,18 @@
                     bukti.attr("required",false);
                     selAr.hide();
                     selArB.hide();selArB2.hide();
+                    $("#toHideTabungan").hide();
+                }
+                else if (jenis .val() == 2) {
+                    $('#bank').val(0);
+                    bank.attr("required",false);
+                    atasnama.attr("required",false);
+                    nobank.attr("required",false);
+                    bukti.attr("required",false);
+                    selAr.hide();
+                    selArB.hide();
+                    selArB2.hide();
+                    $("#toHideTabungan").show();
                 }
             });
 

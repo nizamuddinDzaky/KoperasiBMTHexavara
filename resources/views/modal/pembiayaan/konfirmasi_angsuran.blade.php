@@ -42,6 +42,20 @@
                                             <option selected value="" disabled>-Pilih jenis angsuran-</option>
                                             <option value="Tunai">Tunai</option>
                                             <option value="Transfer">Transfer</option>
+                                            <option value="Tabungan">Rekening Tabungan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="atoHideTabungan">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Rekening Tabungan <star>*</star></label>
+                                        <select class="form-control" id="atabungan" name="tabungan" style="width: 100%;" disabled>
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih Rekening Tabungan-</option>
+                                            @foreach ($tabungan as $rekening)
+                                                <option value="{{ $rekening->id }}">[{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [ {{number_format(json_decode($rekening->detail)->saldo,2) }} ] </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

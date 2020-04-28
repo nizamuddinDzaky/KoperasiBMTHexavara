@@ -8,12 +8,22 @@ $(document).ready(function() {
             $("#atoHideAng").hide();
             $("#atoHideAngBank").hide();
             $("#atoHideAngBank2").hide();
+            $("#atoHideTabungan").hide();
         }
         else if(button.data('jenis')=="Transfer"){
             $("#atoHideAng").show();
             $("#atoHideAngBank").show();
             $("#atoHideAngBank2").show();
+            $("#atoHideTabungan").hide();
         }
+        else if(button.data('jenis')=="Tabungan"){
+            $("#atoHideAng").hide();
+            $("#atoHideAngBank").hide();
+            $("#atoHideAngBank2").hide();
+            $("#atoHideTabungan").show();
+        }
+
+        $("#atabungan").val(button.data('bank') );
 
         $("#aidRekA").val(button.data('id') );
         $("#aidTabA").val(button.data('idtab') );
@@ -28,6 +38,7 @@ $(document).ready(function() {
         $("#atagihan_pokok").val(button.data('sisa_ang') )
         $("#atagihan_margin").val(button.data('sisa_mar') );
         $("#aatasnamaAng").val(button.data('atasnama') );
+        $("#anobankAng").val(button.data('no_bank') );
         $("#apicAng").attr("src", button.data('path') );
 
     });
