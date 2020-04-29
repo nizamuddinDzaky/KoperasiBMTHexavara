@@ -166,9 +166,9 @@
                                     <td>{{ $usr->created_at->format("D, d F Y h:i:s") }}</td>
                                     <td style="text-transform: uppercase">{{ $usr->nama_user }}</td>
                                     
-                                    @if($usr->status == "Kredit")
+                                    @if($usr->status == "Debit")
                                     <td>Setoran Tabungan</td>
-                                    @elseif($usr->status == "Debit")
+                                    @elseif($usr->status == "Kredit")
                                     <td>Penarikan Tabungan</td>
                                     @else
                                     <td>{{ $usr->status }}</td>

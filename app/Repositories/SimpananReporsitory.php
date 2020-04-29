@@ -13,17 +13,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\PengajuanReporsitories;
 use App\Repositories\RekeningReporsitories;
+use App\Repositories\TabunganReporsitories;
 use App\BMT;
 use App\Tabungan;
 
 class SimpananReporsitory {
 
     public function __construct(PengajuanReporsitories $pengajuanReporsitory,
-                                RekeningReporsitories $rekeningReporsitory
+                                RekeningReporsitories $rekeningReporsitory,
+                                TabunganReporsitories $tabunganReporsitory
                                 ) 
     {
         $this->pengajuanReporsitory = $pengajuanReporsitory;
         $this->rekeningReporsitory = $rekeningReporsitory;
+        $this->tabunganReporsitory = $tabunganReporsitory;
     }
 
     /** 
@@ -414,7 +417,7 @@ class SimpananReporsitory {
             }
 
             $detailToPenyimpananBMT = [
-                "jumlah"        => json_decode($pengajuan->detail)->jumlah,
+                "jumlah"        => -json_decode($pengajuan->detail)->jumlah,
                 "saldo_awal"    => $saldo_awal_pengirim,
                 "saldo_akhir"   => $saldo_akhir_pengirim,
                 "id_pengajuan"  => $pengajuan->id
@@ -422,7 +425,7 @@ class SimpananReporsitory {
             $dataToPenyimpananBMT = [
                 "id_user"   => $pengajuan->id_user,
                 "id_bmt"    => $id_bmt_bank_pengirim,
-                "status"    => $nama_rekening,
+                "status"    => "Pembayaran " . $nama_rekening,
                 "transaksi" => $detailToPenyimpananBMT,
                 "teller"    => Auth::user()->id
             ];
@@ -433,6 +436,7 @@ class SimpananReporsitory {
             {
                 $detailToPenyimpananBMT['saldo_awal'] = floatval($saldo_awal_bmt_simpanan);
                 $detailToPenyimpananBMT['saldo_akhir'] = floatval($saldo_akhir_bmt_simpanan);
+                $detailToPenyimpananBMT['jumlah'] = json_decode($pengajuan->detail)->jumlah;
                 $dataToPenyimpananBMT['id_bmt'] = $id_bmt_simpanan;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
                 
@@ -498,6 +502,25 @@ class SimpananReporsitory {
                                 DB::rollback();
                                 $response = array("type" => "error", "message" => "Pengajuan " . $nama_rekening . " Gagal Dikonfirmasi.");
                             }
+
+                            $detailToPenyimpananTabungan = [
+                                "teller"        => Auth::user()->id,
+                                "dari_rekening"    => $bmt_bank_pengirim->nama,
+                                "untuk_rekening"   => $bmt_simpanan->nama,
+                                "jumlah"  => json_decode($pengajuan->detail)->jumlah,
+                                "saldo_awal"  => $saldo_awal_pengirim,
+                                "saldo_akhir"  => $saldo_akhir_pengirim
+                            ];
+                            $dataToPenyimpananTabungan = [
+                                "id_user"   => $pengajuan->id_user,
+                                "id_tabungan"    => $tabungan_pengirim->id,
+                                "status"    => "Pembayaran " . $nama_rekening,
+                                "transaksi" => $detailToPenyimpananTabungan,
+                                "teller"    => Auth::user()->id
+                            ];
+
+                            $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+
                         }
                         else
                         {

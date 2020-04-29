@@ -1020,7 +1020,6 @@ class UserController extends Controller
                         "untuk_rekening" => $rekening_penerima->nama_rekening
                     ]);
                 }
-                
                 return view('users.detail_wajibpokok', [
                     'data' => $riwayat_simpanan,
                     'saldo' => json_decode(Auth::user()->wajib_pokok)->$jenis,
