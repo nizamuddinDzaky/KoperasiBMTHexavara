@@ -1691,7 +1691,6 @@ class TellerController extends Controller
         {
             $angsuran = $this->pembiayaanReporsitory->confirmAngsuranMDA($request);
         }
-        
         if($angsuran['type'] == 'success') {
             return redirect()
                 ->back()

@@ -17,9 +17,14 @@
                 <div class="col-md-12">
                     <div class="card">
 
+                        @php
+                            $pinjaman_awal = json_decode($data[0]['detail'])->total_pinjaman;    
+                        @endphp
+                        
                         <div class="header text-center">
                             <h4 class="title">Riwayat Transaksi </h4>
                             <p class="category">Pembiayaan Anggota <b>{{ isset($data[0])? ($data[0]['jenis_pembiayaan']." [ID : ".$data[0]['id_pembiayaan']."]"):""}}</b></p>
+                            <p class="category">Jumlah Pinjaman Awal <b>IDR {{ isset($data[0])? (number_format($pinjaman_awal, 2)):"0.00"}}</b></p>
                             <br />
                         </div>
                         <div class="toolbar">
@@ -49,7 +54,11 @@
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['bayar_angsuran']), 2)  }}</td>
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['bayar_margin']), 2)  }}</td>
                                     {{-- <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td> --}}
+                                    @if(json_decode($usr->transaksi,true)['sisa_pinjaman'] > 10)
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['sisa_pinjaman']), 2)  }}</td>
+                                    @else
+                                    <td class="text-right">0.00</td>
+                                    @endif
                                 </tr>
                                 @endif
                             @endforeach

@@ -3708,7 +3708,7 @@ class InformationRepository
 //    Penyimpanan Pembiayaan
     function getTransaksiPemUsr($id)
     {
-        $data = PenyimpananPembiayaan::select('penyimpanan_pembiayaan.*', 'pembiayaan.jenis_pembiayaan','pembiayaan.id_pembiayaan')
+        $data = PenyimpananPembiayaan::select('penyimpanan_pembiayaan.*', 'pembiayaan.jenis_pembiayaan','pembiayaan.id_pembiayaan', 'pembiayaan.detail')
             ->join('pembiayaan', 'pembiayaan.id', '=', 'penyimpanan_pembiayaan.id_pembiayaan')
             ->where('penyimpanan_pembiayaan.id_pembiayaan',$id)->orderby('id','DESC')->LIMIT(100)->get();
         $pokok = Pembiayaan::where('id',$id)->first();

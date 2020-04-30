@@ -1119,9 +1119,14 @@ class PembiayaanReporsitory {
                             ]);
                             $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
 
-                            if($sisa_pinjaman <= 50)
+                            if($sisa_pinjaman <= 10)
                             {
+                                $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
+                                $detailToUpdatePembiayaan['sisa_margin'] = 0;
+                                $detailToUpdatePembiayaan['sisa_pinjaman'] = 0;
+                                
                                 $updateStatusPembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->update([
+                                    'detail'    => json_encode($detailToUpdatePembiayaan),
                                     'status'    => 'lunas'
                                 ]);
                             }
@@ -1216,9 +1221,14 @@ class PembiayaanReporsitory {
                         ]);
                         $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
 
-                        if($sisa_pinjaman <= 50)
+                        if($sisa_pinjaman <= 10)
                         {
+                            $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
+                            $detailToUpdatePembiayaan['sisa_margin'] = 0;
+                            $detailToUpdatePembiayaan['sisa_pinjaman'] = 0;
+
                             $updateStatusPembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->update([
+                                'detail'    => json_encode($detailToUpdatePembiayaan),
                                 'status'    => 'lunas'
                             ]);
                         }
@@ -1481,9 +1491,14 @@ class PembiayaanReporsitory {
                     ]);
                     $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
 
-                    if($sisa_pinjaman <= 50)
+                    if($sisa_pinjaman <= 10)
                     {
+                        $detailToUpdatePembiayaan['sisa_pinjaman'] = 0;
+                        $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
+                        $detailToUpdatePembiayaan['sisa_margin'] = 0;
+
                         $updateStatusPembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->update([
+                            'detail'    => $detailToUpdatePembiayaan,
                             'status'    => 'lunas'
                         ]);
                     }
@@ -1702,10 +1717,15 @@ class PembiayaanReporsitory {
                     'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                 ]);
 
-                if($sisa_pinjaman <= 50)
+                if($sisa_pinjaman <= 10)
                 {
+                    $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
+                    $detailToUpdatePembiayaan['sisa_margin'] = 0;
+                    $detailToUpdatePembiayaan['sisa_pinjaman'] = 0;
+                    
                     $updateStatusPembiayaan = Pembiayaan::where('id_pembiayaan', $data->id_)->update([
-                        'status'    => 'not active'
+                        'detail'    => $detailToUpdatePembiayaan,
+                        'status'    => 'lunas'
                     ]);
                 }
 
@@ -1981,9 +2001,14 @@ class PembiayaanReporsitory {
                             'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                         ]);
 
-                        if($sisa_pinjaman <= 50)
+                        if($sisa_pinjaman <= 10)
                         {
+                            $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
+                            $detailToUpdatePembiayaan['sisa_margin'] = 0;
+                            $detailToUpdatePembiayaan['sisa_pinjaman'] = 0;
+
                             $updateStatusPembiayaan = Pembiayaan::where('id_pembiayaan', $data->id_)->update([
+                                'detail'    => $detailToUpdatePembiayaan,
                                 'status'    => 'lunas'
                             ]);
                         }
