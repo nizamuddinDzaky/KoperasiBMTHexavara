@@ -385,7 +385,7 @@
 <div class="modal fade" id="activeTabModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCarda">
-            <form id="wizardForma" method="POST" @if(Auth::user()->tipe=="teller") action="{{route('teller.pengajuan.active')}}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.pengajuan.active')}}" @endif enctype="multipart/form-data">
+            <form id="wizardForma" method="POST" @if(Auth::user()->tipe=="teller") action="{{ route('teller.konfirmasi_pendaftaran_baru') }}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.pengajuan.active')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <input type="hidden" id="id_act_tab" name="id_">
                 <div class="header text-center">

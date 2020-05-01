@@ -1821,4 +1821,41 @@ class TellerController extends Controller
             'data'  => $data
         ]);
     }
+
+    /**
+     * Konfirmasi pendaftaran baru anggota
+     * @return Response 
+    */
+    public function konfirmasi_pendaftaran_baru(Request $request)
+    {
+        if($request->syarat == "ya" && $request->identitas == "ya")
+        {
+            if($request->pokok > 0 && $request->wajib > 0)
+            {
+                $aktivasi_akun = $this->accountReporsitory->activasiAccount($request);
+                if($aktivasi_akun['type'] == 'success') {
+                    return redirect()
+                        ->back()
+                        ->withSuccess(sprintf($aktivasi_akun['message']));
+                }
+                else{
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', $aktivasi_akun['message']);
+                }
+                    
+            }
+            else 
+            {
+                return redirect()
+                        ->back()
+                        ->withInput()->with('message', "Pengajuan tidak dapat dikonfirmasi, simpanan pokok & simpanan wajib tidak boleh 0.");
+            }
+        }
+        else {
+            return redirect()
+                        ->back()
+                        ->withInput()->with('message', "Pengajuan tidak dapat dikonfirmasi. Anda belum melengkapi syarat yang ditentukan.");
+        }
+    }
 }

@@ -705,5 +705,26 @@ class TabunganReporsitories {
 
     }
 
+    /** 
+     * Insert data to tabungan table
+     * @return Response
+    */
+    public function createTabungan($data)
+    {
+        $tabungan = new Tabungan();
+        $tabungan->id_tabungan = $data['id_tabungan'];
+        $tabungan->id_rekening = $data['id_rekening'];
+        $tabungan->id_user = $data['id_user'];
+        $tabungan->id_pengajuan = $data['id_pengajuan'];
+        $tabungan->jenis_tabungan = $data['jenis_tabungan'];
+        $tabungan->detail = json_encode($data['detail']);
+        $tabungan->status = $data['status'];
 
+        if($tabungan->save()) {
+            return "success";
+        }
+        else {
+            return "error";
+        }
+    }
 }

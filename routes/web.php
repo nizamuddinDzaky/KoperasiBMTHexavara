@@ -777,6 +777,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'as'    => 'teller.pembiayaan.konfirmasi_angsuran',
         'uses'  => 'TellerController@konfirmasi_angsuran'
     ]);
+
+    /** 
+     * Konfirmasi pendaftaran baru
+     * @method POST
+    */
+    Route::post('konfirmasi_pendaftaran_baru', [
+        'as'    => 'teller.konfirmasi_pendaftaran_baru',
+        'uses'  => 'TellerController@konfirmasi_pendaftaran_baru'
+    ]);
     
     Route::get('/maal', [
         'as'        => 'teller.donasi.maal',
