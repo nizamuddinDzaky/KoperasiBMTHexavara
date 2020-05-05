@@ -551,8 +551,7 @@
                 if(marbln <= 1 && angbln <= 1) {
                     $('.footer').css("display", "none")
                 }
-                if(marbln > 1 && angbln > 1) {
-                {
+                if(marbln > 1 || angbln > 1) {
                     $('.footer').css("display", "block")
                 }
                 if(marbln==0) {

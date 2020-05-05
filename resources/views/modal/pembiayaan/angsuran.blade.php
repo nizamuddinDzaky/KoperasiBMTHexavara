@@ -34,8 +34,8 @@
                                                         json_decode($rekening->detail,true )['lama_angsuran']." ".
                                                         json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
                                                         $rekening->status_angsuran." ".
-                                                        ((floatval(json_decode($rekening->detail,true )['sisa_ang_bln']) + floatval(json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'])) - (floatval(json_decode($rekening->detail)['kelebihan_angsuran_bulanan'])))." ".
-                                                        ((floatval(json_decode($rekening->detail,true )['sisa_mar_bln']) + floatval(json_decode($rekening->detail,true )['jumlah_margin_bulanan'])) - (floatval(json_decode($rekening->detail)['kelebihan_margin_bulanan'])))
+                                                        (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] - json_decode($rekening->detail,true )['kelebihan_angsuran_bulanan']) ." ".
+                                                        (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] - json_decode($rekening->detail,true )['kelebihan_margin_bulanan'])
                                                     }}"> [{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                 @else
                                                     <option value="{{

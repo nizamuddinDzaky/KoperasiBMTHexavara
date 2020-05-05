@@ -584,7 +584,7 @@ class UserController extends Controller
         $data = $this->informationRepository->getAllPemUsrActive();
         //  dd($data[0]);
         $tab = $data;
-        return view('users.pembiayaan', [
+        return view('users.pembiayaans', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
             'data' => $data,
