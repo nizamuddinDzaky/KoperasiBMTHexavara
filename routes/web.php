@@ -706,6 +706,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'uses'      => 'TellerController@index'
     ]);
 
+    /** 
+     * Pencairan rekening
+     * @method POST
+    */
+    Route::post('/pencairan_rekening', [
+        'as'        => 'teller.pencairan_rekening',
+        'uses'      => 'TellerController@pencairan_rekening'
+    ]);
+
     Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
         Route::get('/', [
             'as'        => 'dashboard',
@@ -888,6 +897,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             Route::post('/', [
                 'as' => 'teller.periode.pengajuan',
                 'uses' => 'TellerController@periode_pengajuan'
+            ]);
+
+            /** 
+             * Daftar Pengajuan Penutupan Rekening
+             * @method GET
+            */
+            Route::get('/daftar_penutupan_rekening', [
+                'as' => 'teller.transaksi.pengajuan_penutupan_rekening',
+                'uses' => 'TellerController@daftar_pengajuan_penutupan_rekening'
             ]);
         });
 

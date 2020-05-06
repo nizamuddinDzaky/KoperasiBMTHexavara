@@ -53,11 +53,11 @@ class PengajuanReporsitories {
             {
                 $data = $data['id'];
             }
-            $response = array("type" => "success", "message" => "Pengajuan " . $data['kategori'] . " berhasil dibuat", "data" => $data);
+            $response = array("type" => "success", "message" => "Pengajuan " . $data['jenis_pengajuan'] . " berhasil dibuat", "data" => $data);
         } 
         else 
         {
-            $response = array("type" => "error", "message" => "Pengajuan " . $data['kategori'] . " gagal dibuat");
+            $response = array("type" => "error", "message" => "Pengajuan " . $data['jenis_pengajuan'] . " gagal dibuat");
         }
         return $response;
     }
@@ -69,6 +69,16 @@ class PengajuanReporsitories {
     public static function findPengajuan($id)
     {
         $pengajuan = Pengajuan::where('id', $id)->first();
+        return $pengajuan;
+    }
+
+    /**
+     * Get pengajuan berdasarkan kategori tertentu
+     * @return Response 
+    */
+    public function getPengajuanSpecificCategory($category)
+    {
+        $pengajuan = Pengajuan::where('jenis_pengajuan', $category)->get();
         return $pengajuan;
     }
 

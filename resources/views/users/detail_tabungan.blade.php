@@ -76,7 +76,12 @@
                                         <td class="text-right">0.00</td>
                                     @endif
                                     
+                                    @if(json_decode($usr->transaksi,true)['saldo_akhir'] < 10)
+                                    <td class="text-right">0.00</td>
+                                    @else
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
+                                    @endif
+                                    
                                     <td></td>
                                 </tr>
 

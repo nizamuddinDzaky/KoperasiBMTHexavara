@@ -1858,4 +1858,36 @@ class TellerController extends Controller
                         ->withInput()->with('message', "Pengajuan tidak dapat dikonfirmasi. Anda belum melengkapi syarat yang ditentukan.");
         }
     }
+
+    /** 
+     * Daftar pengajuan penutupan rekening
+     * @return View
+    */
+    public function daftar_pengajuan_penutupan_rekening()
+    {
+        $pengajuan = $this->pengajuanReporsitory->getPengajuanSpecificCategory('Penutupan Rekening');
+
+        return view("teller.transaksi.penutupan_rekening.pengajuan", [
+            "data" => $pengajuan
+        ]);
+    }
+
+    /** 
+     * Pencairan rekening anggota
+     * @return Response
+    */
+    public function pencairan_rekening(Request $request)
+    {
+        $pencairan = $this->accountReporsitory->pencairanSaldoRekening($request);
+        if($pencairan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pencairan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pencairan['message']);
+        }
+    }
 }

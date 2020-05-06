@@ -40,6 +40,7 @@
             {{-- <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li> --}}
             <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="{{route('pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
             <li @if(Request::is('teller/menu/pengajuan_simpanan*'))class="active"@endif><a href="{{ route('teller.transaksi.pengajuan_simpanan') }}">Pengajuan Simpanan Anggota</a></li>
+            <li @if(Request::is('teller/menu/pengajuan_penutupan_rekening*'))class="active"@endif><a href="{{ route('teller.transaksi.pengajuan_penutupan_rekening') }}">Pengajuan Penutupan Rekening</a></li>
             {{-- <li @if(Request::is('teller/nasabah/pembiayaan*'))class="active"@endif><a href="{{route('nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li> --}}
         </ul>
         </div>

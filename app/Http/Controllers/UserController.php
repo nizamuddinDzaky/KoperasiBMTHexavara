@@ -188,8 +188,12 @@ class UserController extends Controller
                 $is_pembiayaan = true;
             }
         }
-        // return response()->json($this->informationRepository->getAllpengajuanUsr());
+        // return response()->json();
         return view('users.pengajuan', [
+            'tabungan_anggota'  => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
+            'simpanan_anggota'  => $this->simpananReporsitory->getSimwaAndSimpok(),
+            'pembiayaan_anggota' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser(),
+            'deposito_anggota'  => $this->depositoReporsitory->getUserDeposito($status="", $user=Auth::user()->id),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoDep' => $this->informationRepository->getAllDepUsr(),
@@ -1041,10 +1045,35 @@ class UserController extends Controller
     */
     public function keluar_dari_anggota(Request $request)
     {
-        $close_user = User::where('id', Auth::user()->id)->update([ 'is_active' => 0 ]);
-        Auth::logout();
+        $tabungan_user = Tabungan::where('id_user', Auth::user()->id)->first();
+        $detailToPengajuan = [
+            "atasnama"      => "Pribadi",
+            "nama"          => Auth::user()->nama,
+            "id"            => Auth::user()->id,
+            "akad"          => $tabungan_user->id_rekening,
+            "tabungan"      => $tabungan_user->id_rekening,
+            "keterangan"    => null,
+            "nama_rekening" => $tabungan_user->jenis_tabungan
+        ];
+        $dataToPengajuan = [
+            "id_user"           => Auth::user()->id,
+            "id_rekening"       => $tabungan_user->id_rekening,
+            "jenis_pengajuan"   => "Penutupan Rekening",
+            "status"            => "Menunggu Konfirmasi",
+            "kategori"          => "Penutupan Rekening",
+            "detail"            => $detailToPengajuan,
+            "teller"            => 0
+        ];
 
-        $request->session()->put('status', "Akun Anda Telah Dinonaktifkan. Silahkan Hubungi Admin Untuk Informasi Lebih Lanjut.");
-        return redirect('anggota');
+        $pengajuan = $this->pengajuanReporsitory->createPengajuan($dataToPengajuan);
+        if($pengajuan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pengajuan['message']));
+        } else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pengajuan['message']);
+        }
     }
 }

@@ -100,13 +100,21 @@ class TabunganReporsitories {
      * Get tabungan for specific user
      * @return Response
     */
-    public function getUserTabungan($id_user, $id="")
+    public function getUserTabungan($id_user, $id="", $status="")
     {
         $tabunganUser = Tabungan::where('id_user', $id_user)->with('user')->get();
         
         if($id !== "") 
         {
             $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['id_tabungan', $id] ])->get();
+        }
+        if($status !== "") 
+        {
+            $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['status', $status] ])->get();
+        }
+        if($status !== "" && $id !== "") 
+        {
+            $tabunganUser = Tabungan::where([ ['id_user', $id_user], ['status', $status], ['id_tabungan', $id] ])->get();
         }
         
         return $tabunganUser;

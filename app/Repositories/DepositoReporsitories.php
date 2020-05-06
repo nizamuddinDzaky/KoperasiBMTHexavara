@@ -719,31 +719,31 @@ class DepositoReporsitories {
                         else
                         {
                             DB::rollback();
-                            $response = array("type" => "error", "message" => "Pembukaan deposito gagal 1.");
+                            $response = array("type" => "error", "message" => "Pembukaan deposito gagal");
                         }
                     }
                     else
                     {
                         DB::rollback();
-                        $response = array("type" => "error", "message" => "Pembukaan deposito gagal 2.");
+                        $response = array("type" => "error", "message" => "Pembukaan deposito gagal");
                     }
                 }
                 else
                 {
                     DB::rollback();
-                    $response = array("type" => "error", "message" => "Pembukaan deposito gagal 2.");
+                    $response = array("type" => "error", "message" => "Pembukaan deposito gagal");
                 }
             }
             else
             {
                 DB::rollback();
-                $response = array("type" => "error", "message" => "Pembukaan deposito gagal 2.");
+                $response = array("type" => "error", "message" => "Pembukaan deposito gagal");
             }
         }
         catch(Exception $ex)
         {
             DB::rollback();
-            $response = array("type" => "error", "message" => "Pembukaan deposito gagal 3.");
+            $response = array("type" => "error", "message" => "Pembukaan deposito gagal");
         }
         
         return $response;

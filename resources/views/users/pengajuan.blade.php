@@ -221,9 +221,10 @@
 
     @include('modal.pengajuan')
     @include('modal.user_tabungan')
-    {{-- @include('modal.pembiayaan.angsuranss') --}}
+    @include('modal.pembiayaan.angsuranss')
     @include('modal.pembiayaan.view_angsuran')
-    {{-- @include('modal.pembiayaan.konfirmasi_angsuran') --}}
+    @include('modal.pembiayaan.konfirmasi_angsuran')
+    @include('modal.penutupan_rekening.pengajuan')
     @include('modal.tutup_rekening')
 @endsection
 

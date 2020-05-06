@@ -120,7 +120,64 @@
                                         @else
                                             @if($usr->status=="Sudah Dikonfirmasi"  || $usr->status=="Disetujui")
                                             @else
-                                                <button type="button" id="active_" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#active{{substr($usr->kategori,0,3)}}Modal" title="Aktivasi Rekening"
+                                                
+                                                @if($usr->kategori == "Tabungan Awal")
+                                                    <button type="button" id="active_" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#activeTabAwalModal" title="Aktivasi Rekening"
+                                                            data-id         = "{{$usr->id}}"
+                                                            data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
+                                                            data-ktp     = "{{ $usr->no_ktp }}"
+
+                                                            @if(str_before($usr->kategori,' ')=="Debit" || str_before($usr->kategori,' ')=="Kredit")
+                                                            data-nama     = "{{ $usr->nama }}"
+                                                            data-ktp     = "{{ $usr->no_ktp  }}"
+                                                            data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
+                                                            data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
+                                                            data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
+                                                            @if(str_before($usr->kategori,' ')=="Kredit")
+                                                            data-atasnama     = "{{ json_decode($usr->detail,true)['bank']}}"
+                                                            data-no_bank   = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
+                                                            data-idtab     = "{{$usr->id_tabungan}}"
+                                                            @elseif(str_before($usr->kategori,' ')=="Debit")
+                                                            data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
+                                                            data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
+                                                            @endif
+                                                            data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
+                                                            @elseif($usr->jenis_pengajuan =="Perpanjangan Deposito")
+                                                            data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
+                                                            data-atasnama   = "Pribadi"
+                                                            data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
+                                                            data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
+                                                            @else
+                                                            data-kategori   = "{{ $usr->id_rekening }}"
+                                                            data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
+                                                            data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
+                                                            @endif
+
+                                                            @if($usr->kategori=="Tabungan" || $usr->kategori=="Tabungan Awal")
+                                                            data-akad       = "{{ json_decode($usr->detail,true)['akad'] }}"
+                                                            data-akad       = "{{ json_decode($usr->detail,true)['keterangan'] }}"
+                                                            @elseif($usr->kategori=="Pembiayaan")
+                                                            data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                            data-jenis       = "{{ json_decode($usr->detail,true)['jenis_Usaha'] }}"
+                                                            data-usaha       = "{{ json_decode($usr->detail,true)['usaha'] }}"
+                                                            data-jaminan       = "{{ json_decode($usr->detail,true)['jaminan'] }}"
+                                                            data-waktu       = "{{ str_before(json_decode($usr->detail,true)['keterangan'],' ')  }}"
+                                                            data-ketwaktu       = "{{ str_after(json_decode($usr->detail,true)['keterangan'],' ') }}"
+                                                            data-path       = "{{ url('/storage/public/'.json_decode($usr->detail,true)['path_jaminan']) }}"
+                                                            @elseif($usr->kategori=="Deposito")
+                                                            data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                            @endif
+                                                    >
+                                                        <i class="fa fa-check-square"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
+                                                            data-id      = "{{$usr->id}}"
+                                                            data-id_user = "{{$usr->id_user}}"
+                                                            data-nama    = "{{$usr->jenis_pengajuan}}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                @else
+                                                    <button type="button" id="active_" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#active{{substr($usr->kategori,0,3)}}Modal" title="Aktivasi Rekening"
                                                         data-id         = "{{$usr->id}}"
                                                         data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
                                                         data-ktp     = "{{ $usr->no_ktp }}"
@@ -165,15 +222,17 @@
                                                         @elseif($usr->kategori=="Deposito")
                                                         data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
                                                         @endif
-                                                >
-                                                    <i class="fa fa-check-square"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
-                                                        data-id      = "{{$usr->id}}"
-                                                        data-id_user = "{{$usr->id_user}}"
-                                                        data-nama    = "{{$usr->jenis_pengajuan}}">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
+                                                    >
+                                                        <i class="fa fa-check-square"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
+                                                            data-id      = "{{$usr->id}}"
+                                                            data-id_user = "{{$usr->id_user}}"
+                                                            data-nama    = "{{$usr->jenis_pengajuan}}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                @endif
+
                                             @endif
                                         @endif
                                     </div>
@@ -327,6 +386,43 @@
 
             $('#id_act_tab').val(button.data('id'));
             $('#aketerangan').val(button.data('keterangan'));
+        });
+        $('#activeTabAwalModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            $('#arekAkadAwal').val(button.data('akad'));
+            $('#arekTabAwal').val(button.data('kategori'));
+            var selAr = $('#toHideaAwal');
+            var selAr2 = $('#toHide2aAwal');
+            if(button.data('atasnama')==="Lembaga"){
+                $('#aatasnamaAwal').val(2);
+                $('#aidhukumAwal').val(button.data('iduser'));
+                $('#anamahukumAwal').val(button.data('namauser'));
+                selAr2.show();
+                selAr.hide();
+            }else if(button.data('atasnama')==="Pribadi"){
+                $('#aatasnamaAwal').val(1);
+                $('#aiduserAwal').val(button.data('ktp'));
+                $('#anamaAwal').val(button.data('namauser'));
+                selAr.show();
+                selAr2.hide();
+            }
+
+            if(button.data('keterangan')=="Tabungan Awal") {
+                $('#Awal').show();
+                $('#pokokawal').attr("required",true);
+                $('#wajibawal').attr("required",true);
+            }
+            else {
+                $('#pokokawal').attr("required",false);
+                $('#wajibawal').attr("required",false);
+                $('#Awal').hide();
+            }
+
+
+            $('#id_act_tab_awal').val(button.data('id'));
+            $('#aketeranganAwal').val(button.data('keterangan'));
         });
         $('#viewKreModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal

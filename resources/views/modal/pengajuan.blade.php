@@ -385,7 +385,7 @@
 <div class="modal fade" id="activeTabModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCarda">
-            <form id="wizardForma" method="POST" @if(Auth::user()->tipe=="teller") action="{{ route('teller.konfirmasi_pendaftaran_baru') }}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.pengajuan.active')}}" @endif enctype="multipart/form-data">
+            <form id="wizardForma" method="POST" @if(Auth::user()->tipe=="teller") action="{{ route('teller.pengajuan.active') }}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.pengajuan.active')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <input type="hidden" id="id_act_tab" name="id_">
                 <div class="header text-center">
@@ -497,6 +497,189 @@
                                                type="text"
                                                name="keterangan"
                                                id="aketerangan"
+                                               value=""
+                                               disabled
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" >
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Apakah anggota telah membayar "Setoran Awal" ?<star>*</star></label>
+                                        <select required  name="syarat" class="form-control" >
+                                            <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
+                                            <option value="ya">Ya</option>
+                                            <option value="tidak">Tidak</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Apakah anggota telah mengisi "Identitas Anggota" dengan benar ?<star>*</star></label>
+                                        <select required name="identitas" class="form-control" >
+                                            <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
+                                            <option value="ya">Ya</option>
+                                            <option value="tidak">Tidak</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="Awal">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Simpanan Pokok Anggota<star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="pokokawal" name="pokok"  required>
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 ">
+                                    <div class="form-group">
+                                        <label class="control-label">Simpanan Wajib Anggota<star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="wajibawal" name="wajib"  required>
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Aktivasi </button>
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{--Modal Aktivasi Tabungan Awal--}}
+<div class="modal fade" id="activeTabAwalModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard wizardCard">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="teller") action="{{ route('teller.konfirmasi_pendaftaran_baru') }}" @elseif(Auth::user()->tipe=="admin") action="{{route('admin.pengajuan.active')}}" @endif enctype="multipart/form-data">
+                {{csrf_field()}}
+                <input type="hidden" id="id_act_tab_awal" name="id_">
+                <div class="header text-center">
+                    <h3 class="title">Pembukaan Rekening Tabungan</h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#tab1TabAwal" data-toggle="tab">Data Diri Pemohon</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1TabAwal">
+                            <h5 class="text-center">Pastikan terlebih dahalu sebelum aktivasi rekening</h5>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Atas Nama</label>
+                                        <select id="aatasnamaAwal" name="atasnama" class="form-control" disabled>
+                                            <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
+                                            <option value="1">Pribadi</option>
+                                            <option value="2">Lembaga</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="toHideaAwal">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">No Identitas</label>
+                                        <input class="form-control"
+                                               type="text"
+                                               name="id_user"
+                                               id="aiduserAwal"
+                                               required="true"
+                                               disabled
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="control-label">Nama Lengkap</label>
+                                        <input class="form-control"
+                                               type="text"
+                                               id="anamaAwal"
+                                               name="nama"
+                                               required="true"
+                                               disabled
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" id="toHide2aAwal">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">No Badan Hukum</label>
+                                        <input class="form-control"
+                                               type="text"
+                                               id="aidhukumAwal"
+                                               name="id_user"
+                                               required="true"
+                                               disabled
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="control-label">Nama Lembaga</label>
+                                        <input class="form-control"
+                                               type="text"
+                                               id="anamahukumAwal"
+                                               name="nama"
+                                               required="true"
+                                               disabled
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-5 col-md-offset-1">
+                                    <label for="namaSim" class="control-label">Jenis Akad </label>
+                                    <select class="form-control" id="arekAkadAwal" name="akad" style="width: 100%;" required disabled>
+                                        <option class="bs-title-option" value="">Pilih Akad</option>
+                                        <option class="0" value="">Lain-lain</option>
+                                        @foreach ($dropdown as $rekening)
+                                            <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} [{{$rekening->id_rekening }}]</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label for="namaSim" class="control-label">Jenis Tabungan</label>
+                                    <select class="form-control" id="arekTabAwal" name="tabungan" style="width: 100%;" required disabled>
+                                        <option class="bs-title-option" value="">Pilih Tabungan</option>
+                                        @foreach ($dropdown as $rekening)
+                                            <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} [{{$rekening->id_rekening }}]</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Keterangan</label>
+                                        <input class="form-control"
+                                               type="text"
+                                               name="keterangan"
+                                               id="aketeranganAwal"
                                                value=""
                                                disabled
                                         />

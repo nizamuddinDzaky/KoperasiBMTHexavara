@@ -45,10 +45,13 @@ class PembiayaanReporsitory {
      * Ambil data pembiayaan specific user
      * @return Array
     */
-    public function getPembiayaanSpecificUser()
+    public function getPembiayaanSpecificUser($custom_id="")
     {
         $pembiayaan = Pembiayaan::where("id_user", Auth::user()->id)->get();
-
+        if($custom_id != "")
+        {
+            $pembiayaan = Pembiayaan::where("id_user", $custom_id)->get();
+        }
         return $pembiayaan;
     }
 

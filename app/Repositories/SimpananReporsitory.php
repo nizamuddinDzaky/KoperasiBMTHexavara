@@ -59,10 +59,13 @@ class SimpananReporsitory {
      * Get simpanan wajib dan pokok in user data
      * @return Array
     */
-    public function getSimwaAndSimpok()
+    public function getSimwaAndSimpok($custom_id="")
     {
         $simwaAndSimpok = User::where('id', Auth::user()->id)->first();
-
+        if($custom_id != "")
+        {
+            $simwaAndSimpok = User::where('id', $custom_id)->first();
+        }
         return $simwaAndSimpok;
     }
 
