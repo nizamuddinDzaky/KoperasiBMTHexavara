@@ -104,7 +104,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1" >
                                     <div class="form-group">
-                                        <label class="control-label">Sisa Tagihan Pokok Bulanan <star>*</star></label>
+                                        <label class="control-label">Sisa Tagihan Pokok <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="vtagihan_pokok"  disabled>

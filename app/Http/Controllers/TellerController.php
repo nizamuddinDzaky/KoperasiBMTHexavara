@@ -1632,10 +1632,11 @@ class TellerController extends Controller
         {
             $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaanMRB($request);
         }
-        if($pengajuan->id_rekening == 99)
+        if($pengajuan->id_rekening != 100)
         {
-            $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaanMDA($request);
+            $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaanLain($request);
         }
+        
         if($pembiayaan['type'] == 'success') {
             return redirect()
                 ->back()
@@ -1659,9 +1660,9 @@ class TellerController extends Controller
         {
             $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanMRB($request);
         }
-        if($request->pembiayaan == 99)
+        if($request->pembiayaan != 99)
         {
-            $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanMDA($request);
+            $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanLain($request);
         }
         if($pembiayaan['type'] == 'success') {
             return redirect()
@@ -1683,13 +1684,14 @@ class TellerController extends Controller
     public function konfirmasi_angsuran(Request $request)
     {
         $pengajuan = $this->pengajuanReporsitory->findPengajuan($request->id_);
+        
         if($pengajuan->id_rekening == 100)
         {
             $angsuran = $this->pembiayaanReporsitory->confirmAngsuranMRB($request);
         }
         else
         {
-            $angsuran = $this->pembiayaanReporsitory->confirmAngsuranMDA($request);
+            $angsuran = $this->pembiayaanReporsitory->confirmAngsuranLain($request);
         }
         if($angsuran['type'] == 'success') {
             return redirect()
@@ -1717,7 +1719,7 @@ class TellerController extends Controller
         }
         else
         {
-            $angsuran = $this->pembiayaanReporsitory->angsuranMDA($request);
+            $angsuran = $this->pembiayaanReporsitory->angsuranLain($request);
         }
         if($angsuran['type'] == 'success') {
             return redirect()

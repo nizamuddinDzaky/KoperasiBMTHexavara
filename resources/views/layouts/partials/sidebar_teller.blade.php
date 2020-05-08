@@ -113,7 +113,7 @@
             {{--<li><a href="{{route('teller.rekap_jurnal')}}">Rekapitulasi Jurnal</a></li>--}}
             {{--<li><a href="{{route('teller.rekapitulasi_kas')}}">Rekapitulasi Kas</a></li>--}}
             {{--<li><a href="{{route('pendapatan')}}">Pendapatan</a></li>--}}
-            {{-- <li><a href="{{route('teller.laba_rugi')}}">Laba Rugi</a></li>-->
+            <li><a href="{{route('teller.laba_rugi')}}">Laba Rugi</a></li>
             {{--<li><a href="{{route('aktiva')}}">Aktiva</a></li>--}}
             {{--<li><a href="{{route('teller.jatuh_tempo')}}">Jatuh Tempo</a></li>--}}
             {{--<li><a href="{{route('teller.kredit_macet')}}">Kredit Macet</a></li>--}}

@@ -37,7 +37,8 @@
                                                             $rekening->status_angsuran." ".
                                                             (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] + json_decode($rekening->detail,true)['sisa_ang_bln'] )." " .
                                                             (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] + json_decode($rekening->detail,true)['sisa_mar_bln']) . " " .
-                                                            $rekening->id_rekening
+                                                            $rekening->id_rekening . " " .
+                                                            json_decode($rekening->detail,true )['sisa_pinjaman']
                                                         }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                     @else
                                                         <option value="{{
@@ -48,7 +49,8 @@
                                                             $rekening->status_angsuran." ".
                                                             (json_decode($rekening->detail,true )['sisa_angsuran'])." " .
                                                             (json_decode($rekening->detail,true )['sisa_margin']) . " " .
-                                                            $rekening->id_rekening
+                                                            $rekening->id_rekening . " " .
+                                                            json_decode($rekening->detail,true )['sisa_pinjaman']
                                                         }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                     @endif
                                                 @elseif(json_decode($rekening->detail,true )['kelebihan_angsuran_bulanan'] > 0)
@@ -61,7 +63,8 @@
                                                             $rekening->status_angsuran." ".
                                                             (json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] - json_decode($rekening->detail,true)['kelebihan_angsuran_bulanan']) ." " .
                                                             (json_decode($rekening->detail,true )['jumlah_margin_bulanan'] - json_decode($rekening->detail,true)['kelebihan_margin_bulanan']) . " " . 
-                                                            $rekening->id_rekening
+                                                            $rekening->id_rekening . " " .
+                                                            json_decode($rekening->detail,true )['sisa_pinjaman']
                                                         }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                     @else
                                                         <option value="{{
@@ -72,7 +75,8 @@
                                                             $rekening->status_angsuran." ".
                                                             (json_decode($rekening->detail,true )['sisa_angsuran']) ." " .
                                                             (json_decode($rekening->detail,true )['sisa_margin']) . " " .
-                                                            $rekening->id_rekening
+                                                            $rekening->id_rekening . " " .
+                                                            json_decode($rekening->detail,true )['sisa_pinjaman']
                                                         }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                     @endif
                                                 @else
@@ -85,7 +89,8 @@
                                                             $rekening->status_angsuran." ".
                                                             json_decode($rekening->detail,true )['jumlah_angsuran_bulanan'] ." " .
                                                             json_decode($rekening->detail,true )['jumlah_margin_bulanan'] . " " .
-                                                            $rekening->id_rekening
+                                                            $rekening->id_rekening . " " .
+                                                            json_decode($rekening->detail,true )['sisa_pinjaman']
                                                         }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                     @else
                                                         <option value="{{
@@ -96,7 +101,8 @@
                                                             $rekening->status_angsuran." ".
                                                             json_decode($rekening->detail,true )['sisa_angsuran'] ." " .
                                                             json_decode($rekening->detail,true )['sisa_margin'] . " " .
-                                                            $rekening->id_rekening
+                                                            $rekening->id_rekening . " " .
+                                                            json_decode($rekening->detail,true )['sisa_pinjaman']
                                                         }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
                                                     @endif
                                                 @endif
@@ -207,7 +213,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1" >
                                     <div class="form-group">
-                                        <label class="control-label">Sisa Tagihan Pokok Bulanan <star>*</star></label>
+                                        <label class="control-label">Sisa Tagihan Pokok <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="tagihan_pokok" name="tagihan_pokok" disabled>

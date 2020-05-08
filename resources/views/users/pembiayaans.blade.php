@@ -183,6 +183,7 @@
                                                 data-mar       = "{{ number_format(json_decode($usr->detail,true)['bayar_mar'],2) }}"
                                                 data-sisa_ang       = "{{ number_format(json_decode($usr->detail,true)['sisa_ang'],2) }}"
                                                 data-sisa_mar       = "{{ number_format(json_decode($usr->detail,true)['sisa_mar'],2) }}"
+                                                data-sisa_pinjaman       = "{{ number_format(json_decode($usr->detail,true)['sisa_pinjaman'],2) }}"
                                                 @else
                                                 data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
                                                 data-jumlah       = "{{ json_decode($usr->detail,true)['jumlah'] }}"
@@ -361,7 +362,7 @@
             $("#vbagi_margin").val(button.data('nisbah') );
             $("#vbayar_ang").val(button.data('ang') );
             $("#vbayar_margin").val(button.data('mar') );
-            $("#vtagihan_pokok").val(button.data('sisa_ang') )
+            $("#vtagihan_pokok").val(button.data('sisa_pinjaman') )
             $("#vtagihan_margin").val(button.data('sisa_mar') );
             $("#vnobankAng").val(button.data('no_bank') );
             $("#vatasnamaAng").val(button.data('atasnama') );
@@ -540,6 +541,7 @@
                 angbln = parseFloat(selRek.val().split(' ')[5]);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
                 angtotal = parseFloat(angbln + marbln);
+                sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
                 
                 var formatter = new Intl.NumberFormat();
                 $('#ang_total').on('keyup', function (){
@@ -597,7 +599,7 @@
                     $('#bagi_pokok').val(pokok-(margin/lama))
                 }
 
-                $('#tagihan_pokok').val(formatter.format(angbln))
+                $('#tagihan_pokok').val(formatter.format(sisa_pinjaman))
                 $('#tagihan_margin').val(formatter.format(marbln))
                 $('#sisa_ang_').val(formatter.format(angbln))
                 $('#sisa_mar_').val(formatter.format(marbln))

@@ -35,7 +35,7 @@ $(document).ready(function() {
         $("#abagi_margin").val(button.data('nisbah') );
         $("#abayar_ang").val(button.data('ang') );
         $("#abayar_margin").val(button.data('mar') );
-        $("#atagihan_pokok").val(button.data('sisa_ang') )
+        $("#atagihan_pokok").val(button.data('sisa_pinjaman') )
         $("#atagihan_margin").val(button.data('sisa_mar') );
         $("#aatasnamaAng").val(button.data('atasnama') );
         $("#anobankAng").val(button.data('no_bank') );

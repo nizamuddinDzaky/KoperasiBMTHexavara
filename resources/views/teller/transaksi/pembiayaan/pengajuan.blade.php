@@ -67,7 +67,7 @@
                             <td class="text-left">{{ $usr['id'] }}</td>
                             <td class="text-left">{{ $usr['jenis_pengajuan']   }}</td>
                             <td class="text-center">{{$usr['kategori'] }}</td>
-                            <td>{{ $usr['created_at'] }}</td>
+                            <td>{{ $usr['created_at'] }} </td>
                             <td class="text-center text-uppercase">{{ $usr['status'] }}</td>
                             <td class="text-center text-uppercase">{{ $usr['teller'] }}</td>
 
@@ -104,6 +104,7 @@
                                                     data-mar       = "{{ number_format(json_decode($usr['detail'],true)['bayar_mar'],2) }}"
                                                     data-sisa_ang       = "{{ number_format(json_decode($usr['detail'],true)['sisa_ang'],2) }}"
                                                     data-sisa_mar       = "{{ number_format(json_decode($usr['detail'],true)['sisa_mar'],2) }}"
+                                                    data-sisa_pinjaman       = "{{ number_format(json_decode($usr['detail'],true)['sisa_pinjaman'],2) }}"
                                                     @endif
                                             >
                                                 <i class="fa fa-check-square"></i>
@@ -189,6 +190,7 @@
                                             data-mar       = "{{ number_format(json_decode($usr['detail'],true)['bayar_mar'],2) }}"
                                             data-sisa_ang       = "{{ number_format(json_decode($usr['detail'],true)['sisa_ang'],2) }}"
                                             data-sisa_mar       = "{{ number_format(json_decode($usr['detail'],true)['sisa_mar'],2) }}"
+                                            data-sisa_pinjaman       = "{{ number_format(json_decode($usr['detail'],true)['sisa_pinjaman'],2) }}"
                                             @else
                                             {{--data-kategori   = "{{ $usr['id']_rekening }}"--}}
                                             data-atasnama   = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
@@ -381,7 +383,7 @@
             $("#vbagi_margin").val(button.data('nisbah') );
             $("#vbayar_ang").val(button.data('ang') );
             $("#vbayar_margin").val(button.data('mar') );
-            $("#vtagihan_pokok").val(button.data('sisa_ang') )
+            $("#vtagihan_pokok").val(button.data('sisa_pinjaman') )
             $("#vtagihan_margin").val(button.data('sisa_mar') );
             $("#vnobankAng").val(button.data('no_bank') );
             $("#vatasnamaAng").val(button.data('atasnama') );
@@ -543,6 +545,7 @@
                 angke = parseFloat(selRek.val().split(' ')[4]);
                 angbln = parseFloat(selRek.val().split(' ')[5]);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
+                sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
 
                 var formatter = new Intl.NumberFormat();
                 $('#showPok').hide()
@@ -560,9 +563,9 @@
                 if(rekening!=2) {
                     $('#sisa_mar').show()
                     $('#bayar_mar').hide()
-                    $('#bayar_margin').val(marbln)
-                    $('#bagi_pokok').val(angbln)
-                    $('#bayar_ang').val(angbln)
+                    $('#bayar_margin').val(formatter.format(marbln))
+                    $('#bagi_pokok').val(formatter.format(angbln))
+                    $('#bayar_ang').val(formatter.format(angbln))
                     $('#bagi_margin').attr("required",false);
                 }
                 else if(angke == 0) {
@@ -590,7 +593,7 @@
                     $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
                 }
 
-                $('#tagihan_pokok').val(formatter.format(angbln))
+                $('#tagihan_pokok').val(formatter.format(sisa_pinjaman))
                 $('#tagihan_margin').val(formatter.format(marbln))
                 $('#sisa_ang_').val(formatter.format(angbln))
                 $('#sisa_mar_').val(formatter.format(marbln))

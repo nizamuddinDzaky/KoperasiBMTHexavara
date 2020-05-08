@@ -579,7 +579,6 @@ class UserController extends Controller
         $data = $this->informationRepository->getAllPemUsr();
         //  dd($data[0]);
         $tab = $data;
-        // return response()->json("work");
         return view('users.pembiayaans', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
@@ -611,6 +610,7 @@ class UserController extends Controller
 
     public function angsur_pembiayaan(Request $request)
     {
+        $sisa_pinjaman = explode(" ",$request->idRek)[8];
         $tabungan = Tabungan::where('id', $request->tabungan)->first();
         // $this->validate($request, [
         //     'file' => 'file|max:2000', // max 2MB
@@ -651,6 +651,7 @@ class UserController extends Controller
             'jumlah' => floatval($request->bayar_mar) + floatval($request->bayar_ang),
             'nisbah' => $request->nisbah,
             'jenis' => $request->jenis_,
+            'sisa_pinjaman' => $sisa_pinjaman
         ];
         $keterangan = [
             'jenis' => "Angsuran Pembiayaan [" . $kredit . "]",
