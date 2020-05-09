@@ -1892,4 +1892,26 @@ class TellerController extends Controller
                 ->withInput()->with('message', $pencairan['message']);
         }
     }
+
+    /**
+     * Konfirmasi pengajuan pelunasan pembiayaan anggota
+     * @return Response
+     */
+    public function konfirmasi_pelunasan(Request $request)
+    {
+        $pengajuan = $this->pengajuanReporsitory->findPengajuan($request->id_);
+        
+        $angsuran = $this->pembiayaanReporsitory->confirmPelunasan($request);
+        if($angsuran['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($angsuran['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $angsuran['message']);
+
+        }
+    }
 }

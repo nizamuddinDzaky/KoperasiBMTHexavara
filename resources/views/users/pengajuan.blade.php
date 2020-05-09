@@ -77,7 +77,7 @@
                                 <td>{{ $usr['jenis_pengajuan']   }}</td>
                                 @if(str_before($usr['kategori'],' ')=="Debit" || str_before($usr['kategori'],' ')=="Kredit" )
                                     <td>{{json_decode($usr['detail'],true)['nama_tabungan']." [ID : ".json_decode($usr['detail'],true)['id_tabungan']."]"  }}</td>
-                                @elseif(str_before($usr['kategori'],' ')=="Angsuran")
+                                @elseif(str_before($usr['kategori'],' ')=="Angsuran" || str_before($usr['kategori'],' ')=="Pelunasan")
                                     <td>{{json_decode($usr['detail'],true)['nama_pembiayaan']." [ID : ".json_decode($usr['detail'],true)['id_pembiayaan']."]"  }}</td>
                                 @elseif(str_before($usr['kategori'],' ')=="Donasi" ||str_before($usr['kategori'],' ')=="Simpanan")
                                     <td>{{ $usr['kategori']}}</td>
@@ -110,7 +110,7 @@
                                                 data-idtab     = "{{ json_decode($usr['detail'],true)['id_tabungan'] }}"
                                                 @endif
                                                 data-bank     = "{{ json_decode($usr['detail'],true)['daribank']}}"
-                                                @elseif(str_before($usr['kategori']," ")=="Angsuran")
+                                                @elseif(str_before($usr['kategori']," ")=="Angsuran" || str_before($usr['kategori']," ")=="Pelunasan")
                                                 data-idtab = "{{ json_decode($usr['detail'],true)['id_pembiayaan'] }}"
                                                 data-namatab = "{{ json_decode($usr['detail'],true)['nama_pembiayaan'] }}"
                                                 data-bankuser = "{{ json_decode($usr['detail'],true)['bank_user'] }}"
@@ -226,6 +226,7 @@
     @include('modal.pembiayaan.konfirmasi_angsuran')
     @include('modal.penutupan_rekening.pengajuan')
     @include('modal.tutup_rekening')
+    @include('modal.pembiayaan.view_pelunasan')
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -238,6 +239,8 @@
     </script>
 
     <script src="{{ asset('bmtmudathemes/assets/js/modal/tutup_rekening.js') }}"></script>
+    
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/pelunasan.js') }}"></script>
 
     {{-- MODAL&DATATABLE --}}
 

@@ -73,7 +73,7 @@
 
                             <td class="td-actions text-center">
                                 <div class="row">
-                                    @if(str_before($usr['kategori'],' ')=="Angsuran")
+                                    @if(str_before($usr['kategori'],' ')=="Angsuran" || str_before($usr['kategori'],' ')=="Pelunasan")
                                         @if($usr['status']=="Sudah Dikonfirmasi" || $usr['status']=="Disetujui")
                                         @else
                                             {{--KONFIRMASI BUKA BARU--}}
@@ -84,9 +84,9 @@
                                                     data-nama     = "{{ $usr['nama'] }}"
                                                     data-ktp     = "{{ $usr['no_ktp']  }}"
                                                     data-iduser     = "{{ json_decode($usr['detail'],true)['id']}}"
-                                                    data-debit     = "{{ json_decode($usr['detail'],true)[strtolower(str_before($usr['kategori'],' '))]}}"
+                                                    data-debit     = "{{ json_decode($usr['detail'],true)['angsuran']}}"
                                                     data-jumlah     = "{{ number_format(json_decode($usr['detail'],true)['jumlah'])}}"
-                                                    @if($usr['kategori']=="Angsuran Pembiayaan")
+                                                    @if($usr['kategori']=="Angsuran Pembiayaan" || $usr['kategori']=="Pelunasan Pembiayaan")
                                                     data-idtab = "{{ json_decode($usr['detail'],true)['id_pembiayaan'] }}"
                                                     data-namatab = "{{ json_decode($usr['detail'],true)['nama_pembiayaan'] }}"
                                                     data-bankuser = "{{ json_decode($usr['detail'],true)['bank_user'] }}"
@@ -172,7 +172,7 @@
                                             data-kategori   ="{{ $usr['kategori'] }}"
                                             data-sum   ="{{ $usr['sum'] }}"
                                             data-idrek   = "{{ $usr['id_rekening'] }}"
-                                            @elseif(str_before($usr['kategori']," ")=="Angsuran")
+                                            @elseif(str_before($usr['kategori']," ")=="Angsuran" || str_before($usr['kategori']," ")=="Pelunasan")
                                             data-idtab = "{{ json_decode($usr['detail'],true)['id_pembiayaan'] }}"
                                             data-namatab = "{{ json_decode($usr['detail'],true)['nama_pembiayaan'] }}"
                                             data-bankuser = "{{ json_decode($usr['detail'],true)['bank_user'] }}"
@@ -231,6 +231,8 @@
     @include('modal.pembiayaan.angsuranss')
     @include('modal.pembiayaan.view_angsuran')
     @include('modal.pembiayaan.konfirmasi_angsuran')
+    @include('modal.pembiayaan.view_pelunasan')
+    @include('modal.pembiayaan.konfirmasi_pelunasan')
 @endsection
 
 
@@ -242,6 +244,9 @@
     
     <!-- Angsuran pembiayaan -->
     <script src=" {{  asset('bmtmudathemes/assets/js/modal/angsuran_pembiayaan.js') }}"></script>
+
+    <!-- Pelunasan pembiayaan -->
+    <script src=" {{  asset('bmtmudathemes/assets/js/modal/pelunasan.js') }}"></script>
 
     <script type="text/javascript">
        //  PEMBIAYAAN

@@ -112,7 +112,7 @@ class UserController extends Controller
             'deposito' => $sumdep,
             'pinjaman' => $sumpin,
             'simpanan' => json_decode($user,true),
-            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(10)
+            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(20)
         ]);
     }
 
@@ -1075,6 +1075,88 @@ class UserController extends Controller
             return redirect()
                 ->back()
                 ->withInput()->with('message', $pengajuan['message']);
+        }
+    }
+
+    /** 
+     * Pelunasan Pembiayaan controller
+     * @return Response
+    */
+    public function pelunasan_pembiayaan(Request $request)
+    {
+        $id_rekening = explode(" ", $request->idRek)[5];
+        $pembiayaan = Pembiayaan::where('id_rekening', $id_rekening)->first() ;
+        // return response()->json($request);
+
+        if ($request->debit == 1) {
+            $kredit = "Transfer";
+            $atasnama = $request->atasnama;
+            $bank = $request->bank;
+            
+            $file_name = $request->file->getClientOriginalName();
+            $file_name_replace = preg_replace('/\s+/', '_', $file_name);
+            $fileToUpload = time() . "-" . $file_name_replace;
+
+            $request->file('file')->storeAs(
+                'public/transfer/', $fileToUpload
+            );
+
+        } elseif($request->debit == 2) {
+            $tabungan = Tabungan::where('id', $request->tabungan)->first();
+            $kredit = "Tabungan";
+            $atasnama = $tabungan->jenis_tabungan;
+            $bank = $tabungan->id;
+            $fileToUpload = null;
+        } else {
+            $kredit = "Tunai";
+            $atasnama = Auth::user()->nama;
+            $bank = null;
+            $fileToUpload = null;
+        }
+
+        $detail = [
+            'angsuran' => $kredit,
+            'id_pembiayaan' => explode(" ", $request->idRek)[6],
+            'id' => Auth::user()->id,
+            'nama' => Auth::user()->nama,
+            'bank_user' => $request->daribank,
+            'no_bank' => $request->nobank,
+            'atasnama' => $atasnama,
+            'bank' => $bank,
+            'pokok' => explode(" ", $request->idRek)[0],
+            'tipe_pembayaran' => $request->debit,
+            'sisa_ang' => explode(" ", $request->idRek)[0],
+            'sisa_mar' => explode(" ", $request->idRek)[1],
+            'bayar_ang' => explode(" ", $request->idRek)[0],
+            'bayar_mar' => explode(" ", $request->idRek)[2] * 2,
+            'jumlah' => explode(" ", $request->idRek)[0] + (explode(" ", $request->idRek)[2] * 2),
+            'nisbah' => $request->nisbah,
+            'jenis' => $request->debit,
+            'sisa_pinjaman' => explode(" ", $request->idRek)[0] + explode(" ", $request->idRek)[1],
+            'path_bukti'    => $fileToUpload,
+            'id_rekening'   => $pembiayaan->id_rekening,
+            'nama_pembiayaan'   => $pembiayaan->jenis_pembiayaan
+        ];
+
+        $dataToPengajuan = [
+            "id_user"           => Auth::user()->id,
+            "id_rekening"       => explode(" ", $request->idRek)[5],
+            "jenis_pengajuan"   => "Pelunasan Pembiayaan [" . $kredit . "]",
+            "status"            => "Menunggu Konfirmasi",
+            "kategori"          => "Pelunasan Pembiayaan",
+            "detail"            => $detail,
+            "teller"            => 0
+        ];
+
+        $create_pengajuan = $this->pengajuanReporsitory->createPengajuan($dataToPengajuan);
+        if ($create_pengajuan['type'] == "success") {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($create_pengajuan['message']));
+        } else {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $create_pengajuan['message']);
         }
     }
 }

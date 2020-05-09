@@ -788,6 +788,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
     ]);
 
     /** 
+     * Konfirmasi pengajuan pelunasan pembiayaan
+     * @method POST
+    */
+    Route::post('konfirmasi_pelunasan', [
+        'as'    => 'teller.pembiayaan.konfirmasi_pelunasan',
+        'uses'  => 'TellerController@konfirmasi_pelunasan'
+    ]);
+
+    /** 
      * Konfirmasi pendaftaran baru
      * @method POST
     */
@@ -1285,6 +1294,15 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
     Route::post('/keluar_dari_anggota', [
         'as'        => 'anggota.keluar_dari_anggota',
         'uses'      => 'UserController@keluar_dari_anggota'
+    ]);
+
+    /** 
+     * Pelunasan pembiayaan controller
+     * @method POST
+    */
+    Route::post('pelunasan_pembiayaan', [
+        'as'    => 'anggota.pelunasan_pembiayaan',
+        'uses'  => 'UserController@pelunasan_pembiayaan'
     ]);
 
     

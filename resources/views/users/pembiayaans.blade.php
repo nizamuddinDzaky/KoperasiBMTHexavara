@@ -150,7 +150,7 @@
                                 <td></td>
                                 <td class="text-center">{{ $usr->id }}</td>
                                 <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
-                                @if($usr->kategori=="Angsuran Pembiayaan")
+                                @if($usr->kategori=="Angsuran Pembiayaan" || $usr->kategori=="Pelunasan Pembiayaan")
                                     <td class="text-left">{{json_decode($usr->detail,true)['nama_pembiayaan']." [ID : ".json_decode($usr->detail,true)['id_pembiayaan']."]"  }}</td>
                                 @else
                                     <td class="text-left">{{ json_decode($usr->detail,true)['keterangan'] }}</td>
@@ -165,7 +165,7 @@
                                                 data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
                                                 data-ktp     = "{{ $usr->no_ktp }}"
                                                 data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
-                                                @if(str_before($usr->kategori," ")=="Angsuran")
+                                                @if(str_before($usr->kategori," ")=="Angsuran" || str_before($usr->kategori," ")=="Pelunasan")
                                                 data-idtab = "{{ json_decode($usr->detail,true)['id_pembiayaan'] }}"
                                                 data-namatab = "{{ json_decode($usr->detail,true)['nama_pembiayaan'] }}"
                                                 data-bankuser = "{{ json_decode($usr->detail,true)['bank_user'] }}"
@@ -232,6 +232,7 @@
     @include('modal.pembiayaan.view_angsuran')
     @include('modal.pembiayaan.konfirmasi_angsuran')
     @include('modal.pembiayaan.pelunasan')
+    @include('modal.pembiayaan.view_pelunasan')
 @endsection
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
