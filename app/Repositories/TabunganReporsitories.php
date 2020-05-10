@@ -164,7 +164,7 @@ class TabunganReporsitories {
             $detailToPenyimpananTabungan = [
                 "teller"    => Auth::user()->id,
                 "dari_rekening" => $dariRekening,
-                "untuk_rekening" => $untukRekening,
+                "untuk_rekening" => $bmtTujuanDebitTabungan->nama,
                 "jumlah" => json_decode($pengajuan->detail)->jumlah,
                 "saldo_awal" => json_decode($tabungan->detail)->saldo,
                 "saldo_akhir" => floatval(json_decode($tabungan->detail)->saldo) + floatval(json_decode($pengajuan->detail)->jumlah)
@@ -266,11 +266,12 @@ class TabunganReporsitories {
             $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
             $userLogedBMT = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
             
-            $dariRekening = "";
-            $untukRekening = $userLogedBMT->id_rekening;
+            $untukRekening = "";
+            $dariRekening = $userLogedBMT->nama;
             if(json_decode($pengajuan->detail)->kredit == "Transfer") {
-                $dariRekening = "Transfer";
-                $untukRekening = json_decode($pengajuan->detail)->bank;
+                $bmtTujuanCreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank) ->first();
+                $untukRekening = "Transfer";
+                $dariRekening = $bmtTujuanCreditTabungan->nama;
             }
 
             $detailToPenyimpananTabungan = [
@@ -463,11 +464,11 @@ class TabunganReporsitories {
             $bmtTellerLoged = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
 
             $dariRekening = "";
-            $untukRekening = $bmtTellerLoged->id_rekening;
+            $untukRekening = $bmtTellerLoged->nama;
             if($data->debit == 1) {
                 $dariRekening = "Transfer";
-                $untukRekening = $data->bank;
                 $bmtTellerLoged = BMT::where('id_rekening', $data->bank)->first();
+                $untukRekening = $bmtTellerLoged->nama;
             }
 
             $detailToPenyimpananTabungan = [
@@ -576,12 +577,12 @@ class TabunganReporsitories {
             $bmtUserDebit = BMT::where('id_rekening', $rekening->id)->first();
             $bmtTellerLoged = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
 
-            $dariRekening = "";
-            $untukRekening = $bmtTellerLoged->id_rekening;
+            $untukRekening = "";
+            $dariRekening = $bmtTellerLoged->nama;
             if($data->kredit == 1) {
-                $dariRekening = "Transfer";
-                $untukRekening = $data->daribank;
+                $untukRekening = "Transfer";
                 $bmtTellerLoged = BMT::where('id_rekening', $data->daribank)->first();
+                $dariRekening = $bmtTellerLoged->nama;
             }
 
             $detailToPenyimpananTabungan = [

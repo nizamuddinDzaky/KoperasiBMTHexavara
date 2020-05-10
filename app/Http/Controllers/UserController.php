@@ -292,6 +292,7 @@ class UserController extends Controller
         return view('users.detail_tabungan', [
             'data' => $this->informationRepository->getTransaksiTabUsr($request->id_),
         ]);
+
     }
     public function detail_wajibpokok(Request $request)
     {
@@ -603,6 +604,7 @@ class UserController extends Controller
 
     public function detail_pembiayaan(Request $request)
     {
+        return response()->json($this->informationRepository->getTransaksiPemUsr($request->id_));
         return view('users.detail_pembiayaan', [
             'data' => $this->informationRepository->getTransaksiPemUsr($request->id_),
         ]);
@@ -717,7 +719,6 @@ class UserController extends Controller
     }
     
     public function donasimaal(Request $request) {
-
         if($request->debit == 2 && isset($request->rekening))
         {
             if($request->rekening != null)

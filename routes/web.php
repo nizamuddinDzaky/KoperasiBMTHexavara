@@ -1524,3 +1524,23 @@ Route::group([
         'uses'  => 'RapatController@show'
     ]);
 });
+
+/** 
+ * API Route Group use for all access
+ * @link https://laravel.com/docs/5.8/routing#route-groups
+*/
+Route::group([ 
+    'prefix' => 'api',
+    'middleware' => ['auth']
+], function() {
+
+    /** 
+     * Get user tabungan
+     * @method GET
+    */
+    Route::get('get_user_tabungan/{id}', [
+        'as'    => 'api.get_user_tabungan',
+        'uses'  => 'ApiController@getUserTabungan'   
+    ]);
+
+});

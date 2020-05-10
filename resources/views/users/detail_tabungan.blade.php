@@ -44,46 +44,56 @@
                             </thead>
                             <tbody>
                             @foreach ($data as $usr)
-                                <tr>
-                                    <td></td>
-                                    <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
-                                    @if(json_decode($usr->transaksi,true)['dari_rekening']==null)
-                                        <td class="text-left text-uppercase">TUNAI</td>
-                                    @else
-                                        <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
-                                    @endif
+                                @if($usr->status !== "Setoran Awal")
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
+                                        @if(json_decode($usr->transaksi,true)['dari_rekening']==null)
+                                            <td class="text-left text-uppercase">TUNAI</td>
+                                        @else
+                                            <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
+                                        @endif
 
-                                    @if($usr->status=="Penutupan Tabungan")
-                                        <td class="text-left text-uppercase">{{ $usr->untuk_rekening }}</td>
-                                    @else
-                                        <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
-                                    @endif
+                                        @if($usr->status=="Penutupan Tabungan")
+                                            @if(json_decode($usr->transaksi,true)['untuk_rekening']==null)
+                                                <td class="text-left text-uppercase">TUNAI</td>    
+                                            @else
+                                                <td class="text-left text-uppercase">{{ $usr->untuk_rekening }}</td>
+                                            @endif
+                                        @else
+                                            @if(json_decode($usr->transaksi,true)['untuk_rekening']==null)
+                                                <td class="text-left text-uppercase">TUNAI</td>    
+                                            @else
+                                                <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
+                                            @endif
+                                        @endif
 
-                                    @if(str_before($usr->status,' ')=="Distribusi" || str_before($usr->status,' ')=="SHU")
-                                        <td class="text-center text-uppercase">{{$usr->status." (Pajak: ".number_format(json_decode($usr->transaksi,true)['pajak'],2)." @".json_decode($usr->transaksi,true)['persentase']."%)"}}</td>
-                                    @else
-                                    <td class="text-center text-uppercase">{{$usr->id}}</td>
-                                    @endif
+                                        @if(str_before($usr->status,' ')=="Distribusi" || str_before($usr->status,' ')=="SHU")
+                                            <td class="text-center text-uppercase">{{$usr->status." (Pajak: ".number_format(json_decode($usr->transaksi,true)['pajak'],2)." @".json_decode($usr->transaksi,true)['persentase']."%)"}}</td>
+                                        @else
+                                        <td class="text-center text-uppercase">{{$usr->id}}</td>
+                                        @endif
 
-                                    @if($usr->status == "Debit")
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                    <td class="text-right">0.00</td>
-                                    @elseif($usr->status == "Kredit" || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran')
-                                    <td class="text-right">0.00</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                    @else
-                                    <td class="text-right">0.00</td>
+                                        @if($usr->status == "Debit")
+                                        <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
                                         <td class="text-right">0.00</td>
-                                    @endif
-                                    
-                                    @if(json_decode($usr->transaksi,true)['saldo_akhir'] < 10)
-                                    <td class="text-right">0.00</td>
-                                    @else
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
-                                    @endif
-                                    
-                                    <td></td>
-                                </tr>
+                                        @elseif($usr->status == "Kredit" || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran')
+                                        <td class="text-right">0.00</td>
+                                        <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                        @else
+                                        <td class="text-right">0.00</td>
+                                            <td class="text-right">0.00</td>
+                                        @endif
+                                        
+                                        @if(json_decode($usr->transaksi,true)['saldo_akhir'] < 10)
+                                        <td class="text-right">0.00</td>
+                                        @else
+                                        <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
+                                        @endif
+                                        
+                                        <td></td>
+                                    </tr>
+                                @endif
 
                             @endforeach
                             </tbody>

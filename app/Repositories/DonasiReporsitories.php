@@ -162,7 +162,7 @@ class DonasiReporsitories {
 
         try {
             $pengajuan = Pengajuan::where('id', $data->id_)->first();
-            $bmt_donasi = BMT::where('id_rekening', $pengajuan->id_rekening)->select(['id', 'saldo'])->first();
+            $bmt_donasi = BMT::where('id_rekening', $pengajuan->id_rekening)->select(['id', 'saldo', 'nama'])->first();
             $saldo_awal_donasi = $bmt_donasi->saldo;
             $saldo_akhir_donasi = $bmt_donasi->saldo + json_decode($pengajuan->detail)->jumlah;
 
@@ -191,8 +191,8 @@ class DonasiReporsitories {
 
                 $detailToPenyimpananTabungan = [
                     "teller"    => Auth::user()->id,
-                    "dari_rekening" => json_decode($pengajuan->detail)->rekening,
-                    "untuk_rekening" => $data->rekDon,
+                    "dari_rekening" => $tabungan_pengirim->jenis_tabungan,
+                    "untuk_rekening" => $bmt_donasi->nama,
                     "jumlah" => json_decode($pengajuan->detail)->jumlah,
                     "saldo_awal" => json_decode($tabungan_pengirim->detail)->saldo,
                     "saldo_akhir" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
@@ -200,7 +200,7 @@ class DonasiReporsitories {
                 $dataToPenyimpananTabungan = [
                     "id_user"       => json_decode($pengajuan->detail)->id,
                     "id_tabungan"   => $tabungan_pengirim->id,
-                    "status"        => "Donasi",
+                    "status"        => "Pembayaran " . $bmt_donasi->nama,
                     "transaksi"     => $detailToPenyimpananTabungan,
                     "teller"        => Auth::user()->id
                 ];
@@ -521,7 +521,7 @@ class DonasiReporsitories {
                 'id_donatur'    => $donatur->id,
                 'id_maal'       => $data->id_donasi,
                 'status'        => $debit,
-                'transaksi'     => json_encode($detail),
+                'transaksi'     => $detail,
                 'teller'        => Auth::user()->id
             ];
 
@@ -549,8 +549,8 @@ class DonasiReporsitories {
 
                     $detailToPenyimpananTabungan = [
                         "teller"    => Auth::user()->id,
-                        "dari_rekening" => $data->rekening,
-                        "untuk_rekening" => $id_rekening,
+                        "dari_rekening" => $tabungan_pengirim->jenis_tabungan,
+                        "untuk_rekening" => $bmt_donasi->nama,
                         "jumlah" => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                         "saldo_awal" => json_decode($tabungan_pengirim->detail)->saldo,
                         "saldo_akhir" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->nominal))
@@ -558,7 +558,7 @@ class DonasiReporsitories {
                     $dataToPenyimpananTabungan = [
                         "id_user"       => $donatur->id,
                         "id_tabungan"   => $tabungan_pengirim->id,
-                        "status"        => "Donasi",
+                        "status"        => "Pembayaran " . $bmt_donasi->nama,
                         "transaksi"     => $detailToPenyimpananTabungan,
                         "teller"        => Auth::user()->id
                     ];

@@ -3503,7 +3503,7 @@ class InformationRepository
     {
         $data = PenyimpananTabungan::select('penyimpanan_tabungan.*', 'tabungan.jenis_tabungan','tabungan.id_tabungan')
             ->join('tabungan', 'tabungan.id', '=', 'penyimpanan_tabungan.id_tabungan')
-            ->where([ ['penyimpanan_tabungan.id_tabungan',$id], ['penyimpanan_tabungan.status', '!=', 'Setoran Awal'] ])->orderby('id','DESC')->LIMIT(30)->get();
+            ->where('penyimpanan_tabungan.id_tabungan', $id)->orderby('id','DESC')->LIMIT(30)->get();
         
         $tab = Tabungan::where('id',$id)->first();
         $data=array_reverse(iterator_to_array($data));
@@ -3530,7 +3530,7 @@ class InformationRepository
         }
 
         $saldo_rata2 = $this->nasabah_rata2($tab,"tabungan");
-    //    dd($saldo_rata2); 
+        // dd($saldo_rata2); 
         $data[0]['saldo_rata2']=$saldo_rata2;
         return $data;
     }

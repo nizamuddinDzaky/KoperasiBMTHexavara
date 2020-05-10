@@ -43,7 +43,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Donatur <star>*</star></label>
-                                        <select class="form-control select2" name="donatur" style="width: 100%;" required>
+                                        <select class="form-control select2 donatur" name="donatur" style="width: 100%;" required>
                                             <option selected disabled>- Pilih Donatur -</option>
                                             @foreach ($anggota as $anggota)
                                                 <option value="{{ $anggota->id }}">{{ $anggota->nama }}</option>
@@ -79,6 +79,7 @@
                                 </div>
                             </div>
 
+                            @if(Auth::user()->tipe == "anggota")
                             <div class="row opsi-tabungan hide">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
@@ -92,6 +93,18 @@
                                     </div>
                                 </div>
                             </div>
+                            @else
+                            <div class="row opsi-tabungan hide">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
+                                        <select class="form-control select2 rekening-tabungan" name="rekening" style="width: 100%;">
+                                            <option selected disabled>-Pilih Rekening Tabungan-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
 
                             <div class="row opsi-transfer hide">
                                 <div class="col-md-5 col-md-offset-1">
