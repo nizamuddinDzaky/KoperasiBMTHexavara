@@ -458,8 +458,8 @@ class SimpananReporsitory {
                     }
                     $detailToPenyimpananWajibPokok = [
                         "teller"        => Auth::user()->id,
-                        "dari_rekening" => json_decode($pengajuan->detail)->bank_tujuan_transfer,
-                        "untuk_rekening"=> $data->id_rekening_simpanan,
+                        "dari_rekening" => $bmt_bank_pengirim->nama,
+                        "untuk_rekening"=> $bmt_simpanan->nama,
                         "jumlah"        => json_decode($pengajuan->detail)->jumlah,
                         "saldo_awal"    => $saldo_awal_simpanan,
                         "saldo_akhir"   => floatval($saldo_awal_simpanan) + json_decode($pengajuan->detail)->jumlah,
@@ -869,8 +869,8 @@ class SimpananReporsitory {
 
                     $detailToPenyimpananWajibPokok = [
                         "teller"    => Auth::user()->id,
-                        "dari_rekening" => $bank_tujuan_transfer,
-                        "untuk_rekening" => $data->id_rekening_simpanan,
+                        "dari_rekening" => $bmt_bank_pengirim->nama,
+                        "untuk_rekening" => $bmt_simpanan->nama,
                         "jumlah"    => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                         "saldo_awal" => $saldo_awal_simpanan_user,
                         "saldo_akhir" => floatval($saldo_awal_simpanan_user) + floatval(preg_replace('/[^\d.]/', '', $data->nominal))

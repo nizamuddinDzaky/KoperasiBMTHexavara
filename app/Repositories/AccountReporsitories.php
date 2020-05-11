@@ -130,7 +130,7 @@ class AccountReporsitories {
                     $detailToPenyimpananWajibPokok = [
                         'teller'            => Auth::user()->id,
                         'dari_rekening'     => "",
-                        'untuk_rekening'    => 119,
+                        'untuk_rekening'    => "SIMPANAN WAJIB ANGGOTA",
                         'jumlah'            => $jumlah_bayar_simpanan_wajib,
                         'saldo_awal'        => 0,
                         'saldo_akhir'       => $jumlah_bayar_simpanan_wajib
@@ -145,7 +145,7 @@ class AccountReporsitories {
 
                     $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
 
-                    $detailToPenyimpananWajibPokok['untuk_rekening'] = 117;
+                    $detailToPenyimpananWajibPokok['untuk_rekening'] = "SIMPANAN POKOK ANGGOTA";
                     $detailToPenyimpananWajibPokok['jumlah'] = $jumlah_bayar_simpanan_pokok;
                     $detailToPenyimpananWajibPokok['saldo_akhir'] = $jumlah_bayar_simpanan_pokok;
                     $dataToPenyimpananWajibPokok['id_rekening'] = 117;

@@ -45,8 +45,13 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $usr['created_at']->format('D, d F Y h:i:s') }}</td>
-                                        <td class="text-left text-uppercase">{{ $usr['dari_rekening'] }}</td>
-                                        <td class="text-left text-uppercase">[ {{ $usr['untuk_rekening'] }} ]</td>
+
+                                        @if(json_decode($usr['transaksi'], true)['dari_rekening'] == "")
+                                        <td class="text-left text-uppercase">TUNAI</td>
+                                        @else
+                                        <td class="text-left text-uppercase">{{ json_decode($usr['transaksi'], true)['dari_rekening'] }}</td>
+                                        @endif
+                                        <td class="text-left text-uppercase">{{ json_decode($usr['transaksi'], true)['untuk_rekening'] }}</td>
                                         <td class="text-center text-uppercase">{{$usr['status'] }}</td>
                                         <td class="text-right">{{ number_format(json_decode($usr['transaksi'], true)['jumlah'],2) }}</td>
                                         {{-- <td class="text-right">{{ number_format(json_decode($usr['transaksi'],true)['saldo_awal'],2) }}</td> --}}

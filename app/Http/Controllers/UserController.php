@@ -925,120 +925,14 @@ class UserController extends Controller
     */
     public function detail_simpanan($jenis)
     {
-        if($jenis == "khusus")
-        {
-            if(isset(json_decode(Auth::user()->wajib_pokok)->khusus))
-            {
-                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis);
+            
+        $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis);
 
-                $riwayat_simpanan = array();
-                foreach($detail_simpanan as $detail)
-                {
-                    $rekening_pengirim = Rekening::where('id', json_decode($detail->transaksi)->dari_rekening)->select('nama_rekening', 'katagori_rekening')->first();
-                    $rekening_penerima = Rekening::where('id', json_decode($detail->transaksi)->untuk_rekening)->select('nama_rekening', 'katagori_rekening')->first();
-
-                    if(strpos(json_decode($detail->transaksi)->dari_rekening, '.'))
-                    {
-                        $rekening_tabungan = Tabungan::where('id_tabungan', json_decode($detail->transaksi)->dari_rekening)->first();
-                        $rekening_pengirim = Rekening::where('id', $rekening_tabungan->id_rekening)->select('nama_rekening', 'katagori_rekening')->first();
-                    }
-
-                    if($rekening_pengirim->katagori_rekening == "TELLER")
-                    {
-                        $dariRekening = "Tunai";
-                    }
-                    elseif($rekening_pengirim->katagori_rekening == "BANK")
-                    {
-                        $dariRekening = "Transfer";
-                    }
-                    else
-                    {
-                        $dariRekening = $rekening_pengirim->nama_rekening;
-                    }
-
-                    array_push($riwayat_simpanan, [
-                        "id"    => $detail->id,
-                        "id_user"    => $detail->id_user,
-                        "id_rekening"    => $detail->id_rekening,
-                        "status"    => $detail->status,
-                        "transaksi"    => $detail->transaksi,
-                        "created_at"    => $detail->created_at,
-                        "updated_at"    => $detail->updated_at,
-                        "teller"    => $detail->teller,
-                        "dari_rekening" => $dariRekening,
-                        "untuk_rekening" => $rekening_penerima->nama_rekening
-                    ]);
-                }
-                return view('users.detail_wajibpokok', [
-                    'data' => $riwayat_simpanan,
-                    'saldo' => json_decode(Auth::user()->wajib_pokok)->$jenis,
-                    'jenis' => $jenis
-                ]);
-            }
-            else
-            {
-                return redirect()
-                ->back()
-                ->withSuccess(sprintf('Belum ada riwayat simpanan ' . $jenis . ' di rekening anda.'));
-            }
-        }
-        else
-        {
-            // if(json_decode(Auth::user()->wajib_pokok)->$jenis > 0)
-            // {
-                $detail_simpanan = $this->simpananReporsitory->detailSimpanan($jenis);
-
-                $riwayat_simpanan = array();
-                foreach($detail_simpanan as $detail)
-                {
-                    $rekening_pengirim = Rekening::where('id', json_decode($detail->transaksi)->dari_rekening)->select('nama_rekening', 'katagori_rekening')->first();
-                    $rekening_penerima = Rekening::where('id', json_decode($detail->transaksi)->untuk_rekening)->select('nama_rekening')->first();
-
-                    if(strpos(json_decode($detail->transaksi)->dari_rekening, '.'))
-                    {
-                        $rekening_tabungan = Tabungan::where('id_tabungan', json_decode($detail->transaksi)->dari_rekening)->first();
-                        $rekening_pengirim = Rekening::where('id', $rekening_tabungan->id_rekening)->select('nama_rekening', 'katagori_rekening')->first();
-                    }
-
-                    if($rekening_pengirim->katagori_rekening == "TELLER")
-                    {
-                        $dariRekening = "Tunai";
-                    }
-                    elseif($rekening_pengirim->katagori_rekening == "BANK")
-                    {
-                        $dariRekening = "Transfer";
-                    }
-                    else
-                    {
-                        $dariRekening = $rekening_pengirim->nama_rekening;
-                    }
-
-                    array_push($riwayat_simpanan, [
-                        "id"    => $detail->id,
-                        "id_user"    => $detail->id_user,
-                        "id_rekening"    => $detail->id_rekening,
-                        "status"    => $detail->status,
-                        "transaksi"    => $detail->transaksi,
-                        "created_at"    => $detail->created_at,
-                        "updated_at"    => $detail->updated_at,
-                        "teller"    => $detail->teller,
-                        "dari_rekening" => $dariRekening,
-                        "untuk_rekening" => $rekening_penerima->nama_rekening
-                    ]);
-                }
-                return view('users.detail_wajibpokok', [
-                    'data' => $riwayat_simpanan,
-                    'saldo' => json_decode(Auth::user()->wajib_pokok)->$jenis,
-                    'jenis' => $jenis
-                ]);
-            // }
-            // else
-            // {
-            //     return redirect()
-            //     ->back()
-            //     ->withSuccess(sprintf('Belum ada riwayat simpanan ' . $jenis . ' di rekening anda.'));
-            // }
-        }
+        return view('users.detail_wajibpokok', [
+            'data' => $detail_simpanan,
+            'saldo' => json_decode(Auth::user()->wajib_pokok)->$jenis,
+            'jenis' => $jenis
+        ]);
     }
 
     /** 
