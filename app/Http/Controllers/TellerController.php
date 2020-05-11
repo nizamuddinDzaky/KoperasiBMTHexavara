@@ -1660,7 +1660,7 @@ class TellerController extends Controller
         {
             $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanMRB($request);
         }
-        if($request->pembiayaan != 99)
+        if($request->pembiayaan != 100)
         {
             $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanLain($request);
         }

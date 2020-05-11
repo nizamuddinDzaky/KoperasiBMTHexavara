@@ -33,9 +33,9 @@
                             <thead>
                                 <th class="text-center"></th>
                                 <th class="text-center" data-sortable="true">Tgl Transaksi</th>
+                                <th class="text-center" data-sortable="true" >Jenis Transaksi</th>
                                 <th class="text-center" data-sortable="true" >Dari Rekening</th>
                                 <th class="text-center" data-sortable="true">Ke Rekening</th>
-                                <th class="text-center" data-sortable="true">No Transaksi</th>
                                 <th class="text-center" data-sortable="true">Debet</th>
                                 <th class="text-center" data-sortable="true">Kredit</th>
                                 <th class="text-center" data-sortable="true">Saldo</th>
@@ -48,6 +48,7 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
+                                        <td>{{ $usr->status }}</td>
                                         @if(json_decode($usr->transaksi,true)['dari_rekening']==null)
                                             <td class="text-left text-uppercase">TUNAI</td>
                                         @else
@@ -66,12 +67,6 @@
                                             @else
                                                 <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
                                             @endif
-                                        @endif
-
-                                        @if(str_before($usr->status,' ')=="Distribusi" || str_before($usr->status,' ')=="SHU")
-                                            <td class="text-center text-uppercase">{{$usr->status." (Pajak: ".number_format(json_decode($usr->transaksi,true)['pajak'],2)." @".json_decode($usr->transaksi,true)['persentase']."%)"}}</td>
-                                        @else
-                                        <td class="text-center text-uppercase">{{$usr->id}}</td>
                                         @endif
 
                                         @if($usr->status == "Debit")

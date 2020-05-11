@@ -158,7 +158,7 @@
                             <tbody>
                                 <tr>
                                     <td colspan="6" align="center"><b>Saldo Awal</b></td>
-                                    <td><b>Rp.00</b></td>
+                                    <td><b>{{ number_format(json_decode($data['data'][0]->transaksi)->saldo_akhir, 2) }}</b></td>
                                 </tr>
                               @foreach ($data['data'] as $usr)
                                 <tr>

@@ -36,6 +36,7 @@
                             <thead>
                                 <th class="text-center"></th>
                                 <th class="text-center" data-sortable="true">Tgl Transaksi</th>
+                                <th class="text-center" data-sortable="true">Jenis Transaksi</th>
                                 <th class="text-center" data-sortable="true" class="text-left">Dari Rekening</th>
                                 <th class="text-center" data-sortable="true">Ke Rekening</th>
                                 <th class="text-center" data-sortable="true">Pokok</th>
@@ -45,10 +46,11 @@
                             </thead>
                             <tbody>
                             @foreach ($data as $usr)
-                                @if(json_decode($usr->transaksi,true)['angsuran_ke'] != 0)
+                                @if(json_decode($usr->transaksi,true)['angsuran_ke'] !== 0)
                                 <tr>
                                     <td></td>
                                     <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
+                                    <td class="text-center text-uppercase">{{ $usr->status }}</td>
                                     <td class="text-center text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
                                     <td class="text-center text-uppercase">{{ $usr->untuk_rekening }}</td>
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['bayar_angsuran']), 2)  }}</td>
