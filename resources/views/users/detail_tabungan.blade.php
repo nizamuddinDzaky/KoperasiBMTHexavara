@@ -72,12 +72,12 @@
                                         @if($usr->status == "Debit")
                                         <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
                                         <td class="text-right">0.00</td>
-                                        @elseif($usr->status == "Kredit" || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran')
+                                        @elseif($usr->status == "Kredit" || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran' || str_before($usr->status, ' ') == 'Pelunasan')
                                         <td class="text-right">0.00</td>
                                         <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
                                         @else
                                         <td class="text-right">0.00</td>
-                                            <td class="text-right">0.00</td>
+                                        <td class="text-right">0.00</td>
                                         @endif
                                         
                                         @if(json_decode($usr->transaksi,true)['saldo_akhir'] < 10)
