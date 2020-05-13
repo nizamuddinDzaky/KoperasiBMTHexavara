@@ -16,7 +16,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <h4 class="title">Daftar Rapat</h4>
 
-                <div class="head-filter">
+                {{-- <div class="head-filter">
                     <p class="filter-title">Tanggal Berakhir</p>
                     <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
                     {{ csrf_field() }}
@@ -24,7 +24,7 @@
                             <option disabled selected > - Tanggal Berakhir -</option>
                         </select>
                     </form>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
