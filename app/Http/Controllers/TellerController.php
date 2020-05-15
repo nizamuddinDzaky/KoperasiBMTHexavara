@@ -1588,17 +1588,18 @@ class TellerController extends Controller
     public function confirm_simpanan(Request $request)
     {
         $pengajuan = $this->simpananReporsitory->confirmPengajuanSimpanan($request);
-        if($pengajuan['type'] == 'success') {
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf($pengajuan['message']));
-        }
-        else{
-            return redirect()
-                ->back()
-                ->withInput()->with('message', $pengajuan['message']);
+        return response()->json($pengajuan);
+        // if($pengajuan['type'] == 'success') {
+        //     return redirect()
+        //         ->back()
+        //         ->withSuccess(sprintf($pengajuan['message']));
+        // }
+        // else{
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->with('message', $pengajuan['message']);
 
-        }
+        // }
     }
 
     /** 
@@ -1818,7 +1819,11 @@ class TellerController extends Controller
     {
         $id_rekening_user_loged = json_decode(Auth::user()->detail)->id_rekening;
         $id_bmt_user_loged = BMT::where('id_rekening', $id_rekening_user_loged)->first();
-        $data = PenyimpananBMT::where([ ['id_bmt', $id_bmt_user_loged->id], ['status', '!=', 'Setoran Awal'] ])->get();
+        $data = PenyimpananBMT::where([ ['penyimpanan_bmt.id_bmt', $id_bmt_user_loged->id], ['penyimpanan_bmt.status', '!=', 'Setoran Awal'] ])
+                                ->join('users', 'users.id', 'penyimpanan_bmt.id_user')
+                                ->select('penyimpanan_bmt.*', 'users.nama')
+                                ->get();
+        // return response()->json($data);
         return view('teller.nasabah.nasabah_kas_teller', [
             'data'  => $data
         ]);

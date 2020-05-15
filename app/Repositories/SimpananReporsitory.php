@@ -867,6 +867,17 @@ class SimpananReporsitory {
 
                     $simpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
+                    if($data->debit != 0)
+                    {
+                        $bmt_teller = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
+                        $detailToPenyimpananBMT['saldo_awal'] = $bmt_teller->saldo;
+                        $detailToPenyimpananBMT['saldo_akhir'] = $bmt_teller->saldo + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+                        $dataToPenyimpananBMT['id_bmt'] = $bmt_teller->id;
+
+                        $simpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                    }
+
                     $detailToPenyimpananWajibPokok = [
                         "teller"    => Auth::user()->id,
                         "dari_rekening" => $bmt_bank_pengirim->nama,

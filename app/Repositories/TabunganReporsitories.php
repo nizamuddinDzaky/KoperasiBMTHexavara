@@ -197,6 +197,7 @@ class TabunganReporsitories {
               ) 
             {
 
+                $detailToPenyimpananBMT['jumlah'] = floatval(json_decode($pengajuan->detail)->jumlah);
                 $detailToPenyimpananBMT['saldo_awal'] = $bmtTujuanDebitTabungan->saldo;
                 $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTujuanDebitTabungan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
                 $dataToPenyimpananBMT['id_bmt'] = $bmtTujuanDebitTabungan->id;
@@ -315,6 +316,7 @@ class TabunganReporsitories {
             ) 
             {
 
+                $detailToPenyimpananBMT['jumlah'] = -floatval(json_decode($pengajuan->detail)->jumlah);
                 $detailToPenyimpananBMT['saldo_awal'] = $userLogedBMT->saldo;
                 $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
                 $dataToPenyimpananBMT['id_bmt'] = $userLogedBMT->id;
@@ -507,6 +509,7 @@ class TabunganReporsitories {
             ) 
             {
 
+                $detailToPenyimpananBMT['jumlah'] = floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
                 $detailToPenyimpananBMT['saldo_awal'] = $bmtTellerLoged->saldo;
                 $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
                 $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;
@@ -621,6 +624,7 @@ class TabunganReporsitories {
             ) 
             {
 
+                $detailToPenyimpananBMT['jumlah'] = -floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
                 $detailToPenyimpananBMT['saldo_awal'] = $bmtTellerLoged->saldo;
                 $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
                 $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;

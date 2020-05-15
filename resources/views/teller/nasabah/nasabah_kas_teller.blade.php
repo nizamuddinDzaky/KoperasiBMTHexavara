@@ -45,6 +45,7 @@
                             <th data-sortable="true" class="text-left">No Transaksi</th>
                             <th data-sortable="true">Tanggal Transaksi</th>
                             <th data-sortable="true">Jenis Transaksi</th>
+                            <th data-sortable="true">User</th>
                             <th data-sortable="true" class="text-right">Debet</th>
                             <th data-sortable="true" class="text-right">Kredit</th>
                             <th data-sortable="true" class="text-right">Saldo</th>
@@ -56,6 +57,7 @@
                                 <td>{{ $usr->id }}</td>
                                 <td>{{ $usr->created_at->format('D, d F Y h:i:s')  }}</td>
                                 <td style="text-transform: capitalize;">{{ $usr->status   }}</td>
+                                <td style="text-transform: capitalize;">{{ $usr->nama   }}</td>
 
                                 @if(json_decode($usr->transaksi)->jumlah > 0)
                                 <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
