@@ -1009,6 +1009,15 @@ class UserController extends Controller
             $fileToUpload = null;
         }
 
+        if(explode(" ", $request->idRek)[1] > explode(" ", $request->idRek)[2])
+        {
+            $bayar_margin = explode(" ", $request->idRek)[2] * 2;
+        }
+        else
+        {
+            $bayar_margin = explode(" ", $request->idRek)[2];
+        }
+
         $detail = [
             'angsuran' => $kredit,
             'id_pembiayaan' => explode(" ", $request->idRek)[6],
@@ -1023,7 +1032,7 @@ class UserController extends Controller
             'sisa_ang' => explode(" ", $request->idRek)[0],
             'sisa_mar' => explode(" ", $request->idRek)[1],
             'bayar_ang' => explode(" ", $request->idRek)[0],
-            'bayar_mar' => explode(" ", $request->idRek)[2] * 2,
+            'bayar_mar' => $bayar_margin,
             'jumlah' => explode(" ", $request->idRek)[0] + (explode(" ", $request->idRek)[2] * 2),
             'nisbah' => $request->nisbah,
             'jenis' => $request->debit,

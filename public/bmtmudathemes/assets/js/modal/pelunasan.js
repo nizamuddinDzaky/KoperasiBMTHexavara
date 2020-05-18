@@ -79,7 +79,15 @@ $(document).ready(function() {
             $('#tagihan_pokok_pelunasan').val(formatter.format(pokok))
             $('#tagihan_margin_pelunasan').val(formatter.format(margin))
             $('#bayar_ang_pelunasan').val(formatter.format(pokok))
-            $('#bayar_margin_pelunasan').val(formatter.format(bayar_margin * 2))
+
+            if(margin > bayar_margin)
+            {
+                $('#bayar_margin_pelunasan').val(formatter.format(bayar_margin * 2))
+            }
+            else
+            {
+                $('#bayar_margin_pelunasan').val(formatter.format(bayar_margin))
+            }
             $('#idPembiayaan').val(id_pembiayaan)
         });
 
