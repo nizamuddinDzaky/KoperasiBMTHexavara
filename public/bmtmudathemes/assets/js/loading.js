@@ -1,4 +1,15 @@
 /** 
+ * Get ajax csrf token response from header html
+*/
+$(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+});
+
+/** 
  * Load modal card wizard
 */
 $(document).ready(function() {
@@ -225,3 +236,41 @@ $(document).ready(function() {
 function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
+
+/** 
+ * Datepicker function
+ * @return Response
+*/
+$(document).ready(function() {
+    $('.datepicker').datepicker({
+        minDate: new Date(),
+        autoSize: true,
+        autohide: true,
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+});
+
+/**
+ * Summernote plugin
+ * @return Response
+*/
+$(document).ready(function() {
+    $('.summernote').summernote({
+        placeholder: 'Deskripsi Rapat',
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline']],
+            ['para', ['ul', 'ol']],
+            ['pre', ['h1']]
+        ]
+    });
+});

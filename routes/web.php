@@ -655,20 +655,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         ]);
     });
 
-    /** 
-     * Admin Dashboard Menu Rapat
-    */
-    Route::group(['prefix' => 'rapat', 'middleware' => ['auth']], function() {
-        /** 
-         * Get list rapat controller
-         * @return View
-        */
-        Route::get('admin', [
-            'as'    => 'admin.rapat.index',
-            'uses'  => 'RapatController@admin'
-        ]);
-    });
-
 
 });
 
@@ -1516,12 +1502,84 @@ Route::group([
     ]);
 
     /** 
+     * Get list rapat in table format controller
+     * @return View
+    */
+    Route::get('admin', [
+        'as'    => 'admin.rapat.index',
+        'uses'  => 'RapatController@admin'
+    ]);
+
+    /** 
      * Show specific rapat detail
      * @return Response
     */
     Route::get('show/{id}', [
         'as'    => 'rapat.show',
         'uses'  => 'RapatController@show'
+    ]);
+
+    /** 
+     * Show create new rapat form
+     * @return Response
+    */
+    Route::get('create', [
+        'as'    => 'rapat.create',
+        'uses'  => 'RapatController@create'
+    ]);
+
+    /** 
+     * Create new rapat
+     * @return Response
+    */
+    Route::post('store', [
+        'as'    => 'rapat.store',
+        'uses'  => 'RapatController@store'
+    ]);
+
+    /** 
+     * edit existing rapat form
+     * @return Response
+    */
+    Route::get('edit/{id}', [
+        'as'    => 'rapat.edit',
+        'uses'  => 'RapatController@edit'
+    ]);
+
+    /** 
+     * update existing rapat form
+     * @return Response
+    */
+    Route::post('update', [
+        'as'    => 'rapat.update',
+        'uses'  => 'RapatController@update'
+    ]);
+
+    /** 
+     * delete existing rapat 
+     * @return Response
+    */
+    Route::post('delete', [
+        'as'    => 'rapat.delete',
+        'uses'  => 'RapatController@delete'
+    ]);
+
+    /** 
+     * vote existing rapat 
+     * @return Response
+    */
+    Route::post('vote', [
+        'as'    => 'rapat.vote',
+        'uses'  => 'RapatController@vote'
+    ]);
+
+    /** 
+     * search rapat
+     * @return Response
+    */
+    Route::post('search', [
+        'as'    => 'rapat.search',
+        'uses'  => 'RapatController@search'
     ]);
 });
 

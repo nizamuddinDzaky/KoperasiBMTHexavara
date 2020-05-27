@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" href="http://demos.creative-tim.com/light-bootstrap-dashboard-pro/assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>BMT MUDA (Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada)</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -78,6 +80,12 @@
     <!-- Materials Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
+    <!-- datepicker plugin -->
+    <link rel="stylesheet" href="{{ asset('bmtmudathemes/assets/jquery-ui/jquery-ui.min.css') }}">
+
+    <!-- Summernote plugin -->
+    <link href="{{ asset('bmtmudathemes/assets/summernote/dist/summernote.css') }}" rel="stylesheet">
+
     <style>
         .dataTables_wrapper  {
             margin: 1em;
@@ -110,6 +118,11 @@
 <script src="{{ URL::asset('bootstrap/assets/js/jquery-ui.min.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('bootstrap/assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
 
+<!-- Datepicker plugin -->
+<script src="{{ asset('bmtmudathemes/assets/jquery-ui/jquery-ui.min.js') }}"></script>
+
+<!-- Summernote plugin -->
+<script src="{{ asset('bmtmudathemes/assets/summernote/dist/summernote.min.js') }}"></script>
 
 <!--  Forms Validations Plugin -->
 <script src=" {{  URL::asset('bootstrap/assets/js/jquery.validate.min.js') }}"></script>

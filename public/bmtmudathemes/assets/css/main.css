@@ -79,7 +79,14 @@
   padding-top: 0;
   padding-bottom: 0;
   font-size: 13px;
-  line-height: 1.5em;
+}
+
+.card .card-body .description p {
+  font-size: 12px !important;
+  height: 100px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card .card-body .date {
@@ -1067,6 +1074,10 @@ input[type="checkbox"]:checked::after {
   margin: 0;
   color: #FFFFFF;
   text-transform: capitalize;
+}
+
+.note-editable p {
+  font-size: 14px !important;
 }
 
 .head {

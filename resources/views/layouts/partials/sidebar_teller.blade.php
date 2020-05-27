@@ -102,6 +102,7 @@
             <li @if(Request::is('teller/laporan/saldo_zis')) class="active" @endif><a href="{{ route('teller.saldo.zis') }}">Saldo ZIS</a></li>
             <li @if(Request::is('teller/laporan/saldo_donasi')) class="active" @endif><a href="{{ route('teller.saldo.donasi') }}">Saldo Donasi</a></li>
             <li @if(Request::is('teller/laporan/saldo_wakaf')) class="active" @endif><a href="{{ route('teller.saldo.wakaf') }}">Saldo Wakaf</a></li>
+            <li @if(Request::is('teller/laporan/saldo_wakaf')) class="active" @endif><a href="{{ route('admin.rapat.index') }}">Rapat</a></li>
 
             {{--<li><a href="{{route('teller.pengajuan_pem')}}">Pengajuan Pembiayaan</a></li>
             <li><a href="{{route('teller.realisasi_pem')}}">Realisasi Pembiayaan</a></li>

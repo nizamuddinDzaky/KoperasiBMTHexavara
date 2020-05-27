@@ -47,7 +47,14 @@
             padding-top:0;
             padding-bottom: 0;
             font-size: 13px;
-            line-height: 1.5em;
+
+            p {
+                font-size: 12px !important;
+                height: 100px;
+                line-height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
         .date {
             padding-left: 20px;

@@ -29,119 +29,44 @@
         </div>
     </div>
     <div class="content">
-        <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card hover">
-                    <div class="card-image">
-                        <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
-                    </div>
-                    <div class="card-body">
-                        <h4 class="title">Contoh Judul Rapat</h4>
-                        <p class="description">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </p>
-                        <div class="date">
-                            <div>
-                                <span class="label">Tanggal Dibuat</span>
-                                <p class="content">17-02-2020</p>
-                            </div>
-                            <div>
-                                <span class="label">Tanggal Berakhir</span>
-                                <p class="content">17-02-2020</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="{{ route('rapat.show', [1]) }}">
-                        <div class="overlay">
-                        </div>
-                    </a>
+        {{-- <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" id="search">
                 </div>
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card hover">
-                    <div class="card-image">
-                        <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
-                    </div>
-                    <div class="card-body">
-                        <h4 class="title">Contoh Judul Rapat</h4>
-                        <p class="description">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </p>
-                        <div class="date">
-                            <div>
-                                <span class="label">Tanggal Dibuat</span>
-                                <p class="content">17-02-2020</p>
-                            </div>
-                            <div>
-                                <span class="label">Tanggal Berakhir</span>
-                                <p class="content">17-02-2020</p>
-                            </div>
-                        </div>
-                    </div>
+        </div> --}}
+        
+        <div class="row" id="list_rapat">
 
-                    <a href="{{ route('rapat.show', [1]) }}">
-                        <div class="overlay">
+            @foreach ($rapat as $item)
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    <div class="card hover">
+                        <div class="card-image">
+                            <img src="{{ asset('storage/public/rapat/' . $item->foto) }}">
                         </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card hover">
-                    <div class="card-image">
-                        <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
-                    </div>
-                    <div class="card-body">
-                        <h4 class="title">Contoh Judul Rapat</h4>
-                        <p class="description">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </p>
-                        <div class="date">
-                            <div>
-                                <span class="label">Tanggal Dibuat</span>
-                                <p class="content">17-02-2020</p>
-                            </div>
-                            <div>
-                                <span class="label">Tanggal Berakhir</span>
-                                <p class="content">17-02-2020</p>
+                        <div class="card-body">
+                            <h4 class="title">{{ $item->judul }}</h4>
+                            <div class="description">{!! $item->description !!}</div>
+                            <div class="date">
+                                <div>
+                                    <span class="label">Tanggal Dibuat</span>
+                                    <p class="content">{{ Carbon\Carbon::parse($item->tanggal_dibuat)->format('d M Y') }}</p>
+                                </div>
+                                <div>
+                                    <span class="label">Tanggal Berakhir</span>
+                                    <p class="content">{{ Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <a href="{{ route('rapat.show', [1]) }}">
-                        <div class="overlay">
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4 col-lg-3">
-                <div class="card hover">
-                    <div class="card-image">
-                        <img src="{{ asset('bmtmudathemes/assets/images/background.jpg') }}">
-                    </div>
-                    <div class="card-body">
-                        <h4 class="title">Contoh Judul Rapat</h4>
-                        <p class="description">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        </p>
-                        <div class="date">
-                            <div>
-                                <span class="label">Tanggal Dibuat</span>
-                                <p class="content">17-02-2020</p>
+                        <a href="{{ route('rapat.show', [$item->id]) }}">
+                            <div class="overlay">
                             </div>
-                            <div>
-                                <span class="label">Tanggal Berakhir</span>
-                                <p class="content">17-02-2020</p>
-                            </div>
-                        </div>
+                        </a>
                     </div>
-
-                    <a href="{{ route('rapat.show', [1]) }}">
-                        <div class="overlay">
-                        </div>
-                    </a>
                 </div>
-            </div>
+            @endforeach
 
             
             <div class="row" style="text-align: right;">
@@ -169,4 +94,10 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('extra_script')
+
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/rapat.js') }}"></script>
+
 @endsection

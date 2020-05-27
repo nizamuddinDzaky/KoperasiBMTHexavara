@@ -54,4 +54,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Pengajuan');
     }
 
+    public function Vote()
+    {
+        return $this->hasMany('App\Vote', 'id_user');
+    }
+
+    public function Rapat()
+    {
+        return $this->hasMany('App\Rapat', 'id_admin');
+    }
+
 }

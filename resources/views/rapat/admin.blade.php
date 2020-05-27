@@ -33,9 +33,11 @@
                     </form>
                 </div>
 
+                @if(Auth::user()->tipe == "admin")
                 <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#transferRekModal"><i class="fas fa-plus"></i> &nbsp;Buat Rapat Baru</button>
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#createRapatModal"><i class="fas fa-plus"></i> &nbsp;Buat Rapat Baru</button>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -64,51 +66,45 @@
                             <th class="text-left">ACTION</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td>1</td>
-                                <td>Lorem Ipsum Dolor Iset</td>
-                                <td>Mon 10 Mei 2020 10:00:00</td>
-                                <td>Mon 20 Mei 2020 10:00:00</td>
-                                <td>500</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>
-                                    <button type="button"  class="btn btn-social btn-default circle" title="Delete">
-                                        <i class="material-icons">more_horiz</i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>1</td>
-                                <td>Lorem Ipsum Dolor Iset</td>
-                                <td>Mon 10 Mei 2020 10:00:00</td>
-                                <td>Mon 20 Mei 2020 10:00:00</td>
-                                <td>500</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>
-                                    <button type="button"  class="btn btn-social btn-default circle" title="Delete">
-                                        <i class="material-icons">more_horiz</i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>1</td>
-                                <td>Lorem Ipsum Dolor Iset</td>
-                                <td>Mon 10 Mei 2020 10:00:00</td>
-                                <td>Mon 20 Mei 2020 10:00:00</td>
-                                <td>500</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>
-                                    <button type="button"  class="btn btn-social btn-default circle" title="Delete">
-                                        <i class="material-icons">more_horiz</i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @foreach ($rapat as $item)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->judul }}</td>
+                                    <td>{{ Carbon\Carbon::parse($item->tanggal_dibuat)->format("D, d M yy H:i") }}</td>
+                                    <td>{{ Carbon\Carbon::parse($item->tanggal_berakhir)->format("D, d M yy H:i") }}</td>
+                                    <td>{{ $item->total_agree }}/{{ $item->total_finish_vouting }} ( {{ $item->percentage_agree }}% )</td>
+                                    <td>{{ $item->total_disagree }}/{{ $item->total_finish_vouting }} ( {{ $item->percentage_disagree }}% )</td>
+                                    <td>{{ $item->not_vouting }}/{{ $item->total_vouter }} ( {{ $item->percentage_not_vouting }}% )</td>
+                                    <td class="td-actions">
+                                        <div class="row">
+                                            <a href={{ route('rapat.show', $item->id) }} type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="" title="View Vouters">
+                                                <i class="fa fa-list-alt"></i>
+                                            </a>
+
+                                            @if(Auth::user()->tipe == "admin")
+                                                @if($item->total_finish_vouting <= 0)
+                                                    <button type="button" id="detail" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editRapatModal" title="Edit Detail"
+                                                        data-id="{{ $item->id }}"
+                                                        data-judul="{{ $item->judul }}"
+                                                        data-end_date="{{ Carbon\Carbon::parse($item->tanggal_berakhir)->format('d-m-yy') }}"
+                                                        data-deskripsi="{{ $item->description }}"
+                                                        data-cover="{{ URL::asset('storage/public/rapat/' . $item->foto ) }}"
+                                                        data-ori_cover="{{ $item->foto }}"
+                                                    >
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                @endif
+                                                
+                                                <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#deleteRapatModal" title="Delete" data-id_rapat="{{ $item->id }}">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                                
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
 
@@ -118,4 +114,14 @@
         </div>
         <!-- end row -->
     </div>
+
+    @include('modal.rapat.create')
+    @include('modal.rapat.edit')
+    @include('modal.rapat.delete')
+@endsection
+
+@section('extra_script')
+
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/rapat.js') }}"></script>
+
 @endsection
