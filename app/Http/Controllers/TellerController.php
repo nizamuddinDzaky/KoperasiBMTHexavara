@@ -665,39 +665,39 @@ class TellerController extends Controller
         }
     }
     public function konfirmasi_pencairan(Request $request){
-        // $konfirmasi = $this->depositoReporsitory->pencairanDeposito($request);
-        return response()->json($request);
+        $konfirmasi = $this->depositoReporsitory->pencairanDeposito($request);
+        // return response()->json($request);
         
-        // $bmt = $this->informationRepository->getRekeningBMT($request->dari);
-        // if( floatval($bmt['saldo']) <  floatval(str_replace(',', '', $request->saldo)) )
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', 'Saldo '.$this->informationRepository->getRekeningBMT($request->dari)->nama." tidak cukup!");
-        // if($request->teller=="teller"){
-        //     $status = $this->deposito->where('id_deposito',$request->id_)->first();
-        //     if($status['status']!="active"){
-        //         return redirect()
-        //             ->back()
-        //             ->withInput()->with('message', 'Pengajuan gagal dilakukan Rekening Deposito '.$request->id_." ".$status['jenis_deposito'].' Tidak Aktif!.');
-        //     }
-        //     $id_pengajuan = $this->informationRepository->withdrawDeposito($request);
-        //     $request->id = $id_pengajuan;
-        //     $request->id_user = $status['id_user'];
-        // }
+        $bmt = $this->informationRepository->getRekeningBMT($request->dari);
+        if( floatval($bmt['saldo']) <  floatval(str_replace(',', '', $request->saldo)) )
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Saldo '.$this->informationRepository->getRekeningBMT($request->dari)->nama." tidak cukup!");
+        if($request->teller=="teller"){
+            $status = $this->deposito->where('id_deposito',$request->id_)->first();
+            if($status['status']!="active"){
+                return redirect()
+                    ->back()
+                    ->withInput()->with('message', 'Pengajuan gagal dilakukan Rekening Deposito '.$request->id_." ".$status['jenis_deposito'].' Tidak Aktif!.');
+            }
+            $id_pengajuan = $this->informationRepository->withdrawDeposito($request);
+            $request->id = $id_pengajuan;
+            $request->id_user = $status['id_user'];
+        }
 
-        // if($this->informationRepository->pencairanDeposito($request)){
-        //     return redirect()
-        //         ->back()
-        //         ->withSuccess(sprintf('Transaksi Pencairan Deposito berhasil dilakukan!.'));
-        // }
-        // else{
-        //     if($request->teller=="teller"){
-        //         $this->informationRepository->delPengajuan($id_pengajuan);
-        //     }
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', 'Transaksi Pencairan Deposito gagal dilakukan!.');
-        // }
+        if($this->informationRepository->pencairanDeposito($request)){
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Transaksi Pencairan Deposito berhasil dilakukan!.'));
+        }
+        else{
+            if($request->teller=="teller"){
+                $this->informationRepository->delPengajuan($id_pengajuan);
+            }
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Transaksi Pencairan Deposito gagal dilakukan!.');
+        }
 
         if($konfirmasi['status'] == 'sukses'){
             return redirect()
@@ -1588,18 +1588,18 @@ class TellerController extends Controller
     public function confirm_simpanan(Request $request)
     {
         $pengajuan = $this->simpananReporsitory->confirmPengajuanSimpanan($request);
-        return response()->json($pengajuan);
-        // if($pengajuan['type'] == 'success') {
-        //     return redirect()
-        //         ->back()
-        //         ->withSuccess(sprintf($pengajuan['message']));
-        // }
-        // else{
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()->with('message', $pengajuan['message']);
+        // return response()->json($pengajuan);
+        if($pengajuan['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($pengajuan['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $pengajuan['message']);
 
-        // }
+        }
     }
 
     /** 
