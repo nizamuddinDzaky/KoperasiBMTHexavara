@@ -1080,6 +1080,34 @@ input[type="checkbox"]:checked::after {
   font-size: 14px !important;
 }
 
+.suggestion-box {
+  background-color: white;
+  position: absolute;
+  z-index: 1;
+  width: 95%;
+  display: none;
+}
+
+.suggestion-box .item {
+  padding: 8px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.suggestion-box .item a {
+  color: black;
+}
+
+.suggestion-box .item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-box .item p {
+  margin: 0;
+  font-size: 14px;
+  margin-left: 6px;
+  text-transform: capitalize;
+}
+
 .head {
   background-color: #FFFFFF;
   padding: 20px;

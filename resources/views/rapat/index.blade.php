@@ -29,13 +29,15 @@
         </div>
     </div>
     <div class="content">
-        {{-- <div class="row">
+        <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" id="search">
+                    
+                    <div class="suggestion-box"></div>
                 </div>
             </div>
-        </div> --}}
+        </div>
         
         <div class="row" id="list_rapat">
 

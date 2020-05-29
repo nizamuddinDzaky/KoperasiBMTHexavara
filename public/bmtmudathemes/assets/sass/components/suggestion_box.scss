@@ -1,0 +1,27 @@
+.suggestion-box {
+    background-color: white;
+    position: absolute;
+    z-index: 1;
+    width: 95%;
+    display: none;
+    
+    .item {
+        padding: 8px;
+        border-bottom: 1px solid #d9d9d9;
+
+        a {
+            color: black;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            margin-left: 6px;
+            text-transform: capitalize;
+        }
+    }
+}

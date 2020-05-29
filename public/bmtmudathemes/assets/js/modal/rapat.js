@@ -36,7 +36,16 @@ $(document).ready(function() {
         $(document).on('keyup', '#search', function() {
             var url = window.location.href;
             var page = "rapat";
-            $("#list_rapat").text("");
+
+            if($(this).val() !== "")
+            {
+                $(".suggestion-box").css("display", "block");
+            }
+            else
+            {
+                $(".suggestion-box").css("display", "none");
+            }
+
             $.ajax({
                 type: "POST",
                 url: window.location.href + "/search",
@@ -46,20 +55,22 @@ $(document).ready(function() {
                 },
                 dataType: "JSON",
                 success: function (response) {
+                    
+                    var data = [];
+
                     $.each(response, function (index, value) { 
-                        var template = `<div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card hover">
-                                <div class="card-image">
-                                    <img src="` + url.slice(0, url.length - page.length) + `storage/public/rapat/` + value.foto + `">
-                                </div>
-                            </div>
+                        var template = `<div class="item">
+                            <a href="#">
+                                <p>`+ value.judul + `</p>
+                            </a>
                         </div>`;
 
-                        $("#list_rapat").append(template);
+                        data.push(template);
                     });
+
+                    $(".suggestion-box").html(data);
                 }
             });
-            // console.log(window.location.href);
         });
     });
 
