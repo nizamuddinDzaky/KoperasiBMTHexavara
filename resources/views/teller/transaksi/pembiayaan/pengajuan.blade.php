@@ -535,7 +535,7 @@
 
             $('#showPok').hide()
             $('#angHide').show()
-            $('#marginHide').show()
+            $('#marginHide').hide()
             var selA4 =$('#toHide_angpok');
             var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
             var selRek = $('#angidRek');
@@ -555,7 +555,7 @@
                 var formatter = new Intl.NumberFormat();
                 $('#showPok').hide()
                 $('#angHide').show()
-                $('#marginHide').show()
+                $('#marginHide').hide()
                 if(marbln==0) {
                     $('#marginHide').hide()
                     $('#bagi_margin').attr("required",false);
@@ -568,7 +568,7 @@
                 if(rekening!=2) {
                     $('#sisa_mar').show()
                     $('#bayar_mar').hide()
-                    $('#bayar_margin').val(formatter.format(marbln))
+                    // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
                     $('#bayar_ang').val(formatter.format(angbln))
                     $('#bagi_margin').attr("required",false);
@@ -594,7 +594,7 @@
                     $('#bagi_margin').attr("required",false);
                     $('#bayar_mar').hide()
                     $('#bayar_ang').val(formatter.format(angbln))
-                    $('#bayar_margin').val(formatter.format(marbln))
+                    // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
                 }
 
@@ -660,6 +660,7 @@
                     selAr.hide();
                     selArB.hide();selArB2.hide();
                     $("#toHideTabungan").show();
+                    $("#tabungan").attr("required", true);
                 }
             });
 

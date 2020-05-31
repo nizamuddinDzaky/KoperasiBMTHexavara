@@ -138,7 +138,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="tabungan" style="width: 100%;" >
+                                        <select class="form-control select2" id="tabungan" name="tabungan" style="width: 100%;" >
                                             <option class="bs-title-option" selected value="" disabled>-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [ {{number_format(json_decode($rekening->detail)->saldo,2) }} ] </option>
@@ -255,19 +255,19 @@
                                     <div class="col-md-5 col-md-offset-1" id="showPok"></div>
                                     <div class="col-md-5 col-md-offset-1" id="angHide">
                                         <div class="form-group">
-                                            <label class="control-label">Jumlah Bayar Angsuran Pokok<star>*</star></label>
+                                            <label class="control-label">Jumlah Bayar Angsuran<star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
                                                 <input type="text" class="currency form-control text-right" id="bayar_ang" name="bayar_ang" >
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5" id="marginHide">
+                                    <div class="col-md-5 hide" id="marginHide">
                                         <div class="form-group">
                                             <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right"  id="bayar_margin" name="bayar_mar">
+                                                <input type="text" class="currency form-control text-right"  id="bayar_margin" name="bayar_mar" value="0">
                                             </div>
                                         </div>
                                     </div>

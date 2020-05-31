@@ -67,34 +67,8 @@
                                                 data-id      = "{{$usr->no_ktp}}"
                                                 data-nama    = "{{$usr->nama}}" name="id">
                                             <i class="fa fa-clipboard-list"></i>
+                                        </button>
 
-                                        @if($usr->status!="closed")
-                                        <button type="button"  class="btn btn-social btn-fill 
-                                            @if($usr->status=="active") btn-danger" title="Blokir Rekening"
-                                                @elseif($usr->status=="blocked") btn-success title="Activasi Rekening"  @endif
-                                                @if($usr->status!="not active")data-toggle="modal" data-target="#blockRekModal" @else title="Rekening Tidak Aktif" @endif
-                                                data-id         = "{{$usr->id}}"
-                                                data-nama       = "{{$usr->jenis_tabungan}}"
-                                                data-status       = "{{$usr->status}}">
-                                            @if($usr->status=="active")
-                                                <i class="fa fa-minus-square"></i>
-                                            @elseif($usr->status=="blocked")
-                                                <i class="fa fa-check-square"></i>
-                                            @elseif($usr->status=="not active")
-                                                <i class="fa fa-remove"></i>
-                                            @endif
-                                        </button>
-                                        @endif
-                                        @if($usr->status!="closed" && Auth::user()->tipe=="teller")
-                                        <button type="button"  class="btn btn-social btn-fill btn-danger" title="Tutup Rekening"
-                                                data-toggle="modal" data-target="#tutupTabModal2"
-                                                data-nama         = "{{$usr->jenis_tabungan}}"
-                                                data-usr         = "{{$usr->nama}}"
-                                                data-saldo        = "{{json_decode($usr->detail,true)['saldo']}}"
-                                                data-id         = "{{$usr->id_tabungan}}">
-                                                <i class="fa fa-close"></i>
-                                        </button>
-                                        @endif
                                     </form>
                                 </td>
                             </tr>

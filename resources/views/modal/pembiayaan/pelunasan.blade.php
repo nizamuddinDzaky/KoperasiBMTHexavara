@@ -69,7 +69,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="tabungan" style="width: 100%;" >
+                                        <select class="form-control select2" id="tabunganPelunasan" name="tabungan" style="width: 100%;" >
                                             <option class="bs-title-option" selected value="" disabled>-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
                                                 <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [ {{number_format(json_decode($rekening->detail)->saldo,2) }} ] </option>
@@ -175,7 +175,7 @@
                 </div>
 
                 <div class="footer">
-                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Angsur </button>
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Lunasi </button>
                     <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
                     <div class="clearfix"></div>
                 </div>

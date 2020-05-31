@@ -59,7 +59,7 @@
                                 <td></td>
                                 <td>{{ $usr->id_pembiayaan }}</td>
                                 <td>{{ $usr->jenis_pembiayaan  }}</td>
-                                <td>{{ $usr->nama   }}</td>
+                                <td>{{ $usr->user->nama   }}</td>
                                 <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['total_pinjaman'],2) }}</td>
                                 <td class="text-center">{{ json_decode($usr->detail,true)['lama_angsuran'] ." Bulan"}}</td>
                                 <td class="text-right">{{" ". number_format(json_decode($usr->detail,true)['angsuran_pokok'],2)  }}</td>
@@ -75,23 +75,6 @@
                                                 data-id      = "{{$usr->no_ktp}}"
                                                 data-nama    = "{{$usr->nama}}" name="id">
                                             <i class="fa fa-clipboard-list"></i>
-                                        </button>
-                                        <button type="button"  class="btn btn-social btn-fill 
-                                            
-                                            @if($usr->status=="active") btn-danger" title="Blokir Rekening"
-                                                @elseif($usr->status=="blocked") btn-success title="Activasi Rekening"  @endif
-                                                @if($usr->status!="not active")data-toggle="modal" data-target="#blockRekModal" @else title="Rekening Tidak Aktif" @endif
-                                        
-                                                data-id         = "{{$usr->id}}"
-                                                data-nama       = "{{$usr->jenis_pembiayaan}}"
-                                                data-status       = "{{$usr->status}}">
-                                                @if($usr->status=="active")
-                                                <i class="fa fa-remove"></i>
-                                            @elseif($usr->status=="blocked")
-                                                <i class="fa fa-check-square"></i>
-                                            @elseif($usr->status=="not active")
-                                                <i class="fa fa-minus-square"></i>
-                                            @endif
                                         </button>
                                     </form>
                                 </td>

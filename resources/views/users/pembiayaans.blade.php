@@ -460,7 +460,7 @@
                     $('#bayar_ang_total').show();
                     $('#bagi_pokok').val(angsisa);
                     $('#bagi_margin').attr("required",false);
-                    $('#marginHide').show();
+                    $('#marginHide').hide();
                     $('#total_peminjaman').val(peminjamanTotal);
                     $('#total_peminjaman').attr("readonly",true);
                     $('#biaya_margin_per_bulan').val(marbln);
@@ -475,7 +475,7 @@
                     $('#bayar_ang_total').show();
                     $('#bagi_pokok').val(angsisa);
                     $('#bagi_margin').attr("required",false);
-                    $('#marginHide').show();
+                    $('#marginHide').hide();
                     $('#total_peminjaman').val(peminjamanTotal);
                     $('#total_peminjaman').attr("readonly",true);
                     $('#biaya_margin_per_bulan').val(marbln);
@@ -500,6 +500,13 @@
                     $('#debitPelunasanTransferForm').find("input").each(function () {
                         $(this).attr("required", false);
                     });
+                }
+                else if (jenis .val() == 2) {
+                    $('#debitPelunasanTransferForm').hide("slow");
+                    $('#debitPelunasanTransferForm').find("input").each(function () {
+                        $(this).attr("required", false);
+                    });
+                    $("#tabunganPelunasan").attr("required", true);
                 }
             });
         });
@@ -569,7 +576,7 @@
                 if(rekening!=2) {
                     $('#sisa_mar').show()
                     $('#bayar_mar').hide()
-                    $('#bayar_margin').val(formatter.format(marbln))
+                    // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
                     $('#bayar_ang').val(formatter.format(angbln))
                     $('#bagi_margin').attr("required",false);
@@ -596,7 +603,7 @@
                     $('#bagi_margin').attr("required",false);
                     $('#bayar_mar').hide()
                     $('#bayar_ang').val(angbln)
-                    $('#bayar_margin').val(marbln)
+                    // $('#bayar_margin').val(marbln)
                     $('#bagi_pokok').val(pokok-(margin/lama))
                 }
 
@@ -665,6 +672,7 @@
                     selArB.hide();
                     selArB2.hide();
                     $("#toHideTabungan").show();
+                    $("#tabungan").attr("required", true);
                 }
             });
 

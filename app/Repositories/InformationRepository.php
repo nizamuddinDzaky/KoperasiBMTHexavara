@@ -414,11 +414,19 @@ class InformationRepository
             ->where('katagori_rekening', "BANK")->get();
         return $data;
     }
-    function getDdTeller()
+    function getDdTeller($id_rekening="")
     {
         $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
             ->where('tipe_rekening', "detail")
             ->where('katagori_rekening', "TELLER")->get();
+
+        if($id_rekening != "")
+        {
+            $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
+                ->where('tipe_rekening', "detail")
+                ->where('katagori_rekening', "TELLER")
+                ->where('id', $id_rekening)->get();
+        }
         return $data;
     }
     function getDetailTeller($id)

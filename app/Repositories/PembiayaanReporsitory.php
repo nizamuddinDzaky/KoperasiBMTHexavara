@@ -36,7 +36,7 @@ class PembiayaanReporsitory {
     */
     public function getPembiayaan()
     {
-        $pembiayaan = Pembiayaan::All();
+        $pembiayaan = Pembiayaan::with('user')->get();
 
         return $pembiayaan;
     }

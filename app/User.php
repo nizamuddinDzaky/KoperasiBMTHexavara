@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function pembiayaan()
     {
-        return $this->hasMany('App\Pembiayaan');
+        return $this->hasMany('App\Pembiayaan', 'id_user');
     }
 
     public function pengajuan()

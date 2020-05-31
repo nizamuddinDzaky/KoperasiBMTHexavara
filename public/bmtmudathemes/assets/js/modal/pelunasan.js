@@ -69,7 +69,7 @@ $(document).ready(function() {
 
             if(jenis == 1)
             {
-                $("#bayar_margin_pelunasan").prop("disabled", true);
+                $("#bayar_margin_pelunasan").prop("disabled", false);
             }
             else
             {
