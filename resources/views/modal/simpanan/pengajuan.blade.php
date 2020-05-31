@@ -53,7 +53,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
+                                        <select class="form-control select2 tabungan" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
                                             <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} [ {{ number_format(json_decode($rekening['detail'])->saldo,2) }} ]</option>
@@ -181,7 +181,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
+                                        <select class="form-control select2 tabungan" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
                                             <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} [ {{ number_format(json_decode($rekening['detail'])->saldo,2) }} ]</option>
@@ -310,7 +310,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
+                                        <select class="form-control select2 tabungan" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
                                             <option value="{{ $rekening['id_tabungan'] }}">[ {{ $rekening['id_tabungan'] }} ] {{ $rekening['jenis_tabungan'] }} ] [ {{ number_format(json_decode($rekening['detail'])->saldo,2) }} ]</option>

@@ -114,7 +114,7 @@ $(document).ready(function() {
             $(".norekening").prop("required", true)
             $(".bank-tujuan").prop("required", true)
             $(".bukti").prop("required", true)
-            $(".rekening-tabungan").prop("required", false)
+            $(".tabungan").attr("required", false)
         }
         if(opsi == 2) {
             $('.opsi-tabungan').removeClass('hide');
@@ -126,6 +126,7 @@ $(document).ready(function() {
             $(".bank-tujuan").prop("required", false);
             $(".bukti").prop("required", false);
             $(".rekening-tabungan").prop("required", true)
+            $(".tabungan").attr("required", true)
 
         }
     });
