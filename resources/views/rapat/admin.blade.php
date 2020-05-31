@@ -25,12 +25,10 @@
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
-                    {{ csrf_field() }}
-                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option disabled selected > - Periode -</option>
-                        </select>
-                    </form>
+                    
+                    <div class="col-sm-12 col-md-4 col-lg-3">
+                        <input type="text" class="form-control" name="daterange" placeholder="Filter" />
+                    </div>
                 </div>
 
                 @if(Auth::user()->tipe == "admin")
@@ -65,7 +63,7 @@
                             <th class="text-left" data-sortable="true">BELUM VOUTING</th>
                             <th class="text-left">ACTION</th>
                         </thead>
-                        <tbody>
+                        <tbody id="data_rapat">
                             @foreach ($rapat as $item)
                                 <tr>
                                     <td></td>

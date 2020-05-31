@@ -86,6 +86,8 @@
     <!-- Summernote plugin -->
     <link href="{{ asset('bmtmudathemes/assets/summernote/dist/summernote.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <style>
         .dataTables_wrapper  {
             margin: 1em;
@@ -150,6 +152,10 @@
 <script src="{{URL::asset('datatables/pdfmake-0.1.32/vfs_fonts.js')}}"></script>
 <script src="{{URL::asset('datatables/buttons-1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{URL::to('maskmoney/src/jquery.maskMoney.js')}}"></script>
+
+{{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> --}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){

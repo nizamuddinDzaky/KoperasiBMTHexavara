@@ -59,7 +59,7 @@ class RapatController extends Controller
      * @return Response
     */
     public function index() {
-        $rapat = Rapat::where('tanggal_berakhir', '>', Carbon::now())->paginate(9);
+        $rapat = Rapat::where('tanggal_berakhir', '>', Carbon::now())->paginate(8);
         // return response()->json($rapat);
         return view('rapat.index', compact('rapat'));
     }
@@ -102,9 +102,15 @@ class RapatController extends Controller
      * Admin rapat dashboar page
      * @return Response
     */
-    public function Admin()
+    public function Admin(Request $request)
     {
         $rapat = Rapat::orderBy('created_at', 'desc')->get();
+
+        if(isset($request->start))
+        {
+            $rapat = Rapat::where([ ['tanggal_berakhir', '>=', Carbon::parse($request->start) ], ['tanggal_berakhir', '<=', Carbon::parse($request->end) ] ])->orderBy('created_at', 'desc')->get();
+        }
+
         $total_vouter = User::where('tipe', 'anggota')->count();
 
         $index = 0;
@@ -150,7 +156,7 @@ class RapatController extends Controller
     public function store(Request $request)
     {
         $file_name = $request->file->getClientOriginalName();
-        $fileToUpload = time() . "-" . $file_name;
+        $fileToUpload = time() . "-" . preg_replace('/\s+/', '_', $file_name);
 
         $rapat = new Rapat();
         $rapat->id_admin    = Auth::user()->id;
@@ -164,10 +170,10 @@ class RapatController extends Controller
             $request->file('file')->storeAs(
                 'public/rapat/', $fileToUpload
             );
-            return redirect('admin/rapat/admin')
+            return redirect()->back()
                 ->withSuccess(sprintf('Rapat berhasil dibuat'));
         } else {
-            return redirect('admin/rapat/admin')
+            return redirect()->back()
                 ->withInput()->with('Rapat gagal dibuat');
         }
     }

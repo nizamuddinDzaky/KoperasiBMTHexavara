@@ -1147,6 +1147,8 @@ input[type="checkbox"]:checked::after {
 }
 
 .head .head-filter .filter-title {
+  -ms-flex-item-align: center;
+      align-self: center;
   font-size: 1vw;
   margin-right: 5px;
   margin-left: 10px;

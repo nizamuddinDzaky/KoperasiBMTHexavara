@@ -1581,6 +1581,15 @@ Route::group([
         'as'    => 'rapat.search',
         'uses'  => 'RapatController@search'
     ]);
+
+    /** 
+     * filter by daterange rapat
+     * @return Response
+    */
+    Route::post('filter', [
+        'as'    => 'rapat.filter',
+        'uses'  => 'RapatController@filter'
+    ]);
 });
 
 /** 

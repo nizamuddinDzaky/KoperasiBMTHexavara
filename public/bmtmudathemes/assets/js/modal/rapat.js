@@ -60,18 +60,29 @@ $(document).ready(function() {
 
                     $.each(response, function (index, value) { 
                         var template = `<div class="item">
-                            <a href="#">
+                            <a href="` + window.location.href + `/show/` + value.id + `">
                                 <p>`+ value.judul + `</p>
                             </a>
                         </div>`;
 
                         data.push(template);
                     });
-
                     $(".suggestion-box").html(data);
                 }
             });
         });
     });
 
+});
+
+/**
+ * Daterange picker 
+*/
+$(function() {
+    $('input[name="daterange"]').daterangepicker({
+      opens: 'left',
+    }, function(start, end, label) {
+        var url = window.location.href.slice(0, window.location.href.length - 5);
+        document.location.search = "start=" + start.format('DD-MM-YYYY') + "&end=" + end.format('DD-MM-YYYY')
+    });
 });
