@@ -75,7 +75,7 @@ class DonasiReporsitories {
             if($data->jenis_donasi == 'donasi kegiatan')
             {
                 $jenis_pengajuan = "Donasi Kegiatan";
-                $id_rekening = 179;
+                $id_rekening = 113;
             }
             if($data->jenis_donasi == 'zis')
             {
@@ -85,7 +85,7 @@ class DonasiReporsitories {
             if($data->jenis_donasi == 'wakaf')
             {
                 $jenis_pengajuan = "Wakaf";
-                $id_rekening = 118;
+                $id_rekening = 114;
             }
 
             $detail = [
@@ -472,7 +472,7 @@ class DonasiReporsitories {
             if($data->jenis_donasi == 'donasi kegiatan')
             {
                 $jenis_pengajuan = "Donasi Kegiatan";
-                $id_rekening = 179;
+                $id_rekening = 113;
             }
             if($data->jenis_donasi == 'zis')
             {
@@ -482,7 +482,7 @@ class DonasiReporsitories {
             if($data->jenis_donasi == 'wakaf')
             {
                 $jenis_pengajuan = "Wakaf";
-                $id_rekening = 118;
+                $id_rekening = 114;
             }
 
             $bmt_donasi = BMT::where('id_rekening', $id_rekening)->first();
