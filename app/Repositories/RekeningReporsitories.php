@@ -90,7 +90,9 @@ class RekeningReporsitories {
                 }
 
                 $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
                 $id_penerima = $bmt_penerima->id;
+                $id_pengirim = $bmt_pengirim->id;
             } else {
                 $jenis = "Pengeluaran";
 
@@ -104,22 +106,29 @@ class RekeningReporsitories {
                 
                 $ke = $data->dari;
                 $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
                 $id_penerima = $bmt_penerima->id;
+                $id_pengirim = $bmt_pengirim->id;
             }
 
             $id_user = Auth::user()->id;
-            $id_bmt = $id_penerima;
+            $id_bmt_penerima = $id_penerima;
+            $id_bmt_pengirim = $id_pengirim;
             $status = $type;
-            $saldo = BMT::where('id', $id_bmt)->select('saldo')->first();
+            $saldo_penerima = BMT::where('id', $id_bmt_penerima)->select('saldo')->first();
+            $saldo_pengirim = BMT::where('id', $id_bmt_pengirim)->select('saldo')->first();
             
-            if($saldo['saldo'] == "") {
-                $saldo['saldo'] = 0;
+            if($saldo_penerima['saldo'] == "") {
+                $saldo_penerima['saldo'] = 0;
+            }
+            if($saldo_pengirim['saldo'] == "") {
+                $saldo_pengirim['saldo'] = 0;
             }
 
             $detail = [
                 "jumlah"    => preg_replace('/[^\d.]/', '', $data->jumlah),
-                "saldo_awal"=> floatval($saldo['saldo']),
-                "saldo_akhir" => floatval($saldo['saldo']) + preg_replace('/[^\d.]/', '', $data->jumlah),
+                "saldo_awal"=> floatval($saldo_penerima['saldo']),
+                "saldo_akhir" => floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data->jumlah),
                 "dari"      => $dari,
                 "ke"    => $ke,
                 "keterangan"=> "[" . $jenis . "] " . $data->keterangan
@@ -128,13 +137,12 @@ class RekeningReporsitories {
 
             $dataToPenyimpananBMT = [
                 "id_user"   => $id_user,
-                "id_bmt"    => $id_bmt,
+                "id_bmt"    => $id_penerima,
                 "status"    => $status,
                 "transaksi" => $detail,
-                "teller"    => $teller,
-                "saldo_awal"=> $saldo['saldo'],
-                "jumlah"    => preg_replace('/[^\d.]/', '', $data->jumlah),
+                "teller"    => $teller
             ];
+            
             $dataToBMT = [
                 "jenis_transaksi"       => $jenis,
                 "id_rekening_pengirim"  => $dari,
@@ -147,6 +155,13 @@ class RekeningReporsitories {
                 $this->updateSaldoRekening($dataToBMT, $jenis, $eksekutor) == "success"
               )
             {
+                $detail['saldo_awal'] = $saldo_pengirim['saldo'];
+                $detail['saldo_akhir'] = floatval($saldo_pengirim['saldo']) - preg_replace('/[^\d.]/', '', $data->jumlah);
+                $dataToPenyimpananBMT['transaksi'] = $detail;
+                $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
+                $this->insertPenyimpananBMT($dataToPenyimpananBMT);
+                
+
                 DB::commit();
                 $result = array('type' => 'success', 'message' => 'Transfer Pengeluaran/Pemasukan Berhasil Dilakukan');
             }

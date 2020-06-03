@@ -78,17 +78,16 @@
                             <td class="text-right"> {{number_format($saldo,2) }}</td>
                         @endif
                     </tr>
-                    @foreach ($data as $usr)
-                        <tr>
-                            <td class="text-left">{{ $loop->iteration }}</td>
-                            @if(Auth::user()->tipe=="admin")
+                        @foreach ($data as $usr)
+                            <tr>
+                                <td class="text-left">{{ $loop->iteration }}</td>
+                                {{-- @if(Auth::user()->tipe=="admin") --}}
                                 <td></td>
                                 <td class="text-uppercase">{{ $usr['teller'] }}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-<<<<<<< HEAD
                                 <td class="text-center text-uppercase"><strong>TOTAL</strong></td>
 
                                 <td class="text-right"><strong> {{number_format(abs($min),2) }}</strong></td>
@@ -98,56 +97,15 @@
                                 @else
                                     <td></td>
                                 @endif
-                            </tr>
+                                {{-- @endif --}}
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
-
                     </div><!--  end card  -->
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->
         </div>
-=======
-                                <td class="text-right"> {{number_format($usr['saldo'],2) }}</td>
-                            @else
-
-                                <td class="text-uppercase">{{ $usr->idrek }} {{ $usr->nama }}</td>
-                                <td >{{ $usr->no_ktp }}</td>
-                                <td class="text-center">{{$usr->created_at }}</td>
-                                <td class="text-center text-uppercase">{{ $usr->user }}</td>
-
-                                @if(json_decode($usr->transaksi,true)['jumlah']>=0)
-                                    <td class="text-right"></td>
-                                    <td class="text-right"> {{number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
-                                @elseif(json_decode($usr->transaksi,true)['jumlah']<0)
-                                    <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['jumlah']),2) }}</td>
-                                    <td class="text-right"></td>
-                                @endif
-                                <td class="text-right"> {{number_format(abs(json_decode($usr->transaksi,true)['saldo_akhir']),2) }}</td>
-                            @endif
-                        </tr>
-                    @endforeach
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="text-center text-uppercase"><strong>TOTAL</strong></td>
-
-                        <td class="text-right"><strong> {{number_format(abs($min),2) }}</strong></td>
-                        <td class="text-right"><strong> {{number_format($plus,2) }}</strong></td>
-                        @if(Auth::user()->tipe=="admin")
-                            <td class="text-right"><strong> {{number_format($saldo,2) }}</strong></td>
-                        @else
-                            <td></td>
-                        @endif
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div><!--  end card  -->
-        </div> <!-- end col-md-12 -->
-    </div> <!-- end row -->
->>>>>>> feature/change-admin-frontend
     </div>
 @endsection
 

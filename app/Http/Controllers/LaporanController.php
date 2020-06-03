@@ -14,6 +14,7 @@ use App\Rekening;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class LaporanController extends Controller
 {
@@ -589,7 +590,9 @@ class LaporanController extends Controller
 
     public function rekening_buku(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        // return response()->json(Carbon::parse($request->periode));
         $data =$this->informationRepository->BukuBesar($request);
+        // return response()->json($data);
         return view('admin.laporan.buku_besar',[
             'data' => $data,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),

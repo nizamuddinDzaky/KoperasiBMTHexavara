@@ -868,6 +868,15 @@ class InformationRepository
             ->get();
         $data['data'] = $dt;
         $tot=0;
+        if(count($dt) > 0)
+        {
+            $data['saldo_awal'] = json_decode($dt[0]->transaksi)->saldo_awal;
+        }
+        else
+        {
+            $data['saldo_awal'] = 0;
+        }
+
         foreach ($dt as $dat) 
         {
             $tot = json_decode($dat->saldo);
