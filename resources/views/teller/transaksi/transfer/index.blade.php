@@ -28,8 +28,9 @@
 
                 <div class="button-group right">
                     {{-- <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#transferRekModal"><i class="fa fa-exchange-alt"></i> Transfer Rekening BMT</button> --}}
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal"><i class="fa fa-credit-card"></i> Transfer Pengeluaran/Pemasukan</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#wapokRekModal"><i class="fa fa-credit-card"></i> Upgrade Simpanan Wajib/Pokok</button>
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal" data-jenis="pemasukan"><i class="fa fa-credit-card"></i> Transfer Pemasukan</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal" data-jenis="pengeluaran"><i class="fa fa-credit-card"></i> Transfer Pengeluaran</button>
+                    {{-- <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#wapokRekModal"><i class="fa fa-credit-card"></i> Upgrade Simpanan Wajib/Pokok</button> --}}
                 </div>
             </div>
         </div>
@@ -86,6 +87,9 @@
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')
+
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/pemasukan_pengeluaran.js') }}"></script>
+
     {{-- MODAL&DATATABLE --}}
 
     <!-- Select2 plugin -->

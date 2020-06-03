@@ -78,7 +78,7 @@
             <form id="wizardFormJ" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('jurnal_lain')}}" @else action="{{route('teller.jurnal_lain')}}" @endif  enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
-                    <h3 class="title">Pengeluaran/Pemasukan</h3>
+                    <h3 class="title" id="title_jurnal_lain"><h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
@@ -120,18 +120,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <input type="hidden" name="tipe" id="tipe" />
+                            {{-- <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label for="id_" class="control-label">Tipe Transaksi <star>*</star></label>
+                                    <div class="form-group"> --}}
+                                        {{-- <label for="id_" class="control-label">Tipe Transaksi <star>*</star></label>
                                         <select class="form-control select2"  name="tipe" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Transaksi-</option>
                                             <option value="1">Pemasukkan</option>
                                             <option value="0">Pengeluaran</option>
-                                        </select>
-                                    </div>
+                                        </select> --}}
+                                    {{-- </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
@@ -158,7 +159,7 @@
                 </div>
 
                 <div class="footer">
-                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Transfer Pengeluaran/Pemasukan </button>
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Transfer </button>
                     <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
                     <div class="clearfix"></div>
                 </div>

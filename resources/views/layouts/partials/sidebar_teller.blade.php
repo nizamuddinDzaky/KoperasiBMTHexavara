@@ -96,6 +96,7 @@
             <li class="@if(Request::is('admin/laporan/buku')) active @endif"><a href="{{route('teller.buku_besar')}}">Buku Besar</a></li>
             <li @if(Request::is('teller/kolektibilitas')) class="active" @endif><a href="{{route('teller.daftar_kolektibilitas')}}">Kolektibilitas</a></li>
             <li @if(Request::is('teller/laporan/neraca')) class="active" @endif><a href="{{route('teller.neraca')}}">Neraca Saldo</a></li>
+            <li><a href="{{route('teller.laba_rugi')}}">Laba Rugi</a></li>
             <li @if(Request::is('teller/nasabah/tabungan')) class="active" @endif><a href="{{route('nasabah_tabungan')}}">Saldo Tabungan</a></li>
             <li @if(Request::is('teller/nasabah/deposito')) class="active" @endif><a href="{{route('nasabah_deposito')}}">Saldo Mudharabah Berjangka</a></li>
             <li @if(Request::is('teller/nasabah/pembiayaan')) class="active" @endif><a href="{{route('nasabah_pembiayaan')}}">Saldo Pembiayaan</a></li>
@@ -114,7 +115,6 @@
             {{--<li><a href="{{route('teller.rekap_jurnal')}}">Rekapitulasi Jurnal</a></li>--}}
             {{--<li><a href="{{route('teller.rekapitulasi_kas')}}">Rekapitulasi Kas</a></li>--}}
             {{--<li><a href="{{route('pendapatan')}}">Pendapatan</a></li>--}}
-            <li><a href="{{route('teller.laba_rugi')}}">Laba Rugi</a></li>
             {{--<li><a href="{{route('aktiva')}}">Aktiva</a></li>--}}
             {{--<li><a href="{{route('teller.jatuh_tempo')}}">Jatuh Tempo</a></li>--}}
             {{--<li><a href="{{route('teller.kredit_macet')}}">Kredit Macet</a></li>--}}
