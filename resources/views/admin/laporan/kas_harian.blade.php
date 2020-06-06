@@ -24,12 +24,10 @@
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
-                    {{ csrf_field() }}
-                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option disabled selected > - Periode -</option>
-                        </select>
-                    </form>
+
+                    <div class="col-sm-12 col-md-4 col-lg-3">
+                        <input type="text" class="form-control single-daterange" placeholder="Filter" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,66 +44,65 @@
                     <br />
                 </div>
 
-                <table id="bootstrap-table" class="table">
+                <table class="table">
                     <thead>
                     <th >ID</th>
-                    <th >ID Rekening</th>
+                    {{-- <th >ID Rekening</th> --}}
                     <th >Teller</th>
                     <th >Tgl Transaksi</th>
                     <th>Keterangan</th>
 
-                    <th >Debit(Pengeluaran)</th>
-                    <th >Kredit(Pemasukkan)</th>
+                    <th >Debit(Pemasukan)</th>
+                    <th >Kredit(Pengeluaran)</th>
                     <th >jumlah</th>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <tbody>
 
-                        @if(Auth::user()->tipe=="admin")
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        @else
-
-                            <td class="text-center text-uppercase"><strong>Saldo Awal</strong></td>
-                            <td></td>
-                            <td></td>
-                            <td class="text-right"> {{number_format($saldo,2) }}</td>
-                        @endif
-                    </tr>
-                        @foreach ($data as $usr)
+                            @if(count($data) > 0)
+                            <tr>
+                                <td colspan="6" align="center"><b>Saldo Awal</b></td>
+                                <td><b>{{ number_format($data['saldo_awal'], 2) }}</b></td>
+                            </tr>
+                            @endif
+                            
+                            @foreach ( count($data) > 0 ? $data['data'] : $data as $usr)
                             <tr>
                                 <td class="text-left">{{ $loop->iteration }}</td>
-                                {{-- @if(Auth::user()->tipe=="admin") --}}
-                                <td></td>
-                                <td class="text-uppercase">{{ $usr['teller'] }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center text-uppercase"><strong>TOTAL</strong></td>
-
-                                <td class="text-right"><strong> {{number_format(abs($min),2) }}</strong></td>
-                                <td class="text-right"><strong> {{number_format($plus,2) }}</strong></td>
-                                @if(Auth::user()->tipe=="admin")
-                                    <td class="text-right"><strong> {{number_format($saldo,2) }}</strong></td>
+                                {{-- <td>{{ $usr->id }}</td> --}}
+                            <td class="text-uppercase">{{ $usr->teller_confirmer->nama }}</td>
+                                <td>{{ Carbon\Carbon::parse($usr->created_at)->format("D, d F Y") }}</td>
+                                
+                                @if(isset(json_decode($usr->transaksi)->keterangan)) 
+                                    <td>{{ json_decode($usr->transaksi)->keterangan }}</td>
                                 @else
-                                    <td></td>
+                                    <td>{{ $usr->status }}</td>
                                 @endif
-                                {{-- @endif --}}
-                                </tr>
+                                
+                                @if(json_decode($usr->transaksi)->jumlah >= 0) 
+                                    <td>{{ number_format(json_decode($usr->transaksi)->jumlah, 2) }}</td>
+                                    <td>0</td>
+                                @else
+                                    <td>0</td>
+                                    <td>{{ number_format(-json_decode($usr->transaksi)->jumlah, 2) }}</td>
+                                @endif
+
+                                
+
+                                <td class="text-uppercase">{{ number_format(json_decode($usr->transaksi)->saldo_akhir, 2) }}</td>
+                            </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div><!--  end card  -->
-                </div> <!-- end col-md-12 -->
-            </div> <!-- end row -->
-        </div>
+                            
+                            @if(count($data) > 0)
+                            <tr>
+                                <td colspan="6" align="center"><h5><b>Jumlah Total Kas Harian</b></td>
+                                <td><b>{{ number_format($data['saldo_akhir'], 2) }}</b></td>
+                            </tr>
+                            @endif
+                        </tbody>
+                </table>
+            </div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div> <!-- end row -->
     </div>
 @endsection
 

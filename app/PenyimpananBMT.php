@@ -19,8 +19,9 @@ class PenyimpananBMT extends Model
     public function bmt() {
         return $this->belongsTo('App\BMT', 'id');
     }
+
     public function user(){
-        return $this->belongsTo('App\User','id');
+        return $this->belongsTo('App\User','id_user');
     }
     //
 }

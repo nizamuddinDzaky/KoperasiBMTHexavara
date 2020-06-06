@@ -6,6 +6,8 @@ use App\BMT;
 use App\PenyimpananBMT;
 use App\PenyimpananRekening;
 use App\Repositories\InformationRepository;
+use App\Repositories\RekeningReporsitories;
+use App\Repositories\PembiayaanReporsitory;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -29,6 +31,8 @@ class LaporanController extends Controller
     public function __construct(Rekening $rekening,
                                 User $user,
                                 Tabungan $tabungan,
+                                RekeningReporsitories $rekeningReporsitory,
+                                PembiayaanReporsitory $pembiayaanReporsitory,
                                 InformationRepository $informationRepository)
     {
         $this->middleware(function ($request, $next) {
@@ -46,6 +50,8 @@ class LaporanController extends Controller
         $this->user = $user;
         $this->tabungan = $tabungan;
         $this->informationRepository = $informationRepository;
+        $this->rekeningReporsitory = $rekeningReporsitory;
+        $this->pembiayaanReporsitory = $pembiayaanReporsitory;
     }
 
     /**
@@ -81,27 +87,22 @@ class LaporanController extends Controller
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
         ]);
     }
-    public function realisasi_pem(){
-        $dropdown = $this->informationRepository->getDdTab();
-        $dropdown2 = $this->informationRepository->getDdDep();
-        $dropdown3 = $this->informationRepository->getDdPem();
-        $data = $this->informationRepository->getAllpengajuanReal();
+
+    public function realisasi_pem(Request $request) {
+        // $dropdown = $this->informationRepository->getDdTab();
+        // $dropdown2 = $this->informationRepository->getDdDep();
+        // $dropdown3 = $this->informationRepository->getDdPem();
+        // $data = $this->informationRepository->getAllpengajuanReal();
+        $date = array("start" => $request->start, "end" => $request->end);
+        if(isset($request->start) && isset($request->end)) {
+            $data = $this->pembiayaanReporsitory->getPembiayaan($date);
+        }
+        else {
+            $data = $this->pembiayaanReporsitory->getPembiayaan();
+        }
+        
         return view('admin.laporan.pembiayaan',[
-            'datasaldoPem' => $this->informationRepository->getAllPem(),
-            'datasaldoPem2' => $this->informationRepository->getAllPemView(),
-            'kegiatan' => $dropdown,
-            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
-            'data' => $data,
-            'tab' =>  $this->informationRepository->getAllTab(),
-            'dropdown' => $dropdown,
-            'dropdown2' => $dropdown2,
-            'dropdown3' => $dropdown3,
-            'dropdown4' => $this->informationRepository->getAllrekeningNoUsrTab(),
-            'dropdown5' => $this->informationRepository->getAllTabNoUsr(),
-            'dropdown6' => $this->informationRepository->getDdBank(),
-            'dropdown7' => $this->informationRepository->getDdTeller(),
-            'dropdown8' => $this->informationRepository->getAllNasabah(),
-            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'data' => $data
         ]);
     }
     public function daftar_kolektibilitas(){
@@ -127,103 +128,22 @@ class LaporanController extends Controller
             'data' => $this->informationRepository->getAllJurnal(),
         ]);
     }
-    public function kas_harian(){
-        $home = new HomeController();
-        $date = $home->MonthShifter(-1)->format(('Ym'));
-        $date_now = $home->MonthShifter(+1)->format(('Y-m'));
-        $date_prev = $home->MonthShifter(-1)->format(('Y-m-t'));
-        $periode = PenyimpananRekening::select('periode')->distinct()->orderBy('periode','DESC')->pluck('periode');
-        $saldo=$periode_=0;
-        $date = $home->date_query(substr($periode_,4,2));
-        $date=(substr($date['now'],5,2));
-        $data = $this->informationRepository->getKasHarianUpdate($date);
-
-        $plus=$min=0;$i=0;
-        if(Auth::user()->tipe=="admin") {
-            $id_rek=Rekening::where('katagori_rekening',"TELLER")->get()->pluck('id')->toArray();
-//            $id_rek=BMT::whereIn('id_rekening',$id_rek)->get()->pluck('id')->toArray();
-            foreach ($periode as $p) {
-                // $saldo = PenyimpananRekening::whereIn('id_rekening', $id_rek)->where('periode', $p)->get()->pluck('saldo')->toArray();
-                $rekening = PenyimpananRekening::select('penyimpanan_rekening.id_rekening','saldo','nama_rekening as teller')
-                    ->join('rekening','rekening.id','penyimpanan_rekening.id_rekening')
-                    ->whereIn('penyimpanan_rekening.id_rekening', $id_rek)->where('periode', $p)->get()->toArray();
-                if (isset($rekening)) {
-                    $periode_ = $p;
-                    $data =$rekening;
-                    break;
-                }
-            }
-//
-//            foreach ($id_rek as $rek) {
-//                $data = $this->informationRepository->getKasHarianUpdate($date);
-//                foreach ($periode as $p) {
-//                    $rekening = PenyimpananRekening::where('id_rekening', $rek)->where('periode', $p)->get();
-//                    if (isset($rekening)) {
-//                        $periode_ = $p;
-//                        break;
-//                    }
-//                }
-//                $rekening = PenyimpananRekening::where('id_rekening', $rek)->where('periode', $p)->get();
-//                $saldo=json_decode($data[0]['transaksi'],true)['saldo_awal'];
-//                if(isset($rekening)){
-//                    $saldo_ = BMT::where('id_rekening', $rek)->first()['saldo'];
-//                    $saldo+=$saldo_;
-//                }
-//            }
-            // $saldo = array_sum($saldo);
-            // dd($data);
-            $data=array();
-            $id_rek=BMT::whereIn('id_rekening',$id_rek)->get()->pluck('id')->toArray();
-            foreach ($id_rek as $rek) {
-                $s = PenyimpananBMT::where('id_bmt', $rek)
-                    ->where('penyimpanan_bmt.created_at',">",$date_prev)
-                    ->where('penyimpanan_bmt.created_at',"<",$date_now."-01")
-                    ->orderBy('id','DESC')
-                    ->get()->pluck('transaksi')->toArray();
-                $rekening = BMT::select('rekening.id','saldo','nama_rekening as teller')
-                    ->join('rekening','rekening.id','bmt.id_rekening')
-                    ->where('bmt.id', $rek)->first()->toArray();
-                if(isset($s)){
-                    $rekening['saldo'];
-                    $saldo+=$rekening['saldo'];
-                }else{
-                    $rekening['saldo'] =json_decode($s[0],true)['saldo_akhir'];
-                    $saldo+=json_decode($s[0],true)['saldo_akhir'];
-                }
-                array_push($data,$rekening);
-
-            }
+    
+    public function kas_harian(Request $request) {
+        if(isset($request->start))
+        {
+            $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->tipe, Carbon::parse($request->start));
         }
-        else {
-            foreach ($periode as $p) {
-                $rekening = PenyimpananRekening::where('id_rekening', Auth::user()->id)->where('periode', $p)->first();
-                if (isset($rekening)) {
-                    $periode_ = $p;
-                    break;
-                }
-            }
-
-            $saldo=json_decode($data[0]['transaksi'],true)['saldo_awal'];
-
-            foreach ($data as $dt){
-                if(json_decode($dt['transaksi'],true)['jumlah']>0)
-                    $plus+=json_decode($dt['transaksi'],true)['jumlah'];
-
-                else $min+=json_decode($dt['transaksi'],true)['jumlah'];
-                if($i==0)$data[$i]['total']=$saldo+json_decode($dt['transaksi'],true)['jumlah'];
-                else $data[$i]['total']=$data[$i-1]['total']+json_decode($dt['transaksi'],true)['jumlah'];
-                $i++;
-            }
-
+        else
+        {
+            $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->tipe, Carbon::now());
         }
-
+        // return response()->json($data);
         return view('admin.laporan.kas_harian',[
-            'data' => $data,
-            'saldo' => $saldo,
-            'plus' => $plus,
-            'min' => $min,
+            'data' => $data
         ]);
     }
+
     public function pendapatan(){
         $data = $this->informationRepository->getPendapatan();
         $sum = null;
@@ -590,9 +510,8 @@ class LaporanController extends Controller
 
     public function rekening_buku(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
-        // return response()->json(Carbon::parse($request->periode));
         $data =$this->informationRepository->BukuBesar($request);
-        // return response()->json($data);
+
         return view('admin.laporan.buku_besar',[
             'data' => $data,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),

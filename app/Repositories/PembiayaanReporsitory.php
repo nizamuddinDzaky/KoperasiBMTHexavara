@@ -34,9 +34,18 @@ class PembiayaanReporsitory {
      * Ambil data pembiayaan
      * @return Array
     */
-    public function getPembiayaan()
+    public function getPembiayaan($date="")
     {
-        $pembiayaan = Pembiayaan::with('user')->get();
+        if($date=="") {
+            $pembiayaan = Pembiayaan::with('user')->get();
+        }
+        else
+        {
+            $pembiayaan = Pembiayaan::with('user')->where([ 
+                    ['created_at', '>', Carbon::parse($date['start'])->startOfDay()],
+                    ['created_at', '<', Carbon::parse($date['end'])->endOfDay() ]
+                ])->get();
+        }
 
         return $pembiayaan;
     }

@@ -64,4 +64,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Rapat', 'id_admin');
     }
 
+    public function PenyimpananBMT()
+    {
+        return $this->hasMany('App\PenyimpananBMT', 'id_user');
+    }
+
 }

@@ -275,3 +275,28 @@ $(document).ready(function() {
         ]
     });
 });
+
+/**
+ * daterange init 
+*/
+$(function() {
+    $('.daterange').daterangepicker({
+      opens: 'left',
+    }, function(start, end, label) {
+        var url = window.location.href.slice(0, window.location.href.length - 5);
+        document.location.search = "start=" + start.format('DD-MM-YYYY') + "&end=" + end.format('DD-MM-YYYY')
+    });
+});
+
+/**
+ * single daterange init 
+*/
+$(function() {
+    $('.single-daterange').daterangepicker({
+      opens: 'left',
+      singleDatePicker: true
+    }, function(start, label) {
+        var url = window.location.href.slice(0, window.location.href.length - 5);
+        document.location.search = "start=" + start.format('DD-MM-YYYY');
+    });
+});
