@@ -389,7 +389,7 @@ class SimpananReporsitory {
                     if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
                     {
                         $dataToUpdateUsers = [
-                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                             "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
                             "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
                         ];
@@ -397,7 +397,7 @@ class SimpananReporsitory {
                     else
                     {
                         $dataToUpdateUsers = [
-                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
+                            "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                             "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
                             "khusus"     => 0
                         ];
@@ -437,25 +437,18 @@ class SimpananReporsitory {
             $insertIntoPenyimpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
             if($insertIntoPenyimpananBMTPengirim == "success")
             {
+
                 $detailToPenyimpananBMT['saldo_awal'] = floatval($saldo_awal_bmt_simpanan);
                 $detailToPenyimpananBMT['saldo_akhir'] = floatval($saldo_akhir_bmt_simpanan);
                 $detailToPenyimpananBMT['jumlah'] = json_decode($pengajuan->detail)->jumlah;
                 $dataToPenyimpananBMT['id_bmt'] = $id_bmt_simpanan;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
-                
+
                 // Insert record for simpanan
                 $insertIntoPenyimpananBMTSimpanan = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                 if($insertIntoPenyimpananBMTSimpanan == "success")
                 {
-                    if($data->id_rekening_simpanan == 117)
-                    {
-                        $saldo_awal_simpanan = json_decode($user_simpanan->wajib_pokok)->pokok;
-                    }
-                    if($data->id_rekening_simpanan == 119)
-                    {
-                        $saldo_awal_simpanan = json_decode($user_simpanan->wajib_pokok)->wajib;
-                    }
                     $detailToPenyimpananWajibPokok = [
                         "teller"        => Auth::user()->id,
                         "dari_rekening" => $bmt_bank_pengirim->nama,
@@ -471,61 +464,15 @@ class SimpananReporsitory {
                         "transaksi"     => $detailToPenyimpananWajibPokok,
                         "teller"        => Auth::user()->id
                     ];
-                    
-                    $insertToPenyimpananWajibPokok = $this->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+                }
 
-                    if($insertToPenyimpananWajibPokok == "success")
+                $insertToPenyimpananWajibPokok = $this->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+
+                if($insertToPenyimpananWajibPokok == "success")
+                {
+                    if(json_decode($pengajuan->detail)->jenis == "Tabungan")
                     {
-                        if(json_decode($pengajuan->detail)->jenis == "Tabungan")
-                        {
-                            if(json_decode($tabungan_pengirim->detail)->saldo > json_decode($pengajuan->detail)->jumlah)
-                            {
-                                $updateBMTPengirim = BMT::where('id', $id_bmt_bank_pengirim)->update([ "saldo" => $dataToUpdateBMTPengirim ]);
-                                $updateBMTSimpanan = BMT::where('id', $id_bmt_simpanan)->update([ "saldo" => $dataToUpdateBMTSimpanan ]);
-                                $updateUser = User::where('id', $pengajuan->id_user)->update([ "wajib_pokok" => json_encode($dataToUpdateUsers) ]);
-                                $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([
-                                    "status"    => "Sudah Dikonfirmasi",
-                                    "teller"    => Auth::user()->id
-                                ]);
-
-                                $dataToUpdateTabungan = [
-                                    "saldo" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
-                                    "id_pengajuan" => $pengajuan->id
-                                ];
-
-                                $tabungan = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->bank_tujuan_transfer)->update([
-                                    "detail"    => json_encode($dataToUpdateTabungan)
-                                ]);
-
-                                DB::commit();
-                                $response = array("type" => "success", "message" => "Pengajuan " . $nama_rekening . " Berhasil Dikonfirmasi.");
-                            }
-                            else
-                            {
-                                DB::rollback();
-                                $response = array("type" => "error", "message" => "Pengajuan " . $nama_rekening . " Gagal Dikonfirmasi.");
-                            }
-
-                            $detailToPenyimpananTabungan = [
-                                "teller"        => Auth::user()->id,
-                                "dari_rekening"    => $bmt_bank_pengirim->nama,
-                                "untuk_rekening"   => $bmt_simpanan->nama,
-                                "jumlah"  => json_decode($pengajuan->detail)->jumlah,
-                                "saldo_awal"  => $saldo_awal_pengirim,
-                                "saldo_akhir"  => $saldo_akhir_pengirim
-                            ];
-                            $dataToPenyimpananTabungan = [
-                                "id_user"   => $pengajuan->id_user,
-                                "id_tabungan"    => $tabungan_pengirim->id,
-                                "status"    => "Pembayaran " . $nama_rekening,
-                                "transaksi" => $detailToPenyimpananTabungan,
-                                "teller"    => Auth::user()->id
-                            ];
-
-                            $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
-
-                        }
-                        else
+                        if(json_decode($tabungan_pengirim->detail)->saldo > json_decode($pengajuan->detail)->jumlah)
                         {
                             $updateBMTPengirim = BMT::where('id', $id_bmt_bank_pengirim)->update([ "saldo" => $dataToUpdateBMTPengirim ]);
                             $updateBMTSimpanan = BMT::where('id', $id_bmt_simpanan)->update([ "saldo" => $dataToUpdateBMTSimpanan ]);
@@ -534,14 +481,55 @@ class SimpananReporsitory {
                                 "status"    => "Sudah Dikonfirmasi",
                                 "teller"    => Auth::user()->id
                             ]);
+
+                            $dataToUpdateTabungan = [
+                                "saldo" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
+                                "id_pengajuan" => $pengajuan->id
+                            ];
+
+                            $tabungan = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->bank_tujuan_transfer)->update([
+                                "detail"    => json_encode($dataToUpdateTabungan)
+                            ]);
+
                             DB::commit();
                             $response = array("type" => "success", "message" => "Pengajuan " . $nama_rekening . " Berhasil Dikonfirmasi.");
                         }
+                        else
+                        {
+                            DB::rollback();
+                            $response = array("type" => "error", "message" => "Pengajuan " . $nama_rekening . " Gagal Dikonfirmasi.");
+                        }
+
+                        $detailToPenyimpananTabungan = [
+                            "teller"        => Auth::user()->id,
+                            "dari_rekening"    => $bmt_bank_pengirim->nama,
+                            "untuk_rekening"   => $bmt_simpanan->nama,
+                            "jumlah"  => json_decode($pengajuan->detail)->jumlah,
+                            "saldo_awal"  => $saldo_awal_pengirim,
+                            "saldo_akhir"  => $saldo_akhir_pengirim
+                        ];
+                        $dataToPenyimpananTabungan = [
+                            "id_user"   => $pengajuan->id_user,
+                            "id_tabungan"    => $tabungan_pengirim->id,
+                            "status"    => "Pembayaran " . $nama_rekening,
+                            "transaksi" => $detailToPenyimpananTabungan,
+                            "teller"    => Auth::user()->id
+                        ];
+
+                        $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+
                     }
                     else
                     {
-                        DB::rollback();
-                        $response = array("type" => "error", "message" => "Pengajuan " . $nama_rekening . " Gagal Dikonfirmasi.");
+                        $updateBMTPengirim = BMT::where('id', $id_bmt_bank_pengirim)->update([ "saldo" => $dataToUpdateBMTPengirim ]);
+                        $updateBMTSimpanan = BMT::where('id', $id_bmt_simpanan)->update([ "saldo" => $dataToUpdateBMTSimpanan ]);
+                        $updateUser = User::where('id', $pengajuan->id_user)->update([ "wajib_pokok" => json_encode($dataToUpdateUsers) ]);
+                        $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([
+                            "status"    => "Sudah Dikonfirmasi",
+                            "teller"    => Auth::user()->id
+                        ]);
+                        DB::commit();
+                        $response = array("type" => "success", "message" => "Pengajuan " . $nama_rekening . " Berhasil Dikonfirmasi.");
                     }
                 }
                 else
@@ -549,13 +537,18 @@ class SimpananReporsitory {
                     DB::rollback();
                     $response = array("type" => "error", "message" => "Pengajuan " . $nama_rekening . " Gagal Dikonfirmasi.");
                 }
+            }
+            // if($data->id_rekening_simpanan == 117)
+            // {
+            //     $saldo_awal_simpanan = json_decode($user_simpanan->wajib_pokok)->pokok;
+            // }
+            // if($data->id_rekening_simpanan == 119)
+            // {
+            //     $saldo_awal_simpanan = json_decode($user_simpanan->wajib_pokok)->wajib;
+            // }
+                    
 
-            }
-            else
-            {
-                DB::rollback();
-                $response = array("type" => "error", "message" => "Pengajuan " . $nama_rekening . " Gagal Dikonfirmasi.");
-            }
+            // $response = $dataToPenyimpananWajibPokok;
         }
         catch(Exception $ex)
         {
