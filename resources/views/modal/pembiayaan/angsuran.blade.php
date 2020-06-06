@@ -27,7 +27,7 @@
                                         <select class="form-control select2" id="angidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
                                             @foreach ($datasaldoPem as $rekening)
-                                                @if(Carbon\Carbon::now() >= $rekening->created_at->addMonth(1))
+                                                @if(Carbon\Carbon::now() >= $rekening->updated_at->addMonth(1))
                                                     <option value="{{
                                                         json_decode($rekening->detail,true )['angsuran_pokok']." ".
                                                         json_decode($rekening->detail,true )['margin']." ".
