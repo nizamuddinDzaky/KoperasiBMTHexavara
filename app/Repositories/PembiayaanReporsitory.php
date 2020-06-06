@@ -2705,7 +2705,7 @@ class PembiayaanReporsitory {
             $bmt_shu_berjalan->saldo = $bmt_shu_berjalan->saldo + $jumlah_bayar_margin;
             if($id_rekening_pembiayaan == 100)
             {
-                $bmt_piutang_yang_ditangguhkan->saldo = $bmt_piutang_yang_ditangguhkan->saldo + $jumlah_bayar_margin;
+                $bmt_piutang_yang_ditangguhkan->saldo = $bmt_piutang_yang_ditangguhkan->saldo + $sisa_margin;
                 $bmt_piutang_yang_ditangguhkan->save();
             }
             
