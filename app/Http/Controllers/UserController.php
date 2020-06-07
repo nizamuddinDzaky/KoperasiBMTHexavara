@@ -612,6 +612,19 @@ class UserController extends Controller
 
     public function angsur_pembiayaan(Request $request)
     {
+        $pembiayaan = Pembiayaan::where('id_pembiayaan', $request->id_)->first();
+        if(json_decode($pembiayaan->detail)->sisa_margin > json_decode($pembiayaan->detail)->jumlah_margin_bulanan)
+        {
+            $tagihan_margin_bulanan = (json_decode($pembiayaan->detail)->jumlah_margin_bulanan + json_decode($pembiayaan->detail)->sisa_mar_bln) - json_decode($pembiayaan->detail)->kelebihan_margin_bulanan;
+        }
+        else
+        {
+            $tagihan_margin_bulanan = json_decode($pembiayaan->detail)->sisa_margin;
+        }
+
+        $bayar_margin = $tagihan_margin_bulanan;
+        $bayar_angsuran = str_replace(',',"",$request->bayar_ang) - $tagihan_margin_bulanan;
+        
         $sisa_pinjaman = explode(" ",$request->idRek)[8];
         $tabungan = Tabungan::where('id', $request->tabungan)->first();
         // $this->validate($request, [
@@ -648,9 +661,9 @@ class UserController extends Controller
             'tipe_pembayaran' => $request->tipe_,
             'sisa_ang' => floatval($request->sisa_ang),
             'sisa_mar' => floatval($request->sisa_mar),
-            'bayar_ang' => floatval($request->bayar_ang),
-            'bayar_mar' => floatval($request->bayar_mar),
-            'jumlah' => floatval($request->bayar_mar) + floatval($request->bayar_ang),
+            'bayar_ang' => floatval($bayar_angsuran),
+            'bayar_mar' => floatval($bayar_margin),
+            'jumlah' => floatval($bayar_margin) + floatval($bayar_angsuran),
             'nisbah' => $request->nisbah,
             'jenis' => $request->jenis_,
             'sisa_pinjaman' => $sisa_pinjaman
@@ -981,7 +994,7 @@ class UserController extends Controller
     {
         $id_rekening = explode(" ", $request->idRek)[5];
         $pembiayaan = Pembiayaan::where('id_rekening', $id_rekening)->first() ;
-        // return response()->json($request);
+        // return response()->json();
 
         if ($request->debit == 1) {
             $kredit = "Transfer";
@@ -1009,15 +1022,6 @@ class UserController extends Controller
             $fileToUpload = null;
         }
 
-        if(explode(" ", $request->idRek)[1] > explode(" ", $request->idRek)[2])
-        {
-            $bayar_margin = explode(" ", $request->idRek)[2] * 2;
-        }
-        else
-        {
-            $bayar_margin = explode(" ", $request->idRek)[2];
-        }
-
         $detail = [
             'angsuran' => $kredit,
             'id_pembiayaan' => explode(" ", $request->idRek)[6],
@@ -1032,7 +1036,7 @@ class UserController extends Controller
             'sisa_ang' => explode(" ", $request->idRek)[0],
             'sisa_mar' => explode(" ", $request->idRek)[1],
             'bayar_ang' => explode(" ", $request->idRek)[0],
-            'bayar_mar' => $bayar_margin,
+            'bayar_mar' => str_replace(",", "", $request->bayar_mar),
             'jumlah' => explode(" ", $request->idRek)[0] + (explode(" ", $request->idRek)[2] * 2),
             'nisbah' => $request->nisbah,
             'jenis' => $request->debit,

@@ -56,7 +56,7 @@
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['bayar_angsuran']), 2)  }}</td>
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['bayar_margin']), 2)  }}</td>
                                     {{-- <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['jumlah_bayar']), 2)  }}</td> --}}
-                                    @if(json_decode($usr->transaksi,true)['sisa_pinjaman'] > 10)
+                                    @if(json_decode($usr->transaksi,true)['sisa_pinjaman'] > 10 && json_decode($usr->transaksi,true)['sisa_angsuran'] > 10)
                                     <td class="text-right">{{ number_format(floatval(json_decode($usr->transaksi,true)['sisa_pinjaman']), 2)  }}</td>
                                     @else
                                     <td class="text-right">0.00</td>
