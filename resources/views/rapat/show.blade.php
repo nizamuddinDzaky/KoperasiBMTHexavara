@@ -86,6 +86,42 @@
                 </div>
             </div>
         </div>
+
+        @if(Auth::user()->tipe != "anggota")
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+
+                <div class="header text-center">
+                    <h4 class="title">Data Voter Rapat </h4>
+                    <p class="category">Berikut adalah data Voter rapat anda</p>
+                    <br />
+                </div>
+
+                <table class="table bootstrap-table">
+                    <thead>
+                        <th></th>
+                        <th class="text-left" data-sortable="true" >ID USER</th>
+                        <th class="text-left" data-sortable="true">JUDUL RAPAT</th>
+                        <th class="text-left" data-sortable="true">NAMA USER</th>
+                        <th class="text-left" data-sortable="true">VOTE</th>
+                    </thead>
+                    <tbody id="data_rapat">
+                        @foreach ($vote as $item)
+                            <tr>
+                                <td></td>
+                                <td>{{ $item->user->id }}</td>
+                                <td>{{ $item->rapat->judul }}</td>
+                                <td>{{ $item->user->nama }}</td>
+                                <td>{{ $item->flag == 1 ? "Setuju" : "Tidak Setuju" }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+
+            </div><!--  end card  -->
+        </div>
+        @endif
     </div>
 </div>
 
