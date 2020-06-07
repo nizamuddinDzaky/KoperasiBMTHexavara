@@ -242,7 +242,7 @@ class AccountReporsitories {
                             "teller"        => Auth::user()->id
                         ];
                         
-                        $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+                        $insertPenyimpananTabungan = $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
 
                         $bmt_tabungan = BMT::where('id_rekening', $rekening_tabungan->id_rekening)->first();
                         $detailToPenyimpananBMT = [
@@ -259,7 +259,7 @@ class AccountReporsitories {
                             "teller"        => Auth::user()->id
                         ];
 
-                        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                        $insertPenyimpananBMTTabungan = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                         $detailToPenyimpananBMT = [
                             "jumlah"            => json_decode($rekening_tabungan->detail)->saldo,
@@ -290,7 +290,7 @@ class AccountReporsitories {
                             "saldo" => $bmt_tabungan->saldo - json_decode($rekening_tabungan->detail)->saldo
                         ]);
                         $bmt_teller_pencairan->saldo = $bmt_teller_pencairan->saldo - json_decode($rekening_tabungan->detail)->saldo;
-                        $bmt_teller_pencairan->save();
+                        $update_bmt_teller_pencairan_tabungan = $bmt_teller_pencairan->save();
                     }
                     else
                     {
@@ -322,7 +322,7 @@ class AccountReporsitories {
                             "teller"        => Auth::user()->id
                         ];
 
-                        $this->depositoReporsitory->insertToPenyimpananDeposito($dataToPenyimpananDeposito);
+                        $insertToPenyimpananDeposito = $this->depositoReporsitory->insertToPenyimpananDeposito($dataToPenyimpananDeposito);
 
                         $bmt_deposito = BMT::where('id_rekening', $rekening_deposito->id_rekening)->first();
                         $detailToPenyimpananBMT = [
@@ -339,7 +339,7 @@ class AccountReporsitories {
                             "teller"        => Auth::user()->id
                         ];
 
-                        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                        $insertPenyimpananBMTDeposito = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                         $detailToPenyimpananBMT = [
                             "jumlah"            => json_decode($rekening_deposito->detail)->saldo,
@@ -365,7 +365,7 @@ class AccountReporsitories {
                         ]);
 
                         $bmt_teller_pencairan->saldo = $bmt_teller_pencairan->saldo - json_decode($rekening_deposito->detail)->jumlah;
-                        $bmt_teller_pencairan->save();
+                        $update_bmt_teller_pencairan_deposito = $bmt_teller_pencairan->save();
                     }
                     else
                     {
@@ -374,7 +374,7 @@ class AccountReporsitories {
                     }
                 }
             }
-            
+
             if(isset(json_decode($user_rekening->wajib_pokok)->wajib) && $bmt_teller_pencairan->saldo > json_decode($user_rekening->wajib_pokok)->wajib)
             {
                 $bmt_simpanan_wajib = BMT::where('id_rekening', 119)->first();
@@ -395,7 +395,7 @@ class AccountReporsitories {
                     "teller"        => Auth::user()->id
                 ];
                 
-                $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+                $insertPenyimpananWajibPokokWajib = $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
 
                 $detailToPenyimpananBMT = [
                     "jumlah"            => json_decode($user_rekening->wajib_pokok)->wajib,
@@ -411,7 +411,7 @@ class AccountReporsitories {
                     "teller"        => Auth::user()->id
                 ];
 
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                $insertPenyimpananBMTWajib = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                 $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_wajib->saldo;
                 $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_wajib->saldo - json_decode($user_rekening->wajib_pokok)->wajib;
@@ -429,7 +429,7 @@ class AccountReporsitories {
                 $user_rekening->save();
 
                 $bmt_simpanan_wajib->saldo = $bmt_simpanan_wajib->saldo - json_decode($user_rekening->wajib_pokok)->wajib;
-                $bmt_simpanan_wajib->save();
+                $update_bmt_simpanan_wajib = $bmt_simpanan_wajib->save();
             }
 
             if(isset(json_decode($user_rekening->wajib_pokok)->pokok) && $bmt_teller_pencairan->saldo > json_decode($user_rekening->wajib_pokok)->pokok)
@@ -452,7 +452,7 @@ class AccountReporsitories {
                     "teller"        => Auth::user()->id
                 ];
                 
-                $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+                $insertPenyimpananWajibPokokWajibPokok = $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
 
                 $detailToPenyimpananBMT = [
                     "jumlah"            => json_decode($user_rekening->wajib_pokok)->pokok,
@@ -468,7 +468,7 @@ class AccountReporsitories {
                     "teller"        => Auth::user()->id
                 ];
 
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                $insertPenyimpananBMTPokok = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                 $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_pokok->saldo;
                 $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_pokok->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
@@ -486,7 +486,7 @@ class AccountReporsitories {
                 $user_rekening->save();
 
                 $bmt_simpanan_pokok->saldo = $bmt_simpanan_pokok->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
-                $bmt_simpanan_pokok->save();
+                $update_bmt_simpanan_pokok = $bmt_simpanan_pokok->save();
             }
 
             if(isset(json_decode($user_rekening->wajib_pokok)->khusus) && $bmt_teller_pencairan->saldo > json_decode($user_rekening->wajib_pokok)->khusus)
@@ -509,7 +509,7 @@ class AccountReporsitories {
                     "teller"        => Auth::user()->id
                 ];
                 
-                $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+                $insertPenyimpananWajibPokokKhusus = $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
 
                 $detailToPenyimpananBMT = [
                     "jumlah"            => json_decode($user_rekening->wajib_pokok)->khusus,
@@ -525,7 +525,7 @@ class AccountReporsitories {
                     "teller"        => Auth::user()->id
                 ];
 
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                $insertPenyimpananBMTKhusus = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                 $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_khusus->saldo;
                 $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_khusus->saldo - json_decode($user_rekening->wajib_pokok)->khusus;
@@ -543,17 +543,26 @@ class AccountReporsitories {
                 $user_rekening->save();
 
                 $bmt_simpanan_khusus->saldo = $bmt_simpanan_khusus->saldo - json_decode($user_rekening->wajib_pokok)->khusus;
-                $bmt_simpanan_khusus->save();
+                $update_bmt_simpanan_khusus = $bmt_simpanan_khusus->save();
             }
 
             $user_rekening->status = 1;
             $user_rekening->is_active = 0;
-            $user_rekening->save();
 
-            $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id; $pengajuan->save();
+            $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id;
 
-            DB::commit();
-            $response = array("type" => "success", "message" => "Pencairan Penutupan Rekening Berhasil");
+            if($update_bmt_simpanan_khusus && $update_bmt_simpanan_pokok && $update_bmt_simpanan_wajib &&
+            isset($update_bmt_teller_pencairan_deposito) && $update_bmt_teller_pencairan_deposito && isset($update_bmt_teller_pencairan_tabungan) && $update_bmt_teller_pencairan_tabungan)
+            {
+                $user_rekening->save(); $pengajuan->save();
+                DB::commit();
+                $response = array("type" => "success", "message" => "Pencairan Penutupan Rekening Berhasil");
+            }
+            else
+            {
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+            }
         }
         catch(Exception $ex)
         {
