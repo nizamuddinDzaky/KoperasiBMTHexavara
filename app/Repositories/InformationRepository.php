@@ -306,7 +306,7 @@ class InformationRepository
 //    ANGGOTA
     function getAllAnggota()
     {
-        $data = $this->user->select('no_ktp', 'nama', 'alamat', 'tipe','role','detail', 'status', 'created_at')->get();
+        $data = $this->user->select('no_ktp', 'nama', 'alamat', 'tipe','role','detail', 'status', 'created_at', 'is_active')->get();
         return $data;
     }
     function getUsrByKtp($id)

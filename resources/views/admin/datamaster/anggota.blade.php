@@ -67,7 +67,7 @@
                             <span></span>
                         </div> --}}
 
-                        <table id="bootstrap-table" class="table">
+                        <table class="table bootstrap-table">
                             <thead>
                             <th></th>
                             <th data-field="id" data-sortable="true" class="text-left">No KTP</th>
@@ -117,13 +117,16 @@
                                     <td class="text-uppercase text-center">{{ $usr->tipe }}</td>
                                     <td class="text-uppercase text-center">{{ $usr->role }}</td>
 
-                                    @if($usr->status == 2)
+                                    @if($usr->status == 2 && $usr->is_active == 1)
                                         <td class="text-uppercase text-center">Anggota Aktif</td>
                                     @elseif($usr->tipe=="admin")
                                         <td class="text-uppercase text-center">-</td>
-                                    @else
+                                    @elseif($usr->status != 2 && $usr->is_active == 1)
                                         <td class="text-uppercase text-center"> Belum Mengisi Identitas</td>
+                                    @elseif($usr->status != 2 && $usr->is_active == 0)
+                                        <td class="text-uppercase text-center"> Anggota Keluar</td>
                                     @endif
+
                                     <td class="text-uppercase text-center">
                                         <form id="wizardForm" method="POST" action="{{route('detailanggota')}}" enctype="multipart/form-data">
                                             {{csrf_field()}}
@@ -134,7 +137,7 @@
                                         </form>
 
                                     </td>
-                                        <td class="td-actions text-center">
+                                    <td class="td-actions text-center">
                                         <button type="button" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#editPassUsrModal" title="Ubah Password"
                                                 data-id      = "{{$usr->no_ktp}}"
                                                 data-nama    = "{{$usr->nama}}">
@@ -151,6 +154,15 @@
                                                 data-p    = "{{$usr->password}}">
                                             <i class="fa fa-edit"></i>
                                         </button>
+
+                                        @if($usr->is_active == 0)
+                                        <button type="button"  class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#reactiveUsrModal" title="Reactive User"
+                                                data-id         = "{{$usr->no_ktp}}"
+                                                data-nama       = "{{$usr->nama}}">
+                                            <i class="fa fa-undo"></i>
+                                        </button>
+                                        @endif
+
                                         <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delUsrModal" title="Delete"
                                                 data-id         = "{{$usr->no_ktp}}"
                                                 data-nama       = "{{$usr->nama}}">
@@ -171,6 +183,7 @@
     </div>
 
     @include('modal.anggota')
+    @include('modal.penutupan_rekening.reactive_account')
 
 @endsection
 
@@ -223,6 +236,17 @@
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             $('#id_del').val(id);
             $('#delUsrLabel').text("Hapus Anggota: " + nama);
+            $('#toDelete').text("Anggota " + nama + " akan dihapus!");
+        });
+
+        $('#reactiveUsrModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var id = button.data('id');
+            var nama = button.data('nama');
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            $('#id_usr_react').val(id);
+            $('#reactiveUsrLabel').text("Aktifkan Anggota: " + nama);
             $('#toDelete').text("Anggota " + nama + " akan dihapus!");
         });
 

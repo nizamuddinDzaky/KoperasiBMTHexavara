@@ -124,6 +124,7 @@ class AdminController extends Controller
     }
     public function data_anggota(){
         $data = $this->informationRepository->getAllAnggota();
+        // return response()->json($data);
         return view('admin.datamaster.anggota',[
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),

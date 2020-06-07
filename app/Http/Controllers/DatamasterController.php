@@ -367,6 +367,35 @@ class DatamasterController extends Controller
         }
     }
 
+    /** 
+     * Reactive anggota yang keluar
+    */
+    public function reactive_anggota(Request $request)
+    {
+        $validate = $this->validate($request, [
+            'password' => 'required|confirmed'
+        ]);
+
+        $password = bcrypt($request->password);
+        $user = User::where('no_ktp', $request->no_ktp)->first();
+        $user->status = 2;
+        $user->is_active = 1;
+        $user->password = $password;
+        
+        if($user->save())
+        {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Akun berhasil diaktifkan!.'));
+        }
+        else
+        {
+            return redirect()
+            ->back()
+            ->withErrors(sprintf('Akun gagal diaktifkan!.'));
+        }
+    }
+
 //end of Data master ANGGOTA
 
 //   Data Master TABUNGAN start here

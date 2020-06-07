@@ -315,6 +315,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
                 'as'        => 'admin.datamaster.anggota.pwd_anggota',
                 'uses'      => 'DatamasterController@editPwd_anggota'
             ]);
+            Route::post('reactive_anggota', [
+                'as'        => 'admin.datamaster.anggota.reactive_anggota',
+                'uses'      => 'DatamasterController@reactive_anggota'
+            ]);
         });
 
         Route::get('/rekening', [
