@@ -375,7 +375,7 @@ class AccountReporsitories {
                 }
             }
             
-            if(isset(json_decode($user_rekening->wajib_pokok)->wajib) &&$bmt_teller_pencairan->saldo > json_decode($user_rekening->wajib_pokok)->wajib)
+            if(isset(json_decode($user_rekening->wajib_pokok)->wajib) && $bmt_teller_pencairan->saldo > json_decode($user_rekening->wajib_pokok)->wajib)
             {
                 $bmt_simpanan_wajib = BMT::where('id_rekening', 119)->first();
                 
@@ -470,8 +470,8 @@ class AccountReporsitories {
 
                 $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
-                $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_wajib->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_wajib->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
+                $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_pokok->saldo;
+                $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_pokok->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
                 $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_pokok->id;
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
