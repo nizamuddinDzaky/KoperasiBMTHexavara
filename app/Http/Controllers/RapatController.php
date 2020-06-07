@@ -95,7 +95,7 @@ class RapatController extends Controller
         $rapat['percentage_vouting'] =  round(100 * $total_finish_vouting / $total_vouter);
 
         $vote = Vote::where('id_rapat', $id)->get();
-        // return response()->json($vote);
+        // return response()->json($rapat->vote);
         return view('rapat.show', compact('rapat', 'id_rapat', 'vote'));
     }
 

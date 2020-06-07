@@ -66,9 +66,9 @@
                     
 
                     @if(Auth::user()->tipe == "anggota")
-                        @if(count($rapat->vote) > 0)
-                            @foreach ($rapat->vote as $item)
-                                @if($item->id_user !== Auth::user()->id && $item->id_rapat !== $id_rapat)
+                        @if(count($vote) > 0)
+                            @foreach ($vote as $item)
+                                @if($item->id_user != Auth::user()->id && $item->id_rapat != $id_rapat)
                                 <div class="button-group">
                                     <button class="btn btn-primary background primary rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="setuju">SETUJU</button>
                                     <button class="btn btn-primary background danger rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="tidak_setuju">TIDAK</button>
