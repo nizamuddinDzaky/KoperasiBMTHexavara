@@ -3472,7 +3472,7 @@ class InformationRepository
             ->join('users', 'users.id', '=', 'pembiayaan.id_user')
             ->join('rekening', 'rekening.id', '=', 'pembiayaan.id_rekening')
             ->where('id_user', Auth::user()->id)
-            ->where('pembiayaan.status',"active")
+            // ->where('pembiayaan.status',"active")
             ->orderBy('id','DESC')->get();
         return $data;
     }

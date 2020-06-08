@@ -262,7 +262,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 hide" id="marginHide">
+                                    <div class="col-md-5" id="marginHide">
                                         <div class="form-group">
                                             <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
                                             <div class="input-group">

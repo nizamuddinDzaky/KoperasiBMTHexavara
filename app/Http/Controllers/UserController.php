@@ -621,9 +621,17 @@ class UserController extends Controller
         {
             $tagihan_margin_bulanan = json_decode($pembiayaan->detail)->sisa_margin;
         }
-
-        $bayar_margin = $tagihan_margin_bulanan;
-        $bayar_angsuran = str_replace(',',"",$request->bayar_ang) - $tagihan_margin_bulanan;
+        
+        if($pembiayaan->jenis_pembiayaan == "PEMBIAYAAN MRB")
+        {
+            $bayar_margin = $tagihan_margin_bulanan;
+            $bayar_angsuran = str_replace(',',"",$request->bayar_ang) - $tagihan_margin_bulanan;
+        }
+        else
+        {
+            $bayar_margin = str_replace(',',"",$request->bayar_mar);
+            $bayar_angsuran = str_replace(',',"",$request->bayar_ang);
+        }
         
         $sisa_pinjaman = explode(" ",$request->idRek)[8];
         $tabungan = Tabungan::where('id', $request->tabungan)->first();

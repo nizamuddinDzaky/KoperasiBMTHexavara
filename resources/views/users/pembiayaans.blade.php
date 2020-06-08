@@ -558,6 +558,7 @@
                         angsuran = parseFloat(angtotal - marbln);
                         $('#bayar_mar').val(marbln);
                         $('#bayar_ang').val(angsuran);   
+                        $("#marginHide").hide();
                     }
                 });
 
@@ -580,6 +581,7 @@
                     $('#bagi_pokok').val(formatter.format(angbln))
                     $('#bayar_ang').val(formatter.format(angbln))
                     $('#bagi_margin').attr("required",false);
+                    $("#marginHide").hide();
                 }
                 else if(angke == 0 ) {
                     $('#sisa_mar').hide()

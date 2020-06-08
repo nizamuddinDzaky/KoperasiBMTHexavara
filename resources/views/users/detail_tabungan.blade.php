@@ -48,7 +48,15 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
-                                        <td>{{ $usr->status }}</td>
+
+                                        @if($usr->status == "Debit")
+                                            <td>Setoran Tabungan</td>
+                                        @elseif($usr->status == "Kredit")
+                                            <td>Penarikan Tabungan</td>
+                                        @else
+                                            <td>{{ $usr->status }}</td>
+                                        @endif
+
                                         @if(json_decode($usr->transaksi,true)['dari_rekening']==null)
                                             <td class="text-left text-uppercase">TUNAI</td>
                                         @else
