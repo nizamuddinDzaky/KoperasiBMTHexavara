@@ -73,103 +73,105 @@ class RekeningReporsitories {
 
         try
         {
-            /** 
-             * Inset data to penyimpanan bmt table 
-             * Using for history data
-             * @return Null
-            */
-            if($data->tipe == 1) {
-                $jenis = "Pemasukan";
-                $dari = $data->dari;
+            foreach($data as $data) {
+                /** 
+                 * Inset data to penyimpanan bmt table 
+                 * Using for history data
+                 * @return Null
+                */
+                if($data['tipe'] == 1) {
+                    $jenis = "Pemasukan";
+                    $dari = $data['dari'];
 
-                if($data->tujuan != null) {
-                    $ke = $data->tujuan;
-                    $eksekutor = "Admin"; // Who is do it
+                    if($data['tujuan'] != null) {
+                        $ke = $data['tujuan'];
+                        $eksekutor = "Admin"; // Who is do it
+                    } else {
+                        $ke = json_decode(Auth::user()->detail)->id_rekening;
+                        $eksekutor = "Teller"; // Who is do it
+                    }
+
+                    $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
+                    $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
+                    $id_penerima = $bmt_penerima->id;
+                    $id_pengirim = $bmt_pengirim->id;
                 } else {
-                    $ke = json_decode(Auth::user()->detail)->id_rekening;
-                    $eksekutor = "Teller"; // Who is do it
+                    $jenis = "Pengeluaran";
+
+                    if($data['tujuan'] != null) {
+                        $dari = $data['tujuan'];
+                        $eksekutor = "Admin"; // Who is do it
+                    } else {
+                        $dari = json_decode(Auth::user()->detail)->id_rekening;
+                        $eksekutor = "Teller"; // Who is do it
+                    }
+                    
+                    $ke = $data['dari'];
+                    $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
+                    $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
+                    $id_penerima = $bmt_penerima->id;
+                    $id_pengirim = $bmt_pengirim->id;
                 }
 
-                $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
-                $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
-                $id_penerima = $bmt_penerima->id;
-                $id_pengirim = $bmt_pengirim->id;
-            } else {
-                $jenis = "Pengeluaran";
-
-                if($data->tujuan != null) {
-                    $dari = $data->tujuan;
-                    $eksekutor = "Admin"; // Who is do it
-                } else {
-                    $dari = json_decode(Auth::user()->detail)->id_rekening;
-                    $eksekutor = "Teller"; // Who is do it
+                $id_user = Auth::user()->id;
+                $id_bmt_penerima = $id_penerima;
+                $id_bmt_pengirim = $id_pengirim;
+                $status = $type;
+                $saldo_penerima = BMT::where('id', $id_bmt_penerima)->select('saldo')->first();
+                $saldo_pengirim = BMT::where('id', $id_bmt_pengirim)->select('saldo')->first();
+                
+                if($saldo_penerima['saldo'] == "") {
+                    $saldo_penerima['saldo'] = 0;
                 }
+                if($saldo_pengirim['saldo'] == "") {
+                    $saldo_pengirim['saldo'] = 0;
+                }
+
+                $detail = [
+                    "jumlah"    => preg_replace('/[^\d.]/', '', $data['jumlah']),
+                    "saldo_awal"=> floatval($saldo_penerima['saldo']),
+                    "saldo_akhir" => floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']),
+                    "dari"      => $dari,
+                    "ke"    => $ke,
+                    "keterangan"=> "[" . $jenis . "] " . $data['keterangan']
+                ];
+                $teller = Auth::user()->id;
+
+                $dataToPenyimpananBMT = [
+                    "id_user"   => $id_user,
+                    "id_bmt"    => $id_penerima,
+                    "status"    => $status,
+                    "transaksi" => $detail,
+                    "teller"    => $teller
+                ];
                 
-                $ke = $data->dari;
-                $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
-                $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
-                $id_penerima = $bmt_penerima->id;
-                $id_pengirim = $bmt_pengirim->id;
-            }
+                $dataToBMT = [
+                    "jenis_transaksi"       => $jenis,
+                    "id_rekening_pengirim"  => $dari,
+                    "id_rekening_penerima"  => $ke,
+                    "jumlah"                => preg_replace('/[^\d.]/', '', $data['jumlah'])
+                ];
 
-            $id_user = Auth::user()->id;
-            $id_bmt_penerima = $id_penerima;
-            $id_bmt_pengirim = $id_pengirim;
-            $status = $type;
-            $saldo_penerima = BMT::where('id', $id_bmt_penerima)->select('saldo')->first();
-            $saldo_pengirim = BMT::where('id', $id_bmt_pengirim)->select('saldo')->first();
-            
-            if($saldo_penerima['saldo'] == "") {
-                $saldo_penerima['saldo'] = 0;
-            }
-            if($saldo_pengirim['saldo'] == "") {
-                $saldo_pengirim['saldo'] = 0;
-            }
+                if( 
+                    $this->insertPenyimpananBMT($dataToPenyimpananBMT) == "success" &&
+                    $this->updateSaldoRekening($dataToBMT, $jenis, $eksekutor) == "success"
+                )
+                {
+                    $detail['jumlah'] = -preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    $detail['saldo_awal'] = $saldo_pengirim['saldo'];
+                    $detail['saldo_akhir'] = floatval($saldo_pengirim['saldo']) - preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    $dataToPenyimpananBMT['transaksi'] = $detail;
+                    $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
+                    $this->insertPenyimpananBMT($dataToPenyimpananBMT);
+                    
 
-            $detail = [
-                "jumlah"    => preg_replace('/[^\d.]/', '', $data->jumlah),
-                "saldo_awal"=> floatval($saldo_penerima['saldo']),
-                "saldo_akhir" => floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data->jumlah),
-                "dari"      => $dari,
-                "ke"    => $ke,
-                "keterangan"=> "[" . $jenis . "] " . $data->keterangan
-            ];
-            $teller = Auth::user()->id;
-
-            $dataToPenyimpananBMT = [
-                "id_user"   => $id_user,
-                "id_bmt"    => $id_penerima,
-                "status"    => $status,
-                "transaksi" => $detail,
-                "teller"    => $teller
-            ];
-            
-            $dataToBMT = [
-                "jenis_transaksi"       => $jenis,
-                "id_rekening_pengirim"  => $dari,
-                "id_rekening_penerima"  => $ke,
-                "jumlah"                => preg_replace('/[^\d.]/', '', $data->jumlah)
-            ];
-
-            if( 
-                $this->insertPenyimpananBMT($dataToPenyimpananBMT) == "success" &&
-                $this->updateSaldoRekening($dataToBMT, $jenis, $eksekutor) == "success"
-              )
-            {
-                $detail['jumlah'] = -preg_replace('/[^\d.]/', '', $data->jumlah);
-                $detail['saldo_awal'] = $saldo_pengirim['saldo'];
-                $detail['saldo_akhir'] = floatval($saldo_pengirim['saldo']) - preg_replace('/[^\d.]/', '', $data->jumlah);
-                $dataToPenyimpananBMT['transaksi'] = $detail;
-                $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
-                $this->insertPenyimpananBMT($dataToPenyimpananBMT);
-                
-
-                DB::commit();
-                $result = array('type' => 'success', 'message' => 'Transfer Pengeluaran/Pemasukan Berhasil Dilakukan');
-            }
-            else
-            { 
-                $result = array('type' => 'error', 'message' => 'Transfer Pengeluaran/Pemasukan Gagal. Pastikan data benar & saldo rekening penyeimbang cukup');
+                    DB::commit();
+                    $result = array('type' => 'success', 'message' => 'Transfer Pengeluaran/Pemasukan Berhasil Dilakukan');
+                }
+                else
+                { 
+                    $result = array('type' => 'error', 'message' => 'Transfer Pengeluaran/Pemasukan Gagal. Pastikan data benar & saldo rekening penyeimbang cukup');
+                }
             }
         }
         catch(\Exception $e)
@@ -225,14 +227,14 @@ class RekeningReporsitories {
                     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
                     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 5
                 ) {
-                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+                    // if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
 
                         return "success";
-                    } else {
-                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
-                    }
+                    // } else {
+                    //     return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                    // }
                 }
 
                 /**
@@ -240,10 +242,10 @@ class RekeningReporsitories {
                  *  This is will add saldo to both
                 */
                 else {
-                    if($data['jenis_transaksi'] == "Pemasukan") {
+                    // if($data['jenis_transaksi'] == "Pemasukan") {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) + floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
-                    }
+                    // }
                     return "success";
                 }
             }
@@ -253,14 +255,14 @@ class RekeningReporsitories {
                  *  This is will add saldo to teller and reduce saldo to penyeimbang 
                 */
                 if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
-                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+                    // if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
 
                         return "success";
-                    } else {
-                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
-                    }
+                    // } else {
+                    //     return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                    // }
                 }
 
                 /**
@@ -300,7 +302,7 @@ class RekeningReporsitories {
                  *  This is will add saldo to both
                 */
                 elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
-                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+                    // if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
 
@@ -317,9 +319,9 @@ class RekeningReporsitories {
                         $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) + floatval($data['jumlah']) ]);
                         
                         return "success";
-                    } else {
-                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
-                    }
+                    // } else {
+                    //     return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                    // }
                 }
             }
             

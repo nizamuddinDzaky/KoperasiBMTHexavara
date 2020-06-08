@@ -91,67 +91,80 @@
                         <div class="tab-pane" id="tab1TabJ">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
 
-                            @if(Request::is('admin/transfer/transfer'))
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label for="id_" class="control-label">Rekening Tujuan <star>*</star></label>
-                                        <select class="form-control select2" name="tujuan" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
-                                            @foreach ($dropdown as $rekening)
-                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
+                            <div id="rowPemasukanJurnalLain">
 
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
-                                        <select class="form-control select2" id="idRekJ" name="dari" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
-                                            @foreach ($dropdown as $rekening)
-                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="hidden" name="tipe" id="tipe" />
-                            {{-- <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group"> --}}
-                                        {{-- <label for="id_" class="control-label">Tipe Transaksi <star>*</star></label>
-                                        <select class="form-control select2"  name="tipe" style="width: 100%;" required>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Transaksi-</option>
-                                            <option value="1">Pemasukkan</option>
-                                            <option value="0">Pengeluaran</option>
-                                        </select> --}}
-                                    {{-- </div>
-                                </div>
-                            </div> --}}
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label for="id_" class="control-label">Keterangan<star>*</star></label>
-                                        <input type="text" class="form-control"  name="keterangan" required="true">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label class="control-label">Jumlah Uang <star>*</star></label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="jumlah" name="jumlah" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                {{-- @if(Request::is('admin/transfer/transfer'))
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Rekening Tujuan <star>*</star></label>
+                                            <select class="form-control select2" name="tujuan[]" style="width: 100%;" required>
+                                                <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
+                                                @foreach ($dropdown as $rekening)
+                                                    <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                                @endif --}}
+
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
+                                            <select class="form-control select2" id="idRekJ" name="dari[]" style="width: 100%;" required>
+                                                <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
+                                                @foreach ($dropdown as $rekening)
+                                                    <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="tipe[]" id="tipe" />
+                                {{-- <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group"> --}}
+                                            {{-- <label for="id_" class="control-label">Tipe Transaksi <star>*</star></label>
+                                            <select class="form-control select2"  name="tipe" style="width: 100%;" required>
+                                                <option class="bs-title-option" selected disabled value="">-Pilih Transaksi-</option>
+                                                <option value="1">Pemasukkan</option>
+                                                <option value="0">Pengeluaran</option>
+                                            </select> --}}
+                                        {{-- </div>
+                                    </div>
+                                </div> --}}
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Jumlah Uang <star>*</star></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
+                                                <span class="input-group-addon">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Keterangan<star>*</star></label>
+                                            <input type="text" class="form-control"  name="keterangan[]" required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">&nbsp;</label>
+                                            <button type="button" id="add-row-pemasukan" class="btn btn-success btn-fill pull-right">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>

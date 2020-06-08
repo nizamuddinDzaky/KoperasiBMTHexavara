@@ -276,6 +276,18 @@ $(document).ready(function() {
     });
 });
 
+/** 
+ * Currency format
+ * @return Response
+*/
+$(document).ready(function() {
+    $('.currency').maskMoney({
+        allowZero: true,
+        precision: 0,
+        thousands: ","
+    });
+});
+
 /**
  * daterange init 
 */

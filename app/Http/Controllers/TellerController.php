@@ -1381,7 +1381,6 @@ class TellerController extends Controller
      * @return View
     */
     public function transfer(){
-        // return response()->json($this->rekeningReporsitory->getRekeningExcludedCategory(array('kas', 'bank', 'shu berjalan')));
         return view('teller.transaksi.transfer.index',[
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),

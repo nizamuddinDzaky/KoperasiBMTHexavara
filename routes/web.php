@@ -1614,4 +1614,12 @@ Route::group([
         'uses'  => 'ApiController@getUserTabungan'   
     ]);
 
+    /** 
+     * Get rekening exclude several kind
+     * @method GET
+    */
+    Route::get('get_rekening_with_excluding', [
+        'as'    => 'api.get_rekening_with_excluding',
+        'uses'  => 'ApiController@getRekeningWithExcluding'   
+    ]);
 });

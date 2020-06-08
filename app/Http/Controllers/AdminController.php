@@ -296,8 +296,8 @@ class AdminController extends Controller
         ]);
     }
     public function transfer_rekening(Request $request){
-        // $jurnal_lain = $this->rekeningReporsitory->transferRekening($request, "Transfer antar Rekening");
-        // return response()->json($jurnal_lain);
+        $jurnal_lain = $this->rekeningReporsitory->transferRekening($request, "Transfer antar Rekening");
+        // return response()->json($request);
         if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
         $dari = $this->bmt->where('id_rekening',$request->dari)->first();
         if($dari['saldo']<$request->jumlah){
@@ -317,8 +317,19 @@ class AdminController extends Controller
         }
     }
     public function jurnal_lain(Request $request){
-        $jurnal_lain = $this->rekeningReporsitory->transferRekening($request, "Jurnal Lain");
-        // return response()->json($jurnal_lain);
+        $data = array();
+        for($i=0; $i<count($request->dari); $i++)
+        {
+            $temp = [
+                "dari" => $request->dari[$i],
+                "tipe" => $request->tipe[$i],
+                "jumlah" => $request->jumlah[$i],
+                "keterangan" => $request->keterangan[$i],
+                "tujuan" => isset($request->tujuan[$i]) ? $request->tujuan[$i] : null
+            ];
+            array_push($data, $temp);
+        }
+        $jurnal_lain = $this->rekeningReporsitory->transferRekening($data, "Jurnal Lain");
         if($jurnal_lain['type'] == "success")
             return redirect()
                 ->back()
