@@ -29,11 +29,20 @@ class TabunganReporsitories {
      *  Get All Tabungan
      * @return Response
     */
-    public function getTabungan()
+    public function getTabungan($jenis_tabungan="")
     {
         $tabungan = Tabungan::join('users', 'users.id', 'tabungan.id_user')
                     ->select('tabungan.*', 'users.detail as user_detail', 'users.nama')
                     ->get();
+        
+        if($jenis_tabungan !== "")
+        {
+            $tabungan = Tabungan::join('users', 'users.id', 'tabungan.id_user')
+                    ->select('tabungan.*', 'users.detail as user_detail', 'users.nama')
+                    ->where('jenis_tabungan', $jenis_tabungan)
+                    ->get();
+        }
+
         return $tabungan;
     }
 

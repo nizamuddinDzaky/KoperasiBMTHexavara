@@ -8,6 +8,7 @@ use App\PenyimpananRekening;
 use App\Repositories\InformationRepository;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\PembiayaanReporsitory;
+use App\Repositories\DistribusiPendapatanReporsitories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -33,7 +34,9 @@ class LaporanController extends Controller
                                 Tabungan $tabungan,
                                 RekeningReporsitories $rekeningReporsitory,
                                 PembiayaanReporsitory $pembiayaanReporsitory,
-                                InformationRepository $informationRepository)
+                                InformationRepository $informationRepository,
+                                DistribusiPendapatanReporsitories $distribusiPendapatanReporsitory
+                                )
     {
         $this->middleware(function ($request, $next) {
             $this->id_role = Auth::user()->tipe;
@@ -52,6 +55,7 @@ class LaporanController extends Controller
         $this->informationRepository = $informationRepository;
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
+        $this->distribusiPendapatanReporsitory = $distribusiPendapatanReporsitory;
     }
 
     /**
@@ -528,10 +532,9 @@ class LaporanController extends Controller
         ]);
     }
     public function distribusi(){
-
         return view('admin.laporan.distribusi',[
-            'data' => $this->informationRepository->distribusi(),
-            'status' => $this->informationRepository->cekdistribusi(0),
+            'data' => $this->distribusiPendapatanReporsitory->getDistribusiData(),
+            'status' => $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus(),
         ]);
     }
 
@@ -648,5 +651,63 @@ class LaporanController extends Controller
     }
     public function saldo_wakaf() {
         return view('admin.laporan.saldo_wakaf');
+    }
+
+    /** 
+     * Proses akhir bulan View
+     * @return VIEW
+    */
+    public function proses_akhir_bulan()
+    {
+        $status = $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus();
+        return view('admin.laporan.proses_akhir_bulan', compact('status'));
+    }
+
+    /** 
+     * Action pendistribusian pendapatan
+     * @return Response
+    */
+    public function do_proses_akhir_bulan(Request $request)
+    {
+        if($request->jenis == "revenue")
+        {
+            $rekening_shu_berjalan = BMT::where('nama', 'SHU BERJALAN')->first();
+            if($rekening_shu_berjalan->saldo <= 0)
+            {
+                return redirect()
+                        ->back()
+                        ->withInput()->with('message', 'Pendistribusian tidak bisa dilakukan karena saldo SHU Berjalan bernilan 0 atau lebih kecil.');
+            }
+            else
+            {
+                $data = $this->distribusiPendapatanReporsitory->doPendistribusian($request);
+                if($data['type'] == "success") {
+                    return redirect()
+                        ->back()
+                        ->withSuccess(sprintf($data['message']));
+                }
+                else
+                {
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', $data['message']);
+                }
+            }
+        }
+        else
+        {
+            $data = $this->distribusiPendapatanReporsitory->doPendistribusian($request);
+            if($data['type'] == "success") {
+                return redirect()
+                    ->back()
+                    ->withSuccess(sprintf($data['message']));
+            }
+            else
+            {
+                return redirect()
+                    ->back()
+                    ->withInput()->with('message', $data['message']);
+            }
+        }
     }
 }

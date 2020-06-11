@@ -84,6 +84,34 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         ]);
     });
 
+    /** 
+     * Proses akhir bulan berisi pendistribusian pendapatan
+    */
+    Route::group([ 
+        'prefix' => 'proses_akhir_bulan', 
+        'middleware' => ['auth']
+    ], function() {
+
+        /** 
+         * Get UI
+         * @method GET
+        */
+        Route::get('index', [
+            'as'    => 'admin.proses_akhir_bulan.index',
+            'uses'  => 'LaporanController@proses_akhir_bulan'
+        ]);
+
+        /** 
+         * Send pendistribusian to user
+         * @method POST
+        */
+        Route::post('do_pendistribusian', [
+            'as'    => 'admin.proses_akhir_bulan.do_pendistribusian',
+            'uses'  => 'LaporanController@do_proses_akhir_bulan'
+        ]);
+
+    });
+
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {
             Route::get('/', [

@@ -910,7 +910,7 @@ class InformationRepository
     function periode_labarugi($date){
         $laba = $this->getPendapatan();
         $rugi = $this->getRugi();
-        $sum_laba = $sum_rugi=null;
+        $sum_laba = array(); $sum_rugi = 0;
 
         foreach ($laba as $dt){
             $dt['point'] = substr_count($dt->id_bmt, '.');
@@ -922,8 +922,9 @@ class InformationRepository
                 $rek->saldo = $dt->saldo;
                 if($rek->save());
                 $sum_laba += floatval($dt->saldo);
-            }else{
-                $sum_laba += floatval($rekening->saldo);
+            }
+            else{
+                $sum_laba = floatval($rekening->saldo);
             }
         }
         foreach ($rugi as $dt){
@@ -942,18 +943,18 @@ class InformationRepository
         }
 
 
-//        foreach ($laba as $dt){
-//            $dt['point'] = substr_count($dt->id_bmt, '.');
-//            $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
-//            $dt->saldo=$saldo['saldo'];
-//            $sum_laba += floatval($dt->saldo);
-//        }
-//        foreach ($rugi as $dt){
-//            $dt['point'] = substr_count($dt->id_bmt, '.');
-//            $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
-//            $dt->saldo=$saldo['saldo'];
-//            $sum_rugi += floatval($dt->saldo);
-//        }
+       foreach ($laba as $dt){
+           $dt['point'] = substr_count($dt->id_bmt, '.');
+           $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
+           $dt->saldo=$saldo['saldo'];
+           $sum_laba += floatval($dt->saldo);
+       }
+       foreach ($rugi as $dt){
+           $dt['point'] = substr_count($dt->id_bmt, '.');
+           $saldo = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
+           $dt->saldo=$saldo['saldo'];
+           $sum_rugi += floatval($dt->saldo);
+       }
         $data['laba'] = $laba;
         $data['rugi'] = $rugi;
         $data['sum_laba'] = $sum_laba;
@@ -1005,33 +1006,33 @@ class InformationRepository
         $date_prev = $home->MonthShifter(-1)->format(('Ym'));
         $pendapatan_now = $this->periode_labarugi($date_now);
         $pendapatan_prev = $this->periode_labarugi($date_prev);
-        $kekayaan = floatval($pendapatan_prev['sum_laba'])-floatval($pendapatan_prev['sum_rugi']);
-        $pendapatan = floatval($pendapatan_now['sum_laba'])-floatval($pendapatan_now['sum_rugi'])-floatval($kekayaan);
-        $total=floatval($total)+floatval($kekayaan);
-        $total_nasabah =$total_bmt=0;
-        for ($i=0 ;$i<count($tabungan) ;$i++){
-            $tabungan[$i]['D'] = floatval($array_tab[$i])/floatval($total)*floatval($pendapatan);
-            $tabungan[$i]['G'] = floatval($tabungan[$i]['D'])*floatval(json_decode($tabungan[$i]['detail'],true)['nisbah_anggota'])/100;
-            $tabungan[$i]['H'] = floatval($tabungan[$i]['D'])*floatval(json_decode($tabungan[$i]['detail'],true)['nisbah_bank'])/100;
-            $total_nasabah=floatval($total_nasabah)+floatval($tabungan[$i]['G']);
-            $total_bmt=floatval($total_bmt)+floatval($tabungan[$i]['H']);
-        }
-        for ($i=0 ;$i<count($deposito) ;$i++){
-            $deposito[$i]['D'] = floatval($array_dep[$i])/floatval($total)*floatval($pendapatan);
-            $deposito[$i]['G'] = floatval($deposito[$i]['D'])*floatval(json_decode($deposito[$i]['detail'],true)['nisbah_anggota'])/100;
-            $deposito[$i]['H'] = floatval($deposito[$i]['D'])*floatval(json_decode($deposito[$i]['detail'],true)['nisbah_bank'])/100;
-            $total_nasabah=floatval($total_nasabah)+floatval($deposito[$i]['G']);
-            $total_bmt=floatval($total_bmt)+floatval($deposito[$i]['H']);
-        }
+        // $kekayaan = floatval($pendapatan_prev['sum_laba'])-floatval($pendapatan_prev['sum_rugi']);
+        // $pendapatan = floatval($pendapatan_now['sum_laba'])-floatval($pendapatan_now['sum_rugi'])-floatval($kekayaan);
+        // $total=floatval($total)+floatval($kekayaan);
+        // $total_nasabah =$total_bmt=0;
+        // for ($i=0 ;$i<count($tabungan) ;$i++){
+        //     // $tabungan[$i]['D'] = floatval($array_tab[$i])/floatval($total)*floatval($pendapatan);
+        //     // $tabungan[$i]['G'] = floatval($tabungan[$i]['D'])*floatval(json_decode($tabungan[$i]['detail'],true)['nisbah_anggota'])/100;
+        //     // $tabungan[$i]['H'] = floatval($tabungan[$i]['D'])*floatval(json_decode($tabungan[$i]['detail'],true)['nisbah_bank'])/100;
+        //     // $total_nasabah=floatval($total_nasabah)+floatval($tabungan[$i]['G']);
+        //     // $total_bmt=floatval($total_bmt)+floatval($tabungan[$i]['H']);
+        // }
+        // for ($i=0 ;$i<count($deposito) ;$i++){
+        //     $deposito[$i]['D'] = floatval($array_dep[$i])/floatval($total)*floatval($pendapatan);
+        //     $deposito[$i]['G'] = floatval($deposito[$i]['D'])*floatval(json_decode($deposito[$i]['detail'],true)['nisbah_anggota'])/100;
+        //     $deposito[$i]['H'] = floatval($deposito[$i]['D'])*floatval(json_decode($deposito[$i]['detail'],true)['nisbah_bank'])/100;
+        //     $total_nasabah=floatval($total_nasabah)+floatval($deposito[$i]['G']);
+        //     $total_bmt=floatval($total_bmt)+floatval($deposito[$i]['H']);
+        // }
 
-        $data['tabungan'] = $tabungan;
-        $data['deposito'] = $deposito;
-        $data['kekayaan']   = $kekayaan;
-        $data['total']   = $total;
-        $data['nasabah']   = $total_nasabah;
-        $data['bmt']   = $total_bmt;
-        $data['pendapatan']   = $pendapatan;
-        return $data;
+        // $data['tabungan'] = $tabungan;
+        // $data['deposito'] = $deposito;
+        // $data['kekayaan']   = $kekayaan;
+        // $data['total']   = $total;
+        // $data['nasabah']   = $total_nasabah;
+        // $data['bmt']   = $total_bmt;
+        // $data['pendapatan']   = $pendapatan;
+        return $pendapatan_prev;
 
     }
     function cekdistribusi($periode){

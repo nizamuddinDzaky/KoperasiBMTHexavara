@@ -122,8 +122,8 @@
     </div>
 </li>
 
-<li @if(Request::is('admin/proses/akhirbulan*'))class="active"@endif>
-    <a href="#nav_prosest">
+<li @if(Request::is('admin/proses_akhir_bulan/*'))class="active"@endif>
+    <a href="{{ route('admin.proses_akhir_bulan.index') }}">
         <i class="pe-7s-medal"></i>
         <p>Proses Akhir Bulan</p>
     </a>

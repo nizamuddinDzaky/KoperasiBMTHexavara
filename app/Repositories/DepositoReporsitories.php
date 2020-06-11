@@ -214,10 +214,17 @@ class DepositoReporsitories {
      * Get deposito data
      * @return Response
     */
-    public function getDeposito($status="")
+    public function getDeposito($status="", $nama="")
     {
-        if($status != "") {
+        if($status !== "" && $nama === "") {
             $deposito = Deposito::where('deposito.status', $status)
+                        ->join('users', 'deposito.id_user', 'users.id')
+                        ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama')
+                        ->get();
+        }
+        elseif($status !== "" && $nama !== "")
+        {
+            $deposito = Deposito::where([ ['deposito.status', $status], ['jenis_deposito', $nama] ])
                         ->join('users', 'deposito.id_user', 'users.id')
                         ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama')
                         ->get();
