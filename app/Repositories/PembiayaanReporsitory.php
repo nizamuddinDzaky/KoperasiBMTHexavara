@@ -891,7 +891,8 @@ class PembiayaanReporsitory {
             $pengajuan = $this->pengajuanReporsitory->findPengajuan($data->id_);
             $pembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->first();
             $penyimpananPembiayaan = PenyimpananPembiayaan::where('id_pembiayaan', $pembiayaan->id)->orderBy('created_at', 'desc')->take(1)->get();
-            
+            $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
+
             if($pembiayaan->status == "active") {
                 $jenis_pembiayaan = "PEMBIAYAAN MRB";
                 $id_rekening_pembiayaan = 100;
@@ -1137,6 +1138,23 @@ class PembiayaanReporsitory {
                                 'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                             ]);
                             $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
+                            
+                            // Update margin yang sudah dibayarkan user
+                            if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                            {
+                                $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                            }
+                            else
+                            {
+                                $total_margin_anggota = floatval($jumlah_bayar_margin);
+                            }
+                            $user_pembiayaan->wajib_pokok = json_encode([
+                                "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                                "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                                "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                                "margin" => $total_margin_anggota
+                            ]);
+                            $user_pembiayaan->save();
 
                             if($sisa_pinjaman <= 10)
                             {
@@ -1232,6 +1250,23 @@ class PembiayaanReporsitory {
                         ]);
                         $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
 
+                        // Update margin yang sudah dibayarkan user
+                        if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                        {
+                            $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                        }
+                        else
+                        {
+                            $total_margin_anggota = floatval($jumlah_bayar_margin);
+                        }
+                        $user_pembiayaan->wajib_pokok = json_encode([
+                            "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                            "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                            "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                            "margin" => $total_margin_anggota
+                        ]);
+                        $user_pembiayaan->save();
+
                         if($sisa_pinjaman <= 10)
                         {
                             $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
@@ -1279,7 +1314,8 @@ class PembiayaanReporsitory {
             $pengajuan = $this->pengajuanReporsitory->findPengajuan($data->id_);
             $pembiayaan = Pembiayaan::where('id_pembiayaan', $data->idtab)->first();
             $penyimpananPembiayaan = PenyimpananPembiayaan::where('id_pembiayaan', $pembiayaan->id)->orderBy('created_at', 'desc')->take(1)->get();
-            
+            $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
+
             if($pembiayaan->status == "active")
             {
                 if($pengajuan->id_rekening == 99)
@@ -1525,7 +1561,24 @@ class PembiayaanReporsitory {
                                 'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                             ]);
                             $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
-
+                            
+                            // Update margin yang sudah dibayarkan user
+                            if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                            {
+                                $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                            }
+                            else
+                            {
+                                $total_margin_anggota = floatval($jumlah_bayar_margin);
+                            }
+                            $user_pembiayaan->wajib_pokok = json_encode([
+                                "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                                "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                                "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                                "margin" => $total_margin_anggota
+                            ]);
+                            $user_pembiayaan->save();
+                            
                             if($sisa_pinjaman <= 10)
                             {
                                 $detailToUpdatePembiayaan['sisa_pinjaman'] = 0;
@@ -1656,6 +1709,23 @@ class PembiayaanReporsitory {
                             'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                         ]);
                         $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
+                        
+                        // Update margin yang sudah dibayarkan user
+                        if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                        {
+                            $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                        }
+                        else
+                        {
+                            $total_margin_anggota = floatval($jumlah_bayar_margin);
+                        }
+                        $user_pembiayaan->wajib_pokok = json_encode([
+                            "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                            "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                            "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                            "margin" => $total_margin_anggota
+                        ]);
+                        $user_pembiayaan->save();
 
                         if($sisa_pinjaman <= 10)
                         {
@@ -1703,7 +1773,8 @@ class PembiayaanReporsitory {
         {
             $pembiayaan = Pembiayaan::where('id_pembiayaan', $data->id_)->first();
             $penyimpananPembiayaan = PenyimpananPembiayaan::where('id_pembiayaan', $pembiayaan->id)->orderBy('created_at', 'desc')->take(1)->get();
-            
+            $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
+
             if($pembiayaan->id_rekening == 99)
             {
                 $jenis_pembiayaan = "PEMBIAYAAN MDA";
@@ -1938,6 +2009,23 @@ class PembiayaanReporsitory {
                             'detail'    => json_encode($detailToUpdatePembiayaan),
                             'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                         ]);
+                        
+                        // Update margin yang sudah dibayarkan user
+                        if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                        {
+                            $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                        }
+                        else
+                        {
+                            $total_margin_anggota = floatval($jumlah_bayar_margin);
+                        }
+                        $user_pembiayaan->wajib_pokok = json_encode([
+                            "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                            "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                            "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                            "margin" => $total_margin_anggota
+                        ]);
+                        $user_pembiayaan->save();
 
                         if($sisa_pinjaman <= 10)
                         {
@@ -2049,6 +2137,23 @@ class PembiayaanReporsitory {
                         'detail'    => json_encode($detailToUpdatePembiayaan),
                         'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                     ]);
+                    
+                    // Update margin yang sudah dibayarkan user
+                    if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                    {
+                        $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                    }
+                    else
+                    {
+                        $total_margin_anggota = floatval($jumlah_bayar_margin);
+                    }
+                    $user_pembiayaan->wajib_pokok = json_encode([
+                        "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                        "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                        "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                        "margin" => $total_margin_anggota
+                    ]);
+                    $user_pembiayaan->save();
 
                     if($sisa_pinjaman <= 10)
                     {
@@ -2086,7 +2191,8 @@ class PembiayaanReporsitory {
         {
             $pembiayaan = Pembiayaan::where('id_pembiayaan', $data->id_)->first();
             $penyimpananPembiayaan = PenyimpananPembiayaan::where('id_pembiayaan', $pembiayaan->id)->orderBy('created_at', 'desc')->take(1)->get();
-            
+            $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
+
             $jenis_pembiayaan = "PEMBIAYAAN MRB";
             $id_rekening_pembiayaan = 100;
         
@@ -2339,6 +2445,23 @@ class PembiayaanReporsitory {
                             'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                         ]);
 
+                        // Update margin yang sudah dibayarkan user
+                        if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                        {
+                            $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                        }
+                        else
+                        {
+                            $total_margin_anggota = floatval($jumlah_bayar_margin);
+                        }
+                        $user_pembiayaan->wajib_pokok = json_encode([
+                            "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                            "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                            "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                            "margin" => $total_margin_anggota
+                        ]);
+                        $user_pembiayaan->save();
+
                         if($sisa_pinjaman <= 10)
                         {
                             $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
@@ -2462,6 +2585,23 @@ class PembiayaanReporsitory {
                         'angsuran_ke' => $pembiayaan->angsuran_ke + 1
                     ]);
 
+                    // Update margin yang sudah dibayarkan user
+                    if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                    {
+                        $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                    }
+                    else
+                    {
+                        $total_margin_anggota = floatval($jumlah_bayar_margin);
+                    }
+                    $user_pembiayaan->wajib_pokok = json_encode([
+                        "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                        "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                        "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                        "margin" => $total_margin_anggota
+                    ]);
+                    $user_pembiayaan->save();
+
                     if($sisa_pinjaman <= 10)
                     {
                         $detailToUpdatePembiayaan['sisa_angsuran'] = 0;
@@ -2503,6 +2643,7 @@ class PembiayaanReporsitory {
         {
             $pengajuan = $this->pengajuanReporsitory->findPengajuan($data->id_);
             $pembiayaan = Pembiayaan::where('id_pembiayaan', json_decode($pengajuan->detail)->id_pembiayaan)->first();
+            $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
 
             $id_rekening_pembiayaan = $pembiayaan->id_rekening;
             $nama_rekening_pembiayaan = $pembiayaan->jenis_pembiayaan;
@@ -2715,6 +2856,23 @@ class PembiayaanReporsitory {
             )
             {
                 $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id; $pengajuan->save();
+                
+                // Update margin yang sudah dibayarkan user
+                if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                {
+                    $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                }
+                else
+                {
+                    $total_margin_anggota = floatval($jumlah_bayar_margin);
+                }
+                $user_pembiayaan->wajib_pokok = json_encode([
+                    "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                    "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                    "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                    "margin" => $total_margin_anggota
+                ]);
+                $user_pembiayaan->save();
 
                 DB::commit();
                 $response = array("type" => "success", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Berhasil Dikonfirmasi");
