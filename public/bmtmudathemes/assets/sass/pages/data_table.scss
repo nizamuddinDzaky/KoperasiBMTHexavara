@@ -59,7 +59,7 @@
             border-radius: 20px;
             padding: 10px 20px;
             margin-right: 10px;
-            font-weight: $font-bold;
+            // font-weight: $font-bold;
             letter-spacing: 1px;
 
             @include respond-below(sm) {

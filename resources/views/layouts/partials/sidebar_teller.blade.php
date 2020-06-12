@@ -85,7 +85,7 @@
             <b class="caret"></b>
         </p>
     </a>
-    @if(Request::is('teller/laporan/*','teller/nasabah/*', 'teller/kolektibilitas'))
+    @if(Request::is('teller/laporan/*','teller/nasabah/*', 'teller/kolektibilitas', 'rapat/admin'))
     <div class="collapse in" id="nav_laporan">
     @else
     <div class="collapse" id="nav_laporan">
@@ -103,7 +103,7 @@
             <li @if(Request::is('teller/laporan/saldo_zis')) class="active" @endif><a href="{{ route('teller.saldo.zis') }}">Saldo ZIS</a></li>
             <li @if(Request::is('teller/laporan/saldo_donasi')) class="active" @endif><a href="{{ route('teller.saldo.donasi') }}">Saldo Donasi</a></li>
             <li @if(Request::is('teller/laporan/saldo_wakaf')) class="active" @endif><a href="{{ route('teller.saldo.wakaf') }}">Saldo Wakaf</a></li>
-            <li @if(Request::is('teller/laporan/saldo_wakaf')) class="active" @endif><a href="{{ route('admin.rapat.index') }}">Rapat</a></li>
+            <li @if(Request::is('rapat/admin')) class="active" @endif><a href="{{ route('admin.rapat.index') }}">Rapat</a></li>
 
             {{--<li><a href="{{route('teller.pengajuan_pem')}}">Pengajuan Pembiayaan</a></li>
             <li><a href="{{route('teller.realisasi_pem')}}">Realisasi Pembiayaan</a></li>

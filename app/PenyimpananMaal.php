@@ -19,8 +19,13 @@ class PenyimpananMaal extends Model
     public function bmt() {
         return $this->belongsTo('App\BMT', 'id');
     }
-    public function user(){
-        return $this->belongsTo('App\User','id');
+
+    public function User(){
+        return $this->belongsTo('App\User','id_donatur');
+    }
+
+    public function Maal(){
+        return $this->belongsTo('App\Maal','id_maal');
     }
     //
 }

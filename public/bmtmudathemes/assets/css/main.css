@@ -1189,7 +1189,6 @@ input[type="checkbox"]:checked::after {
   border-radius: 20px;
   padding: 10px 20px;
   margin-right: 10px;
-  font-weight: 600;
   letter-spacing: 1px;
 }
 

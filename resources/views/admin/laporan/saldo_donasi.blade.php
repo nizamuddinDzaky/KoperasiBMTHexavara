@@ -33,45 +33,54 @@
                 </div>
 
                 <div class="head-noted right">
-                    <span>Saldo Donasi Terkumpul = Rp. 300,000,000</span>
+                    <span>Saldo Donasi Terkumpul = <b>Rp. {{ number_format($saldo_terkumpul->saldo, 2) }}</b></span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
 
-                <div class="header text-center">
-                    <h4 id="titlePrint" class="title"><b>Saldo Donasi</b> </h4>
-                    <p id="titlePrint2" class="category">Laporan Saldo Donasi</p>
-                    <br />
-                </div>
+                    <div class="header text-center">
+                        <h4 id="titlePrint" class="title"><b>Saldo Donasi</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Saldo Donasi</p>
+                        <br />
+                    </div>
 
-                
-                <table id="bootstrap-table" class="table">
-                    <thead>
-                        <th></th>
-                        <th data-sortable="true" class="text-left">ID</th>
-                        <th data-sortable="true" class="text-left">Anggota</th>
-                        <th data-sortable="true" class="text-left">KTP</th>
-                        <th data-sortable="true">Jenis Pengajuan</th>
-                        <th data-sortable="true">Keterangan</th>
-                        <th data-sortable="true">Jumlah</th>
-                        <th data-sortable="true">Tgl Pengajuan</th>
-                        <th data-sortable="true">Status</th>
-                        <th class="text-center">Actions</th>
-                    </thead>
-                    <tbody>
                     
-                    </tbody>
-                </table>
+                    <table class="table bootstrap-table">
+                        <thead>
+                            <th></th>
+                            <th data-sortable="true" class="text-left">ID</th>
+                            <th data-sortable="true" class="text-left">Tanggal</th>
+                            <th data-sortable="true" class="text-left">NIK</th>
+                            <th data-sortable="true" class="text-left">Anggota</th>
+                            <th data-sortable="true">Kegiatan</th>
+                            <th data-sortable="true">Jumlah</th>
+                            <th data-sortable="true">Saldo</th>
+                        </thead>
+                        <tbody>
+                            @foreach ($data_donasi as $item)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ Carbon\Carbon::parse($item->created_at)->format("D, d F Y") }}</td>
+                                    <td>{{ $item->User->no_ktp }}</td>
+                                    <td style="text-transform: uppercase">{{ $item->User->nama }}</td>
+                                    <td>{{ $item->Maal->nama_kegiatan }}</td>
+                                    <td>{{ number_format(json_decode($item->transaksi)->jumlah, 2) }}</td>
+                                    <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir, 2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
-            </div><!--  end card  -->
-        </div> <!-- end col-md-12 -->
-    </div> <!-- end row -->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
     </div>
 @endsection
 

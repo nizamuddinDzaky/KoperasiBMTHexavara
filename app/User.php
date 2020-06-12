@@ -69,4 +69,7 @@ class User extends Authenticatable
         return $this->hasMany('App\PenyimpananBMT', 'id_user');
     }
 
+    public function PenyimpananMaal() {
+        return $this->hasMany('App\PenyimpananMaal', 'id_donatur');
+    }
 }

@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="head-noted right">
-                    <span>Saldo ZIS Terkumpul = Rp. 300,000,000</span>
+                    <span>Saldo ZIS Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul, 2) }}</b></span>
                 </div>
             </div>
         </div>
@@ -50,21 +50,28 @@
                     <br />
                 </div>
 
-                <table id="bootstrap-table" class="table">
+                <table class="table bootstrap-table">
                     <thead>
                         <th></th>
                         <th data-sortable="true" class="text-left">ID</th>
+                        <th data-sortable="true" class="text-left">Tanggal</th>
+                        <th data-sortable="true" class="text-left">NIK</th>
                         <th data-sortable="true" class="text-left">Anggota</th>
-                        <th data-sortable="true" class="text-left">KTP</th>
-                        <th data-sortable="true">Jenis Pengajuan</th>
-                        <th data-sortable="true">Keterangan</th>
                         <th data-sortable="true">Jumlah</th>
-                        <th data-sortable="true">Tgl Pengajuan</th>
-                        <th data-sortable="true">Status</th>
-                        <th class="text-center">Actions</th>
+                        <th data-sortable="true">Saldo</th>
                     </thead>
                     <tbody>
-                    
+                        @foreach ($data_zis as $item)
+                            <tr>
+                                <td></td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->created_at)->format("D, d F Y") }}</td>
+                                <td>{{ $item->User->no_ktp }}</td>
+                                <td style="text-transform: uppercase">{{ $item->User->nama }}</td>
+                                <td>{{ number_format(json_decode($item->transaksi)->jumlah, 2) }}</td>
+                                <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir, 2) }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div><!--  end card  -->

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BMT;
 use App\PenyimpananBMT;
 use App\PenyimpananRekening;
+use App\PenyimpananMaal;
 use App\Repositories\InformationRepository;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\PembiayaanReporsitory;
@@ -644,13 +645,30 @@ class LaporanController extends Controller
         return view('admin.laporan.labarugi');
     }
     public function saldo_zis() {
-        return view('admin.laporan.saldo_zis');
+        $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "ZAKAT");
+        $bmt_rekening = BMT::where('id_rekening', $rekening->id)->first();
+        $data_zis = PenyimpananBMT::where('id_bmt', $bmt_rekening->id)->get();
+        $saldo_terkumpul = $bmt_rekening->saldo;
+        
+        return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul'));
     }
+
     public function saldo_donasi() {
-        return view('admin.laporan.saldo_donasi');
+        $data_donasi = PenyimpananMaal::All();
+
+        $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "DANA SOSIAL");
+        $saldo_terkumpul = BMT::where('id_rekening', $rekening->id)->select('saldo')->first();
+        
+        return view('admin.laporan.saldo_donasi', compact('data_donasi', 'saldo_terkumpul'));
     }
+
     public function saldo_wakaf() {
-        return view('admin.laporan.saldo_wakaf');
+        $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "WAKAF UANG");
+        $bmt_rekening = BMT::where('id_rekening', $rekening->id)->first();
+        $data_wakaf = PenyimpananBMT::where('id_bmt', $bmt_rekening->id)->get();
+        $saldo_terkumpul = $bmt_rekening->saldo;
+        
+        return view('admin.laporan.saldo_wakaf', compact('data_wakaf', 'saldo_terkumpul'));
     }
 
     /** 

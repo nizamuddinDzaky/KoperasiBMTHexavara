@@ -501,6 +501,16 @@ class RekeningReporsitories {
         return $data;
     }
 
+    /** 
+     * Find specific rekening
+     * @return Response
+    */
+    public function findRekening($column_name, $column_val)
+    {
+        $rekening = Rekening::where($column_name, $column_val)->first();
+        return $rekening;
+    }
+
 }
 
 ?>

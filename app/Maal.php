@@ -21,4 +21,8 @@ class Maal extends Model
         return $this->belongsTo('App\Rekening', 'id_rekening');
     }
 
+    public function PenyimpananMaal() {
+        return $this->hasMany('App\PenyimpananMaal', 'id_maal');
+    }
+
 }
