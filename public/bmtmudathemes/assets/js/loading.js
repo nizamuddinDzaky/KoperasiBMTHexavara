@@ -312,3 +312,23 @@ $(function() {
         document.location.search = "start=" + start.format('DD-MM-YYYY');
     });
 });
+
+/** 
+ * Proses form modal
+*/
+// $(document).ready(function() {
+//     $(document).on("click", "#proses", function() {
+//         var form = $(this).closest("form").attr('id');
+            
+//         var form_submit = $('#' + form).submit();
+//         // if(form_submit)
+//         // {
+//         //     $(".content").addClass("hidden")
+//         //     $(".head").addClass("hidden")
+//         //     $(".footer").addClass("hidden")
+//         //     $(".modal").addClass("hidden")
+//         //     $(".loader").removeClass("hidden")
+//         //     $(".modal-backdrop").addClass("hidden")
+//         // }
+//     });
+// });

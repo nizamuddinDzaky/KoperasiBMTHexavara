@@ -23,6 +23,10 @@
 @endsection
 
 @section('content')
+    <div class="loader hidden">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        <p>Loading data .... </p>
+    </div>
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -39,7 +43,7 @@
                 </div>
 
                 <div class="button-group right">
-                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal"><i class="fa fa-archive"></i> Buka Tabungan</button>
+                    <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal" data-page="anggota"><i class="fa fa-archive"></i> Buka Tabungan</button>
                     <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#openDepModal"><i class="fa fa-credit-card"></i> Buka Mudharabah Berjangka</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#openPemModal"><i class="fa fa-handshake-o"></i> Buka Pembiayaan</button>
                     <button class="btn btn-danger rounded right shadow-effect close-rekening-action" data-pembiayaan="{{ $is_active_pembiayaan }}"><i class="fa fa-close"></i> Keluar Jadi Anggota</button>

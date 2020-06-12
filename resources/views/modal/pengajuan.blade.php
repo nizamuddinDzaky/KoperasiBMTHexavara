@@ -145,7 +145,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">Atas Nama<star>*</star></label>
-                                        <select id="atasnama" name="atasnama" class="form-control" >
+                                        <select id="atasnama" name="atasnama" class="form-control" required>
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             <option value="1">Pribadi</option>
                                             <option value="2">Lembaga</option>
@@ -241,7 +241,7 @@
                 </div>
 
                 <div class="footer">
-                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Kirim Pengajuan </button>
+                    <button type="submit" id="proses" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Kirim Pengajuan </button>
                     <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
                     <div class="clearfix"></div>
                 </div>

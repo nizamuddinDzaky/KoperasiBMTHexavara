@@ -35,7 +35,7 @@
                 <div class="button-group right">
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#debitTabModal"><i class="fa fa-credit-card"></i> Setor Tunai</button>
                     <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
-                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal"><i class="fa fa-archive"></i> Buka Tabungan</button>
+                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal" data-page="teller"><i class="fa fa-archive"></i> Buka Tabungan</button>
                     <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#tutupTabModal"><i class="fa fa-close"></i> Tutup Tabungan</button>
                 </div>
             </div>
@@ -893,6 +893,15 @@
                     $('#toHideKreTellA').hide();
                     $('#dariteller2').attr("required",false);
                     $('#toHideKreBankA').show();
+                }
+            });
+
+            $("#openTabModal").on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var page = button.data('page');
+                if(page == "teller")
+                {
+                    $("#nasabah").attr("required", "required");
                 }
             });
 

@@ -88,6 +88,9 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+    <!-- Loading component -->
+    <link rel="stylesheet" href="{{ asset('bmtmudathemes/assets/css/loading.css') }}">
+    
     <style>
         .dataTables_wrapper  {
             margin: 1em;
