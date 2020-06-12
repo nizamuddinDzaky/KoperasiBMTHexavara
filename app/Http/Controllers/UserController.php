@@ -9,6 +9,7 @@ use App\PenyimpananBMT;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
 use App\User;
+use App\Maal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
@@ -718,10 +719,10 @@ class UserController extends Controller
         $dr =$this->informationRepository->getAllTabUsr();
         $riwayat_zis = PenyimpananBMT::where('id_bmt', '334')->get();
         $riwayat_waqaf = PenyimpananBMT::where('id_bmt', '336')->get();
-
+        $kegiatan = Maal::paginate('8');
         return view('users.donasi_maal',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
-            'kegiatan' => $this->informationRepository->getAllMaal(),
+            "kegiatan"  => $kegiatan,
             'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
             'riwayat_zis' => $riwayat_zis,
             'riwayat_wakaf' => $riwayat_waqaf,
