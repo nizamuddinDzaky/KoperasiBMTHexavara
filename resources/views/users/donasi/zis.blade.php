@@ -9,13 +9,14 @@
                 <br />
             </div>
 
-            <table class="table bootstrap-table">
+            <table class="table bootstrap-table-asc">
                 <thead>
                     <th></th>
                     <th class="text-left" data-sortable="true">ID</th>
                     <th class="text-left" data-sortable="true">Tgl Pengajuan</th>
+                    <th class="text-left" data-sortable="true">Donatur</th>
                     <th class="text-left" data-sortable="true">Nominal</th>
-                    <th class="text-left" data-sortable="true">Status</th>
+                    <th class="text-left" data-sortable="true">Saldo</th>
                 </thead>
                 <tbody>
                     @foreach($riwayat_zis as $zis)
@@ -23,8 +24,9 @@
                         <td></td>
                         <td>{{ $zis->id }}</td>
                         <td>{{ $zis->created_at->format('d F Y') }}</td>
-                        <td>Rp. {{ number_format(json_decode($zis->detail)->jumlah, 2) }}</td>
-                        <td>{{ $zis->status }}</td>
+                        <td style="text-transform: uppercase;">{{ $zis->User->nama }}</td>
+                        <td>{{ number_format(json_decode($zis->transaksi)->jumlah, 2) }}</td>
+                        <td>{{ number_format(json_decode($zis->transaksi)->saldo_akhir, 2) }}</td>
                     </tr>
                     @endforeach
                 </tbody>

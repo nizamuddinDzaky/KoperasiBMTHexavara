@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Deposito;
 use App\Pembiayaan;
 use App\Pengajuan;
+use App\PenyimpananBMT;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
 use App\User;
@@ -715,13 +716,15 @@ class UserController extends Controller
 //    MAAL
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
-        // return response()->json($this->tabunganReporsitory->getRekening("BANK"));
+        $riwayat_zis = PenyimpananBMT::where('id_bmt', '334')->get();
+        $riwayat_waqaf = PenyimpananBMT::where('id_bmt', '336')->get();
+
         return view('users.donasi_maal',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
-            'riwayat_zis' => $this->donasiReporsitory->getPengajuanDonasi($type="zis", $user=Auth::user()->id),
-            'riwayat_wakaf' => $this->donasiReporsitory->getPengajuanDonasi($type="wakaf", $user=Auth::user()->id),
+            'riwayat_zis' => $riwayat_zis,
+            'riwayat_wakaf' => $riwayat_waqaf,
             // 'riwayat_zis' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "zis"),
             // 'riwayat_wakaf' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "wakaf"),
             'dropdown' => $dr,
