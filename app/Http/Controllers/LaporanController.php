@@ -644,17 +644,35 @@ class LaporanController extends Controller
     public function labarugi(){
         return view('admin.laporan.labarugi');
     }
-    public function saldo_zis() {
+    public function saldo_zis(Request $request) {
         $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "ZAKAT");
         $bmt_rekening = BMT::where('id_rekening', $rekening->id)->first();
-        $data_zis = PenyimpananBMT::where('id_bmt', $bmt_rekening->id)->get();
+        $data_zis = PenyimpananBMT::where([
+            ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::now()->subDays(30)], ['created_at', '<=', Carbon::now()]
+        ])->get();
+
+        if(isset($request->start) && isset($request->end))
+        {
+            $data_wakaf = PenyimpananBMT::where([ 
+                ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::parse($request->start)], ['created_at', '<=', Carbon::parse($request->end)]
+            ])->get();
+        }
         $saldo_terkumpul = $bmt_rekening->saldo;
         
         return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul'));
     }
 
-    public function saldo_donasi() {
-        $data_donasi = PenyimpananMaal::All();
+    public function saldo_donasi(Request $request) {
+        $data_donasi = PenyimpananMaal::where([
+            ['created_at', '>=', Carbon::now()->subDays(30)], ['created_at', '<=', Carbon::now()]
+        ])->get();
+
+        if(isset($request->start) && isset($request->end))
+        {
+            $data_donasi = PenyimpananMaal::where([
+                ['created_at', '>=', Carbon::parse($request->start)], ['created_at', '<=', Carbon::parse($request->end)]
+            ])->get();
+        }
 
         $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "DANA SOSIAL");
         $saldo_terkumpul = BMT::where('id_rekening', $rekening->id)->select('saldo')->first();
@@ -662,11 +680,20 @@ class LaporanController extends Controller
         return view('admin.laporan.saldo_donasi', compact('data_donasi', 'saldo_terkumpul'));
     }
 
-    public function saldo_wakaf() {
+    public function saldo_wakaf(Request $request) {
         $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "WAKAF UANG");
         $bmt_rekening = BMT::where('id_rekening', $rekening->id)->first();
-        $data_wakaf = PenyimpananBMT::where('id_bmt', $bmt_rekening->id)->get();
+        $data_wakaf = PenyimpananBMT::where([ 
+            ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::now()->subDays(30)], ['created_at', '<=', Carbon::now()]
+        ])->get();
         $saldo_terkumpul = $bmt_rekening->saldo;
+
+        if(isset($request->start) && isset($request->end))
+        {
+            $data_wakaf = PenyimpananBMT::where([ 
+                ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::parse($request->start)], ['created_at', '<=', Carbon::parse($request->end)]
+            ])->get();
+        }
         
         return view('admin.laporan.saldo_wakaf', compact('data_wakaf', 'saldo_terkumpul'));
     }

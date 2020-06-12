@@ -24,16 +24,14 @@
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
-                    {{ csrf_field() }}
-                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option disabled selected > - Periode -</option>
-                        </select>
-                    </form>
+                    
+                    <div class="col-sm-12 col-md-4 col-lg-3">
+                        <input type="text" class="form-control daterange" name="daterange" placeholder="Filter" />
+                    </div>
                 </div>
 
                 <div class="head-noted right">
-                    <span>Saldo Wakaf Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul) }}</b></span>
+                    <span>Saldo Wakaf Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul > 0 ? $saldo_terkumpul : 0, 2) }}</b></span>
                 </div>
             </div>
         </div>
@@ -51,7 +49,7 @@
                 </div>
 
                 
-                <table class="table bootstrap-table">
+                <table class="table bootstrap-table-asc">
                     <thead>
                         <th></th>
                         <th data-sortable="true" class="text-left">ID</th>
