@@ -127,7 +127,7 @@
                             <td></td>
                             <td class="text-right">{{number_format($total_porsi_anggota,2)}}</td>
                             <td class="text-right">{{number_format($total_porsi_bmt,2)}}</td>
-                            <td class="text-center">{{round($total_persentase_anggota,2)}}%</td>
+                            {{-- <td class="text-center">{{round($total_persentase_anggota,2)}}%</td> --}}
                             <td>-</td>
                         </tr>
 
