@@ -52,34 +52,21 @@
                             <p style="font-size: 14px;">{{ $rapat->total_disagree . "/" . $rapat->vouting . " (" . $rapat->percentage_disagree . "%)" }}</p>
                         </div>
 
-                        @if(count($rapat->vote) > 0)
-                            @foreach ($rapat->vote as $item)
-                                @if($item->id_user == Auth::user()->id && $item->id_rapat == $id_rapat)
-                                <div class="col-sm-12">
-                                    <p style="color: red;">Anda sudah mem-voting rapat ini</p>
-                                </div>
-                                @endif
-                            @endforeach
+                        @if($is_finish_voting)
+                            <div class="col-sm-12">
+                                <p style="color: red;">Anda sudah mem-voting rapat ini</p>
+                            </div>
                         @endif
 
                     </div>
                     
 
                     @if(Auth::user()->tipe == "anggota")
-                        @if(count($vote) > 0)
-                            @foreach ($vote as $item)
-                                @if($item->id_user != Auth::user()->id && $item->id_rapat != $id_rapat)
-                                <div class="button-group">
-                                    <button class="btn btn-primary background primary rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="setuju">SETUJU</button>
-                                    <button class="btn btn-primary background danger rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="tidak_setuju">TIDAK</button>
-                                </div>
-                                @endif
-                            @endforeach
-                        @else
-                            <div class="button-group">
-                                <button class="btn btn-primary background primary rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="setuju">SETUJU</button>
-                                <button class="btn btn-primary background danger rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="tidak_setuju">TIDAK</button>
-                            </div>
+                        @if($is_finish_voting == false)
+                        <div class="button-group">
+                            <button class="btn btn-primary background primary rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="setuju">SETUJU</button>
+                            <button class="btn btn-primary background danger rounded" data-toggle="modal" data-target="#voteModal" data-id_rapat="{{ $rapat->id }}" data-vote="tidak_setuju">TIDAK</button>
+                        </div>
                         @endif
                     @endif
 
