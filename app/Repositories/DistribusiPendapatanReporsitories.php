@@ -204,6 +204,19 @@ class DistribusiPendapatanReporsitories {
     }
 
     /** 
+     * Get date diff between 2 date
+     * @return Response
+    */
+    public function getDateDiff()
+    {
+        $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')->first();
+        $date = Carbon::parse($distribusi->created_at);
+        $now = Carbon::now();
+
+        return $date->diffInDays($now);
+    }
+
+    /** 
      * Action distribusi pendapatan
      * @return Response
     */
@@ -270,7 +283,7 @@ class DistribusiPendapatanReporsitories {
 
                 foreach($tabungan as $user_tabungan)
                 {
-                    $bagi_hasil = round((json_decode($user_tabungan->detail)->saldo / 30) / ($saldo_product / 30) * $porsi_anggota, 3);
+                    $bagi_hasil = round((json_decode($user_tabungan->detail)->saldo / $this->getDateDiff()) / ($saldo_product / $this->getDateDiff()) * $porsi_anggota, 3);
                     $detailToPenyimpananTabungan = [
                         "teller"        => Auth::user()->id,
                         "dari_rekening" => "",
@@ -334,7 +347,7 @@ class DistribusiPendapatanReporsitories {
 
                 foreach($deposito as $user_deposito)
                 {
-                    $bagi_hasil = round((json_decode($user_deposito->detail)->saldo / 30) / ($saldo_product / 30) * $porsi_anggota, 3);
+                    $bagi_hasil = round((json_decode($user_deposito->detail)->saldo / $this->getDateDiff()) / ($saldo_product / $this->getDateDiff()) * $porsi_anggota, 3);
                     $id_pencairan = json_decode($user_deposito->detail)->id_pencairan;
                     $tabungan_pencairan = $this->tabunganReporsitory->findTabungan($id_pencairan);
 
