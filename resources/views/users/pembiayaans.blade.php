@@ -566,20 +566,24 @@
                 $('#angHide').show()
                 $('#marginHide').show()
                 if(marbln==0) {
+                    console.log("A")
                     $('#marginHide').hide()
                     $('#bagi_margin').attr("required",false);
                 }
                 if(angbln==0) {
+                    console.log("B")
                     $('#angHide').hide()
                     $('#showPok').show()
                     $('#bagi_margin').attr("required",false);
                 }
+
                 if(rekening!=2) {
+                    console.log("C")
                     $('#sisa_mar').show()
                     $('#bayar_mar').hide()
-                    // $('#bayar_margin').val(formatter.format(marbln))
+                    $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
-                    $('#bayar_ang').val(formatter.format(angbln + marbln))
+                    $('#bayar_ang').val(formatter.format(angbln))
                     $('#bagi_margin').attr("required",false);
                     $("#marginHide").hide();
                 }
