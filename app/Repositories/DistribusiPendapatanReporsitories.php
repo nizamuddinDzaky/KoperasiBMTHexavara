@@ -7,6 +7,7 @@ use App\Tabungan;
 use App\Deposito;
 use App\BMT;
 use App\Rekening;
+use App\PenyimpananDistribusi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\PengajuanReporsitories;
@@ -214,6 +215,27 @@ class DistribusiPendapatanReporsitories {
         $now = Carbon::now();
 
         return $date->diffInDays($now);
+    }
+
+    /** 
+     * Insert data to penyimpanan pendistribusian
+     * @return Response
+    */
+    public function insertPenyimpananPendistribusian($data)
+    {
+        $pendistribusian = new PenyimpananDistribusi();
+        $pendistribusian->id_user = $data['id_user'];
+        $pendistribusian->status = $data['status'];
+        $pendistribusian->transaksi = json_encode($data['transaksi']);
+
+        if($pendistribusian->save())
+        {
+            return "success";
+        }
+        else
+        {
+            return "something wrong";
+        }
     }
 
     /** 
@@ -493,6 +515,13 @@ class DistribusiPendapatanReporsitories {
             $shu_yang_harus_dibagikan->saldo = round($total_porsi_bmt, 3);
             $shu_yang_harus_dibagikan->save();
             
+            $data_distribusi = [
+                "id_user"   => Auth::user()->id,
+                "status"    => "Pendistribusian Pendapatan",
+                "transaksi" => $this->getDistribusiData()
+            ];
+            $this->insertPenyimpananPendistribusian($data_distribusi);
+
             DB::commit();
             $response = array("type" => "success", "message" => "Pendistribusian Pendapatan Berhasil Dilakukan.");
         }
