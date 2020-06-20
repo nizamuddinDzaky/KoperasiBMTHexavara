@@ -717,8 +717,8 @@ class UserController extends Controller
 //    MAAL
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
-        $riwayat_zis = PenyimpananBMT::where('id_bmt', '334')->get();
-        $riwayat_waqaf = PenyimpananBMT::where('id_bmt', '336')->get();
+        $riwayat_zis = PenyimpananBMT::where([ ['id_bmt', '334'], ['id_user', Auth::user()->id] ])->get();
+        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
         $kegiatan = Maal::paginate('8');
         return view('users.donasi_maal',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
