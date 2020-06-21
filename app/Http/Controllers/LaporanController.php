@@ -702,10 +702,11 @@ class LaporanController extends Controller
      * Proses akhir bulan View
      * @return VIEW
     */
-    public function proses_akhir_bulan()
+    public function proses_akhir_bulan(Request $request)
     {
+        $data = $this->distribusiPendapatanReporsitory->getDistribusiHistory($request->date);
         $status = $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus();
-        return view('admin.laporan.proses_akhir_bulan', compact('status'));
+        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data'));
     }
 
     /** 

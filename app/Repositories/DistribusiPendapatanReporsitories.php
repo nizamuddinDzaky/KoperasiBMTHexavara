@@ -247,6 +247,13 @@ class DistribusiPendapatanReporsitories {
         DB::beginTransaction();
         try
         {
+            $data_distribusi = [
+                "id_user"   => Auth::user()->id,
+                "status"    => "Pendistribusian Pendapatan",
+                "transaksi" => $this->getDistribusiData()
+            ];
+            $this->insertPenyimpananPendistribusian($data_distribusi);
+            
             if($data->jenis == "net_profit")
             {
                 $pendapatan = $this->getRekeningPendapatan();
@@ -291,12 +298,14 @@ class DistribusiPendapatanReporsitories {
             $pendapatan_product = array();
             $rata_rata_saldo_anggota = array();
             
+            $response = array();
+
             $temp = array();
             foreach($rekening_tabungan as $tab)
             {
                 $tabungan = $this->tabunganReporsitory->getTabungan($tab->nama_rekening);
                 $rata_rata = floatval($tab->saldo) > 0 ? floatval($tab->saldo) / count($tabungan) : 0;
-                $saldo_product = floatval($tab->saldo) > 0 ? floatval($tab->saldo) : 0;
+                $rata_rata_product = floatval($tab->saldo) > 0 ? floatval($tab->saldo) / $this->getDateDiff() : 0;
                 $nisbah_anggota = json_decode($tab->detail)->nisbah_anggota;
                 $nisbah_bmt = 100 - json_decode($tab->detail)->nisbah_anggota;
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
@@ -305,7 +314,7 @@ class DistribusiPendapatanReporsitories {
 
                 foreach($tabungan as $user_tabungan)
                 {
-                    $bagi_hasil = round((json_decode($user_tabungan->detail)->saldo / $this->getDateDiff()) / ($saldo_product / $this->getDateDiff()) * $porsi_anggota, 3);
+                    $bagi_hasil = (json_decode($user_tabungan->detail)->saldo / $this->getDateDiff()) / $rata_rata_product * $porsi_anggota;
                     $detailToPenyimpananTabungan = [
                         "teller"        => Auth::user()->id,
                         "dari_rekening" => "",
@@ -346,6 +355,7 @@ class DistribusiPendapatanReporsitories {
                             "transaksi" => $detailToPenyimpananBMT,
                             "teller"    => Auth::user()->id
                         ];
+
                         $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                         $tabungan_pendistribusian->detail = json_encode($dataToUpdateTabungan);
@@ -360,7 +370,7 @@ class DistribusiPendapatanReporsitories {
             {
                 $deposito = $this->depositoReporsitory->getDeposito("active", $dep->nama_rekening);
                 $rata_rata = floatval($dep->saldo) > 0 ? floatval($dep->saldo) / count($deposito) : 0;
-                $saldo_product = floatval($dep->saldo) > 0 ? floatval($dep->saldo) : 0;
+                $rata_rata_product = floatval($dep->saldo) > 0 ? floatval($dep->saldo) / $this->getDateDiff() : 0;
                 $nisbah_anggota = json_decode($dep->detail)->nisbah_anggota;
                 $nisbah_bmt = 100 - json_decode($dep->detail)->nisbah_anggota;
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
@@ -369,7 +379,7 @@ class DistribusiPendapatanReporsitories {
 
                 foreach($deposito as $user_deposito)
                 {
-                    $bagi_hasil = round((json_decode($user_deposito->detail)->saldo / $this->getDateDiff()) / ($saldo_product / $this->getDateDiff()) * $porsi_anggota, 3);
+                    $bagi_hasil = (json_decode($user_deposito->detail)->saldo / $this->getDateDiff()) / ( $rata_rata_product ) * $porsi_anggota;
                     $id_pencairan = json_decode($user_deposito->detail)->id_pencairan;
                     $tabungan_pencairan = $this->tabunganReporsitory->findTabungan($id_pencairan);
 
@@ -413,6 +423,7 @@ class DistribusiPendapatanReporsitories {
                             "transaksi" => $detailToPenyimpananBMT,
                             "teller"    => Auth::user()->id
                         ];
+
                         $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                         $tabungan_pencairan->detail = json_encode($dataToUpdateTabunganPencairan);
@@ -470,6 +481,7 @@ class DistribusiPendapatanReporsitories {
                             "transaksi" => $detailToPenyimpananBMT,
                             "teller"    => Auth::user()->id
                         ];
+
                         $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
                         $rekening_biaya->saldo = 0; $rekening_biaya->save();
                     }
@@ -480,9 +492,9 @@ class DistribusiPendapatanReporsitories {
             {
                 $bmt_shu_berjalan = BMT::where('nama', 'SHU BERJALAN')->first();
                 $detailToPenyimpananBMT = [
-                    "jumlah"        => round($total_pendapatan, 3),
+                    "jumlah"        => $total_pendapatan,
                     "saldo_awal"    => $bmt_shu_berjalan->saldo,
-                    "saldo_akhir"   => $bmt_shu_berjalan->saldo - round($total_pendapatan, 3),
+                    "saldo_akhir"   => $bmt_shu_berjalan->saldo - $total_pendapatan,
                     "id_pengajuan"  => null
                 ];
                 $dataToPenyimpananBMT = [
@@ -493,15 +505,15 @@ class DistribusiPendapatanReporsitories {
                     "teller"    => Auth::user()->id
                 ];
                 $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
-                $bmt_shu_berjalan->saldo = $bmt_shu_berjalan->saldo - round($total_pendapatan, 3);
+                $bmt_shu_berjalan->saldo = $bmt_shu_berjalan->saldo - $total_pendapatan;
                 $bmt_shu_berjalan->save();
             }
 
             $shu_yang_harus_dibagikan = BMT::where('nama', 'SHU YANG HARUS DIBAGIKAN')->first();
             $detailToPenyimpananBMT = [
-                "jumlah"        => round($total_porsi_bmt,3),
+                "jumlah"        => $total_porsi_bmt,
                 "saldo_awal"    => $shu_yang_harus_dibagikan->saldo,
-                "saldo_akhir"   => $shu_yang_harus_dibagikan->saldo + round($total_porsi_bmt,3),
+                "saldo_akhir"   => $shu_yang_harus_dibagikan->saldo + $total_porsi_bmt,
                 "id_pengajuan"  => null
             ];
             $dataToPenyimpananBMT = [
@@ -511,16 +523,10 @@ class DistribusiPendapatanReporsitories {
                 "transaksi" => $detailToPenyimpananBMT,
                 "teller"    => Auth::user()->id
             ];
+
             $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
-            $shu_yang_harus_dibagikan->saldo = round($total_porsi_bmt, 3);
+            $shu_yang_harus_dibagikan->saldo = $shu_yang_harus_dibagikan->saldo + $total_porsi_bmt;
             $shu_yang_harus_dibagikan->save();
-            
-            $data_distribusi = [
-                "id_user"   => Auth::user()->id,
-                "status"    => "Pendistribusian Pendapatan",
-                "transaksi" => $this->getDistribusiData()
-            ];
-            $this->insertPenyimpananPendistribusian($data_distribusi);
 
             DB::commit();
             $response = array("type" => "success", "message" => "Pendistribusian Pendapatan Berhasil Dilakukan.");
@@ -532,6 +538,25 @@ class DistribusiPendapatanReporsitories {
         }
 
         return $response;
+    }
+
+    /** 
+     * Get data riwayat distribusi pendapatan
+     * @return Response
+    */
+    public function getDistribusiHistory($date)
+    {
+        $distribusi = PenyimpananDistribusi::whereMonth('created_at', Carbon::now()->format('n'))
+                                            ->whereYear('created_at', Carbon::now()->format('yy'))
+                                            ->get();
+        
+        if($date !== "")
+        {
+            $distribusi = PenyimpananDistribusi::whereMonth('created_at', Carbon::parse($date)->format('n'))
+                                            ->whereYear('created_at', Carbon::parse($date)->format('yy'))
+                                            ->get();
+        }
+        return $distribusi;
     }
 }
 

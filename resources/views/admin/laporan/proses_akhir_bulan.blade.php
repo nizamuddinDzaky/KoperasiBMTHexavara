@@ -24,12 +24,9 @@
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
-                    {{ csrf_field() }}
-                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option disabled selected > - Periode -</option>
-                        </select>
-                    </form>
+                    <div class="col-sm-12 col-md-4 col-lg-3">
+                        <input type="text" class="form-control without-day" name="dateYearAndMonth" placeholder="Filter" />
+                    </div>
 
                     @if($status == false)
                     <div class="button-group right">
@@ -55,6 +52,98 @@
     <div class="content">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
+                
+                @if($status)
+                    <div class="alert alert-success text-center">
+                        <span><b>Distribusi Pendapatan bulan ini telah dilakukan</b> !</span>
+                    </div>
+                @endif
+
+                <div class="card">
+                    <div class="header text-center">
+                        <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan periode {{date("F Y")}}</p>
+                            <br />
+                    </div>
+
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="text-left">No</th>
+                                <th rowspan="2"> Produk</th>
+                                <th rowspan="2"> Saldo Rata-rata</th>
+                                <th rowspan="2"> Pendapatan</th>
+                                <th colspan="2" class="text-center"> Nisbah</th>
+                                <th colspan="2" class="text-center"> Porsi</th>
+                                <th rowspan="2"> % Anggota</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Anggota</th>
+                                <th class="text-center">BMT</th>
+                                <th class="text-center">Anggota</th>
+                                <th class="text-center">BMT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        {{-- @php
+                            $i = 1;
+                            $total_pendapatan = 0;
+                            $total_rata_rata = 0;
+                            $total_porsi_anggota = 0;
+                            $total_porsi_bmt = 0;
+                            $total_persentase_anggota = 0;
+                        @endphp --}}
+                        @foreach($data as $item)
+                            @php
+                                $i = 1;
+                                $total_pendapatan = 0;
+                                $total_rata_rata = 0;
+                                $total_porsi_anggota = 0;
+                                $total_porsi_bmt = 0;
+                                $total_persentase_anggota = 0;
+                            @endphp
+                            @foreach(json_decode($item['transaksi']) as $value)
+                                <tr>
+                                    <td>{{$i}}</td>
+                                    <td>{{ $value->jenis_rekening }}</td>
+                                    <td class="text-right">{{number_format($value->rata_rata,2)}}</td>
+                                    <td class="text-right">{{ number_format($value->pendapatan_product,2) }}</td>
+                                    <td class="text-center">{{ $value->nisbah_anggota }}</td>
+                                    <td class="text-center">{{ $value->nisbah_bmt }}</td>
+                                    <td class="text-right">{{ number_format($value->porsi_anggota,2)  }}</td>
+                                    <td class="text-right">{{ number_format($value->porsi_bmt,2) }}</td>
+                                    <td class="text-center">{{ $value->total_pendapatan > 0 ? round($value->porsi_anggota / $value->total_pendapatan * 100, 2) : 0.00 }}%</td>
+                                </tr>
+                                @php 
+                                    $total_pendapatan = $value->total_pendapatan;
+                                    $total_rata_rata = $value->total_rata_rata;
+                                    $total_porsi_anggota += $value->porsi_anggota;
+                                    $total_porsi_bmt += $value->porsi_bmt;
+                                    $total_persentase_anggota += $value->total_pendapatan > 0 ? $value->porsi_anggota / $value->total_pendapatan * 100 : 0;
+                                    $i++;
+                                @endphp
+
+                            @endforeach
+                            <tr>
+                                <td></td>
+                                <td><b>TOTAL</b></td>
+                                <td class="text-right">{{number_format(json_decode($total_rata_rata),2)}}</td>
+                                <td class="text-right">{{number_format($total_pendapatan,2)}}</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">{{number_format($total_porsi_anggota,2)}}</td>
+                                <td class="text-right">{{number_format($total_porsi_bmt,2)}}</td>
+                                {{-- <td class="text-center">{{round($total_persentase_anggota,2)}}%</td> --}}
+                                <td>-</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div><!--  end card  -->
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
     </div>
