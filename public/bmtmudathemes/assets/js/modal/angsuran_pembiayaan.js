@@ -42,4 +42,23 @@ $(document).ready(function() {
         $("#apicAng").attr("src", button.data('path') );
 
     });
+
+    $("#angidRek").change(function() {
+        var form_value = $(this).val();
+        var id_user = form_value.split(" ")[9];
+        var formatter = new Intl.NumberFormat();
+
+        $.ajax({
+            type: "GET",
+            url: window.location.origin + "/api/get_user_tabungan/" + id_user,
+            dataType: "JSON",
+            success: function (response) {
+                response.forEach(element => {
+                    var detail = JSON.parse(element.detail);
+                    var template = `<option value="` + element.id + `"> [` + element.id_tabungan + `] ` + element.jenis_tabungan + ` [ ` + formatter.format(detail.saldo) + ` ] </option>`;
+                    $("#tabungan").append(template);
+                });
+            }
+        });
+    })
 });
