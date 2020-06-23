@@ -10,8 +10,8 @@ class PenyimpananSHU extends Model
 
     protected $fillable = [
         'id',
-        'id_shu',
-        'periode',
+        'id_user',
+        'status',
         'transaksi',
     ];
 

@@ -10,6 +10,7 @@ use App\Repositories\InformationRepository;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\PembiayaanReporsitory;
 use App\Repositories\DistribusiPendapatanReporsitories;
+use App\Repositories\SHUTahunanRepositories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -36,7 +37,8 @@ class LaporanController extends Controller
                                 RekeningReporsitories $rekeningReporsitory,
                                 PembiayaanReporsitory $pembiayaanReporsitory,
                                 InformationRepository $informationRepository,
-                                DistribusiPendapatanReporsitories $distribusiPendapatanReporsitory
+                                DistribusiPendapatanReporsitories $distribusiPendapatanReporsitory,
+                                SHUTahunanRepositories $shuTahunanRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -57,6 +59,7 @@ class LaporanController extends Controller
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
         $this->distribusiPendapatanReporsitory = $distribusiPendapatanReporsitory;
+        $this->shuTahunanRepository = $shuTahunanRepository;
     }
 
     /**
@@ -564,11 +567,13 @@ class LaporanController extends Controller
     }
 
     public function shu(){
-        $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $data_shu = $this->shuTahunanRepository->getSHU();
+        $data_distribusi = $this->shuTahunanRepository->getDataDistribusiSHU();
+        $status_distribusi = $this->shuTahunanRepository->checkStatus();
         return view('admin.laporan.shu',[
-            'data' => $this->informationRepository->shu(),
-            'status' => $this->informationRepository->cekshu(0),
-            'periode'  => $periode
+            'data_distribusi' => $data_distribusi,
+            'data_shu' => $data_shu,
+            'status' => $status_distribusi,
         ]);
     }
 
@@ -756,4 +761,47 @@ class LaporanController extends Controller
             }
         }
     }
+
+    /** 
+     * Proses akhir tahun View
+     * @return VIEW
+    */
+    public function proses_akhir_tahun(Request $request)
+    {
+        $date = isset($request->date) ? $request->date : "";
+        $data = $this->shuTahunanRepository->getHistorySHU($date);
+        $status = $this->shuTahunanRepository->checkStatus();
+        return view('admin.laporan.proses_akhir_tahun', compact('status', 'data'));
+    }
+
+    /** 
+     * do proses pendistribusian shu tahunan
+     * @return Response
+    */
+    public function do_proses_akhir_tahun(Request $request)
+    {
+        
+        $rekening_shu_yang_harus_dibagikan = BMT::where('nama', 'SHU YANG HARUS DIBAGIKAN')->first();
+        if($rekening_shu_yang_harus_dibagikan->saldo <= 0)
+        {
+            return redirect()
+                    ->back()
+                    ->withInput()->with('message', 'Pendistribusian tidak bisa dilakukan karena saldo SHU Yang Harus Dibagikan bernilan 0 atau lebih kecil.');
+        }
+        else
+        {
+            $data = $this->shuTahunanRepository->doPendistribusian($request);
+            if($data['type'] == "success") {
+                return redirect()
+                    ->back()
+                    ->withSuccess(sprintf($data['message']));
+            }
+            else
+            {
+                return redirect()
+                    ->back()
+                    ->withInput()->with('message', $data['message']);
+            }
+        }
+    } 
 }

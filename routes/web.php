@@ -112,6 +112,34 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
 
     });
 
+    /** 
+     * Proses akhir tahun berisi pendistribusian shu
+    */
+    Route::group([ 
+        'prefix' => 'proses_akhir_tahun', 
+        'middleware' => ['auth']
+    ], function() {
+
+        /** 
+         * Get UI
+         * @method GET
+        */
+        Route::get('index', [
+            'as'    => 'admin.proses_akhir_tahun.index',
+            'uses'  => 'LaporanController@proses_akhir_tahun'
+        ]);
+
+        /** 
+         * Send pendistribusian to user
+         * @method POST
+        */
+        Route::post('do_pendistribusian_shu', [
+            'as'    => 'admin.proses_akhir_tahun.do_pendistribusian_shu',
+            'uses'  => 'LaporanController@do_proses_akhir_tahun'
+        ]);
+
+    });
+
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pengajuan', 'middleware' => ['auth']], function () {
             Route::get('/', [

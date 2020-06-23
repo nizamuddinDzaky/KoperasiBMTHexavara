@@ -131,7 +131,7 @@
 </li>
 
 <li @if(Request::is('admin/proses/akhirtahun*'))class="active"@endif>
-    <a href="#nav_prosest">
+    <a href="{{ route('admin.proses_akhir_tahun.index') }}">
         <i class="pe-7s-wallet"></i>
         <p>Proses Akhir Tahun</p>
     </a>
