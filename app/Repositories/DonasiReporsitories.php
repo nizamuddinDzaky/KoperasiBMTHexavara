@@ -236,11 +236,29 @@ class DonasiReporsitories {
             }
 
             $detailToPenyimpananMaal = [
-                "jumlah"        => json_decode($pengajuan->detail)->jumlah,
-                "saldo_awal"    => $saldo_awal_donasi,
-                "saldo_akhir"   => $saldo_akhir_donasi,
-                "id_pengajuan"  => $pengajuan->id
+                'id_maal'   => json_decode($pengajuan->detail)->id_maal,
+                'jenis_donasi'    => json_decode($pengajuan->detail)->jenis_donasi,
+                'id'        => json_decode($pengajuan->detail)->id,
+                'nama'      => json_decode($pengajuan->detail)->nama,
+                'debit'     => json_decode($pengajuan->detail)->debit,
+                'path_bukti'=> json_decode($pengajuan->detail)->path_bukti,
+                'jumlah'    => json_decode($pengajuan->detail)->jumlah,
+                'rekening'  => json_decode($pengajuan->detail)->rekening,
+                'atasnama'  => json_decode($pengajuan->detail)->atasnama,
+                'bank'      => json_decode($pengajuan->detail)->bank,
+                'no_bank'   => json_decode($pengajuan->detail)->no_bank,
+                'bank_tujuan_transfer' => json_decode($pengajuan->detail)->bank_tujuan_transfer,
+                'saldo_awal' => $saldo_awal_donasi,
+                'saldo_akhir'   => $saldo_akhir_donasi
             ];
+
+            if($data->rekDon != null) {
+                $maal = Maal::where('id', $data->rekDon)->first();
+                $dana_terkumpul = json_decode($maal->detail)->terkumpul;
+                $detailToPenyimpananMaal['dana_terkumpul_awal'] = $saldo_awal_donasi;
+                $detailToPenyimpananMaal['dana_terkumpul_akhir'] = $saldo_akhir_donasi;
+            }
+
             $dataToInsertIntoPenyimpananMaal = [
                 'id_donatur'    => $pengajuan->id_user,
                 'id_maal'       => $data->rekDon,
@@ -501,8 +519,17 @@ class DonasiReporsitories {
                 'atasnama'  => $atasnama,
                 'bank'      => $namabank,
                 'no_bank'   => $norek,
-                'bank_tujuan_transfer' => $bank_tujuan_transfer
+                'bank_tujuan_transfer' => $bank_tujuan_transfer,
+                'saldo_awal' => $saldo_awal_donasi,
+                'saldo_akhir'   => $saldo_akhir_donasi
             ];
+
+            if($data->jenis_donasi == 'donasi kegiatan')
+            {
+                $kegiatan_maal_didonasi = Maal::where('id', $data->id_donasi)->first();
+                $detail['dana_terkumpul_awal'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul);
+                $detail['dana_terkumpul_akhir'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+            }
 
             $dataToSave = [
                 'id'                => $nextId,
