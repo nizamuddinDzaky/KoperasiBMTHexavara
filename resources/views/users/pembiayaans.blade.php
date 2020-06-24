@@ -583,7 +583,7 @@
                     $('#bayar_mar').hide()
                     $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
-                    $('#bayar_ang').val(formatter.format(angbln))
+                    $('#bayar_ang').val(formatter.format(angbln + marbln))
                     $('#bagi_margin').attr("required",false);
                     $("#marginHide").hide();
                 }

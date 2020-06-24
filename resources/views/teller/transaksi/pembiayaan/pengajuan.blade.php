@@ -555,7 +555,7 @@
                 var formatter = new Intl.NumberFormat();
                 $('#showPok').hide()
                 $('#angHide').show()
-                $('#marginHide').hide()
+                $('#marginHide').show()
                 if(marbln==0) {
                     $('#marginHide').hide()
                     $('#bagi_margin').attr("required",false);
@@ -566,11 +566,12 @@
                     $('#bagi_margin').attr("required",false);
                 }
                 if(rekening!=2) {
+                    $('#marginHide').hide()
                     $('#sisa_mar').show()
                     $('#bayar_mar').hide()
                     // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
-                    $('#bayar_ang').val(formatter.format(angbln))
+                    $('#bayar_ang').val(formatter.format(angbln + marbln))
                     $('#bagi_margin').attr("required",false);
                 }
                 else if(angke == 0) {
@@ -592,7 +593,7 @@
                 else {
                     $('#sisa_mar').show()
                     $('#bagi_margin').attr("required",false);
-                    $('#bayar_mar').hide()
+                    // $('#bayar_mar').show()
                     $('#bayar_ang').val(formatter.format(angbln))
                     // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
