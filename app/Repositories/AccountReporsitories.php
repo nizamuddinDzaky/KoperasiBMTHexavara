@@ -157,7 +157,8 @@ class AccountReporsitories {
                     $dataToWajibPokok = [
                         "wajib"     => $jumlah_bayar_simpanan_wajib,
                         "pokok"     => $jumlah_bayar_simpanan_pokok,
-                        "khusus"    => 0
+                        "khusus"    => 0,
+                        "margin"    => 0
                     ];
 
                     $updateUser = User::where('id', $user_tabungan->id)->update([

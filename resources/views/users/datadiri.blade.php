@@ -368,7 +368,7 @@
 										<div class="col-md-5 {{ !$errors->has('file') ?: 'has-error' }}">
 											<div class="form-group">
 												<label class="control-label">Status Kepemilikan Rumah</label>
-												<select name="rumah" class="form-control" selected="{{isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:""}}" required>
+												<select name="rumah" class="form-control select2" selected="{{isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:""}}" required>
 													<option disabled="">- pilih -</option>
 													<option value="HM"  @if(isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:"0"!="0")){{ json_decode(Auth::user()->detail,true)['rumah'] == "HM" ? ' selected="selected"' : '' }} @endif>Hak milik</option>
 													<option value="KK" @if(isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:"0"!="0")){{ json_decode(Auth::user()->detail,true)['rumah'] == "KK" ? ' selected="selected"' : '' }}@endif>Kontrak</option>
@@ -384,7 +384,7 @@
 											<div class="form-group">
 												<label for="id_" class="control-label">Rekening Tabungan <star>*</star></label>
 												<select class="form-control select2" id="tabungan" name="tab" style="width: 100%;">
-													<option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
+													<option selected disabled value="">-Pilih Rekening Tabungan-</option>
 													@foreach ($tab as $rekening)
 														<option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} </option>
 													@endforeach
@@ -474,6 +474,7 @@
 
 @section('extra_script')
 
+	<script src="{{URL::asset('bmtmudathemes/assets/js/loading.js')}}"></script>
 
 	<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 	<script src="{{URL::asset('bootstrap/assets/js/moment.min.js')}}"></script>
