@@ -7,6 +7,7 @@ use App\Deposito;
 use App\Pembiayaan;
 use App\Pengajuan;
 use App\PenyimpananWajibPokok;
+use App\PenyimpananPembiayaan;
 use App\Repositories\InformationRepository;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
@@ -1088,7 +1089,8 @@ class AdminController extends Controller
         $simpanan_pokok = PenyimpananWajibPokok::where('status', 'Simpanan Pokok')->orWhere('status', 'Pencairan Simpanan Pokok')->get();
         $simpanan_wajib = PenyimpananWajibPokok::where('status', 'Simpanan Wajib')->orWhere('status', 'Pencairan Simpanan Wajib')->get();
         $simpanan_khusus = PenyimpananWajibPokok::where('status', 'Simpanan Khusus')->orWhere('status', 'Pencairan Simpanan Khusus')->get();
-        return view('admin.transaksi.simpanan', compact('simpanan_pokok', 'simpanan_wajib', 'simpanan_khusus'));
+        $kontribusi_margin = PenyimpananPembiayaan::where('status', 'like', 'Angsuran%')->orWhere('status', 'like', 'Pelunasan%')->get();
+        return view('admin.transaksi.simpanan', compact('simpanan_pokok', 'simpanan_wajib', 'simpanan_khusus', 'kontribusi_margin'));
     }
 
     /**

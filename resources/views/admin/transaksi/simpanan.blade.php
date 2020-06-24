@@ -171,7 +171,7 @@
                                 <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
-                            <table id="bootstrap-table" class="bootstrap-table table">
+                            <table class="bootstrap-table-asc table">
                                 <thead>
                                     <th></th>
                                     <th class="text-left" data-sortable="true">ID </th>
@@ -180,20 +180,15 @@
                                     <th class="text-left" data-sortable="true">JUMLAH KONTRIBUSI NISBAH</th>
                                 </thead>
                                 <tbody>
+                                    @foreach($kontribusi_margin as $item)
                                     <tr>
                                         <td></td>
-                                        <td>1</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->user->nama }}</td>
+                                        <td>{{ $item->user->no_ktp }}</td>
+                                        <td>Rp. {{ number_format(json_decode($item->transaksi)->bayar_margin) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>2</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
     

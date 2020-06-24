@@ -280,7 +280,7 @@
             </div> <!-- end row -->
         </div>
     </div>
-    @include('modal.pengajuan')
+    {{-- @include('modal.pengajuan') --}}
 @endsection
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->

@@ -20,7 +20,7 @@ class PenyimpananPembiayaan extends Model
         return $this->belongsTo('App\Pembiayaan', 'id');
     }
     public function user(){
-        return $this->belongsTo('App\User','id');
+        return $this->belongsTo('App\User','id_user');
     }
     //
 }
