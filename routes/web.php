@@ -166,19 +166,62 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
          * Admin Dashboard Menu Transaksi
          * Transaksi tabungan anggota controller
         */
-        Route::get('/tabungan', [
-            'as' => 'admin.transaksi.tabungan',
-            'uses' => 'AdminController@tabungan'
-        ]);
+        Route::group([
+            'prefix'        => 'tabungan',
+            'middleware'    => ['auth']
+        ], function() {
+
+            /** 
+             * Default dashboard
+             * @method GET
+            */
+            Route::get('/', [
+                'as' => 'admin.transaksi.tabungan',
+                'uses' => 'AdminController@tabungan'
+            ]);
+
+            /** 
+             * Detail tabungan
+             * @method GET
+            */
+            Route::get('/detail/{id}', [
+                'as'    => 'admin.transaksi.tabungan.detail',
+                'uses'  => 'AdminController@detail_tabungan'
+            ]);
+
+            /** 
+             * Riwayat tabungan
+             * @method GET
+            */
+            Route::get('/riwayat/{id}', [
+                'as'    => 'admin.transaksi.tabungan.riwayat',
+                'uses'  => 'AdminController@riwayat_tabungan'
+            ]);
+        });
 
         /** 
          * Admin Dashboard Menu Transaksi
          * Transaksi mudharabag berjangka anggota controller
         */
-        Route::get('/deposito', [
-            'as' => 'admin.transaksi.deposito',
-            'uses' => 'AdminController@deposito'
-        ]);
+        Route::group([
+            'prefix'        => 'deposito',
+            'middleware'    => ['auth']
+        ], function() {
+            
+            /**
+             * Default dashboard
+             * @method GET
+             */
+            Route::get('/', [
+                'as' => 'admin.transaksi.deposito',
+                'uses' => 'AdminController@deposito'
+            ]);
+
+            Route::get('/detail/{id}', [
+                'as'    => 'admin.transaksi.deposito.detail',
+                'uses'  => 'AdminController@detail_deposito'
+            ]);
+        });
 
         /** 
          * Admin Dashboard Menu Transaksi

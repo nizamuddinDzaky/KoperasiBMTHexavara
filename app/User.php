@@ -36,12 +36,12 @@ class User extends Authenticatable
 
     public function tabungan()
     {
-        return $this->hasMany('App\Tabungan');
+        return $this->hasMany('App\Tabungan', 'id_user');
     }
 
     public function deposito()
     {
-        return $this->hasMany('App\Deposito');
+        return $this->hasMany('App\Deposito', 'id_user');
     }
 
     public function pembiayaan()
@@ -75,5 +75,13 @@ class User extends Authenticatable
 
     public function PenyimpananDistribusi() {
         return $this->hasMany('App\PenyimpananDistribusi', 'id_user');
+    }
+
+    public function PenyimpananWajibPokok() {
+        return $this->hasMany('App\PenyimpananWajibPokok', 'id_user');
+    }
+
+    public function PenyimpananTabungan() {
+        return $this->hasMany('App\PenyimpananTabungan', 'id_user');
     }
 }

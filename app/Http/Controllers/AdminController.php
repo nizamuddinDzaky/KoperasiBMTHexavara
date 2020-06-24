@@ -6,7 +6,10 @@ use App\BMT;
 use App\Deposito;
 use App\Pembiayaan;
 use App\Pengajuan;
+use App\PenyimpananWajibPokok;
 use App\Repositories\InformationRepository;
+use App\Repositories\TabunganReporsitories;
+use App\Repositories\DepositoReporsitories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -34,7 +37,9 @@ class AdminController extends Controller
                                 Pengajuan $pengajuan,
                                 BMT $bmt,
                                 InformationRepository $informationRepository,
-                                RekeningReporsitories $rekeningReporsitory
+                                RekeningReporsitories $rekeningReporsitory,
+                                TabunganReporsitories $tabunganReporsitory,
+                                DepositoReporsitories $depositoReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -56,6 +61,8 @@ class AdminController extends Controller
         $this->bmt = $bmt;
         $this->informationRepository = $informationRepository;
         $this->rekeningReporsitory = $rekeningReporsitory;
+        $this->tabunganReporsitory = $tabunganReporsitory;
+        $this->depositoReporsitory = $depositoReporsitory;
     }
 
 
@@ -1078,7 +1085,10 @@ class AdminController extends Controller
     */
     public function simpanan(Request $request)
     {
-        return view('admin.transaksi.simpanan');
+        $simpanan_pokok = PenyimpananWajibPokok::where('status', 'Simpanan Pokok')->orWhere('status', 'Pencairan Simpanan Pokok')->get();
+        $simpanan_wajib = PenyimpananWajibPokok::where('status', 'Simpanan Wajib')->orWhere('status', 'Pencairan Simpanan Wajib')->get();
+        $simpanan_khusus = PenyimpananWajibPokok::where('status', 'Simpanan Khusus')->orWhere('status', 'Pencairan Simpanan Khusus')->get();
+        return view('admin.transaksi.simpanan', compact('simpanan_pokok', 'simpanan_wajib', 'simpanan_khusus'));
     }
 
     /**
@@ -1086,7 +1096,27 @@ class AdminController extends Controller
      * @return View
     */
     public function tabungan(){
-        return view('admin.transaksi.tabungan');
+        $data_tabungan = $this->tabunganReporsitory->getGroupingTabungan();
+        return view('admin.transaksi.tabungan', compact('data_tabungan'));
+    }
+
+    /**
+     * Detail tabungan anggota controller
+     * @return View
+    */
+    public function detail_tabungan($id){
+        $data_tabungan = $this->tabunganReporsitory->getGroupingTabungan($id);
+        return view('admin.transaksi.detail_tabungan', compact('data_tabungan'));
+    }
+
+    /**
+     * Riwayat tabungan anggota controller
+     * @return View
+    */
+    public function riwayat_tabungan($id){
+        $data_tabungan = $this->tabunganReporsitory->getRiwayatTabungan($id);
+        // return response()->json($data_tabungan);
+        return view('admin.transaksi.riwayat_tabungan', compact('data_tabungan'));
     }
 
     /**
@@ -1094,7 +1124,17 @@ class AdminController extends Controller
      * @return View
     */
     public function deposito(){
-        return view('admin.transaksi.deposito');
+        $data_deposito = $this->depositoReporsitory->getGroupingDeposito();
+        return view('admin.transaksi.deposito', compact('data_deposito'));
+    }
+
+    /**
+     * Detail deposito anggota controller
+     * @return View
+    */
+    public function detail_deposito($id){
+        $data_deposito = $this->depositoReporsitory->getGroupingDeposito($id);
+        return view('admin.transaksi.detail_deposito', compact('data_deposito'));
     }
     
 

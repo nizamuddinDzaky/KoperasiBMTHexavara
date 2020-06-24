@@ -21,4 +21,10 @@ class Rekening extends Model
     public function bmt() {
         return $this->hasOne('App\BMT', 'id_rekening');
     }
+    public function tabungan() {
+        return $this->hasMany('App\Tabungan', 'id_rekening');
+    }
+    public function deposito() {
+        return $this->hasMany('App\Deposito', 'id_rekening');
+    }
 }

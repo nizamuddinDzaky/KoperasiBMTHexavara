@@ -20,7 +20,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Simpanan Anggota</h4>
+                <h4 class="title">Rekening Deposito</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -51,54 +51,26 @@
                             <th class="text-center" data-sortable="true">DETAIL</th>
                         </thead>
                         <tbody>
+                            @foreach($data_deposito as $deposito)
                             <tr class="zoom-effect">
                                 <td class="with-icon">
                                     <div class="icon primary">
                                         <i class="fa fa-donate"></i>
                                     </div>
                                 </td>
-                                <td>MUDHARABAH 1 BULAN</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
+                                <td>{{ $deposito->nama_rekening }}</td>
+                                <td>{{ $deposito->jumlah_anggota }} ANGGOTA</td>
+                                <td>Rp. {{ number_format($deposito->jumlah_saldo) }}</td>
+                                <td>{{ count($deposito->pengajuan) }} PENGAJUAN BARU</td>
                                 <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
+                                    <a href="{{ route('admin.transaksi.deposito.detail', [$deposito->id]) }}">
+                                        <div class="icon default">
+                                            <i class="material-icons">more_horiz</i>
+                                        </div>
+                                    </a>
                                 </td>
                             </tr>
-                            <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
-                                <td>MUDHARABAH 1 BULAN</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
-                                <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
-                                <td>MUDHARABAH 1 BULAN</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
-                                <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div><!--  end card  -->

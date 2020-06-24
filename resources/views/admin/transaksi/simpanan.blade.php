@@ -63,7 +63,7 @@
                                 <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
-                            <table id="bootstrap-table" class="bootstrap-table table">
+                            <table class="bootstrap-table-asc table">
                                 <thead>
                                     <th></th>
                                     <th class="text-left" data-sortable="true">ID </th>
@@ -72,20 +72,15 @@
                                     <th class="text-left" data-sortable="true">JUMLAH SIMPANAN POKOK</th>
                                 </thead>
                                 <tbody>
+                                    @foreach($simpanan_pokok as $item)
                                     <tr>
                                         <td></td>
-                                        <td>1</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->user->nama }}</td>
+                                        <td>{{ $item->user->no_ktp }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>2</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
     
@@ -104,7 +99,7 @@
                                 <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
-                            <table id="bootstrap-table" class="bootstrap-table table">
+                            <table class="bootstrap-table-asc table">
                                 <thead>
                                     <th></th>
                                     <th class="text-left" data-sortable="true">ID </th>
@@ -113,20 +108,15 @@
                                     <th class="text-left" data-sortable="true">JUMLAH SIMPANAN WAJIB</th>
                                 </thead>
                                 <tbody>
+                                    @foreach($simpanan_wajib as $item)
                                     <tr>
                                         <td></td>
-                                        <td>1</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->user->nama }}</td>
+                                        <td>{{ $item->user->no_ktp }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>2</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
     
@@ -145,7 +135,7 @@
                                 <p class="category">Daftar Pengajuan Anggota</p>
                                 <br />
                             </div>
-                            <table id="bootstrap-table" class="bootstrap-table table">
+                            <table class="bootstrap-table-asc table">
                                 <thead>
                                     <th></th>
                                     <th class="text-left" data-sortable="true">ID </th>
@@ -154,20 +144,15 @@
                                     <th class="text-left" data-sortable="true">JUMLAH SIMPANAN KHUSUS</th>
                                 </thead>
                                 <tbody>
+                                    @foreach($simpanan_khusus as $item)
                                     <tr>
                                         <td></td>
-                                        <td>1</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->user->nama }}</td>
+                                        <td>{{ $item->user->no_ktp }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>2</td>
-                                        <td>Muhammad Alibiyanto</td>
-                                        <td>2011239809</td>
-                                        <td>Rp.100,000</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
     

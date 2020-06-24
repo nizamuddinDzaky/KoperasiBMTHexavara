@@ -1084,4 +1084,62 @@ class DepositoReporsitories {
 
         return $response;
     }
+
+
+    /** 
+     * Get grouping deposito
+     * Ambil data deposito bersama data pengguna
+     * @return Response
+    */
+    public function getGroupingDeposito($id="")
+    {
+        if($id == "") 
+        {
+            $rekening_deposito = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'DEPOSITO'] ])->get();
+            foreach($rekening_deposito as $rekening)
+            {
+                $rekening['jumlah_anggota'] = count($rekening->deposito);
+                
+                if(count($rekening->deposito) > 0)
+                {
+                    foreach($rekening->deposito as $deposito)
+                    {
+                        $pengajuan = Pengajuan::where([ ['jenis_pengajuan', 'Buka Mudharabah Berjangka ' . $deposito->jenis_deposito], ['status', 'Menunggu Konfirmasi'] ])->get();
+                        $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                        $rekening['pengajuan'] = $pengajuan;
+                    }
+                }
+                else
+                {
+                    $rekening['jumlah_saldo'] = 0;
+                    $rekening['pengajuan'] = [];
+                }
+            }
+        }
+        else
+        {
+            $rekening_deposito = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'DEPOSITO'], ['id', $id] ])->get();
+            foreach($rekening_deposito as $rekening)
+            {
+                $rekening['jumlah_anggota'] = count($rekening->deposito);
+                
+                if(count($rekening->deposito) > 0)
+                {
+                    foreach($rekening->deposito as $deposito)
+                    {
+                        $pengajuan = Pengajuan::where([ ['jenis_pengajuan', 'Buka Mudharabah Berjangka ' . $deposito->jenis_deposito], ['status', 'Menunggu Konfirmasi'] ])->get();
+                        $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                        $rekening['pengajuan'] = $pengajuan;
+                    }
+                }
+                else
+                {
+                    $rekening['jumlah_saldo'] = 0;
+                    $rekening['pengajuan'] = [];
+                }
+            }
+        }
+
+        return $rekening_deposito;
+    }
 }

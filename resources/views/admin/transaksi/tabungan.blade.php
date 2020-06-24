@@ -20,7 +20,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Simpanan Anggota</h4>
+                <h4 class="title">Rekening Tabungan</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -51,89 +51,26 @@
                             <th class="text-center" data-sortable="true">DETAIL</th>
                         </thead>
                         <tbody>
+                            @foreach($data_tabungan as $item)
                             <tr class="zoom-effect">
                                 <td class="with-icon">
                                     <div class="icon primary">
                                         <i class="fa fa-donate"></i>
                                     </div>
                                 </td>
-                                <td>SIMPANAN MUDHARABAH UMUM</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
+                                <td>{{ $item->nama_rekening }}</td>
+                                <td>{{ $item->jumlah_anggota }} ANGGOTA</td>
+                                <td>Rp. {{ number_format($item->jumlah_saldo) }}</td>
+                                <td>{{ count($item->pengajuan) }} PENGAJUAN BARU</td>
                                 <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
+                                    <a href="{{ route('admin.transaksi.tabungan.detail', [$item->id]) }}">
+                                        <div class="icon default">
+                                            <i class="material-icons">more_horiz</i>
+                                        </div>
+                                    </a>
                                 </td>
                             </tr>
-                            <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
-                                <td>SIMPANAN MUDHARABAH UMUM</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
-                                <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tr>
-                            <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
-                                <td>SIMPANAN MUDHARABAH UMUM</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
-                                <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tr>
-                            <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
-                                <td>SIMPANAN MUDHARABAH UMUM</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
-                                <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tr>
-                            <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
-                                <td>SIMPANAN MUDHARABAH UMUM</td>
-                                <td>140 ANGGOTA</td>
-                                <td>Rp. 3,000,000,000</td>
-                                <td>50 PENGAJUAN BARU</td>
-                                <td class="with-icon">
-                                    <div class="icon default">
-                                        <i class="material-icons">more_horiz</i>
-                                    </div>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div><!--  end card  -->

@@ -749,4 +749,74 @@ class TabunganReporsitories {
             return "error";
         }
     }
+
+    /** 
+     * Get grouping tabungan
+     * ambil data tabungan berdasarkan jenis tabungan
+     * @return Response
+    */
+    public function getGroupingTabungan($id="") 
+    {
+        if($id == "")
+        {
+            $rekening_tabungan = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'TABUNGAN'] ])->get();
+            foreach($rekening_tabungan as $rekening)
+            {
+                $rekening['jumlah_anggota'] = count($rekening->tabungan);
+
+                if(count($rekening->tabungan) > 0)
+                {
+                    foreach($rekening->tabungan as $tabungan)
+                    {
+                        $pengajuan = Pengajuan::where([ ['jenis_pengajuan', 'Buka Tabungan ' . $tabungan->jenis_tabungan], ['status', 'Menunggu Konfirmasi'] ])->get();
+                        $rekening['jumlah_saldo'] += json_decode($tabungan->detail)->saldo;
+                        $rekening['pengajuan'] = $pengajuan;
+                    }
+                }
+                else
+                {
+                    $rekening['jumlah_saldo'] = 0;
+                    $rekening['pengajuan'] = [];
+                }
+            }
+        }
+        else
+        {
+            $rekening_tabungan = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'TABUNGAN'], ['id', $id] ])->get();
+            foreach($rekening_tabungan as $rekening)
+            {
+                $rekening['jumlah_anggota'] = count($rekening->tabungan);
+
+                if(count($rekening->tabungan) > 0)
+                {
+                    foreach($rekening->tabungan as $tabungan)
+                    {
+                        $pengajuan = Pengajuan::where([ ['jenis_pengajuan', 'Buka Tabungan ' . $tabungan->jenis_tabungan], ['status', 'Menunggu Konfirmasi'] ])->get();
+                        $rekening['jumlah_saldo'] += json_decode($tabungan->detail)->saldo;
+                        $rekening['pengajuan'] = $pengajuan;
+                    }
+                }
+                else
+                {
+                    $rekening['jumlah_saldo'] = 0;
+                    $rekening['pengajuan'] = [];
+                }
+            }
+        }
+
+        return $rekening_tabungan;
+    }
+
+    /** 
+     * Get riwayat transaksi tabungan
+     * @return Response
+    */
+    public function getRiwayatTabungan($id="")
+    {
+        if($id !== "")
+        {
+            $data_riwayat = PenyimpananTabungan::where([ ['id_tabungan', $id], ['status', '!=', 'Setoran Awal'] ])->get();
+        }
+        return $data_riwayat;
+    }
 }
