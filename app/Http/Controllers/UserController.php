@@ -23,6 +23,7 @@ use App\Repositories\AccountReporsitories;
 use App\Repositories\DepositoReporsitories;
 use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
+use App\Repositories\ExportRepositories;
 use Carbon\Carbon;
 
 class UserController extends Controller
@@ -49,7 +50,8 @@ class UserController extends Controller
                                 AccountReporsitories $accountReporsitory,
                                 DepositoReporsitories $depositoReporsitory,
                                 DonasiReporsitories $donasiReporsitory,
-                                RekeningReporsitories $rekeningReporsitory
+                                RekeningReporsitories $rekeningReporsitory,
+                                ExportRepositories $exportRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -78,6 +80,7 @@ class UserController extends Controller
         $this->depositoReporsitory = $depositoReporsitory;
         $this->donasiReporsitory = $donasiReporsitory;
         $this->rekeningReporsitory = $rekeningReporsitory;
+        $this->exportRepository = $exportRepository;
     }
 
     /**
@@ -1078,5 +1081,11 @@ class UserController extends Controller
                 ->back()
                 ->withInput()->with('message', $create_pengajuan['message']);
         }
+    }
+
+    public function tes() 
+    {
+        $this->exportRepository->exportWord();
+        return response()->json('work');
     }
 }

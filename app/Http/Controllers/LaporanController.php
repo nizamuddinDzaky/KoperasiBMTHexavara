@@ -146,7 +146,7 @@ class LaporanController extends Controller
         {
             $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->tipe, Carbon::now());
         }
-        return response()->json($data);
+        // return response()->json($data);
         return view('admin.laporan.kas_harian',[
             'data' => $data
         ]);

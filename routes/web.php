@@ -1722,3 +1722,5 @@ Route::group([
         'uses'  => 'ApiController@getRekeningWithExcluding'   
     ]);
 });
+
+Route::get('tes', 'UserController@tes');
