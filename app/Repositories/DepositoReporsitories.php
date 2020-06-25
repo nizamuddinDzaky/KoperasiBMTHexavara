@@ -71,7 +71,7 @@ class DepositoReporsitories {
             $dataToPenyimpananTabungan = [
                 "id_user"       => $deposito->id_user,
                 "id_tabungan"   => json_decode($deposito->detail)->id_pencairan,
-                "status"        => "Pencairan Mudharabah Berjangka",
+                "status"        => "Pencairan " . $deposito->jenis_deposito,
                 "transaksi"     => $detailToPenyimpananTabungan,
                 "teller"        => Auth::user()->id
             ];
@@ -118,7 +118,7 @@ class DepositoReporsitories {
                 $dataToPenyimpananDeposito = [
                     "id_user"       => $deposito->id_user,
                     "id_deposito"   => $depositoDicairkan->id,
-                    "status"        => "Pencairan Deposito",
+                    "status"        => "Pencairan " . $depositoDicairkan->jenis_deposito,
                     "transaksi"     => $detailToPenyimpananDeposito,
                     "teller"        => Auth::user()->id
                 ];
@@ -132,7 +132,7 @@ class DepositoReporsitories {
                 $dataToPenyimpananBMT = [
                     "id_user"   => $deposito->id_user,
                     "id_bmt"    => $bmtDepositoDicairkan->id,
-                    "status"    => "Pencairan Deposito",
+                    "status"    => "Pencairan " . $bmtDepositoDicairkan->jenis_deposito,
                     "transaksi" => $detailToPenyimpananBMT,
                     "teller"    => Auth::user()->id
                 ];
@@ -314,7 +314,7 @@ class DepositoReporsitories {
                 $dataToPenyimpananBMT = [
                     "id_user"   => $pengajuan->id_user,
                     "id_bmt"    => $bmtDeposito->id,
-                    "status"    => "Deposit Awal",
+                    "status"    => "Deposit Awal " . $bmtDeposito->nama,
                     "transaksi" => $detailToPenyimpananBMT,
                     "teller"    => Auth::user()->id
                 ];
@@ -826,7 +826,7 @@ class DepositoReporsitories {
                 $dataToPenyimpananDeposito = [
                     "id_user"       => $pengajuan->id_user,
                     "id_deposito"   => $depositoDiperpanjang->id,
-                    "status"        => "Perpanjangan Deposito",
+                    "status"        => "Perpanjangan Deposito " . $depositoDiperpanjang->jenis_deposito,
                     "transaksi"     => $detailToPenyimpananDeposito,
                     "teller"        => Auth::user()->id
                 ];
@@ -842,7 +842,7 @@ class DepositoReporsitories {
                 $dataToPenyimpananBMT = [
                     "id_user"   => $pengajuan->id_user,
                     "id_bmt"    => $bmtDepositoTujuan->id,
-                    "status"    => "Perpanjangan Deposito",
+                    "status"    => "Perpanjangan Deposito " . $bmtDepositoTujuan->nama,
                     "transaksi" => $detailToPenyimpananBMT,
                     "teller"    => Auth::user()->id
                 ];
@@ -875,7 +875,7 @@ class DepositoReporsitories {
                     $dataToPenyimpananTabungan = [
                         "id_user"   => $pengajuan->id_user,
                         "id_tabungan" => $tabunganPencairan->id,
-                        "status"    => "Perpanjangan Deposito",
+                        "status"    => "Perpanjangan Deposito " . $bmtDepositoDiperpanjang->nama,
                         "transaksi" => $detailToPenyimpananTabungan,
                         "teller"    => Auth::user()->id
                     ];
@@ -990,7 +990,7 @@ class DepositoReporsitories {
                 $dataToPenyimpananDeposito = [
                     "id_user"       => $depositoDiperpanjang->id_user,
                     "id_deposito"   => $depositoDiperpanjang->id,
-                    "status"        => "Perpanjangan Deposito",
+                    "status"        => "Perpanjangan Deposito " . $depositoDiperpanjang->jenis_deposito,
                     "transaksi"     => $detailToPenyimpananDeposito,
                     "teller"        => Auth::user()->id
                 ];
@@ -1006,7 +1006,7 @@ class DepositoReporsitories {
                 $dataToPenyimpananBMT = [
                     "id_user"   => $depositoDiperpanjang->id_user,
                     "id_bmt"    => $bmtDepositoTujuan->id,
-                    "status"    => "Perpanjangan Deposito",
+                    "status"    => "Perpanjangan Deposito " . $bmtDepositoDiperpanjang->nama,
                     "transaksi" => $detailToPenyimpananBMT,
                     "teller"    => Auth::user()->id
                 ];
@@ -1040,7 +1040,7 @@ class DepositoReporsitories {
                     $dataToPenyimpananTabungan = [
                         "id_user"   => $depositoDiperpanjang->id_user,
                         "id_tabungan" => $tabunganPencairan->id,
-                        "status"    => "Perpanjangan Deposito",
+                        "status"    => "Perpanjangan Deposito " . $bmtDepositoDiperpanjang->nama,
                         "transaksi" => $detailToPenyimpananTabungan,
                         "teller"    => Auth::user()->id
                     ];
