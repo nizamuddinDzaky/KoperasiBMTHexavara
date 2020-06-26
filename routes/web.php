@@ -736,10 +736,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'admin.maal',
             'uses'      => 'MaalController@index'
         ]);
-        //        Route::post('/add', [
-        //            'as'        => 'add.kegiatan',
-        //            'uses'      => 'MaalController@add_kegiatan'
-        //        ]);
+
+        Route::post('/add', [
+            'as'        => 'add.kegiatan',
+            'uses'      => 'MaalController@add_kegiatan'
+        ]);
         //        Route::post('/edit', [
         //            'as'        => 'edit.kegiatan',
         //            'uses'      => 'MaalController@edit_kegiatan'
@@ -1313,10 +1314,16 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'        => 'teller.maal',
             'uses'      => 'MaalController@index'
         ]);
-        Route::post('/add', [
-            'as'        => 'add.kegiatan',
-            'uses'      => 'MaalController@add_kegiatan'
-        ]);
+        // Route::post('/add', [
+        //     'as'        => 'add.kegiatan',
+        //     'uses'      => 'MaalController@add_kegiatan'
+        // ]);
+
+        // Route::post('/add', [
+        //     'as'        => 'add.kegiatan',
+        //     'uses'      => 'MaalController@add_kegiatan'
+        // ]);
+
         Route::post('/edit', [
             'as'        => 'edit.kegiatan',
             'uses'      => 'MaalController@edit_kegiatan'

@@ -109,17 +109,20 @@ class MaalController extends Controller
             'data' =>$this->informationRepository->getAllTransaksiMaal($request),
         ]);
     }
+
     public function add_kegiatan(Request $request){
-        if($this->informationRepository->addKegiatan($request))
+        $store = $this->donasiReporsitory->createNewKegiatan($request);
+        if($store['type'] == "success")
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Kegiatan Maal berhasil ditambah!.'));
+                ->withSuccess(sprintf($store['message']));
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Kegiatan Maal gagal ditambah!.');
+                ->withInput()->with('message', $store['message']);
         }
     }
+
     public function edit_kegiatan(Request $request){
         if($this->informationRepository->editKegiatan($request))
             return redirect()

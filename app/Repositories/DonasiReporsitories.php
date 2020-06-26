@@ -22,6 +22,7 @@ use App\Maal;
 use App\PenyimpananMaal;
 use App\PenyimpananBMT;
 use App\User;
+use Carbon\Carbon;
 
 class DonasiReporsitories {
 
@@ -685,6 +686,59 @@ class DonasiReporsitories {
         {
             DB::rollback();
             $response = array('type' => 'error', 'message' => 'Pembayaran donasi gagal dilakukan');
+        }
+
+        return $response;
+    }
+
+    /** 
+     * Create new kegiatan donasi
+     * @return Response
+    */
+    public function createNewKegiatan($data)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $kegiatan = Maal::take('1')->orderBy('id_maal', 'desc')->first();
+            $last_id = $kegiatan->id_maal;
+            $bmt_maal = BMT::where('nama', 'DANA SOSIAL')->first();
+
+            $file = $data->file->getClientOriginalName();
+            $file_name = preg_replace('/\s+/', '_', $file);
+            $fileToUpload = time() . "-" . $file_name;
+
+            $detail = array(
+                "detail"        => $data->detail,
+                "dana"          => preg_replace('/[^\d.]/', '', $data->jumlah),
+                "terkumpul"     => 0,
+                "path_poster"   => $fileToUpload
+            );
+
+            $maal = new Maal();
+            $maal->id = $last_id + 1;
+            $maal->id_maal = $last_id + 1;
+            $maal->id_rekening = $bmt_maal->id_rekening;
+            $maal->nama_kegiatan = $data->kegiatan;
+            $maal->tanggal_pelaksaaan = Carbon::parse($data->tgl)->format('Y-m-d');
+            $maal->status = "active";
+            $maal->detail = json_encode($detail);
+            $maal->teller = Auth::user()->id;
+
+            if($maal->save())
+            {
+                $data->file('file')->storeAs(
+                    'public/maal', $fileToUpload
+                );
+
+                DB::commit();
+                $response = array("type" => "success", "message" => "Data kegiatan berhasil dibuat.");
+            }
+        }
+        catch(Exception $ex)
+        {
+            DB::rollback();
+            $response = array("type" => "error", "message" => "Data kegiatan gagal dibuat.");
         }
 
         return $response;

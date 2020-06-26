@@ -11,7 +11,6 @@
             height: 15vw;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;;
 
             @include respond-below(sm) {
                 height: auto;
@@ -35,10 +34,10 @@
         .title {
             text-align: center;
             padding: 20px;
-            padding-bottom: 10px;
+            padding-bottom: 0;
             font-size: 15px !important;
             font-weight: $font-bold;
-            letter-spacing: 2px;
+            // letter-spacing: 2px;
             text-transform: uppercase;
         }
         .description {
@@ -56,26 +55,32 @@
                 text-overflow: ellipsis;
             }
         }
+        .summernote-content {
+            padding: 20px;
+            padding-top:0;
+            padding-bottom: 0;
+            p {
+                font-size: 12px !important;
+                height: 90px;
+                line-height: 15px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: justify;
+            }
+        }
         .date {
             padding-left: 20px;
             padding-right: 20px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-
-            .label {
-                padding-left: 0;
-                font-size: 12px !important;
-                color: $black !important;
-                font-weight: $font-normal;
-
-                &.large {
-                    font-size: 13px !important;
-                }
-            }
+            width: 100%;
+            background-color: $navbar-background-color;
             .content {
-                padding: 0;
-                font-size: 13px;
+                padding: 10px;
+                // padding-bottom: 5px;
+                text-align: center;
+                font-weight: $font-bold;
+                margin-bottom: 0;
+                font-size: 12px;
+                color: $white;
                 &.large {
                     font-size: 15px !important;
                 }

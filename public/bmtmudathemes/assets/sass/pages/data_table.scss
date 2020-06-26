@@ -41,6 +41,10 @@
     .head-noted {
         display: flex;
         flex-direction: row;
+        
+        @include respond-below(sm) {
+            flex-direction: column;
+        }
 
         &.right {
             position: absolute;
@@ -70,6 +74,12 @@
                 padding: 0;
                 width: 100%;
                 font-weight: $font-normal;
+            }
+        }
+        .button-group {
+            @include respond-below(sm) {
+                align-self: center;
+                margin-top: 10px;
             }
         }
     }

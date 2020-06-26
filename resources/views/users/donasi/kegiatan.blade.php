@@ -12,26 +12,19 @@
             >
                 <div class="card-image">
                     @if(json_decode($item['detail'], true)['path_poster'] != "") 
-                        <img src="{{ asset('storage/file' . json_decode($item['detail'], true)['path_poster']) }}">
+                        <img src="{{ asset('storage/public/maal/' . json_decode($item['detail'], true)['path_poster']) }}">
                     @else
                         <img src="{{ asset('bmtmudathemes/assets/images/no-image-available.png') }}">
                     @endif
                 </div>
                 <div class="card-body">
+                    <div class="date">
+                        <p class="content">DANA DIBUTUHKAN : Rp. {{ number_format($dana) }}</p>   
+                    </div>
                     <h4 class="title">{{ $item['nama_kegiatan'] }}</h4>
                     <p class="description">
-                        {{ json_decode($item['detail'],true)['detail'] }}
+                        <div class="summernote-content">{!! json_decode($item['detail'],true)['detail'] !!}</div>
                     </p>
-                    <div class="date">
-                        <div>
-                            <span class="label">Dana Dibutuhkan</span>
-                            <p class="content">Rp. {{ number_format($dana) }}</p>
-                        </div>
-                        <div>
-                            <span class="label">Tanggal Pelaksanaan</span>
-                            <p class="content">{{ $tanggal_pelaksanaan->format('D, d M Y') }}</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="overlay"></div>
