@@ -110,14 +110,16 @@ class MaalController extends Controller
         ]);
     }
     public function add_kegiatan(Request $request){
-        if($this->informationRepository->addKegiatan($request))
+        $kegiatan = $this->donasiReporsitory->createNewKegiatan($request);
+        
+        if($kegiatan['type'] == "success")
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Kegiatan Maal berhasil ditambah!.'));
+                ->withSuccess(sprintf($kegiatan['message']));
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Kegiatan Maal gagal ditambah!.');
+                ->withInput()->with('message', $kegiatan['message']);
         }
     }
     public function edit_kegiatan(Request $request){

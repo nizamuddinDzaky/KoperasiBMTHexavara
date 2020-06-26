@@ -40,8 +40,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
 }
 
 @media (max-width: 575px) {
@@ -65,12 +63,25 @@
 
 .card .card-body .title {
   text-align: center;
-  padding: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 0;
   font-size: 15px !important;
   font-weight: 600;
-  letter-spacing: 2px;
   text-transform: uppercase;
+  padding-top: 10px;
+}
+
+.card .card-body .summernote-content {
+  padding: 20px;
+  padding-top: 0;
+}
+
+.card .card-body .summernote-content p {
+  font-size: 12px !important;
+  height: 90px;
+  line-height: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: justify;
 }
 
 .card .card-body .description {
@@ -92,32 +103,17 @@
 .card .card-body .date {
   padding-left: 20px;
   padding-right: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.card .card-body .date .label {
-  padding-left: 0;
-  font-size: 12px !important;
-  color: #000000 !important;
-  font-weight: 400;
-}
-
-.card .card-body .date .label.large {
-  font-size: 13px !important;
+  background-color: #3097D1;
 }
 
 .card .card-body .date .content {
   padding: 0;
-  font-size: 13px;
+  font-size: 12px;
+  text-align: center;
+  color: #FFFFFF;
+  padding: 10px;
+  margin-bottom: 0;
+  font-weight: 600;
 }
 
 .card .card-body .date .content.large {
@@ -1174,6 +1170,15 @@ input[type="checkbox"]:checked::after {
           flex-direction: row;
 }
 
+@media (max-width: 575px) {
+  .head .head-noted {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
 .head .head-noted.right {
   position: absolute;
   right: 10px;
@@ -1185,6 +1190,12 @@ input[type="checkbox"]:checked::after {
     position: relative;
     right: 0;
     top: 0;
+  }
+
+  .head .head-noted.right .button-group {
+    -ms-flex-item-align: center;
+        align-self: center;
+    margin-top: 10px;
   }
 }
 

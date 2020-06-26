@@ -2,7 +2,7 @@
 <div class="modal fade" id="addMaalModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCard">
-            <form id="wizardForm" method="POST" action="{{route('add.kegiatan')}}" enctype="multipart/form-data"">
+            <form id="wizardForm" method="POST" action="{{route('kegiatan.store')}}" enctype="multipart/form-data"">
             {{csrf_field()}}
             <div class="header text-center">
                 <h3 class="title">Form Kegiatan Maal</h3>
@@ -32,7 +32,7 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="form-group">
                                     <label class="control-label">Tanggal pelaksanaan</label>
-                                    <input class="form-control datepicker"
+                                    <input class="form-control date-picker"
                                            type="text"
                                            name="tgl"
                                            required="true"
@@ -55,7 +55,7 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="form-group">
                                     <label class="control-label">Detail Kegiatan<star>*</star></label>
-                                    <textarea class="form-control" name="detail" required rows="3"></textarea>
+                                    <textarea class="summernote" name="detail" required rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                     <div class="text-center form-group">
                                         <label>Upload Poster Kegiatan  <star>*</star></label><br>
                                         {{--<span class="btn btn-default btn-fill btn-file center-block"> Browse--}}
-                                            <input type="file" onchange="readURL(this);"  name="file" accept=".jpg, .png, .jpeg|images/*" /><i class="fa fa-photo"></i>
+                                            <input type="file" onchange="readURL(this);"  name="file" accept=".jpg, .png, .jpeg|images/*" required /><i class="fa fa-photo"></i>
                                         {{--</span>--}}
                                         <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                                     </div>
