@@ -48,18 +48,14 @@
                             <img src="{{ asset('storage/public/rapat/' . $item->foto) }}">
                         </div>
                         <div class="card-body">
-                            <h4 class="title">{{ $item->judul }}</h4>
-                            <div class="description">{!! $item->description !!}</div>
                             <div class="date">
                                 <div>
-                                    <span class="label">Tanggal Dibuat</span>
-                                    <p class="content">{{ Carbon\Carbon::parse($item->tanggal_dibuat)->format('d M Y') }}</p>
-                                </div>
-                                <div>
-                                    <span class="label">Tanggal Berakhir</span>
-                                    <p class="content">{{ Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}</p>
+                                    <span class="label"></span>
+                                    <p class="content">TANGGAL BERAKHIR : {{ Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}</p>
                                 </div>
                             </div>
+                            <h4 class="title">{{ $item->judul }}</h4>
+                            <div class="description">{!! $item->description !!}</div>
                         </div>
 
                         <a href="{{ route('rapat.show', [$item->id]) }}">

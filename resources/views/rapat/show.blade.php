@@ -19,17 +19,8 @@
                     
                 </div>
                 <div class="card-body">
-                    <div class="date">
-                        <div>
-                            <span class="label large">Tanggal Dibuat</span>
-                            <p class="content large">{{ Carbon\Carbon::parse($rapat->tanggal_dibuat)->format('D, d F Y') }}</p>
-                        </div>
-                        <div>
-                            <span class="label large">Tanggal Berakhir</span>
-                            <p class="content large">{{ Carbon\Carbon::parse($rapat->tanggal_berakhir)->format('D, d F Y') }}</p>
-                        </div>
-                    </div>
                     <h4 class="title large">{{ $rapat->judul }}</h4>
+                    <p class="subtitle">Dipublikasikan : {{ Carbon\Carbon::parse($rapat->tanggal_berakhir)->format('D, d F Y') }}</p>
                     <div class="content">
                         <p>{!! $rapat->description !!}</p>
                     </div>

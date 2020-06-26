@@ -70,6 +70,12 @@
   padding-top: 10px;
 }
 
+.card .card-body .subtitle {
+  margin: 0;
+  margin-top: 5px;
+  color: #999999;
+}
+
 .card .card-body .summernote-content {
   padding: 20px;
   padding-top: 0;
