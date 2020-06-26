@@ -92,7 +92,7 @@
                                 <td class="text-center">{{ $item['nisbah_bmt'] }}</td>
                                 <td class="text-center">{{ number_format($item['porsi_anggota'],2)  }}</td>
                                 <td class="text-center">{{ number_format($item['porsi_bmt'],2) }}</td>
-                                <td class="text-center">{{ $item['total_pendapatan'] > 0 ? round($item['porsi_anggota'] / $item['total_pendapatan'] * 100, 2) : 0.00 }}%</td>
+                                <td class="text-center">{{ $item['rata_rata'] > 0 ? round($item['porsi_anggota'] / $item['rata_rata'] * 100, 2) : 0.00 }}%</td>
                             </tr>
 
                             @php
