@@ -24,6 +24,7 @@ use App\Repositories\DepositoReporsitories;
 use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\ExportRepositories;
+use App\Repositories\HelperRepositories;
 use Carbon\Carbon;
 
 class UserController extends Controller
@@ -51,7 +52,8 @@ class UserController extends Controller
                                 DepositoReporsitories $depositoReporsitory,
                                 DonasiReporsitories $donasiReporsitory,
                                 RekeningReporsitories $rekeningReporsitory,
-                                ExportRepositories $exportRepository
+                                ExportRepositories $exportRepository,
+                                HelperRepositories $helperRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -81,6 +83,7 @@ class UserController extends Controller
         $this->donasiReporsitory = $donasiReporsitory;
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->exportRepository = $exportRepository;
+        $this->helperRepository = $helperRepository;
     }
 
     /**
@@ -1082,4 +1085,52 @@ class UserController extends Controller
                 ->withInput()->with('message', $create_pengajuan['message']);
         }
     }
+
+    public function tes()
+    {
+        $user = Auth::user();
+        $tabungan = Tabungan::where('id_user', $user->id)->get();
+        $deposito = Deposito::where('id_user', $user->id)->get();
+        $total = 0;
+        $data_template_row = array();
+        foreach ($tabungan as $value) {
+            array_push(
+                $data_template_row, array('rekening_title' => $value['jenis_tabungan'], 'rekening_created_at' => Carbon::parse($value['created_at'])->format('d-m-Y'), 'rekening_saldo' => number_format(json_decode($value['detail'])->saldo,2))
+            );
+            $total += json_decode($value['detail'])->saldo;
+        }
+        foreach ($deposito as $deposit) {
+            array_push(
+                $data_template_row, array('rekening_title' => $deposit['jenis_deposito'], 'rekening_created_at' => Carbon::parse($deposit['created_at'])->format('d-m-Y'), 'rekening_saldo' => number_format(json_decode($deposit['detail'])->jumlah,2))
+            );
+            $total += json_decode($deposit['detail'])->jumlah;
+        }
+
+        $total = number_format($total, 2);
+
+        $export_data = array(
+            "user"                              => $user->nama,
+            "id"                                => $user->id,
+            "data_template"                     => array(
+                "nik"   => $user->no_ktp,
+                "nama_user" => strtoupper($user->nama),
+                "tanggal_keluar"    => $this->helperRepository->getDayName() . ", " . Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y H:i A P"),
+                "jumlah_simpanan_pokok"    => json_decode($user->wajib_pokok)->pokok,
+                "jumlah_simpanan_wajib"    => json_decode($user->wajib_pokok)->wajib,
+                "jumlah_simpanan_sukarela"    => json_decode($user->wajib_pokok)->khusus,
+                "pihak_bmt"         => "SUNOYO",
+                "cabang"            => "Surabaya",
+                "tanggal_penetapan" => Carbon::now()->format('d') . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
+                "saldo"             => $total
+            ),
+            "data_template_row"                 => $data_template_row,  
+            "data_template_row_title"           => "rekening_title",
+            "template_path"                     => public_path('template/anggota_keluar.docx')
+        );
+
+        $this->exportRepository->exportWord("anggota_keluar", $export_data);
+        return response()->json($export_data);
+    }
+
+    
 }

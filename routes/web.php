@@ -804,6 +804,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'uses'      => 'TellerController@pencairan_rekening'
     ]);
 
+    /** 
+     * Download keterangan user keluar
+     * @method POST
+    */
+    Route::get('/download_keterangan_user_keluar/{id}', [
+        'as'        => 'teller.download_keterangan_user_keluar',
+        'uses'      => 'TellerController@download_keterangan_user_keluar'
+    ]);
+
     Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
         Route::get('/', [
             'as'        => 'dashboard',
@@ -1723,4 +1732,4 @@ Route::group([
     ]);
 });
 
-// Route::get('tes', 'UserController@tes');
+Route::get('tes', 'UserController@tes');

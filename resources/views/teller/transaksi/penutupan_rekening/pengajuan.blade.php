@@ -64,6 +64,9 @@
                                     <td class="td-actions text-center">
                                         <div class="row">
                                             @if($usr['status']=="Sudah Dikonfirmasi")
+                                                <a @if(Auth::user()->tipe == "admin") href="{{route('akad.pengajuan_pembiayaan', ['id' => $usr['id_pembiayaan']])}}" @elseif(Auth::user()->tipe == "teller") href="{{route('teller.download_keterangan_user_keluar', [json_decode($usr['detail'])->id])}}" @endif  class="btn btn-social btn-fill" title="Download Keterangan">
+                                                    <i class="fa fa-file"></i>
+                                                </a>
                                             @elseif($usr['status']=="Disetujui" || substr($usr['status'],2,9)=="Disetujui")
                                                 @if(Auth::user()->tipe=="teller")
                                                     {{--KONFIRMASI UNTUK TRANSAKSI--}}
@@ -83,6 +86,7 @@
                                                         <i class="fa fa-check-square"></i>
                                                     </button>
                                                 @endif
+
                                             @else
                                                 <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Ubah Status Pengajuan"
                                                         data-id      = "{{$usr['id']}}"

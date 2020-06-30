@@ -1846,4 +1846,18 @@ class TellerController extends Controller
 
         }
     }
+
+    /** 
+     * Download keterangan user keluar dari keanggotaan
+     * @return Response
+    */
+    public function download_keterangan_user_keluar($id)
+    {
+        $user = User::find($id);
+        $filename = "anggota_keluar_" . $user->nama . "_" . $user->id . ".docx";
+        $location = public_path("storage/public/docx/" . $filename);
+        $this->exportRepository->saveToPC($location, $filename);
+        
+        return redirect()->back();
+    }
 }
