@@ -1547,8 +1547,8 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/', [
-        'as' => 'delete.pengajuan',
+    Route::post('/delete', [
+        'as' => 'pengajuan.delete',
         'uses' => 'DatamasterController@delete_pengajuan'
     ]);
     Route::group(['prefix' => 'teller','admin'], function (){
@@ -1723,4 +1723,4 @@ Route::group([
     ]);
 });
 
-Route::get('tes', 'UserController@tes');
+// Route::get('tes', 'UserController@tes');

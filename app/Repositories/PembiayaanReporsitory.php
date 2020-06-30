@@ -12,22 +12,29 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\PengajuanReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\TabunganReporsitories;
+use App\Repositories\HelperRepositories;
 use Illuminate\Support\Facades\DB;
 use App\BMT;
 use Carbon\Carbon;
 use App\Pengajuan;
 use App\Tabungan;
+use App\PenyimpananJaminan;
+use App\Repositories\ExportRepositories;
 
 class PembiayaanReporsitory {
 
     public function __construct(PengajuanReporsitories $pengajuanReporsitory,
                                 RekeningReporsitories $rekeningReporsitory,
-                                TabunganReporsitories $tabunganReporsitory
+                                TabunganReporsitories $tabunganReporsitory,
+                                HelperRepositories $helperRepository,
+                                ExportRepositories $exportRepository
     )
     {
         $this->pengajuanReporsitory = $pengajuanReporsitory;
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->tabunganReporsitory = $tabunganReporsitory;
+        $this->helperRepository = $helperRepository;
+        $this->exportRepository = $exportRepository;
     }
 
     /** 
@@ -213,9 +220,12 @@ class PembiayaanReporsitory {
                     $updateBMTPembiayaan = BMT::where('id_rekening',  json_decode($pengajuan->detail)->pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
                     $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
                     $updatePengajuan = Pengajuan::where('id', $data->id_)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
+                    
+                    $this->exportPerjanjian($dataToPembiayaan, $data);
 
                     DB::commit();
                     $response = array("type" => "success", "message" => "Pengajuan " . $jenis_pembiayaan . " Berhasil Dikonfirmasi.");    
+
                 }
             }
             else
@@ -223,13 +233,13 @@ class PembiayaanReporsitory {
                 DB::rollback();
                 $response = array("type" => "error", "message" => "Saldo " . $bmt_pengirim->nama . " Tidak Cukup.");
             }
+
         }
         catch(Exception $ex)
         {
             DB::rollback();
             $response = array("type" => "error", "message" => "Pengajuan " . $jenis_pembiayaan . " Gagal Dikonfirmasi");
         }
-
         return $response;
     }
 
@@ -380,6 +390,8 @@ class PembiayaanReporsitory {
                     $updateBMTPembiayaan = BMT::where('id_rekening',  json_decode($pengajuan->detail)->pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
                     $updatePengajuan = Pengajuan::where('id', $data->id_)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
 
+                    $this->exportPerjanjian($dataToPembiayaan, $data);
+
                     DB::commit();
                     $response = array("type" => "success", "message" => "Pengajuan " . $jenis_pembiayaan . " Berhasil Dikonfirmasi.");    
                 }
@@ -395,7 +407,6 @@ class PembiayaanReporsitory {
             DB::rollback();
             $response = array("type" => "error", "message" => "Pengajuan " . $jenis_pembiayaan . " Gagal Dikonfirmasi");
         }
-
         return $response;
     }
 
@@ -620,12 +631,29 @@ class PembiayaanReporsitory {
                 "teller"    => Auth::user()->id
             ];
 
+            $field = explode(".", $data->list)[1]; 
+            $count = count(explode(",", $field));
+            $key = array();
+            $value = array();
+            for($i = 0; $i < count(explode(",", $field)); $i++ )
+            {
+                array_push($key, explode(",", $field)[$i]);
+                array_push($value, $data->field[$i]);
+            }
+            $dataToPenyimpananJaminan = array(
+                "id_jaminan"    => explode(".", $data->list)[0],
+                "id_user"       => $user_pembiayaan->id,
+                "id_pengajuan"  => $nextIdPengajuan,
+                "transaksi"     => array("field" => array_combine($key, $value), "jaminan" => null)
+            );
+
             if($bmt_pengirim->saldo > $pinjaman)
             {
                 if( $this->pengajuanReporsitory->createPengajuan($dataToPengajuan)["type"] == "success" &&
                     $this->insertPembiayaan($dataToPembiayaan) == "success" &&
                     $this->insertPenyimpananPembiayaan($dataToPenyimpananPembiayaan) == "success" &&
-                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success"
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success" &&
+                    $this->insertPenyimpananJaminan($dataToPenyimpananJaminan) == "success"
                 )
                 {
                     $dataToPenyimpananBMT['id_bmt'] = $bmt_pengirim->id;
@@ -647,6 +675,8 @@ class PembiayaanReporsitory {
                     $updateBMTPengirim = BMT::where('id_rekening', $data->bank)->update([ 'saldo' => $saldo_akhir_pengirim ]);
                     $updateBMTPembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
                     $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
+                    
+                    $this->exportPerjanjian($dataToPembiayaan, $data, $dataToPenyimpananJaminan);
 
                     DB::commit();
                     $response = array("type" => "success", "message" => "Pembukaan " . $jenis_pembiayaan . " Berhasil.");
@@ -663,7 +693,6 @@ class PembiayaanReporsitory {
             DB::rollback();
             $response = array("type" => "error", "message" => "Pembukaan " . $jenis_pembiayaan . " Gagal.");
         }
-        
         return $response;
     }
 
@@ -841,12 +870,29 @@ class PembiayaanReporsitory {
                 "teller"    => Auth::user()->id
             ];
 
+            $field = explode(".", $data->list)[1]; 
+            $count = count(explode(",", $field));
+            $key = array();
+            $value = array();
+            for($i = 0; $i < count(explode(",", $field)); $i++ )
+            {
+                array_push($key, explode(",", $field)[$i]);
+                array_push($value, $data->field[$i]);
+            }
+            $dataToPenyimpananJaminan = array(
+                "id_jaminan"    => explode(".", $data->list)[0],
+                "id_user"       => $user_pembiayaan->id,
+                "id_pengajuan"  => $nextIdPengajuan,
+                "transaksi"     => array("field" => array_combine($key, $value), "jaminan" => null)
+            );
+
             if($bmt_pengirim->saldo > $pinjaman)
             {
                 if( $this->pengajuanReporsitory->createPengajuan($dataToPengajuan)["type"] == "success" &&
                     $this->insertPembiayaan($dataToPembiayaan) == "success" &&
                     $this->insertPenyimpananPembiayaan($dataToPenyimpananPembiayaan) == "success" &&
-                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success"
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == "success" &&
+                    $this->insertPenyimpananJaminan($dataToPenyimpananJaminan) == "success"
                 )
                 {
                     $dataToPenyimpananBMT['id_bmt'] = $bmt_pengirim->id;
@@ -859,6 +905,8 @@ class PembiayaanReporsitory {
 
                     $updateBMTPengirim = BMT::where('id_rekening', $data->bank)->update([ 'saldo' => $saldo_akhir_pengirim ]);
                     $updateBMTPembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
+
+                    $this->exportPerjanjian($dataToPembiayaan, $data, $dataToPenyimpananJaminan);
 
                     DB::commit();
                     $response = array("type" => "success", "message" => "Pembukaan " . $jenis_pembiayaan . " Berhasil.");
@@ -2890,6 +2938,89 @@ class PembiayaanReporsitory {
         }
 
         return $response;
+    }
+
+    /** 
+     * Export perjanjian pembiayaan
+     * @return Response
+    */
+    public function exportPerjanjian($dataPembiayaan, $dataForm, $dataJaminan="")
+    {
+        $user_pembiayaan = User::where('id', $dataPembiayaan['id_user'])->first();
+        $data_pengajuan = Pengajuan::where('id', $dataPembiayaan['id_pengajuan'])->first();
+        if($dataJaminan !== "")
+        {
+            $detail_jaminan = $dataJaminan['transaksi']['field'];
+        }
+        else
+        {
+            $data_jaminan = PenyimpananJaminan::where('id_pengajuan', $dataPembiayaan['id_pengajuan'])->first();
+            $detail_jaminan = json_decode($data_jaminan->transaksi)->field;
+        }
+        
+        $data_template_row = array();
+        foreach ($detail_jaminan as $key => $value) {
+            array_push(
+                $data_template_row, array('barang_titipan_desc_title' => $key, 'barang_titipan_desc_content' => $value)
+            );
+        }
+
+        $export_data = array(
+            "user"                              => $user_pembiayaan->nama,
+            "id"                                => $dataPembiayaan['id'],
+            "data_template"                     => array(
+                "hari_perjanjian"               => $this->helperRepository->getDayName(),
+                "tanggal_perjanjian"            => Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
+                "tempat_perjanjian"             => "Surabaya",
+                "pemberi_perjanjian"            => "HA. SUNOYO HASYIM S.Sos, Apr",
+                "jabatan_pemberi_perjanjian"    => "MANAGER BMT-MUDA SURABAYA",
+                "alamat_cabang"                 => "Jl. Kedinding  Surabaya",
+                "peminjam_pihak_1"              => strtoupper($user_pembiayaan->nama),
+                "alamat_peminjam_pihak_1"       => strtoupper($user_pembiayaan->alamat),
+                "nik_peminjam_pihak_1"          => $user_pembiayaan->no_ktp,
+                "peminjam_pihak_2"              => strtoupper($dataForm->saksi1),
+                "alamat_peminjam_pihak_2"       => strtoupper($dataForm->alamat2),
+                "nik_peminjam_pihak_2"          => $dataForm->ktp2,
+                "jumlah_pinjaman"               => number_format($dataPembiayaan['detail']['pinjaman'],0,",","."),
+                "jumlah_pinjaman_text"          => strtoupper($this->helperRepository->getMoneyInverse($dataPembiayaan['detail']['pinjaman'])) . " RUPIAH",
+                "lama_angsuran"                 => $dataPembiayaan['detail']['lama_angsuran'],
+                "batas_akhir_angsuran"          => Carbon::now()->addMonth($dataPembiayaan['detail']['lama_angsuran'])->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->addMonth($dataPembiayaan['detail']['lama_angsuran']) ) . " " . Carbon::now()->addMonth($dataPembiayaan['detail']['lama_angsuran'])->format("Y"),
+                "angsuran_bulanan"              => number_format($dataPembiayaan['detail']['jumlah_angsuran_bulanan'],0,",","."),
+                "angsuran_pertama"              => Carbon::now()->addMonth(1)->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->addMonth(1) ) . " " . Carbon::now()->addMonth(1)->format("Y"),
+                "saksi"                         => $dataForm->saksi2,
+                "pekerjaan_peminjam_pihak_1"    => "",
+                "pekerjaan_peminjam_pihak_2"    => "",
+                "jumlah_margin"                 => $dataPembiayaan['detail']['margin'],
+                "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
+                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3])
+            ),
+            "data_template_row"                 => $data_template_row,  
+            "data_template_row_title"           => "barang_titipan_desc_title",
+            "template_path"                     => public_path('template/perjanjian_pembiayaan.docx')
+        );
+
+        $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
+        return $export_data;
+    }
+
+    /** 
+     * Insert penyimpanan jaminan
+     * @return Response
+    */
+    public function insertPenyimpananJaminan($data)
+    {
+        $penyimpanan = new PenyimpananJaminan();
+        $penyimpanan->id_jaminan = $data['id_jaminan'];
+        $penyimpanan->id_user = $data['id_user'];
+        $penyimpanan->id_pengajuan = $data['id_pengajuan'];
+        $penyimpanan->transaksi = json_encode($data['transaksi']);
+
+        if($penyimpanan->save()) {
+            return "success";
+        }
+        else {
+            return "error";
+        }
     }
 
 }

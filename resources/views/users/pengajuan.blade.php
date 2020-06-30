@@ -549,7 +549,6 @@
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id');
             var nama = button.data('nama');
-            console.log(nama);
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             $('#id_del').val(id);

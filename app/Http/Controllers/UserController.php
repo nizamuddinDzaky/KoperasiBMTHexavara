@@ -1082,10 +1082,4 @@ class UserController extends Controller
                 ->withInput()->with('message', $create_pengajuan['message']);
         }
     }
-
-    public function tes() 
-    {
-        $this->exportRepository->exportWord();
-        return response()->json('work');
-    }
 }

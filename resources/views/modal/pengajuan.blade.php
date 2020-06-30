@@ -2218,7 +2218,7 @@
 <div class="modal fade" id="delModal" role="dialog" aria-labelledby="delTabLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="POST" action="{{route('delete.pengajuan')}}" enctype="multipart/form-data"  id="delTabungan">
+            <form method="POST" action="{{route('pengajuan.delete')}}">
                 {{csrf_field()}}
                 <input type="hidden" id="id_del" name="id_">
                 <div class="modal-header">

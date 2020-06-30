@@ -205,7 +205,7 @@
                                                 {{ csrf_field() }}
                                                 {{--<input type="hidden" name="id" value="{{$usr['id']}}"/>--}}
                                             {{--<a href="{{route('akad.pengajuan_pembiayaan')}}" type="submit"  class="btn btn-social btn-fill" title="Lihat Akad">--}}
-                                                <a @if(Auth::user()->tipe == "admin") href="{{route('akad.pengajuan_pembiayaan', ['id' => $usr['id']])}}" @elseif(Auth::user()->tipe == "teller") href="{{route('teller.akad.pengajuan_pembiayaan', ['id' => $usr['id']])}}" @endif  class="btn btn-social btn-fill" title="Download Akad">
+                                                <a @if(Auth::user()->tipe == "admin") href="{{route('akad.pengajuan_pembiayaan', ['id' => $usr['id_pembiayaan']])}}" @elseif(Auth::user()->tipe == "teller") href="{{route('teller.akad.pengajuan_pembiayaan', [$usr['id_pembiayaan']])}}" @endif  class="btn btn-social btn-fill" title="Download Akad">
                                                     <i class="fa fa-file"></i>
                                                 </a>
                                             {{--</form>--}}

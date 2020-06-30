@@ -25,6 +25,7 @@ use App\Repositories\SimpananReporsitory;
 use App\Repositories\PembiayaanReporsitory;
 use App\Repositories\PengajuanReporsitories;
 use App\Repositories\AccountReporsitories;
+use App\Repositories\ExportRepositories;
 
 class TellerController extends Controller
 {
@@ -50,7 +51,8 @@ class TellerController extends Controller
                                 SimpananReporsitory $simpananReporsitory,
                                 PembiayaanReporsitory $pembiayaanReporsitory,
                                 PengajuanReporsitories $pengajuanReporsitory,
-                                AccountReporsitories $accountReporsitory
+                                AccountReporsitories $accountReporsitory,
+                                ExportRepositories $exportRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -78,6 +80,7 @@ class TellerController extends Controller
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
         $this->pengajuanReporsitory = $pengajuanReporsitory;
         $this->accountReporsitory = $accountReporsitory;
+        $this->exportRepository = $exportRepository;
     }
 
     public function index(){
@@ -1032,6 +1035,7 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanPemTell($date);
+        // return response()->json($data);
         return view('teller.transaksi.pembiayaan.pengajuan',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
@@ -1118,90 +1122,13 @@ class TellerController extends Controller
 //end of NAVBAR PEMBIAYAAN
     public function akad_pembiayaan($id)
     {
-        $pengajuan =Pengajuan::where('id',$id)->first();
-        $pihak2 =User::select('nama','alamat','no_ktp','detail')->where('id',$pengajuan['id_user'])->first();
-        $jaminan =PenyimpananJaminan::where('id_pengajuan',$id)
-            ->join('jaminan','jaminan.id','penyimpanan_jaminan.id_jaminan')->first();
-        $pembiayaan =Pembiayaan::where('id_pengajuan',$jaminan['id_pengajuan'])->first();
-        $a =  json_decode($jaminan['detail'],true);
-        $b =  json_decode($jaminan['transaksi'],true)['field'];
-        $c = (substr_count($jaminan['detail'],","));
-        $detail_jaminan ="";
-        $v=0;
-        for ($i=0;$i<=$c;$i++) {
-            $spasi="";
-            $j= 25 - strlen($a[$i])-$v;
-            for ($k=1;$k<$j;$k++) $spasi=$spasi." ";
-            $detail_jaminan = $detail_jaminan."<w:br />".$a[$i].$spasi.": ".$b[$a[$i]];
-            $v=$v+1;
-        }
-        $tgl_realisasi = $pembiayaan['created_at'];
-        $bulan = array (1 =>   'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
-        $hari = array (0 =>   'Minggu','Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum at', 'Sabtu');
-        $tgl_lunas=(date_format($tgl_realisasi,"Y-m-d"));
-        $hari2=(date_format($tgl_realisasi,"w"));
-        $hari2=($hari[ (int)$hari2 ]);
+        $pembiayaan = Pembiayaan::where('id', $id)->first();
+        $filename = 'perjanjian_pembiayaan_' . $pembiayaan->user->nama . "_" . $id . '.docx';
+        $location = public_path('storage/public/docx/' . $filename);
+        
+        $this->exportRepository->saveToPC($location, $filename);
 
-        $tgl_realisasi=(date_format($tgl_realisasi,"d m Y"));
-        $pecahkan = explode(' ', $tgl_realisasi);
-        $bln=$bulan[ (int)$pecahkan[1] ];
-        $tgl_realisasi=$pecahkan[0]." ".$bln." ".$pecahkan[2];
-
-        $lama = json_decode($pembiayaan['detail'],true)['lama_angsuran']." months";
-        $tgl_lunas = date('Y-m-d', strtotime($tgl_lunas. $lama));
-        $pecahkan = explode('-', $tgl_lunas);
-        $bln=$bulan[ (int)$pecahkan[1] ];
-        $tgl_lunas=$pecahkan[2]." ".$bln." ".$pecahkan[0];
-
-        $tgl=date('Y-m-d');
-        $pecahkan = explode('-', $tgl);
-        $bln=$bulan[ (int)$pecahkan[1] ];
-        $tgl=$pecahkan[2]." ".$bln." ".$pecahkan[0];
-
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        // Edit variabel in word document
-        $template = new \PhpOffice\PhpWord\TemplateProcessor('storage/formakad/template1.docx');
-        $template->setValue('pihak1','M. SYAMSUL ARIFIN SHOLEH');
-        $template->setValue('pihak2',$pihak2['nama']);
-        $template->setValue('pihak2_',strtoupper($pihak2['nama']));
-        $template->setValue('alamatpihak2',$pihak2['alamat']);
-        $template->setValue('ktppihak2',$pihak2['no_ktp']);
-        $template->setValue('pekerjaanpihak2',json_decode($pihak2['detail'],true)['pekerjaan']);
-//        $template->setValue('saksi1',json_decode($jaminan['transaksi'],true)['jaminan']['saksi1']);
-        $template->setValue('saksi1_',strtoupper(json_decode($jaminan['transaksi'],true)['jaminan']['saksi1']));
-        $template->setValue('saksi2',json_decode($jaminan['transaksi'],true)['jaminan']['saksi2']);
-        $template->setValue('saksi2_',strtoupper(json_decode($jaminan['transaksi'],true)['jaminan']['saksi2']));
-        $template->setValue('alamatsaksi2',json_decode($jaminan['transaksi'],true)['jaminan']['alamat2']);
-        $template->setValue('ktpsaksi2',json_decode($jaminan['transaksi'],true)['jaminan']['ktp2']);
-
-        $template->setValue('jaminan',json_decode($pengajuan['detail'],true)['jaminan']);
-        $template->setValue('total_pinjaman',number_format(json_decode($pembiayaan['detail'],true)['total_pinjaman']));
-        $template->setValue('pinjaman',number_format(json_decode($pembiayaan['detail'],true)['pinjaman']));
-        $template->setValue('margin',number_format(json_decode($pembiayaan['detail'],true)['margin']));
-
-        $template->setValue('lama_pinjaman',json_decode($pembiayaan['detail'],true)['lama_angsuran']);
-        $template->setValue('jatuh_tempo',json_decode($pembiayaan['detail'],true)['margin']);
-        $template->setValue('pinjaman_bln',number_format(floatval(json_decode($pembiayaan['detail'],true)['pinjaman']) / floatval(json_decode($pembiayaan['detail'],true)['lama_angsuran'])));
-        $template->setValue('margin_bln',number_format(floatval(json_decode($pembiayaan['detail'],true)['margin']) / floatval(json_decode($pembiayaan['detail'],true)['lama_angsuran'])));
-        $template->setValue('coba', 'John  123 fake street');
-        $template->setValue('detail_jaminan',$detail_jaminan);
-
-        $template->setValue('kota',"Surabaya");
-        $template->setValue('tgl_realisasi',$tgl_realisasi);
-        $template->setValue('tgl_lunas',$tgl_lunas);
-        $template->setValue('tgl',$tgl  );
-        $template->setValue('hari',$hari2  );
-
-        $filename ='storage/formakad/result_template1.docx';
-        $template->saveAs($filename);
-        header('Content-disposition: inline');
-        header('Content-type: application/msword'); // not sure if this is the correct MIME type
-        readfile($filename);
-        $headers = array(
-            'Content-Type: application/docx',
-        );
-
-        return response()->download($filename, "akad_pembiayaan - " .$pihak2['nama'].".docx", $headers);
+        return redirect()->back();
 
     }
     public function akad_deposito($id)
@@ -1636,7 +1563,7 @@ class TellerController extends Controller
         {
             $pembiayaan = $this->pembiayaanReporsitory->confirmPembiayaanLain($request);
         }
-        
+
         if($pembiayaan['type'] == 'success') {
             return redirect()
                 ->back()
@@ -1664,6 +1591,7 @@ class TellerController extends Controller
         {
             $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanLain($request);
         }
+
         if($pembiayaan['type'] == 'success') {
             return redirect()
                 ->back()

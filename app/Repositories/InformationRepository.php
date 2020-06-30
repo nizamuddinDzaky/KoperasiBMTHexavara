@@ -557,16 +557,18 @@ class InformationRepository
     }
     function getAllpengajuanPemTell($date)
     {
-        $data = Pengajuan::select('pengajuan.*','users.nama','users.no_ktp')
+        $data = Pengajuan::select('pengajuan.*','users.nama','users.no_ktp', 'pembiayaan.id as id_pembiayaan')
             ->where([['kategori','like',"% Pembiayaan"],['pengajuan.teller', Auth::user()->id]])
             ->orWhere([['kategori','like',"% Pembiayaan"],['pengajuan.teller', 0]])
             ->join('users', 'users.id', '=', 'pengajuan.id_user')
+            ->LeftJoin('pembiayaan', 'pengajuan.id', '=', 'pembiayaan.id_pengajuan')
             ->where('kategori','!=',"Pembiayaan")
             ->where('pengajuan.created_at', ">" , $date['prev'])
             ->where('pengajuan.created_at', "<" , $date['now'])
             ->orderBy('pengajuan.created_at','DESC')->get()->toArray();
-        $data2 = Pengajuan::select('pengajuan.*','users.no_ktp', 'users.nama', 'rekening.detail as deposito','penyimpanan_jaminan.transaksi','jaminan.detail as list')
+        $data2 = Pengajuan::select('pengajuan.*','users.no_ktp', 'users.nama', 'rekening.detail as deposito','penyimpanan_jaminan.transaksi','jaminan.detail as list', 'pembiayaan.id as id_pembiayaan')
             ->join('users', 'users.id', '=', 'pengajuan.id_user')
+            ->LeftJoin('pembiayaan', 'pengajuan.id', '=', 'pembiayaan.id_pengajuan')
             ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
             ->where('pengajuan.created_at', ">" , $date['prev'])
             ->where('pengajuan.created_at', "<" , $date['now'])
