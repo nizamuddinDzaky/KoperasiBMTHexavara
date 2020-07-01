@@ -224,6 +224,33 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         });
 
         /** 
+         * Admin dashboard menu harta
+        */
+        Route::group([
+            'prefix'        => 'harta',
+            'middleware'    => ['auth']
+        ], function() {
+            
+            /**
+             * Default teller list dashboard
+             * @method GET
+             */
+            Route::get('/', [
+                'as' => 'admin.transaksi.teller_list',
+                'uses' => 'AdminController@teller_list'
+            ]);
+
+            /**
+             * Default teller detail dashboard
+             * @method GET
+            */ 
+            Route::get('/detail/{id}', [
+                'as' => 'admin.transaksi.teller_detail',
+                'uses' => 'AdminController@teller_detail'
+            ]);
+        });
+
+        /** 
          * Admin Dashboard Menu Transaksi
          * Transaksi daftar kolektibilitas anggota controller
         */
@@ -575,7 +602,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'rekap_jurnal',
             'uses'      => 'LaporanController@rekap_jurnal'
         ]);
-        Route::get('/kas_harian', [
+        Route::get('/kas_harian/{id}', [
             'as'        => 'kas_harian',
             'uses'      => 'LaporanController@kas_harian'
         ]);
@@ -808,7 +835,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
      * Download keterangan user keluar
      * @method POST
     */
-    Route::get('/download_keterangan_user_keluar/{id}', [
+    Route::get('download_keterangan_user_keluar/{id}', [
         'as'        => 'teller.download_keterangan_user_keluar',
         'uses'      => 'TellerController@download_keterangan_user_keluar'
     ]);

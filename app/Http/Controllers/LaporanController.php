@@ -140,13 +140,27 @@ class LaporanController extends Controller
     public function kas_harian(Request $request) {
         if(isset($request->start))
         {
-            $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->tipe, Carbon::parse($request->start));
+            if(isset($request->id))
+            {
+                $data = $this->rekeningReporsitory->getKasHarian($request->id, Carbon::parse($request->start));
+            }
+            else
+            {
+                $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->id, Carbon::parse($request->start));
+            }
         }
         else
         {
-            $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->tipe, Carbon::now());
+            if(isset($request->id))
+            {
+                $data = $this->rekeningReporsitory->getKasHarian($request->id, Carbon::now());
+            }
+            else
+            {
+                $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->id, Carbon::now());
+            }
         }
-        // return response()->json($data);
+        
         return view('admin.laporan.kas_harian',[
             'data' => $data
         ]);

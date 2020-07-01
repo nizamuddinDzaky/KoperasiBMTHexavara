@@ -461,41 +461,38 @@ class RekeningReporsitories {
      * Get kas harian data
      * @return Response
     */
-    public function getKasHarian($type, $date)
+    public function getKasHarian($id, $date)
     {
-        if($type == "teller")
+        $id_rekening_teller = $id;
+        $bmt_teller = BMT::where('id_rekening', $id_rekening_teller)->first();
+        
+        $kas_harian = PenyimpananBMT::where([ 
+                        ['id_bmt', $bmt_teller->id ], ['status', '!=', 'Setoran Awal'], 
+                        ['created_at', '>', Carbon::parse($date)->startOfDay()], ['created_at', '<', Carbon::parse($date)->endOfDay()]
+                        ])->orderBy('created_at', 'asc')
+                        ->get();
+        $saldo_awal = PenyimpananBMT::where([ 
+                        ['id_bmt', $bmt_teller->id ], ['status', '!=', 'Setoran Awal'], 
+                        ['created_at', '>', Carbon::parse($date)->startOfDay()], ['created_at', '<', Carbon::parse($date)->endOfDay()]
+                    ])
+                    ->first();
+        
+        $saldo_akhir = PenyimpananBMT::where([ 
+                        ['id_bmt', $bmt_teller->id ], ['status', '!=', 'Setoran Awal'], 
+                        ['created_at', '>', Carbon::parse($date)->startOfDay()], ['created_at', '<', Carbon::parse($date)->endOfDay()]
+                    ])->orderBy('created_at', 'desc')
+                    ->first();
+        
+        $data = array();
+        $temp_data = array();
+        foreach($kas_harian as $kas)
         {
-            $id_rekening_teller = json_decode(Auth::user()->detail)->id_rekening;
-            $bmt_teller = BMT::where('id_rekening', $id_rekening_teller)->first();
-
-            $kas_harian = PenyimpananBMT::where([ 
-                            ['id_bmt', $bmt_teller->id ], ['status', '!=', 'Setoran Awal'], 
-                            ['created_at', '>', Carbon::parse($date)->startOfDay()], ['created_at', '<', Carbon::parse($date)->endOfDay()]
-                          ])->orderBy('created_at', 'asc')
-                          ->get();
-            $saldo_awal = PenyimpananBMT::where([ 
-                            ['id_bmt', $bmt_teller->id ], ['status', '!=', 'Setoran Awal'], 
-                            ['created_at', '>', Carbon::parse($date)->startOfDay()], ['created_at', '<', Carbon::parse($date)->endOfDay()]
-                        ])
-                        ->first();
-            
-            $saldo_akhir = PenyimpananBMT::where([ 
-                            ['id_bmt', $bmt_teller->id ], ['status', '!=', 'Setoran Awal'], 
-                            ['created_at', '>', Carbon::parse($date)->startOfDay()], ['created_at', '<', Carbon::parse($date)->endOfDay()]
-                        ])->orderBy('created_at', 'desc')
-                        ->first();
-            
-            $data = array();
-            $temp_data = array();
-            foreach($kas_harian as $kas)
-            {
-                $teller_confirmer = User::where('id', $kas->teller)->first();
-                $kas['teller_confirmer'] = $teller_confirmer;
-                array_push($temp_data, $kas);
-                $data['saldo_awal'] = json_decode($saldo_awal->transaksi)->saldo_awal;
-                $data['saldo_akhir'] = json_decode($saldo_akhir->transaksi)->saldo_akhir;
-                $data['data'] = $temp_data;
-            }
+            $teller_confirmer = User::where('id', $kas->teller)->first();
+            $kas['teller_confirmer'] = $teller_confirmer;
+            array_push($temp_data, $kas);
+            $data['saldo_awal'] = json_decode($saldo_awal->transaksi)->saldo_awal;
+            $data['saldo_akhir'] = json_decode($saldo_akhir->transaksi)->saldo_akhir;
+            $data['data'] = $temp_data;
         }
 
         return $data;

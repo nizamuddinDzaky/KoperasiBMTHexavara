@@ -15,12 +15,14 @@
     <div class="content">
         <div class="row">
             <div class="col-md-3">
-                <div class="card dashboard link" style="background-color: #8892D6">
-                    <div class="card-body">
-                        <span class="card-title card-number-large" id="harta">{{ number_format($total_harta,2) }}</span>
-                        <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
+                <a href="{{ route('admin.transaksi.teller_list') }}">
+                    <div class="card dashboard link" style="background-color: #8892D6">
+                        <div class="card-body">
+                            <span class="card-title card-number-large" id="harta">{{ number_format($total_harta,2) }}</span>
+                            <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-3">
                 <a href="{{ route('admin.transaksi.tabungan') }}">

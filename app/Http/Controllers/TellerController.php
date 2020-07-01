@@ -1126,7 +1126,7 @@ class TellerController extends Controller
         $filename = 'perjanjian_pembiayaan_' . $pembiayaan->user->nama . "_" . $id . '.docx';
         $location = public_path('storage/public/docx/' . $filename);
         
-        $this->exportRepository->saveToPC($location, $filename);
+        // $this->exportRepository->saveToPC($location, $filename);
 
         return redirect()->back();
 
@@ -1854,10 +1854,12 @@ class TellerController extends Controller
     public function download_keterangan_user_keluar($id)
     {
         $user = User::find($id);
-        $filename = "anggota_keluar_" . $user->nama . "_" . $user->id . ".docx";
+        $filename = "anggota_keluar_" . str_replace(" ", "_", $user->nama) . "_" . $user->id . ".docx";
         $location = public_path("storage/public/docx/" . $filename);
+
         $this->exportRepository->saveToPC($location, $filename);
-        
-        return redirect()->back();
+        return redirect()
+            ->back()
+            ->withSuccess(sprintf("File berhasil di download."));
     }
 }

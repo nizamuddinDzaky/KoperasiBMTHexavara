@@ -64,6 +64,7 @@
                                     <td class="td-actions text-center">
                                         <div class="row">
                                             @if($usr['status']=="Sudah Dikonfirmasi")
+                                                {{ csrf_field() }}
                                                 <a @if(Auth::user()->tipe == "admin") href="{{route('akad.pengajuan_pembiayaan', ['id' => $usr['id_pembiayaan']])}}" @elseif(Auth::user()->tipe == "teller") href="{{route('teller.download_keterangan_user_keluar', [json_decode($usr['detail'])->id])}}" @endif  class="btn btn-social btn-fill" title="Download Keterangan">
                                                     <i class="fa fa-file"></i>
                                                 </a>

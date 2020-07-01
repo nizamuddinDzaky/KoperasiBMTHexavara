@@ -1170,6 +1170,49 @@ class AdminController extends Controller
     }
     
 
+    /** 
+     * Teller list
+     * @return View
+    */
+    public function teller_list() {
+        $teller = User::where('tipe', 'teller')->get();
+        $data = array();
+        foreach($teller as $item)
+        {
+            $bmt = BMT::where('id_rekening', json_decode($item['detail'])->id_rekening)->first();
+            array_push($data, array(
+                "id"        => $item['id'],
+                "nama"      => $item['nama'],
+                "alamat"    => $item['alamat'],    
+                "no_ktp"    => $item['no_ktp'],    
+                "id_rekening"    => json_decode($item['detail'])->id_rekening,    
+                "saldo"     => $bmt->saldo
+            ));
+        }
+        return view('admin.teller_list', compact('data'));
+    }
+
+    /** 
+     * Teller detail list
+     * @return View
+    */
+    public function teller_detail($id) {
+        // $teller = User::where('tipe', 'teller')->get();
+        // $data = array();
+        // foreach($teller as $item)
+        // {
+        //     $bmt = BMT::where('id_rekening', json_decode($item['detail'])->id_rekening)->first();
+        //     array_push($data, array(
+        //         "id"        => $item['id'],
+        //         "nama"      => $item['nama'],
+        //         "alamat"    => $item['alamat'],    
+        //         "no_ktp"    => $item['no_ktp'],    
+        //         "saldo"     => $bmt->saldo
+        //     ));
+        // }
+        return view('admin.teller_list', compact('data'));
+    }
+
     /** ----------------------------------------------------------------------
      * -----------------------------------------------------------------------
      * -----------------------------------------------------------------------

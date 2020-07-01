@@ -15,6 +15,7 @@ use App\Repositories\SimpananReporsitory;
 use App\Repositories\DepositoReporsitories;
 use PhpOffice\PhpWord\PhpWord;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class ExportRepositories {
 
@@ -149,5 +150,6 @@ class ExportRepositories {
         header("Content-Type: application/docx");
         readfile($location); // or echo file_get_contents($temp_file);
         exit;
+        // Storage::download($location, $filename);
     }
 }
