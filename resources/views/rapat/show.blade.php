@@ -78,18 +78,18 @@
                 <table class="table bootstrap-table">
                     <thead>
                         <th></th>
-                        <th class="text-left" data-sortable="true" >ID USER</th>
-                        <th class="text-left" data-sortable="true">JUDUL RAPAT</th>
+                        <th class="text-left" data-sortable="true" >NIK</th>
                         <th class="text-left" data-sortable="true">NAMA USER</th>
+                        <th class="text-left" data-sortable="true">ALAMAT</th>
                         <th class="text-left" data-sortable="true">VOTE</th>
                     </thead>
                     <tbody id="data_rapat">
                         @foreach ($vote as $item)
                             <tr>
                                 <td></td>
-                                <td>{{ $item->user->id }}</td>
-                                <td>{{ $item->rapat->judul }}</td>
+                                <td>{{ $item->user->no_ktp }}</td>
                                 <td>{{ $item->user->nama }}</td>
+                                <td>{{ $item->user->alamat }}</td>
                                 <td>{{ $item->flag == 1 ? "Setuju" : "Tidak Setuju" }}</td>
                             </tr>
                         @endforeach

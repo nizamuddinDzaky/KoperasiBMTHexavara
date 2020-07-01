@@ -15,46 +15,38 @@
     <div class="content">
         <div class="row">
             <div class="col-md-3">
-                <div class="card dashboard" style="height: 160px; background-color: #8892D6">
+                <div class="card dashboard link" style="background-color: #8892D6">
                     <div class="card-body">
-                        <span class="card-title card-number-large" id="harta">90,000,000</span>
+                        <span class="card-title card-number-large" id="harta">{{ number_format($total_harta,2) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
-                        <span class="card-description">Bersumber dari simpanan pokok, simpanan wajib & simpanan khusus</span>
-                        
-                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card dashboard" style="height: 160px; background-color: #45BBE0">
-                    <div class="card-body">
-                        <span class="card-title card-number-large">5,750 M</span>
-                        <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
-                        <span class="card-description">Bersumber dari total tabungan semua anggota</span>
-                        
-                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                <a href="{{ route('admin.transaksi.tabungan') }}">
+                    <div class="card dashboard link" style="background-color: #45BBE0">
+                        <div class="card-body">
+                            <span class="card-title card-number-large">{{ number_format($total_tabungan,2) }}</span>
+                            <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-3">
-                <div class="card dashboard" style="height: 160px; background-color: #F06292">
-                    <div class="card-body">
-                        <span class="card-title card-number-large">90,000,000</span>
-                        <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
-                        <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span>
-
-                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
+                <a href="{{ route('admin.transaksi.deposito') }}">
+                    <div class="card dashboard link" style="background-color: #F06292">
+                        <div class="card-body">
+                            <span class="card-title card-number-large">{{ number_format($total_deposito,2) }}</span>
+                            <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-3">
-                <div class="card dashboard" style="height: 160px; background-color: #78C350">
+                <div class="card dashboard link" style="background-color: #78C350">
                     <div class="card-body">
-                        <span class="card-title card-number-large">100,000,000</span>
+                        <span class="card-title card-number-large">{{ number_format($total_pembiayaan) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
-                        <span class="card-description">Bersumber dari total pembiayaan anggota</span>
-
-                        <a href="#"><i class="fa fa-cog card-icon top right"></i></a>
                     </div>
                 </div>
             </div>
@@ -78,81 +70,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <div class="panel panel-primary">
-                            <div class="panel-body" style="background-color: #8892D6">
-                                <div class="row" style="padding: 0">
-                                    <div class="col-sm-3 col-md-3 col-lg-3">
-                                        <div class="avatar-icon">
-                                            <i class="fas fa-credit-card"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-7 col-md-7 col-lg-7">
-                                        <div class="content" style="justify-content: 'center'">
-                                            <span class="content-title">Total setoran hari ini</span>
-                                            <p class="content-description">Rp. 300,000</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 col-md-2 col-lg-2">
-                                        <div class="icon-navigation right">
-                                            <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-body" style="background-color: #45BBE0">
-                                <div class="row" style="padding: 0">
-                                    <div class="col-sm-3 col-md-3 col-lg-3">
-                                        <div class="avatar-icon">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-7 col-md-7 col-lg-7">
-                                        <div class="content" style="justify-content: 'center'">
-                                            <span class="content-title">Total penarikan hari ini</span>
-                                            <p class="content-description">Rp. 300,000</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 col-md-2 col-lg-2">
-                                        <div class="icon-navigation right">
-                                            <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-body" style="background-color: #F06292">
-                                <div class="row" style="padding: 0">
-                                    <div class="col-sm-3 col-md-3 col-lg-3">
-                                        <div class="avatar-icon">
-                                            <i class="fas fa-handshake-o"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-7 col-md-7 col-lg-7">
-                                        <div class="content" style="justify-content: 'center'">
-                                            <span class="content-title">Total pembiayaan hari ini</span>
-                                            <p class="content-description">Rp. 300,000</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 col-md-2 col-lg-2">
-                                        <div class="icon-navigation right">
-                                            <a href="#"><i class="fa fa-cogs" style="color: white"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <span class="panel-group-description">Laporan keluar masuk dana BMT per hari ini [ 15-02-2020 ]</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-8 col-lg-8">
+            <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <table class="table table-striped">

@@ -74,35 +74,65 @@ class AdminController extends Controller
      */
 
     public function index(){
-        $nas = $this->informationRepository->getAllPemJur();
-        $total =0;
-        foreach ($nas as $n){
-            $total += json_decode($n->detail,true)['saldo'] + json_decode($n->detail_pem,true)['tagihan_bulanan'] + 100000;
-
+        $harta = BMT::where('id_bmt', 'like', '3.2%')->get();
+        $total_harta = 0;
+        foreach($harta as $harta)
+        {
+            $total_harta += $harta['saldo'];
         }
 
-//          UNTUK LIMIT HARIAN
-        $home = new HomeController;
-        $date = $home->date_query(0);
-        $pengajuan =$this->pengajuan->select('status')
-            ->where('pengajuan.created_at', ">" , $date['prev'])
-            ->where('pengajuan.created_at', "<" , $date['now'])
-            ->get();
-        $set=$tol=$pen=0;
-        foreach ($pengajuan as $p){
-            if($p->status=="Menunggu Konfirmasi")$pen +=1;
-            elseif(str_before($p->status," ")=="Ditolak")$tol +=1;
-            elseif($p->status=="Disetujui" || str_before($p->status," ")=="Disetujui"  || str_before($p->status," ")=="Sudah" ||str_before($p->status," ")=="[Disetujui" )$set +=1;
+        $tabungan = Tabungan::where('status', 'active')->get();
+        $total_tabungan = 0;
+        foreach($tabungan as $tabungan)
+        {
+            $total_tabungan += json_decode($tabungan['detail'])->saldo;
         }
+
+        $deposito = Deposito::where('status', 'active')->get();
+        $total_deposito = 0;
+        foreach($deposito as $deposito)
+        {
+            $total_deposito += json_decode($deposito['detail'])->jumlah;
+        }
+
+        $pembiayaan = Pembiayaan::where('status', 'active')->get();
+        $total_pembiayaan = 0;
+        foreach($pembiayaan as $pembiayaan)
+        {
+            $total_pembiayaan += json_decode($pembiayaan['detail'])->pinjaman;
+        }
+
         
-        return view('admin.dashboard',[
-            'users'     => $this->informationRepository->getAllTeller(),
-            'nas'       => count($nas),
-            'tot'       => $total,
-            'setuju'    => $set,
-            'tolak'     => $tol,
-            'pending'   => $pen,
-        ]);
+//         $nas = $this->informationRepository->getAllPemJur();
+//         $total =0;
+//         foreach ($nas as $n){
+//             $total += json_decode($n->detail,true)['saldo'] + json_decode($n->detail_pem,true)['tagihan_bulanan'] + 100000;
+
+//         }
+
+// //          UNTUK LIMIT HARIAN
+//         $home = new HomeController;
+//         $date = $home->date_query(0);
+//         $pengajuan =$this->pengajuan->select('status')
+//             ->where('pengajuan.created_at', ">" , $date['prev'])
+//             ->where('pengajuan.created_at', "<" , $date['now'])
+//             ->get();
+//         $set=$tol=$pen=0;
+//         foreach ($pengajuan as $p){
+//             if($p->status=="Menunggu Konfirmasi")$pen +=1;
+//             elseif(str_before($p->status," ")=="Ditolak")$tol +=1;
+//             elseif($p->status=="Disetujui" || str_before($p->status," ")=="Disetujui"  || str_before($p->status," ")=="Sudah" ||str_before($p->status," ")=="[Disetujui" )$set +=1;
+//         }
+        
+        return view('admin.dashboard', compact(
+            'total_harta', 'total_tabungan', 'total_deposito', 'total_pembiayaan'
+            // 'users'     => $this->informationRepository->getAllTeller(),
+            // 'nas'       => count($nas),
+            // 'tot'       => $total,
+            // 'setuju'    => $set,
+            // 'tolak'     => $tol,
+            // 'pending'   => $pen,
+        ));
     }
     public function profile(){
         $data = $this->informationRepository->getAnggota(Auth::user()->no_ktp);

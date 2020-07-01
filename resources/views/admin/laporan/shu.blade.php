@@ -117,8 +117,8 @@
                             <thead>
                             <th class="text-left">ID</th>
                             <th> Nama </th>
-                            <th> Simpanan Wajib</th>
                             <th> Simpanan Pokok</th>
+                            <th> Simpanan Wajib</th>
                             <th> Margin</th>
                             <th> SHU Pengelolah</th>
                             <th> SHU Pengurus</th>
@@ -135,8 +135,8 @@
                                 <tr>
                                     <td class="text-left">{{ $item['no_ktp'] }}</td>
                                     <td class="text-left">{{ $item['nama']  }}</td>
-                                    <td class="text-right">{{number_format(floatval($item['simpanan_wajib']),2) }}</td>
                                     <td class="text-right">{{number_format(floatval($item['simpanan_pokok']),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval($item['simpanan_wajib']),2) }}</td>
                                     <td class="text-right">{{number_format(floatval($item['margin']),2) }}</td>
                                     <td class="text-right">{{number_format(floatval($item['shu_pengelola']),2)}}</td>
                                     <td class="text-right">{{number_format(floatval($item['shu_pengurus']),2)}}</td>
