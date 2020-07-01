@@ -74,11 +74,11 @@ class AdminController extends Controller
      */
 
     public function index(){
-        $harta = BMT::where('id_bmt', 'like', '3.2%')->get();
-        $total_harta = 0;
-        foreach($harta as $harta)
+        $kas = BMT::where('id_bmt', 'like', '1.1.%')->get();
+        $total_kas = 0;
+        foreach($kas as $kas)
         {
-            $total_harta += $harta['saldo'];
+            $total_kas += $kas['saldo'];
         }
 
         $tabungan = Tabungan::where('status', 'active')->get();
@@ -100,6 +100,14 @@ class AdminController extends Controller
         foreach($pembiayaan as $pembiayaan)
         {
             $total_pembiayaan += json_decode($pembiayaan['detail'])->pinjaman;
+        }
+
+        $teller = Rekening::where([ ['id_rekening', 'like', '3.2%'], ['tipe_rekening', '!=', 'induk'] ])->get();
+        $total_kekayaan = 0;
+        foreach($teller as $teller)
+        {
+            $bmt = BMT::where('id_rekening', $teller['id'])->first();
+            $total_kekayaan += $bmt->saldo;
         }
 
         
@@ -125,7 +133,7 @@ class AdminController extends Controller
 //         }
         
         return view('admin.dashboard', compact(
-            'total_harta', 'total_tabungan', 'total_deposito', 'total_pembiayaan'
+            'total_kas', 'total_tabungan', 'total_deposito', 'total_pembiayaan', 'total_kekayaan'
             // 'users'     => $this->informationRepository->getAllTeller(),
             // 'nas'       => count($nas),
             // 'tot'       => $total,
