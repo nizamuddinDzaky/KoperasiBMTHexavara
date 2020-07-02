@@ -120,7 +120,7 @@ class AccountReporsitories {
                     $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_wajib->saldo;
                     $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_wajib->saldo + $jumlah_bayar_simpanan_wajib;
                     $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_wajib->id;
-                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Wajib";
+                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Wajib [Pendaftaran Anggota Baru]";
                     $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
                     $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
@@ -129,7 +129,7 @@ class AccountReporsitories {
                     $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_pokok->saldo;
                     $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_pokok->saldo + $jumlah_bayar_simpanan_pokok;
                     $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_pokok->id;
-                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Pokok";
+                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Pokok [Pendaftaran Anggota Baru]";
                     $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
                     $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
