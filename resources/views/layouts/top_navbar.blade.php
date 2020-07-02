@@ -22,43 +22,18 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell"></i>
                   <div class="badges">
-                      <span>31</span>
+                      <span>{{ $notification_count }}</span>
                   </div>
               </a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="max-height: 400px; overflow: auto;">
-
+                @foreach($notification as $item)
                 <li>
                     <a tabindex="-1" href="#">
-                        <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
+                        <p style="font-size: 14px; font-weight: bold;">{{ $item->jenis_pengajuan }}</p><br />
+                        <p style="font-size: 12px;" class="notif-content">Ditemukan {{ $item->jenis_pengajuan }}, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                     </a>
                 </li>
-                <li>
-                    <a tabindex="-1" href="#">
-                        <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                    </a>
-                </li>
-                <li>
-                    <a tabindex="-1" href="#">
-                        <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                    </a>
-                </li>
-                <li>
-                    <a tabindex="-1" href="#">
-                        <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                    </a>
-                </li>
-                <li>
-                    <a tabindex="-1" href="#">
-                        <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                        <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                    </a>
-                </li>
-          
-              
+                @endforeach
               </ul>
             </li>
         </ul>
@@ -70,40 +45,32 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell"></i>
                         <div class="badges">
-                            <span>31</span>
+                            <span>{{ $notification_count }}</span>
                         </div>
                     </a>
                     <ul class="dropdown-menu" style="max-height: 400px; overflow: auto;">
+                        @foreach ($notification as $item)    
                         <li>
-                            <a tabindex="-1" href="#">
-                                <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
+                            {{-- @if(str_before($item->kategori, " ") == "Angsuran" || str_before($item->kategori, " ") == "Pelunasan" || $item->kategori == "Pembiayaan")  --}}
+                            <a tabindex="-1" 
+                                @if(str_before($item->kategori, " ") == "Angsuran" || str_before($item->kategori, " ") == "Pelunasan" || $item->kategori == "Pembiayaan")
+                                    href="{{ route('pengajuan_pembiayaan') }}"
+                                @elseif(str_before($item->kategori, " ") == "Debit" || str_before($item->kategori, " ") == "Kredit" || $item->kategori == "Tabungan")
+                                    href="{{ route('pengajuan_tabungan') }}"
+                                @elseif(str_before($item->kategori, " ") == "Simpanan")
+                                    href="{{ route('teller.transaksi.pengajuan_simpanan') }}"
+                                @elseif(str_before($item->kategori, " ") == "Perpanjangan" || str_before($item->kategori, " ") == "Pencairan" || $item->kategori == "Deposito")
+                                    href="{{ route('pengajuan_deposito') }}"
+                                @elseif($item->kategori == "Donasi")
+                                    href="{{ route('teller.pengajuan_maal') }}"
+                                @endif
+                                
+                            >
+                                <p style="font-size: 14px; font-weight: bold;">{{ $item->jenis_pengajuan }}</p><br />
+                                <p style="font-size: 12px;" class="notif-content">Ditemukan {{ $item->jenis_pengajuan }} Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
                             </a>
                         </li>
-                        <li>
-                            <a tabindex="-1" href="#">
-                                <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                            </a>
-                        </li>
-                        <li>
-                            <a tabindex="-1" href="#">
-                                <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                            </a>
-                        </li>
-                        <li>
-                            <a tabindex="-1" href="#">
-                                <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                            </a>
-                        </li>
-                        <li>
-                            <a tabindex="-1" href="#">
-                                <p style="font-size: 14px; font-weight: bold;">Pembukaan Rekening Baru</p><br />
-                                <p style="font-size: 12px;" class="notif-content">Ditemukan 50 Pengajuan Pembukaan Rekening Baru, Segera Tanggapi Demi Kepuasan Anggota</p><br />
-                            </a>
-                        </li>
+                        @endforeach
                     </ul>
                 </li>
 

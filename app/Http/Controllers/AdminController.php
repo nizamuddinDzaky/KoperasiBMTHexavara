@@ -11,6 +11,7 @@ use App\PenyimpananPembiayaan;
 use App\Repositories\InformationRepository;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
+use App\Repositories\PengajuanReporsitories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ class AdminController extends Controller
                                 InformationRepository $informationRepository,
                                 RekeningReporsitories $rekeningReporsitory,
                                 TabunganReporsitories $tabunganReporsitory,
-                                DepositoReporsitories $depositoReporsitory
+                                DepositoReporsitories $depositoReporsitory,
+                                PengajuanReporsitories $pengajuanReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -64,6 +66,7 @@ class AdminController extends Controller
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->tabunganReporsitory = $tabunganReporsitory;
         $this->depositoReporsitory = $depositoReporsitory;
+        $this->pengajuanReporsitory = $pengajuanReporsitory;
     }
 
 
@@ -109,42 +112,20 @@ class AdminController extends Controller
             $bmt = BMT::where('id_rekening', $teller['id'])->first();
             $total_kekayaan += $bmt->saldo;
         }
-
         
-//         $nas = $this->informationRepository->getAllPemJur();
-//         $total =0;
-//         foreach ($nas as $n){
-//             $total += json_decode($n->detail,true)['saldo'] + json_decode($n->detail_pem,true)['tagihan_bulanan'] + 100000;
-
-//         }
-
-// //          UNTUK LIMIT HARIAN
-//         $home = new HomeController;
-//         $date = $home->date_query(0);
-//         $pengajuan =$this->pengajuan->select('status')
-//             ->where('pengajuan.created_at', ">" , $date['prev'])
-//             ->where('pengajuan.created_at', "<" , $date['now'])
-//             ->get();
-//         $set=$tol=$pen=0;
-//         foreach ($pengajuan as $p){
-//             if($p->status=="Menunggu Konfirmasi")$pen +=1;
-//             elseif(str_before($p->status," ")=="Ditolak")$tol +=1;
-//             elseif($p->status=="Disetujui" || str_before($p->status," ")=="Disetujui"  || str_before($p->status," ")=="Sudah" ||str_before($p->status," ")=="[Disetujui" )$set +=1;
-//         }
-        
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);        
         return view('admin.dashboard', compact(
-            'total_kas', 'total_tabungan', 'total_deposito', 'total_pembiayaan', 'total_kekayaan'
-            // 'users'     => $this->informationRepository->getAllTeller(),
-            // 'nas'       => count($nas),
-            // 'tot'       => $total,
-            // 'setuju'    => $set,
-            // 'tolak'     => $tol,
-            // 'pending'   => $pen,
+            'total_kas', 'total_tabungan', 'total_deposito', 'total_pembiayaan', 'total_kekayaan', 'notification', 'notification_count'
         ));
     }
     public function profile(){
         $data = $this->informationRepository->getAnggota(Auth::user()->no_ktp);
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.profile',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
         ]);
     }
@@ -170,15 +151,22 @@ class AdminController extends Controller
     }
     public function data_anggota(){
         $data = $this->informationRepository->getAllAnggota();
-        // return response()->json($data);
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.anggota',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'data' => $data,
         ]);
     }
     public function showDetailAnggota(Request $request){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.user_datadiri',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'tab' =>  $this->informationRepository->getAllTabungan(),
             'status' =>  $this->informationRepository->getUsrByKtp($request->noktp),
@@ -188,7 +176,11 @@ class AdminController extends Controller
 
         $dropdown_data = $this->informationRepository->getDropdown();
         $data = $this->informationRepository->getAllRekening();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.rekening',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'dropdown_rekening' => $dropdown_data,
         ]);
@@ -197,7 +189,11 @@ class AdminController extends Controller
 
         $dropdown_data = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllTabungan();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.tabungan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'dropdown_tabungan' => $dropdown_data,
         ]);
@@ -206,7 +202,11 @@ class AdminController extends Controller
 
         $dropdown_data = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllDeposito();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.deposito',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'dropdown_deposito' => $dropdown_data,
         ]);
@@ -215,7 +215,11 @@ class AdminController extends Controller
 
         $dropdown_data = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllPembiayaan();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.pembiayaan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'dropdown_pembiayaan' => $dropdown_data,
         ]);
@@ -223,7 +227,11 @@ class AdminController extends Controller
     public function data_shu(){
 
         $data = $this->informationRepository->getAllSHU();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.shu',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'dropdown' => $this->informationRepository->getAllRekeningKM(),
         ]);
@@ -232,7 +240,11 @@ class AdminController extends Controller
 
         $dropdown_data = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllJaminan();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.datamaster.jaminan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'dropdown' => $dropdown_data,
         ]);
@@ -255,8 +267,11 @@ class AdminController extends Controller
     public function pengajuan(){
         $home = new HomeController;
         $date = $home->date_query(0);
+        $notification = $this->pengajuanReporsitory->getNotification();
         
         return view('admin.transaksi.pengajuan',[
+            'notification' => $notification,
+            'notification_count' => count($notification),
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
@@ -334,7 +349,11 @@ class AdminController extends Controller
         ]);
     }
     public function transfer(){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.transaksi.transfer',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
@@ -1128,7 +1147,10 @@ class AdminController extends Controller
         $simpanan_wajib = PenyimpananWajibPokok::where('status', 'Simpanan Wajib')->orWhere('status', 'Pencairan Simpanan Wajib')->get();
         $simpanan_khusus = PenyimpananWajibPokok::where('status', 'Simpanan Khusus')->orWhere('status', 'Pencairan Simpanan Khusus')->get();
         $kontribusi_margin = PenyimpananPembiayaan::where('status', 'like', 'Angsuran%')->orWhere('status', 'like', 'Pelunasan%')->get();
-        return view('admin.transaksi.simpanan', compact('simpanan_pokok', 'simpanan_wajib', 'simpanan_khusus', 'kontribusi_margin'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+
+        return view('admin.transaksi.simpanan', compact('simpanan_pokok', 'simpanan_wajib', 'simpanan_khusus', 'kontribusi_margin', 'notification', 'notification_count'));
     }
 
     /**
@@ -1137,7 +1159,10 @@ class AdminController extends Controller
     */
     public function tabungan(){
         $data_tabungan = $this->tabunganReporsitory->getGroupingTabungan();
-        return view('admin.transaksi.tabungan', compact('data_tabungan'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+
+        return view('admin.transaksi.tabungan', compact('data_tabungan', 'notification', 'notification_count'));
     }
 
     /**
@@ -1146,7 +1171,9 @@ class AdminController extends Controller
     */
     public function detail_tabungan($id){
         $data_tabungan = $this->tabunganReporsitory->getGroupingTabungan($id);
-        return view('admin.transaksi.detail_tabungan', compact('data_tabungan'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('admin.transaksi.detail_tabungan', compact('data_tabungan', 'notification', 'notification_count'));
     }
 
     /**
@@ -1155,8 +1182,9 @@ class AdminController extends Controller
     */
     public function riwayat_tabungan($id){
         $data_tabungan = $this->tabunganReporsitory->getRiwayatTabungan($id);
-        // return response()->json($data_tabungan);
-        return view('admin.transaksi.riwayat_tabungan', compact('data_tabungan'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('admin.transaksi.riwayat_tabungan', compact('data_tabungan', 'notification', 'notification_count'));
     }
 
     /**
@@ -1165,7 +1193,9 @@ class AdminController extends Controller
     */
     public function deposito(){
         $data_deposito = $this->depositoReporsitory->getGroupingDeposito();
-        return view('admin.transaksi.deposito', compact('data_deposito'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('admin.transaksi.deposito', compact('data_deposito', 'notification', 'notification_count'));
     }
 
     /**
@@ -1174,7 +1204,9 @@ class AdminController extends Controller
     */
     public function detail_deposito($id){
         $data_deposito = $this->depositoReporsitory->getGroupingDeposito($id);
-        return view('admin.transaksi.detail_deposito', compact('data_deposito'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('admin.transaksi.detail_deposito', compact('data_deposito', 'notification', 'notification_count'));
     }
     
 
@@ -1197,7 +1229,9 @@ class AdminController extends Controller
                 "saldo"     => $bmt->saldo
             ));
         }
-        return view('admin.teller_list', compact('data'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('admin.teller_list', compact('data', 'notification', 'notification_count'));
     }
 
     /** 

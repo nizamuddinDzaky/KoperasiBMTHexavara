@@ -82,6 +82,16 @@ class PengajuanReporsitories {
         return $pengajuan;
     }
 
+    /** 
+     * Get data for notification
+     * @return Response
+    */
+    public function getNotification()
+    {
+        $pengajuan = Pengajuan::where('status', 'Menunggu Konfirmasi')->get();
+        return $pengajuan;
+    }
+
 }
 
 ?>

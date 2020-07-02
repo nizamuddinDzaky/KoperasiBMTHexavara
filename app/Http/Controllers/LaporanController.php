@@ -11,6 +11,7 @@ use App\Repositories\RekeningReporsitories;
 use App\Repositories\PembiayaanReporsitory;
 use App\Repositories\DistribusiPendapatanReporsitories;
 use App\Repositories\SHUTahunanRepositories;
+use App\Repositories\PengajuanReporsitories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class LaporanController extends Controller
                                 PembiayaanReporsitory $pembiayaanReporsitory,
                                 InformationRepository $informationRepository,
                                 DistribusiPendapatanReporsitories $distribusiPendapatanReporsitory,
-                                SHUTahunanRepositories $shuTahunanRepository
+                                SHUTahunanRepositories $shuTahunanRepository,
+                                PengajuanReporsitories $pengajuanReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -60,6 +62,7 @@ class LaporanController extends Controller
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
         $this->distribusiPendapatanReporsitory = $distribusiPendapatanReporsitory;
         $this->shuTahunanRepository = $shuTahunanRepository;
+        $this->pengajuanReporsitory = $pengajuanReporsitory;
     }
 
     /**
@@ -108,15 +111,22 @@ class LaporanController extends Controller
         else {
             $data = $this->pembiayaanReporsitory->getPembiayaan();
         }
+        $notification = $this->pengajuanReporsitory->getNotification();
         
         return view('admin.laporan.pembiayaan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data
         ]);
     }
     public function daftar_kolektibilitas(){
         $dropdown = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllPemNasabahKolek();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.daftar_kolektibilitas',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'kegiatan' => $dropdown,
             'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
             'tab' =>  $this->informationRepository->getAllTab(),
@@ -160,8 +170,12 @@ class LaporanController extends Controller
                 $data = $this->rekeningReporsitory->getKasHarian(Auth::user()->id, Carbon::now());
             }
         }
+
+        $notification = $this->pengajuanReporsitory->getNotification();
         
         return view('admin.laporan.kas_harian',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data
         ]);
     }
@@ -249,7 +263,11 @@ class LaporanController extends Controller
         }
         $awal = $this->getquitas($date_now."-01");
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.quitas',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'awal' => $awal,
             'data' => $data,
             'sum' =>$sum,
@@ -332,7 +350,11 @@ class LaporanController extends Controller
         }
 
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.laba_rugi',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $laba,
             'data2' => $rugi,
             'laba' =>$sum_laba,
@@ -457,8 +479,11 @@ class LaporanController extends Controller
         $time_input = date_create($str);
 
         // return response()->json($data2);
-
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.neraca',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'data2' => $data2,
             'aktiva' =>$aktiva,
@@ -523,7 +548,11 @@ class LaporanController extends Controller
     }
     public function buku_besar(){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.buku_besar',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => null,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),
             'periode' =>$periode
@@ -533,8 +562,11 @@ class LaporanController extends Controller
     public function rekening_buku(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
-
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.buku_besar',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),
             'periode' =>$periode
@@ -550,7 +582,11 @@ class LaporanController extends Controller
         ]);
     }
     public function distribusi(){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.distribusi',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $this->distribusiPendapatanReporsitory->getDistribusiData(),
             'status' => $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus(),
         ]);
@@ -584,7 +620,11 @@ class LaporanController extends Controller
         $data_shu = $this->shuTahunanRepository->getSHU();
         $data_distribusi = $this->shuTahunanRepository->getDataDistribusiSHU();
         $status_distribusi = $this->shuTahunanRepository->checkStatus();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.laporan.shu',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data_distribusi' => $data_distribusi,
             'data_shu' => $data_shu,
             'status' => $status_distribusi,
@@ -661,7 +701,12 @@ class LaporanController extends Controller
         return view('admin.laporan.saldo');
     }
     public function labarugi(){
-        return view('admin.laporan.labarugi');
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
+        return view('admin.laporan.labarugi', [
+            'notification' => $notification,
+            'notification_count' =>count($notification)
+        ]);
     }
     public function saldo_zis(Request $request) {
         $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "ZAKAT");
@@ -677,8 +722,10 @@ class LaporanController extends Controller
             ])->get();
         }
         $saldo_terkumpul = $bmt_rekening->saldo;
-        
-        return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+
+        return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul', 'notification', 'notification_count'));
     }
 
     public function saldo_donasi(Request $request) {
@@ -695,8 +742,9 @@ class LaporanController extends Controller
 
         $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "DANA SOSIAL");
         $saldo_terkumpul = BMT::where('id_rekening', $rekening->id)->select('saldo')->first();
-        
-        return view('admin.laporan.saldo_donasi', compact('data_donasi', 'saldo_terkumpul'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('admin.laporan.saldo_donasi', compact('data_donasi', 'saldo_terkumpul', 'notification', 'notification_count'));
     }
 
     public function saldo_wakaf(Request $request) {
@@ -714,7 +762,10 @@ class LaporanController extends Controller
             ])->get();
         }
         
-        return view('admin.laporan.saldo_wakaf', compact('data_wakaf', 'saldo_terkumpul'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+
+        return view('admin.laporan.saldo_wakaf', compact('data_wakaf', 'saldo_terkumpul', 'notification', 'notification_count'));
     }
 
     /** 
@@ -725,7 +776,10 @@ class LaporanController extends Controller
     {
         $data = $this->distribusiPendapatanReporsitory->getDistribusiHistory($request->date);
         $status = $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus();
-        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+
+        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data', 'notification', 'notification_count'));
     }
 
     /** 
@@ -785,7 +839,10 @@ class LaporanController extends Controller
         $date = isset($request->date) ? $request->date : "";
         $data = $this->shuTahunanRepository->getHistorySHU($date);
         $status = $this->shuTahunanRepository->checkStatus();
-        return view('admin.laporan.proses_akhir_tahun', compact('status', 'data'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+
+        return view('admin.laporan.proses_akhir_tahun', compact('status', 'data', 'notification', 'notification_count'));
     }
 
     /** 

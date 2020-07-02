@@ -1093,7 +1093,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
                 'as' => 'nasabah_tabungan',
                 'uses' => 'TellerController@nasabah_tabungan'
             ]);
-            Route::post('/', [
+            Route::post('/detail', [
                 'as' => 'teller.detail_tabungan',
                 'uses' => 'UserController@detail_tabungan'
             ]);
@@ -1107,7 +1107,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
                 'as'        => 'nasabah_deposito',
                 'uses'      => 'TellerController@nasabah_deposito'
             ]);
-            Route::post('/', [
+            Route::post('/detail', [
                 'as'        => 'teller.detail_deposito',
                 'uses'      => 'UserController@detail_deposito'
             ]);
@@ -1118,7 +1118,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
                 'as'        => 'pengajuan_pembiayaan',
                 'uses'      => 'TellerController@pengajuan_pembiayaan'
             ]);
-            Route::post('/', [
+            Route::post('/detail', [
                 'as'        => 'teller.detail_pembiayaan',
                 'uses'      => 'UserController@detail_pembiayaan'
             ]);

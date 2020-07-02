@@ -7,6 +7,7 @@ use App\BMT;
 use App\Deposito;
 use App\Pembiayaan;
 use App\Repositories\InformationRepository;
+use App\Repositories\PengajuanReporsitories;
 use App\Tabungan;
 use App\User;
 use Carbon\Carbon;
@@ -33,7 +34,8 @@ class RapatController extends Controller
         Tabungan $tabungan,
         Deposito $deposito,
         Pembiayaan $pembiayaan,
-        InformationRepository $informationRepository)
+        InformationRepository $informationRepository,
+        PengajuanReporsitories $pengajuanRepository)
     {
         $this->middleware(function ($request, $next) {
             $this->id_role = Auth::user()->tipe;
@@ -52,6 +54,7 @@ class RapatController extends Controller
         $this->deposito = $deposito;
         $this->pembiayaan = $pembiayaan;
         $this->informationRepository = $informationRepository;
+        $this->pengajuanReporsitory = $pengajuanRepository;
     }
 
     /** 
@@ -60,8 +63,9 @@ class RapatController extends Controller
     */
     public function index() {
         $rapat = Rapat::where('tanggal_berakhir', '>', Carbon::now())->paginate(8);
-        // return response()->json($rapat);
-        return view('rapat.index', compact('rapat'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('rapat.index', compact('rapat', 'notification', 'notification_count'));
     }
 
     /** 
@@ -101,8 +105,9 @@ class RapatController extends Controller
             array_push($array_voter, $value->id_user);
         }
         $is_finish_voting = in_array(Auth::user()->id, $array_voter);
-
-        return view('rapat.show', compact('rapat', 'id_rapat', 'vote', 'is_finish_voting'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('rapat.show', compact('rapat', 'id_rapat', 'vote', 'is_finish_voting', 'notification', 'notification_count'));
     }
 
     /** 
@@ -143,8 +148,9 @@ class RapatController extends Controller
 
             $index++;
         }
-        // return response()->json($rapat);
-        return view('rapat.admin', compact('rapat'));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        return view('rapat.admin', compact('rapat', 'notification', 'notification_count'));
     }
 
     /** 

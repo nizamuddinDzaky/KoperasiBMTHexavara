@@ -141,6 +141,7 @@ class TellerController extends Controller
         }
 
         $bmt = $this->informationRepository->getRekeningBMT(json_decode(Auth::user()->detail,true)['id_rekening']);
+        $notification = $this->pengajuanReporsitory->getNotification();
         
         return view('teller.dashboard',[
             'teller' =>$bmt,
@@ -150,7 +151,9 @@ class TellerController extends Controller
             'saldo_kas' => $bmtTeller->saldo,
             'saldo_tabungan' => $saldoTabungan,
             'saldo_deposito' => $saldoDeposito,
-            'saldo_pembiayaan' => $saldoPembiayaan
+            'saldo_pembiayaan' => $saldoPembiayaan,
+            'notification' => $notification,
+            'notification_count' =>count($notification)
         ]);
     }
 
@@ -796,8 +799,10 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanTabTell($date);
-
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('teller.transaksi.tabungan.pengajuan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldo' =>  $this->informationRepository->getAllTab(),
             'data' => $data,
@@ -845,8 +850,12 @@ class TellerController extends Controller
     public function nasabah_tabungan(){
         $dropdown = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllTab();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         if(Auth::user()->tipe=="admin")
-            return view('admin.deposito.nasabah',[
+        return view('admin.deposito.nasabah',[
+                'notification' => $notification,
+                'notification_count' =>count($notification),
                 'kegiatan' => $dropdown,
                 'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
                 'tab' =>  $this->informationRepository->getAllTab(),
@@ -859,22 +868,24 @@ class TellerController extends Controller
                 'dropdown7' => $this->informationRepository->getDdTeller(),
                 'dropdown8' => $this->informationRepository->getAllNasabah(),
                 'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            ]);
+                ]);
         elseif(Auth::user()->tipe=="teller")
             return view('teller.nasabah.nasabah_tabungan',[
+                'notification' => $notification,
+                'notification_count' =>count($notification),
                 'kegiatan' => $dropdown,
-                'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
-                'tab' =>  $this->informationRepository->getAllTab(),
-                'tabactive' =>  $this->informationRepository->getAllTabActive(),
-                'data' => $data,
-                'dropdown' => $dropdown,
-                'dropdown2' => $dropdown,
-                'dropdown3' => $dropdown,
-                'dropdown6' => $this->informationRepository->getDdBank(),
-                'dropdown7' => $this->informationRepository->getDdTeller(),
-                'dropdown8' => $this->informationRepository->getAllNasabah(),
-                'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            ]);
+            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'data' => $data,
+            'dropdown' => $dropdown,
+            'dropdown2' => $dropdown,
+            'dropdown3' => $dropdown,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+        ]);
 
     }
     public function simpanan_wajib(Request $request){
@@ -943,6 +954,8 @@ class TellerController extends Controller
             }
         }
 
+        $notification = $this->pengajuanReporsitory->getNotification();
+
         return view('teller.transaksi.deposito.pengajuan',[
             // 'datasaldoDep' =>  $this->informationRepository->getAllDep(),
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
@@ -962,7 +975,9 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
+            'notification' => $notification,
+            'notification_count' => count($notification)
         ]);
     }
     public function periode_dep(Request $request){
@@ -994,36 +1009,42 @@ class TellerController extends Controller
     public function nasabah_deposito(){
         $dropdown = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllDep();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         if(Auth::user()->tipe=="admin")
-            return view('admin.deposito.nasabah',[
-                'kegiatan' => $dropdown,
-                'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
-                'tab' =>  $this->informationRepository->getAllTab(),
-                'tabactive' =>  $this->informationRepository->getAllTabActive(),
-                'data' => $data,
-                'dropdown' => $dropdown,
-                'dropdown2' => $dropdown,
-                'dropdown3' => $dropdown,
-                'dropdown6' => $this->informationRepository->getDdBank(),
-                'dropdown7' => $this->informationRepository->getDdTeller(),
-                'dropdown8' => $this->informationRepository->getAllNasabah(),
-                'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            ]);
+        return view('admin.deposito.nasabah',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'kegiatan' => $dropdown,
+            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'data' => $data,
+            'dropdown' => $dropdown,
+            'dropdown2' => $dropdown,
+            'dropdown3' => $dropdown,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+        ]);
         elseif(Auth::user()->tipe=="teller")
-            return view('teller.nasabah.nasabah_deposito',[
-                'kegiatan' => $dropdown,
-                'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
-                'tab' =>  $this->informationRepository->getAllTab(),
-                'tabactive' =>  $this->informationRepository->getAllTabActive(),
-                'data' => $data,
-                'dropdown' => $dropdown,
-                'dropdown2' => $dropdown,
-                'dropdown3' => $dropdown,
-                'dropdown6' => $this->informationRepository->getDdBank(),
-                'dropdown7' => $this->informationRepository->getDdTeller(),
-                'dropdown8' => $this->informationRepository->getAllNasabah(),
-                'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            ]);
+        return view('teller.nasabah.nasabah_deposito',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'kegiatan' => $dropdown,
+            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'data' => $data,
+            'dropdown' => $dropdown,
+            'dropdown2' => $dropdown,
+            'dropdown3' => $dropdown,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+        ]);
     }
 //end of NAVBAR DEPOSITO
 
@@ -1035,7 +1056,7 @@ class TellerController extends Controller
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanPemTell($date);
-        // return response()->json($data);
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('teller.transaksi.pembiayaan.pengajuan',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
@@ -1055,7 +1076,9 @@ class TellerController extends Controller
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
             'periode'  => $this->informationRepository->periode(),
-            'tabungan'  => $this->informationRepository->getAllTab()
+            'tabungan'  => $this->informationRepository->getAllTab(),
+            'notification' => $notification,
+            'notification_count' =>count($notification)
         ]);
     }
     public function periode_pem(Request $request){
@@ -1088,36 +1111,42 @@ class TellerController extends Controller
     public function nasabah_pembiayaan(){
         $dropdown = $this->informationRepository->getDd();
         $data = $this->informationRepository->getAllPemNasabah();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         if(Auth::user()->tipe=="teller")
-            return view('teller.nasabah.nasabah_pembiayaan',[
-                'kegiatan' => $dropdown,
-                'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
-                'tab' =>  $this->informationRepository->getAllTab(),
-                'tabactive' =>  $this->informationRepository->getAllTabActive(),
-                'data' => $data,
-                'dropdown' => $dropdown,
-                'dropdown2' => $dropdown,
-                'dropdown3' => $dropdown,
-                'dropdown6' => $this->informationRepository->getDdBank(),
-                'dropdown7' => $this->informationRepository->getDdTeller(),
-                'dropdown8' => $this->informationRepository->getAllNasabah(),
-                'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            ]);
+        return view('teller.nasabah.nasabah_pembiayaan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'kegiatan' => $dropdown,
+            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'data' => $data,
+            'dropdown' => $dropdown,
+            'dropdown2' => $dropdown,
+            'dropdown3' => $dropdown,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+        ]);
         elseif(Auth::user()->tipe=="admin")
-            return view('admin.pembiayaan.nasabah',[
-                'kegiatan' => $dropdown,
-                'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
-                'tab' =>  $this->informationRepository->getAllTab(),
-                'tabactive' =>  $this->informationRepository->getAllTabActive(),
-                'data' => $data,
-                'dropdown' => $dropdown,
-                'dropdown2' => $dropdown,
-                'dropdown3' => $dropdown,
-                'dropdown6' => $this->informationRepository->getDdBank(),
-                'dropdown7' => $this->informationRepository->getDdTeller(),
-                'dropdown8' => $this->informationRepository->getAllNasabah(),
-                'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            ]);
+        return view('admin.pembiayaan.nasabah',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'kegiatan' => $dropdown,
+            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'data' => $data,
+            'dropdown' => $dropdown,
+            'dropdown2' => $dropdown,
+            'dropdown3' => $dropdown,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+        ]);
     }
 //end of NAVBAR PEMBIAYAAN
     public function akad_pembiayaan($id)
@@ -1226,7 +1255,9 @@ class TellerController extends Controller
                 array_push($depositoExpiredNotAutoExtended, $value);
             }
         }
-        // return response()->json();
+
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('teller.transaksi.maal.pengajuan',[
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
@@ -1253,7 +1284,9 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
+            'notification' => $notification,
+            'notification_count' =>count($notification)
         ]);
     }
 
@@ -1274,7 +1307,7 @@ class TellerController extends Controller
                 array_push($depositoExpiredNotAutoExtended, $value);
             }
         }
-        // return response()->json($this->tabunganReporsitory->getTabungan());
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('teller.transaksi.simpanan.pengajuan',[
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'users'    => User::where('tipe', 'anggota')->get(),
@@ -1299,7 +1332,9 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-            'periode'  => $this->informationRepository->periode()
+            'periode'  => $this->informationRepository->periode(),
+            'notification' => $notification,
+            'notification_count' =>count($notification)
         ]);
     }
 
@@ -1308,7 +1343,11 @@ class TellerController extends Controller
      * @return View
     */
     public function transfer(){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('teller.transaksi.transfer.index',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
@@ -1800,9 +1839,12 @@ class TellerController extends Controller
     public function daftar_pengajuan_penutupan_rekening()
     {
         $pengajuan = $this->pengajuanReporsitory->getPengajuanSpecificCategory('Penutupan Rekening');
-
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view("teller.transaksi.penutupan_rekening.pengajuan", [
-            "data" => $pengajuan
+            "data" => $pengajuan,
+            'notification' => $notification,
+            'notification_count' =>count($notification)
         ]);
     }
 

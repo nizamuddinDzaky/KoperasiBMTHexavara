@@ -113,6 +113,8 @@ class UserController extends Controller
             $sumdep +=(json_decode($dt->detail,true)['saldo']);
         }
         $user = User::where('id',Auth::user()->id)->first()['wajib_pokok'];
+        $notification = $this->pengajuanReporsitory->getNotification();
+
         return view('users.dashboard',[
             'tab' => $sum,
             'tagihan' => $sumtag,
@@ -120,7 +122,9 @@ class UserController extends Controller
             'deposito' => $sumdep,
             'pinjaman' => $sumpin,
             'simpanan' => json_decode($user,true),
-            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(20)
+            'pengajuan' => $this->informationRepository->getAllpengajuanUsr(20),
+            'notification' => $notification,
+            'notification_count' =>count($notification)
         ]);
     }
 
@@ -196,7 +200,7 @@ class UserController extends Controller
                 $is_pembiayaan = true;
             }
         }
-        // return response()->json();
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('users.pengajuan', [
             'tabungan_anggota'  => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
             'simpanan_anggota'  => $this->simpananReporsitory->getSimwaAndSimpok(),
@@ -226,7 +230,9 @@ class UserController extends Controller
             'rekening_tabungan' => $this->tabunganReporsitory->getRekening('TABUNGAN'),
             'all_deposito' => $this->tabunganReporsitory->getRekening('DEPOSITO'),
             'is_active_pembiayaan' => $is_pembiayaan,
-            'tabungan'  => $this->informationRepository->getAllTabUsrActive()
+            'tabungan'  => $this->informationRepository->getAllTabUsrActive(),
+            'notification' => $notification,
+            'notification_count' => count($notification)
         ]);
     }
 
@@ -274,8 +280,11 @@ class UserController extends Controller
     {
         $data = $this->informationRepository->getAllTabUsrActive();
         $dropdown2 = $this->informationRepository->getDdDep();
-        // return response()->json($this->informationRepository->getAllpengajuanUsrTab());
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('users.tabungan', [
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
             'datasaldo' => $data,
@@ -297,7 +306,11 @@ class UserController extends Controller
 
     public function detail_tabungan(Request $request)
     {
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('users.detail_tabungan', [
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $this->informationRepository->getTransaksiTabUsr($request->id_),
         ]);
 
@@ -512,6 +525,7 @@ class UserController extends Controller
             }
         }
         $tab = $this->informationRepository->getAllTabUsr();
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('users.deposito', [
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
@@ -530,12 +544,18 @@ class UserController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'notification' => $notification,
+            'notification_count' => count($notification)
         ]);
     }
 
     public function detail_deposito(Request $request)
     {
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('users.detail_deposito', [
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $this->informationRepository->getTransaksiDepUsr($request->id_),
         ]);
     }
@@ -586,9 +606,12 @@ class UserController extends Controller
     public function pembiayaan()
     {
         $data = $this->informationRepository->getAllPemUsr();
-        // return response()->json($this->informationRepository->getAllPemUsrActive());
         $tab = $data;
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('users.pembiayaans', [
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $data,
             'data' => $data,
@@ -612,8 +635,11 @@ class UserController extends Controller
 
     public function detail_pembiayaan(Request $request)
     {
-        // return response()->json($this->informationRepository->getTransaksiPemUsr($request->id_));
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('users.detail_pembiayaan', [
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $this->informationRepository->getTransaksiPemUsr($request->id_),
         ]);
     }
@@ -726,7 +752,11 @@ class UserController extends Controller
         $riwayat_zis = PenyimpananBMT::where([ ['id_bmt', '334'], ['id_user', Auth::user()->id] ])->get();
         $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
         $kegiatan = Maal::paginate('8');
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('users.donasi_maal',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
             "kegiatan"  => $kegiatan,
             'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
@@ -842,7 +872,11 @@ class UserController extends Controller
     }
 
     public function transaksi_maal(){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('admin.maal.transaksi',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' =>$this->informationRepository->getAllPenyimpananMaalUsr(),
         ]);
     }
@@ -892,7 +926,11 @@ class UserController extends Controller
         $simpanan = $this->simpananReporsitory->getUserPengajuanSimpananFromSpecificUser();
         $tabungan_user = $this->tabunganReporsitory->getUserTabungan(Auth::user()->id);
         $bank_bmt = $this->tabunganReporsitory->getRekening('BANK');
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
         return view('users.simpanan', [
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $simpanan,
             'tabungan' => $tabungan_user,
             'bank_bmt' => $bank_bmt

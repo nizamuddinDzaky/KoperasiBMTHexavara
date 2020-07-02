@@ -3665,7 +3665,7 @@ class InformationRepository
         $dt->id_rekening = $tabUsr['id_rekening'];
         $dt->jenis_pengajuan = "Perpanjangan Deposito";
         $dt->status = "Menunggu Konfirmasi";
-        $dt->kategori = "Perpanjangan Deposito";
+    $dt->kategori = "Perpanjangan Deposito";
         $dt->detail = json_encode($detail);
         if($request->teller=="teller"){
             $dt->teller=Auth::user()->id;

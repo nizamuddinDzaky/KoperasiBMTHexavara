@@ -22,13 +22,13 @@
 </li> --}}
 
 
-<li @if(Request::is('teller/menu*'))class="active"@endif>
+<li @if(Request::is('teller/menu*', 'teller/transaksi/pengajuan/daftar_penutupan_rekening'))class="active"@endif>
     <a data-toggle="collapse" href="#nav_tabteller">
         <i class="pe-7s-monitor"></i>
         <p>Monitor Transaksi
             <b class="caret"></b></p>
     </a>
-    @if(Request::is('teller/menu/maal*','teller/menu/tabungan*','teller/menu/deposito*','teller/menu/pembiayaan*','teller/menu/pengajuan_simpanan*'))
+    @if(Request::is('teller/menu/maal*','teller/menu/tabungan*','teller/menu/deposito*','teller/menu/pembiayaan*','teller/menu/pengajuan_simpanan*','teller/transaksi/pengajuan/daftar_penutupan_rekening'))
         <div class="collapse in" id="nav_tabteller">
     @else
         <div class="collapse" id="nav_tabteller">
@@ -40,14 +40,14 @@
             {{-- <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li> --}}
             <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="{{route('pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
             <li @if(Request::is('teller/menu/pengajuan_simpanan*'))class="active"@endif><a href="{{ route('teller.transaksi.pengajuan_simpanan') }}">Pengajuan Simpanan Anggota</a></li>
-            <li @if(Request::is('teller/menu/pengajuan_penutupan_rekening*'))class="active"@endif><a href="{{ route('teller.transaksi.pengajuan_penutupan_rekening') }}">Pengajuan Penutupan Rekening</a></li>
+            <li @if(Request::is('teller/transaksi/pengajuan/daftar_penutupan_rekening'))class="active"@endif><a href="{{ route('teller.transaksi.pengajuan_penutupan_rekening') }}">Pengajuan Penutupan Rekening</a></li>
             {{-- <li @if(Request::is('teller/nasabah/pembiayaan*'))class="active"@endif><a href="{{route('nasabah_pembiayaan')}}">Nasabah Pembiayaan</a></li> --}}
         </ul>
         </div>
 </li>
 
-<li @if(Request::is('teller/transaksi/*'))class="active"@endif>
-    @if(Request::is('teller/transaksi/*','teller/transaksi/pengajuan*','teller/transaksi/transfer'))
+<li @if(Request::is('teller/transaksi/transfer'))class="active"@endif>
+    @if(Request::is('teller/transaksi/transfer'))
         <a data-toggle="collapse" href="#nav_transaksi" aria-expanded="true">
     @else
         <a data-toggle="collapse" href="#nav_transaksi">
@@ -57,7 +57,7 @@
                 <b class="caret"></b>
             </p>
         </a>
-    @if(Request::is('teller/transaksi/pengajuan*','teller/transaksi/transfer'))
+    @if(Request::is('teller/transaksi/transfer'))
     <div class="collapse in" id="nav_transaksi">
     @else
     <div class="collapse" id="nav_transaksi">

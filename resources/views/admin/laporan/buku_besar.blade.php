@@ -109,7 +109,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Start Date</label>
-                                                        <input class="form-control datepicker"
+                                                        <input class="form-control date-picker"
                                                                style="height: 2em;width:7.5em"
                                                                type="text"
                                                                id="etgl"
@@ -121,7 +121,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label class="control-label">End Date</label>
-                                                        <input class="form-control datepicker"                                                               style="height: 2em;width:7.5em"
+                                                        <input class="form-control date-picker"                                                               style="height: 2em;width:7.5em"
                                                                style="height: 2em;width:7.5em"
                                                                type="text"
                                                                id="etgl"
@@ -362,7 +362,7 @@
                     }
                 });
 
-                $('.datepicker').datetimepicker({
+                $('.date-picker').datetimepicker({
                     format: 'YYYY-MM-DD',
                     icons: {
                         time: "fa fa-clock-o",

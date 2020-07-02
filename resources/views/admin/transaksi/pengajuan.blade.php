@@ -69,7 +69,7 @@
                                     @elseif(str_before($usr['kategori'],' ')=="Donasi" ||str_before($usr['kategori'],' ')=="Simpanan")
                                         <td class="text-center">{{$usr['kategori'] }}</td>
                                     @else
-                                        <td class="text-center">{{json_decode($usr['detail'],true)['keterangan'] }}</td>
+                                        <td class="text-center">{{isset(json_decode($usr['detail'],true)['keterangan']) ? json_decode($usr['detail'],true)['keterangan'] : "-" }}</td>
                                     @endif
                                     <td>{{ $usr['created_at'] }}</td>
                                     <td class="text-center text-uppercase">{{ $usr['status'] }}</td>

@@ -464,6 +464,10 @@ class RekeningReporsitories {
     public function getKasHarian($id, $date)
     {
         $id_rekening_teller = $id;
+        if(Auth::user()->tipe == "teller")
+        {
+            $id_rekening_teller = json_decode(Auth::user()->detail)->id_rekening;
+        }
         $bmt_teller = BMT::where('id_rekening', $id_rekening_teller)->first();
         
         $kas_harian = PenyimpananBMT::where([ 
