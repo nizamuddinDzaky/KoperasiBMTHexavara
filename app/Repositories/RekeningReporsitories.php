@@ -95,6 +95,7 @@ class RekeningReporsitories {
                     $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
                     $id_penerima = $bmt_penerima->id;
                     $id_pengirim = $bmt_pengirim->id;
+                    $keterangan = "Pemasukan - KT [" . $data['keterangan'] . "]";
                 } else {
                     $jenis = "Pengeluaran";
 
@@ -111,6 +112,7 @@ class RekeningReporsitories {
                     $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
                     $id_penerima = $bmt_penerima->id;
                     $id_pengirim = $bmt_pengirim->id;
+                    $keterangan = "Pengeluaran - KK [" . $data['keterangan'] . "]";
                 }
 
                 $id_user = Auth::user()->id;
@@ -133,7 +135,7 @@ class RekeningReporsitories {
                     "saldo_akhir" => floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']),
                     "dari"      => $dari,
                     "ke"    => $ke,
-                    "keterangan"=> "[" . $jenis . "] " . $data['keterangan']
+                    "keterangan"=> $keterangan
                 ];
                 $teller = Auth::user()->id;
 
@@ -144,7 +146,6 @@ class RekeningReporsitories {
                     "transaksi" => $detail,
                     "teller"    => $teller
                 ];
-                
                 $dataToBMT = [
                     "jenis_transaksi"       => $jenis,
                     "id_rekening_pengirim"  => $dari,
