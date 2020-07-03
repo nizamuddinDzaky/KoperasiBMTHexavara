@@ -1085,6 +1085,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'uses' => 'TellerController@transaksi_tab'
         ]);
 
+        /** 
+         * Pelunasan pembiayaan controller
+         * @method POST
+        */
+        Route::post('pelunasan_pembiayaan', [
+            'as'    => 'teller.pelunasan_pembiayaan',
+            'uses'  => 'TellerController@pelunasan_pembiayaan'
+        ]);
+
     });
 
     Route::group(['prefix' => 'nasabah', 'middleware' => ['auth']], function () {
@@ -1220,6 +1229,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             Route::post('/periode_pembiayaan', [
                 'as'        => 'teller.periode.pengajuan_pembiayaan',
                 'uses'      => 'TellerController@periode_dep'
+            ]);
+            
+            /** 
+             * Get user pembiayaan
+             * @method GET
+            */
+            Route::get('get_user_pembiayaan/{id}', [
+                'as'    => 'api.get_user_pembiayaan',
+                'uses'  => 'ApiController@getUserPembiayaan'   
             ]);
         });
 

@@ -2,7 +2,7 @@
 <div class="modal fade" id="pelunasanLebihAwalPembiayaanModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardPelunasanLebihAwal">
-            <form id="wizardFormPelunasanLebihAwal" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('anggota.pelunasan_pembiayaan')}}" @ENDIF enctype="multipart/form-data">
+            <form id="wizardFormPelunasanLebihAwal" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.pelunasan_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('anggota.pelunasan_pembiayaan')}}" @ENDIF enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -20,6 +20,26 @@
                         <div class="tab-pane" id="tab1PelunasanLebihAwal">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
                             <input type="hidden" id="idPembiayaan" name="id_pembiayaan">
+                            <input type="hidden" id="tipe_user" name="tipe_user" value={{ Auth::user()->tipe }}>
+                            
+                            @if(Auth::user()->tipe == "teller")
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
+                                        <select class="form-control select2" id="user_pelunasan" name="user" style="width: 100%;">
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
+                                            
+                                            @foreach ($user as $item)
+                                            <option value="{{ $item->id }}">[ {{ $item->id }} ] {{ $item->nama}}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
@@ -27,17 +47,19 @@
                                         <select class="form-control select2" id="idRekPelunasan" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
                                             
-                                            @foreach ($datasaldoPem as $rekening)
-                                                <option value="{{
-                                                    json_decode($rekening->detail,true )['sisa_angsuran'] ." " .
-                                                    json_decode($rekening->detail,true )['sisa_margin'] . " " .
-                                                    json_decode($rekening->detail,true )['jumlah_margin_bulanan'] . " " .
-                                                    json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
-                                                    $rekening->status_angsuran." ".
-                                                    $rekening->id_rekening . " " . 
-                                                    $rekening->id_pembiayaan
-                                                }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
-                                            @endforeach
+                                            @if(Auth::user()->tipe == "anggota")
+                                                @foreach ($datasaldoPem as $rekening)
+                                                    <option value="{{
+                                                        json_decode($rekening->detail,true )['sisa_angsuran'] ." " .
+                                                        json_decode($rekening->detail,true )['sisa_margin'] . " " .
+                                                        json_decode($rekening->detail,true )['jumlah_margin_bulanan'] . " " .
+                                                        json_decode($rekening->rekening,true )['jenis_pinjaman']." ".
+                                                        $rekening->status_angsuran." ".
+                                                        $rekening->id_rekening . " " . 
+                                                        $rekening->id_pembiayaan
+                                                    }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                @endforeach
+                                            @endif
 
                                             <input type="hidden" id="idRekA" name="id_">
                                             <input type="hidden" id="pokok_" name="pokok_">

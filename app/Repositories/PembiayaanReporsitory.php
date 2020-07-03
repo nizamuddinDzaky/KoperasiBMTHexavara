@@ -61,12 +61,16 @@ class PembiayaanReporsitory {
      * Ambil data pembiayaan specific user
      * @return Array
     */
-    public function getPembiayaanSpecificUser($custom_id="")
+    public function getPembiayaanSpecificUser($custom_id="", $status="")
     {
         $pembiayaan = Pembiayaan::where("id_user", Auth::user()->id)->get();
-        if($custom_id != "")
+        if($custom_id != "" && $status == "")
         {
             $pembiayaan = Pembiayaan::where("id_user", $custom_id)->get();
+        } 
+        elseif($custom_id != "" && $status != "")
+        {
+            $pembiayaan = Pembiayaan::select(['pembiayaan.*', 'users.nama', 'users.no_ktp'])->where([ ["pembiayaan.id_user", $custom_id], ['pembiayaan.status', $status] ])->join('users', 'pembiayaan.id_user', 'users.id')->get();
         }
         return $pembiayaan;
     }
@@ -3021,6 +3025,254 @@ class PembiayaanReporsitory {
         else {
             return "error";
         }
+    }
+
+    /** 
+     * Pelunasan pembiayaan anggota
+     * @return Response
+    */
+    public function pelunasanPembiayaan($data)
+    {
+        $pembiayaan = Pembiayaan::where('id_pembiayaan', explode(" ", $data->idRek)[6])->first();
+        $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
+
+        $id_rekening_pembiayaan = $pembiayaan->id_rekening;
+        $nama_rekening_pembiayaan = $pembiayaan->jenis_pembiayaan;
+        
+        $sisa_angsuran = json_decode($pembiayaan->detail)->sisa_pinjaman;
+        $sisa_margin = json_decode($pembiayaan->detail)->sisa_margin;
+        $jumlah_bayar_angsuran = explode(" ", $data->idRek)[0];
+        $jumlah_bayar_margin = explode(" ", $data->idRek)[1];
+
+        if($id_rekening_pembiayaan == 100)
+        {
+            $id_rekening_pendapatan = 130;
+        }
+        if($id_rekening_pembiayaan == 99)
+        {
+            $id_rekening_pendapatan = 129;
+        }
+        if($id_rekening_pembiayaan == 102)
+        {
+            $id_rekening_pendapatan = 131;
+        }
+
+        if($data->debit == 2)
+        {
+            $id_tabungan = $data->tabungan;
+            $tabungan = Tabungan::where('id', $id_tabungan)->first();
+            $id_tujuan_pelunasan = $tabungan->id_rekening;
+        }
+        if($data->debit == 1)
+        {
+            $id_tujuan_pelunasan = json_decode($pengajuan->detail)->bank;
+        }
+        if($data->debit == 0)
+        {
+            $id_tujuan_pelunasan = json_decode(Auth::user()->detail)->id_rekening;
+        }
+        
+        $bmt_rekening_pendapatan = BMT::where('id_rekening', $id_rekening_pendapatan)->first();
+        $bmt_pembiayaan = BMT::where('id_rekening', $id_rekening_pembiayaan)->first();
+        $bmt_tujuan_pelunasan = BMT::where('id_rekening', $id_tujuan_pelunasan)->first();
+        $bmt_piutang_yang_ditangguhkan = BMT::where('id_rekening', 101)->first();
+        $bmt_shu_berjalan = BMT::where('id_rekening', 122)->first();
+
+        $saldo_awal_tujuan_pelunasan = $bmt_tujuan_pelunasan->saldo;
+        $saldo_akhir_tujuan_pelunasan = $bmt_tujuan_pelunasan->saldo + ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
+        
+        if($id_rekening_pembiayaan == 100)
+        {
+            $jumlah_sisa_angsuran = $sisa_angsuran + $sisa_margin;
+            $saldo_awal_pembiayaan = $bmt_pembiayaan->saldo;
+            $saldo_akhir_pembiayaan = $bmt_pembiayaan->saldo - ($sisa_angsuran + $sisa_margin);
+        }
+        else
+        {
+            $jumlah_sisa_angsuran = $sisa_angsuran;
+            $saldo_awal_pembiayaan = $bmt_pembiayaan->saldo;
+            $saldo_akhir_pembiayaan = $bmt_pembiayaan->saldo - $sisa_angsuran;
+        }
+
+        if($data->debit == 2)
+        {
+            $saldo_awal_tujuan_pelunasan = json_decode($tabungan->detail)->saldo;
+            $saldo_akhir_tujuan_pelunasan = json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
+
+            $detailToPenyimpananTabungan = [
+                "teller"            => Auth::user()->id,
+                "dari_rekening"     => $tabungan->jenis_tabungan,
+                "untuk_rekening"    => $pembiayaan->jenis_pembiayaan,
+                "jumlah"            => $jumlah_bayar_angsuran + $jumlah_bayar_margin,
+                "saldo_awal"        => json_decode($tabungan->detail)->saldo,
+                "saldo_akhir"       => json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin)
+            ];
+            $dataToPenyimpananTabungan = [
+                "id_user"           => $tabungan->id_user,
+                "id_tabungan"       => $tabungan->id,
+                "status"            => "Pelunasan " . $pembiayaan->jenis_pembiayaan,
+                "transaksi"         => $detailToPenyimpananTabungan,
+                "teller"            => Auth::user()->id
+            ];
+
+            $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+        }
+
+        $detailToPenyimpananPembiayaan = [
+            "teller"            => Auth::user()->id,
+            "dari_rekening"     => $bmt_pembiayaan->nama,
+            "untuk_rekening"    => $bmt_tujuan_pelunasan->nama,
+            "angsuran_pokok"    => json_decode($pembiayaan->detail)->jumlah_angsuran_bulanan,
+            "angsuran_ke"       => $pembiayaan->angsuran_ke + 1,
+            "nisbah"            => json_decode($pembiayaan->detail)->nisbah,
+            "margin"            => json_decode($pembiayaan->detail)->margin,
+            "jumlah"            => json_decode($pembiayaan->detail)->pinjaman,
+            "tagihan"           => json_decode($pembiayaan->detail)->jumlah_angsuran_bulanan + json_decode($pembiayaan->detail)->jumlah_margin_bulanan,
+            "sisa_angsuran"     => $sisa_angsuran - $jumlah_bayar_angsuran,
+            "sisa_margin"       => $sisa_margin - $jumlah_bayar_margin,
+            "sisa_pinjaman"     => $id_rekening_pembiayaan == 100 ? json_decode($pembiayaan->detail)->sisa_pinjaman - ($jumlah_bayar_angsuran + $jumlah_bayar_margin) : json_decode($pembiayaan->detail)->sisa_pinjaman - $jumlah_bayar_angsuran,
+            "bayar_angsuran"    => $jumlah_bayar_angsuran,
+            "bayar_margin"      => $jumlah_bayar_margin,
+            "jumlah_bayar"      => $jumlah_bayar_angsuran + $jumlah_bayar_margin
+        ];
+        $dataToPenyimpananPembiayaan = [
+            "id_user"       => $pembiayaan->id_user,
+            "id_pembiayaan" => $pembiayaan->id,
+            "status"        => "Pelunasan Pembiayaan",
+            "transaksi"     => $detailToPenyimpananPembiayaan,
+            "teller"        => Auth::user()->id
+        ];
+
+        $this->insertPenyimpananPembiayaan($dataToPenyimpananPembiayaan);
+
+        $detailToPenyimpananBMT = [
+            "jumlah"            => $data->debit == 1 ? -$sisa_angsuran-$jumlah_bayar_margin : $sisa_angsuran + $jumlah_bayar_margin,
+            "saldo_awal"        => $saldo_awal_tujuan_pelunasan,
+            "saldo_akhir"       => $saldo_akhir_tujuan_pelunasan,
+            "id_pengajuan"      => null
+        ];
+        $dataToPenyimpananBMT = [
+            "id_user"           => $user_pembiayaan->id,
+            "id_bmt"            => $bmt_tujuan_pelunasan->id,
+            "status"            => "Pelunasan " . $bmt_pembiayaan->nama,
+            "transaksi"         => $detailToPenyimpananBMT,
+            "teller"            => Auth::user()->id
+        ];
+
+        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+            
+        if($id_rekening_pembiayaan == 100)
+        {
+            $detailToPenyimpananBMT['jumlah'] = $sisa_margin;
+            $detailToPenyimpananBMT['saldo_awal'] = $bmt_piutang_yang_ditangguhkan->saldo;
+            $detailToPenyimpananBMT['saldo_akhir'] = $bmt_piutang_yang_ditangguhkan->saldo + $sisa_margin;
+            $dataToPenyimpananBMT['id_bmt'] = $bmt_piutang_yang_ditangguhkan->id;
+            $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+            $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+        }
+
+        $detailToPenyimpananBMT['jumlah'] = -$jumlah_sisa_angsuran;
+        $detailToPenyimpananBMT['saldo_awal'] = $saldo_awal_pembiayaan;
+        $detailToPenyimpananBMT['saldo_akhir'] = $saldo_akhir_pembiayaan;
+        $dataToPenyimpananBMT['id_bmt'] = $bmt_pembiayaan->id;
+        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+        $detailToPenyimpananBMT['jumlah'] = $jumlah_bayar_margin;
+        $detailToPenyimpananBMT['saldo_awal'] = $bmt_shu_berjalan->saldo;
+        $detailToPenyimpananBMT['saldo_akhir'] = $bmt_shu_berjalan->saldo + $jumlah_bayar_margin;
+        $dataToPenyimpananBMT['id_bmt'] = $bmt_shu_berjalan->id;
+        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+        $detailToPenyimpananBMT['jumlah'] = $jumlah_bayar_margin;
+        $detailToPenyimpananBMT['saldo_awal'] = $bmt_rekening_pendapatan->saldo;
+        $detailToPenyimpananBMT['saldo_akhir'] = $bmt_rekening_pendapatan->saldo + $jumlah_bayar_margin;
+        $dataToPenyimpananBMT['id_bmt'] = $bmt_rekening_pendapatan->id;
+        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+        if($data->debit == 2)
+        {
+            $dataToUpdateTabungan = [
+                "saldo" => $saldo_akhir_tujuan_pelunasan,
+                "id_pengajuan"  => null
+            ];
+
+            $tabungan->detail = json_encode($dataToUpdateTabungan);
+            $tabungan->save();
+        }
+
+        $pembiayaan->detail = json_encode([
+            "pinjaman" => json_decode($pembiayaan->detail)->pinjaman,
+            "margin" => json_decode($pembiayaan->detail)->margin,
+            "nisbah" => json_decode($pembiayaan->detail)->nisbah,
+            "total_pinjaman" => json_decode($pembiayaan->detail)->total_pinjaman,
+            "sisa_angsuran" => $sisa_angsuran - $jumlah_bayar_angsuran,
+            "sisa_margin" => $sisa_margin - $jumlah_bayar_margin,
+            "sisa_pinjaman" => $id_rekening_pembiayaan == 100 ? json_decode($pembiayaan->detail)->sisa_pinjaman - ($jumlah_bayar_angsuran + $jumlah_bayar_margin) : json_decode($pembiayaan->detail)->sisa_pinjaman - $jumlah_bayar_angsuran,
+            "angsuran_pokok" => json_decode($pembiayaan->detail)->angsuran_pokok,
+            "lama_angsuran" => json_decode($pembiayaan->detail)->lama_angsuran,
+            "angsuran_ke" => json_decode($pembiayaan->detail)->angsuran_ke + 1,
+            "tagihan_bulanan" => json_decode($pembiayaan->detail)->tagihan_bulanan,
+            "jumlah_angsuran_bulanan" => json_decode($pembiayaan->detail)->jumlah_angsuran_bulanan,
+            "jumlah_margin_bulanan" => json_decode($pembiayaan->detail)->jumlah_margin_bulanan,
+            "sisa_ang_bln" => 0,
+            "sisa_mar_bln" => 0,
+            "kelebihan_angsuran_bulanan" => 0,
+            "kelebihan_margin_bulanan" => 0,
+            "id_pengajuan" => null,
+        ]);
+        $pembiayaan->tempo = Carbon::parse($pembiayaan->tempo)->addMonth(1);
+        $pembiayaan->angsuran_ke = $pembiayaan->angsuran_ke + 1;
+        $pembiayaan->status = "lunas";
+
+        $bmt_tujuan_pelunasan->saldo = $saldo_akhir_tujuan_pelunasan;
+        $bmt_pembiayaan->saldo = $saldo_akhir_pembiayaan;
+        $bmt_rekening_pendapatan->saldo = $bmt_rekening_pendapatan->saldo + $jumlah_bayar_margin;
+        $bmt_shu_berjalan->saldo = $bmt_shu_berjalan->saldo + $jumlah_bayar_margin;
+        if($id_rekening_pembiayaan == 100)
+        {
+            $bmt_piutang_yang_ditangguhkan->saldo = $bmt_piutang_yang_ditangguhkan->saldo + $sisa_margin;
+            $bmt_piutang_yang_ditangguhkan->save();
+        }
+        
+        if(
+            $bmt_tujuan_pelunasan->save() && $bmt_pembiayaan->save() && $bmt_rekening_pendapatan->save() &&
+            $bmt_shu_berjalan->save() && $pembiayaan->save()
+        )
+        {   
+            // Update margin yang sudah dibayarkan user
+            if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+            {
+                $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+            }
+            else
+            {
+                $total_margin_anggota = floatval($jumlah_bayar_margin);
+            }
+            $user_pembiayaan->wajib_pokok = json_encode([
+                "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                "margin" => $total_margin_anggota
+            ]);
+                $user_pembiayaan->save();
+
+                DB::commit();
+                $response = array("type" => "success", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Berhasil Dikonfirmasi");
+            }
+            else
+            {
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Terjadi kesalahan.");
+        }
+
+        return $response;
     }
 
 }

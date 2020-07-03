@@ -56,6 +56,8 @@ $(document).ready(function() {
         $(".toHideBankTransfer").hide();
         $("#toHideTabunganPelunasan").hide();
         
+        var tipe_user = $("#tipe_user").val();
+
         var formatter = new Intl.NumberFormat();
 
         var selRek = $('#idRekPelunasan');
@@ -110,6 +112,30 @@ $(document).ready(function() {
                 $("#toHideTabunganPelunasan").show();
             }
 
+        });
+
+        if(tipe_user == "teller") {
+            $('#user_pelunasan').attr("required", "required");
+        }
+
+        $("#user_pelunasan").change(function() {
+            $.ajax({
+                type: "GET",
+                url: window.location.href + "/get_user_pembiayaan/" + $(this).val(),
+                dataType: "JSON",
+                success: function (response) {
+                    console.log(response);
+                    $.each(response, function (indexInArray, valueOfElement) { 
+                        var detail = JSON.parse(valueOfElement.detail);
+                        var template = `<option value="` + detail.sisa_angsuran + ` ` + detail.sisa_margin + 
+                            ` ` + detail.jumlah_margin_bulanan + ` ` + detail.jenis_pinjaman + 
+                            ` ` + valueOfElement.status_angsuran + ` ` + valueOfElement.id_rekening + 
+                            ` ` + valueOfElement.id_pembiayaan + `">[` + valueOfElement.id_pembiayaan + `] ` + valueOfElement.jenis_pembiayaan + ` [` + valueOfElement.nama + ` ] [` + valueOfElement.no_ktp + ` ]</option>`; 
+                        
+                        $('#idRekPelunasan').append(template);
+                    });
+                }
+            });
         });
     });
 

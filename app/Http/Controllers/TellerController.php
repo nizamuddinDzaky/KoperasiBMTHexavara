@@ -1057,6 +1057,8 @@ class TellerController extends Controller
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanPemTell($date);
         $notification = $this->pengajuanReporsitory->getNotification();
+        $user = User::where([ ['tipe', 'anggota'], ['status', 2] ])->get();
+
         return view('teller.transaksi.pembiayaan.pengajuan',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
@@ -1078,7 +1080,8 @@ class TellerController extends Controller
             'periode'  => $this->informationRepository->periode(),
             'tabungan'  => $this->informationRepository->getAllTab(),
             'notification' => $notification,
-            'notification_count' =>count($notification)
+            'notification_count' =>count($notification),
+            'user'  => $user
         ]);
     }
     public function periode_pem(Request $request){
@@ -1903,5 +1906,15 @@ class TellerController extends Controller
         return redirect()
             ->back()
             ->withSuccess(sprintf("File berhasil di download."));
+    }
+
+    /** 
+     * Pelunasan pembiayaan 
+     * @return Response
+    */
+    public function pelunasan_pembiayaan(Request $request)
+    {
+        $data = $this->pembiayaanReporsitory->pelunasanPembiayaan($request);
+        return response()->json($data);
     }
 }

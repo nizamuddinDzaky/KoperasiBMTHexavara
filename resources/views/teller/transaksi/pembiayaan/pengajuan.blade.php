@@ -34,7 +34,8 @@
 
                 <div class="button-group right">
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#openPemModal"><i class="fa fa-handshake-o"></i> Buka Pembiayaan</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#angsurPemModal"><i class="fa fa-money-bill-alt"></i> Angsur Pembiayaan</button>
+                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#angsurPemModal"><i class="fa fa-money-bill-alt"></i> Angsur Pembiayaan</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#pelunasanLebihAwalPembiayaanModal"><i class="fa fa-money-bill-alt"></i> Pelunasan Pembiayaan</button>
                 </div>
             </div>
         </div>
@@ -233,6 +234,7 @@
     @include('modal.pembiayaan.konfirmasi_angsuran')
     @include('modal.pembiayaan.view_pelunasan')
     @include('modal.pembiayaan.konfirmasi_pelunasan')
+    @include('modal.pembiayaan.pelunasan')
 @endsection
 
 
@@ -249,6 +251,7 @@
     <script src=" {{  asset('bmtmudathemes/assets/js/modal/pelunasan.js') }}"></script>
 
     <script type="text/javascript">
+
        //  PEMBIAYAAN
         $('#viewPemModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal

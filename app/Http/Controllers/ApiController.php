@@ -5,17 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\RekeningReporsitories;
+use App\Repositories\PembiayaanReporsitory;
 
 class ApiController extends Controller
 {
     public function __construct(
         TabunganReporsitories $tabunganReporsitory,
-        RekeningReporsitories $rekeningReporsitory
+        RekeningReporsitories $rekeningReporsitory,
+        PembiayaanReporsitory $pembiayaanReporsitory
     )
     {
         $this->tabunganReporsitory = $tabunganReporsitory;
         $this->rekeningReporsitory = $rekeningReporsitory;
+        $this->pembiayaanReporsitory = $pembiayaanReporsitory;
     }
+    
     /** 
      * Get user tabungan controller
      * @return Response
@@ -24,6 +28,16 @@ class ApiController extends Controller
     {
         $tabungan = $this->tabunganReporsitory->getUserTabungan($id_user);
         return response()->json($tabungan);
+    }
+
+    /** 
+     * Get user pembiayaan controller
+     * @return Response
+    */
+    public function getUserPembiayaan($id_user)
+    {
+        $pembiayaan = $this->pembiayaanReporsitory->getPembiayaanSpecificUser($id_user, "active");
+        return response()->json($pembiayaan);
     }
 
     /** 
