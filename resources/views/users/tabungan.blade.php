@@ -35,7 +35,8 @@
 
                 <div class="button-group right">
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#debitTabModal"><i class="fa fa-credit-card"></i> Setor Tunai</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
+                    <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#transferTabModal"><i class="fa fa-sign-out-alt"></i> Transfer Antar Anggota</button>
                 </div>
             </div>
         </div>
@@ -140,13 +141,31 @@
                                 @endif
                                 <td class="text-left">{{ $usr->created_at }}</td>
                                 <td class="text-left">{{ $usr->status }}</td>
+                                
+                                @if($usr->kategori == "Transfer Antar Anggota")
+                                <td class="td-actions text-center">
+                                    <div class="row">
+                                        <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr->kategori,0,3)}}Modal" title="View Detail"
+                                            data-id         = "{{ $usr->id }}"
+                                            data-id_penerima   = "{{ json_decode($usr->detail)->user_penerima }}"
+                                            data-id_pengirim   = "{{ json_decode($usr->detail)->user_pengirim }}"
+                                            data-tabungan_penerima   = "{{ json_decode($usr->detail)->tabungan_penerima }}"
+                                            data-tabungan_pengirim   = "{{ json_decode($usr->detail)->tabungan_pengirim }}"
+                                            data-jumlah   = "{{ json_decode($usr->detail)->nominal }}"
+                                            data-keterangan   = "{{ json_decode($usr->detail)->keterangan }}"
+                                        >
+                                            <i class="fa fa-list-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                @else
                                 <td class="td-actions text-center">
                                     <div class="row">
                                         <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr->kategori,0,3)}}Modal" title="View Detail"
                                                 data-id         = "{{$usr->id}}"
                                                 data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
                                                 data-ktp     = "{{ $usr->no_ktp }}"
-
+                                
                                                 @if(str_before($usr->kategori,' ')=="Debit" || str_before($usr->kategori,' ')=="Kredit")
                                                 data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                 data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))] }}"
@@ -166,13 +185,13 @@
                                                 data-keterangan = "{{ json_decode($usr->detail,true)['keterangan'] }}"
                                                 data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                 @endif
-
+                                
                                                 @if($usr->kategori=="Tabungan Awal" || str_before($usr->kategori,' ') == "Kredit" || str_before($usr->kategori,' ') == "Debit" )
                                                 data-kategori   = "tabungan"
                                                 @else
                                                 data-kategori   = "{{ json_decode($usr->detail,true)[strtolower($usr->kategori)] }}"
                                                 @endif
-
+                                
                                                 @if($usr->kategori=="Tabungan" || $usr->kategori=="Tabungan Awal")
                                                 data-akad       = "{{ json_decode($usr->detail,true)['akad'] }}"
                                                 @endif
@@ -189,6 +208,8 @@
                                         @endif --}}
                                     </div>
                                 </td>
+                                @endif
+
                                 <td></td>
                             </tr>
                         @endforeach
@@ -206,6 +227,8 @@
 
 @section('extra_script')
     {{-- MODAL&DATATABLE --}}
+
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/transfer_antar_tabungan.js') }}"></script>
 
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>

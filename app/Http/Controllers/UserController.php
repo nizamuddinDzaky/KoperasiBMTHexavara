@@ -25,6 +25,7 @@ use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\ExportRepositories;
 use App\Repositories\HelperRepositories;
+use App\Repositories\TransferTabunganRepositories;
 use Carbon\Carbon;
 
 class UserController extends Controller
@@ -53,7 +54,8 @@ class UserController extends Controller
                                 DonasiReporsitories $donasiReporsitory,
                                 RekeningReporsitories $rekeningReporsitory,
                                 ExportRepositories $exportRepository,
-                                HelperRepositories $helperRepository
+                                HelperRepositories $helperRepository,
+                                TransferTabunganRepositories $transferTabunganRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -84,6 +86,7 @@ class UserController extends Controller
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->exportRepository = $exportRepository;
         $this->helperRepository = $helperRepository;
+        $this->transferTabunganRepository = $transferTabunganRepository;
     }
 
     /**
@@ -201,7 +204,12 @@ class UserController extends Controller
             }
         }
         $notification = $this->pengajuanReporsitory->getNotification();
+        
+        $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['id', '!=', Auth::user()->id] ])->get();
+        $tabungan_user = Tabungan::where([ ['id_user', Auth::user()->id], ['status', 'active'] ])->get();
         return view('users.pengajuan', [
+            'user'  => $user,
+            'tabungan_user' => $tabungan_user,
             'tabungan_anggota'  => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
             'simpanan_anggota'  => $this->simpananReporsitory->getSimwaAndSimpok(),
             'pembiayaan_anggota' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser(),
@@ -281,7 +289,8 @@ class UserController extends Controller
         $data = $this->informationRepository->getAllTabUsrActive();
         $dropdown2 = $this->informationRepository->getDdDep();
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+        $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['id', '!=', Auth::user()->id] ])->get();
+        $tabungan_user = Tabungan::where([ ['id_user', Auth::user()->id], ['status', 'active'] ])->get();
         return view('users.tabungan', [
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -291,6 +300,8 @@ class UserController extends Controller
             'data' => $data,
             'data2' => $this->informationRepository->getAllpengajuanUsrTab(),
             'tab' => $data,
+            'user' => $user,
+            'tabungan_user' => $tabungan_user,
             'tabactive' =>  $data,
             'dropdown' => $this->informationRepository->getDdTab(),
             'dropdown2' => $dropdown2,
@@ -1168,6 +1179,24 @@ class UserController extends Controller
 
         $this->exportRepository->exportWord("anggota_keluar", $export_data);
         return response()->json($export_data);
+    }
+
+    /** 
+     * Pengajuan transfer antar tabungan anggota
+     * @return Response
+    */
+    public function pengajuan_transfer_antar_tabungan(Request $request)
+    {
+        $tabungan = $this->transferTabunganRepository->pengajuanTransferAntarTabungan($request);
+        if ($tabungan['type'] == "success") {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($tabungan['message']));
+        } else {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $tabungan['message']);
+        }
     }
 
     

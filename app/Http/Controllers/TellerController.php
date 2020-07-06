@@ -26,6 +26,7 @@ use App\Repositories\PembiayaanReporsitory;
 use App\Repositories\PengajuanReporsitories;
 use App\Repositories\AccountReporsitories;
 use App\Repositories\ExportRepositories;
+use App\Repositories\TransferTabunganRepositories;
 
 class TellerController extends Controller
 {
@@ -52,7 +53,8 @@ class TellerController extends Controller
                                 PembiayaanReporsitory $pembiayaanReporsitory,
                                 PengajuanReporsitories $pengajuanReporsitory,
                                 AccountReporsitories $accountReporsitory,
-                                ExportRepositories $exportRepository
+                                ExportRepositories $exportRepository,
+                                TransferTabunganRepositories $transferTabunganRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -81,6 +83,7 @@ class TellerController extends Controller
         $this->pengajuanReporsitory = $pengajuanReporsitory;
         $this->accountReporsitory = $accountReporsitory;
         $this->exportRepository = $exportRepository;
+        $this->transferTabunganRepository = $transferTabunganRepository;
     }
 
     public function index(){
@@ -800,8 +803,12 @@ class TellerController extends Controller
         $dropdown3 = $this->informationRepository->getDdPem();
         $data = $this->informationRepository->getAllpengajuanTabTell($date);
         $notification = $this->pengajuanReporsitory->getNotification();
+        $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['id', '!=', Auth::user()->id] ])->get();
+        $tabungan_user = Tabungan::where('status','active')->get();
         return view('teller.transaksi.tabungan.pengajuan',[
             'notification' => $notification,
+            'user'  => $user,
+            'tabungan_user' => $tabungan_user,
             'notification_count' =>count($notification),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'datasaldo' =>  $this->informationRepository->getAllTab(),
@@ -1915,6 +1922,36 @@ class TellerController extends Controller
     public function pelunasan_pembiayaan(Request $request)
     {
         $data = $this->pembiayaanReporsitory->pelunasanPembiayaan($request);
-        return response()->json($data);
+        if($data['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($data['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $data['message']);
+
+        }
+    }
+
+    /** 
+     * KOnfirmasi pengajuan transfer antar tabungan
+     * @return Response
+    */
+    public function confirm_pengajuan_transfer_antar_tabungan(Request $request)
+    {
+        $transfer = $this->transferTabunganRepository->confirmPengajuanTransferTabungan($request);
+        if($transfer['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($transfer['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $transfer['message']);
+
+        }
     }
 }

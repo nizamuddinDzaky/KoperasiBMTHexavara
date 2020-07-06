@@ -1389,7 +1389,21 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         ]);
     });
     
+    /** 
+     * Transfer antar tabungan anggota
+     * Route Group
+    */
+    Route::group(['prefix' => 'transfer_antar_tabungan', 'middleware' => ['auth']], function() {
 
+        /** 
+         * Konfirmasi pengajuan transfer
+         * @method POST
+        */
+        Route::post('confirm_pengajuan', [
+            'as'    => 'teller.confirm_pengajuan_transfer_antar_tabungan',
+            'uses'  => 'TellerController@confirm_pengajuan_transfer_antar_tabungan'
+        ]);
+    });
 });
 
 
@@ -1595,6 +1609,22 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
         Route::post('pengajuan', [
             'as'    => 'anggota.penyimpanan.pengajuan',
             'uses'  => 'UserController@pengajuan_simpanan'
+        ]);
+    });
+
+    /** 
+     * Transfer antar tabungan anggota
+     * Router Group
+    */
+    Route::group([ 'prefix' => 'transfer_antar_anggota', 'middleware' => ['auth'] ], function() {
+
+        /** 
+         * Pengajuan transfer antar tabungan anggota
+         * @method GET
+        */
+        Route::post('pengajuan', [
+            'as'    => 'anggota.pengajuan_transfer_antar_tabungan',
+            'uses'  => 'UserController@pengajuan_transfer_antar_tabungan'
         ]);
     });
 

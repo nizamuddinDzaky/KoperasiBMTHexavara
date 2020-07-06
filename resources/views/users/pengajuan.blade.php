@@ -91,6 +91,23 @@
                                 <td>{{ $usr['created_at'] }}</td>
                                 <td>{{ $usr['status'] }}</td>
 
+                                @if($usr['kategori'] == "Transfer Antar Anggota")
+                                <td class="td-actions text-center">
+                                    <div class="row">
+                                        <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr['kategori'],0,3)}}Modal" title="View Detail"
+                                            data-id         = "{{ $usr['id'] }}"
+                                            data-id_penerima   = "{{ json_decode($usr['detail'])->user_penerima }}"
+                                            data-id_pengirim   = "{{ json_decode($usr['detail'])->user_pengirim }}"
+                                            data-tabungan_penerima   = "{{ json_decode($usr['detail'])->tabungan_penerima }}"
+                                            data-tabungan_pengirim   = "{{ json_decode($usr['detail'])->tabungan_pengirim }}"
+                                            data-jumlah   = "{{ json_decode($usr['detail'])->nominal }}"
+                                            data-keterangan   = "{{ json_decode($usr['detail'])->keterangan }}"
+                                        >
+                                            <i class="fa fa-list-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                @else
                                 <td class="td-actions text-center">
                                     <div class="row">
                                         <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr['kategori'],0,3)}}Modal" title="View Detail"
@@ -207,6 +224,7 @@
                                         @endif
                                     </div>
                                 </td>
+                                @endif
                                 <td></td>
                             </tr>
                         @endforeach
@@ -244,6 +262,8 @@
 
     <script src="{{ asset('bmtmudathemes/assets/js/modal/tutup_rekening.js') }}"></script>
     
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/transfer_antar_tabungan.js') }}"></script>
+
     <script src="{{ asset('bmtmudathemes/assets/js/modal/pelunasan.js') }}"></script>
 
     {{-- MODAL&DATATABLE --}}

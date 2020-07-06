@@ -78,6 +78,62 @@
                                 <td class="text-center text-uppercase">{{ $usr->status }}</td>
                                 <td class="text-center text-uppercase">{{ $usr->teller }}</td>
 
+                                @if($usr->kategori == "Transfer Antar Anggota")
+
+                                    <td class="td-actions text-center">
+                                        <div class="row">
+                                            @if(Auth::user()->tipe=="teller" && $usr->status == "Sudah Dikonfirmasi")
+
+                                            @else
+                                                <button type="button" id="konfirm" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#confirm{{substr($usr->kategori,0,3)}}Modal" title="Konfirmasi Pengajuan"
+                                                    data-id         = "{{ $usr->id }}"
+                                                    data-id_penerima   = "{{ json_decode($usr->detail)->user_penerima }}"
+                                                    data-id_pengirim   = "{{ json_decode($usr->detail)->user_pengirim }}"
+                                                    data-tabungan_penerima   = "{{ json_decode($usr->detail)->tabungan_penerima }}"
+                                                    data-tabungan_pengirim   = "{{ json_decode($usr->detail)->tabungan_pengirim }}"
+                                                    data-jumlah   = "{{ json_decode($usr->detail)->nominal }}"
+                                                    data-keterangan   = "{{ json_decode($usr->detail)->keterangan }}"    
+                                                >
+                                                    <i class="fa fa-check-square"></i>
+                                                </button>
+
+                                                @if($usr->status == "Menunggu Konfirmasi")
+                                                <button type="button" id="detail" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editStatusModal" title="Edit Detail"
+                                                    data-id         = "{{ $usr->id }}"
+                                                    data-nama   = "{{ $usr->jenis_pengajuan }}"
+                                                    data-id_user   = "{{ $usr->id_user }}"
+                                                >
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                @endif
+                                            @endif
+                                        </div>
+                                        <div class="row">
+                                            <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr->kategori,0,3)}}Modal" title="View Detail"
+                                                data-id         = "{{ $usr->id }}"
+                                                data-id_penerima   = "{{ json_decode($usr->detail)->user_penerima }}"
+                                                data-id_pengirim   = "{{ json_decode($usr->detail)->user_pengirim }}"
+                                                data-tabungan_penerima   = "{{ json_decode($usr->detail)->tabungan_penerima }}"
+                                                data-tabungan_pengirim   = "{{ json_decode($usr->detail)->tabungan_pengirim }}"
+                                                data-jumlah   = "{{ json_decode($usr->detail)->nominal }}"
+                                                data-keterangan   = "{{ json_decode($usr->detail)->keterangan }}"
+                                            >
+                                                <i class="fa fa-list-alt"></i>
+                                            </button>
+                                            
+                                            @if(Auth::user()->tipe=="teller" && $usr->status == "Menunggu Konfirmasi")
+                                            <button type="button" id="detail" class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delModal" title="Delete Pengajuan"
+                                                data-id         = "{{ $usr->id }}"
+                                                data-nama         = "{{ $usr->jenis_pengajuan }}"
+                                            >
+                                                <i class="fa fa-close"></i>
+                                            </button>
+                                            @endif
+                                        </div>
+                                    </td>
+
+                                @else
+
                                 <td class="td-actions text-center">
                                     <div class="row">
                                         @if(str_before($usr->kategori,' ')=="Debit" || str_before($usr->kategori,' ')=="Kredit")
@@ -302,6 +358,7 @@
                                         @endif
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
@@ -322,6 +379,7 @@
 
 @section('extra_script')
     {{-- MODAL&DATATABLE --}}
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/transfer_antar_tabungan.js') }}"></script>
 
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>

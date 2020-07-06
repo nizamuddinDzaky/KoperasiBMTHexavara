@@ -458,6 +458,7 @@ class InformationRepository
         $data = Pengajuan::select('pengajuan.*','users.nama','users.no_ktp')
             ->where([['kategori','like',"%Tabunga%"],['pengajuan.teller', Auth::user()->id]])
             ->orWhere([['kategori','like',"%Tabunga%"],['pengajuan.teller', 0]])
+            ->orWhere('kategori','like', '%Transfer Antar Anggota%')
             ->join('users', 'users.id', '=', 'pengajuan.id_user')
             ->where('pengajuan.created_at', ">" , $date['prev'])
             ->where('pengajuan.created_at', "<" , $date['now'])
@@ -3955,6 +3956,7 @@ class InformationRepository
         $data = Pengajuan::select('pengajuan.*', 'users.no_ktp', 'users.nama')
             ->join('users', 'users.id', '=', 'pengajuan.id_user')
             ->where('kategori','like',"%Tabungan%")
+            ->orWhere('kategori','like','%Transfer Antar Anggota%')
             ->where('id_user', Auth::user()->id)
             ->orderby('id','DESC')->get();
         foreach ($data as $dt){

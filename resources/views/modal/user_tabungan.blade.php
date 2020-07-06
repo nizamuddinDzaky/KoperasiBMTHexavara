@@ -1289,7 +1289,7 @@
 <div class="modal fade" id="transferTabModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardTrans">
-            <form id="wizardFormTrans" method="POST" action="{{route('anggota.debit_tabungan')}}" enctype="multipart/form-data">
+            <form id="wizardFormTrans" method="POST" @if(Auth::user()->tipe == "anggota") action="{{route('anggota.pengajuan_transfer_antar_tabungan')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
                     <h3 class="title">Transfer Antar Tabungan</h3>
@@ -1308,9 +1308,9 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
-                                        <select class="form-control" id="idUsrT" name="idUsrRek" style="width: 100%;" required>
+                                        <select class="form-control select2" id="user_penerima" name="user_penerima" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Anggota-</option>
-                                            @foreach ($dropdown4 as $usr)
+                                            @foreach ($user as $usr)
                                                 <option value="{{ $usr->id }}"> {{$usr->nama }}</option>
                                             @endforeach
                                         </select>
@@ -1321,11 +1321,8 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan Tujuan <star>*</star></label>
-                                        <select class="form-control" id="idRekT" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control" id="rekening_penerima" name="rekening_penerima" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
-                                            @foreach ($dropdown5 as $rekening)
-                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}][{{$rekening->nama }}] {{ $rekening->jenis_tabungan }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -1334,10 +1331,10 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Transfer dari Rekening Tabungan? <star>*</star></label>
-                                        <select class="form-control" id="idRekT" name="idRek" style="width: 100%;" required>
+                                        <select class="form-control select2" id="rekening_pengirim" name="rekening_pengirim" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan Anda-</option>
-                                            @foreach ($dropdown3 as $rekening)
-                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}</option>
+                                            @foreach ($tabungan_user as $tabungan)
+                                                <option value="{{ $tabungan->id_tabungan }}"> [{{$tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -1352,6 +1349,14 @@
                                             <input type="text" class="currency form-control text-right" id="tjumlah" name="jumlah" required="true">
                                             <span class="input-group-addon">.00</span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Keterangan</label>
+                                        <input type="text" class="form-control" id="keterangan" name="keterangan">
                                     </div>
                                 </div>
                             </div>
@@ -1372,34 +1377,33 @@
 </div>
 
 {{--Modal View Transfer Tabungan--}}
-<div class="modal fade" id="viewTransModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+<div class="modal fade" id="viewTraModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="card card-wizard" id="wizardCardDebv">
-            <form id="wizardFormDebv" method="POST" action="{{route('anggota.debit_tabungan')}}" enctype="multipart/form-data">
+        <div class="card card-wizard wizardCard">
+            <form class="wizardForm" method="POST" action="{{route('anggota.debit_tabungan')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
 
                 <div class="header text-center">
-                    <h3 class="title">Tarik Tabungan</h3>
+                    <h3 class="title">Transfer Antar Tabungan</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
                 <div class="content">
                     <ul class="nav">
-                        <li><a href="#tab1TabDebv" data-toggle="tab">Detail Penarikan</a></li>
+                        <li><a href="#tabTransferAntarTabungan" data-toggle="tab">Detail Transaksi</a></li>
                     </ul>
 
                     <div class="tab-content">
-                        <div class="tab-pane" id="tab1TabDebv">
+                        <div class="tab-pane" id="tabTransferAntarTabungan">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
+                            
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
-                                        <select class="form-control" id="vRekDeb" name="idRek" style="width: 100%;" disabled>
-                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
-                                            @foreach ($data as $rekening)
-                                                <option value="{{ isset($rekening['id'])?$rekening['id']:0 }}"> [{{isset($rekening['id_tabungan'])?$rekening['id_tabungan']:0 }}] {{isset($rekening['jenis_tabungan'])?$rekening['jenis_tabungan']:0  }}</option>
-                                                {{--<option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}</option>--}}
+                                        <select class="form-control" id="vuser_penerima" name="user_penerima" style="width: 100%;" disabled>
+                                            @foreach ($user as $usr)
+                                                <option value="{{ $usr->id }}"> {{$usr->nama }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -1408,36 +1412,23 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="namaSim" class="control-label">Jenis Transaksi <star>*</star></label>
-                                        <select class="form-control" id="vdebitdeb" name="debit" style="width: 100%;" disabled>
-                                            <option class="bs-title-option" selected value="" disabled>-Pilih jenis Transaksi-</option>
-                                            <option value="Tunai">Tunai</option>
-                                            <option value="Transfer">Transfer</option>
+                                        <label for="id_" class="control-label">Pilih Rekening Tabungan Tujuan <star>*</star></label>
+                                        <select class="form-control" id="vrekening_penerima" name="rekening_penerima" style="width: 100%;" disabled>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="toHideDebv">
-                                <div class="col-md-5 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="namaSim" class="control-label">Rekening BANK <star>*</star></label>
-                                        <select class="form-control" id=vtbankdeb name="bank" style="width: 100%;" disabled>
-                                            <option class="bs-title-option" selected value="" disabled>-Pilih Rekening BANK-</option>
-                                            @foreach ($dropdown6 as $rekening)
-                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                        <label for="id_" class="control-label">Transfer dari Rekening Tabungan? <star>*</star></label>
+                                        <select class="form-control" id="vrekening_pengirim" name="rekening_pengirim" style="width: 100%;" disabled>
+                                            @foreach ($tabungan_user as $tabungan)
+                                                <option value="{{ $tabungan->id_tabungan }}"> [{{$tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-5 {{ !$errors->has('file') ?: 'has-error' }}">
-                                    <div class="form-group">
-                                        <label>Bukti Transfer <star>*</star></label><br>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <img style="margin: auto;width:100px;height:auto" id="picDebTrans" src=""/>
-                                </div>
-
                             </div>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
@@ -1445,9 +1436,17 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="vjumlahdeb" name="jumlah"  disabled>
+                                            <input type="text" class="currency form-control text-right" id="vjumlah_transfer_antar_tabungan" name="jumlah" disabled>
                                             <span class="input-group-addon">.00</span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Keterangan</label>
+                                        <input type="text" class="form-control" id="vketerangan_transfer_antar_tabungan" name="keterangan" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -1465,3 +1464,92 @@
     </div>
 </div>
 
+{{--Modal Konfirmasi Transfer Tabungan--}}
+<div class="modal fade" id="confirmTraModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard wizardCard">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe == "teller") action="{{route('teller.confirm_pengajuan_transfer_antar_tabungan')}}" @endif enctype="multipart/form-data">
+                {{csrf_field()}}
+                <div class="header text-center">
+                    <h3 class="title">Transfer Antar Tabungan</h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#tab1KonfirmTrs" data-toggle="tab">Data Rekening Tujuan</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1KonfirmTrs">
+                            <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
+
+                            <input type="hidden" id="cid_pengajuan" name="id_pengajuan">
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
+                                        <select class="form-control" id="cuser_penerima" name="cuser_penerima" style="width: 100%;" readonly>
+                                            @foreach ($user as $usr)
+                                                <option value="{{ $usr->id }}"> {{$usr->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Rekening Tabungan Tujuan <star>*</star></label>
+                                        <select class="form-control" id="crekening_penerima" name="crekening_penerima" style="width: 100%;" readonly>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Transfer dari Rekening Tabungan? <star>*</star></label>
+                                        <select class="form-control" id="crekening_pengirim" name="crekening_pengirim" style="width: 100%;" readonly>
+                                            @foreach ($tabungan_user as $tabungan)
+                                                <option value="{{ $tabungan->id_tabungan }}"> [{{$tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Uang <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="cjumlah_transfer_antar_tabungan" name="cjumlah" readonly>
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Keterangan</label>
+                                        <input type="text" class="form-control" id="cketerangan_transfer_antar_tabungan" name="cketerangan" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Transfer </button>
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
