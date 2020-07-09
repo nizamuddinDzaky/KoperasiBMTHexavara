@@ -1288,8 +1288,8 @@
 {{--Modal Transfer Tabungan--}}
 <div class="modal fade" id="transferTabModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="card card-wizard" id="wizardCardTrans">
-            <form id="wizardFormTrans" method="POST" @if(Auth::user()->tipe == "anggota") action="{{route('anggota.pengajuan_transfer_antar_tabungan')}}" @endif enctype="multipart/form-data">
+        <div class="card card-wizard wizardCard">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe == "anggota") action="{{route('anggota.pengajuan_transfer_antar_tabungan')}}" @else action="{{route('teller.pay_pengajuan_transfer_antar_tabungan')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
                     <h3 class="title">Transfer Antar Tabungan</h3>
@@ -1307,7 +1307,7 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
+                                        <label for="id_" class="control-label">{{ Auth::user()->tipe == "anggota" ? "Pilih Anggota" : "Anggota Penerima" }} <star>*</star></label>
                                         <select class="form-control select2" id="user_penerima" name="user_penerima" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Anggota-</option>
                                             @foreach ($user as $usr)
@@ -1320,22 +1320,41 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Pilih Rekening Tabungan Tujuan <star>*</star></label>
-                                        <select class="form-control" id="rekening_penerima" name="rekening_penerima" style="width: 100%;" required>
+                                        <label for="id_" class="control-label">@if(Auth::user()->tipe == "anggota") Pilih Rekening Tabungan Tujuan @else Pilih rekening tabungan penerima @endif <star>*</star></label>
+                                        <select class="form-control select2" id="rekening_penerima" name="rekening_penerima" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+
+                            @if(Auth::user()->tipe == "teller")
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Transfer dari Rekening Tabungan? <star>*</star></label>
+                                        <label for="id_" class="control-label">Anggota Pengirim? <star>*</star></label>
+                                        <select class="form-control select2" id="user_pengirim" name="user_pengirim" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Anggota Pengirim-</option>
+                                            @foreach ($user as $usr)
+                                                <option value="{{ $usr->id }}"> {{$usr->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">@if(Auth::user()->tipe == "anggota") Transfer dari Rekening Tabungan? @else Pilih rekening tabungan pengirim @endif<star>*</star></label>
                                         <select class="form-control select2" id="rekening_pengirim" name="rekening_pengirim" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan Anda-</option>
+                                            @if(Auth::user()->tipe == "anggota")
                                             @foreach ($tabungan_user as $tabungan)
                                                 <option value="{{ $tabungan->id_tabungan }}"> [{{$tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
                                             @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                 </div>

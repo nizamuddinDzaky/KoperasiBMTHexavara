@@ -1403,6 +1403,15 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'    => 'teller.confirm_pengajuan_transfer_antar_tabungan',
             'uses'  => 'TellerController@confirm_pengajuan_transfer_antar_tabungan'
         ]);
+
+        /** 
+         * transfer antar tabungan anggota
+         * @method POST
+        */
+        Route::post('pay', [
+            'as'    => 'teller.pay_pengajuan_transfer_antar_tabungan',
+            'uses'  => 'TellerController@pay_pengajuan_transfer_antar_tabungan'
+        ]);
     });
 });
 
@@ -1795,6 +1804,15 @@ Route::group([
     Route::get('get_user_tabungan/{id}', [
         'as'    => 'api.get_user_tabungan',
         'uses'  => 'ApiController@getUserTabungan'   
+    ]);
+
+    /** 
+     * Get user tabungan with exclude several rekening
+     * @method GET
+    */
+    Route::get('get_user_tabungan_with_specific_exclude', [
+        'as'    => 'api.get_user_tabungan',
+        'uses'  => 'ApiController@getUserTabunganWithSpecificExclude'   
     ]);
 
     /** 

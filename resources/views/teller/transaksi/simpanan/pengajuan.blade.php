@@ -127,7 +127,7 @@
 
     <!-- simpanan user modal -->
     <script src="{{ asset('bmtmudathemes/assets/js/modal/simpanan.js') }}"></script>
-
+    
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">

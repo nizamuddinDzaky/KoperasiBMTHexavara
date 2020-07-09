@@ -31,6 +31,17 @@ class ApiController extends Controller
     }
 
     /** 
+     * Get user tabungan with excluding specific rekening controller
+     * @return Response
+    */
+    public function getUserTabunganWithSpecificExclude(Request $request)
+    {
+        $tabungan = $request;
+        // $tabungan = $this->tabunganReporsitory->getUserTabungan($id_user);
+        return response()->json($tabungan);
+    }
+
+    /** 
      * Get user pembiayaan controller
      * @return Response
     */

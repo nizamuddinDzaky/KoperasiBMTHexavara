@@ -1,8 +1,27 @@
 $(document).ready(function() {
     $('#transferTabModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
-        
-        $("#user_penerima").change(function() {
+
+        $(document).on("change", "#user_penerima", function() {
+            var id = $(this).val();
+            var url = window.location.origin + "/RemoteWorking/Hexavara/bmtmudahexavara/public/";
+            
+            $.ajax({
+                type: "GET",
+                url: url + "api/get_user_tabungan/" + id,
+                dataType: "JSON",
+                success: function (response) {
+                    id_user = id;
+                    response.forEach(element => {
+                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + `</option>`;
+                        $("#rekening_penerima").append(template);
+                    });
+                    
+                }
+            });
+        });
+
+        $(document).on("change", "#user_pengirim", function() {
             var id = $(this).val();
             var url = window.location.origin + "/RemoteWorking/Hexavara/bmtmudahexavara/public/";
             
@@ -13,7 +32,7 @@ $(document).ready(function() {
                 success: function (response) {
                     response.forEach(element => {
                         var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + `</option>`;
-                        $("#rekening_penerima").append(template);
+                        $("#rekening_pengirim").append(template);
                     });
                     
                 }

@@ -563,7 +563,6 @@ class LaporanController extends Controller
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
         $notification = $this->pengajuanReporsitory->getNotification();
-        
         return view('admin.laporan.buku_besar',[
             'notification' => $notification,
             'notification_count' =>count($notification),

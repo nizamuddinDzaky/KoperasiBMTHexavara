@@ -1954,4 +1954,24 @@ class TellerController extends Controller
 
         }
     }
+
+    /** 
+     * Transfer antar tabungan anggota
+     * @return Response
+    */
+    public function pay_pengajuan_transfer_antar_tabungan(Request $request)
+    {
+        $transfer = $this->transferTabunganRepository->payTransferAntarTabungan($request);
+        if($transfer['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($transfer['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $transfer['message']);
+
+        }
+    }
 }

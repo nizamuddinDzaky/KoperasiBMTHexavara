@@ -36,6 +36,7 @@
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#debitTabModal"><i class="fa fa-credit-card"></i> Setor Tunai</button>
                     <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal" data-page="teller"><i class="fa fa-archive"></i> Buka Tabungan</button>
+                    <button class="btn btn-info rounded right shadow-effect" data-toggle="modal" data-target="#transferTabModal" data-page="teller"><i class="fa fa-sign-out-alt"></i> Transfer Antar Tabungan</button>
                     <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#tutupTabModal"><i class="fa fa-close"></i> Tutup Tabungan</button>
                 </div>
             </div>
@@ -379,13 +380,15 @@
 
 @section('extra_script')
     {{-- MODAL&DATATABLE --}}
-    <script src="{{ asset('bmtmudathemes/assets/js/modal/transfer_antar_tabungan.js') }}"></script>
-
+    
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('bmtmudathemes/assets/js/loading.js') }}"></script>
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/transfer_antar_tabungan.js') }}"></script>
+    
     <script type="text/javascript">
         // TABUNGAN
-
         $('#viewTabModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
