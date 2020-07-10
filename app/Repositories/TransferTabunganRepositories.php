@@ -387,12 +387,12 @@ class TransferTabunganRepositories {
                     $this->rekeningRepository->insertPenyimpananBMT($dataToPenyimpananBMT) == "success"
                 )
                 {
-                    $detail['jumlah'] = -preg_replace('/[^\d.]/', '', $data['jumlah']);
-                    $detail['saldo_awal'] = floatval($saldo_pengirim);
-                    $detail['saldo_akhir'] = floatval($saldo_pengirim) - preg_replace('/[^\d.]/', '', $data['jumlah']);
-                    $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
-                    $dataToPenyimpananBMT['transaksi'] = $detail;
-
+                    // $detail['jumlah'] = -preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    // $detail['saldo_awal'] = floatval($saldo_pengirim);
+                    // $detail['saldo_akhir'] = floatval($saldo_pengirim) - preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    // $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
+                    // $dataToPenyimpananBMT['transaksi'] = $detail;
+                    $dataToPenyimpananBMT = $this->saveRiwayatRekeningPengirimJurnalLain($dataToPenyimpananBMT, $dataToBMT, $saldo_pengirim, $id_pengirim);
                     $this->rekeningRepository->insertPenyimpananBMT($dataToPenyimpananBMT);
                     
                     if($this->updateSaldoRekening($dataToBMT) == "success")
@@ -658,5 +658,103 @@ class TransferTabunganRepositories {
             }
         }   
     }   
+
+    /** 
+     * Save riwayar rekening pengirim jurnal lain
+     * @return Response
+    */
+    public function saveRiwayatRekeningPengirimJurnalLain($dataToPenyimpananBMT, $data, $saldo_pengirim, $id_pengirim)
+    {
+        $rekeningPengirim = BMT::where('id_rekening', $data['id_rekening_pengirim'])->select([ 'saldo', 'id_bmt', 'id_rekening', 'nama' ])->first();
+        $rekeningPenerima = BMT::where('id_rekening', $data['id_rekening_penerima'])->select([ 'saldo', 'id_bmt', 'id_rekening', 'nama' ])->first();
+           
+        /**
+         *  This block will execute when user choose rekening kepala 1 as penyeimbang
+         *  This is will add saldo to teller and reduce saldo to penyeimbang 
+        */
+        if(explode(".", $rekeningPenerima->id_bmt)[0] == 1)
+        {
+            if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                $jumlah = floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                $jumlah = floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+        }
+        elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 2)
+        {
+            if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                $jumlah = floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+        }
+        elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 3)
+        {
+            if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                $jumlah = floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                $jumlah = floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+        }
+        elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 4)
+        {
+            if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
+                $jumlah = floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+        }
+        elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 5)
+        {
+            if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
+                $jumlah = floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+            elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                $jumlah = -floatval($data['jumlah']);
+            }
+        }   
+
+        $detail['jumlah'] = $jumlah;
+        $detail['saldo_awal'] = $saldo_pengirim['saldo'];
+        $detail['saldo_akhir'] = floatval($saldo_pengirim['saldo']) + $jumlah;
+        $dataToPenyimpananBMT['transaksi'] = $detail;
+        $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
+
+        return $dataToPenyimpananBMT;
+    }
 
 }
