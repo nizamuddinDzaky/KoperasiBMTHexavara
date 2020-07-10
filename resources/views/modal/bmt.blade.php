@@ -21,9 +21,9 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Transfer dari Rekening <star>*</star></label>
-                                        <select class="form-control select2" id="idRekD" name="dari" style="width: 100%;" required>
+                                        <select class="form-control select2" name="dari" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
-                                            @foreach ($dropdown as $rekening)
+                                            @foreach ($rekening_penyeimbang as $rekening)
                                                 <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
                                             @endforeach
                                         </select>
@@ -34,9 +34,9 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Transfer ke Rekening <star>*</star></label>
-                                        <select class="form-control select2" id="idRekT" name="untuk" style="width: 100%;" required>
+                                        <select class="form-control select2" name="untuk" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
-                                            @foreach ($dropdown as $rekening)
+                                            @foreach ($rekening_penyeimbang as $rekening)
                                                 <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
                                             @endforeach
                                         </select>
@@ -52,6 +52,14 @@
                                             <input type="text" class="currency form-control text-right" id="jumlah" name="jumlah" required="true">
                                             <span class="input-group-addon">.00</span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Keterangan <star>*</star></label>
+                                        <input type="text" class="form-control" name="keterangan" required="true">
                                     </div>
                                 </div>
                             </div>

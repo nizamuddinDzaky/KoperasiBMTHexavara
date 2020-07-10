@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\PembiayaanReporsitory;
+use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
@@ -54,9 +55,16 @@ class ApiController extends Controller
      * Get rekening with excluding controller
      * @return Response
     */
-    public function getRekeningWithExcluding()
+    public function getRekeningWithExcluding(Request $request)
     {
-        $rekening = $this->rekeningReporsitory->getRekeningExcludedCategory(['kas', 'bank', 'shu berjalan'], "detail", "id_rekening");
+        if(Auth::user()->tipe == "admin")
+        {
+            $rekening = $this->rekeningReporsitory->getRekeningExcludedCategory(['KAS ADMIN'], "detail", "id_rekening");
+        }
+        else
+        {
+            $rekening = $this->rekeningReporsitory->getRekeningExcludedCategory(['kas', 'bank', 'shu berjalan'], "detail", "id_rekening");
+        }
         return response()->json($rekening);
     }
 

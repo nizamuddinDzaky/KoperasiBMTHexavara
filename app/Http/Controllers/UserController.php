@@ -134,10 +134,14 @@ class UserController extends Controller
 //    ISI IDENTITAS
     public function datadiri()
     {
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);   
         return view('users.datadiri',[
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'tab' =>  $this->informationRepository->getAllTabungan(),
             'status' =>  $this->informationRepository->getUsrByKtp(Auth::user()->no_ktp),
+            'notification' => $notification,
+            'notification_count' => $notification_count
         ]);
     }
 

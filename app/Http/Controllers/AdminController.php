@@ -12,6 +12,7 @@ use App\Repositories\InformationRepository;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
 use App\Repositories\PengajuanReporsitories;
+use App\Repositories\TransferTabunganRepositories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -42,7 +43,8 @@ class AdminController extends Controller
                                 RekeningReporsitories $rekeningReporsitory,
                                 TabunganReporsitories $tabunganReporsitory,
                                 DepositoReporsitories $depositoReporsitory,
-                                PengajuanReporsitories $pengajuanReporsitory
+                                PengajuanReporsitories $pengajuanReporsitory,
+                                TransferTabunganRepositories $transferTabunganRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -67,6 +69,7 @@ class AdminController extends Controller
         $this->tabunganReporsitory = $tabunganReporsitory;
         $this->depositoReporsitory = $depositoReporsitory;
         $this->pengajuanReporsitory = $pengajuanReporsitory;
+        $this->transferTabunganRepository = $transferTabunganRepository;
     }
 
 
@@ -350,7 +353,7 @@ class AdminController extends Controller
     }
     public function transfer(){
         $notification = $this->pengajuanReporsitory->getNotification();
-        $rekening_penyeimbang = $this->rekeningReporsitory->getRekeningExcludedCategory(['kas', 'bank', 'shu berjalan'], "detail","id_rekening");
+        $rekening_penyeimbang = $this->rekeningReporsitory->getRekeningExcludedCategory(['KAS ADMIN'], "detail","id_rekening");
         // return response()->json($rekening_penyeimbang);
         return view('admin.transaksi.transfer',[
             'notification' => $notification,
@@ -363,24 +366,15 @@ class AdminController extends Controller
         ]);
     }
     public function transfer_rekening(Request $request){
-        $jurnal_lain = $this->rekeningReporsitory->transferRekening($request, "Transfer antar Rekening");
-        // return response()->json($request);
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
-        $dari = $this->bmt->where('id_rekening',$request->dari)->first();
-        if($dari['saldo']<$request->jumlah){
+        $jurnal_lain = $this->transferTabunganRepository->transferAntarRekeningBMT($request);
+        if($jurnal_lain['type'] == "success")
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Saldo Rekening '. $dari['nama'].' tidak cukup!.');
-        }
-
-        if($this->informationRepository->transferRekening($request))
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf('Transfer Rekening berhasil dilakukan!.'));
+                ->withSuccess(sprintf($jurnal_lain['message']));
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Transfer Rekening gagal dilakukan!.');
+                ->withInput()->with('message', $jurnal_lain['message']);
         }
     }
     

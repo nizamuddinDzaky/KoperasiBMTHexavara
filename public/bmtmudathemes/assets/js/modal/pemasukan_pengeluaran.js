@@ -150,6 +150,9 @@ $(document).ready(function() {
             dataType: "JSON",
             success: function (response) {
                 rekening = response;
+            },
+            error: function(err) {
+                console.log(err);
             }
         });
     }
