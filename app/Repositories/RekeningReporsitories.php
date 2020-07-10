@@ -53,7 +53,7 @@ class RekeningReporsitories {
             $rekening .= " AND tipe_rekening='" . $type . "'";
         }
 
-        if($type != "") {
+        if($sort != "") {
             $rekening .= " ORDER BY " . $sort . " ASC";
         }
 
@@ -93,6 +93,8 @@ class RekeningReporsitories {
 
                     $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
                     $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
+                    $rekening_penerima = Rekening::where('id', $ke)->first();
+                    $rekening_pengirim = Rekening::where('id', $dari)->first();
                     $id_penerima = $bmt_penerima->id;
                     $id_pengirim = $bmt_pengirim->id;
                     $keterangan = "Pemasukan - KT [" . $data['keterangan'] . "]";
@@ -110,6 +112,8 @@ class RekeningReporsitories {
                     $ke = $data['dari'];
                     $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
                     $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
+                    $rekening_penerima = Rekening::where('id', $ke)->first();
+                    $rekening_pengirim = Rekening::where('id', $dari)->first();
                     $id_penerima = $bmt_penerima->id;
                     $id_pengirim = $bmt_pengirim->id;
                     $keterangan = "Pengeluaran - KK [" . $data['keterangan'] . "]";
@@ -158,13 +162,8 @@ class RekeningReporsitories {
                     $this->updateSaldoRekening($dataToBMT, $jenis, $eksekutor) == "success"
                 )
                 {
-                    $detail['jumlah'] = -preg_replace('/[^\d.]/', '', $data['jumlah']);
-                    $detail['saldo_awal'] = $saldo_pengirim['saldo'];
-                    $detail['saldo_akhir'] = floatval($saldo_pengirim['saldo']) - preg_replace('/[^\d.]/', '', $data['jumlah']);
-                    $dataToPenyimpananBMT['transaksi'] = $detail;
-                    $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
+                    $dataToPenyimpananBMT = $this->saveRiwayatRekeningPengirimJurnalLain($dataToPenyimpananBMT, $dataToBMT, $saldo_pengirim, $id_pengirim, $eksekutor);
                     $this->insertPenyimpananBMT($dataToPenyimpananBMT);
-                    
 
                     DB::commit();
                     $result = array('type' => 'success', 'message' => 'Transfer Pengeluaran/Pemasukan Berhasil Dilakukan');
@@ -218,16 +217,42 @@ class RekeningReporsitories {
         if($data['jenis_transaksi'] == "Pemasukan") {
             
             if($teller == "Admin") {
+                // /**
+                //  *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
+                //  *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                // */
+                // if(
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 5 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 5
+                // ) {
+                //     // if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+                //         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
+                //         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
+
+                //         return "success";
+                //     // } else {
+                //     //     return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                //     // }
+                // }
+
+                // /**
+                //  *  This block will execute when user choose rekening kepala 2, 3 or 4 as penyeimbang
+                //  *  This is will add saldo to both
+                // */
+                // else {
+                //     // if($data['jenis_transaksi'] == "Pemasukan") {
+                //         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) + floatval($data['jumlah'])  ]);
+                //         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
+                //     // }
+                //     return "success";
+                // }
                 /**
-                 *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
+                 *  This block will execute when user choose rekening kepala 1 as penyeimbang
                  *  This is will add saldo to teller and reduce saldo to penyeimbang 
                 */
-                if(
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 5 ||
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 5
-                ) {
+                if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
                     // if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
@@ -239,15 +264,62 @@ class RekeningReporsitories {
                 }
 
                 /**
-                 *  This block will execute when user choose rekening kepala 2, 3 or 4 as penyeimbang
+                 *  This block will execute when user choose rekening kepala 2, 3 as penyeimbang
                  *  This is will add saldo to both
                 */
-                else {
-                    // if($data['jenis_transaksi'] == "Pemasukan") {
-                        $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) + floatval($data['jumlah'])  ]);
-                        $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
-                    // }
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                    $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) + floatval($data['jumlah'])  ]);
+                    $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
                     return "success";
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 4 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                    $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) + floatval($data['jumlah'])  ]);
+                    $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
+
+                    $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                    if($shuBerjalan->saldo == "")
+                    {
+                        $saldoShuBerjalan = 0;
+                    }
+                    else
+                    {
+                        $saldoShuBerjalan = $shuBerjalan->saldo;
+                    }
+
+                    $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) + floatval($data['jumlah']) ]);
+                    return "success";
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 5 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                    // if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+                        $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
+                        $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
+
+                        $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                        if($shuBerjalan->saldo == "")
+                        {
+                            $saldoShuBerjalan = 0;
+                        }
+                        else
+                        {
+                            $saldoShuBerjalan = $shuBerjalan->saldo;
+                        }
+
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) + floatval($data['jumlah']) ]);
+                        
+                        return "success";
+                    // } else {
+                    //     return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                    // }
                 }
             }
             if($teller == "Teller") {
@@ -332,16 +404,42 @@ class RekeningReporsitories {
         if($data['jenis_transaksi'] == "Pengeluaran") {
 
             if($teller == "Admin") {
+                // /**
+                //  *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
+                //  *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                // */
+                // if(
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 5 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 5
+                // ) {
+                //     if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+                //         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
+                //         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
+
+                //         return "success";
+                //     } else {
+                //         return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                //     }
+                // }
+
+                // /**
+                //  *  This block will execute when user choose rekening kepala 2, 3 or 4 as penyeimbang
+                //  *  This is will add saldo to both
+                // */
+                // else {
+                //     if($data['jenis_transaksi'] == "Pemasukan") {
+                //         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
+                //         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) - floatval($data['jumlah'])  ]);
+                //     }
+                //     return "success";
+                // }
                 /**
                  *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
                  *  This is will add saldo to teller and reduce saldo to penyeimbang 
                 */
-                if(
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 5 ||
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
-                    explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 5
-                ) {
+                if(explode(".", $rekeningPenerima->id_bmt)[0] == 1) {
                     if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
@@ -353,15 +451,77 @@ class RekeningReporsitories {
                 }
 
                 /**
-                 *  This block will execute when user choose rekening kepala 2, 3 or 4 as penyeimbang
+                 *  This block will execute when user choose rekening kepala 2, 3 as penyeimbang
                  *  This is will add saldo to both
                 */
-                else {
-                    if($data['jenis_transaksi'] == "Pemasukan") {
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 2 || explode(".", $rekeningPenerima->id_bmt)[0] == 3) {
+                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah']) && floatval($rekeningPenerima->saldo) >= floatval($data['jumlah'])) {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) - floatval($data['jumlah'])  ]);
+                        
+                        return "success";
+                    } else {
+                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
                     }
-                    return "success";
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 4 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 4) {
+                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah']) && floatval($rekeningPenerima->saldo) >= floatval($data['jumlah'])) {
+                        $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
+                        $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) - floatval($data['jumlah'])  ]);
+                        
+                        $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                        if($shuBerjalan->saldo == "")
+                        {
+                            $saldoShuBerjalan = 0;
+                        }
+                        else
+                        {
+                            $saldoShuBerjalan = $shuBerjalan->saldo;
+                        }
+                        
+                        // if(floatval($saldoShuBerjalan) >= floatval($data['jumlah'])) {
+                            $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) - floatval($data['jumlah']) ]);
+                            return "success";
+                        // } else {
+                        //     return "Saldo Rekening SHU Berjalan Tidak Cukup";
+                        // }
+                    } else {
+                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                    }
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 5 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 5) {
+                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+                        $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
+                        $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
+                        
+                        $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                        if($shuBerjalan->saldo == "")
+                        {
+                            $saldoShuBerjalan = 0;
+                        }
+                        else
+                        {
+                            $saldoShuBerjalan = $shuBerjalan->saldo;
+                        }
+                        // if(floatval($saldoShuBerjalan) >= floatval($data['jumlah'])) {
+                            $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) - floatval($data['jumlah']) ]);
+                            return "success";
+                        // } else {
+                        //     return "Saldo Rekening SHU Berjalan Tidak Cukup";
+                        // }
+                    } else {
+                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+                    }
                 }
             }
             if($teller == "Teller") {
@@ -511,6 +671,210 @@ class RekeningReporsitories {
     {
         $rekening = Rekening::where($column_name, $column_val)->first();
         return $rekening;
+    }
+
+    /** 
+     * Save riwayar rekening pengirim jurnal lain
+     * @return Response
+    */
+    public function saveRiwayatRekeningPengirimJurnalLain($dataToPenyimpananBMT, $data, $saldo_pengirim, $id_pengirim, $teller)
+    {
+        $rekeningPengirim = BMT::where('id_rekening', $data['id_rekening_pengirim'])->select([ 'saldo', 'id_bmt', 'id_rekening', 'nama' ])->first();
+        $rekeningPenerima = BMT::where('id_rekening', $data['id_rekening_penerima'])->select([ 'saldo', 'id_bmt', 'id_rekening', 'nama' ])->first();
+       
+        if($data['jenis_transaksi'] == "Pemasukan") {
+            
+            if($teller == "Admin") {
+                // /**
+                //  *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
+                //  *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                // */
+                // if(
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 5 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 5
+                // ) {
+                //     $jumlah = -floatval($data['jumlah']);
+                // }
+
+                // /**
+                //  *  This block will execute when user choose rekening kepala 2, 3 or 4 as penyeimbang
+                //  *  This is will add saldo to both
+                // */
+                // else {
+                //     $jumlah = floatval($data['jumlah']);
+
+                // }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 1 as penyeimbang
+                 *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                */
+                if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 2, 3 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                    $jumlah = floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 4 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                    $jumlah = floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 5 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+            }
+            if($teller == "Teller") {
+                /**
+                 *  This block will execute when user choose rekening kepala 1 as penyeimbang
+                 *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                */
+                if(explode(".", $rekeningPengirim->id_bmt)[0] == 1) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 2, 3 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 2 || explode(".", $rekeningPengirim->id_bmt)[0] == 3) {
+                    $jumlah = floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 4 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 4) {
+                    $jumlah = floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 5 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPengirim->id_bmt)[0] == 5) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+            }
+        }
+
+        if($data['jenis_transaksi'] == "Pengeluaran") {
+
+            if($teller == "Admin") {
+                // /**
+                //  *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
+                //  *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                // */
+                // if(
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 1 && explode(".", $rekeningTujuan->id_bmt)[0] == 5 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 1 ||
+                //     explode(".", $rekeningPengirim->id_bmt)[0] == 5 && explode(".", $rekeningTujuan->id_bmt)[0] == 5
+                // ) {
+                //     $jumlah = -floatval($data['jumlah']);
+                // }
+
+                // /**
+                //  *  This block will execute when user choose rekening kepala 2, 3 or 4 as penyeimbang
+                //  *  This is will add saldo to both
+                // */
+                // else {
+                //     if($data['jenis_transaksi'] == "Pemasukan") {
+                //         $jumlah = -floatval($data['jumlah']);
+                //     }
+                // }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
+                 *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                */
+                if(explode(".", $rekeningPenerima->id_bmt)[0] == 1) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 2, 3 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 2 || explode(".", $rekeningPenerima->id_bmt)[0] == 3) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 4 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 4) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 5 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 5) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+            }
+            if($teller == "Teller") {
+                /**
+                 *  This block will execute when user choose rekening kepala 1 or 5 as penyeimbang
+                 *  This is will add saldo to teller and reduce saldo to penyeimbang 
+                */
+                if(explode(".", $rekeningPenerima->id_bmt)[0] == 1) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 2, 3 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 2 || explode(".", $rekeningPenerima->id_bmt)[0] == 3) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 4 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 4) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+
+                /**
+                 *  This block will execute when user choose rekening kepala 5 as penyeimbang
+                 *  This is will add saldo to both
+                */
+                elseif(explode(".", $rekeningPenerima->id_bmt)[0] == 5) {
+                    $jumlah = -floatval($data['jumlah']);
+                }
+            }
+
+        }
+
+        $detail['jumlah'] = $jumlah;
+        $detail['saldo_awal'] = $saldo_pengirim['saldo'];
+        $detail['saldo_akhir'] = floatval($saldo_pengirim['saldo']) + $jumlah;
+        $dataToPenyimpananBMT['transaksi'] = $detail;
+        $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
+
+        return $dataToPenyimpananBMT;
     }
 
 }

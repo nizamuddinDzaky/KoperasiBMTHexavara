@@ -350,10 +350,12 @@ class AdminController extends Controller
     }
     public function transfer(){
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+        $rekening_penyeimbang = $this->rekeningReporsitory->getRekeningExcludedCategory(['kas', 'bank', 'shu berjalan'], "detail","id_rekening");
+        // return response()->json($rekening_penyeimbang);
         return view('admin.transaksi.transfer',[
             'notification' => $notification,
             'notification_count' =>count($notification),
+            'rekening_penyeimbang' => $rekening_penyeimbang,
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
@@ -381,30 +383,7 @@ class AdminController extends Controller
                 ->withInput()->with('message', 'Transfer Rekening gagal dilakukan!.');
         }
     }
-    public function jurnal_lain(Request $request){
-        $data = array();
-        for($i=0; $i<count($request->dari); $i++)
-        {
-            $temp = [
-                "dari" => $request->dari[$i],
-                "tipe" => $request->tipe[$i],
-                "jumlah" => $request->jumlah[$i],
-                "keterangan" => $request->keterangan[$i],
-                "tujuan" => isset($request->tujuan[$i]) ? $request->tujuan[$i] : null
-            ];
-            array_push($data, $temp);
-        }
-        $jurnal_lain = $this->rekeningReporsitory->transferRekening($data, "Jurnal Lain");
-        if($jurnal_lain['type'] == "success")
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf($jurnal_lain['message']));
-        else{
-            return redirect()
-                ->back()
-                ->withInput()->with('message', $jurnal_lain['message']);
-        }
-    }
+    
     public function edit_saldo(Request $request){
         if($this->informationRepository->edit_saldo($request))
             return redirect()
@@ -1266,5 +1245,33 @@ class AdminController extends Controller
 
 //end of NAVBAR PEMBIAYAAN
 
+    /** 
+     * Transaksi jurnal lain
+     * @return Response
+    */
+    public function jurnal_lain(Request $request){
+        $data = array();
+        for($i=0; $i<count($request->dari); $i++)
+        {
+            $temp = [
+                "dari" => $request->dari[$i],
+                "tipe" => $request->tipe[$i],
+                "jumlah" => $request->jumlah[$i],
+                "keterangan" => $request->keterangan[$i],
+                "tujuan" => isset($request->tujuan[$i]) ? $request->tujuan[$i] : json_decode(Auth::user()->detail)->id_rekening
+            ];
+            array_push($data, $temp);
+        }
+        $jurnal_lain = $this->rekeningReporsitory->transferRekening($data, "Jurnal Lain");
+        if($jurnal_lain['type'] == "success")
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($jurnal_lain['message']));
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $jurnal_lain['message']);
+        }
+    }
 
 }

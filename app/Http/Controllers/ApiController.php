@@ -36,8 +36,7 @@ class ApiController extends Controller
     */
     public function getUserTabunganWithSpecificExclude(Request $request)
     {
-        $tabungan = $request;
-        // $tabungan = $this->tabunganReporsitory->getUserTabungan($id_user);
+        $tabungan = $this->tabunganReporsitory->getUserTabungan($id_user);
         return response()->json($tabungan);
     }
 
@@ -57,7 +56,7 @@ class ApiController extends Controller
     */
     public function getRekeningWithExcluding()
     {
-        $rekening = $this->rekeningReporsitory->getRekeningExcludedCategory(array('kas', 'bank', 'shu berjalan'));
+        $rekening = $this->rekeningReporsitory->getRekeningExcludedCategory(['kas', 'bank', 'shu berjalan'], "detail", "id_rekening");
         return response()->json($rekening);
     }
 

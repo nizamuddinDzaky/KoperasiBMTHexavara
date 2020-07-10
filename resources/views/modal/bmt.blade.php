@@ -382,3 +382,117 @@
         </div>
     </div>
 </div>
+
+{{--Modal Jurnal Lain Rekening Admin--}}
+@if(Auth::user()->tipe == "admin")
+<div class="modal fade" id="jurnalLainRekAdminModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard wizardCard">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('jurnal_lain')}}" @endif  enctype="multipart/form-data">
+                {{csrf_field()}}
+                <div class="header text-center">
+                    <h3 class="title" id="title_jurnal_lain_admin"><h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#tab1TabJurnalLainAdmin" data-toggle="tab">Data Jurnal</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1TabJurnalLainAdmin">
+                            <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
+
+                            <div id="rowPemasukanJurnalLainAdmin">
+
+                                {{-- @if(Request::is('admin/transfer/transfer'))
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Rekening Tujuan <star>*</star></label>
+                                            <select class="form-control select2" name="tujuan[]" style="width: 100%;" required>
+                                                <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
+                                                @foreach ($dropdown as $rekening)
+                                                    <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif --}}
+
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
+                                            <select class="form-control select2" name="dari[]" style="width: 100%;" required>
+                                                <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
+                                                @foreach ($rekening_penyeimbang as $rekening)
+                                                    <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="tipe[]" id="tipe_admin" />
+                                {{-- <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group"> --}}
+                                            {{-- <label for="id_" class="control-label">Tipe Transaksi <star>*</star></label>
+                                            <select class="form-control select2"  name="tipe" style="width: 100%;" required>
+                                                <option class="bs-title-option" selected disabled value="">-Pilih Transaksi-</option>
+                                                <option value="1">Pemasukkan</option>
+                                                <option value="0">Pengeluaran</option>
+                                            </select> --}}
+                                        {{-- </div>
+                                    </div>
+                                </div> --}}
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Jumlah Uang <star>*</star></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
+                                                <span class="input-group-addon">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Keterangan<star>*</star></label>
+                                            <input type="text" class="form-control"  name="keterangan[]" required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">&nbsp;</label>
+                                            <button type="button" id="add-row-pemasukan-admin" class="btn btn-success btn-fill pull-right">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Transfer </button>
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+@endif
+

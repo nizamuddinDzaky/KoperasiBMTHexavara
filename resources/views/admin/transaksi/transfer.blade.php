@@ -28,7 +28,8 @@
 
                 <div class="button-group right">
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#transferRekModal"><i class="fas fa-exchange-alt"></i> &nbsp;Transfer Rekening BMT</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekModal"><i class="fas fa-credit-card"></i> &nbsp;Transfer Pengeluaran/Pemasukan</button>
+                    <button class="btn btn-info rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekAdminModal" data-jenis="pemasukan"><i class="fas fa-credit-card"></i> &nbsp;Transfer Pemasukan</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekAdminModal" data-jenis="pengeluaran"><i class="fas fa-credit-card"></i> &nbsp;Transfer Pengeluaran</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#wapokRekModal"><i class="fas fa-credit-card"></i> &nbsp;Upgrade Simpanan</button>
                 </div>
             </div>
@@ -152,6 +153,8 @@
 
 @section('extra_script')
     {{-- MODAL&DATATABLE --}}
+
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/pemasukan_pengeluaran.js') }}"></script>
 
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
