@@ -962,6 +962,7 @@ class PembiayaanReporsitory {
                 if(json_decode($pengajuan->detail)->angsuran == "Tabungan")
                 {
                     $tabungan =  Tabungan::where('id', json_decode($pengajuan->detail)->bank)->first();
+                    $rekening_tabungan =  Rekening::where('id', $tabungan->id_rekening)->first();
                     $bmt_tabungan = BMT::where('id_rekening', $tabungan->id_rekening)->first();
                     $bank_tujuan_angsuran = $tabungan->id_rekening;
                     $dari_bank = "[" . json_decode($pengajuan->detail)->bank . "] " . json_decode($pengajuan->detail)->atasnama;
@@ -1229,6 +1230,11 @@ class PembiayaanReporsitory {
                             $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi");
                         }
                     }
+                    elseif(json_decode($tabungan->detail)->saldo < json_decode($rekening_tabungan->detail)->saldo_min)
+                    {
+                        DB::rollback();
+                        $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Rekening tabungan " . $tabungan->jenis_tabungan . " melampaui limit transaksi.");
+                    }
                     else
                     {
                         DB::rollback();
@@ -1396,6 +1402,7 @@ class PembiayaanReporsitory {
                 if(json_decode($pengajuan->detail)->angsuran == "Tabungan")
                 {
                     $tabungan =  Tabungan::where('id', json_decode($pengajuan->detail)->bank)->first();
+                    $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
                     $bmt_tabungan = BMT::where('id_rekening', $tabungan->id_rekening)->first();
                     $bank_tujuan_angsuran = $tabungan->id_rekening;
                     $dari_bank = "[" . json_decode($pengajuan->detail)->bank . "] " . json_decode($pengajuan->detail)->atasnama;
@@ -1652,6 +1659,11 @@ class PembiayaanReporsitory {
                             $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi");
                         }
                     }
+                    elseif(json_decode($tabungan->detail)->saldo < json_decode($rekening_tabungan->detail)->saldo_min)
+                    {
+                        DB::rollback();
+                        $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Tabungan " . $tabungan->jenis_tabungan . " Melampaui Batas Transaksi.");
+                    }
                     else {
                         DB::rollback();
                         $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Saldo " . $tabungan->jenis_tabungan . " Tidak Cukup.");
@@ -1853,6 +1865,7 @@ class PembiayaanReporsitory {
             if($data->debit == 2)
             {
                 $tabungan =  Tabungan::where('id', $data->tabungan)->first();
+                $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
                 $bmt_tabungan = BMT::where('id_rekening', $tabungan->id_rekening)->first();
                 $bank_tujuan_angsuran = $tabungan->id_rekening;
                 $dari_bank = "[" . $tabungan->id_tabungan . "] " . $tabungan->jenis_tabungan;
@@ -2095,6 +2108,11 @@ class PembiayaanReporsitory {
                         $response = array("type" => "success", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Berhasil Dikonfirmasi");
                     }
                 }
+                elseif(json_decode($tabungan->detail)->saldo < json_decode($rekening_tabungan->detail)->saldo_min)
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Tabungan " . $tabungan->jenis_tabungan . " Melampaui Batas Transaksi.");
+                }
                 else
                 {
                     DB::rollback();
@@ -2261,6 +2279,7 @@ class PembiayaanReporsitory {
             if($data->debit == 2)
             {
                 $tabungan =  Tabungan::where('id', $data->tabungan)->first();
+                $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
                 $bmt_tabungan = BMT::where('id_rekening', $tabungan->id_rekening)->first();
                 $bank_tujuan_angsuran = $tabungan->id_rekening;
                 $dari_bank = "[" . $tabungan->id_tabungan . "] " . $tabungan->jenis_tabungan;
@@ -2535,6 +2554,11 @@ class PembiayaanReporsitory {
                         $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi");
                     }
                 }
+                elseif(json_decode($tabungan->detail)->saldo < json_decode($rekening_tabungan->detail)->saldo_min)
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Tabungan " . $tabungan->jenis_tabungan . " Melampaui Batas Transaksi.");
+                }
                 else {
                     DB::rollback();
                     $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Saldo " . $tabungan->jenis_tabungan . " Tidak Cukup.");
@@ -2722,6 +2746,7 @@ class PembiayaanReporsitory {
             {
                 $id_tabungan = json_decode($pengajuan->detail)->bank;
                 $tabungan = Tabungan::where('id', $id_tabungan)->first();
+                $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
                 $id_tujuan_pelunasan = $tabungan->id_rekening;
             }
             if(json_decode($pengajuan->detail)->angsuran == "Transfer")
@@ -2859,13 +2884,21 @@ class PembiayaanReporsitory {
 
             if(json_decode($pengajuan->detail)->angsuran == "Tabungan")
             {
-                $dataToUpdateTabungan = [
-                    "saldo" => $saldo_akhir_tujuan_pelunasan,
-                    "id_pengajuan"  => $pengajuan->id
-                ];
-
-                $tabungan->detail = json_encode($dataToUpdateTabungan);
-                $tabungan->save();
+                if(json_decode($tabungan->detail)->saldo < json_decode($rekening_tabungan->detail)->saldo_min)
+                {
+                    $update_tabungan = "error";
+                }
+                else
+                {
+                    $dataToUpdateTabungan = [
+                        "saldo" => $saldo_akhir_tujuan_pelunasan,
+                        "id_pengajuan"  => $pengajuan->id
+                    ];
+                    
+                    $tabungan->detail = json_encode($dataToUpdateTabungan);
+                    $tabungan->save();
+                    $update_tabungan = "success";
+                }
             }
 
             $pembiayaan->detail = json_encode([
@@ -2902,37 +2935,83 @@ class PembiayaanReporsitory {
                 $bmt_piutang_yang_ditangguhkan->save();
             }
             
-            if(
-                $bmt_tujuan_pelunasan->save() && $bmt_pembiayaan->save() && $bmt_rekening_pendapatan->save() &&
-                $bmt_shu_berjalan->save() && $pembiayaan->save()
-            )
+            if(json_decode($pengajuan->detail)->angsuran == "Tabungan")
             {
-                $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id; $pengajuan->save();
-                
-                // Update margin yang sudah dibayarkan user
-                if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                if($update_tabungan == "success")
                 {
-                    $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                    if(
+                        $bmt_tujuan_pelunasan->save() && $bmt_pembiayaan->save() && $bmt_rekening_pendapatan->save() &&
+                        $bmt_shu_berjalan->save() && $pembiayaan->save()
+                    )
+                    {
+                        $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id; $pengajuan->save();
+                        
+                        // Update margin yang sudah dibayarkan user
+                        if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                        {
+                            $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                        }
+                        else
+                        {
+                            $total_margin_anggota = floatval($jumlah_bayar_margin);
+                        }
+                        $user_pembiayaan->wajib_pokok = json_encode([
+                            "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                            "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                            "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                            "margin" => $total_margin_anggota
+                        ]);
+                        $user_pembiayaan->save();
+
+                        DB::commit();
+                        $response = array("type" => "success", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Berhasil Dikonfirmasi");
+                    }
+                    else
+                    {
+                        DB::rollback();
+                        $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Terjadi kesalahan.");
+                    }
                 }
                 else
                 {
-                    $total_margin_anggota = floatval($jumlah_bayar_margin);
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Tabungan Anda Melampaui Limit Transaksi.");
                 }
-                $user_pembiayaan->wajib_pokok = json_encode([
-                    "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
-                    "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
-                    "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
-                    "margin" => $total_margin_anggota
-                ]);
-                $user_pembiayaan->save();
-
-                DB::commit();
-                $response = array("type" => "success", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Berhasil Dikonfirmasi");
             }
             else
             {
-                DB::rollback();
-                $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Terjadi kesalahan.");
+                if(
+                    $bmt_tujuan_pelunasan->save() && $bmt_pembiayaan->save() && $bmt_rekening_pendapatan->save() &&
+                    $bmt_shu_berjalan->save() && $pembiayaan->save()
+                )
+                {
+                    $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id; $pengajuan->save();
+                    
+                    // Update margin yang sudah dibayarkan user
+                    if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                    {
+                        $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                    }
+                    else
+                    {
+                        $total_margin_anggota = floatval($jumlah_bayar_margin);
+                    }
+                    $user_pembiayaan->wajib_pokok = json_encode([
+                        "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                        "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                        "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                        "margin" => $total_margin_anggota
+                    ]);
+                    $user_pembiayaan->save();
+
+                    DB::commit();
+                    $response = array("type" => "success", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Berhasil Dikonfirmasi");
+                }
+                else
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Terjadi kesalahan.");
+                }
             }
         }
         catch(Exception $ex)
@@ -3061,6 +3140,7 @@ class PembiayaanReporsitory {
         {
             $id_tabungan = $data->tabungan;
             $tabungan = Tabungan::where('id', $id_tabungan)->first();
+            $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
             $id_tujuan_pelunasan = $tabungan->id_rekening;
         }
         if($data->debit == 1)
@@ -3241,26 +3321,69 @@ class PembiayaanReporsitory {
             $bmt_piutang_yang_ditangguhkan->save();
         }
         
-        if(
-            $bmt_tujuan_pelunasan->save() && $bmt_pembiayaan->save() && $bmt_rekening_pendapatan->save() &&
-            $bmt_shu_berjalan->save() && $pembiayaan->save()
-        )
-        {   
-            // Update margin yang sudah dibayarkan user
-            if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+        if($data->debit == 2)
+        {
+            if(json_decode($tabungan->detail)->saldo < json_decode($rekening_tabungan->detail)->saldo_min)
             {
-                $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Tabungan Anda Melampaui Batas Transaksi.");
             }
             else
             {
-                $total_margin_anggota = floatval($jumlah_bayar_margin);
+                if(
+                    $bmt_tujuan_pelunasan->save() && $bmt_pembiayaan->save() && $bmt_rekening_pendapatan->save() &&
+                    $bmt_shu_berjalan->save() && $pembiayaan->save()
+                )
+                {   
+                    // Update margin yang sudah dibayarkan user
+                    if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                    {
+                        $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                    }
+                    else
+                    {
+                        $total_margin_anggota = floatval($jumlah_bayar_margin);
+                    }
+                    $user_pembiayaan->wajib_pokok = json_encode([
+                        "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                        "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                        "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                        "margin" => $total_margin_anggota
+                    ]);
+                    $user_pembiayaan->save();
+        
+                    DB::commit();
+                    $response = array("type" => "success", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Berhasil Dikonfirmasi");
+                }
+                else
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Terjadi kesalahan.");
+                }
             }
-            $user_pembiayaan->wajib_pokok = json_encode([
-                "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
-                "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
-                "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
-                "margin" => $total_margin_anggota
-            ]);
+        }
+        else
+        {
+            if(
+                $bmt_tujuan_pelunasan->save() && $bmt_pembiayaan->save() && $bmt_rekening_pendapatan->save() &&
+                $bmt_shu_berjalan->save() && $pembiayaan->save()
+            )
+            {   
+                // Update margin yang sudah dibayarkan user
+                if(isset(json_decode($user_pembiayaan->wajib_pokok)->margin))
+                {
+                    $total_margin_anggota = floatval(json_decode($user_pembiayaan->wajib_pokok)->margin + $jumlah_bayar_margin);
+                }
+                else
+                {
+                    $total_margin_anggota = floatval($jumlah_bayar_margin);
+                }
+                $user_pembiayaan->wajib_pokok = json_encode([
+                    "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                    "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                    "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                    "margin" => $total_margin_anggota
+                ]);
                 $user_pembiayaan->save();
 
                 DB::commit();
@@ -3270,6 +3393,7 @@ class PembiayaanReporsitory {
             {
                 DB::rollback();
                 $response = array("type" => "error", "message" => "Pengajuan Pelunasan " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi. Terjadi kesalahan.");
+            }  
         }
 
         return $response;
