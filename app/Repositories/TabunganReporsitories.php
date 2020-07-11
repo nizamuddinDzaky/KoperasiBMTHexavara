@@ -270,157 +270,166 @@ class TabunganReporsitories {
         {
             $pengajuan = PengajuanReporsitories::findPengajuan($data->id);
             $tabungan = Tabungan::where([ ['id_user', $pengajuan->id_user], ['id_tabungan', json_decode($pengajuan->detail)->id_tabungan] ])->first();
+            $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
             
-            $bmtUser = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
-            // Use for tunai method
-            $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
-            $userLogedBMT = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
-            
-            $untukRekening = "";
-            $dariRekening = $userLogedBMT->nama;
-            if(json_decode($pengajuan->detail)->kredit == "Transfer") {
-                $bmtTujuanCreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank) ->first();
-                $untukRekening = "Transfer";
-                $dariRekening = $bmtTujuanCreditTabungan->nama;
-            }
-
-            $detailToPenyimpananTabungan = [
-                "teller"    => Auth::user()->id,
-                "dari_rekening" => $dariRekening,
-                "untuk_rekening" => $untukRekening,
-                "jumlah" => json_decode($pengajuan->detail)->jumlah,
-                "saldo_awal" => json_decode($tabungan->detail)->saldo,
-                "saldo_akhir" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
-            ];
-            $dataToPenyimpananTabungan = [
-                "id_user"       => $pengajuan->id_user,
-                "id_tabungan"   => $tabungan->id,
-                "status"        => "Kredit " . $bmtUser->nama,
-                "transaksi"     => $detailToPenyimpananTabungan,
-                "teller"        => Auth::user()->id
-            ];
-
-            $detailToPenyimpananBMT = [
-                "jumlah"        => json_decode($pengajuan->detail)->jumlah,
-                "saldo_awal"    => $bmtUser->saldo,
-                "saldo_akhir"   => floatval($bmtUser->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
-                "id_pengajuan"  => $pengajuan->id
-            ];
-            $dataToPenyimpananBMT = [
-                "id_user"       => $pengajuan->id_user,
-                "id_bmt"        => $bmtUser->id,
-                "status"        => "Kredit " . $bmtUser->nama,
-                "transaksi"     => $detailToPenyimpananBMT,
-                "teller"        => Auth::user()->id
-            ];
-
-            $updateTabunganDetail = [
-                "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
-                "id_pengajuan" => $pengajuan->id
-            ];
-
-            if(
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == 'success' &&
-                $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
-            ) 
+            if((json_decode($tabungan->detail)->saldo - floatval(json_decode($pengajuan->detail)->jumlah)) < floatval(json_decode($rekening_tabungan->detail)->saldo_min))
             {
+                DB::rollback();
+                $result = array('type' => 'error', 'message' => 'Pengajuan Gagal Dikonfirmasi. Transaksi anda melampaui limit transaksi.');
+            }
+            else
+            {
+                $bmtUser = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
+                // Use for tunai method
+                $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
+                $userLogedBMT = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
+                
+                $untukRekening = "";
+                $dariRekening = $userLogedBMT->nama;
+                if(json_decode($pengajuan->detail)->kredit == "Transfer") {
+                    $bmtTujuanCreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank) ->first();
+                    $untukRekening = "Transfer";
+                    $dariRekening = $bmtTujuanCreditTabungan->nama;
+                }
 
-                $detailToPenyimpananBMT['jumlah'] = -floatval(json_decode($pengajuan->detail)->jumlah);
-                $detailToPenyimpananBMT['saldo_awal'] = $userLogedBMT->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
-                $dataToPenyimpananBMT['id_bmt'] = $userLogedBMT->id;
-                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+                $detailToPenyimpananTabungan = [
+                    "teller"    => Auth::user()->id,
+                    "dari_rekening" => $dariRekening,
+                    "untuk_rekening" => $untukRekening,
+                    "jumlah" => json_decode($pengajuan->detail)->jumlah,
+                    "saldo_awal" => json_decode($tabungan->detail)->saldo,
+                    "saldo_akhir" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
+                ];
+                $dataToPenyimpananTabungan = [
+                    "id_user"       => $pengajuan->id_user,
+                    "id_tabungan"   => $tabungan->id,
+                    "status"        => "Kredit " . $bmtUser->nama,
+                    "transaksi"     => $detailToPenyimpananTabungan,
+                    "teller"        => Auth::user()->id
+                ];
 
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                $detailToPenyimpananBMT = [
+                    "jumlah"        => json_decode($pengajuan->detail)->jumlah,
+                    "saldo_awal"    => $bmtUser->saldo,
+                    "saldo_akhir"   => floatval($bmtUser->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
+                    "id_pengajuan"  => $pengajuan->id
+                ];
+                $dataToPenyimpananBMT = [
+                    "id_user"       => $pengajuan->id_user,
+                    "id_bmt"        => $bmtUser->id,
+                    "status"        => "Kredit " . $bmtUser->nama,
+                    "transaksi"     => $detailToPenyimpananBMT,
+                    "teller"        => Auth::user()->id
+                ];
 
-                /** 
-                 * Filter transaction method 
-                * */
-                if(floatval(json_decode($tabungan->detail)->saldo) >= floatval(json_decode($pengajuan->detail)->jumlah)) 
+                $updateTabunganDetail = [
+                    "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
+                    "id_pengajuan" => $pengajuan->id
+                ];
+
+                if(
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == 'success' &&
+                    $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
+                ) 
                 {
-                    if(json_decode($pengajuan->detail)->kredit == "Transfer") 
+
+                    $detailToPenyimpananBMT['jumlah'] = -floatval(json_decode($pengajuan->detail)->jumlah);
+                    $detailToPenyimpananBMT['saldo_awal'] = $userLogedBMT->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
+                    $dataToPenyimpananBMT['id_bmt'] = $userLogedBMT->id;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    /** 
+                     * Filter transaction method 
+                    * */
+                    if(floatval(json_decode($tabungan->detail)->saldo) >= floatval(json_decode($pengajuan->detail)->jumlah)) 
                     {
-                        $bmtPencairDana = BMT::where('id_rekening', $data->daribank)->select('saldo')->first();
-                        if(floatval($bmtPencairDana->saldo) >= floatval(json_decode($pengajuan->detail)->jumlah)) 
+                        if(json_decode($pengajuan->detail)->kredit == "Transfer") 
                         {
-                            $updateBMTPencairDana = BMT::where('id_rekening', $data->daribank)->update([
-                                "saldo" => floatval($bmtPencairDana->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
-                            ]);
+                            $bmtPencairDana = BMT::where('id_rekening', $data->daribank)->select('saldo')->first();
+                            if(floatval($bmtPencairDana->saldo) >= floatval(json_decode($pengajuan->detail)->jumlah)) 
+                            {
+                                $updateBMTPencairDana = BMT::where('id_rekening', $data->daribank)->update([
+                                    "saldo" => floatval($bmtPencairDana->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
+                                ]);
 
-                            // Update tabungan user in table tabungan
-                            $updateTabunganDetail = [
-                                "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
-                                "id_pengajuan" => $pengajuan->id
-                            ];   
-                            $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
-                                "detail" => json_encode($updateTabunganDetail)
-                            ]);
+                                // Update tabungan user in table tabungan
+                                $updateTabunganDetail = [
+                                    "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
+                                    "id_pengajuan" => $pengajuan->id
+                                ];   
+                                $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
+                                    "detail" => json_encode($updateTabunganDetail)
+                                ]);
 
-                            // Update bmt user in table tabungan
-                            $updateBMTUser = BMT::where('id', $bmtUser->id)->update([
-                                "saldo" => floatval($bmtUser->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
-                            ]);
+                                // Update bmt user in table tabungan
+                                $updateBMTUser = BMT::where('id', $bmtUser->id)->update([
+                                    "saldo" => floatval($bmtUser->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
+                                ]);
 
-                            // Update Pengajuan table
-                            $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([
-                                "status"    => "Sudah Dikonfirmasi",
-                                "teller"    => Auth::user()->id
-                            ]);
+                                // Update Pengajuan table
+                                $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([
+                                    "status"    => "Sudah Dikonfirmasi",
+                                    "teller"    => Auth::user()->id
+                                ]);
+                            }
                         }
-                    }
 
-                    if(json_decode($pengajuan->detail)->kredit == "Tunai") 
-                    {
-                        $bmtPencairDana = BMT::where('id_rekening', $userLogedBMT->id_rekening)->select('saldo')->first();
-                        if(floatval($bmtPencairDana->saldo) >=  floatval(json_decode($pengajuan->detail)->jumlah))
+                        if(json_decode($pengajuan->detail)->kredit == "Tunai") 
                         {
-                            $updateBMTPencairDana = BMT::where('id_rekening', $userLogedBMT->id_rekening)->update([
-                                "saldo" => floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
-                            ]);
+                            $bmtPencairDana = BMT::where('id_rekening', $userLogedBMT->id_rekening)->select('saldo')->first();
+                            if(floatval($bmtPencairDana->saldo) >=  floatval(json_decode($pengajuan->detail)->jumlah))
+                            {
+                                $updateBMTPencairDana = BMT::where('id_rekening', $userLogedBMT->id_rekening)->update([
+                                    "saldo" => floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
+                                ]);
 
-                            // Update tabungan user in table tabungan
-                            $updateTabunganDetail = [
-                                "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
-                                "id_pengajuan" => $pengajuan->id
-                            ];   
-                            $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
-                                "detail" => json_encode($updateTabunganDetail)
-                            ]);
+                                // Update tabungan user in table tabungan
+                                $updateTabunganDetail = [
+                                    "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
+                                    "id_pengajuan" => $pengajuan->id
+                                ];   
+                                $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
+                                    "detail" => json_encode($updateTabunganDetail)
+                                ]);
 
-                            // Update bmt user in table tabungan
-                            $updateBMTUser = BMT::where('id', $bmtUser->id)->update([
-                                "saldo" => floatval($bmtUser->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
-                            ]);
+                                // Update bmt user in table tabungan
+                                $updateBMTUser = BMT::where('id', $bmtUser->id)->update([
+                                    "saldo" => floatval($bmtUser->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
+                                ]);
 
-                            // Update Pengajuan table
-                            $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([
-                                "status"    => "Sudah Dikonfirmasi",
-                                "teller"    => Auth::user()->id
-                            ]);
+                                // Update Pengajuan table
+                                $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([
+                                    "status"    => "Sudah Dikonfirmasi",
+                                    "teller"    => Auth::user()->id
+                                ]);
+                            }
                         }
-                    }
 
-                    // DB will commit if all update is successfully
-                    if(isset($updateBMTPencairDana) && isset($updateTabungan) && isset($updateBMTUser) && isset($updatePengajuan))
-                    {
-                        if($updateBMTPencairDana && $updateTabungan && $updateBMTUser && $updatePengajuan)
+                        // DB will commit if all update is successfully
+                        if(isset($updateBMTPencairDana) && isset($updateTabungan) && isset($updateBMTUser) && isset($updatePengajuan))
                         {
-                            DB::commit();
-                            $result = array('type' => 'success', 'message' => 'Pengajuan Kredit Tabungan Berhasil Dikonfirmasi.');
+                            if($updateBMTPencairDana && $updateTabungan && $updateBMTUser && $updatePengajuan)
+                            {
+                                DB::commit();
+                                $result = array('type' => 'success', 'message' => 'Pengajuan Kredit Tabungan Berhasil Dikonfirmasi.');
+                            }
+                        }
+                        else
+                        {
+                            DB::rollback();
+                            $result = array('type' => 'error', 'message' => 'Pengajuan Kredit Tabungan Gagal Dikonfirmasi, Pastikan Saldo Tabungan Dan Rekening Pencair Dana Cukup.');
                         }
                     }
                     else
                     {
                         DB::rollback();
-                        $result = array('type' => 'error', 'message' => 'Pengajuan Kredit Tabungan Gagal Dikonfirmasi, Pastikan Saldo Tabungan Dan Rekening Pencair Dana Cukup.');
+                        $result = array('type' => 'error', 'message' => 'Pengajuan Gagal Dikonfirmasi, saldo ' . json_decode($pengajuan->detail)->nama_tabungan . ' tidak cukup.');
                     }
-                }
-                else
-                {
-                    DB::rollback();
-                    $result = array('type' => 'error', 'message' => 'Pengajuan Gagal Dikonfirmasi, saldo ' . json_decode($pengajuan->detail)->nama_tabungan . ' tidak cukup.');
-                }
 
+                }
             }
         }
         catch(Exception $e)
@@ -586,136 +595,147 @@ class TabunganReporsitories {
                 $rekening = $rekening;
             }
             
-            $bmtUserDebit = BMT::where('id_rekening', $rekening->id)->first();
-            $bmtTellerLoged = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
-
-            $untukRekening = "";
-            $dariRekening = $bmtTellerLoged->nama;
-            if($data->kredit == 1) {
-                $untukRekening = "Transfer";
-                $bmtTellerLoged = BMT::where('id_rekening', $data->daribank)->first();
-                $dariRekening = $bmtTellerLoged->nama;
-            }
-
-            $detailToPenyimpananTabungan = [
-                "teller"        => Auth::user()->id,
-                "dari_rekening" => $dariRekening,
-                "untuk_rekening"=> $untukRekening,
-                "jumlah"        => floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
-                "saldo_awal"    => floatval(json_decode($tabungan->detail)->saldo),
-                "saldo_akhir"   => floatval(json_decode($tabungan->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
-            ];
-            $dataToPenyimpananTabungan = [
-                "id_user"       => $tabungan->id_user,
-                "id_tabungan"   => $tabungan->id,
-                "status"        => "Kredit " . $bmtUserDebit->nama,
-                "transaksi"     => $detailToPenyimpananTabungan,
-                "teller"        => Auth::user()->id
-            ];
-            
-            $detailToPenyimpananBMT = [
-                "jumlah"        => floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
-                "saldo_awal"    => floatval($bmtUserDebit->saldo),
-                "saldo_akhir"   => floatval($bmtUserDebit->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
-                "id_pengajuan"  => null
-            ];
-            $dataToPenyimpananBMT = [
-                "id_user"       => $tabungan->id_user,
-                "id_bmt"        => $bmtUserDebit->id,
-                "status"        => "Kredit " . $bmtUserDebit->nama,
-                "transaksi"     =>  $detailToPenyimpananBMT,
-                "teller"        => Auth::user()->id
-            ];
-            
-            if(
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == 'success' &&
-                $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
-            ) 
+            if((json_decode($tabungan->detail)->saldo - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))) < floatval(json_decode($rekening->detail)->saldo_min))
             {
+                DB::rollback();
+                $result = array('type' => 'error', 'message' => 'Kredit tabunga gagal. Transaksi anda melampaui limit transaksi.');
+            }
+            else
+            {
+            
+                $bmtUserDebit = BMT::where('id_rekening', $rekening->id)->first();
+                $bmtTellerLoged = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
 
-                $detailToPenyimpananBMT['jumlah'] = -floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
-                $detailToPenyimpananBMT['saldo_awal'] = $bmtTellerLoged->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
-                $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;
-                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
-
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
-
-                /** 
-                 * Filter transaction method 
-                * */
-                if(floatval(json_decode($tabungan->detail)->saldo) >= floatval(preg_replace('/[^\d.]/', '', $data->jumlah)) ) 
-                {
-                    if($data->kredit == 1) 
+                $untukRekening = "";
+                $dariRekening = $bmtTellerLoged->nama;
+                if($data->kredit == 1) {
+                    $untukRekening = "Transfer";
+                    $bmtTellerLoged = BMT::where('id_rekening', $data->daribank)->first();
+                    $dariRekening = $bmtTellerLoged->nama;
+                }
+                else {
+                    $detailToPenyimpananTabungan = [
+                        "teller"        => Auth::user()->id,
+                        "dari_rekening" => $dariRekening,
+                        "untuk_rekening"=> $untukRekening,
+                        "jumlah"        => floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
+                        "saldo_awal"    => floatval(json_decode($tabungan->detail)->saldo),
+                        "saldo_akhir"   => floatval(json_decode($tabungan->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
+                    ];
+                    $dataToPenyimpananTabungan = [
+                        "id_user"       => $tabungan->id_user,
+                        "id_tabungan"   => $tabungan->id,
+                        "status"        => "Kredit " . $bmtUserDebit->nama,
+                        "transaksi"     => $detailToPenyimpananTabungan,
+                        "teller"        => Auth::user()->id
+                    ];
+                    
+                    $detailToPenyimpananBMT = [
+                        "jumlah"        => floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
+                        "saldo_awal"    => floatval($bmtUserDebit->saldo),
+                        "saldo_akhir"   => floatval($bmtUserDebit->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
+                        "id_pengajuan"  => null
+                    ];
+                    $dataToPenyimpananBMT = [
+                        "id_user"       => $tabungan->id_user,
+                        "id_bmt"        => $bmtUserDebit->id,
+                        "status"        => "Kredit " . $bmtUserDebit->nama,
+                        "transaksi"     =>  $detailToPenyimpananBMT,
+                        "teller"        => Auth::user()->id
+                    ];
+                    
+                    if(
+                        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT) == 'success' &&
+                        $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
+                    ) 
                     {
-                        $bmtPencairDana = BMT::where('id_rekening', $data->daribank)->select('saldo')->first();
-                        if(floatval($bmtPencairDana->saldo) >= floatval(preg_replace('/[^\d.]/', '', $data->jumlah)) ) 
+
+                        $detailToPenyimpananBMT['jumlah'] = -floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
+                        $detailToPenyimpananBMT['saldo_awal'] = $bmtTellerLoged->saldo;
+                        $detailToPenyimpananBMT['saldo_akhir'] = floatval($bmtTellerLoged->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
+                        $dataToPenyimpananBMT['id_bmt'] = $bmtTellerLoged->id;
+                        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                        /** 
+                         * Filter transaction method 
+                        * */
+                        if(floatval(json_decode($tabungan->detail)->saldo) >= floatval(preg_replace('/[^\d.]/', '', $data->jumlah)) ) 
                         {
-                            $updateBMTPencairDana = BMT::where('id_rekening', $data->daribank)->update([
-                                "saldo" => floatval($bmtPencairDana->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
-                            ]);
+                            if($data->kredit == 1) 
+                            {
+                                $bmtPencairDana = BMT::where('id_rekening', $data->daribank)->select('saldo')->first();
+                                if(floatval($bmtPencairDana->saldo) >= floatval(preg_replace('/[^\d.]/', '', $data->jumlah)) ) 
+                                {
+                                    $updateBMTPencairDana = BMT::where('id_rekening', $data->daribank)->update([
+                                        "saldo" => floatval($bmtPencairDana->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
+                                    ]);
 
-                            // Update tabungan user in table tabungan
-                            $updateTabunganDetail = [
-                                "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
-                                "id_pengajuan" => null
-                            ];   
-                            $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
-                                "detail" => json_encode($updateTabunganDetail)
-                            ]);
+                                    // Update tabungan user in table tabungan
+                                    $updateTabunganDetail = [
+                                        "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
+                                        "id_pengajuan" => null
+                                    ];   
+                                    $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
+                                        "detail" => json_encode($updateTabunganDetail)
+                                    ]);
 
-                            // Update bmt user in table tabungan
-                            $updateBMTUser = BMT::where('id', $bmtUserDebit->id)->update([
-                                "saldo" => floatval($bmtUserDebit->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
-                            ]);
+                                    // Update bmt user in table tabungan
+                                    $updateBMTUser = BMT::where('id', $bmtUserDebit->id)->update([
+                                        "saldo" => floatval($bmtUserDebit->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
+                                    ]);
+                                }
+                            }
+
+                            if($data->kredit == 0) 
+                            {
+                                $bmtPencairDana = BMT::where('id_rekening', $bmtTellerLoged->id_rekening)->select('saldo')->first();
+                                if(floatval($bmtPencairDana->saldo) >=  floatval(preg_replace('/[^\d.]/', '', $data->jumlah)))
+                                {
+                                    $updateBMTPencairDana = BMT::where('id_rekening', $bmtTellerLoged->id_rekening)->update([
+                                        "saldo" => floatval($bmtTellerLoged->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
+                                    ]);
+
+                                    // Update tabungan user in table tabungan
+                                    $updateTabunganDetail = [
+                                        "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
+                                        "id_pengajuan" => null
+                                    ];   
+                                    $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
+                                        "detail" => json_encode($updateTabunganDetail)
+                                    ]);
+
+                                    // Update bmt user in table tabungan
+                                    $updateBMTUser = BMT::where('id', $bmtUserDebit->id)->update([
+                                        "saldo" => floatval($bmtUserDebit->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
+                                    ]);
+                                }
+                            }
+
+                            // DB will commit if all update is successfully
+                            if(isset($updateBMTPencairDana) && isset($updateTabungan) && isset($updateBMTUser))
+                            {
+                                if($updateBMTPencairDana && $updateTabungan && $updateBMTUser)
+                                {
+                                    DB::commit();
+                                    $result = array('type' => 'success', 'message' => 'Kredit Tabungan Berhasil Dilakukan.');
+                                }
+                            }
+                            else
+                            {
+                                DB::rollback();
+                                $result = array('type' => 'error', 'message' => 'Kredit Tabungan Gagal, Pastikan Saldo Tabungan Dan Rekening Pencair Dana Cukup.');
+                            }
                         }
-                    }
-
-                    if($data->kredit == 0) 
-                    {
-                        $bmtPencairDana = BMT::where('id_rekening', $bmtTellerLoged->id_rekening)->select('saldo')->first();
-                        if(floatval($bmtPencairDana->saldo) >=  floatval(preg_replace('/[^\d.]/', '', $data->jumlah)))
+                        else
                         {
-                            $updateBMTPencairDana = BMT::where('id_rekening', $bmtTellerLoged->id_rekening)->update([
-                                "saldo" => floatval($bmtTellerLoged->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
-                            ]);
-
-                            // Update tabungan user in table tabungan
-                            $updateTabunganDetail = [
-                                "saldo" => floatval(json_decode($tabungan->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
-                                "id_pengajuan" => null
-                            ];   
-                            $updateTabungan = Tabungan::where('id', $tabungan->id)->update([
-                                "detail" => json_encode($updateTabunganDetail)
-                            ]);
-
-                            // Update bmt user in table tabungan
-                            $updateBMTUser = BMT::where('id', $bmtUserDebit->id)->update([
-                                "saldo" => floatval($bmtUserDebit->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))
-                            ]);
+                            DB::rollback();
+                            $result = array('type' => 'error', 'message' => 'Kredit Tabungan Gagal. Saldo anda tidak cukup');
                         }
-                    }
-
-                    // DB will commit if all update is successfully
-                    if(isset($updateBMTPencairDana) && isset($updateTabungan) && isset($updateBMTUser))
-                    {
-                        if($updateBMTPencairDana && $updateTabungan && $updateBMTUser)
-                        {
-                            DB::commit();
-                            $result = array('type' => 'success', 'message' => 'Kredit Tabungan Berhasil Dilakukan.');
-                        }
-                    }
-                    else
-                    {
-                        DB::rollback();
-                        $result = array('type' => 'error', 'message' => 'Kredit Tabungan Gagal, Pastikan Saldo Tabungan Dan Rekening Pencair Dana Cukup.');
                     }
                 }
-                else
-                {
-                    DB::rollback();
-                    $result = array('type' => 'error', 'message' => 'Kredit Tabungan Gagal. Saldo anda tidak cukup');
-                }
+
             }
         }
         catch(Exception $e)
