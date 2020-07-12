@@ -888,24 +888,37 @@ class InformationRepository
         return $data;
     }
     function BukuBesar_(Request $request){
-        $from = date($request->startdate);
-        $to = date($request->enddate);
-        $from = date('Y-m-d', strtotime($from. ' - 1 days'));
-        $to = date('Y-m-d', strtotime($to. ' + 1 days'));
+        $home = new HomeController();
+        $date = $home->date_query(substr($request->periode,4,2));
         $d = BMT::where('id_rekening',$request->rekening)->first();
         $data['id_rek'] = $d['id_bmt'];
         $data['nama_rek'] = $d['nama'];
+//        dd("dsa");
         $dt = PenyimpananBMT::select('penyimpanan_bmt.id','bmt.id_bmt as id_rek','penyimpanan_bmt.id_bmt','penyimpanan_bmt.id_user','users.nama as nama_user','penyimpanan_bmt.status','penyimpanan_bmt.status'
             ,'penyimpanan_bmt.created_at','penyimpanan_bmt.updated_at','bmt.saldo','penyimpanan_bmt.transaksi','bmt.id_rekening','bmt.nama')
             ->where('penyimpanan_bmt.id_bmt',$d['id'])
-            ->whereBetween('penyimpanan_bmt.created_at', [$from, $to])
+            ->where('penyimpanan_bmt.status', '!=', 'Setoran Awal')
+            ->where('penyimpanan_bmt.created_at',">",$request->startdate)
+            ->where('penyimpanan_bmt.created_at',"<",$request->enddate)
             ->join('bmt','bmt.id','penyimpanan_bmt.id_bmt')
             ->join('users','users.id','penyimpanan_bmt.id_user')
             ->orderBy('penyimpanan_bmt.id')
             ->get();
         $data['data'] = $dt;
         $tot=0;
-        foreach ($dt as $dat) $tot=floatval($tot)+floatval(json_decode($dat['transaksi'],true)['jumlah']);
+        if(count($dt) > 0)
+        {
+            $data['saldo_awal'] = json_decode($dt[0]->transaksi)->saldo_awal;
+        }
+        else
+        {
+            $data['saldo_awal'] = 0;
+        }
+
+        foreach ($dt as $dat) 
+        {
+            $tot = json_decode($dat->saldo);
+        }
         $data['total'] = $tot;
         return $data;
     }

@@ -574,10 +574,13 @@ class LaporanController extends Controller
     public function rekening_buku_periodik(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar_($request);
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
             'data' => $data,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),
-            'periode' =>$periode
+            'periode' =>$periode,
+            'notification' => $notification,
+            'notification_count' =>count($notification)
         ]);
     }
     public function distribusi(){
