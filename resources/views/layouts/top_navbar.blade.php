@@ -91,11 +91,11 @@
                     
 
                     <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
+                        {{-- <li>
                             <a @if(Auth::user()->tipe=="admin")href="{{route('admin.transaksi.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")href="{{route('teller.transaksi.pengajuan')}}" @elseif(Auth::user()->tipe=="anggota")href="{{route('pengajuan')}}" @endif>
                                 <i class="pe-7s-mail"></i> Pengajuan
                             </a>
-                        </li>
+                        </li> --}}
                         {{--<li>--}}
                             {{--<a href="#">--}}
                                 {{--<i class="pe-7s-help1"></i> Help Center--}}

@@ -78,7 +78,7 @@
                                         <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" title="View Detail">
                                             <i class="fa fa-list-alt"></i>
                                         </button>
-                                        </td>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

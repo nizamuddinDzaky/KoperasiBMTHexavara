@@ -170,6 +170,7 @@ class TellerController extends Controller
     public function pengajuan(){
         $home = new HomeController;
         $date = $home->date_query(0);
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.transaksi.pengajuan',[
             'kegiatan' => $this->informationRepository->getAllMaal(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
@@ -1322,7 +1323,12 @@ class TellerController extends Controller
             }
         }
         $notification = $this->pengajuanReporsitory->getNotification();
+        $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['id', '!=', Auth::user()->id] ])->get();
+        $tabungan_user = Tabungan::where('status','active')->get();
+
         return view('teller.transaksi.simpanan.pengajuan',[
+            'user'  => $user,
+            'tabungan_user' => $tabungan_user,
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
             'users'    => User::where('tipe', 'anggota')->get(),
             'tabungan' => $this->tabunganReporsitory->getTabungan(),
@@ -1358,14 +1364,15 @@ class TellerController extends Controller
     */
     public function transfer(){
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+        $rekening_penyeimbang = $this->rekeningReporsitory->getRekeningExcludedCategory(['KAS ADMIN'], "detail","id_rekening");
         return view('teller.transaksi.transfer.index',[
             'notification' => $notification,
             'notification_count' =>count($notification),
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
-            'dropdown' => $this->rekeningReporsitory->getRekeningExcludedCategory($excluded=array('kas', 'bank', 'shu berjalan'), $type="detail", $sort="id_rekening")
+            'dropdown' => $this->rekeningReporsitory->getRekeningExcludedCategory($excluded=array('kas', 'bank', 'shu berjalan'), $type="detail", $sort="id_rekening"),
+            'rekening_penyeimbang' => $rekening_penyeimbang
         ]);
     }
 
@@ -1761,9 +1768,12 @@ class TellerController extends Controller
     public function daftar_tabungan()
     {
         $tabungan = $this->tabunganReporsitory->getTabungan();
+        $notification = $this->pengajuanReporsitory->getNotification();
 
         return view('teller.nasabah.nasabah_tabungan', [
-            'data'  => $tabungan
+            'data'  => $tabungan,
+            'notification' => $notification,
+            'notification_count' => count($notification)
         ]);
     }
 
@@ -1774,8 +1784,11 @@ class TellerController extends Controller
     public function daftar_deposito()
     {
         $deposito = $this->depositoReporsitory->getDeposito();
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('teller.nasabah.nasabah_deposito', [
-            'data'  => $deposito
+            'data'  => $deposito,
+            'notification' => $notification,
+            'notification_count' => count($notification)
         ]);
     }
 
@@ -1786,8 +1799,11 @@ class TellerController extends Controller
     public function daftar_pembiayaan()
     {
         $pembiayaan = $this->pembiayaanReporsitory->getPembiayaan();
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('teller.nasabah.nasabah_pembiayaan', [
-            'data'  => $pembiayaan
+            'data'  => $pembiayaan,
+            'notification' => $notification,
+            'notification_count' => count($notification)
         ]);
     }
 
@@ -1803,9 +1819,12 @@ class TellerController extends Controller
                                 ->join('users', 'users.id', 'penyimpanan_bmt.id_user')
                                 ->select('penyimpanan_bmt.*', 'users.nama')
                                 ->get();
-        // return response()->json($data);
+        $notification = $this->pengajuanReporsitory->getNotification();
+
         return view('teller.nasabah.nasabah_kas_teller', [
-            'data'  => $data
+            'data'  => $data,
+            'notification' => $notification,
+            'notification_count' => count($notification)
         ]);
     }
 
