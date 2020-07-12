@@ -1267,9 +1267,13 @@ class TellerController extends Controller
         }
 
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+        $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['id', '!=', Auth::user()->id] ])->get();
+        $tabungan_user = Tabungan::where('status','active')->get();
+
         return view('teller.transaksi.maal.pengajuan',[
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
+            'user' => $user,
+            'tabungan_user' => $tabungan_user,
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'anggota'  => $this->accountReporsitory->getAccount('anggota'),
             'tabungan' => $this->tabunganReporsitory->getTabungan(),
