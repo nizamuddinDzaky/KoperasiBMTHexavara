@@ -134,6 +134,16 @@ class AccountReporsitories {
 
                     $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
+                    // Untuk pencatatan rekening teller pengonfirmasi pendaftaran
+                    $detailToPenyimpananBMT['jumlah'] = $jumlah_bayar_simpanan_wajib;
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_pengonfirmasi->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_pengonfirmasi->saldo + ($jumlah_bayar_simpanan_wajib + $jumlah_bayar_simpanan_pokok);
+                    $dataToPenyimpananBMT['id_bmt'] = $bmt_pengonfirmasi->id;
+                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Wajib & Simpanan Pokok [Pendaftaran Anggota Baru]";
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
                     $detailToPenyimpananWajibPokok = [
                         'teller'            => Auth::user()->id,
                         'dari_rekening'     => "",

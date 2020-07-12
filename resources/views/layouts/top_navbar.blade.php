@@ -17,6 +17,7 @@
             {{--<a class="navbar-brand"  href="#">Dashboard PRO -- <span><i><strong>@if(Auth::user()->tipe=="teller")Rp {{ number_format($teller->saldo,2)  }}@endif</strong></i></span></a>--}}
         </div>
 
+        @if(Auth::user()->tipe !== "anggota")
         <ul class="nav navbar-nav navbar-left hidden-md hidden-lg">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -37,10 +38,12 @@
               </ul>
             </li>
         </ul>
+        @endif
 
         <div class="collapse navbar-collapse">
           
             <ul class="nav navbar-nav navbar-right">
+                @if(Auth::user()->tipe !== "anggota")
                 <li class="dropdown hidden-sm">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell"></i>
@@ -73,6 +76,7 @@
                         @endforeach
                     </ul>
                 </li>
+                @endif
 
                 <!-- Medium and large screen profile navbar -->
                 <li class="dropdown dropdown-with-icons hidden-sm">

@@ -120,7 +120,7 @@
 										<div class="col-md-5">
 											<div class="form-group">
 												<label class="control-label">Tanggal lahir</label>
-												<input class="form-control datepicker"
+												<input class="form-control date-picker"
 													   type="text"
 													   id = "tLahir"
 													   name="tglLahir"
@@ -368,7 +368,7 @@
 										<div class="col-md-5 {{ !$errors->has('file') ?: 'has-error' }}">
 											<div class="form-group">
 												<label class="control-label">Status Kepemilikan Rumah</label>
-												<select name="rumah" class="form-control select2" selected="{{isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:""}}" required>
+												<select name="rumah" class="form-control" selected="{{isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:""}}" required>
 													<option disabled="">- pilih -</option>
 													<option value="HM"  @if(isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:"0"!="0")){{ json_decode(Auth::user()->detail,true)['rumah'] == "HM" ? ' selected="selected"' : '' }} @endif>Hak milik</option>
 													<option value="KK" @if(isset(json_decode(Auth::user()->detail,true)['rumah'])?json_decode(Auth::user()->detail,true)['rumah']:"0"!="0")){{ json_decode(Auth::user()->detail,true)['rumah'] == "KK" ? ' selected="selected"' : '' }}@endif>Kontrak</option>
@@ -383,7 +383,7 @@
 										<div class="col-md-10 col-md-offset-1">
 											<div class="form-group">
 												<label for="id_" class="control-label">Rekening Tabungan <star>*</star></label>
-												<select class="form-control select2" id="tabungan" name="tab" style="width: 100%;">
+												<select class="form-control" id="tabungan" name="tab" style="width: 100%;">
 													<option selected disabled value="">-Pilih Rekening Tabungan-</option>
 													@foreach ($tab as $rekening)
 														<option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} </option>
@@ -686,7 +686,7 @@
                         close: 'fa fa-remove'
                     }
                 });
-                $('.datepicker').datetimepicker({
+                $('.date-picker').datetimepicker({
 //                    defaultDate: "11/1/2013",
                     defaultDate: '{{isset(json_decode(Auth::user()->detail,true)['tgl_lahir'])?json_decode(Auth::user()->detail,true)['tgl_lahir']:""}}',
                     format: 'MM/DD/YYYY',
