@@ -135,14 +135,28 @@ class AccountReporsitories {
                     $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                     // Untuk pencatatan rekening teller pengonfirmasi pendaftaran
-                    $detailToPenyimpananBMT['jumlah'] = $jumlah_bayar_simpanan_wajib;
+                    $detailToPenyimpananBMT['jumlah'] = $jumlah_bayar_simpanan_pokok;
                     $detailToPenyimpananBMT['saldo_awal'] = $bmt_pengonfirmasi->saldo;
-                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_pengonfirmasi->saldo + ($jumlah_bayar_simpanan_wajib + $jumlah_bayar_simpanan_pokok);
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_pengonfirmasi->saldo + $jumlah_bayar_simpanan_pokok;
                     $dataToPenyimpananBMT['id_bmt'] = $bmt_pengonfirmasi->id;
-                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Wajib & Simpanan Pokok [Pendaftaran Anggota Baru]";
+                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Pokok [Pendaftaran Anggota Baru]";
                     $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
                     $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    $bmt_pengonfirmasi->saldo = $bmt_pengonfirmasi->saldo + $jumlah_bayar_simpanan_pokok;
+                    $bmt_pengonfirmasi->save();
+
+                    $detailToPenyimpananBMT['jumlah'] = $jumlah_bayar_simpanan_wajib;
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_pengonfirmasi->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_pengonfirmasi->saldo + $jumlah_bayar_simpanan_wajib;
+                    $dataToPenyimpananBMT['id_bmt'] = $bmt_pengonfirmasi->id;
+                    $dataToPenyimpananBMT['status'] = "Pembayaran Simpanan Wajib [Pendaftaran Anggota Baru]";
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    $bmt_pengonfirmasi->saldo = $bmt_pengonfirmasi->saldo + $jumlah_bayar_simpanan_wajib;
 
                     $detailToPenyimpananWajibPokok = [
                         'teller'            => Auth::user()->id,
@@ -187,7 +201,7 @@ class AccountReporsitories {
                         'status'    => "Disetujui",
                         'teller'    => Auth::user()->id
                     ]);
-                    $bmt_pengonfirmasi->saldo = $bmt_pengonfirmasi->saldo + ($jumlah_bayar_simpanan_pokok + $jumlah_bayar_simpanan_wajib);
+
                     $bmt_simpanan_pokok->saldo = $bmt_simpanan_pokok->saldo + $jumlah_bayar_simpanan_pokok;
                     $bmt_simpanan_wajib->saldo = $bmt_simpanan_wajib->saldo + $jumlah_bayar_simpanan_wajib;
                     

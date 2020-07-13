@@ -95,6 +95,9 @@
         .dataTables_wrapper  {
             margin: 1em;
         }
+        .modal-backdrop {
+            display: none;
+        }
     </style>
     @yield('extra_style')
 </head>
