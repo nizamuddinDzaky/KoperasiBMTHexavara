@@ -71,7 +71,6 @@ class MaalController extends Controller
     }
     public function konfirmasi_donasi(Request $request){
         $confirmDonasi = $this->donasiReporsitory->confirmDonasi($request); 
-
         if($confirmDonasi['type'] == 'success') {
             $pengajuan = Pengajuan::where('id', $request->id_)->update([ 'status' => 'Sudah Dikonfirmasi ', 'teller' => Auth::user()->id]);
             if($pengajuan)
@@ -106,7 +105,10 @@ class MaalController extends Controller
         ]);
     }
     public function transaksi_maal(){
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.maal.transaksi',[
+            'notification' => $notification,
+            'notification_count' => count($notification),
             'data' =>$this->informationRepository->getAllPenyimpananMaal(),
         ]);
     }

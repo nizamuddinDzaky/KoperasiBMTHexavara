@@ -147,7 +147,7 @@
 <li @if(Request::is('admin/maal*')) class="active"@endif>
     <a data-toggle="collapse" href="#nav_maal">
         <i class="pe-7s-home"></i>
-        <p>Maal
+        <p>Kegiatan Donasi
         <b class="caret"></b></p>
     </a>
     @if(Request::is('admin/maal*'))

@@ -158,26 +158,30 @@ class DonasiReporsitories {
     */
     public function confirmDonasi($data)
     {
-    
         DB::beginTransaction();
-
         try {
             $pengajuan = Pengajuan::where('id', $data->id_)->first();
             $bmt_donasi = BMT::where('id_rekening', $pengajuan->id_rekening)->select(['id', 'saldo', 'nama'])->first();
             $saldo_awal_donasi = $bmt_donasi->saldo;
-            $saldo_akhir_donasi = $bmt_donasi->saldo + json_decode($pengajuan->detail)->jumlah;
-
-            if($data->rekDon != null) {
-                $maal = Maal::where('id', $data->rekDon)->first();
-                $dana_terkumpul = json_decode($maal->detail)->terkumpul;
+            $saldo_akhir_donasi = $bmt_donasi->saldo;
+            
+            if(json_decode($pengajuan->detail)->id_maal != null) {
+                $kegiatan_maal = Maal::where('id', json_decode($pengajuan->detail)->id_maal)->first();
+                $saldo_awal_kegiatan = json_decode($kegiatan_maal->detail)->terkumpul;
+                $saldo_akhir_kegiatan = $saldo_awal_kegiatan + json_decode($pengajuan->detail)->jumlah;
                 $jumlah_donasi = json_decode($pengajuan->detail)->jumlah;
 
                 $detail_maal_update = [
-                    "detail"    => json_decode($maal->detail)->detail,
-                    "dana"      => json_decode($maal->detail)->dana,
-                    "terkumpul" => $dana_terkumpul + $jumlah_donasi,
-                    "path_poster" => json_decode($maal->detail)->path_poster
+                    "detail"    => json_decode($kegiatan_maal->detail)->detail,
+                    "dana"      => json_decode($kegiatan_maal->detail)->dana,
+                    "terkumpul" => $saldo_awal_kegiatan + $jumlah_donasi,
+                    "path_poster" => json_decode($kegiatan_maal->detail)->path_poster
                 ];
+            }
+            else
+            {
+                $saldo_awal_kegiatan = $bmt_donasi->saldo;
+                $saldo_akhir_kegiatan = $bmt_donasi->saldo + json_decode($pengajuan->detail)->jumlah;
             }
 
             // Update saldo rekening pengirim di bmt
@@ -249,20 +253,22 @@ class DonasiReporsitories {
                 'bank'      => json_decode($pengajuan->detail)->bank,
                 'no_bank'   => json_decode($pengajuan->detail)->no_bank,
                 'bank_tujuan_transfer' => json_decode($pengajuan->detail)->bank_tujuan_transfer,
-                'saldo_awal' => $saldo_awal_donasi,
-                'saldo_akhir'   => $saldo_akhir_donasi
+                'saldo_awal' => $saldo_awal_kegiatan,
+                'saldo_akhir'   => $saldo_akhir_kegiatan,
             ];
-
-            if($data->rekDon != null) {
-                $maal = Maal::where('id', $data->rekDon)->first();
+            
+            if(json_decode($pengajuan->detail)->id_maal != null) {
+                $maal = Maal::where('id', json_decode($pengajuan->detail)->id_maal)->first();
                 $dana_terkumpul = json_decode($maal->detail)->terkumpul;
-                $detailToPenyimpananMaal['dana_terkumpul_awal'] = $saldo_awal_donasi;
-                $detailToPenyimpananMaal['dana_terkumpul_akhir'] = $saldo_akhir_donasi;
+                $detailToPenyimpananMaal['dana_terkumpul_awal'] = $saldo_awal_kegiatan;
+                $detailToPenyimpananMaal['dana_terkumpul_akhir'] = $saldo_akhir_kegiatan;
+                $detailToPenyimpananMaal['dari_rekening'] = $bmt_pengirim->nama;
+                $detailToPenyimpananMaal['untuk_rekening'] = $kegiatan_maal->nama_kegiatan;
             }
 
             $dataToInsertIntoPenyimpananMaal = [
                 'id_donatur'    => $pengajuan->id_user,
-                'id_maal'       => $data->rekDon,
+                'id_maal'       => json_decode($pengajuan->detail)->id_maal,
                 'status'        => json_decode($pengajuan->detail)->debit,
                 'transaksi'     => $detailToPenyimpananMaal,
                 'teller'        => Auth::user()->id
@@ -285,7 +291,7 @@ class DonasiReporsitories {
             // This is for donasi kegiatan action 
             if($update_saldo_pengirim_response == "success")
             {
-                if($data->rekDon != null) {
+                if(json_decode($pengajuan->detail)->id_maal != null) {
                     
                     $penyimpananMaal = $this->insertPenyimpananMaal($dataToInsertIntoPenyimpananMaal);
 
@@ -304,7 +310,7 @@ class DonasiReporsitories {
                         $detail_pengajuan = json_decode($pengajuan->detail);
 
                         // Update donasi maal dana terkumpul
-                        $update_dana_terkumpul = Maal::where('id', $data->rekDon)->update([ 'detail' => json_encode($detail_maal_update) ]);
+                        $update_dana_terkumpul = Maal::where('id', json_decode($pengajuan->detail)->id_maal)->update([ 'detail' => json_encode($detail_maal_update) ]);
 
                         // update saldo in bmt table
                         $update_saldo_bmt = BMT::where('id', $bmt_donasi->id)->update([ 'saldo' => floatval($bmt_donasi->saldo) + floatval($detail_pengajuan->jumlah) ]);
@@ -507,7 +513,23 @@ class DonasiReporsitories {
             $bmt_donasi = BMT::where('id_rekening', $id_rekening)->first();
             $saldo_awal_donasi = $bmt_donasi->saldo;
             $saldo_akhir_donasi = $bmt_donasi->saldo + preg_replace('/[^\d.]/', '', $data->nominal);
+
+            if($data->debit == 2) {     // Pembayaran VIA Tabungan                
+                $tabungan_pengirim = Tabungan::where('id_tabungan', $data->rekening)->first();
+                $rekening_pengirim = Rekening::where([ ['nama_rekening', $tabungan_pengirim->jenis_tabungan], ['tipe_rekening', 'detail'] ])->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+            }
             
+            if($bank_tujuan_transfer != null) { // Pembayaran VIA Transfer
+                $rekening_pengirim = Rekening::where('id', $data->bank_tujuan)->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+            }
+
+            if($data->debit == 0) { // Pembayaran VIA Tunai
+                $rekening_pengirim = Rekening::where('id', json_decode(Auth::user()->detail)->id_rekening)->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+            }
+
             $detail = [
                 'id_maal'   => $data->id_donasi,
                 'jenis_donasi'    => $data->jenis_donasi,
@@ -522,7 +544,9 @@ class DonasiReporsitories {
                 'no_bank'   => $norek,
                 'bank_tujuan_transfer' => $bank_tujuan_transfer,
                 'saldo_awal' => $saldo_awal_donasi,
-                'saldo_akhir'   => $saldo_akhir_donasi
+                'saldo_akhir'   => $saldo_akhir_donasi,
+                'dari_rekening' => $bmt_pengirim->nama,
+                'untuk_rekening' => $bmt_donasi->nama
             ];
 
             if($data->jenis_donasi == 'donasi kegiatan')
@@ -530,6 +554,10 @@ class DonasiReporsitories {
                 $kegiatan_maal_didonasi = Maal::where('id', $data->id_donasi)->first();
                 $detail['dana_terkumpul_awal'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul);
                 $detail['dana_terkumpul_akhir'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                $detail['dari_rekening'] = $bmt_pengirim->nama;
+                $detail['untuk_rekening'] = $kegiatan_maal_didonasi->nama_kegiatan;
+                $detail['saldo_awal'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul);
+                $detail['saldo_akhir'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
             }
 
             $dataToSave = [

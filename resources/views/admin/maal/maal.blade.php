@@ -19,6 +19,27 @@
 	</style>
 @endsection
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Kegiatan Maal</h4>
+
+                <div class="head-filter">
+                    <p class="filter-title">Periode</p>
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    {{ csrf_field() }}
+                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
+                            <option disabled selected > - Periode -</option>
+                        </select>
+                    </form>
+
+                    {{-- <div class="button-group right">
+                        <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-plus"></i> Tambah Pengajuan</button>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="content">
 		<div class="container-fluid">
             <div class="row">
@@ -63,7 +84,7 @@
                                     <td>{{ $usr->id }}</td>
                                     <td>{{ $usr->nama_kegiatan   }}</td>
                                     <td>{{ $usr->tName  }}</td>
-                                    <td>{{ json_decode($usr->detail,true)['detail'] }}</td>
+                                    <td>{!! json_decode($usr->detail,true)['detail'] !!}</td>
                                     <td>{{ $usr->tanggal_pelaksaaan }}</td>
                                     <td>{{ $usr->nama_rekening }}</td>
                                     <td class="text-right">{{ number_format(json_decode($usr->detail,true)['dana'],2) }}</td>
