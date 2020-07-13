@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Maal;
 use App\Pengajuan;
 use App\Repositories\InformationRepository;
+use App\Repositories\PengajuanReporsitories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -31,7 +32,8 @@ class MaalController extends Controller
                                 Tabungan $tabungan,
                                 Pengajuan $pengajuan,
                                 InformationRepository $informationRepository,
-                                DonasiReporsitories $donasiReporsitory
+                                DonasiReporsitories $donasiReporsitory,
+                                PengajuanReporsitories $pengajuanReporsitory
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -54,6 +56,7 @@ class MaalController extends Controller
         $this->pengajuan = $pengajuan;
         $this->informationRepository = $informationRepository;
         $this->donasiReporsitory = $donasiReporsitory;
+        $this->pengajuanReporsitory = $pengajuanReporsitory;
     }
 
     /**
@@ -93,7 +96,10 @@ class MaalController extends Controller
         $data = $this->informationRepository->getAllMaal();
         elseif(Auth::user()->tipe=="teller")
         $data = $this->informationRepository->getAllMaalTell();
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.maal.maal',[
+            'notification' => $notification,
+            'notification_count' => count($notification),
             'data' =>$data,
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown' => $this->informationRepository->getDdBMT(),
@@ -105,10 +111,14 @@ class MaalController extends Controller
         ]);
     }
     public function detail_maal(Request $request){
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.maal.detail_maal',[
-            'data' =>$this->informationRepository->getAllTransaksiMaal($request),
+            'notification' => $notification,
+            'notification_count' => count($notification),
+            'data' =>$this->informationRepository->getAllTransaksiMaal($request)
         ]);
     }
+
     public function add_kegiatan(Request $request){
         $kegiatan = $this->donasiReporsitory->createNewKegiatan($request);
         
@@ -122,6 +132,7 @@ class MaalController extends Controller
                 ->withInput()->with('message', $kegiatan['message']);
         }
     }
+
     public function edit_kegiatan(Request $request){
         if($this->informationRepository->editKegiatan($request))
             return redirect()

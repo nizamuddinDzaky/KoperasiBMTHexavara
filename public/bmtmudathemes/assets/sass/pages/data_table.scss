@@ -41,6 +41,10 @@
     .head-noted {
         display: flex;
         flex-direction: row;
+        
+        @include respond-below(sm) {
+            flex-direction: column;
+        }
 
         @include respond-below(sm) {
             flex-direction: column;
@@ -79,6 +83,12 @@
                 padding: 0;
                 width: 100%;
                 font-weight: $font-normal;
+            }
+        }
+        .button-group {
+            @include respond-below(sm) {
+                align-self: center;
+                margin-top: 10px;
             }
         }
     }

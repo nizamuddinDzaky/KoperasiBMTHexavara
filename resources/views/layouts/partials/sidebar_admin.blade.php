@@ -144,7 +144,7 @@
     </a>
 </li>
 
-{{-- <li @if(Request::is('admin/maal*')) class="active"@endif>
+<li @if(Request::is('admin/maal*')) class="active"@endif>
     <a data-toggle="collapse" href="#nav_maal">
         <i class="pe-7s-home"></i>
         <p>Maal
@@ -160,4 +160,4 @@
             <li @if(Request::is('admin/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi</a></li>
         </ul>
     </div>
-</li> --}}
+</li>

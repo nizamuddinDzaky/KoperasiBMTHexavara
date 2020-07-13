@@ -63,6 +63,10 @@
 
 .card .card-body .title {
   text-align: center;
+<<<<<<< HEAD
+=======
+  padding: 20px;
+>>>>>>> feature/create-new-kegitan
   padding-bottom: 0;
   font-size: 15px !important;
   font-weight: 600;
@@ -106,13 +110,36 @@
   text-overflow: ellipsis;
 }
 
+<<<<<<< HEAD
 .card .card-body .date {
   padding-left: 20px;
   padding-right: 20px;
+=======
+.card .card-body .summernote-content {
+  padding: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.card .card-body .summernote-content p {
+  font-size: 12px !important;
+  height: 90px;
+  line-height: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: justify;
+}
+
+.card .card-body .date {
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+>>>>>>> feature/create-new-kegitan
   background-color: #3097D1;
 }
 
 .card .card-body .date .content {
+<<<<<<< HEAD
   padding: 0;
   font-size: 12px;
   text-align: center;
@@ -120,6 +147,14 @@
   padding: 10px;
   margin-bottom: 0;
   font-weight: 600;
+=======
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 0;
+  font-size: 12px;
+  color: #FFFFFF;
+>>>>>>> feature/create-new-kegitan
 }
 
 .card .card-body .date .content.large {
@@ -1222,6 +1257,14 @@ input[type="checkbox"]:checked::after {
     padding: 0;
     width: 100%;
     font-weight: 400;
+  }
+}
+
+@media (max-width: 575px) {
+  .head .head-noted .button-group {
+    -ms-flex-item-align: center;
+        align-self: center;
+    margin-top: 10px;
   }
 }
 
