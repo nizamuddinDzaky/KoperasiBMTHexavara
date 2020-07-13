@@ -22,7 +22,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Kegiatan Maal</h4>
+                <h4 class="title">Kegiatan Donasi</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -33,9 +33,9 @@
                         </select>
                     </form>
 
-                    {{-- <div class="button-group right">
-                        <button class="btn btn-primary rounded right shadow-effect"><i class="fa fa-plus"></i> Tambah Pengajuan</button>
-                    </div> --}}
+                    <div class="button-group right">
+                        <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#addMaalModal"><i class="fa fa-plus"></i> Tambah Kegiatan</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -408,7 +408,7 @@
                         close: 'fa fa-remove'
                     }
                 });
-                $('.datepicker').datetimepicker({
+                $('.date-picker').datetimepicker({
 //                    defaultDate: "11/1/2013",
                     defaultDate: '{{isset(json_decode(Auth::user()->detail,true)['tgl_lahir'])?json_decode(Auth::user()->detail,true)['tgl_lahir']:""}}',
                     format: 'MM/DD/YYYY',
