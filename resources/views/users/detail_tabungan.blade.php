@@ -48,14 +48,7 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
-
-                                        @if($usr->status == "Debit")
-                                            <td>Setoran Tabungan</td>
-                                        @elseif($usr->status == "Kredit")
-                                            <td>Penarikan Tabungan</td>
-                                        @else
-                                            <td>{{ $usr->status }}</td>
-                                        @endif
+                                        <td>{{ $usr->status }}</td>
 
                                         @if(json_decode($usr->transaksi,true)['dari_rekening']==null)
                                             <td class="text-left text-uppercase">TUNAI</td>
@@ -76,11 +69,11 @@
                                                 <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
                                             @endif
                                         @endif
-
-                                        @if($usr->status == "Debit")
+                                        
+                                        @if($usr->status == "Debit" || str_before($usr->status, " ") == "Debit")
                                         <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
                                         <td class="text-right">0.00</td>
-                                        @elseif($usr->status == "Kredit" || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran' || str_before($usr->status, ' ') == 'Pelunasan')
+                                        @elseif($usr->status == "Kredit" || str_before($usr->status, " ") == "Kredit" || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran' || str_before($usr->status, ' ') == 'Pelunasan')
                                         <td class="text-right">0.00</td>
                                         <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
                                         @else
