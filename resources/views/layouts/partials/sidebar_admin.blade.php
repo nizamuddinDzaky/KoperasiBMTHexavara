@@ -71,7 +71,7 @@
     @endif
         <ul class="nav">
             <li @if(Request::is('admin/transaksi/simpanan'))class="active"@endif><a href="{{route('admin.transaksi.simpanan')}}">Simpanan Anggota</a></li>
-            <li @if(Request::is('admin/transaksi/tabungan'))class="active"@endif><a href="{{route('admin.transaksi.tabungan')}}">Tabungan</a></li>
+            <li @if(Request::is('admin/transaksi/tabungan/*'))class="active"@endif><a href="{{route('admin.transaksi.tabungan')}}">Tabungan</a></li>
             <li @if(Request::is('admin/transaksi/deposito'))class="active"@endif><a href="{{route('admin.transaksi.deposito')}}">Mudharabah Berjangka</a></li>
             <li @if(Request::is('admin/transaksi/kolektibilitas'))class="active"@endif><a href="{{route('admin.transaksi.kolektibilitas')}}">Kolektibilitas</a></li>
             <li @if(Request::is('admin/transaksi/realisasi'))class="active"@endif><a href="{{route('admin.transaksi.realisasi_pembiayaan')}}">Realisasi Pembiayaan</a></li>

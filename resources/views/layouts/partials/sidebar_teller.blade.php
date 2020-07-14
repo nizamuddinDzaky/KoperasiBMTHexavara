@@ -22,20 +22,20 @@
 </li> --}}
 
 
-<li @if(Request::is('teller/menu*', 'teller/transaksi/pengajuan/daftar_penutupan_rekening'))class="active"@endif>
+<li @if(Request::is('teller/nasabah/tabungan/*','teller/menu*', 'teller/transaksi/pengajuan/daftar_penutupan_rekening'))class="active"@endif>
     <a data-toggle="collapse" href="#nav_tabteller">
         <i class="pe-7s-monitor"></i>
         <p>Monitor Transaksi
             <b class="caret"></b></p>
     </a>
-    @if(Request::is('teller/menu/maal*','teller/menu/tabungan*','teller/menu/deposito*','teller/menu/pembiayaan*','teller/menu/pengajuan_simpanan*','teller/transaksi/pengajuan/daftar_penutupan_rekening'))
+    @if(Request::is('teller/menu/maal*','teller/menu/tabungan*','teller/menu/deposito*','teller/menu/pembiayaan*','teller/menu/pengajuan_simpanan*','teller/transaksi/pengajuan/daftar_penutupan_rekening', 'teller/nasabah/tabungan/*'))
         <div class="collapse in" id="nav_tabteller">
     @else
         <div class="collapse" id="nav_tabteller">
     @endif
         <ul class="nav">
             <li @if(Request::is('teller/menu/maal*'))class="active"@endif><a href="{{route('teller.pengajuan_maal')}}">Pengajuan Maal</a></li>
-            <li @if(Request::is('teller/menu/tabungan*'))class="active"@endif><a href="{{route('pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
+            <li @if(Request::is('teller/menu/tabungan*', 'teller/nasabah/tabungan/*'))class="active"@endif><a href="{{route('pengajuan_tabungan')}}">Pengajuan Tabungan</a></li>
             <li @if(Request::is('teller/menu/deposito*'))class="active"@endif><a href="{{route('pengajuan_deposito')}}">Pengajuan Mudharabah Berjangka</a></li>
             {{-- <li @if(Request::is('teller/nasabah/deposito*'))class="active"@endif><a href="{{route('nasabah_deposito')}}">Nasabah Mudharabah Berjangka</a></li> --}}
             <li @if(Request::is('teller/menu/pembiayaan*'))class="active"@endif><a href="{{route('pengajuan_pembiayaan')}}">Pengajuan Pembiayaan</a></li>
@@ -78,14 +78,14 @@
     </a>
 </li>--}}
 
-<li @if(Request::is('teller/nasabah/*', 'teller/kolektibilitas', 'teller/laporan/*'))class="active"@endif>
+<li @if(Request::is('teller/kolektibilitas', 'teller/laporan/*'))class="active"@endif>
     <a data-toggle="collapse" href="#nav_laporan">
         <i class="pe-7s-folder"></i>
         <p>Laporan
             <b class="caret"></b>
         </p>
     </a>
-    @if(Request::is('teller/laporan/*','teller/nasabah/*', 'teller/kolektibilitas', 'rapat/admin'))
+    @if(Request::is('teller/laporan/*', 'teller/kolektibilitas', 'rapat/admin'))
     <div class="collapse in" id="nav_laporan">
     @else
     <div class="collapse" id="nav_laporan">

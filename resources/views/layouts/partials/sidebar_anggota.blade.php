@@ -4,19 +4,19 @@
         <p>Pengajuan</p>
     </a>
 </li>
-<li @if(Request::is('anggota/menu*'))class="active"@endif>
+<li @if(Request::is('anggota/menu*', 'anggota/detail/tabungan'))class="active"@endif>
     <a data-toggle="collapse" href="#nav_tabuser">
         <i class="pe-7s-tools"></i>
         <p>Transaksi Anggota
         <b class="caret"></b></p>
     </a>
-    @if(Request::is('anggota/menu/tabungan*','anggota/menu/deposito*','anggota/menu/pembiayaan*'))
+    @if(Request::is('anggota/menu/tabungan*','anggota/menu/deposito*','anggota/menu/pembiayaan*', 'anggota/detail/tabungan'))
     <div class="collapse in" id="nav_tabuser">
     @else
     <div class="collapse" id="nav_tabuser">
     @endif
         <ul class="nav">
-            <li @if(Request::is('anggota/menu/tabungan*'))class="active"@endif><a href="{{route('tabungan_anggota')}}">Tabungan</a></li>
+            <li @if(Request::is('anggota/menu/tabungan*', 'anggota/detail/tabungan'))class="active"@endif><a href="{{route('tabungan_anggota')}}">Tabungan</a></li>
             <li @if(Request::is('anggota/menu/deposito*'))class="active"@endif><a href="{{route('deposito_anggota')}}">Mudharabah Berjangka</a></li>
             <li @if(Request::is('anggota/menu/pembiayaan*'))class="active"@endif><a href="{{route('pembiayaan_anggota')}}">Pembiayaan</a></li>
             <li @if(Request::is('anggota/menu/simpanan*'))class="active"@endif><a href="{{route('anggota.menu.simpanan')}}">Simpanan Anggota</a></li>

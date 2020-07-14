@@ -61,13 +61,13 @@
                                     <td>{{ $item->created_at->format('D, d M Y H:i') }}</td>
                                     <td>{{ $item->user->nama  }}</td>
                                     <td>{{ $item->status   }}</td>
-                                    @if($item->status == "Debit" || str_before($item->status, " ") == "Distribusi")
+                                    @if($item->status == "Debit" || str_before($item->status, " ") == "Distribusi" || str_before($item->status, " ") == "Debit")
                                     <td>Rp. {{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
                                     @else
                                     <td>Rp. 0</td>
                                     @endif
 
-                                    @if($item->status == "Kredit" || str_before($item->status, " ") == "Angsuran" || str_before($item->status, " ") == "Pembayaran" || str_before($item->status, " ") == "Angsuran")
+                                    @if($item->status == "Kredit" || str_before($item->status, " ") == "Kredit" || str_before($item->status, " ") == "Angsuran" || str_before($item->status, " ") == "Pembayaran" || str_before($item->status, " ") == "Angsuran")
                                     <td>Rp. {{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
                                     @else
                                     <td>Rp. 0</td>
