@@ -31,9 +31,9 @@
 
                 <div class="head-noted right">
                     <span>Saldo Donasi Terkumpul = <b>Rp. {{ number_format($saldo_terkumpul->saldo > 0 ? $saldo_terkumpul->saldo : 0, 2)  }}</b></span>
-                    <div class="button-group">
+                    {{-- <div class="button-group">
                         <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#addMaalModal"><i class="fa fa-plus"></i> Buat Kegiatan</button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

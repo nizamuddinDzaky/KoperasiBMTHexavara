@@ -729,7 +729,14 @@ class DonasiReporsitories {
         try
         {
             $data_maal = Maal::take('1')->orderBy('id_maal', 'desc')->first();
-            $last_id = $data_maal->id_maal;
+            if(isset($data_maal->id_maal))
+            {
+                $last_id = $data_maal->id_maal;
+            }
+            else
+            {
+                $last_id = 0;
+            }
             $bmt_maal = BMT::where('nama', 'DANA SOSIAL')->first();
 
             $file = $data->file->getClientOriginalName();

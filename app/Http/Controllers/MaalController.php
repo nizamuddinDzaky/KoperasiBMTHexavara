@@ -123,7 +123,6 @@ class MaalController extends Controller
 
     public function add_kegiatan(Request $request){
         $kegiatan = $this->donasiReporsitory->createNewKegiatan($request);
-        
         if($kegiatan['type'] == "success")
             return redirect()
                 ->back()
