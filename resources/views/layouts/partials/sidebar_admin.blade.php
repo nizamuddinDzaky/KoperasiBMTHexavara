@@ -101,7 +101,7 @@
             <li class="@if(Request::is('admin/laporan/saldo_zis')) active @endif"><a href="{{route('admin.saldo.zis')}}">Saldo ZIS</a></li>
             <li class="@if(Request::is('admin/laporan/saldo_donasi')) active @endif"><a href="{{route('admin.saldo.donasi')}}">Saldo Donasi</a></li>
             <li class="@if(Request::is('admin/laporan/saldo_wakaf')) active @endif"><a href="{{route('admin.saldo.wakaf')}}">Saldo Wakaf</a></li>
-            <li><a href="{{route('quitas')}}">Laporan Keuangan</a></li>
+            <li class="@if(Request::is('admin/laporan/keuangan*')) active @endif"><a href="{{route('admin.laporan.keuangan')}}">Catatan Laporan Keuangan</a></li>
 
 
             {{-- <li><a href="{{route('kas_harian')}}">Kas Harian</a></li>

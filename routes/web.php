@@ -460,6 +460,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
                 'as'        => 'admin.datamaster.rekening.edit_rekening',
                 'uses'      => 'DatamasterController@edit_rekening'
             ]);
+            Route::post('/edit_keterangan_rekening', [
+                'as'        => 'admin.datamaster.rekening.edit_keterangan_rekening',
+                'uses'      => 'DatamasterController@edit_keterangan_rekening'
+            ]);
             Route::post('/delete_rekening', [
                 'as'        => 'admin.datamaster.rekening.delete_rekening',
                 'uses'      => 'DatamasterController@delete_rekening'
@@ -610,6 +614,33 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'pendapatan',
             'uses'      => 'LaporanController@pendapatan'
         ]);
+        
+
+        Route::group([
+            'prefix'    => 'keuangan',
+            'middleware'=> ['auth']
+        ], function() {
+
+            Route::get('/', [
+                'as'    => 'admin.laporan.keuangan',
+                'uses'  => 'AdminController@laporan_keuangan'
+            ]);
+
+            Route::post('/keuangan/export', [
+                'as'    => 'admin.laporan.export_keuangan',
+                'uses'  => 'AdminController@export_laporan_keuangan'
+            ]);
+
+            Route::get('/riwayat', [
+                'as'    => 'admin.laporan.keuangan.riwayat',
+                'uses'  => 'AdminController@riwayat_laporan_keuangan'
+            ]);
+
+            Route::get('/riwayat/detail/{id}', [
+                'as'    => 'admin.laporan.keuangan.riwayat.detail',
+                'uses'  => 'AdminController@detail_riwayat_laporan_keuangan'
+            ]);
+        });
 
         Route::post('/pendapatan', [
             'as'        => 'periode.pendapatan',
@@ -677,7 +708,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         Route::post('/rekening_buku', [
             'as'        => 'rekening.buku_besar',
             'uses'      => 'LaporanController@rekening_buku'
-        ]); Route::post('/rekening_buku_periodik', [
+        ]); 
+        Route::post('/rekening_buku_periodik', [
             'as'        => 'rekening.buku_besar_',
             'uses'      => 'LaporanController@rekening_buku_periodik'
         ]);

@@ -13,6 +13,7 @@ use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
 use App\Repositories\PengajuanReporsitories;
 use App\Repositories\TransferTabunganRepositories;
+use App\Repositories\LaporanKeuanganRepositories;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -44,7 +45,8 @@ class AdminController extends Controller
                                 TabunganReporsitories $tabunganReporsitory,
                                 DepositoReporsitories $depositoReporsitory,
                                 PengajuanReporsitories $pengajuanReporsitory,
-                                TransferTabunganRepositories $transferTabunganRepository
+                                TransferTabunganRepositories $transferTabunganRepository,
+                                LaporanKeuanganRepositories $laporanKeuanganRepository
                                 )
     {
         $this->middleware(function ($request, $next) {
@@ -70,6 +72,7 @@ class AdminController extends Controller
         $this->depositoReporsitory = $depositoReporsitory;
         $this->pengajuanReporsitory = $pengajuanReporsitory;
         $this->transferTabunganRepository = $transferTabunganRepository;
+        $this->laporanKeuanganRepository = $laporanKeuanganRepository;
     }
 
 
@@ -1267,5 +1270,69 @@ class AdminController extends Controller
                 ->withInput()->with('message', $jurnal_lain['message']);
         }
     }
+
+
+    /** 
+     * Laporan keuangan controller
+     * @return View
+    */
+    public function laporan_keuangan(Request $request)
+    {
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $data = Rekening::where('tipe_rekening', 'detail')->get();
+        
+        return view('admin.laporan.laporan_keuangan', [
+            'notification'  => $notification,
+            'notification_count' => count($notification),
+            'data' => $data
+        ]);
+    }
+
+    /** 
+     * On export lapora keuangan
+     * @return View
+    */
+    public function export_laporan_keuangan(Request $request)
+    {
+        $data = Rekening::where('tipe_rekening', 'detail')->get();
+        
+        $export = $this->laporanKeuanganRepository->exportData($data);
+
+        return response()->json($export);
+    }
+
+    /** 
+     * Riwayat Laporan Keuangan
+     * @return Response
+    */
+    public function riwayat_laporan_keuangan()
+    {
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $data = $this->laporanKeuanganRepository->getRiwayat();
+        
+        return view('admin.laporan.riwayat_laporan_keuangan', [
+            'notification'  => $notification,
+            'notification_count' => count($notification),
+            'data' => $data
+        ]);
+    }
+
+    /** 
+     * Detail riwayat Laporan Keuangan
+     * @return Response
+    */
+    public function detail_riwayat_laporan_keuangan($id)
+    {
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $data = $this->laporanKeuanganRepository->findRiwayat($id);
+        
+        return view('admin.laporan.detail_riwayat_laporan_keuangan', [
+            'notification'  => $notification,
+            'notification_count' => count($notification),
+            'data' => $data,
+            'created_at' => $data->created_at->format('D, d F Y H:i:s')
+        ]);
+    }
+
 
 }

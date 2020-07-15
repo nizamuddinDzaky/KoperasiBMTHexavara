@@ -267,7 +267,7 @@ $(document).ready(function() {
 */
 $(document).ready(function() {
     $('.summernote').summernote({
-        placeholder: 'Deskripsi Rapat',
+        placeholder: 'Deskripsi',
         toolbar: [
             ['style', ['bold', 'italic', 'underline']],
             ['para', ['ul', 'ol']],

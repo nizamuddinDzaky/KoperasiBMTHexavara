@@ -696,4 +696,18 @@ class DatamasterController extends Controller
                 ->back()
                 ->withErrors(sprintf('Data Jaminan gagal diubah!.'));
     }
+
+    public function edit_keterangan_rekening(Request $request){
+        $rekening = Rekening::where('id_rekening', $request->idRek)->first();
+        $rekening->catatan = $request->catatan;
+        
+        if($rekening->save())
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Data Jaminan berhasil diubah!.'));
+        else
+            return redirect()
+                ->back()
+                ->withErrors(sprintf('Data Jaminan gagal diubah!.'));
+    }
 }

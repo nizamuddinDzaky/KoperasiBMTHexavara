@@ -88,4 +88,8 @@ class User extends Authenticatable
     public function PenyimpananPembiayaan() {
         return $this->hasMany('App\PenyimpananPembiayaan', 'id_user');
     }
+    
+    public function PenyimpananLaporanKeuangan() {
+        return $this->hasMany('App\PenyimpananLaporanKeuangan', 'id_user');
+    }
 }
