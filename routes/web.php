@@ -626,7 +626,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
                 'uses'  => 'AdminController@laporan_keuangan'
             ]);
 
-            Route::post('/keuangan/export', [
+            Route::post('/export', [
                 'as'    => 'admin.laporan.export_keuangan',
                 'uses'  => 'AdminController@export_laporan_keuangan'
             ]);
