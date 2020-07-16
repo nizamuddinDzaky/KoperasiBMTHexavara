@@ -14,57 +14,57 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2" style="width: 20%">
                 <a href="#">
                     <div class="card dashboard link" style="background-color: #3097D1">
                         <div class="card-body">
-                            <span class="card-title card-number-large" id="harta">{{ number_format($total_kekayaan,2) }}</span>
-                            <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
+                            <span class="card-title card-number-large" id="harta" style="font-size: 25px;">{{ number_format($total_kekayaan) }}</span>
+                            <p class="card-category" style="margin-bottom:0; font-size: 12px;">Total Harta Rekening BMT</p>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2" style="width: 20%">
                 <a href="{{ route('admin.transaksi.teller_list') }}">
                     <div class="card dashboard link" style="background-color: #8892D6">
                         <div class="card-body">
-                            <span class="card-title card-number-large" id="harta">{{ number_format($total_kas,2) }}</span>
-                            <p class="card-category" style="margin-bottom:0">Total Kas Dalam Rekening BMT</p>
+                            <span class="card-title card-number-large" id="harta" style="font-size: 25px;">{{ number_format($total_kas) }}</span>
+                            <p class="card-category" style="margin-bottom:0; font-size: 12px;">Total Kas Dalam Rekening BMT</p>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2" style="width: 20%">
                 <a href="{{ route('admin.transaksi.tabungan') }}">
                     <div class="card dashboard link" style="background-color: #45BBE0">
                         <div class="card-body">
-                            <span class="card-title card-number-large">{{ number_format($total_tabungan,2) }}</span>
-                            <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
+                            <span class="card-title card-number-large" style="font-size: 25px;">{{ number_format($total_tabungan) }}</span>
+                            <p class="card-category" style="margin-bottom:0; font-size: 12px;">Total Tabungan Anggota</p>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2" style="width: 20%">
                 <a href="{{ route('admin.transaksi.deposito') }}">
                     <div class="card dashboard link" style="background-color: #F06292">
                         <div class="card-body">
-                            <span class="card-title card-number-large">{{ number_format($total_deposito,2) }}</span>
-                            <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
+                            <span class="card-title card-number-large" style="font-size: 25px;">{{ number_format($total_deposito) }}</span>
+                            <p class="card-category" style="margin-bottom:0; font-size: 12px;">Total Mudharabah Berjangka</p>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2" style="width: 20%">
                 <div class="card dashboard link" style="background-color: #78C350">
                     <div class="card-body">
-                        <span class="card-title card-number-large">{{ number_format($total_pembiayaan) }}</span>
-                        <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
+                        <span class="card-title card-number-large" style="font-size: 25px;">{{ number_format($total_pembiayaan) }}</span>
+                        <p class="card-category" style="margin-bottom:0; font-size: 12px;">Total Pembiayaan</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="panel panel-primary">
                         <div class="panel-body">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-        </div>
+        </div> --}}
 
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
