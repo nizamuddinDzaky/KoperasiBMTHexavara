@@ -4,7 +4,7 @@ $(document).ready(function() {
 
         $(document).on("change", "#user_penerima", function() {
             var id = $(this).val();
-            var url = window.location.origin + "/public";
+            var url = window.location.origin;
             
             $.ajax({
                 type: "GET",
@@ -23,7 +23,7 @@ $(document).ready(function() {
 
         $(document).on("change", "#user_pengirim", function() {
             var id = $(this).val();
-            var url = window.location.origin + "/public";
+            var url = window.location.origin;
             
             $.ajax({
                 type: "GET",
@@ -48,7 +48,7 @@ $(document).ready(function() {
         $("#vjumlah_transfer_antar_tabungan").val(button.data("jumlah"));
         $("#vketerangan_transfer_antar_tabungan").val(button.data("keterangan"));
         var id = button.data("id_penerima");
-        var url = window.location.origin + "/public";
+        var url = window.location.origin;
 
         $.ajax({
             type: "GET",
@@ -80,7 +80,7 @@ $(document).ready(function() {
         $("#cid_pengajuan").val(button.data("id"));
 
         var id = button.data("id_penerima");
-        var url = window.location.origin + "/public";
+        var url = window.location.origin;
 
         $.ajax({
             type: "GET",
