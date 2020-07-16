@@ -78,11 +78,10 @@
                         <div class="form-group">
                             <label for="idRek" class="control-label">Pilih Induk <star>*</star></label>
                             <select class="form-control select2" id="indukRek" name="indukRek" style="width: 100%;" required>
-                                <option class="bs-title-option" value="">Pilih Induk</option>
-                                <option value="master"> MASTER 0 </option>
                                 @foreach ($dropdown_rekening as $rekening)
                                     <option value="{{ $rekening->id_rekening }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
                                 @endforeach
+                                <option value="master"> MASTER 0 </option>
                             </select>
                         </div>
                     </div>

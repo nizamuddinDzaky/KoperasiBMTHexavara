@@ -138,10 +138,11 @@
             $('#id_edit').val(idrek);
 
             $('#kategori').val(button.data('kategori'));
-            console.log(indukrek);
             $('#namaRekening').val(namarek);
             $('#tipeRek').val(tipe_rekening);
             $('#editRekLabel').text("Edit Rekening: " + namarek);
+
+            $("#indukRek").addClass("select2")
         });
 
         $('#delRekModal').on('show.bs.modal', function (event) {
@@ -164,9 +165,9 @@
             $("#selRekening").select2({
                 dropdownParent: $("#addRekModal")
             });
-            $("#indukRek").select2({
-                dropdownParent: $("#editRekModal")
-            });
+            // $("#indukRek").select2({
+            //     dropdownParent: $("#editRekModal")
+            // });
             lbd.checkFullPageBackgroundImage();
 
             setTimeout(function(){
