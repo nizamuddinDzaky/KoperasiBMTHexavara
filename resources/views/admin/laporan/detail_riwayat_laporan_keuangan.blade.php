@@ -57,7 +57,7 @@
                                 <th data-field="id" data-sortable="true" class="text-left">ID Rekening</th>
                                 <th data-field="nama" data-sortable="true">Nama Rekening</th>
                                 <th data-field="detail" data-sortable="true">Catatan</th>
-                                {{--<th data-field="actions" class="td-actions text-right" data-events="operateEvents" data-formatter="operateFormatter">Actions</th>--}}
+                                <th data-field="detail" data-sortable="true">Detail</th>
                             </thead>
                             <tbody>
                                 @foreach (json_decode($data->transaksi) as $rek)
@@ -71,9 +71,17 @@
                                         </td>
                                         @else
                                         <td>
-                                            <p style="font-size: 14px;">{{ $rek->catatan }}</p>
+                                            <p style="height: 4.5em; line-height: 1.5em; overflow: hidden; text-overflow: ellipsis; text-align: justify; font-size: 14px;">{{ $rek->catatan }}</p>
                                         </td>
                                         @endif
+                                        <td>
+                                            <button type="button" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#viewCatatanRekening" title="Edit"
+                                                    data-idrek      = "{{$rek->id_rekening}}"
+                                                    data-namarek    = "{{$rek->nama_rekening}}"
+                                                    data-catatan    = "{{$rek->catatan}}">
+                                                <i class="fa fa-list-alt"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -84,6 +92,7 @@
 
     </div>
 
+    {{-- @include('modal.view_detail_laporan_keuangan') --}}
     @include('modal.catatan_rekening')
 
 @endsection
@@ -92,7 +101,7 @@
 
     <script type="text/javascript">
 
-        $('#editCatatanRekening').on('show.bs.modal', function (event) {
+        $('#viewCatatanRekening').on('show.bs.modal', function (event) {
 
             var button = $(event.relatedTarget); // Button that triggered the modal
             var idrek = button.data('idrek');
@@ -100,9 +109,9 @@
             var catatan = button.data('catatan');
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            $("#namaRekening").val(namarek);
-            $("#idRekening").val(idrek);
-            $("#catatan").val(catatan);
+            $("#vnamaRekening").val(namarek);
+            // $("#idRekening").val(idrek);
+            $("#vcatatan").val(catatan);
 
         });
 
