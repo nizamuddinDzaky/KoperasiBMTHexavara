@@ -157,7 +157,7 @@ class TabunganReporsitories {
             }
             
             $bmtTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
-            
+
             if(json_decode($pengajuan->detail)->debit == "Transfer") {
                 $bmtTujuanDebitTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank)->first();
                 $dariRekening = "Transfer";
@@ -272,10 +272,10 @@ class TabunganReporsitories {
             $tabungan = Tabungan::where([ ['id_user', $pengajuan->id_user], ['id_tabungan', json_decode($pengajuan->detail)->id_tabungan] ])->first();
             $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
             
-            if((json_decode($tabungan->detail)->saldo - floatval(json_decode($pengajuan->detail)->jumlah)) < floatval(json_decode($rekening_tabungan->detail)->saldo_min))
+            if(json_decode($tabungan->detail)->saldo < floatval(json_decode($rekening_tabungan->detail)->saldo_min))
             {
                 DB::rollback();
-                $result = array('type' => 'error', 'message' => 'Pengajuan Gagal Dikonfirmasi. Transaksi anda melampaui limit transaksi.');
+                $result = array('type' => 'error', 'message' => 'Pengajuan Gagal Dikonfirmasi. Tabungan pengirim melampaui limit transaksi.');
             }
             else
             {
@@ -595,10 +595,10 @@ class TabunganReporsitories {
                 $rekening = $rekening;
             }
             
-            if((json_decode($tabungan->detail)->saldo - floatval(preg_replace('/[^\d.]/', '', $data->jumlah))) < floatval(json_decode($rekening->detail)->saldo_min))
+            if(json_decode($tabungan->detail)->saldo < floatval(json_decode($rekening->detail)->saldo_min))
             {
                 DB::rollback();
-                $result = array('type' => 'error', 'message' => 'Kredit tabunga gagal. Transaksi anda melampaui limit transaksi.');
+                $result = array('type' => 'error', 'message' => 'Kredit tabunga gagal. Tabungan pengirim melampaui limit transaksi.');
             }
             else
             {
