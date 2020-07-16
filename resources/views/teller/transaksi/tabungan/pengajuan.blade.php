@@ -37,7 +37,7 @@
                     <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#openTabModal" data-page="teller"><i class="fa fa-archive"></i> Buka Tabungan</button>
                     <button class="btn btn-info rounded right shadow-effect" data-toggle="modal" data-target="#transferTabModal" data-page="teller"><i class="fa fa-sign-out-alt"></i> Transfer Antar Tabungan</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#tutupTabModal"><i class="fa fa-close"></i> Tutup Tabungan</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#tutupTabModal"><i class="fa fa-times"></i> Tutup Tabungan</button>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@
                                                 data-id         = "{{ $usr->id }}"
                                                 data-nama         = "{{ $usr->jenis_pengajuan }}"
                                             >
-                                                <i class="fa fa-close"></i>
+                                                <i class="fa fa-times"></i>
                                             </button>
                                             @endif
                                         </div>

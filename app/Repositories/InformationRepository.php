@@ -3366,13 +3366,18 @@ class InformationRepository
         $user = $this->getAnggota(Auth::user()->no_ktp);
         $detail = [
             'profile' => $filename,
-            'KTP' => json_decode($user->pathfile,true)['KTP'],
-            'KSK' => json_decode($user->pathfile,true)['KSK'],
-            'Nikah' => json_decode($user->pathfile,true)['Nikah'],
+            'KTP' => $user->pathfile != null && json_decode($user->pathfile,true)['KTP'] != null ? json_decode($user->pathfile,true)['KTP'] : null,
+            'KSK' => $user->pathfile != null && json_decode($user->pathfile,true)['KSK'] != null ? json_decode($user->pathfile,true)['KSK'] : null,
+            'Nikah' => $user->pathfile != null && json_decode($user->pathfile,true)['Nikah'] != null ? json_decode($user->pathfile,true)['Nikah'] : null,
         ];
-        $prevfile = json_decode($user->pathfile,true)['profile'];
-        if($prevfile)
-            Storage::delete("public/file/".$prevfile);
+
+        if($user->pathfile != null && json_decode($user->pathfile,true)['profile'] != null)
+        {
+            $prevfile = json_decode($user->pathfile,true)['profile'];
+            if($prevfile)
+                Storage::delete("public/file/".$prevfile);
+        }
+
         $user->pathfile = json_encode($detail);
         if($user->save())return true;
         else return false;
@@ -3547,26 +3552,27 @@ class InformationRepository
                 $data[$i]['id_rek'] = $data[$i]['untuk_rekening'];
                 $data[$i]['untuk_rekening'] = json_decode($data[$i]['transaksi'],true)['untuk_rekening'];
             }
-            elseif($data[$i]['status']!="Debit") {
+            elseif(str_before($data[$i]['status'], " ") !== "Debit" && $data[$i]['status'] !== "Transfer Antar Anggota") {
                 $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['untuk_rekening']);
                 $data[$i]['id_rek'] = $rek['id_rekening'];
                 $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
-            }elseif($data[$i]['status']=="Debit") {
-                $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['untuk_rekening']);
-                $str =json_decode($data[$i]->transaksi,true)['untuk_rekening'];
-                $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
-                $data[$i]['id_rek']= str_before(str_after($str,"["),"]");
-                $data[$i]['dari_rekening'] ="[".$rek['id_rekening']."] ".$rek['nama_rekening'];
-                // if(strlen($str) >10){
-                // }else
-                //     $data[$i]['untuk_rekening'] = "USER";
+            }elseif(str_before($data[$i]['status'], " ")=="Debit") {
+                $rek = Rekening::where('nama_rekening', json_decode($data[$i]->transaksi,true)['untuk_rekening'])->first();
+                $str = json_decode($data[$i]->transaksi,true)['untuk_rekening'];
+                $data[$i]['untuk_rekening'] = $rek->nama_rekening;
+                $data[$i]['id_rek']= $rek->id_rekening;
+            }
+            elseif($data[$i]['status']=="Transfer Antar Anggota") {
+                $str = json_decode($data[$i]->transaksi,true);
+                $data[$i]['untuk_rekening'] = $str['untuk_rekening'];
             }
         }
-
+        
         $saldo_rata2 = $this->nasabah_rata2($tab,"tabungan");
         // dd($saldo_rata2); 
         $data[0]['saldo_rata2']=$saldo_rata2;
         return $data;
+        
     }
     function TransaksiTabUsrDeb($data,$request)
     {
@@ -3964,14 +3970,14 @@ class InformationRepository
             ->groupBy('users.nama')->get();
         return $data;
     }
-    function getAllpengajuanUsrTab()
+    function getAllpengajuanUsrTab($id="")
     {
         $data = Pengajuan::select('pengajuan.*', 'users.no_ktp', 'users.nama')
             ->join('users', 'users.id', '=', 'pengajuan.id_user')
+            ->where('pengajuan.id_user', Auth::user()->id)
             ->where('kategori','like',"%Tabungan%")
             ->orWhere('kategori','like','%Transfer Antar Anggota%')
-            ->where('id_user', Auth::user()->id)
-            ->orderby('id','DESC')->get();
+            ->orderby('pengajuan.id','DESC')->get();
         foreach ($data as $dt){
             if($dt->kategori=="Debit Tabungan" || $dt->kategori == "Kredit Tabungan"){
                 $id=(json_decode($dt['detail'],true)['id_tabungan']);

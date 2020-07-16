@@ -82,10 +82,13 @@
                 <li class="dropdown dropdown-with-icons hidden-sm">
                     
                     <a href="#" class="dropdown-toggle navbar-image" data-toggle="dropdown" style="
-                        @if(json_decode(Auth::user()->pathfile,true)['profile'] !== null) background-image: url({{ asset('storage/public/file/' . json_decode(Auth::user()->pathfile,true)['profile']) }})
+                        @if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile,true)['profile'] != null) background-image: url({{ asset('storage/public/file/' . json_decode(Auth::user()->pathfile,true)['profile']) }})
                         @else background-image: url({{ asset('bmtmudathemes/assets/images/avatar.jpg') }})
                         @endif
-                    "></a>
+                    ">
+
+                    </a>
+                        {{-- @if(Auth::user()->pathfile != null) a @else b @endif --}}
 
                     <a href="#" class="dropdown-toggle navbar-name" data-toggle="dropdown">{{ Auth::user()->nama }}</a>
                     
@@ -129,7 +132,7 @@
                 <!-- Small screen profile navbar -->
                 <li class="dropdown dropdown-with-icons hidden-md hidden-lg">
                     <a href="#" class="dropdown-toggle navbar-image" data-toggle="dropdown" style="
-                        @if(json_decode(Auth::user()->pathfile,true)['profile']) != null) background-image: url({{ asset('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile']) }})
+                        @if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile,true)['profile']) != null) background-image: url({{ asset('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile']) }})
                         @else background-image: url({{ asset('bmtmudathemes/assets/images/avatar.jpg') }})
                         @endif
                     "></a>

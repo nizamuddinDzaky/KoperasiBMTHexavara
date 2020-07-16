@@ -295,6 +295,7 @@ class UserController extends Controller
         $notification = $this->pengajuanReporsitory->getNotification();
         $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['id', '!=', Auth::user()->id] ])->get();
         $tabungan_user = Tabungan::where([ ['id_user', Auth::user()->id], ['status', 'active'] ])->get();
+        
         return view('users.tabungan', [
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -322,7 +323,8 @@ class UserController extends Controller
     public function detail_tabungan(Request $request)
     {
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+        // return response()->json($this->informationRepository->getTransaksiTabUsr($request->id_));
+        // return response()->json($request);
         return view('users.detail_tabungan', [
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -1192,6 +1194,7 @@ class UserController extends Controller
     public function pengajuan_transfer_antar_tabungan(Request $request)
     {
         $tabungan = $this->transferTabunganRepository->pengajuanTransferAntarTabungan($request);
+        // return response()->json($tabungan);
         if ($tabungan['type'] == "success") {
             return redirect()
                 ->back()

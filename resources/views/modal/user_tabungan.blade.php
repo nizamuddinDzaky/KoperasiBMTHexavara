@@ -896,7 +896,7 @@
 </div>
 
 {{--Modal Simpanan Wajib--}}
-<div class="modal fade" id="simpWajibModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="simpWajibModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardW">
             <form id="wizardFormW" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('simpanan_wajib')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.simpanan_wajib')}}" @endif enctype="multipart/form-data">
@@ -924,7 +924,7 @@
                                         <label class="control-label">Pilih Anggota<star>*</star></label>
                                         <select class="form-control" id="nasabah_wajib" name="nama_nasabah" style="width: 100%;" required>
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
-                                            @foreach ($dropdown8 as $usr)
+                                            @foreach ($user as $usr)
                                                 <option value="{{ $usr->id." ".number_format(json_decode($usr->wajib_pokok,true)['wajib'])." ".$usr->nama }}">  [{{$usr->no_ktp}}] {{ $usr->nama }}</option>
                                             @endforeach
 
@@ -1031,10 +1031,10 @@
 
         </div>
     </div>
-</div>
+</div> --}}
 
 {{--Modal View Simpanan Wajib--}}
-<div class="modal fade" id="viewSimModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="viewSimModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardWS">
             <form id="wizardFormWS" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('simpanan_wajib')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.simpanan_wajib')}}" @endif enctype="multipart/form-data">
@@ -1148,7 +1148,7 @@
 
         </div>
     </div>
-</div>
+</div> --}}
 
 {{--Modal Konfirmasi Debit Tabungan--}}
 <div class="modal fade" id="confirmDebModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
@@ -1311,7 +1311,7 @@
                                         <select class="form-control select2" id="user_penerima" name="user_penerima" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Anggota-</option>
                                             @foreach ($user as $usr)
-                                                <option value="{{ $usr->id }}"> {{$usr->nama }}</option>
+                                                <option value="{{ $usr->id }}"> [{{$usr->nama }}] [{{$usr->no_ktp}}] [{{$usr->alamat}}]</option>
                                             @endforeach
                                         </select>
                                     </div>

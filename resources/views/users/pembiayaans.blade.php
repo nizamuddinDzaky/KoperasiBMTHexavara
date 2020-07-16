@@ -92,7 +92,7 @@
                                                 data-id      = "{{$usr->no_ktp}}"
                                                 data-nama    = "{{$usr->nama}}" name="id">
                                             @if($usr->status=="blocked")
-                                                <i class="fa fa-close"></i>
+                                                <i class="fa fa-times"></i>
                                             @elseif($usr->status=="lunas")
                                                 <i class="fa fa-clipboard-list"></i>
                                             @elseif($usr->status=="active")

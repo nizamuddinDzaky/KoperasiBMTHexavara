@@ -31,12 +31,12 @@ class TransferTabunganRepositories {
         DB::beginTransaction();
         try {
             $tabungan = Tabungan::where('id_tabungan', $data->rekening_pengirim)->first();
-            $rekening = Rekening::where('id_rekening', $tabungan->id_rekening)->first();
+            $rekening = Rekening::where('id', $tabungan->id_rekening)->first();
             $nominal = floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
             
-            $saldo_akhir_tabungan = json_decode($tabungan->detail)->saldo - $nominal;
+            $saldo_tabungan = json_decode($tabungan->detail)->saldo - $nominal;
 
-            if($saldo_akhir_tabungan > $nominal && $saldo_akhir_tabungan > json_decode($rekening->detail)->saldo_min)
+            if($saldo_tabungan > $nominal && $saldo_tabungan > json_decode($rekening->detail)->saldo_min)
             {
                 $detailToPengajuan = array(
                     "tabungan_pengirim"     => $data->rekening_pengirim,
@@ -129,6 +129,7 @@ class TransferTabunganRepositories {
 
             $this->tabunganRepository->insertPenyimpananTabungan($dataToPenyimpananTabungan);
 
+            $detailToPenyimpananTabungan['jumlah'] = -$data->cjumlah;
             $detailToPenyimpananTabungan['saldo_awal'] = $saldo_awal_tabungan_pengirim;
             $detailToPenyimpananTabungan['saldo_akhir'] = $saldo_akhir_tabungan_pengirim;
             $dataToPenyimpananTabungan['id_tabungan'] = $tabungan_pengirim->id;
@@ -222,7 +223,7 @@ class TransferTabunganRepositories {
             
             $nominal = floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
             
-            if($saldo_akhir_tabungan_pengirim > $nominal && $saldo_akhir_tabungan_pengirim > json_decode($rekening_tabungan_pengirim->detail)->saldo_min)
+            if(json_decode($tabungan_pengirim->detail)->saldo > $nominal && json_decode($tabungan_pengirim->detail)->saldo > json_decode($rekening_tabungan_pengirim->detail)->saldo_min)
             {
                 $detailToPenyimpananTabungan = array(
                     "teller"            => Auth::user()->id,
@@ -242,6 +243,7 @@ class TransferTabunganRepositories {
 
                 $this->tabunganRepository->insertPenyimpananTabungan($dataToPenyimpananTabungan);
 
+                $detailToPenyimpananTabungan['jumlah'] = -floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
                 $detailToPenyimpananTabungan['saldo_awal'] = $saldo_awal_tabungan_pengirim;
                 $detailToPenyimpananTabungan['saldo_akhir'] = $saldo_akhir_tabungan_pengirim;
                 $dataToPenyimpananTabungan['id_tabungan'] = $tabungan_pengirim->id;
@@ -301,12 +303,12 @@ class TransferTabunganRepositories {
                     }
                 }
             }
-            elseif($saldo_akhir_tabungan_pengirim < $nominal)
+            elseif(json_decode($tabungan_pengirim->detail)->saldo < $nominal)
             {
                 DB::rollback();
                 $response = array("type" => "error", "message" => "Transfer Antar Tabungan Gagal. Saldo tabungan anda tidak cukup.");    
             }
-            elseif($saldo_akhir_tabungan_pengirim < json_decode($rekening_tabungan_pengirim->detail)->saldo_min)
+            elseif(json_decode($tabungan_pengirim->detail)->saldo < json_decode($rekening_tabungan_pengirim->detail)->saldo_min)
             {
                 DB::rollback();
                 $response = array("type" => "error", "message" => "Transfer Antar Tabungan Gagal. Saldo tabungan anda melebihi limit transaksi.");    

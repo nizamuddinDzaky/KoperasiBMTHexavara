@@ -4,11 +4,11 @@ $(document).ready(function() {
 
         $(document).on("change", "#user_penerima", function() {
             var id = $(this).val();
-            var url = window.location.origin + "/RemoteWorking/Hexavara/bmtmudahexavara/public/";
+            var url = window.location.origin;
             
             $.ajax({
                 type: "GET",
-                url: url + "api/get_user_tabungan/" + id,
+                url: url + "/api/get_user_tabungan/" + id,
                 dataType: "JSON",
                 success: function (response) {
                     id_user = id;
@@ -23,11 +23,11 @@ $(document).ready(function() {
 
         $(document).on("change", "#user_pengirim", function() {
             var id = $(this).val();
-            var url = window.location.origin + "/RemoteWorking/Hexavara/bmtmudahexavara/public/";
+            var url = window.location.origin;
             
             $.ajax({
                 type: "GET",
-                url: url + "api/get_user_tabungan/" + id,
+                url: url + "/api/get_user_tabungan/" + id,
                 dataType: "JSON",
                 success: function (response) {
                     response.forEach(element => {
@@ -48,11 +48,11 @@ $(document).ready(function() {
         $("#vjumlah_transfer_antar_tabungan").val(button.data("jumlah"));
         $("#vketerangan_transfer_antar_tabungan").val(button.data("keterangan"));
         var id = button.data("id_penerima");
-        var url = window.location.origin + "/RemoteWorking/Hexavara/bmtmudahexavara/public/";
+        var url = window.location.origin;
 
         $.ajax({
             type: "GET",
-            url: url + "api/get_user_tabungan/" + id,
+            url: url + "/api/get_user_tabungan/" + id,
             dataType: "JSON",
             success: function (response) {
                 response.forEach(element => {
@@ -80,11 +80,11 @@ $(document).ready(function() {
         $("#cid_pengajuan").val(button.data("id"));
 
         var id = button.data("id_penerima");
-        var url = window.location.origin + "/RemoteWorking/Hexavara/bmtmudahexavara/public/";
+        var url = window.location.origin;
 
         $.ajax({
             type: "GET",
-            url: url + "api/get_user_tabungan/" + id,
+            url: url + "/api/get_user_tabungan/" + id,
             dataType: "JSON",
             success: function (response) {
                 response.forEach(element => {

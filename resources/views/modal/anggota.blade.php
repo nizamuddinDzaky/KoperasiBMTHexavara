@@ -264,12 +264,16 @@
 
                     <div class="col-md-10 col-md-offset-1 {{ !$errors->has('file') ?: 'has-error' }}">
                         <div class="form-group {{ !$errors->has('file') ?: 'has-error' }}">
-                            <br><br><label> Unggah Fodto</label><br>
+                            <br><br><label> Unggah Foto</label><br>
                             <span class="btn btn-info btn-fill btn-file">Browse
                                 <input type="file" onchange="readURL4(this);" name="file" accept=".jpg, .png, .jpeg|images/*"/>
                             </span><br><br>
                             <div class="text-center">
+                                @if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile, true)['profile'] != null)
                                 <img style="width:400px;height:auto;margin: auto" id="pic4" src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile'])}}"/>
+                                @else
+                                <img style="width:400px;height:auto;margin: auto" id="pic4"/>
+                                @endif
                             </div>
                             <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                         </div>

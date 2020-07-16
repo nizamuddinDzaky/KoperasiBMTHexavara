@@ -81,7 +81,7 @@
                                                 data-id      = "{{$usr->no_ktp}}"
                                                 data-nama    = "{{$usr->nama}}" name="id">
                                             @if($usr->status=="blocked")
-                                            <i class="fa fa-close"></i>
+                                            <i class="fa fa-times"></i>
                                             @elseif($usr->status=="active")
                                             <i class="fa fa-clipboard-list"></i>
                                             @endif
@@ -175,7 +175,7 @@
                                                     data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                     @elseif(str_before($usr->kategori,' ')=="Debit")
                                                     data-atasnama     = "{{ json_decode($usr->detail,true)['atasnama']}}"
-                                                    data-saldo     = "{{ json_decode($usr->detail_tabungan,true)['saldo']}}"
+                                                    data-saldo     = "{{ json_decode($usr->detail_tabungan,true)['saldo'] }}"
                                                     data-no_bank   = "{{ json_decode($usr->detail,true)['no_bank'] }}"
                                                     data-idtab     = "{{ json_decode($usr->detail,true)['id_tabungan'] }}"
                                                     @endif
@@ -209,6 +209,7 @@
                                     </div>
                                 </td>
                                 @endif
+                                
 
                                 <td></td>
                             </tr>
@@ -391,7 +392,7 @@
             $('#vkredit').val(button.data('debit'));
             $('#vnobankKre').val(button.data('no_bank'));
             $('#vatasnamaKre').val(button.data('atasnama'));
-            $('#vjumlahKre').val(button.data('saldo'));
+            $('#vjumlahKre').val(formatter.format(button.data('saldo')));
             console.log(button.data('saldo'));
             $('#vsaldo_kre').val(formatter.format(button.data('saldo')));
             $('#vbankKre').val(button.data('bank'));

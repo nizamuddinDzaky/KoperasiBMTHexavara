@@ -333,7 +333,11 @@
 														<input type="file" onchange="readURL(this);" name="filektp" accept=".jpg, .png, .jpeg|images/*"/>
 													</span><br><br>
 												<div class="text-center">
-													<img style="margin: auto;width:100px;height:auto" id="pic" src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['KTP'])}}"/>
+													@if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile, true)['KTP'] != null)
+													<img style="margin: auto;width:100px;height:auto" id="pic" src="{{ url('storage/public/file/'. json_decode(Auth::user()->pathfile,true)['KTP'] ) }}"/>
+													@else
+													<img style="margin: auto;width:100px;height:auto" id="pic" />
+													@endif
 												</div>
 												{{--<span class="help-block text-danger">{{ $errors->first('filektp') }}</span>--}}
 											</div>
@@ -345,7 +349,12 @@
 														<input type="file" onchange="readURL2(this);" name="fileksk" accept=".jpg, .png, .jpeg|images/*"/>
 													</span><br><br>
 												<div class="text-center">
+													@if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile, true)['KSK'] != null)
 													<img style="margin: auto;width:100px;height:auto" id="pic2" src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['KSK'])}}"/>
+													@else
+													<img style="margin: auto;width:100px;height:auto" id="pic2" />
+													@endif
+													
 												</div>
 												<span class="help-block text-danger">{{ $errors->first('fileksk') }}</span>
 											</div>
@@ -360,7 +369,11 @@
 														<input type="file" onchange="readURL3(this);" name="filenikah" accept=".jpg, .png, .jpeg|images/*"/>
 													</span><br><br>
 												<div class="text-center">
+													@if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile, true)['Nikah'] != null)
 													<img style="margin: auto;width:100px;height:auto" id="pic3" src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['Nikah'])}}"/>
+													@else
+													<img style="margin: auto;width:100px;height:auto" id="pic3"/>
+													@endif
 												</div>
 												<span class="help-block text-danger">{{ $errors->first('filenikah') }}</span>
 											</div>
@@ -443,9 +456,15 @@
 					</style>
 					<div class="ui card matthew">
 						<div class="image">
+
+							@if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile, true)['profile'] != null)
 							<img style="" src="{{ url('storage/public/file/'.json_decode(Auth::user()->pathfile,true)['profile'])}}">
+							@else
+							<img style="">
+							@endif
+
 							<button type="button" class="btn btn-social btn-default btn-fill" data-toggle="modal" data-target="#editFoto" title="Ubah Foto">
-								<i class="fa fa-photo"></i>
+								<i class="fa fa-upload"></i>
 							</button>
 						</div>
 						<div class="content">
