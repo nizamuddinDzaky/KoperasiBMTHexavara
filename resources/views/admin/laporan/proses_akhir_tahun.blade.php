@@ -134,12 +134,11 @@
             </div>
         </div>
     </div>
-    
-
-    @include('modal.distribusi')
-
 @endsection
 
+@section('modal')
+    @include('modal.distribusi')
+@endsection
 
 @section('extra_script')
 

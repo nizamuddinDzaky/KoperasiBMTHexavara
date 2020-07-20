@@ -111,6 +111,9 @@
         </div> <!-- end row -->
     </div>
 
+@endsection
+
+@section('modal')
     @include('modal.penutupan_rekening.pencairan')
     @include('modal.penutupan_rekening.edit_status')
 @endsection

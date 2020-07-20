@@ -140,8 +140,10 @@
         </div> <!-- end row -->
     </div>
 
-    @include('modal.distribusi')
+@endsection
 
+@section('modal')
+    @include('modal.distribusi')
 @endsection
 
 

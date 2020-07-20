@@ -227,6 +227,10 @@
         </div>
         <!-- end row -->
     </div>
+
+@endsection
+
+@section('modal')
     @include('modal.pengajuan')
     @include('modal.pembiayaan.angsuranss')
     @include('modal.pembiayaan.view_angsuran')

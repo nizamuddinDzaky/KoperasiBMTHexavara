@@ -117,8 +117,10 @@
 
     </div>
 
-    @include('modal.rekening')
+@endsection
 
+@section('modal')
+    @include('modal.rekening')
 @endsection
 
 @section('extra_script')

@@ -95,9 +95,10 @@
             </div> <!-- end row -->
 
     </div>
+@endsection
 
+@section('modal')
     @include('modal.catatan_rekening')
-
 @endsection
 
 @section('extra_script')

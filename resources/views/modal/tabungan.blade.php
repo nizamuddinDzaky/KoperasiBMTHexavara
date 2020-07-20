@@ -65,7 +65,7 @@
                                 <option value="0">TIDAK</option>
                             </select>
                         </div>
-                      </div>
+                    </div>
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="namaSim" class="control-label">Saldo minimal<star>*</star></label>

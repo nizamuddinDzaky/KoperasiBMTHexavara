@@ -117,9 +117,11 @@
             </div> <!-- end row -->
 
     </div>
+    
+@endsection
 
+@section('modal')
     @include('modal.tabungan')
-
 @endsection
 
 @section('extra_script')

@@ -369,6 +369,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('modal')
     @include('modal.pengajuan')
     @include('modal.user_tabungan')
 @endsection

@@ -19,6 +19,16 @@
   margin-right: 0;
 }
 
+.row .small-card {
+  width: 20% !important;
+}
+
+@media (max-width: 575px) {
+  .row .small-card {
+    width: 100% !important;
+  }
+}
+
 .card {
   margin-bottom: 20px;
 }
@@ -104,6 +114,21 @@
   line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.card .card-body .summernote-content {
+  padding: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.card .card-body .summernote-content p {
+  font-size: 12px !important;
+  height: 90px;
+  line-height: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: justify;
 }
 
 .card .card-body .date {
@@ -1174,6 +1199,15 @@ input[type="checkbox"]:checked::after {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+}
+
+@media (max-width: 575px) {
+  .head .head-noted {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 
 @media (max-width: 575px) {

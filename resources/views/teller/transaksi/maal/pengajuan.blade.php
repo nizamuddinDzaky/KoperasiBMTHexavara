@@ -61,6 +61,10 @@
         </div>
 
     </div>
+    {{--@include('modal.user_deposito')--}}
+@endsection
+
+@section('modal')
     @include('modal.pengajuan')    
     @include('modal.pembiayaan.angsuranss')
     @include('modal.pembiayaan.view_angsuran')
@@ -70,9 +74,7 @@
     @include('modal.donasi.kegiatan')
     @include('modal.donasi.zis')
     @include('modal.donasi.wakaf')
-    {{--@include('modal.user_deposito')--}}
 @endsection
-
 <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')

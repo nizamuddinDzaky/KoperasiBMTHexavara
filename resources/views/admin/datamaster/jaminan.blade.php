@@ -105,8 +105,10 @@
         </div>
     </div>
 
-    @include('modal.shu')
+@endsection
 
+@section('modal')
+    @include('modal.shu')
 @endsection
 
 @section('extra_script')

@@ -167,6 +167,10 @@
 
 @endsection
 
+@section('modal')
+    @include('modal.anggota')
+@endsection
+
 @section('extra_script')
 
     <script type="text/javascript">

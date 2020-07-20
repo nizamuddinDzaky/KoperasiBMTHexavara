@@ -90,7 +90,10 @@
     </div>
 @endsection
 
-@include('modal/simpanan/pengajuan')
+
+@section('modal')
+    @include('modal/simpanan/pengajuan')    
+@endsection
 
 @section('extra_script')
     {{-- <script type="text/javascript">

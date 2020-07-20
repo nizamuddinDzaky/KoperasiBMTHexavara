@@ -241,6 +241,10 @@
         <input type="hidden" id="pembiayaan" value="{{ $pembiayaan->status }}">
     @endforeach
 
+    
+@endsection
+
+@section('modal')
     @include('modal.pengajuan')
     @include('modal.user_tabungan')
     @include('modal.pembiayaan.angsuranss')

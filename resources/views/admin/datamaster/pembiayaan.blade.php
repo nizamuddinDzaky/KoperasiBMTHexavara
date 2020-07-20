@@ -114,9 +114,10 @@
             </div> <!-- end row -->
 
     </div>
+@endsection
 
+@section('modal')
     @include('modal.pembiayaan')
-
 @endsection
 
 @section('extra_script')

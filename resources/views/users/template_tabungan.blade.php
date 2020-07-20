@@ -129,6 +129,9 @@
             </div>
         </div>
     </div>
+@endsection
+    
+@section('modal')
     @include('modal.pengajuan')
 @endsection
 

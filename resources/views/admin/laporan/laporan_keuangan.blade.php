@@ -110,8 +110,10 @@
 
     </div>
 
-    @include('modal.catatan_rekening')
+@endsection
 
+@section('modal')
+    @include('modal.catatan_rekening')
 @endsection
 
 @section('extra_script')

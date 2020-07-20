@@ -111,8 +111,10 @@
 
     </div>
 
-    @include('modal.deposito')
+@endsection
 
+@section('modal')
+    @include('modal.deposito')
 @endsection
 
 @section('extra_script')

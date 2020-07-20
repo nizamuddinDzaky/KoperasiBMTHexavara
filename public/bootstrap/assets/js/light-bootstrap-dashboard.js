@@ -59,7 +59,7 @@ var mobile_menu_visible = 0,
 })();
 
 $(document).ready(function(){
-
+    
     window_width = $(window).width();
     $sidebar = $('.sidebar');
 

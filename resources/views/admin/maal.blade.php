@@ -204,13 +204,15 @@
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->
     </div>
+    {{--@include('modal.user_deposito')--}}
+@endsection
+
+@section('modal')
     @include('modal.pengajuan')
     @include('modal.user_pembiayaan')
     @include('modal.user_tabungan')
     @include('modal.user_deposito')
-    {{--@include('modal.user_deposito')--}}
 @endsection
-
 <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')

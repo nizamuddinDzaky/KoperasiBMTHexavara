@@ -57,11 +57,13 @@
             </div>
         </div>
     </div>
-    
-    @include('../modal/donasi/kegiatan')
-    @include('../modal/donasi/zis')
-    @include('../modal/donasi/wakaf')
 
+@endsection
+
+@section('modal')
+    @include('modal/donasi/kegiatan')
+    @include('modal/donasi/zis')
+    @include('modal/donasi/wakaf')
 @endsection
 
 @section('extra_script')

@@ -119,6 +119,17 @@
 
 @endsection
 
+@section('modal')
+    @include('modal.pengajuan')
+    @include('modal.pembiayaan.angsuranss')
+    @include('modal.pembiayaan.view_angsuran')
+    @include('modal.pembiayaan.konfirmasi_angsuran')
+    @include('modal.user_tabungan')
+    @include('modal.user_deposito')
+    @include('modal.simpanan.confirm')
+    @include('modal.simpanan.teller.pengajuan')
+@endsection
+
 <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
 @section('extra_script')

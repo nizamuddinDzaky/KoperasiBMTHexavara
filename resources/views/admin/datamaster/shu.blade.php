@@ -108,9 +108,10 @@
             </div> <!-- end row -->
 
     </div>
+@endsection
 
+@section('modal')
     @include('modal.shu')
-
 @endsection
 
 @section('extra_script')

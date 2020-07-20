@@ -264,6 +264,9 @@
             </div> <!-- end row -->
         </div>
     </div>
+@endsection
+
+@section('modal')
     @include('modal.pengajuan')
     @include('modal.user_deposito')
 @endsection

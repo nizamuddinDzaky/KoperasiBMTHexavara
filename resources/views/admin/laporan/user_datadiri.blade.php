@@ -466,8 +466,10 @@
 
 		</div>
 	</div>
+@endsection
 
-	@include('modal.anggota')
+@section('modal')
+    @include('modal.anggota')
 @endsection
 
 @section('extra_script')

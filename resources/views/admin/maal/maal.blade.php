@@ -128,8 +128,10 @@
             </div> <!-- end row -->
 		</div>
 	</div>
+@endsection
 
-	@include('modal.maal')
+@section('modal')
+    @include('modal.maal')
 @endsection
 
 @section('extra_script')

@@ -256,6 +256,10 @@
 
     </div>
     @include('modal.pengajuan')
+@endsection
+
+@section('modal')
+    @include('modal.pengajuan')
     @include('modal.user_tabungan')
 @endsection
 

@@ -146,6 +146,9 @@
             </div> <!-- end row -->
         </div>
     </div>
+@endsection
+
+@section('modal')
     @include('modal.bmt')
 @endsection
 

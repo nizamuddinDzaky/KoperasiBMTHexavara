@@ -93,8 +93,11 @@
     </div>
 
     {{-- @include('modal.view_detail_laporan_keuangan') --}}
-    @include('modal.catatan_rekening')
 
+@endsection
+
+@section('modal')
+    @include('modal.catatan_rekening')
 @endsection
 
 @section('extra_script')

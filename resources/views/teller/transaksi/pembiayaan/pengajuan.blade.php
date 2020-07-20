@@ -228,6 +228,9 @@
             </div><!--  end card  -->
         </div>
     </div>
+@endsection
+
+@section('modal')
     @include('modal.pengajuan')
     @include('modal.pembiayaan.angsuranss')
     @include('modal.pembiayaan.view_angsuran')
@@ -236,7 +239,6 @@
     @include('modal.pembiayaan.konfirmasi_pelunasan')
     @include('modal.pembiayaan.pelunasan')
 @endsection
-
 
 @section('extra_script')
     {{-- MODAL&DATATABLE --}}
