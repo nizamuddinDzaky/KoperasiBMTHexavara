@@ -63,16 +63,6 @@ $(document).ready(function() {
             </div>
              <div class="col-md-4">
                 <div class="form-group">
-                    <label class="control-label">Jumlah Uang <star>*</star></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">Rp</span>
-                        <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
-                        <span class="input-group-addon">.00</span>
-                    </div>
-                </div>
-            </div>
-             <div class="col-md-4">
-                <div class="form-group">
                     <label for="id_" class="control-label">Keterangan<star>*</star></label>
                     <input type="text" class="form-control"  name="keterangan[]" required="true">
                 </div>
