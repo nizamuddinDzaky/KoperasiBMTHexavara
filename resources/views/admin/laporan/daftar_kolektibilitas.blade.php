@@ -219,7 +219,11 @@
                             <td class="text-right"><strong>{{number_format($data['total'][0],2)}}</strong></td>
                             <td></td>
                             <td><strong>PERSENTASE</strong></td>
+                            @if(array_sum($data['total']) != 0)
                             <td class="text-right"><strong>{{number_format($data['total'][0]/array_sum($data['total'])*100,2)}}%</strong></td>
+                                @else
+                            <td class="text-right"><strong>0%</strong></td>
+                            @endif
                         </tr>
                         <tr>
                             <td></td>
@@ -232,7 +236,11 @@
                             <td class="text-right"><strong>{{number_format($data['total'][1],2)}}</strong></td>
                             <td></td>
                             <td><strong>PERSENTASE</strong></td>
+                            @if(array_sum($data['total']) != 0.0)
                             <td class="text-right"><strong>{{number_format($data['total'][1]/array_sum($data['total'])*100,2)}}%</strong></td>
+                            @else
+                                <td class="text-right"><strong>0%</strong></td>
+                            @endif
                         </tr>
                         <tr>
                             <td></td>
@@ -245,7 +253,11 @@
                             <td class="text-right"><strong>{{number_format($data['total'][2],2)}}</strong></td>
                             <td></td>
                             <td><strong>PERSENTASE</strong></td>
+                            @if(array_sum($data['total']) != 0.0)
                             <td class="text-right"><strong>{{number_format($data['total'][2]/array_sum($data['total'])*100,2)}}%</strong></td>
+                            @else
+                                <td class="text-right"><strong>0%</strong></td>
+                            @endif
                         </tr>
                         <tr>
                             <td></td>
@@ -258,7 +270,11 @@
                             <td class="text-right"><strong>{{number_format($data['total'][3],2)}}</strong></td>
                             <td></td>
                             <td><strong>PERSENTASE</strong></td>
+                            @if(array_sum($data['total']) != 0.0)
                             <td class="text-right"><strong>{{number_format($data['total'][3]/array_sum($data['total'])*100,2)}}%</strong></td>
+                                @else
+                                <td class="text-right"><strong>0%</strong></td>
+                                @endif
                         </tr>
                         <tr>
                             <td></td>
@@ -271,7 +287,11 @@
                             <td class="text-right"><strong>{{number_format($data['total'][4],2)}}</strong></td>
                             <td></td>
                             <td><strong>PERSENTASE</strong></td>
+                            @if(array_sum($data['total']) != 0.0)
                             <td class="text-right"><strong>{{number_format($data['total'][4]/array_sum($data['total'])*100,2)}}%</strong></td>
+                                @else
+                                <td class="text-right"><strong>0%</strong></td>
+                                @endif
                         </tr>
                         </tbody>
                     </table>

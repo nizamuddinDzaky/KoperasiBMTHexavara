@@ -81,7 +81,7 @@
 
 {{--Modal Jurnal Lain Rekening--}}
 <div class="modal fade" id="jurnalLainRekModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width: 80%">
         <div class="card card-wizard" id="wizardCardJ">
             <form id="wizardFormJ" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('jurnal_lain')}}" @else action="{{route('teller.jurnal_lain')}}" @endif  enctype="multipart/form-data">
                 {{csrf_field()}}
@@ -98,7 +98,6 @@
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1TabJ">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
-
                             <div id="rowPemasukanJurnalLain">
 
                                 {{-- @if(Request::is('admin/transfer/transfer'))
@@ -118,7 +117,7 @@
                                 @endif --}}
 
                                 <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
+                                    <div class="col-md-3 ">
                                         <div class="form-group">
                                             <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
                                             <select class="form-control select2" id="idRekJ" name="dari[]" style="width: 100%;" required>
@@ -127,6 +126,30 @@
                                                     <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Jumlah Uang <star>*</star></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
+                                                <span class="input-group-addon">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Keterangan<star>*</star></label>
+                                            <input type="text" class="form-control"  name="keterangan[]" required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">&nbsp;</label>
+                                            <button type="button" id="add-row-pemasukan" class="btn btn-success btn-fill pull-right">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -143,36 +166,6 @@
                                         {{-- </div>
                                     </div>
                                 </div> --}}
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Uang <star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
-                                                <span class="input-group-addon">.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-8 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label for="id_" class="control-label">Keterangan<star>*</star></label>
-                                            <input type="text" class="form-control"  name="keterangan[]" required="true">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="" class="control-label">&nbsp;</label>
-                                            <button type="button" id="add-row-pemasukan" class="btn btn-success btn-fill pull-right">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
 
                         </div>

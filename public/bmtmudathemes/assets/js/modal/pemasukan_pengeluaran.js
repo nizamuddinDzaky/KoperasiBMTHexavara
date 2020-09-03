@@ -44,18 +44,14 @@ $(document).ready(function() {
         
         var template = `<div id="row` + rowNum + `">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
                     <select class="form-control select2 idRekJ" name="dari[]" style="width: 100%;" required>
                         <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                     </select>
                 </div>
-            </div>
-        </div>
-        <input type="hidden" name="tipe[]" value="` + tipe + `" />
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label">Jumlah Uang <star>*</star></label>
                     <div class="input-group">
@@ -65,22 +61,32 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-1">
+             <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Jumlah Uang <star>*</star></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">Rp</span>
+                        <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
+                        <span class="input-group-addon">.00</span>
+                    </div>
+                </div>
+            </div>
+             <div class="col-md-4">
                 <div class="form-group">
                     <label for="id_" class="control-label">Keterangan<star>*</star></label>
                     <input type="text" class="form-control"  name="keterangan[]" required="true">
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <div class="form-group">
                     <label for="id_" class="control-label">&nbsp;</label>
-                    <button type="button" onclick="removeRow(` + rowNum  + `)" class="btn btn-danger btn-fill pull-right"><i class="fa fa-minus"></i></button>
+                    <button type="button" onclick="removeRow(\` + rowNum  + \`)" class="btn btn-danger btn-fill pull-right"><i class="fa fa-minus"></i></button>
                 </div>
             </div>
-        </div></div>`;
+             <input type="hidden" name="tipe[]" value="\` + tipe + \`" />
+            </div>
+        </div> 
+        </div>`;
 
         $("#rowPemasukanJurnalLain").append(template);
 
