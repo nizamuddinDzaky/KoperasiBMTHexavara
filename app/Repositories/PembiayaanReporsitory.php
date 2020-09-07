@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Pembiayaan;
 use App\PenyimpananPembiayaan;
 use App\User;
+use App\Rekening;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

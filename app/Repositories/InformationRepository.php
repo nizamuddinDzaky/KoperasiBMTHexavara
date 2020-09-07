@@ -2973,11 +2973,11 @@ class InformationRepository
             $status ="Upgrade";
             // KAS Teller  atau Rek. BMT
 //            $this->AddPenyimpananBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr),$status.$detail['simpanan']);
-            $this->AddPenyimpananBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr),$status.$detail['simpanan']);
+            $this->AddPenyimpananBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr),$status.' '.$detail['simpanan']);
             $this->UpdateSaldoBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr));
             $this->UpdateSaldoPemyimpanan($id_bmt['id_rekening'],$detail['jumlah']*count($usr));
             // Simpanan Wajib Pokok
-            $this->AddPenyimpananBMT($id,$detail['jumlah']*count($usr),$status.$detail['simpanan']);
+            $this->AddPenyimpananBMT($id,$detail['jumlah']*count($usr),$status.' '.$detail['simpanan']);
             $this->UpdateSaldoBMT($id,$detail['jumlah']*count($usr));
             $this->UpdateSaldoPemyimpanan($id,$detail['jumlah']*count($usr));
 
