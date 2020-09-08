@@ -21,7 +21,6 @@ $(document).ready(function() {
     });
 
     $("#add-row-pemasukan").click(function() {
-        console.log("hello");
         $.fn.addRowPemasukanTeller();
     });
 

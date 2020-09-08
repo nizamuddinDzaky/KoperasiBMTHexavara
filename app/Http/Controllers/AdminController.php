@@ -1259,7 +1259,17 @@ class AdminController extends Controller
             ];
             array_push($data, $temp);
         }
-        $jurnal_lain = $this->rekeningReporsitory->transferRekening($data, "Jurnal Lain");
+
+        if ($request->tipe[0] == '1')
+        {
+            $type = "Pemasukan Kas";
+        }
+        else
+        {
+            $type = "Pengeluaran Kas";
+        }
+
+        $jurnal_lain = $this->rekeningReporsitory->transferRekening($data, $type);
         if($jurnal_lain['type'] == "success")
             return redirect()
                 ->back()
