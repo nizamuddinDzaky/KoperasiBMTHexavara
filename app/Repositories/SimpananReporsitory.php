@@ -103,6 +103,7 @@ class SimpananReporsitory {
                 $bank_tujuan_transfer = $data->bank;
                 $path_bukti = $path_bukti_file;
 
+
             }
             if($data->debit == 2)
             {
@@ -147,6 +148,7 @@ class SimpananReporsitory {
                 "detail"        => $detailToPengajuan,
                 "teller"        => 0
             ];
+
 
             if($data->debit == 2)
             {
@@ -420,7 +422,7 @@ class SimpananReporsitory {
             }
 
             $detailToPenyimpananBMT = [
-                "jumlah"        => -json_decode($pengajuan->detail)->jumlah,
+                "jumlah"        => json_decode($pengajuan->detail)->jumlah,
                 "saldo_awal"    => $saldo_awal_pengirim,
                 "saldo_akhir"   => $saldo_akhir_pengirim,
                 "id_pengajuan"  => $pengajuan->id

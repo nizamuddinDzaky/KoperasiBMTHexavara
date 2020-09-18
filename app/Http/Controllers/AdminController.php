@@ -1192,7 +1192,23 @@ class AdminController extends Controller
     */
     public function teller_list() {
         $teller = User::where('tipe', 'teller')->get();
+        $admin = User::where('tipe', 'admin')->get();
         $data = array();
+
+        foreach($admin as $item)
+        {
+            $bmt = BMT::where('id_rekening', json_decode($item['detail'])->id_rekening)->irst();
+            array_push($data, array(
+                "id"        => $item['id'],
+                "nama"      => "KAS ADMIN",
+                "alamat"    => $item['alamat'],
+                "no_ktp"    => $item['no_ktp'],
+                "id_rekening" => json_decode($item['detail'])->id_rekening,
+                "saldo"     => $bmt->saldo
+            ));
+        }
+
+
         foreach($teller as $item)
         {
             $bmt = BMT::where('id_rekening', json_decode($item['detail'])->id_rekening)->first();
@@ -1205,6 +1221,10 @@ class AdminController extends Controller
                 "saldo"     => $bmt->saldo
             ));
         }
+
+
+
+
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
         return view('admin.teller_list', compact('data', 'notification', 'notification_count'));

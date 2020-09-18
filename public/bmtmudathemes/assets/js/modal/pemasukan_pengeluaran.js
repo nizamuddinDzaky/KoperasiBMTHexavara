@@ -41,7 +41,7 @@ $(document).ready(function() {
     var rowNum = 0;
     $.fn.addRowPemasukanTeller = () => {
         rowNum++;
-        
+
         var template = `<div id="row` + rowNum + `">
         <div class="row">
             <div class="col-md-3">
@@ -51,6 +51,7 @@ $(document).ready(function() {
                         <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                     </select>
                 </div>
+             </div>
                 <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label">Jumlah Uang <star>*</star></label>
@@ -60,7 +61,8 @@ $(document).ready(function() {
                         <span class="input-group-addon">.00</span>
                     </div>
                 </div>
-            </div>
+            </div> 
+            <input type="hidden" name="tipe[]" value="` + tipe + `" />
              <div class="col-md-4">
                 <div class="form-group">
                     <label for="id_" class="control-label">Keterangan<star>*</star></label>
@@ -70,12 +72,11 @@ $(document).ready(function() {
             <div class="col-md-1">
                 <div class="form-group">
                     <label for="id_" class="control-label">&nbsp;</label>
-                    <button type="button" onclick="removeRow(\` + rowNum  + \`)" class="btn btn-danger btn-fill pull-right"><i class="fa fa-minus"></i></button>
+                    <button type="button" onclick="removeRow(`+ rowNum+`)" class="btn btn-danger btn-fill pull-right"><i class="fa fa-minus"></i></button>
                 </div>
             </div>
-             <input type="hidden" name="tipe[]" value="\` + tipe + \`" />
+            
             </div>
-        </div> 
         </div>`;
 
         $("#rowPemasukanJurnalLain").append(template);

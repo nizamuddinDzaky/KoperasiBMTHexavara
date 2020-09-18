@@ -2973,6 +2973,9 @@ class InformationRepository
             $status ="Upgrade";
             // KAS Teller  atau Rek. BMT
 //            $this->AddPenyimpananBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr),$status.$detail['simpanan']);
+
+            //Disini bisa di foreach untuk tiap nasabah. tapi untuk parameter harus diteliti lagi lebih lanjut
+            
             $this->AddPenyimpananBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr),$status.' '.$detail['simpanan']);
             $this->UpdateSaldoBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr));
             $this->UpdateSaldoPemyimpanan($id_bmt['id_rekening'],$detail['jumlah']*count($usr));
