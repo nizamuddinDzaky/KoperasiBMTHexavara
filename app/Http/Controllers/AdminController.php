@@ -1197,7 +1197,7 @@ class AdminController extends Controller
 
         foreach($admin as $item)
         {
-            $bmt = BMT::where('id_rekening', json_decode($item['detail'])->id_rekening)->irst();
+            $bmt = BMT::where('id_rekening', json_decode($item['detail'])->id_rekening)->first();
             array_push($data, array(
                 "id"        => $item['id'],
                 "nama"      => "KAS ADMIN",
