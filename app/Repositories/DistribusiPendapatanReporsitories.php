@@ -96,7 +96,7 @@ class DistribusiPendapatanReporsitories {
 
             $total_pendapatan_product += $pendapatan_product;
 
-            array_push($data_rekening, [ 
+            array_push($data_rekening, [
                 "jenis_rekening" => $dep->nama_rekening,
                 "jumlah"         => count($deposito),
                 "rata_rata"      => $rata_rata,
@@ -109,6 +109,88 @@ class DistribusiPendapatanReporsitories {
                 "porsi_bmt"         => $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product)
             ]);
         }
+
+
+        return $data_rekening;
+    }
+
+    /**
+     * Get data to distribusi revenue
+     * @return Response
+     */
+    public function getDistribusiRevenueData()
+    {
+        $rekening_tabungan = $this->getRekening("TABUNGAN");
+        $rekening_deposito = $this->getRekening("DEPOSITO");
+
+        $data_rekening = array();
+        $total_rata_rata = array();
+
+        foreach($rekening_tabungan as $tab)
+        {
+            $tabungan = $this->tabunganReporsitory->getTabungan($tab->nama_rekening);
+            array_push($total_rata_rata, floatval($tab->saldo) > 0 ? floatval($tab->saldo) / count($tabungan) : 0);
+        }
+
+        foreach($rekening_deposito as $dep)
+        {
+            $deposito = $this->depositoReporsitory->getDeposito("active", $dep->nama_rekening);
+            array_push($total_rata_rata, floatval($dep->saldo) > 0 ? floatval($dep->saldo) / count($deposito) : 0);
+        }
+
+        $total_rata_rata = $this->getTotalProductAverage($total_rata_rata);
+        $total_pendapatan = $this->getRekeningPendapatan("saldo") - $this->getRekeningBeban("saldo");
+        $total_pendapatan_product = 0;
+
+        foreach($rekening_tabungan as $tab)
+        {
+            $tabungan = $this->tabunganReporsitory->getTabungan($tab->nama_rekening);
+            $rata_rata = floatval($tab->saldo) > 0 ? floatval($tab->saldo) / count($tabungan) : 0;
+            $nisbah_anggota = json_decode($tab->detail)->nisbah_anggota;
+            $nisbah_bmt = 100 - json_decode($tab->detail)->nisbah_anggota;
+            $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
+
+            $total_pendapatan_product += $pendapatan_product;
+
+            array_push($data_rekening, [
+                "jenis_rekening"    => $tab->nama_rekening,
+                "jumlah"            => count($tabungan),
+                "rata_rata"         => $rata_rata,
+                "nisbah_anggota"    => $nisbah_anggota,
+                "nisbah_bmt"        => $nisbah_bmt,
+                "total_rata_rata"   => $total_rata_rata,
+                "total_pendapatan"  => $total_pendapatan,
+                "pendapatan_product" => $pendapatan_product,
+                "porsi_anggota"     => $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product),
+                "porsi_bmt"         => $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product),
+                "percentage_anggota" => $total_pendapatan > 0 ?$this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product) / $total_pendapatan : 0
+            ]);
+        }
+
+        foreach($rekening_deposito as $dep)
+        {
+            $deposito = $this->depositoReporsitory->getDeposito("active", $dep->nama_rekening);
+            $rata_rata = floatval($dep->saldo) > 0 ? floatval($dep->saldo) / count($deposito) : 0;
+            $nisbah_anggota = json_decode($dep->detail)->nisbah_anggota;
+            $nisbah_bmt = 100 - json_decode($dep->detail)->nisbah_anggota;
+            $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
+
+            $total_pendapatan_product += $pendapatan_product;
+
+            array_push($data_rekening, [
+                "jenis_rekening" => $dep->nama_rekening,
+                "jumlah"         => count($deposito),
+                "rata_rata"      => $rata_rata,
+                "nisbah_anggota"    => $nisbah_anggota,
+                "nisbah_bmt"        => $nisbah_bmt,
+                "total_rata_rata"   => $total_rata_rata,
+                "total_pendapatan"  => $total_pendapatan,
+                "pendapatan_product" => $pendapatan_product,
+                "porsi_anggota"     => $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product),
+                "porsi_bmt"         => $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product)
+            ]);
+        }
+
 
         return $data_rekening;
     }
@@ -127,6 +209,22 @@ class DistribusiPendapatanReporsitories {
         }
         return $pendapatan;
     }
+
+    /**
+     * Get total beban
+     * @return Response
+     */
+    public function getRekeningBeban($key="")
+    {
+        $pendapatan = BMT::where('id_bmt', 'like', '5%')->get();
+
+        if($key == "saldo")
+        {
+            $pendapatan = BMT::where('id_bmt', 'like', '5%')->sum("saldo");
+        }
+        return $pendapatan;
+    }
+
 
     /**
      * Get rekening data

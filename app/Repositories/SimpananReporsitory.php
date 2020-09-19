@@ -201,8 +201,8 @@ class SimpananReporsitory {
         DB::beginTransaction();
         try
         {
-            $pengajuan = $this->pengajuanReporsitory->findPengajuan($data->id_pengajuan);
-            $user_simpanan = User::where('id', $pengajuan->id_user)->first();
+            $pengajuan = $this->pengajuanReporsitory->findPengajuan($data->id_pengajuan); //tarik data pengajuan sesuai dengan id pengajuan
+            $user_simpanan = User::where('id', $pengajuan->id_user)->first(); // abil data user sesuai dengan id user di pengajuan
             if(json_decode($pengajuan->detail)->jenis == "Transfer")
             {
                 $bmt_simpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->first();
@@ -213,17 +213,17 @@ class SimpananReporsitory {
             }
             if(json_decode($pengajuan->detail)->jenis == "Tabungan")
             {
-                $bmt_simpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->first();
-                $tabungan_pengirim = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->bank_tujuan_transfer)->first();
-                $bmt_bank_pengirim = BMT::where('id_rekening', $tabungan_pengirim->id_rekening)->first();
+                $bmt_simpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->first(); // mengambil data bmt untuk id 120
+                $tabungan_pengirim = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->bank_tujuan_transfer)->first(); // mendapatkan tabungan asal
+                $bmt_bank_pengirim = BMT::where('id_rekening', $tabungan_pengirim->id_rekening)->first(); // mendapatkan rekening bmt tabungan
 
-                $id_bmt_simpanan = $bmt_simpanan->id;
-                $id_bmt_bank_pengirim = $bmt_bank_pengirim->id;
+                $id_bmt_simpanan = $bmt_simpanan->id; // id bmt simpanan khusus
+                $id_bmt_bank_pengirim = $bmt_bank_pengirim->id; // id rekening simpanan asal
             }
 
             $bmt_simpanan = BMT::where('id_rekening', $data->id_rekening_simpanan)->first();
-            $saldo_awal_bmt_simpanan = $bmt_simpanan->saldo;
-            $saldo_akhir_bmt_simpanan = $saldo_awal_bmt_simpanan + floatval(json_decode($pengajuan->detail)->jumlah);
+            $saldo_awal_bmt_simpanan = $bmt_simpanan->saldo; // saldo awal simpanan khusus
+            $saldo_akhir_bmt_simpanan = $saldo_awal_bmt_simpanan + floatval(json_decode($pengajuan->detail)->jumlah); // saldo awal simpanan khusus + jumlah pengajuan
 
             if($data->id_rekening_simpanan == 117)
             {
@@ -331,7 +331,7 @@ class SimpananReporsitory {
                         $dataToUpdateUsers = [
                             "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib) + json_decode($pengajuan->detail)->jumlah,
                             "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                            "khusus"     => 0
+                            "khusus"     => 0,
                         ];
                     }
                 }
@@ -357,13 +357,13 @@ class SimpananReporsitory {
             
                 if(isset(json_decode($user_simpanan->wajib_pokok)->khusus))
                 {
-                    $saldo_awal_simpanan = json_decode($user_simpanan->wajib_pokok)->khusus;
+                    $saldo_awal_simpanan = json_decode($user_simpanan->wajib_pokok)->khusus; //dapet saldo awal khusus user
                 }
                 else
                 {
                     $saldo_awal_simpanan = 0;
                 }
-                $saldo_awal_pengirim = $bmt_bank_pengirim->saldo;
+                $saldo_awal_pengirim = $bmt_bank_pengirim->saldo; // saldo awal tabungan bmt
 
                 if(isset(json_decode($user_simpanan->wajib_pokok)->margin))
                 {
@@ -372,7 +372,7 @@ class SimpananReporsitory {
                         $dataToUpdateUsers = [
                             "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                             "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
+                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah, //data untuk update user
                             "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
                         ];
                     }
@@ -401,16 +401,16 @@ class SimpananReporsitory {
                         $dataToUpdateUsers = [
                             "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                             "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                            "khusus"     => 0
+                            "khusus"     => 0,
                         ];
                     }
                 }
 
                 if(json_decode($pengajuan->detail)->jenis == "Tabungan")
                 {
-                    $dataToUpdateBMTPengirim = floatval($bmt_bank_pengirim->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
-                    $saldo_akhir_pengirim = $saldo_awal_pengirim - floatval(json_decode($pengajuan->detail)->jumlah);
-                    $saldo_akhir_simpanan = $saldo_awal_simpanan + floatval(json_decode($pengajuan->detail)->jumlah);
+                    $dataToUpdateBMTPengirim = floatval($bmt_bank_pengirim->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);// kurangi saldo bmt tabungan dengan jumlah pengajuan
+                    $saldo_akhir_pengirim = $saldo_awal_pengirim - floatval(json_decode($pengajuan->detail)->jumlah); // saldo awal tabungan user dikurangi jumlah pengajuan
+                    $saldo_akhir_simpanan = $saldo_awal_simpanan + floatval(json_decode($pengajuan->detail)->jumlah); // saldo akhir dari user khusus
                 }
                 if(json_decode($pengajuan->detail)->jenis == "Transfer")
                 {
@@ -418,12 +418,12 @@ class SimpananReporsitory {
                     $saldo_akhir_pengirim = $saldo_awal_pengirim + floatval(json_decode($pengajuan->detail)->jumlah);
                     $saldo_akhir_simpanan = $saldo_awal_simpanan + floatval(json_decode($pengajuan->detail)->jumlah);
                 }
-                $dataToUpdateBMTSimpanan = floatval($bmt_simpanan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah);
+                $dataToUpdateBMTSimpanan = floatval($bmt_simpanan->saldo) + floatval(json_decode($pengajuan->detail)->jumlah); // bmt simpanan khusus ditambah jumlah pengajuan
             }
 
             $detailToPenyimpananBMT = [
                 "jumlah"        => json_decode($pengajuan->detail)->jumlah,
-                "saldo_awal"    => $saldo_awal_pengirim,
+                "saldo_awal"    => $saldo_awal_pengirim, //saldo tabungan
                 "saldo_akhir"   => $saldo_akhir_pengirim,
                 "id_pengajuan"  => $pengajuan->id
             ];
@@ -436,7 +436,7 @@ class SimpananReporsitory {
             ];
 
             // Insert record for bank pengirim
-            $insertIntoPenyimpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+            $insertIntoPenyimpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT); //masuk data tabungan pengirim yang sudah berkurang
             if($insertIntoPenyimpananBMTPengirim == "success")
             {
 
@@ -447,7 +447,7 @@ class SimpananReporsitory {
                 $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
                 // Insert record for simpanan
-                $insertIntoPenyimpananBMTSimpanan = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                $insertIntoPenyimpananBMTSimpanan = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT); // masuk data simpanan khusus
 
                 if($insertIntoPenyimpananBMTSimpanan == "success")
                 {
@@ -468,7 +468,7 @@ class SimpananReporsitory {
                     ];
                 }
 
-                $insertToPenyimpananWajibPokok = $this->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+                $insertToPenyimpananWajibPokok = $this->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok); //masuk ke history penyimpanan wajib pokok
 
                 if($insertToPenyimpananWajibPokok == "success")
                 {
@@ -476,18 +476,18 @@ class SimpananReporsitory {
                     {
                         if(json_decode($tabungan_pengirim->detail)->saldo > json_decode($pengajuan->detail)->jumlah)
                         {
-                            $updateBMTPengirim = BMT::where('id', $id_bmt_bank_pengirim)->update([ "saldo" => $dataToUpdateBMTPengirim ]);
-                            $updateBMTSimpanan = BMT::where('id', $id_bmt_simpanan)->update([ "saldo" => $dataToUpdateBMTSimpanan ]);
-                            $updateUser = User::where('id', $pengajuan->id_user)->update([ "wajib_pokok" => json_encode($dataToUpdateUsers) ]);
+                            $updateBMTPengirim = BMT::where('id', $id_bmt_bank_pengirim)->update([ "saldo" => $dataToUpdateBMTPengirim ]); // update saldo tabungan alias dikurangi
+                            $updateBMTSimpanan = BMT::where('id', $id_bmt_simpanan)->update([ "saldo" => $dataToUpdateBMTSimpanan ]); // tambah saldo simpanan khusus
+                            $updateUser = User::where('id', $pengajuan->id_user)->update([ "wajib_pokok" => json_encode($dataToUpdateUsers) ]); // update saldo user
                             $updatePengajuan = Pengajuan::where('id', $pengajuan->id)->update([
                                 "status"    => "Sudah Dikonfirmasi",
                                 "teller"    => Auth::user()->id
-                            ]);
+                            ]); // update pengajuan
 
                             $dataToUpdateTabungan = [
                                 "saldo" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
                                 "id_pengajuan" => $pengajuan->id
-                            ];
+                            ]; // update saldo tabungan pribadi
 
                             $tabungan = Tabungan::where('id_tabungan', json_decode($pengajuan->detail)->bank_tujuan_transfer)->update([
                                 "detail"    => json_encode($dataToUpdateTabungan)
@@ -688,6 +688,7 @@ class SimpananReporsitory {
                             "wajib"     => floatval(json_decode($user->wajib_pokok)->wajib) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                             "pokok"     => floatval(json_decode($user->wajib_pokok)->pokok),
                             "khusus"     => floatval(json_decode($user->wajib_pokok)->khusus),
+
                         ];
                     }
                     else

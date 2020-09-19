@@ -24,6 +24,7 @@ use App\PenyimpananTabungan;
 use App\PenyimpananUsers;
 use App\PenyimpananWajibPokok;
 use App\Rekening;
+use App\Repositories\SimpananReporsitory;
 use App\SHU;
 use App\Tabungan;
 use App\Deposito;
@@ -63,7 +64,8 @@ class InformationRepository
         PenyimpananDeposito $p_deposito,
         Pembiayaan $pembiayaan,
         PenyimpananPembiayaan $p_pembiayaan,
-        Pengajuan $pengajuan
+        Pengajuan $pengajuan,
+        SimpananReporsitory $simpananReporsitory
     )
     {
         $this->rekening = $rekening;
@@ -79,6 +81,7 @@ class InformationRepository
         $this->pembiayaan = $pembiayaan;
         $this->p_pembiayaan = $p_pembiayaan;
         $this->pengajuan = $pengajuan;
+        $this->simpananReporsitory = $simpananReporsitory;
     }
 
 //=============== ADMIN REPOSITORY =====================
@@ -286,10 +289,10 @@ class InformationRepository
             else return false;
         }
     }
-    function AddPenyimpananBMT($id,$jumlah,$status){
+    function AddPenyimpananBMT($id,$jumlah,$status, $iduser){
         $rek = BMT::where('id_rekening',$id)->first();
         $bmt=new PenyimpananBMT();
-        $bmt->id_user=Auth::user()->id;
+        $bmt->id_user=$iduser;
         $bmt->id_bmt=$rek->id;
         $bmt->status=$status;
         $bmt->teller=Auth::user()->id;
@@ -2929,10 +2932,12 @@ class InformationRepository
         $id = 0;
         if($request->wapok == 0){
             $detail['simpanan']="pokok";
+            $untukRekening = "SIMPANAN POKOK ANGGOTA";
             $id = 117;
         }
         elseif($request->wapok== 1){
             $detail['simpanan']="wajib";
+            $untukRekening = "SIMPANAN WAJIB ANGGOTA";
             $id = 119;
         }
         if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
@@ -2947,6 +2952,8 @@ class InformationRepository
 //            $status ="Upgrade ";
 //        }
 
+
+
         if($request->asal==1)
             $id_bmt = $this->bmt->where('id_rekening',$request->dariRek)->first();
         elseif($request->asal==0){
@@ -2958,13 +2965,55 @@ class InformationRepository
         $periode = $home->MonthShifter(0)->format(('Y'));
         try {
             foreach($usr as $u){
+
+                if($id == 117)
+                {
+                    $saldoAwal = floatval(json_decode($u['wajib_pokok'],true)['pokok']);
+                    $saldoAkhir = $saldoAwal + floatval($detail['jumlah']);
+                }
+                else if($id == 119)
+                {
+                    $saldoAwal =  floatval(json_decode($u['wajib_pokok'],true)['wajib']);
+                    $saldoAkhir = $saldoAwal + floatval($detail['jumlah']);
+                }
+
+
+                $detailToPenyimpananWajibPokok = [
+                    "teller"        => 1,
+                    "dari_rekening" => "",
+                    "untuk_rekening"=> $untukRekening,
+                    "jumlah"        => $detail['jumlah'],
+                    "saldo_awal"    => $saldoAwal,
+                    "saldo_akhir"   => $saldoAkhir,
+                ];
+                $dataToPenyimpananWajibPokok = [
+                    "id_user"       => $u['id'],
+                    "id_rekening"   => $id,
+                    "status"        => 'Simpanan ' . ucfirst($detail['simpanan']),
+                    "transaksi"     => $detailToPenyimpananWajibPokok,
+                    "teller"        => 1
+                ];
+
+                $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+
+
                 if($detail['simpanan']=="pokok"){
+                    if(isset(json_decode($u->wajib_pokok)->margin))
+                    {
+                        $d['margin'] = floatval(json_decode($u['wajib_pokok'],true)['margin']);
+                    }
                     $d['pokok'] = floatval(json_decode($u['wajib_pokok'],true)['pokok']) + floatval($detail['jumlah']);
                     $d['wajib'] = floatval(json_decode($u['wajib_pokok'],true)['wajib']);
+                    $d['khusus'] = floatval(json_decode($u['wajib_pokok'],true)['khusus']);
                 }
                 elseif($detail['simpanan']=="wajib"){
+                    if(isset(json_decode($u->wajib_pokok)->margin))
+                    {
+                        $d['margin'] = floatval(json_decode($u['wajib_pokok'],true)['margin']);
+                    }
                     $d['pokok'] = floatval(json_decode($u['wajib_pokok'],true)['pokok']);
                     $d['wajib'] = floatval(json_decode($u['wajib_pokok'],true)['wajib']) + floatval($detail['jumlah']);
+                    $d['khusus'] = floatval(json_decode($u['wajib_pokok'],true)['khusus']);
                 }
                 $u['wajib_pokok'] = json_encode($d);
                 $this->UpdateSaldoPemyimpananUsr($u['id'],$d,$periode);
@@ -2974,15 +3023,19 @@ class InformationRepository
             // KAS Teller  atau Rek. BMT
 //            $this->AddPenyimpananBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr),$status.$detail['simpanan']);
 
-            //Disini bisa di foreach untuk tiap nasabah. tapi untuk parameter harus diteliti lagi lebih lanjut
-            
-            $this->AddPenyimpananBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr),$status.' '.$detail['simpanan']);
-            $this->UpdateSaldoBMT($id_bmt['id_rekening'],$detail['jumlah']*count($usr));
-            $this->UpdateSaldoPemyimpanan($id_bmt['id_rekening'],$detail['jumlah']*count($usr));
-            // Simpanan Wajib Pokok
-            $this->AddPenyimpananBMT($id,$detail['jumlah']*count($usr),$status.' '.$detail['simpanan']);
-            $this->UpdateSaldoBMT($id,$detail['jumlah']*count($usr));
-            $this->UpdateSaldoPemyimpanan($id,$detail['jumlah']*count($usr));
+            foreach($usr as $u) {
+
+
+                $this->AddPenyimpananBMT($id_bmt['id_rekening'], $detail['jumlah'], $status . ' ' . $detail['simpanan'], $u['id']);
+                $this->UpdateSaldoBMT($id_bmt['id_rekening'], $detail['jumlah']);
+                $this->UpdateSaldoPemyimpanan($id_bmt['id_rekening'], $detail['jumlah']);
+                // Simpanan Wajib Pokok  <- ini untuk menambah rekening di simpanan wajijb atau pokok
+                $this->AddPenyimpananBMT($id, $detail['jumlah'], $status . ' ' . $detail['simpanan'],$u['id']);
+                $this->UpdateSaldoBMT($id, $detail['jumlah'] );
+                $this->UpdateSaldoPemyimpanan($id, $detail['jumlah']);
+
+
+            }
 
             return true;
         }

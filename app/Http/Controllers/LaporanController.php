@@ -585,11 +585,12 @@ class LaporanController extends Controller
     }
     public function distribusi(){
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+
         return view('admin.laporan.distribusi',[
             'notification' => $notification,
             'notification_count' =>count($notification),
             'data' => $this->distribusiPendapatanReporsitory->getDistribusiData(),
+            'data_revenue' => $this->distribusiPendapatanReporsitory->getDistribusiRevenueData(),
             'status' => $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus(),
         ]);
     }
