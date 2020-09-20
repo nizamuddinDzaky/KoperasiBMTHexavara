@@ -3330,7 +3330,7 @@ class InformationRepository
     //    ANGGOTA
     function addIdentitas($data,$request)
     {
-
+        
         $uploadedKTP = $request->file('filektp');
         $uploadedKSK = $request->file('fileksk');
         $uploadedNikah = $request->file('filenikah');
@@ -3368,7 +3368,7 @@ class InformationRepository
             Storage::delete("public/file/".$prevfile2);
         if($prevfile3)
             Storage::delete("public/file/".$prevfile3);
-        $pengajuan = Pengajuan::where('kategori',"Tabungan Awal")->where('status',"Menunggu Konfirmasi")->first();
+        $pengajuan = Pengajuan::where('kategori',"Tabungan Awal")->where('status',"Menunggu Konfirmasi")->where('id_user',Auth::user()->id)->first();
         if(Auth::user()->tipe=="teller"){
             $data['no_ktp']=Auth::user()->no_ktp;
             $status=2;
