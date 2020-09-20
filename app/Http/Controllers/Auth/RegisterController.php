@@ -73,6 +73,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $date = Carbon::now('Asia/Jakarta');
+        $array = ['profile' => null, 'KTP' => null, "KSK" => null, "Nikah" => null];
         return User::create([
             'nama' => $data['nama'],
             'no_ktp' => $data['no_ktp'],
@@ -80,6 +81,7 @@ class RegisterController extends Controller
             'tipe' => "anggota",
             'role' => "anggota",
             'password' => bcrypt($data['password']),
+            'pathfile' => json_encode($array),
         ]);
     }
 }
