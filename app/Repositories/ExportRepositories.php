@@ -119,9 +119,9 @@ class ExportRepositories {
         $user = strtolower($data['user']);
         $export = $this->generateContent($data['template_path'], $data['data_template'], $data['data_template_row'], $data['data_template_row_title']);
         $filename = $type . "_" . str_replace(" ", "_", $user) . "_" . $data['id'] . ".docx";
-        $path = public_path('storage/public/docx/' . $filename);
+        $path = public_path('storage/docx/' . $filename);
         
-        $export_to_app = $export->saveAs('storage/public/docx/' . $filename);
+        $export_to_app = $export->saveAs('storage/docx/' . $filename);
         
         return $data;
     }
