@@ -1165,7 +1165,7 @@ class TellerController extends Controller
         $pembiayaan = Pembiayaan::where('id', $id)->first();
         $user_pembiayaan = strtolower($pembiayaan->user->nama);
         $filename = 'perjanjian_pembiayaan_' . str_replace(" ", "_", $user_pembiayaan) . "_" . $id . '.docx';
-        $location = public_path('storage/public/docx/' . $filename);
+        $location = public_path('storage/docx/' . $filename);
         
         $this->exportRepository->saveToPC($location, $filename);
 
