@@ -1167,9 +1167,12 @@ class TellerController extends Controller
         $filename = 'perjanjian_pembiayaan_' . str_replace(" ", "_", $user_pembiayaan) . "_" . $id . '.docx';
         $location = public_path('storage/docx/' . $filename);
         
-        $this->exportRepository->saveToPC($location, $filename);
+//        $this->exportRepository->saveToPC($location, $filename);
+        $headers = [
+            'Content-Type' => 'application/docx',
+        ];
 
-        return redirect()->back();
+        return response()->download($location, $filename, $headers);
 
     }
     public function akad_deposito($id)
