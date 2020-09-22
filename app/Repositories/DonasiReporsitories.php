@@ -19,6 +19,7 @@ use App\Repositories\PengajuanReporsitories;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Maal;
+use App\Wakaf;
 use App\PenyimpananMaal;
 use App\PenyimpananBMT;
 use App\User;
@@ -163,7 +164,7 @@ class DonasiReporsitories {
             $pengajuan = Pengajuan::where('id', $data->id_)->first();
             $bmt_donasi = BMT::where('id_rekening', $pengajuan->id_rekening)->select(['id', 'saldo', 'nama'])->first();
             $saldo_awal_donasi = $bmt_donasi->saldo;
-            $saldo_akhir_donasi = $bmt_donasi->saldo;
+            $saldo_akhir_donasi     = $bmt_donasi->saldo + json_decode($pengajuan->detail)->jumlah; // checker
             
             if(json_decode($pengajuan->detail)->id_maal != null) {
                 $kegiatan_maal = Maal::where('id', json_decode($pengajuan->detail)->id_maal)->first();
@@ -242,7 +243,7 @@ class DonasiReporsitories {
 
             $detailToPenyimpananMaal = [
                 'id_maal'   => json_decode($pengajuan->detail)->id_maal,
-                'jenis_donasi'    => json_decode($pengajuan->detail)->jenis_donasi,
+                'jenis_donasi'  => json_decode($pengajuan->detail)->jenis_donasi,
                 'id'        => json_decode($pengajuan->detail)->id,
                 'nama'      => json_decode($pengajuan->detail)->nama,
                 'debit'     => json_decode($pengajuan->detail)->debit,
@@ -397,6 +398,86 @@ class DonasiReporsitories {
         else
         {
             $response = array("type" => "error", "message" => "Pengajuan Donasi Maal Gagal Dikonfirmasi");
+        }
+
+        return $response;
+    }
+
+    //Wakaf
+    public function sendDonasiWakaf($data)
+    {
+        DB::beginTransaction();
+        try
+        {
+            // Get metode pembayaran (Transfer or tabungan)
+            if($data->debit == 1) {
+                $file = $data->file->getClientOriginalName();
+                $file_name = preg_replace('/\s+/', '_', $file);
+                $fileToUpload = time() . "-" . $file_name;
+                $data->file('file')->storeAs(
+                    'transfer', $fileToUpload
+                );
+
+                $debit = "Transfer";
+                $path_bukti = $fileToUpload;
+                $rekening = null;
+                $atasnama = $data->atas_nama;
+                $namabank = $data->nama_bank;
+                $norek = $data->nomor_rekening;
+                $bank_tujuan_transfer = $data->bank_tujuan;
+            } else {
+                $debit = "Tabungan";
+                $path_bukti = null;
+                $rekening = $data->rekening;
+                $atasnama = null;
+                $namabank = null;
+                $norek = null;
+                $bank_tujuan_transfer = null;
+            }
+
+            // Get jenis donasi (donasi kegiatan/maal, zis, wakaf)
+            if($data->jenis_donasi == 'donasi kegiatan wakaf')
+            {
+                $jenis_pengajuan = "Wakaf";
+                $id_rekening = 114;
+            }
+
+            $detail = [
+                'id_maal'   => $data->id_donasi,
+                'jenis_donasi'    => $data->jenis_donasi,
+                'id'        => Auth::user()->id,
+                'nama'      => Auth::user()->nama,
+                'debit'     => $debit,
+                'path_bukti'=> $path_bukti,
+                'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
+                'rekening'  => $rekening,
+                'atasnama'  => $atasnama,
+                'bank'      => $namabank,
+                'no_bank'   => $norek,
+                'bank_tujuan_transfer' => $bank_tujuan_transfer
+            ];
+
+            $dataToSave = [
+                'id_user'           => Auth::user()->id,
+                'id_rekening'       => $id_rekening,
+                'jenis_pengajuan'   => $jenis_pengajuan,
+                'status'            => 'Menunggu Konfirmasi',
+                'kategori'          => 'Donasi',
+                'detail'            => $detail,
+                'teller'            => 0
+            ];
+
+            $pengajuan = $this->pengajuanReporsitory->createPengajuan($dataToSave);
+            if($pengajuan['type'] == "success")
+            {
+                DB::commit();
+                $response = array("type" => "success", "message" => "Pengajuan Donasi berhasil dibuat");
+            }
+        }
+        catch(Exception $ex)
+        {
+            DB::rollback();
+            $response = array("type" => "error", "message" => "Pengajuan Donasi gagal dibuat");
         }
 
         return $response;
@@ -768,6 +849,66 @@ class DonasiReporsitories {
                 
                 DB::commit();
                 $response = array("type" => "success", "message" => "Kegiatan maal baru berhasil dibuat.");
+            }
+        }
+        catch(Exception $ex)
+        {
+            DB::rollback();
+            $response = array("type" => "error", "message" => "Kegiatan maal gagal dibuat.");
+        }
+
+        return $response;
+    }
+
+    /**
+     * Create new kegiatan Wakaf
+     * @return Response
+     */
+    public function createNewKegiatanWakaf($data)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $data_wakaf = Wakaf::take('1')->orderBy('id_wakaf', 'desc')->first();
+            if(isset($data_wakaf->id_wakaf))
+            {
+                $last_id = $data_wakaf->id_wakaf;
+            }
+            else
+            {
+                $last_id = 0;
+            }
+            $bmt_wakaf = BMT::where('nama', 'WAKAF UANG')->first();
+
+            $file = $data->file->getClientOriginalName();
+            $file_name = preg_replace('/\s+/', '_', $file);
+            $fileToUpload = time() . "-" . $file_name;
+
+            $detail = array(
+                "detail"        => $data->detail,
+                "dana"          => preg_replace('/[^\d.]/', '', $data->jumlah),
+                "terkumpul"     => 0,
+                "path_poster"   => $fileToUpload
+            );
+
+            $wakaf = new Wakaf();
+            $wakaf->id = $last_id + 1;
+            $wakaf->id_wakaf = $last_id + 1;
+            $wakaf->id_rekening = $bmt_wakaf->id_rekening;
+            $wakaf->nama_kegiatan = $data->kegiatan;
+            $wakaf->tanggal_pelaksaaan = Carbon::parse($data->tgl)->format('Y-m-d');
+            $wakaf->status = "active";
+            $wakaf->detail = json_encode($detail);
+            $wakaf->teller = Auth::user()->id;
+
+            if($wakaf->save())
+            {
+                $data->file('file')->storeAs(
+                    'public/wakaf', $fileToUpload
+                );
+
+                DB::commit();
+                $response = array("type" => "success", "message" => "Kegiatan wakaf baru berhasil dibuat.");
             }
         }
         catch(Exception $ex)
