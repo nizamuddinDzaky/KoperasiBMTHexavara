@@ -14,13 +14,29 @@
             font-size: 5vmax;}
         h3 {
             font-size: 2vw !important;}
+
+        .badge-success {
+            background-color: #1e7e34;!important;
+        }
+
+        .badge-danger {
+            background-color: #ff0000;!important;
+        }
+
+
     </style>
 @endsection
 @section('content')
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Neraca Saldo</h4>
+                @if($statusNeraca)
+                    <h4 class="title">Neraca Saldo       <span  class="badge badge-pill badge-success">Neraca Seimbang</span></h4>
+                @else
+                    <h4 class="title">Neraca Saldo       <span class="badge badge-pill badge-danger">Neraca tidak Seimbang</span></h4>
+                @endif
+
+
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>

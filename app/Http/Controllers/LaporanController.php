@@ -480,6 +480,11 @@ class LaporanController extends Controller
         $time_input = date_create($str);
 
         // return response()->json($data2);
+        $statusNeraca = true;
+        if($aktiva != $pasiva)
+        {
+            $statusNeraca = false;
+        }
         $notification = $this->pengajuanReporsitory->getNotification();
         
         return view('admin.laporan.neraca',[
@@ -489,6 +494,7 @@ class LaporanController extends Controller
             'data2' => $data2,
             'aktiva' =>$aktiva,
             'pasiva' =>$pasiva,
+            'statusNeraca' => $statusNeraca,
             // 'periode'  => $periode,
             'bulan'=> date_format($time_input,"F Y")
         ]);
