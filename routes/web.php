@@ -282,6 +282,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as' => 'admin.konfirmasi.donasimaal',
             'uses' => 'MaalController@konfirmasi_donasi'
         ]);
+
+        Route::post('/konfirmasi_donasi_wakaf', [
+            'as' => 'admin.konfirmasi.donasiwakaf',
+            'uses' => 'WakafController@konfirmasi_donasi_wakaf'
+        ]);
         //
         Route::post('/jurnallain', [
             'as' => 'jurnal_lain',
@@ -817,6 +822,33 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         ]);
     });
 
+    //WAKAF
+    Route::group(['prefix' => 'wakaf', 'middleware' => ['auth']], function () {
+        Route::get('/daftar', [
+            'as'        => 'admin.wakaf',
+            'uses'      => 'WakafController@index'
+        ]);
+        Route::post('/add', [
+            'as'        => 'kegiatan.store.wakaf',
+            'uses'      => 'WakafController@add_kegiatan'
+        ]);
+        //        Route::post('/edit', [
+        //            'as'        => 'edit.kegiatan',
+        //            'uses'      => 'MaalController@edit_kegiatan'
+        //        ]);
+        //        Route::post('/delete', [
+        //            'as'        => 'delete.kegiatan',
+        //            'uses'      => 'MaalController@delete_kegiatan'
+        //        ]);
+        Route::post('/detail', [
+            'as'        => 'admin.detail_transaksi.wakaf',
+            'uses'      => 'WakafController@detail_wakaf'
+        ]);
+        Route::get('/transaksi', [
+            'as'        => 'admin.transaksi.wakaf',
+            'uses'      => 'WakafController@transaksi_wakaf'
+        ]);
+    });
 
 });
 
@@ -1199,6 +1231,11 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'uses' => 'MaalController@konfirmasi_donasi'
         ]);
 
+        Route::post('/konfirmasi_donasi_wakaf', [
+            'as' => 'teller.konfirmasi.donasiwakaf',
+            'uses' => 'WakafController@konfirmasi_donasi_wakaf'
+        ]);
+
         Route::group(['prefix' => 'tabungan', 'middleware' => ['auth']], function () {
             Route::get('/', [
                 'as'        => 'pengajuan_tabungan',
@@ -1485,6 +1522,11 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
         'uses'      => 'UserController@donasi_maal'
     ]);
 
+    Route::get('/wakaf/transaksi', [
+        'as'        => 'anggota.transaksi.wakaf',
+        'uses'      => 'UserController@transaksi_wakaf'
+    ]);
+
     Route::get('/maal/transaksi', [
         'as'        => 'anggota.transaksi.maal',
         'uses'      => 'UserController@transaksi_maal'
@@ -1493,6 +1535,11 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
     Route::post('/donasi', [
         'as'        => 'donasimaal',
         'uses'      => 'UserController@donasimaal'
+    ]);
+
+    Route::post('/donasiwakaf', [
+        'as'        => 'donasiwakaf',
+        'uses'      => 'UserController@donasiwakaf'
     ]);
 
     Route::post('/keluar_dari_anggota', [

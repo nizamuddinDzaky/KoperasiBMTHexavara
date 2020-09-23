@@ -36,7 +36,7 @@
                                                 @else
                                                     @if(Auth::user()->tipe=="teller")
                                                         {{--KONFIRMASI UNTUK TRANSAKSI--}}
-                                                        <button type="button" id="konfirm" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#confirm{{substr($usr['kategori'],0,3)}}Modal" title="Konfirmasi Pengajuan"
+                                                        <button type="button" id="konfirm" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#confirmWakafModal" title="Konfirmasi Pengajuan"
                                                                 data-id       = "{{$usr['id']}}"
                                                                 data-nama     = "{{ $usr['nama'] }}"
                                                                 data-ktp     = "{{ $usr['no_ktp']  }}"
@@ -87,7 +87,7 @@
                                                                 data-no_bank = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
                                                                 {{-- data-bank = "{{ json_decode($usr['detail'],true)['dari'] }}" --}}
                                                                 data-atasnama = "{{ json_decode($usr['detail'],true)['nama'] }}"
-                                                                data-kegiatan = "{{ json_decode($usr['detail'],true)['id_maal'] }}"
+                                                                data-kegiatan = "{{ json_decode($usr['detail'],true)['id_wakaf'] }}"
                                                                 data-jenis = "{{ json_decode($usr['detail'],true)['jenis_donasi'] }}"
                                                                 data-debit = "{{ json_decode($usr['detail'],true)['debit'] }}"
                                                                 data-path       = "{{ url('/storage/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
@@ -140,7 +140,7 @@
                                                     data-bankuser = "{{ json_decode($usr['detail'],true)['bank'] }}"
                                                     data-no_bank = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
                                                     data-atasnama = "{{ json_decode($usr['detail'],true)['nama'] }}"
-                                                    data-kegiatan = "{{ json_decode($usr['detail'],true)['id_maal'] }}"
+                                                    data-kegiatan = "{{ json_decode($usr['detail'],true)['id_wakaf'] }}"
                                                     data-jenis = "{{ json_decode($usr['detail'],true)['jenis_donasi'] }}"
                                                     data-debit = "{{ json_decode($usr['detail'],true)['debit'] }}"
                                                     data-tabungan = "{{ json_decode($usr['detail'],true)['rekening'] }}"

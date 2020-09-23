@@ -12,11 +12,13 @@ use App\BMT;
 use App\Http\Controllers\HomeController;
 use App\Jaminan;
 use App\Maal;
+use App\Wakaf;
 use App\Pengajuan;
 use App\PenyimpananBMT;
 use App\PenyimpananDeposito;
 use App\PenyimpananJaminan;
 use App\PenyimpananMaal;
+use App\PenyimpananWakaf;
 use App\PenyimpananPembiayaan;
 use App\PenyimpananRekening;
 use App\PenyimpananSHU;
@@ -49,6 +51,7 @@ class InformationRepository
     protected $pembiayaan;
     protected $user;
     protected $maal;
+    protected $wakaf;
     protected $pengajuan;
 
     function __construct(
@@ -56,7 +59,9 @@ class InformationRepository
         User $user,
         BMT $bmt,
         Maal $maal,
+        Wakaf $wakaf,
         PenyimpananMaal $p_maal,
+        PenyimpananWakaf $p_wakaf,
         PenyimpananBMT $p_bmt,
         Tabungan $tabungan,
         PenyimpananTabungan $p_tabungan,
@@ -73,7 +78,9 @@ class InformationRepository
         $this->bmt = $bmt;
         $this->p_bmt = $p_bmt;
         $this->maal = $maal;
+        $this->wakaf = $wakaf;
         $this->p_maal = $p_maal;
+        $this->p_wakaf = $p_wakaf;
         $this->tabungan = $tabungan;
         $this->p_tabungan = $p_tabungan;
         $this->deposito = $deposito;
@@ -3111,6 +3118,7 @@ class InformationRepository
     function deleteKegiatan($request){
         return $this->maal->where('id', $request->id_)->delete();
     }
+
     function getAllMaal(){
         $data = Maal::select('maal.*','users.no_ktp as tName','rekening.nama_rekening')
             ->join('rekening','rekening.id','maal.id_rekening')
@@ -3330,7 +3338,7 @@ class InformationRepository
     //    ANGGOTA
     function addIdentitas($data,$request)
     {
-        
+
         $uploadedKTP = $request->file('filektp');
         $uploadedKSK = $request->file('fileksk');
         $uploadedNikah = $request->file('filenikah');
@@ -3413,6 +3421,47 @@ class InformationRepository
             return true;
         else return false;
     }
+
+    //Wakaf
+    function getAllWakaf(){
+        $data = Wakaf::select('wakaf.*','users.no_ktp as tName','rekening.nama_rekening')
+            ->join('rekening','rekening.id','wakaf.id_rekening')
+            ->join('users','users.id','wakaf.teller')
+            ->get();
+        return $data;
+    }
+    function getAllWakafTell(){
+        $data = Wakaf::select('wakaf.*','users.no_ktp as tName','rekening.nama_rekening')
+            ->join('rekening','rekening.id','wakaf.id_rekening')
+            ->join('users','users.id','wakaf.teller')
+            ->where('wakaf.teller',Auth::user()->id)
+            ->get();
+        return $data;
+    }
+
+    function getAllTransaksiWakaf($request){
+        $data = $this->p_wakaf->select('penyimpanan_wakaf.*','users.nama','wakaf.nama_kegiatan')
+            ->where('penyimpanan_wakaf.id_wakaf',$request->id_)
+            ->join('users','users.id','id_donatur')
+            ->join('wakaf','wakaf.id','penyimpanan_wakaf.id_wakaf')
+            ->get();
+        return $data;
+    }
+
+    function getAllPenyimpananWakaf(){
+//        $data =PenyimpananMaal::all();
+        $data = $this->p_wakaf->select('penyimpanan_wakaf.*','users.nama','wakaf.nama_kegiatan')
+            //->where('penyimpanan_maal.id_maal',$request->id_)
+            ->leftjoin('users','users.id','id_donatur')
+            ->leftjoin('wakaf','wakaf.id','penyimpanan_wakaf.id_wakaf')
+            ->get();
+        return $data;
+    }
+
+
+
+
+
 
     function uploadProfpic($request)
     {
@@ -4034,6 +4083,7 @@ class InformationRepository
             ->where('kategori','like',"%Tabungan%")
             ->orWhere('kategori','like','%Transfer Antar Anggota%')
             ->orderby('pengajuan.id','DESC')->get();
+
         foreach ($data as $dt){
             if($dt->kategori=="Debit Tabungan" || $dt->kategori == "Kredit Tabungan"){
                 $id=(json_decode($dt['detail'],true)['id_tabungan']);

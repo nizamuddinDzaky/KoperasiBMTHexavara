@@ -1,38 +1,41 @@
-
 <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12">
-        <div class="card">
+    @foreach($kegiatan_wakaf as $item)
 
-            <div class="header text-center">
-                <h4 class="title">Riwayat Wakaf </h4>
-                <p class="category">Berikut adalah riwayat Wakaf anda</p>
-                <br />
+        @php
+            $dana = json_decode($item['detail'],true)['dana'];
+            $tanggal_pelaksanaan = Carbon\Carbon::parse($item['tanggal_pelaksanaan']);
+        @endphp
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="card hover" data-toggle="modal" data-target="#donasiKegiatanWakaf"
+                 data-id="{{ $item['id'] }}"
+                 data-jenis="donasi kegiatan wakaf"
+            >
+                <div class="card-image">
+                    @if(json_decode($item['detail'], true)['path_poster'] != "")
+                        <img src="{{ asset('storage/public/wakaf/' . json_decode($item['detail'], true)['path_poster']) }}">
+                    @else
+                        <img src="{{ asset('bmtmudathemes/assets/images/no-image-available.png') }}">
+                    @endif
+                </div>
+                <div class="card-body">
+                    <div class="date">
+                        <p class="content">DANA DIBUTUHKAN : Rp. {{ number_format($dana) }}</p>
+                    </div>
+                    <h4 class="title">{{ $item['nama_kegiatan'] }}</h4>
+                    <p class="description">
+                    <div class="summernote-content">{!! json_decode($item['detail'],true)['detail'] !!}</div>
+                    </p>
+                </div>
+
+                <div class="overlay"></div>
             </div>
-
-            <table class="table bootstrap-table-asc">
-                <thead>
-                    <th></th>
-                    <th class="text-left" data-sortable="true">ID</th>
-                    <th class="text-left" data-sortable="true">Tgl Pengajuan</th>
-                    <th class="text-left" data-sortable="true">Donatur</th>
-                    <th class="text-left" data-sortable="true">Nominal</th>
-                    <th class="text-left" data-sortable="true">Saldo</th>
-                </thead>
-                <tbody>
-                    @foreach($riwayat_wakaf as $wakaf)
-                    <tr>
-                        <td></td>
-                        <td>{{ $wakaf->id }}</td>
-                        <td>{{ $wakaf->created_at->format('d F Y') }}</td>
-                        <td style="text-transform: uppercase;">{{ $wakaf->User->nama }}</td>
-                        <td>{{ number_format(json_decode($wakaf->transaksi)->jumlah, 2) }}</td>
-                        <td>{{ number_format(json_decode($wakaf->transaksi)->saldo_akhir, 2) }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table> 
-            
         </div>
-        <!--  end card  -->
-    </div> <!-- end col-md-12 -->
-</div> <!-- end row -->
+    @endforeach
+
+
+    <div class="row" style="text-align: right;">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            {{ $kegiatan_wakaf->links() }}
+        </div>
+    </div>
+</div>

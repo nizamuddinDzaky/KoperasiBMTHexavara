@@ -156,8 +156,10 @@
     <div class="collapse" id="nav_maal">
     @endif
         <ul class="nav">
-            <li @if(Request::is('admin/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan</a></li>
-            <li @if(Request::is('admin/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi</a></li>
+            <li @if(Request::is('admin/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan Maal</a></li>
+            <li @if(Request::is('admin/wakaf/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.wakaf')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.wakaf')}}" @endif>Daftar Kegiatan Wakaf</a></li>
+            <li @if(Request::is('admin/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi Maal</a></li>
+            <li @if(Request::is('admin/wakaf/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.wakaf')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.wakaf')}}" @endif>Riwayat Transaksi Wakaf</a></li>
         </ul>
     </div>
 </li>

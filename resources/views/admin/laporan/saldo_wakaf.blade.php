@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="head-noted right">
-                    <span>Saldo Wakaf Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul > 0 ? $saldo_terkumpul : 0, 2) }}</b></span>
+                    <span>Saldo Wakaf Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul->saldo > 0 ? $saldo_terkumpul->saldo : 0, 2) }}</b></span>
                 </div>
             </div>
         </div>

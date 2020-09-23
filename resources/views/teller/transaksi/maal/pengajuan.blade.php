@@ -13,6 +13,7 @@
 @section('content')
     <div class="head">
         <div class="row">
+        <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <h4 class="title">Pengajuan Maal</h4>
 
@@ -197,6 +198,7 @@
             if(button.data('jenis') != "donasi kegiatan") {
                 $('#cHideRekDon').hide();
             }
+            console.log(button.data('kegiatan'));
             
             $('#IDdonasi').val(button.data('kegiatan'));
             $('#cidRekDon').val(button.data('kegiatan'));
@@ -212,6 +214,62 @@
             $('#cpicDon')
             .attr('src',  button.data('path'));
         });
+
+        $('#confirmWakafModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var selAr = $('#toHideBankWakafc');
+            var selAr2 = $('#toHideBank2Wakafc');
+            var selAr3 = $('#toHideTabWakafc');
+            var selAr4 = $('#RekBank2');
+            if(button.data('debit')==="Transfer") {
+                selAr.show();
+                selAr2.show();
+                selAr3.hide();
+                selAr4.show();
+            }else if(button.data('debit')==="Tabungan"){
+                selAr.hide();
+                selAr2.hide();
+                selAr3.show();
+                selAr4.hide();
+            }
+            else if(button.data('jenis')==="Tunai"){
+                selAr.hide();
+                selAr2.hide();
+                selAr3.hide();
+                selAr4.hide();
+            }
+            $('#iddonasiwakaf').val(button.data('id'));
+            // if(button.data('jenis_kegiatan')=='donasi'){
+            //     $('#cHideRekDon').hide();
+            //     $('#IDdonasi').val("waqaf");
+            //     $('#ctitleDon').text("Waqaf Anggota");
+            // }else{
+            //     $('#cHideRekDon').show();
+            //     $('#ctitleDon').text("Donasi Kegiatan Maal");
+            // }
+            if(button.data('jenis') != "donasi kegiatan") {
+                $('#cHideRekWakaf').hide();
+            }
+
+            $('#IDdonasiWakaf').val(button.data('kegiatan'));
+            $('#cidRekWakaf').val(button.data('kegiatan'));
+            $('#cidRekTabWakaf').val(button.data('tabungan'));
+
+            $('#catasnamaWakaf').val(button.data('atasnama'));
+            $('#cjenisWakaf').val(button.data('debit'));
+            $('#cnobankWakaf').val(button.data('no_bank'));
+            $('#cjumlahWakaf').val(button.data('jumlah'));
+            $('#cbankWakaf_').val(button.data('kebank'));
+            $('#cbankWakaf').val(button.data('bankuser'));
+            $('#cbuktiWakaf').val(button.data('path'));
+            $('#cpicWakaf')
+                .attr('src',  button.data('path'));
+        });
+
+
+
         //  DEPOSITO
         $('#viewDepModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -1087,6 +1145,57 @@
                 previousSelector: '.btn-back',
                 onNext: function(tab, navigation, index) {
                     var $valid = $('#wizardFormDc').valid();
+
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
+
+            $('#wizardCardDw').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormDw').valid();
 
                     if(!$valid) {
                         $validator.focusInvalid();

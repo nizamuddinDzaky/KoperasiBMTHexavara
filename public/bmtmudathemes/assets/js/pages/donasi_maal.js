@@ -23,8 +23,10 @@ $(document).ready(function() {
             $('#jenis_donasi').val('zis')
         }
         if(index == 2) {
-            var button = "<button class='btn btn-primary rounded right shadow-effect' data-toggle='modal' data-target='#donasiWakaf'><i class='fa fa-external-link-alt'></i> Pengajuan Wakaf</button>";
-            $(".button-component").html(button);
+            // var button = "<button class='btn btn-primary rounded right shadow-effect' data-toggle='modal' data-target='#donasiWakaf'><i class='fa fa-external-link-alt'></i> Pengajuan Wakaf</button>";
+            // $(".button-component").html(button);
+            $(".button-component").html("");
+
 
             $(".head .title").html("Donasi Wakaf")
             $(".head .head-filter .filter-title").html("Periode Wakaf")

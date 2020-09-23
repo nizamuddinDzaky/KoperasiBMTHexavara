@@ -150,5 +150,6 @@ class ExportRepositories {
         header("Content-Type: application/docx");
         readfile($location); // or echo file_get_contents($temp_file);
         exit;
+
     }
 }

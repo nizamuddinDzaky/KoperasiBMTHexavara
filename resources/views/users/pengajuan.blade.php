@@ -110,6 +110,20 @@
                                 @else
                                 <td class="td-actions text-center">
                                     <div class="row">
+                                        @if(str_before($usr['kategori'],' ')=="Donasi" && $usr['jenis_pengajuan'] == "Wakaf")
+                                            <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#viewWakafModal" title="View Detail"
+                                            data-bankuser = "{{ json_decode($usr['detail'],true)['bank'] }}"
+                                            data-no_bank = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
+                                            data-atasnama = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
+                                            data-kegiatan = "{{ json_decode($usr['detail'],true)['id_wakaf'] }}"
+                                            data-jenis = "{{ json_decode($usr['detail'],true)['debit'] }}"
+                                            {{-- data-kebank = "{{ json_decode($usr['detail'],true)['dari'] }}" --}}
+                                            data-path       = "{{ url('/storage/transfer/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
+                                            data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
+                                                    data-keterangan = "{{ $usr['kategori'] }}"><i class="fa fa-list-alt"></i></button>
+
+
+                                        @else
                                         <button type="button" id="detail" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#view{{substr($usr['kategori'],0,3)}}Modal" title="View Detail"
                                                 data-id         = "{{$usr['id']}}"
                                                 data-namauser   = "{{ json_decode($usr['detail'],true)['nama'] }}"
@@ -174,7 +188,7 @@
                                                 data-bank = "{{ json_decode($usr['detail'],true)['bank_tujuan_transfer'] }}"
                                                 data-path       = "{{ url('/storage/public/'.json_decode($usr['detail'],true)['path_bukti'] )}}"
                                                 data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
-                                                @elseif(str_before($usr['kategori'],' ')=="Donasi")
+                                                @elseif(str_before($usr['kategori'],' ')=="Donasi" && $usr['jenis_pengajuan'] != "Wakaf" )
                                                 data-bankuser = "{{ json_decode($usr['detail'],true)['bank'] }}"
                                                 data-no_bank = "{{ json_decode($usr['detail'],true)['no_bank'] }}"
                                                 data-atasnama = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
@@ -214,6 +228,7 @@
                                         >
                                             <i class="fa fa-list-alt"></i>
                                         </button>
+                                        @endif
                                         @if($usr['status'] =="Disetujui" || $usr['status'] =="Sudah Dikonfirmasi")
                                         @else
                                         <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delModal" title="Delete"
@@ -380,6 +395,43 @@
             $('#vbank_').val(button.data('kebank'));
             $('#vbuktiDon').val(button.data('path'));
             $('#vpicDon')
+                .attr('src',  button.data('path'))
+        });
+
+        $('#viewWakafModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var selAr = $('#toHideBankWakaf');
+            var selAr2 = $('#toHideBank2Wakaf');
+            var selAr3 = $('#toHideTabWakaf');
+            var selAr4 = $('#RekBankWakaf');
+            if(button.data('jenis')==="Transfer") {
+                selAr.show();
+                selAr2.show();
+                selAr3.hide();
+                selAr4.show();
+            }else if(button.data('jenis')==="Tabungan"){
+                selAr.hide();
+                selAr2.hide();
+                selAr3.show();
+                selAr4.hide();
+            }
+            else if(button.data('jenis')==="Tunai"){
+                selAr.hide();
+                selAr2.hide();
+                selAr3.hide();
+                selAr4.hide();
+            }
+            $('#vidRekWakaf').val(button.data('kegiatan'));
+            $('#vjenisWakaf').val(button.data('jenis'));
+            $('#vatasnamaWakaf').val(button.data('atasnama'));
+            $('#vnobankWakaf').val(button.data('no_bank'));
+            $('#vjumlahWakaf').val(button.data('jumlah'));
+            $('#vbankWakaf').val(button.data('bankuser'));
+            $('#vbank_').val(button.data('kebank'));
+            $('#vbuktiWakaf').val(button.data('path'));
+            $('#vpicWakaf')
                 .attr('src',  button.data('path'))
         });
 
@@ -1486,6 +1538,57 @@
                 previousSelector: '.btn-back',
                 onNext: function(tab, navigation, index) {
                     var $valid = $('#wizardFormDv').valid();
+
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
+
+            $('#wizardCardDwakaf').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormDwakaf').valid();
 
                     if(!$valid) {
                         $validator.focusInvalid();

@@ -10,6 +10,7 @@ use App\Repositories\InformationRepository;
 use App\Tabungan;
 use App\User;
 use App\Maal;
+use App\Wakaf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
@@ -182,6 +183,7 @@ class UserController extends Controller
             $detail['id_rekening'] = json_decode(Auth::user()->detail,true)['id_rekening'];
         }
 
+
         if ($this->informationRepository->addIdentitas($detail, $request)) {
             return redirect()
                 ->back()
@@ -220,6 +222,7 @@ class UserController extends Controller
             'deposito_anggota'  => $this->depositoReporsitory->getUserDeposito($status="", $user=Auth::user()->id),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
             'kegiatan' => $this->informationRepository->getAllMaal(),
+            'kegiatanWakaf' => $this->informationRepository->getAllWakaf(),
             'datasaldoDep' => $this->informationRepository->getAllDepUsr(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'datasaldoPem' => $this->informationRepository->getAllPemUsrActive(),
@@ -767,8 +770,9 @@ class UserController extends Controller
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
         $riwayat_zis = PenyimpananBMT::where([ ['id_bmt', '334'], ['id_user', Auth::user()->id] ])->get();
-        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
+//        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
         $kegiatan = Maal::paginate('8');
+        $kegiatan_wakaf = Wakaf::paginate('8');
         $notification = $this->pengajuanReporsitory->getNotification();
         
         return view('users.donasi_maal',[
@@ -778,7 +782,7 @@ class UserController extends Controller
             "kegiatan"  => $kegiatan,
             'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
             'riwayat_zis' => $riwayat_zis,
-            'riwayat_wakaf' => $riwayat_waqaf,
+            'kegiatan_wakaf' => $kegiatan_wakaf,
             // 'riwayat_zis' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "zis"),
             // 'riwayat_wakaf' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "wakaf"),
             'dropdown' => $dr,
@@ -896,6 +900,109 @@ class UserController extends Controller
             'notification_count' =>count($notification),
             'data' =>$this->informationRepository->getAllPenyimpananMaalUsr(),
         ]);
+    }
+
+    public function transaksi_wakaf(){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
+
+        return view('admin.wakaf.transaksi',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'riwayat_wakaf' =>$riwayat_waqaf,
+        ]);
+    }
+
+    public function donasiwakaf(Request $request) {
+        if($request->debit == 2 && isset($request->rekening))
+        {
+            if($request->rekening != null)
+            {
+
+                $rekening = Tabungan::where('id_tabungan', $request->rekening)->first();
+
+                $saldo = json_decode($rekening->detail)->saldo;
+
+                if($saldo > $request->nominal) {
+                    $pengajuan = $this->donasiReporsitory->sendDonasiWakaf($request);
+                    if($pengajuan['type'] == 'success') {
+                        return redirect()
+                            ->back()
+                            ->withSuccess(sprintf($pengajuan['message']));
+                    } else{
+                        return redirect()
+                            ->back()
+                            ->withInput()->with('message', $pengajuan['message']);
+                    }
+                } else {
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', 'Saldo anda tidak cukup');
+                }
+
+            } else {
+
+                $pengajuan = $this->donasiReporsitory->sendDonasiWakaf($request);
+                if($pengajuan['type'] == 'success') {
+                    return redirect()
+                        ->back()
+                        ->withSuccess(sprintf($pengajuan['message']));
+                } else{
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', $pengajuan['message']);
+                }
+
+            }
+        }
+        elseif($request->debit == 2 && !isset($request->rekening))
+        {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Tidak ada rekening tabungan dipilih.');
+        }
+        elseif($request->debit !== 2)
+        {
+            if($request->rekening != null)
+            {
+
+                $rekening = Tabungan::where('id_tabungan', $request->rekening)->first();
+
+                $saldo = json_decode($rekening->detail)->saldo;
+
+                if($saldo > $request->nominal) {
+                    $pengajuan = $this->donasiReporsitory->sendDonasiWakaf($request);
+                    if($pengajuan['type'] == 'success') {
+                        return redirect()
+                            ->back()
+                            ->withSuccess(sprintf($pengajuan['message']));
+                    } else{
+                        return redirect()
+                            ->back()
+                            ->withInput()->with('message', $pengajuan['message']);
+                    }
+                } else {
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', 'Saldo anda tidak cukup');
+                }
+
+            } else {
+
+                $pengajuan = $this->donasiReporsitory->sendDonasiWakaf($request);
+                if($pengajuan['type'] == 'success') {
+                    return redirect()
+                        ->back()
+                        ->withSuccess(sprintf($pengajuan['message']));
+                } else{
+                    return redirect()
+                        ->back()
+                        ->withInput()->with('message', $pengajuan['message']);
+                }
+
+            }
+        }
+
     }
 
     /** 

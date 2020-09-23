@@ -2644,3 +2644,280 @@
 </div>
 
 
+<div class="modal fade" id="confirmWakafModal" role="dialog" aria-labelledby="ActiveLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard" id="wizardCardDw">
+            <form id="wizardFormDw" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.konfirmasi.donasiwakaf')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.konfirmasi.donasiwakaf')}}" @endif enctype="multipart/form-data">
+                {{csrf_field()}}
+                <input type="hidden" id="iddonasiwakaf" name="id_">
+                <input type="hidden" name="teller" value="teller">
+                <div class="header text-center">
+                    <h3 class="title" id="ctitleWakaf">Donasi Kegiatan Wakaf</h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#tab1Tabw" data-toggle="tab">Data Transaksi</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1Tabw">
+                            <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
+
+                            <div class="row" id="cHideRekWakaf">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Kegiatan Wakaf <star>*</star></label>
+                                        <select class="form-control" id="cidRekWakaf" name="kegiatan" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih kegiatan-</option>
+                                            @foreach ($kegiatan as $rekening)
+                                                <option value="{{ $rekening->id }}">[{{ $rekening->tanggal_pelaksaaan }}] {{ $rekening->nama_kegiatan }}</option>
+                                            @endforeach
+                                        </select>
+                                        <input type="hidden" id="IDdonasiWakaf" name="rekDon"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Jenis Pembayaran <star>*</star></label>
+                                        <select class="form-control" id="cjenisWakaf" name="jenis" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Jenis Pembayaran-</option>
+                                            <option value="Transfer">Transfer dari Rekening Bank</option>
+                                            <option value="Tabungan">Transfer dari Rekening Tabungan</option>
+                                            <option value="Tunai">Tunai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="toHideBankWakafc">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
+                                        <input type="text" class="form-control text-left" disabled id="cbankWakaf" name="daribank" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">No. Rekening BANK User <star>*</star></label>
+                                        <input type="number" class="form-control text-left" disabled id="cnobankWakaf" name="nobank" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="toHideBank2Wakafc">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Atas Nama <star>*</star></label>
+                                        <input type="text" class="form-control text-left" disabled  id="catasnamaWakaf" name="atasnama" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 {{ !$errors->has('file') ?: 'has-error' }}">
+                                    <div class="form-group">
+                                        <label> Bukti Transfer <star>*</star></label><br>
+{{--                                        <span class="btn btn-info btn-fill btn-file center-block"> Browse--}}
+{{--                                        <input type="file" onchange="readURL(this);" id="cbuktiDon" disabled name="file" accept=".jpg, .png, .jpeg|images/*" />--}}
+{{--                                        </span><br><br>--}}
+                                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <img style="margin: auto;width:200px;height:auto" id="cpicWakaf" src=""/>
+                                </div>
+                            </div>
+{{--                            <div class="row" id="RekBank2">--}}
+{{--                                <div class="col-md-10 col-md-offset-1">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label for="namaSim" class="control-label">Transfer ke Rek. BANK <star>*</star></label>--}}
+{{--                                        <select class="form-control select2" id="cbank_" style="width: 100%;" disabled>--}}
+{{--                                            <option class="bs-title-option" selected value="" disabled>-Pilih Rekening BANK-</option>--}}
+{{--                                            @foreach ($dropdown6 as $rekening)--}}
+{{--                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+                            <div class="row" id="toHideTabWakafc">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Transfer dari Rekening <star>*</star></label>
+                                        <select class="form-control" id="cidRekTabWakaf" name="dari" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan Anda-</option>
+                                            @foreach ($datasaldo as $rekening)
+                                                <option value="{{ $rekening->id_tabungan }}">[{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Uang <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="cjumlahWakaf" disabled name="jumlah" required="true">
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Konfirmasi </button>
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="viewWakafModal" role="dialog" aria-labelledby="ActiveLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard" id="wizardCardDwakaf">
+            <form id="wizardFormDwakaf" method="POST" action="{{route('donasiwakaf')}}" enctype="multipart/form-data">
+                {{csrf_field()}}
+                <div class="header text-center">
+                    <h3 class="title" id="titleDon">Donasi Kegiatan Wakaf</h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#tab1TabWakaf" data-toggle="tab">Data Transaksi</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1TabWakaf">
+                            <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
+                            <div class="row" id="HideRekDon">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Kegiatan Wakaf <star>*</star></label>
+                                        <select class="form-control" id="vidRekWakaf" name="kegiatan" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih kegiatan-</option>
+                                            @foreach ($kegiatanWakaf as $rekening)
+                                                <option value="{{ $rekening->id }}">[{{ $rekening->tanggal_pelaksaaan }}] {{ $rekening->nama_kegiatan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Jenis Pembayaran <star>*</star></label>
+                                        <select class="form-control" id="vjenisWakaf" name="jenis" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Jenis Pembayaran-</option>
+                                            <option value="Transfer">Transfer dari Rekening Bank</option>
+                                            <option value="Tabungan">Transfer dari Rekening Tabungan</option>
+                                            <option value="Tunai">Tunai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="toHideBankWakaf">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
+                                        <input type="text" class="form-control text-left" disabled id="vbankWakaf" name="daribank" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">No. Rekening BANK User <star>*</star></label>
+                                        <input type="number" class="form-control text-left" disabled id="vnobankWakaf" name="nobank" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="toHideBank2Wakaf">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Atas Nama <star>*</star></label>
+                                        <input type="text" class="form-control text-left" disabled  id="vatasnamaWakaf" name="atasnama" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 {{ !$errors->has('file') ?: 'has-error' }}">
+                                    <div class="form-group">
+                                        <label> Bukti Transfer <star>*</star></label><br>
+{{--                                        <span class="btn btn-info btn-fill btn-file center-block"> Browse--}}
+{{--                                        <input type="file" onchange="readURL(this);" id="vbuktiDon" disabled name="file" accept=".jpg, .png, .jpeg|images/*" />--}}
+{{--                                        </span><br><br>--}}
+                                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <img style="margin: auto;width:200px;height:auto" id="vpicWakaf" src=""/>
+                                </div>
+                            </div>
+
+{{--                            <div class="row" id="RekBank">--}}
+{{--                                <div class="col-md-10 col-md-offset-1">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label for="namaSim" class="control-label">Transfer ke Rek. BANK <star>*</star></label>--}}
+{{--                                        <select class="form-control" id="vbank_" style="width: 100%;" disabled>--}}
+{{--                                            <option class="bs-title-option" selected value="" disabled>-Pilih Rekening BANK-</option>--}}
+{{--                                            @foreach ($dropdown6 as $rekening)--}}
+{{--                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
+                            <div class="row" id="toHideTabWakaf">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Transfer dari Rekening <star>*</star></label>
+                                        <select class="form-control" id="vidRekTabDon" name="dari" style="width: 100%;" required disabled>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan Anda-</option>
+                                            @foreach ($datasaldo as $rekening)
+                                                <option value="{{ $rekening->id_tabungan }}">[{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Jumlah Uang <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currency form-control text-right" id="vjumlahWakaf" disabled name="jumlah" required="true">
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+{{--                    <button type="submit" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Donasi Sekarang </button>--}}
+{{--                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>--}}
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

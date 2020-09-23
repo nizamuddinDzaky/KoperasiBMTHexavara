@@ -1286,6 +1286,7 @@ class TellerController extends Controller
             'pengajuanZIS' => $this->donasiReporsitory->getPengajuanDonasi($type="zis"),
             'pengajuanWakaf' => $this->donasiReporsitory->getPengajuanDonasi($type="wakaf"),
             'kegiatan' => $this->informationRepository->getAllMaal(),
+            'kegiatanWakaf' => $this->informationRepository->getAllWakaf(),
             'datasaldoPem' => $this->informationRepository->getAllPem(),
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'datasaldoDep' =>  $this->informationRepository->getAllDepUsr(),
