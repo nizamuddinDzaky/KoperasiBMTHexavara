@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     var rekening = [];
     var tipe = "";
     $('#jurnalLainRekModal').on('show.bs.modal', function(event) {
@@ -46,7 +45,7 @@ $(document).ready(function() {
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
+                    <label for="id_" class="control-label">Rekening Penyeimbangg <star>*</star></label>
                     <select class="form-control select2 idRekJ" name="dari[]" style="width: 100%;" required>
                         <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                     </select>
