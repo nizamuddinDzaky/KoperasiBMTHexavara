@@ -245,7 +245,15 @@ class DistribusiPendapatanReporsitories {
     */
     public function getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan)
     {
-        $result = $rata_rata / $total_rata_rata * $total_pendapatan;
+        if($total_rata_rata == 0 || $total_pendapatan == 0 )
+        {
+           $result = 0;
+        }
+        else
+        {
+            $result = $rata_rata / $total_rata_rata * $total_pendapatan;
+        }
+
         return $result;
     }
 

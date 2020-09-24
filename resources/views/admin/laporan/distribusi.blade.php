@@ -49,8 +49,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan Net Profit Sharing</b> </h4>
-                        <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan Net Profit Sharing periode {{date("F Y")}}</p>
+                        <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan Revenue Profit Sharing</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan Revenue Profit Sharing periode {{date("F Y")}}</p>
                             <br />
                     </div>
 
@@ -139,8 +139,8 @@
                     <div class="card">
 
                         <div class="header text-center">
-                            <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan Revenue Profit Sharing</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan Revenue Profit Sharing periode {{date("F Y")}}</p>
+                            <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan  Net Profit Sharing</b> </h4>
+                            <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan Net Profit Sharing periode {{date("F Y")}}</p>
                             <br />
                         </div>
 
