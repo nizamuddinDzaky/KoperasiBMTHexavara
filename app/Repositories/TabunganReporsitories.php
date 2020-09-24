@@ -268,28 +268,29 @@ class TabunganReporsitories {
         DB::beginTransaction();
         try 
         {
-            $pengajuan = PengajuanReporsitories::findPengajuan($data->id);
-            $tabungan = Tabungan::where([ ['id_user', $pengajuan->id_user], ['id_tabungan', json_decode($pengajuan->detail)->id_tabungan] ])->first();
-            $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
-            
-            if(json_decode($tabungan->detail)->saldo < floatval(json_decode($rekening_tabungan->detail)->saldo_min))
+            $pengajuan = PengajuanReporsitories::findPengajuan($data->id); //cari pengajuan
+            $tabungan = Tabungan::where([ ['id_user', $pengajuan->id_user], ['id_tabungan', json_decode($pengajuan->detail)->id_tabungan] ])->first(); // ambil tabungan user
+            $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first(); // ambil rekening tabungan untuk minimum saldo
+
+            if(json_decode($tabungan->detail)->saldo < floatval(json_decode($rekening_tabungan->detail)->saldo_min)) //clear
             {
                 DB::rollback();
                 $result = array('type' => 'error', 'message' => 'Pengajuan Gagal Dikonfirmasi. Tabungan pengirim melampaui limit transaksi.');
             }
             else
             {
-                $bmtUser = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first();
+                $bmtUser = BMT::where('id_rekening', json_decode($pengajuan->detail)->id_rekening)->first(); //rekening bmt untuk simpanan user
                 // Use for tunai method
                 $userLoged = User::where('id', Auth::user()->id)->select('detail')->first();
                 $userLogedBMT = BMT::where('id_rekening', json_decode($userLoged->detail)->id_rekening)->first();
                 
                 $untukRekening = "";
                 $dariRekening = $userLogedBMT->nama;
+
                 if(json_decode($pengajuan->detail)->kredit == "Transfer") {
-                    $bmtTujuanCreditTabungan = BMT::where('id_rekening', json_decode($pengajuan->detail)->bank) ->first();
+                    $bmtAsalCreditTabungan = BMT::where('id_rekening', $data->daribank)->first(); // rekening koperasi (mandiri unair, dll)
                     $untukRekening = "Transfer";
-                    $dariRekening = $bmtTujuanCreditTabungan->nama;
+                    $dariRekening = $bmtAsalCreditTabungan->nama;
                 }
 
                 $detailToPenyimpananTabungan = [
@@ -598,7 +599,7 @@ class TabunganReporsitories {
             if(json_decode($tabungan->detail)->saldo < floatval(json_decode($rekening->detail)->saldo_min))
             {
                 DB::rollback();
-                $result = array('type' => 'error', 'message' => 'Kredit tabunga gagal. Tabungan pengirim melampaui limit transaksi.');
+                $result = array('type' => 'error', 'message' => 'Kredit tabungan gagal. Tabungan pengirim melampaui limit transaksi.');
             }
             else
             {
@@ -613,7 +614,7 @@ class TabunganReporsitories {
                     $bmtTellerLoged = BMT::where('id_rekening', $data->daribank)->first();
                     $dariRekening = $bmtTellerLoged->nama;
                 }
-                else {
+
                     $detailToPenyimpananTabungan = [
                         "teller"        => Auth::user()->id,
                         "dari_rekening" => $dariRekening,
@@ -734,7 +735,7 @@ class TabunganReporsitories {
                             $result = array('type' => 'error', 'message' => 'Kredit Tabungan Gagal. Saldo anda tidak cukup');
                         }
                     }
-                }
+
 
             }
         }
