@@ -92,8 +92,8 @@
                                     
                                     @if(!isset( json_decode($usr->detail,true)['pendidikan']))
                                     <td>-</td>
-                                    @elseif( json_decode($usr->detail,true)['pendidikan']== 0 )
-                                    <td>Tidak Bekerja</td>
+                                    @elseif( json_decode($usr->detail,true)['pendidikan'] == "0" )
+                                    <td>Tidak Sekolah</td>
                                     @elseif( json_decode($usr->detail,true)['pendidikan']=="SD")
                                     <td>SD</td>
                                     @elseif( json_decode($usr->detail,true)['pendidikan']=="SMP")
