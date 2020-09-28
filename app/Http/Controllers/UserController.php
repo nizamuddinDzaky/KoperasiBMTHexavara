@@ -907,8 +907,8 @@ class UserController extends Controller
 
     public function transaksi_wakaf(){
         $notification = $this->pengajuanReporsitory->getNotification();
-        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
-
+//        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
+        $riwayat_waqaf = $this->informationRepository->getAllPenyimpananWakafUsr();
         return view('admin.wakaf.transaksi',[
             'notification' => $notification,
             'notification_count' =>count($notification),

@@ -24,43 +24,85 @@
                 @endforeach
                 <br>
             @endif
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div class="card">
-
-                            <div class="header text-center">
-                                <h4 class="title">Riwayat Wakaf </h4>
-                                <p class="category">Berikut adalah riwayat Wakaf anda</p>
-                                <br />
-                            </div>
-
-                            <table class="table bootstrap-table-asc">
-                                <thead>
-                                <th></th>
-                                <th class="text-left" data-sortable="true">ID</th>
-                                <th class="text-left" data-sortable="true">Tgl Pengajuan</th>
-                                <th class="text-left" data-sortable="true">Donatur</th>
-                                <th class="text-left" data-sortable="true">Nominal</th>
-                                <th class="text-left" data-sortable="true">Saldo</th>
-                                </thead>
-                                <tbody>
-                                @foreach($riwayat_wakaf as $wakaf)
-                                    <tr>
-                                        <td></td>
-                                        <td>{{ $wakaf->id }}</td>
-                                        <td>{{ $wakaf->created_at->format('d F Y') }}</td>
-                                        <td style="text-transform: uppercase;">{{ $wakaf->User->nama }}</td>
-                                        <td>{{ number_format(json_decode($wakaf->transaksi)->jumlah, 2) }}</td>
-                                        <td>{{ number_format(json_decode($wakaf->transaksi)->saldo_akhir, 2) }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header text-center">
+                            <h4 class="title"><b>Daftar Transaksi Wakaf</b></h4>
+                            <p class="category">Daftar Transaksi Rekening Wakaf</p>
+                            {{--<br />--}}
                         </div>
-                        <!--  end card  -->
-                    </div> <!-- end col-md-12 -->
-                </div> <!-- end row -->
+                        <div class="toolbar">
+                            <!--        Here you can write extra buttons/actions for the toolbar              -->
+                            <div class="col-md-12 btn-group">
+                                {{--<div class="col-md-2">--}}
+                                {{--<button class="btn btn-default btn-block" onclick="demo.showNotification('top','right')">Top Right</button>--}}
+                                {{--</div>--}}
+                            </div>
+                            <span></span>
+                        </div>
+
+                        <table class="table bootstrap-table-asc">
+                            <thead>
+                            <th></th>
+                            <th data-sortable="true" class="text-left">ID</th>
+                            <th class="text-left" data-sortable="true">Tgl Transaksi</th>
+                            <th class="text-left" data-sortable="true">Donatur</th>
+                            <th class="text-left" data-sortable="true">Kegiatan</th>
+                            @if(Auth::user()->tipe!="anggota")
+                                <th class="text-left" data-sortable="true">Dari Rekening</th>
+                                <th class="text-left" data-sortable="true">Ke Rekening</th>
+                            @endif
+                            <th class="text-left" data-sortable="true">Jenis Transaksi</th>
+                            <th class="text-left" data-sortable="true">Jumlah</th>
+                            {{--<th>Actions</th>--}}
+                            </thead>
+                            <tbody>
+                            @foreach ($riwayat_wakaf as $usr)
+                                <tr>
+                                    <td></td>
+                                    <td>{{ $usr->id }}</td>
+                                    <td>{{ $usr->created_at  }}</td>
+                                    <td style="text-transform: uppercase;">{{ $usr->nama }}</td>
+                                    <td style="text-transform: uppercase;">{{ $usr->nama_kegiatan  }}</td>
+                                    @if(Auth::user()->tipe!="anggota")
+                                        <td>{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
+                                        <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
+                                    @endif
+                                    <td>{{ $usr->status }}</td>
+                                    <td class="text-left">Rp {{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+
+                                    {{--<td class="td-actions text-center">--}}
+                                    {{--<button type="button" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#editPassUsrModal" title="Ubah Password"--}}
+                                    {{--data-id      = "{{$usr->no_ktp}}"--}}
+                                    {{--data-nama    = "{{$usr->nama}}">--}}
+                                    {{--<i class="fa fa-key"></i>--}}
+                                    {{--</button>--}}
+
+                                    {{--<button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editUsrModal" title="Edit"--}}
+                                    {{--data-id      = "{{$usr->no_ktp}}"--}}
+                                    {{--data-nama    = "{{$usr->nama}}"--}}
+                                    {{--data-alamat    = "{{$usr->alamat}}"--}}
+                                    {{--data-tipe    = "{{$usr->tipe}}"--}}
+                                    {{--data-p    = "{{$usr->password}}">--}}
+                                    {{--<i class="fa fa-edit"></i>--}}
+                                    {{--</button>--}}
+                                    {{--<button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delUsrModal" title="Delete"--}}
+                                    {{--data-id         = "{{$usr->no_ktp}}"--}}
+                                    {{--data-nama       = "{{$usr->nama}}">--}}
+                                    {{--<i class="fa fa-remove"></i>--}}
+                                    {{--</button>--}}
+                                    {{--<a class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#deleteUsrModal" title="Delete">--}}
+                                    {{--<i class="fa fa-remove"></i>--}}
+                                    {{--</a>--}}
+                                    {{--</td>--}}
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div><!--  end card  -->
+                </div> <!-- end col-md-12 -->
+            </div> <!-- end row -->
 
         </div>
     </div>

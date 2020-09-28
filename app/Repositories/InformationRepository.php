@@ -3458,6 +3458,17 @@ class InformationRepository
         return $data;
     }
 
+    function getAllPenyimpananWakafUsr(){
+//        $data =PenyimpananMaal::all();
+        $data = $this->p_wakaf->select('penyimpanan_wakaf.*','users.nama','wakaf.nama_kegiatan')
+            ->where('penyimpanan_wakaf.id_donatur',Auth::user()->id)
+            ->leftjoin('users','users.id','id_donatur')
+            ->leftjoin('wakaf','wakaf.id','penyimpanan_wakaf.id_wakaf')
+            ->get();
+
+        return $data;
+    }
+
 
 
 
