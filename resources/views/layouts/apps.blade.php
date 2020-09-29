@@ -219,6 +219,14 @@
         });
 
     });
+    $('.resetDatabase').on('click', function (event){
+        var r = confirm("Apakah anda yakin ingin reset database?");
+
+        if(r== true)
+        {
+            window.location.href = "{{ route('admin.reset.database') }}";
+        }
+    });
 </script>
 
 <script>

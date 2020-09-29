@@ -163,3 +163,10 @@
         </ul>
     </div>
 </li>
+
+<li>
+    <a class="resetDatabase">
+        <i class="pe-7s-trash"></i>
+        <p>Reset Database</p>
+    </a>
+</li>

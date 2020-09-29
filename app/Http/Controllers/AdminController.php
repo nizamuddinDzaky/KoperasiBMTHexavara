@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 use App\Repositories\RekeningReporsitories;
 
@@ -1362,6 +1363,85 @@ class AdminController extends Controller
             'data' => $data,
             'created_at' => $data->created_at->format('D, d F Y H:i:s')
         ]);
+    }
+
+    public function reset(){
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        $tabungan  = DB::table('tabungan as t')
+            ->join('pengajuan as p', 'p.id', '=', 't.id_pengajuan')
+            ->where('p.kategori', '!=', 'Tabungan Awal')
+            ->get();
+
+        foreach ($tabungan as $data)
+        {
+            $deleteTabungan = DB::table('tabungan')
+                ->where('id_tabungan', $data->id_tabungan)
+                ->delete();
+        }
+
+        $tabunganAwal = DB::table('tabungan as t')
+            ->join('pengajuan as p', 'p.id', '=', 't.id_pengajuan')
+            ->where('p.kategori', '=', 'Tabungan Awal')
+            ->get();
+
+        foreach ($tabunganAwal as $data)
+        {
+            $dataToUpdateTabunganAwal = [
+                "saldo"     => floatval(0),
+                "id_pengajuan" =>  $data->id_pengajuan
+            ];
+
+            $updateTabunganAwal = DB::table('tabungan')
+                ->where('id_tabungan', $data->id_tabungan)
+                ->update([
+                   "detail" => json_encode($dataToUpdateTabunganAwal)
+                ]);
+        }
+
+        $saldoAwal = [
+            "wajib"     => floatval(0),
+            "pokok"     => floatval(0),
+            "khusus"     => 0,
+            "margin"    => floatval(0)
+        ];
+
+        DB::table('users')
+        ->where('role', '!=', "")
+        ->update([
+            'wajib_pokok' => json_encode($saldoAwal)
+        ]);
+
+
+        DB::table('bmt')->update([
+            'saldo' => 0
+        ]);
+
+        DB::table('penyimpanan_distribusi')->truncate();
+        DB::table('penyimpanan_bmt')->truncate();
+        DB::table('penyimpanan_wajib_pokok')->truncate();
+        DB::table('penyimpanan_tabungan')->truncate();
+        DB::table('penyimpanan_deposito')->truncate();
+        DB::table('penyimpanan_jaminan')->truncate();
+        DB::table('penyimpanan_laporan_keuangan')->truncate();
+        DB::table('penyimpanan_shu')->truncate();
+        DB::table('penyimpanan_maal')->truncate();
+        DB::table('penyimpanan_pembiayaan')->truncate();
+        DB::table('penyimpanan_rekening')->truncate();
+        DB::table('penyimpanan_wakaf')->truncate();
+        DB::table('penyimpanan_users')->truncate();
+        DB::table('pembiayaan')->truncate();
+        DB::table('pengajuan')->truncate();
+        DB::table('vote')->truncate();
+        DB::table('rapat')->truncate();
+        DB::table('deposito')->truncate();
+        DB::table('maal')->truncate();
+        DB::table('wakaf')->truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+
+        return redirect('/admin/');
     }
 
 
