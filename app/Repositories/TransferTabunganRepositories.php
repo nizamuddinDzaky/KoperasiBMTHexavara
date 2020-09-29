@@ -352,7 +352,7 @@ class TransferTabunganRepositories {
             $id_user = Auth::user()->id;
             $id_bmt_penerima = $id_penerima;
             $id_bmt_pengirim = $id_pengirim;
-            $status = $jenis;
+            $status = $data['keterangan'];
             $saldo_penerima = $bmt_penerima->saldo;
             $saldo_pengirim = $bmt_pengirim->saldo;
             

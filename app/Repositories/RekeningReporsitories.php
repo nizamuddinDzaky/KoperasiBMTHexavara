@@ -122,7 +122,15 @@ class RekeningReporsitories {
                 $id_user = Auth::user()->id;
                 $id_bmt_penerima = $id_penerima;
                 $id_bmt_pengirim = $id_pengirim;
-                $status = $type;
+                if($type == "Pemasukan Kas" || $type == "Pengeluaran Kas")
+                {
+                    $status = $data['keterangan'];
+                }
+                else
+                {
+                    $status = $type;
+                }
+
                 $saldo_penerima = BMT::where('id', $id_bmt_penerima)->select('saldo')->first();
                 $saldo_pengirim = BMT::where('id', $id_bmt_pengirim)->select('saldo')->first();
                 

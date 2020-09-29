@@ -1,6 +1,6 @@
 {{--Modal Transfer Rekening--}}
 <div class="modal fade" id="transferRekModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width: 80%">
         <div class="card card-wizard" id="wizardCardTrans">
             <form id="wizardFormTrans" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('transfer')}}" @else action="{{route('teller.transfer')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
@@ -18,7 +18,7 @@
                         <div class="tab-pane" id="tab1TabTrs">
                             <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
                             <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Transfer dari Rekening <star>*</star></label>
                                         <select class="form-control select2" name="dari" style="width: 100%;" required>
@@ -29,9 +29,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Transfer ke Rekening <star>*</star></label>
                                         <select class="form-control select2" name="untuk" style="width: 100%;" required>
@@ -42,9 +40,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
@@ -54,16 +50,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Keterangan <star>*</star></label>
                                         <input type="text" class="form-control" name="keterangan" required="true">
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -387,7 +380,7 @@
 {{--Modal Jurnal Lain Rekening Admin--}}
 @if(Auth::user()->tipe == "admin")
 <div class="modal fade" id="jurnalLainRekAdminModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width: 80%">
         <div class="card card-wizard wizardCard">
             <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('jurnal_lain')}}" @endif  enctype="multipart/form-data">
                 {{csrf_field()}}
@@ -424,7 +417,7 @@
                                 @endif --}}
 
                                 <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
                                             <select class="form-control select2" name="dari[]" style="width: 100%;" required>
@@ -433,6 +426,30 @@
                                                     <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Jumlah Uang <star>*</star></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
+                                                <span class="input-group-addon">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Keterangan<star>*</star></label>
+                                            <input type="text" class="form-control"  name="keterangan[]" required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">&nbsp;</label>
+                                            <button type="button" id="add-row-pemasukan-admin" class="btn btn-success btn-fill pull-right">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -449,38 +466,7 @@
                                         {{-- </div>
                                     </div>
                                 </div> --}}
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Jumlah Uang <star>*</star></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
-                                                <span class="input-group-addon">.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-8 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label for="id_" class="control-label">Keterangan<star>*</star></label>
-                                            <input type="text" class="form-control"  name="keterangan[]" required="true">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="" class="control-label">&nbsp;</label>
-                                            <button type="button" id="add-row-pemasukan-admin" class="btn btn-success btn-fill pull-right">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
