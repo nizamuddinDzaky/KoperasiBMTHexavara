@@ -39,6 +39,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'as'        => 'dashboard',
         'uses'      => 'AdminController@index'
     ]);
+
+    Route::get('/total_harta_bmt', [
+        'as'        => 'total.harta.bmt',
+        'uses'      => 'AdminController@total_harta_bmt'
+    ]);
+
     Route::get('/reset', [
         'as'        => 'admin.reset.database',
         'uses'      => 'AdminController@reset'

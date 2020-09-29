@@ -14,6 +14,7 @@ use App\Repositories\DepositoReporsitories;
 use App\Repositories\PengajuanReporsitories;
 use App\Repositories\TransferTabunganRepositories;
 use App\Repositories\LaporanKeuanganRepositories;
+use App\Repositories\SimpananReporsitory;
 use App\Tabungan;
 use App\User;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class AdminController extends Controller
                                 TabunganReporsitories $tabunganReporsitory,
                                 DepositoReporsitories $depositoReporsitory,
                                 PengajuanReporsitories $pengajuanReporsitory,
+                                SimpananReporsitory $simpananReporsitory,
                                 TransferTabunganRepositories $transferTabunganRepository,
                                 LaporanKeuanganRepositories $laporanKeuanganRepository
                                 )
@@ -74,6 +76,7 @@ class AdminController extends Controller
         $this->pengajuanReporsitory = $pengajuanReporsitory;
         $this->transferTabunganRepository = $transferTabunganRepository;
         $this->laporanKeuanganRepository = $laporanKeuanganRepository;
+        $this->simpananReporsitory = $simpananReporsitory;
     }
 
 
@@ -232,7 +235,6 @@ class AdminController extends Controller
         ]);
     }
     public function data_shu(){
-
         $data = $this->informationRepository->getAllSHU();
         $notification = $this->pengajuanReporsitory->getNotification();
         
@@ -1442,6 +1444,36 @@ class AdminController extends Controller
 
 
         return redirect('/admin/');
+    }
+
+    public function total_harta_bmt(){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $data = User::where('role', 'anggota')->get();
+        $totalSimpananPokok =0.0;
+        $totalSimpananWajib=0.0;
+        $totalSimpananKhusus=0.0;
+
+        foreach ($data as $item) {
+            $totalSimpananPokok += json_decode($item->wajib_pokok)->pokok;
+            $totalSimpananWajib += json_decode($item->wajib_pokok)->wajib;
+            $totalSimpananKhusus += json_decode($item->wajib_pokok)->khusus;
+        }
+
+        $total_harta = $totalSimpananPokok + $totalSimpananWajib + $totalSimpananKhusus;
+
+
+        return view('admin.total_harta_bmt',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'data' => $data,
+            'total_pokok' => $totalSimpananPokok,
+            'total_wajib' => $totalSimpananWajib,
+            'total_khusus' => $totalSimpananKhusus,
+            'total_harta' => $total_harta
+        ]);
+
+
+        return view('admin.total_harta_bmt');
     }
 
 
