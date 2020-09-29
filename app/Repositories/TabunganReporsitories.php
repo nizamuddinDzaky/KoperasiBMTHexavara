@@ -195,7 +195,7 @@ class TabunganReporsitories {
             $dataToPenyimpananBMT = [
                 "id_user"       => $pengajuan->id_user,
                 "id_bmt"        => $bmtTabungan->id,
-                "status"        => "Debit " . $bmtTabungan->nama,
+                "status"        => $bmtTabungan->nama,
                 "transaksi"     => $detailToPenyimpananBMT,
                 "teller"        => Auth::user()->id
             ];
@@ -318,7 +318,7 @@ class TabunganReporsitories {
                 $dataToPenyimpananBMT = [
                     "id_user"       => $pengajuan->id_user,
                     "id_bmt"        => $bmtUser->id,
-                    "status"        => "Kredit " . $bmtUser->nama,
+                    "status"        => $bmtUser->nama,
                     "transaksi"     => $detailToPenyimpananBMT,
                     "teller"        => Auth::user()->id
                 ];
@@ -517,7 +517,7 @@ class TabunganReporsitories {
             $dataToPenyimpananBMT = [
                 "id_user"       => $tabungan->id_user,
                 "id_bmt"        => $bmtUserCredit->id,
-                "status"        => "Debit " . $bmtUserCredit->nama,
+                "status"        => $bmtUserCredit->nama,
                 "transaksi"     => $detailToPenyimpananBMT,
                 "teller"        => Auth::user()->id
             ];
@@ -640,7 +640,7 @@ class TabunganReporsitories {
                     $dataToPenyimpananBMT = [
                         "id_user"       => $tabungan->id_user,
                         "id_bmt"        => $bmtUserDebit->id,
-                        "status"        => "Kredit " . $bmtUserDebit->nama,
+                        "status"        => $bmtUserDebit->nama,
                         "transaksi"     =>  $detailToPenyimpananBMT,
                         "teller"        => Auth::user()->id
                     ];
