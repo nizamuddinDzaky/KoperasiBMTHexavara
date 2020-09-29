@@ -20,7 +20,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Laporan Total Harta BMT</h4>
+                <h4 class="title">Laporan Total Simpanan Anggota</h4>
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card">
                         <div class="header text-center">
-                            <h4 id="titlePrint3" class="title"><b>Laporan Total Harta BMT</b> </h4>
+                            <h4 id="titlePrint3" class="title"><b>Laporan Total Simpanan Anggota</b> </h4>
                         </div>
                         <div class="toolbar">
                             <!--        Here you can write extra buttons/actions for the toolbar              -->

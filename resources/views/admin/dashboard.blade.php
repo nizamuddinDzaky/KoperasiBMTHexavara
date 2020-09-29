@@ -15,11 +15,21 @@
     <div class="content">
         <div class="row">
             <div class="col-md-2 small-card">
-                <a href="{{route('total.harta.bmt')}}">
+                <a href="#">
                     <div class="card dashboard link" style="background-color: #3097D1">
                         <div class="card-body">
                             <span class="card-title card-number-large" id="harta" style="font-size: 25px;">{{ number_format($total_kekayaan) }}</span>
                             <p class="card-category" style="margin-bottom:0; font-size: 12px;">Total Harta Rekening BMT</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 small-card">
+                <a href="{{route('total.simpanan.anggota')}}">
+                    <div class="card dashboard link" style="background-color: #FCD12A">
+                        <div class="card-body">
+                            <span class="card-title card-number-large" id="harta" style="font-size: 25px;">{{ number_format($total_simpanan_anggota) }}</span>
+                            <p class="card-category" style="margin-bottom:0; font-size: 12px;">Total Simpanan Anggota</p>
                         </div>
                     </div>
                 </a>

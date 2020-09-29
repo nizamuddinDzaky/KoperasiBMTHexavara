@@ -122,11 +122,17 @@ class AdminController extends Controller
             $bmt = BMT::where('id_rekening', $teller['id'])->first();
             $total_kekayaan += $bmt->saldo;
         }
+
+        $saldowajib = BMT::where('id_rekening', 119 )->first();
+        $saldopokok = BMT::where('id_rekening', 117)->first();
+        $saldokhusus = BMT::where('id_rekening', 120)->first();
+        $total_simpanan_anggota = $saldowajib->saldo+$saldokhusus->saldo+$saldopokok->saldo;
+
         
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);        
         return view('admin.dashboard', compact(
-            'total_kas', 'total_tabungan', 'total_deposito', 'total_pembiayaan', 'total_kekayaan', 'notification', 'notification_count'
+            'total_kas', 'total_tabungan', 'total_deposito', 'total_pembiayaan', 'total_kekayaan', 'notification', 'notification_count', 'total_simpanan_anggota'
         ));
     }
     public function profile(){
@@ -1446,7 +1452,7 @@ class AdminController extends Controller
         return redirect('/admin/');
     }
 
-    public function total_harta_bmt(){
+    public function total_simpanan_anggota(){
         $notification = $this->pengajuanReporsitory->getNotification();
         $data = User::where('role', 'anggota')->get();
         $totalSimpananPokok =0.0;

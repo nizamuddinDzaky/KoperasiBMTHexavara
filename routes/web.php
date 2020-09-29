@@ -40,9 +40,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'uses'      => 'AdminController@index'
     ]);
 
-    Route::get('/total_harta_bmt', [
-        'as'        => 'total.harta.bmt',
-        'uses'      => 'AdminController@total_harta_bmt'
+    Route::get('/total_simpanan_anggota', [
+        'as'        => 'total.simpanan.anggota',
+        'uses'      => 'AdminController@total_simpanan_anggota'
     ]);
 
     Route::get('/reset', [
