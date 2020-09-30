@@ -127,6 +127,7 @@ class WakafController extends Controller
             'data' =>$data,
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown' => $this->informationRepository->getDdBMT(),
+            'dropdownPencairan' => $this->informationRepository->getDdPencairan()
         ]);
     }
     public function transaksi_wakaf(){
@@ -180,5 +181,26 @@ class WakafController extends Controller
                 ->back()
                 ->withInput()->with('message', 'Kegiatan Maal gagal dihapus!.');
         }
+    }
+
+    public function pencairan(Request $request){
+        if (floatval(str_replace(',',"",$request->jumlahPencairan)) > floatval(str_replace(',',"",$request->danaTerkumpul)))
+        {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Jumlah pencairan tidak boleh melebihi dana yang terkumpul!');
+        }
+
+        if($this->informationRepository->pencairanDonasiWakaf($request)) {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Dana Donasi Wakaf berhasil dicairkan!'));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Dana Donasi Wakaf gagal dicairkan!');
+        }
+
     }
 }

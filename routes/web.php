@@ -814,6 +814,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'kegiatan.store',
             'uses'      => 'MaalController@add_kegiatan'
         ]);
+        Route::post('/pencairan', [
+            'as'        => 'admin.maal.pencairan',
+            'uses'      => 'MaalController@pencairan'
+        ]);
         //        Route::post('/edit', [
         //            'as'        => 'edit.kegiatan',
         //            'uses'      => 'MaalController@edit_kegiatan'
@@ -837,6 +841,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         Route::get('/daftar', [
             'as'        => 'admin.wakaf',
             'uses'      => 'WakafController@index'
+        ]);
+        Route::post('/pencairan', [
+            'as'        => 'admin.wakaf.pencairan',
+            'uses'      => 'WakafController@pencairan'
         ]);
         Route::post('/add', [
             'as'        => 'kegiatan.store.wakaf',

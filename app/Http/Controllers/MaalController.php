@@ -102,6 +102,7 @@ class MaalController extends Controller
             'data' =>$data,
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown' => $this->informationRepository->getDdBMT(),
+            'dropdownPencairan' => $this->informationRepository->getDdPencairan()
         ]);
     }
     public function transaksi_maal(){
@@ -155,5 +156,26 @@ class MaalController extends Controller
                 ->back()
                 ->withInput()->with('message', 'Kegiatan Maal gagal dihapus!.');
         }
+    }
+
+    public function pencairan(Request $request){
+        if (floatval(str_replace(',',"",$request->jumlahPencairan)) > floatval(str_replace(',',"",$request->danaTerkumpul)))
+        {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Jumlah pencairan tidak boleh melebihi dana yang terkumpul!');
+        }
+
+        if($this->informationRepository->pencairanDonasi($request)) {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Dana Donasi Maal berhasil dicairkan!'));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Dana Donasi Maal gagal dicairkan!');
+        }
+
     }
 }
