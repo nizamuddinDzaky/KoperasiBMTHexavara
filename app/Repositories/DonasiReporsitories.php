@@ -173,6 +173,7 @@ class DonasiReporsitories {
             if(json_decode($pengajuan->detail)->id_maal != null) {
                 $kegiatan_maal = Maal::where('id', json_decode($pengajuan->detail)->id_maal)->first();
                 $saldo_awal_kegiatan = json_decode($kegiatan_maal->detail)->terkumpul;
+                $sisa_awal = json_decode($kegiatan_maal->detail)->sisa;
                 $saldo_akhir_kegiatan = $saldo_awal_kegiatan + json_decode($pengajuan->detail)->jumlah;
                 $jumlah_donasi = json_decode($pengajuan->detail)->jumlah;
 
@@ -180,6 +181,7 @@ class DonasiReporsitories {
                     "detail"    => json_decode($kegiatan_maal->detail)->detail,
                     "dana"      => json_decode($kegiatan_maal->detail)->dana,
                     "terkumpul" => $saldo_awal_kegiatan + $jumlah_donasi,
+                    "sisa" => $sisa_awal + $jumlah_donasi,
                     "path_poster" => json_decode($kegiatan_maal->detail)->path_poster
                 ];
             }
@@ -396,6 +398,7 @@ class DonasiReporsitories {
             if(json_decode($pengajuan->detail)->id_wakaf != null) {
                 $kegiatan_wakaf = Wakaf::where('id', json_decode($pengajuan->detail)->id_wakaf)->first();
                 $saldo_awal_kegiatan = json_decode($kegiatan_wakaf->detail)->terkumpul;
+                $sisa_awal = json_decode($kegiatan_wakaf->detail)->sisa;
                 $saldo_akhir_kegiatan = $saldo_awal_kegiatan + json_decode($pengajuan->detail)->jumlah;
                 $jumlah_donasi = json_decode($pengajuan->detail)->jumlah;
 
@@ -403,6 +406,7 @@ class DonasiReporsitories {
                     "detail"    => json_decode($kegiatan_wakaf->detail)->detail,
                     "dana"      => json_decode($kegiatan_wakaf->detail)->dana,
                     "terkumpul" => $saldo_awal_kegiatan + $jumlah_donasi,
+                    "sisa" => $sisa_awal + $jumlah_donasi,
                     "path_poster" => json_decode($kegiatan_wakaf->detail)->path_poster
                 ];
             }
@@ -1072,6 +1076,7 @@ class DonasiReporsitories {
                 "detail"        => $data->detail,
                 "dana"          => preg_replace('/[^\d.]/', '', $data->jumlah),
                 "terkumpul"     => 0,
+                "sisa"          => 0 ,
                 "path_poster"   => $fileToUpload
             );
 
@@ -1132,6 +1137,7 @@ class DonasiReporsitories {
                 "detail"        => $data->detail,
                 "dana"          => preg_replace('/[^\d.]/', '', $data->jumlah),
                 "terkumpul"     => 0,
+                "sisa"          => 0,
                 "path_poster"   => $fileToUpload
             );
 

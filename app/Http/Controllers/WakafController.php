@@ -70,27 +70,7 @@ class WakafController extends Controller
             'data' =>$this->informationRepository->getAllMaal(),
         ]);
     }
-    public function konfirmasi_donasi(Request $request){
-        $confirmDonasi = $this->donasiReporsitory->confirmDonasi($request);
-        if($confirmDonasi['type'] == 'success') {
-            $pengajuan = Pengajuan::where('id', $request->id_)->update([ 'status' => 'Sudah Dikonfirmasi ', 'teller' => Auth::user()->id]);
-            if($pengajuan)
-                return redirect()
-                    ->back()
-                    ->withSuccess(sprintf($confirmDonasi['message']));
-            else{
-                return redirect()
-                    ->back()
-                    ->withInput()->with('message', 'Donasi kegitan Maal gagal dilakukan!.');
-            }
-        }
-        else{
-            return redirect()
-                ->back()
-                ->withInput()->with('message', $confirmDonasi['message']);
 
-        }
-    }
 
     public function konfirmasi_donasi_wakaf(Request $request){
         $confirmDonasi = $this->donasiReporsitory->confirmDonasiWakaf($request);
@@ -184,7 +164,7 @@ class WakafController extends Controller
     }
 
     public function pencairan(Request $request){
-        if (floatval(str_replace(',',"",$request->jumlahPencairan)) > floatval(str_replace(',',"",$request->danaTerkumpul)))
+        if (floatval(str_replace(',',"",$request->jumlahPencairan)) > floatval(str_replace(',',"",$request->danaTersisa)))
         {
             return redirect()
                 ->back()

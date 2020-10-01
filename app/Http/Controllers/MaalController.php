@@ -159,11 +159,11 @@ class MaalController extends Controller
     }
 
     public function pencairan(Request $request){
-        if (floatval(str_replace(',',"",$request->jumlahPencairan)) > floatval(str_replace(',',"",$request->danaTerkumpul)))
+        if (floatval(str_replace(',',"",$request->jumlahPencairan)) > floatval(str_replace(',',"",$request->danaTersisa)))
         {
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Jumlah pencairan tidak boleh melebihi dana yang terkumpul!');
+                ->withInput()->with('message', 'Jumlah pencairan tidak boleh melebihi dana yang tersisa!');
         }
 
         if($this->informationRepository->pencairanDonasi($request)) {

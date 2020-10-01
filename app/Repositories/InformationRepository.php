@@ -3110,6 +3110,7 @@ class InformationRepository
             'detail' => $request->detail,
             'dana' => $dana,
             'terkumpul' =>isset(json_decode($dt['detail'],true)['terkumpul'])?json_decode($dt['detail'],true)['terkumpul']:0,
+            'sisa' => isset(json_decode($dt['detail'],true)['sisa'])?json_decode($dt['detail'],true)['sisa']:0,
             'path_poster'=>$filename,
         ];
 
@@ -4382,12 +4383,13 @@ class InformationRepository
 
         if($bmt2->save())
         {
-            //kurangi dana terkumpul di kegiatan
-            $saldoKegiatanSekarang = json_decode($kegiatan->detail)->terkumpul - $jumlahPencairan;
+            //kurangi dana sisa di kegiatan
+            $saldoSisaSekarang = json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
             $dataToUpdateKegiatan = [
                 "detail" => json_decode($kegiatan->detail)->detail,
                 "dana" => json_decode($kegiatan->detail)->dana,
-                "terkumpul" => $saldoKegiatanSekarang,
+                "terkumpul" => json_decode($kegiatan->detail)->terkumpul,
+                "sisa" =>  $saldoSisaSekarang,
                 "path_poster"=> json_decode($kegiatan->detail)->path_poster
             ];
 
@@ -4460,12 +4462,13 @@ class InformationRepository
 
             if($bmt2->save())
             {
-                //kurangi dana terkumpul di kegiatan
-                $saldoKegiatanSekarang = json_decode($kegiatan->detail)->terkumpul - $jumlahPencairan;
+                //kurangi dana sisa di kegiatan
+                $saldoSisaSekarang = json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
                 $dataToUpdateKegiatan = [
                     "detail" => json_decode($kegiatan->detail)->detail,
                     "dana" => json_decode($kegiatan->detail)->dana,
-                    "terkumpul" => $saldoKegiatanSekarang,
+                    "terkumpul" => json_decode($kegiatan->detail)->terkumpul,
+                    "sisa" => $saldoSisaSekarang,
                     "path_poster"=> json_decode($kegiatan->detail)->path_poster
                 ];
 

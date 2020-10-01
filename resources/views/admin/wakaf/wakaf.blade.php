@@ -75,6 +75,7 @@
                             <th data-sortable="true">Rekening Donasi</th>
                             <th data-sortable="true">Jumlah Dana Yang Dibutuhkan </th>
                             <th data-sortable="true">Jumlah Dana Terkumpul</th>
+                            <th data-sortable="true">Jumlah Dana Tersisa</th>
                             <th class="text-center">Actions</th>
                             </thead>
                             <tbody>
@@ -89,6 +90,7 @@
                                     <td>{{ $usr->nama_rekening }}</td>
                                     <td class="text-right">{{ number_format(json_decode($usr->detail,true)['dana'],2) }}</td>
                                     <td class="text-right">{{ number_format(isset(json_decode($usr->detail,true)['terkumpul'])?json_decode($usr->detail,true)['terkumpul']:0,2) }}</td>
+                                    <td class="text-right">{{ number_format(isset(json_decode($usr->detail,true)['sisa'])?json_decode($usr->detail,true)['sisa']:0,2) }}</td>
 
                                     <td class="td-actions text-center">
                                         <form  method="post" @if(Auth::user()->tipe=="admin")action="{{route('admin.detail_transaksi.wakaf')}}" @else action="{{route('teller.detail_transaksi_wakaf')}}" @endif>
@@ -103,7 +105,7 @@
                                                         data-id      = "{{$usr->id}}"
                                                         data-nama    = "{{$usr->nama_kegiatan}}"
                                                         data-idrek   = "{{$usr->id_rekening}}"
-                                                        data-terkumpul = "{{ number_format(isset(json_decode($usr->detail,true)['terkumpul'])?json_decode($usr->detail,true)['terkumpul']:0,2) }}"
+                                                        data-tersisa = "{{ number_format(isset(json_decode($usr->detail,true)['sisa'])?json_decode($usr->detail,true)['sisa']:0,2) }}"
                                                 >
                                                     <i class="fa fa-usd"></i>
                                                 </button>
@@ -337,7 +339,7 @@
             $('#id_kegiatan').val(button.data('id'));
             $('#id_rekening').val(button.data('idrek'));
             $('#namaKegiatan').html(button.data('nama'));
-            $('#danaTerkumpul').val(button.data('terkumpul'));
+            $('#danaTersisa').val(button.data('tersisa'));
         });
 
         $('#wizardCardP').bootstrapWizard({

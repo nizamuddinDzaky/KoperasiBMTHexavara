@@ -248,10 +248,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="control-label">Jumlah Terkumpul Saat Ini <star>*</star></label>
+                                        <label class="control-label">Jumlah Dana Tersisa Saat Ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="danaTerkumpul" name="danaTerkumpul" required="true" readonly="true">
+                                            <input type="text" class="currency form-control text-right" id="danaTersisa" name="danaTersisa" required="true" readonly="true">
                                             <span class="input-group-addon">.00</span>
                                         </div>
                                     </div>
