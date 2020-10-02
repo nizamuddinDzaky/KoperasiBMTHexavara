@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>BMT MUDA (Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada)</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -57,7 +57,7 @@
     <link href="{{ URL::asset('bootstrap/assets/css/light-bootstrap-dashboard.css') }}" rel="stylesheet"/>
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="{{ URL::asset('bootstrap/assets/css/demo.css') }}" rel="stylesheet" />
+{{--    <link href="{{ URL::asset('bootstrap/assets/css/demo.css') }}" rel="stylesheet" />--}}
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
@@ -79,7 +79,7 @@
 
     <!-- Materials Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+
     <!-- datepicker plugin -->
     <link rel="stylesheet" href="{{ asset('bmtmudathemes/assets/jquery-ui/jquery-ui.min.css') }}">
 
@@ -90,7 +90,7 @@
 
     <!-- Loading component -->
     <link rel="stylesheet" href="{{ asset('bmtmudathemes/assets/css/loading.css') }}">
-    
+
     <style>
         .dataTables_wrapper  {
             margin: 1em;
@@ -100,18 +100,9 @@
 </head>
 <body>
 
-<div class="wrapper">
-
     <div class="wrapper">
-         @yield('side-navbar')
-        <div class="main-panel">
-            @yield('top-navbar')
-            @yield('custom-component')
             @yield('content')
-            @yield('footer')
-        </div>
     </div>
-</div>
 
 @yield('modal')
 
@@ -219,24 +210,16 @@
         });
 
     });
-    $('.resetDatabase').on('click', function (event){
-        var r = confirm("Apakah anda yakin ingin reset database?");
-
-        if(r== true)
-        {
-            window.location.href = "{{ route('admin.reset.database') }}";
-        }
-    });
 </script>
 
 <script>
-//    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-//            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-//        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-//    })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
-//
-//    ga('create', 'UA-46172202-1', 'auto');
-//    ga('send', 'pageview');
+    //    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    //            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    //        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    //    })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+    //
+    //    ga('create', 'UA-46172202-1', 'auto');
+    //    ga('send', 'pageview');
 
 </script>
 

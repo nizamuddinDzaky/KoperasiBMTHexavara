@@ -1,123 +1,420 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>BMT MUDA (Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada)</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{{URL::asset('slider/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{{URL::asset('css/full-slider.css')}}" rel="stylesheet">
-
-</head>
-
-<body>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-       <a class="navbar-brand" href="#">BMT MUDA</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+@extends('layouts.donasi')
+@section('extra_style')
+    <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{asset('css/donasi_nav.css')}}">
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+@endsection
+@section('content')
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">BMT MUDA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{url('/')}}">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url('/')}}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="http://www.bmtmuda.com/2012/01/profile-bmt.html">Profile</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{route('maal')}}">Maal</a>
-                </li>
             </ul>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<header>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <!-- Slide One - Set the background image for this slide in the line below -->
-            <div class="carousel-item active" style="background-image: url('{{"bootstrap/assets/img/default_poster.jpg"}}')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>{{$data[0]->nama_kegiatan}}</h3>
-                    <h2>{{$data[0]->tanggal_pelaksaaan}}</h2>
-                    <p>{{json_decode($data[0]->detail,true)['detail']}}</p>
-                    @if(!Auth::check())
-                    <a type="button" href="{{route('anggota.donasi.maal')}}" class="btn btn-fill btn-info center-block">Donasi Sekarang</a>
-                    @else
-                    <a type="button" @if(Auth::user()->tipe=="anggota")href="{{route('anggota.donasi.maal')}}" @elseif(Auth::user()->tipe=="teller")href="{{route('teller.donasi.maal')}}" @endif class="btn btn-fill btn-info center-block">Donasi Sekarang</a>
-                    @endif
+    <div class="row">
+        <button type="button" class="btn btn-primary text-right" data-toggle="modal" data-target="#donasiZis" style="float: right">Pembayaran ZIS<i class="fa fa-external-link-alt"></i></button>
+    </div>
+
+
+    <div class="row">
+            <h2 style="font-weight: bold;" class="text-center">Daftar Kegiatan Maal</h2>
+    </div>
+    <div class="row">
+        @foreach($kegiatan as $item)
+
+            @php
+                $dana = json_decode($item['detail'],true)['dana'];
+                $tanggal_pelaksanaan = Carbon\Carbon::parse($item['tanggal_pelaksanaan']);
+            @endphp
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <div class="card hover" data-toggle="modal" data-target="#donasiKegiatan"
+                     data-id="{{ $item['id'] }}"
+                     data-jenis="donasi kegiatan"
+                     data-nama="{{$item['nama_kegiatan']}}"
+                >
+                    <div class="card-image">
+                        @if(json_decode($item['detail'], true)['path_poster'] != "")
+                            <img src="{{ asset('storage/public/maal/' . json_decode($item['detail'], true)['path_poster']) }}">
+                        @else
+                            <img src="{{ asset('bmtmudathemes/assets/images/no-image-available.png') }}">
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <div class="date">
+                            <p class="content">DANA DIBUTUHKAN : Rp. {{ number_format($dana) }}</p>
+                        </div>
+                        <h4 class="title">{{ $item['nama_kegiatan'] }}</h4>
+                        <p class="description">
+                        <div class="summernote-content">{!! json_decode($item['detail'],true)['detail'] !!}</div>
+                        </p>
+                    </div>
+
+                    <div class="overlay"></div>
                 </div>
             </div>
-            @for($i=1;$i< count($data); $i++)
-            @if(json_decode($data[$i]->detail,true)['path_poster']=="")
-            <div class="carousel-item" style="background-image: url('{{ "bootstrap/assets/img/default_poster.jpg"}}')">
-            @else
-            <div class="carousel-item" style="background-image: url('{{ "storage/public/maal".json_decode($data[$i]->detail,true)['path_poster']}}')">
-            @endif
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>{{$data[$i]->nama_kegiatan}}</h3>
-                    <h2>{{$data[$i]->tanggal_pelaksaaan}}</h2>
-                    <p>{{json_decode($data[$i]->detail,true)['detail']}}</p>
-                    @if(!Auth::check())
-                        <a type="button" href="{{route('anggota.donasi.maal')}}" class="btn btn-fill btn-info center-block">Donasi Sekarang</a>
-                    @else
-                        <a type="button" @if(Auth::user()->tipe=="anggota")href="{{route('anggota.donasi.maal')}}" @elseif(Auth::user()->tipe=="teller")href="{{route('teller.donasi.maal')}}" @endif class="btn btn-fill btn-info center-block">Donasi Sekarang</a>
-                    @endif
-                </div>
+        @endforeach
+
+
+        <div class="row" style="text-align: right;">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                {{ $kegiatan->links() }}
             </div>
-            @endfor
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
-</header>
-
-<!-- Page Content -->
-<section class="py-5">
-    <div class="container">
-        <h21>Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada</h21>
-        <p> BMT MUDA Jatim juga turut membantu masyarakat lewat kegiatan-kegitan maal yang dilakukan
-            untuk meningkatkan kesejahteraan masyarakat.</p>
+    <div class="row">
+            <h2 style="font-weight: bold" class="text-center">Daftar Kegiatan Wakaf</h2>
     </div>
-</section>
+    <div class="row">
+        @foreach($kegiatan_wakaf as $item)
 
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">  &copy;  <a href="{{url('/')}}">BMT MUDA</a>, Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada
-        </p>
+            @php
+                $dana = json_decode($item['detail'],true)['dana'];
+                $tanggal_pelaksanaan = Carbon\Carbon::parse($item['tanggal_pelaksanaan']);
+            @endphp
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <div class="card hover" data-toggle="modal" data-target="#donasiKegiatanWakaf"
+                     data-id="{{ $item['id'] }}"
+                     data-jenis="donasi kegiatan wakaf"
+                     data-nama = "{{ $item['nama_kegiatan'] }}"
+                >
+                    <div class="card-image">
+                        @if(json_decode($item['detail'], true)['path_poster'] != "")
+                            <img src="{{ asset('storage/public/wakaf/' . json_decode($item['detail'], true)['path_poster']) }}">
+                        @else
+                            <img src="{{ asset('bmtmudathemes/assets/images/no-image-available.png') }}">
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <div class="date">
+                            <p class="content">DANA DIBUTUHKAN : Rp. {{ number_format($dana) }}</p>
+                        </div>
+                        <h4 class="title">{{ $item['nama_kegiatan'] }}</h4>
+                        <p class="description">
+                        <div class="summernote-content">{!! json_decode($item['detail'],true)['detail'] !!}</div>
+                        </p>
+                    </div>
+
+                    <div class="overlay"></div>
+                </div>
+            </div>
+        @endforeach
+
+
+        <div class="row" style="text-align: right;">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                {{ $kegiatan_wakaf->links() }}
+            </div>
+        </div>
     </div>
-    <!-- /.container -->
-</footer>
+{{--    <div class="row">--}}
+{{--        <div class="col-md-3" style="display: inline">--}}
+{{--            <h2 style="font-weight: bold  ;margin: 0" class="mt-2">Zis</h2>--}}
+{{--           --}}
+{{--        </div>--}}
+{{--    </div>--}}
 
-<!-- Bootstrap core JavaScript -->
-<script src="{{URL::asset('slider/jquery/jquery.min.js')}}"></script>
-<script src="{{URL::asset('slider/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <footer class="footer mt-5" style="background-color: #3097D1">
+        <div class="container">
+            <div class="row">
+                    <h1 class="display-5 font-weight-bold text-center" style="font-size: 1.25em">BMT MUDA (Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada)</h1>
+            </div>
 
-</body>
+        </div>
 
-</html>
+    </footer>
+
+
+@endsection
+
+@section('modal')
+    @include('modal/donasi_umum/kegiatan')
+    @include('modal/donasi_umum/zis')
+    @include('modal/donasi_umum/wakaf')
+@endsection
+
+@section('extra_script')
+
+    <!-- Tab selected index -->
+    <script src="{{ asset('bmtmudathemes/assets/js/pages/donasi_maal.js') }}"></script>
+
+    <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+    <script src="{{URL::asset('bootstrap/assets/js/moment.min.js')}}"></script>
+    <!--  Date Time Picker Plugin is included in this js file -->
+    <script src="{{URL::asset('bootstrap/assets/js/bootstrap-datetimepicker.js')}}"></script>
+    <!-- Select2 plugin -->
+    <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
+    <script src="{{URL::asset('bootstrap/assets/js/jquery.validate.min.js')}}"></script>
+    <script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
+
+    <!-- Donasi script -->
+    <script src="{{ asset('bmtmudathemes/assets/js/modal/donasi.js') }}"></script>
+
+    <script type="text/javascript">
+        $().ready(function(){
+
+            $('.currency').maskMoney({
+                allowZero: true,
+                precision: 0,
+                thousands: ","
+            });
+
+            $('#idRekT').attr("required",false);
+            $('#rekdon').on('change', function () {
+                if($('#rekdon').val() == 1) {
+                    $('#idRekT').attr("required",true);
+                    $('#Hide').hide();
+                    $('#tipdon').val(1);
+                }
+                else if($('#rekdon').val() == 0) {
+                    $('#idRekT').attr("required",false);
+                    $('#Hide').show();
+                    $('#tipdon').val(0);
+                }
+            });
+
+            $('#bank').attr("required",false);
+            $('#RekBank').hide();
+            var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
+            var saldo = $('#idRekTab');
+            saldo.on('change', function () {
+                $('#idTab_').val(parseInt(saldo.val().split(' ')[0]));
+                $('#saldo').val((saldo.val().split(' ')[1]));
+            });
+
+            var selAr = $('#toHideTab');
+            var selArB =$('#toHideBank');
+            var selArB2 =$('#toHideBank2');
+            var atasnama =$('#atasnamaDeb');
+            var bank =$('#bankDeb');
+            var nobank =$('#nobankDeb');
+            var rekTab =$('#idRekTab')
+            var jenis = $('#jenis');
+            var bukti = $('#bukti');
+            selAr.hide(); selArB.hide(); selArB2.hide();
+            jenis.on('change', function () {
+                if(jenis .val() == 0) {
+                    bukti.attr("required",true);
+                    bank.attr("required",true);
+                    atasnama.attr("required",true);
+                    nobank.attr("required",true);
+                    rekTab.attr("required",false);
+                    selAr.hide();
+                    selArB.show(); selArB2.show()
+                    $('#bank').attr("required",true);
+                    $('#RekBank').show();
+                }
+                else if (jenis .val() == 1) {
+                    $('#bank').val(0);
+                    rekTab.attr("required",true);
+                    bank.attr("required",false);
+                    atasnama.attr("required",false);
+                    nobank.attr("required",false);
+                    bukti.attr("required",false);
+                    selAr.show();
+                    selArB.hide();selArB2.hide();
+                    $('#bank').attr("required",false);
+                    $('#RekBank').hide();
+                }
+                else if (jenis .val() == 2) {
+                    $('#bank').val(0);
+                    rekTab.attr("required",false);
+                    bank.attr("required",false);
+                    atasnama.attr("required",false);
+                    nobank.attr("required",false);
+                    bukti.attr("required",false);
+                    selAr.hide();
+                    selArB.hide();selArB2.hide();
+                    $('#bank').attr("required",false);
+                    $('#RekBank').hide();
+                }
+            });
+
+            var $validator = $("#wizardForm").validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true,
+                        minlength: 5
+                    },
+                    first_name: {
+                        required: false,
+                        minlength: 5
+                    },
+                    last_name: {
+                        required: false,
+                        minlength: 5
+                    },
+                    website: {
+                        required: true,
+                        minlength: 5,
+                        url: true
+                    },
+                    framework: {
+                        required: false,
+                        minlength: 4
+                    },
+                    cities: {
+                        required: true
+                    },
+                    price:{
+                        number: true
+                    }
+                }
+            });
+
+
+
+            // you can also use the nav-pills-[blue | azure | green | orange | red] for a different color of wizard
+
+            $('#wizardCard').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardForm').valid();
+
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
+
+        });
+
+        function onFinishWizard(){
+            //here you can do something, sent the form to server via ajax and show a success message with swal
+
+            swal("Data disimpan!", "Terima kasih telah melengkapi data diri anda!", "success");
+        }
+    </script>
+
+    <script type="text/javascript">
+        $().ready(function(){
+            $("#idRekTab").select2({
+                dropdownParent: $("#wizardCard")
+            });
+            $("#idRekT").select2({
+                dropdownParent: $("#wizardCard")
+            });
+
+            // Init DatetimePicker
+            demo.initFormExtendedDatetimepickers();
+        });
+
+        type = ['','info','success','warning','danger'];
+        demo = {
+            showNotification: function(from, align){
+                color = Math.floor((Math.random() * 4) + 1);
+
+                $.notify({
+                    icon: "pe-7s-gift",
+                    message: "<b>Light Bootstrap Dashboard PRO</b> - forget about boring dashboards."
+
+                },{
+                    type: type[color],
+                    timer: 4000,
+                    placement: {
+                        from: from,
+                        align: align
+                    }
+                });
+            },
+            initFormExtendedDatetimepickers: function(){
+                $('.datetimepicker').datetimepicker({
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    }
+                });
+
+
+                $('.timepicker').datetimepicker({
+//          format: 'H:mm',    // use this format if you want the 24hours timepicker
+                    format: 'h:mm A',    //use this format if you want the 12hours timpiecker with AM/PM toggle
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    }
+                });
+            },
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        function stopRKey(evt) {
+            var evt = (evt) ? evt : ((event) ? event : null);
+            var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+            if ((evt.keyCode == 13) && (node.type=="text"))  {return false;}
+        }
+
+        document.onkeypress = stopRKey;
+
+    </script>
+@endsection
+
+

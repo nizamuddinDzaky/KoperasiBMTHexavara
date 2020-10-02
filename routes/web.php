@@ -25,6 +25,14 @@ Route::get('/maal', [
     'as'        => 'maal',
     'uses'      => 'MaalController@home'
 ]);
+Route::post('/maal/kegiatan', [
+    'as'        => 'donasimaal.umum',
+    'uses'      => 'DonasiUmumController@pengajuan'
+]);
+Route::post('/maal/wakaf', [
+    'as'        => 'donasiwakaf.umum',
+    'uses'      => 'DonasiUmumController@pengajuanWakaf'
+]);
 
 
 

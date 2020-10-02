@@ -91,30 +91,46 @@ class DonasiReporsitories {
                 $id_rekening = 114;
             }
 
-            $detail = [
-                'id_maal'   => $data->id_donasi,
-                'jenis_donasi'    => $data->jenis_donasi,
-                'id'        => Auth::user()->id,
-                'nama'      => Auth::user()->nama,
-                'debit'     => $debit,
-                'path_bukti'=> $path_bukti,
-                'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
-                'rekening'  => $rekening,
-                'atasnama'  => $atasnama,
-                'bank'      => $namabank,
-                'no_bank'   => $norek,
-                'bank_tujuan_transfer' => $bank_tujuan_transfer
-            ];
-            
-            $dataToSave = [
-                'id_user'           => Auth::user()->id,
-                'id_rekening'       => $id_rekening,
-                'jenis_pengajuan'   => $jenis_pengajuan,
-                'status'            => 'Menunggu Konfirmasi',
-                'kategori'          => 'Donasi',
-                'detail'            => $detail,
-                'teller'            => 0
-            ];
+            if(Auth::check())
+            {
+                $id = Auth::user()->id;
+                $nama = Auth::user()->nama;
+            }
+            else
+            {
+                $user = User::where('no_ktp', 9999999999999999)->first();
+                $id = $user->id;
+                $nama = $user->nama;
+            }
+
+
+                $detail = [
+                    'id_maal'   => $data->id_donasi,
+                    'jenis_donasi'    => $data->jenis_donasi,
+                    'id'        => $id,
+                    'nama'      => $nama,
+                    'debit'     => $debit,
+                    'path_bukti'=> $path_bukti,
+                    'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
+                    'rekening'  => $rekening,
+                    'atasnama'  => $atasnama,
+                    'bank'      => $namabank,
+                    'no_bank'   => $norek,
+                    'bank_tujuan_transfer' => $bank_tujuan_transfer
+                ];
+
+                $dataToSave = [
+                    'id_user'           => $id,
+                    'id_rekening'       => $id_rekening,
+                    'jenis_pengajuan'   => $jenis_pengajuan,
+                    'status'            => 'Menunggu Konfirmasi',
+                    'kategori'          => 'Donasi',
+                    'detail'            => $detail,
+                    'teller'            => 0
+                ];
+
+
+
             
             $pengajuan = $this->pengajuanReporsitory->createPengajuan($dataToSave);
             if($pengajuan['type'] == "success")
@@ -689,31 +705,44 @@ class DonasiReporsitories {
                 $jenis_pengajuan = "Wakaf";
                 $id_rekening = 114;
 
+                if(Auth::check())
+                {
+                    $id = Auth::user()->id;
+                    $nama = Auth::user()->nama;
+                }
+                else
+                {
+                    $user = User::where('no_ktp', 9999999999999999)->first();
+                    $id = $user->id;
+                    $nama = $user->nama;
+                }
 
-            $detail = [
-                'id_wakaf'   => $data->id_donasi_wakaf,
-                'jenis_donasi'    => $data->jenis_donasi_wakaf,
-                'id'        => Auth::user()->id,
-                'nama'      => Auth::user()->nama,
-                'debit'     => $debit,
-                'path_bukti'=> $path_bukti,
-                'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
-                'rekening'  => $rekening,
-                'atasnama'  => $atasnama,
-                'bank'      => $namabank,
-                'no_bank'   => $norek,
-                'bank_tujuan_transfer' => $bank_tujuan_transfer
-            ];
 
-            $dataToSave = [
-                'id_user'           => Auth::user()->id,
-                'id_rekening'       => $id_rekening,
-                'jenis_pengajuan'   => $jenis_pengajuan,
-                'status'            => 'Menunggu Konfirmasi',
-                'kategori'          => 'Donasi',
-                'detail'            => $detail,
-                'teller'            => 0
-            ];
+                $detail = [
+                    'id_wakaf'   => $data->id_donasi_wakaf,
+                    'jenis_donasi'    => $data->jenis_donasi_wakaf,
+                    'id'        => $id,
+                    'nama'      => $nama,
+                    'debit'     => $debit,
+                    'path_bukti'=> $path_bukti,
+                    'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
+                    'rekening'  => $rekening,
+                    'atasnama'  => $atasnama,
+                    'bank'      => $namabank,
+                    'no_bank'   => $norek,
+                    'bank_tujuan_transfer' => $bank_tujuan_transfer
+                ];
+
+                $dataToSave = [
+                    'id_user'           => $id,
+                    'id_rekening'       => $id_rekening,
+                    'jenis_pengajuan'   => $jenis_pengajuan,
+                    'status'            => 'Menunggu Konfirmasi',
+                    'kategori'          => 'Donasi',
+                    'detail'            => $detail,
+                    'teller'            => 0
+                ];
+
 
             $pengajuan = $this->pengajuanReporsitory->createPengajuan($dataToSave);
             if($pengajuan['type'] == "success")

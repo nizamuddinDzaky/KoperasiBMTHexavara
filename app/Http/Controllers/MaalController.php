@@ -11,6 +11,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
+use App\Wakaf;
+use App\Repositories\TabunganReporsitories;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,10 +31,12 @@ class MaalController extends Controller
     public function __construct(Rekening $rekening,
                                 User $user,
                                 Maal $maal,
+                                Wakaf $wakaf,
                                 Tabungan $tabungan,
                                 Pengajuan $pengajuan,
                                 InformationRepository $informationRepository,
                                 DonasiReporsitories $donasiReporsitory,
+                                TabunganReporsitories $tabunganReporsitories,
                                 PengajuanReporsitories $pengajuanReporsitory
                                 )
     {
@@ -53,9 +57,11 @@ class MaalController extends Controller
         $this->user = $user;
         $this->tabungan = $tabungan;
         $this->maal = $maal;
+        $this->wakaf = $wakaf;
         $this->pengajuan = $pengajuan;
         $this->informationRepository = $informationRepository;
         $this->donasiReporsitory = $donasiReporsitory;
+        $this->tabunganReporsitory = $tabunganReporsitories;
         $this->pengajuanReporsitory = $pengajuanReporsitory;
     }
 
@@ -65,8 +71,15 @@ class MaalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function home(){
+        $kegiatan = Maal::paginate(8);
+        $kegiatan_wakaf = Wakaf::paginate(8);
         return view('maal',[
-            'data' =>$this->informationRepository->getAllMaal(),
+            'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
+            "kegiatan"  => $kegiatan,
+            'kegiatan_wakaf' => $kegiatan_wakaf,
+            // 'riwayat_zis' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "zis"),
+            // 'riwayat_wakaf' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "wakaf"),
+            'dropdown6' => $this->informationRepository->getDdBank(),
         ]);
     }
     public function konfirmasi_donasi(Request $request){
