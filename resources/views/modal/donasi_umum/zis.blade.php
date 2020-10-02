@@ -20,7 +20,23 @@
                             <input type="hidden" name="id_donasi" id="id_donasi">
                             <input type="hidden" name="jenis_donasi" id="jenis_donasi" value="zis">
 
+                            <div class="row">
+                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Nama <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="namaPendonasi" name="namaPendonasi" required>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Email <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="emai" name="email" required>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
@@ -30,6 +46,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <div class="row">
                                 <div class="col-sm-12 col-md-10 col-md-offset-1">

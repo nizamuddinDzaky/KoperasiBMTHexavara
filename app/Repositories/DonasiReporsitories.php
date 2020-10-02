@@ -95,12 +95,14 @@ class DonasiReporsitories {
             {
                 $id = Auth::user()->id;
                 $nama = Auth::user()->nama;
+                $email = "";
             }
             else
             {
                 $user = User::where('no_ktp', 9999999999999999)->first();
                 $id = $user->id;
-                $nama = $user->nama;
+                $nama = $data->namaPendonasi;
+                $email = $data->email;
             }
 
 
@@ -116,7 +118,8 @@ class DonasiReporsitories {
                     'atasnama'  => $atasnama,
                     'bank'      => $namabank,
                     'no_bank'   => $norek,
-                    'bank_tujuan_transfer' => $bank_tujuan_transfer
+                    'bank_tujuan_transfer' => $bank_tujuan_transfer,
+                    'email' =>  $email
                 ];
 
                 $dataToSave = [
@@ -268,6 +271,7 @@ class DonasiReporsitories {
                 'jenis_donasi'  => json_decode($pengajuan->detail)->jenis_donasi,
                 'id'        => json_decode($pengajuan->detail)->id,
                 'nama'      => json_decode($pengajuan->detail)->nama,
+                'email'     =>json_decode($pengajuan->detail)->email,
                 'debit'     => json_decode($pengajuan->detail)->debit,
                 'path_bukti'=> json_decode($pengajuan->detail)->path_bukti,
                 'jumlah'    => json_decode($pengajuan->detail)->jumlah,
@@ -493,6 +497,7 @@ class DonasiReporsitories {
                 'jenis_donasi'  => json_decode($pengajuan->detail)->jenis_donasi,
                 'id'        => json_decode($pengajuan->detail)->id,
                 'nama'      => json_decode($pengajuan->detail)->nama,
+                'email'     =>json_decode($pengajuan->detail)->email,
                 'debit'     => json_decode($pengajuan->detail)->debit,
                 'path_bukti'=> json_decode($pengajuan->detail)->path_bukti,
                 'jumlah'    => json_decode($pengajuan->detail)->jumlah,
@@ -709,12 +714,14 @@ class DonasiReporsitories {
                 {
                     $id = Auth::user()->id;
                     $nama = Auth::user()->nama;
+                    $email = "";
                 }
                 else
                 {
                     $user = User::where('no_ktp', 9999999999999999)->first();
                     $id = $user->id;
-                    $nama = $user->nama;
+                    $nama = $data->namaPendonasi;
+                    $email = $data->email;
                 }
 
 
@@ -730,7 +737,8 @@ class DonasiReporsitories {
                     'atasnama'  => $atasnama,
                     'bank'      => $namabank,
                     'no_bank'   => $norek,
-                    'bank_tujuan_transfer' => $bank_tujuan_transfer
+                    'bank_tujuan_transfer' => $bank_tujuan_transfer,
+                    'email' =>  $email
                 ];
 
                 $dataToSave = [
