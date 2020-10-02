@@ -6,7 +6,7 @@
 @endsection
 @section('content')
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">BMT MUDA</a>
+        <a class="navbar-brand" href="{{url('/')}}">BMT MUDA</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -127,7 +127,7 @@
     <footer class="footer mt-5" style="background-color: #3097D1">
         <div class="container">
             <div class="row">
-                    <h1 class="display-5 font-weight-bold text-center" style="font-size: 1.25em">BMT MUDA (Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada)</h1>
+                    <h1 class="display-5 font-weight-bold text-center" style="font-size: 1.25em; color: white">BMT MUDA (Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada)</h1>
             </div>
 
         </div>
