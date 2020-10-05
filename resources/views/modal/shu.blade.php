@@ -309,7 +309,7 @@
                                 <div class="col-md-8 col-md-offset-1" >
                                     <div class="form-group" >
                                         <label for="id_" class="control-label">Field Jaminan <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  name="field[]" required="true"/>
+                                        <input type="text" class="form-control text-left" id="efield"  name="field[]" required="true"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 " >

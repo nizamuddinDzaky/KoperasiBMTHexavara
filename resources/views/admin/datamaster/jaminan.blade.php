@@ -112,8 +112,12 @@
 @endsection
 
 @section('extra_script')
+    <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
+    <script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
 
     <script type="text/javascript">
+
+
 
         $('#statusJamModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -132,9 +136,17 @@
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             $('#id_editJam').val(button.data('id'));
             $('#enama').val(button.data('nama'));
-            $('#efield').val(button.data('field[]'));
+            var field = button.data('field[]');
+            var field = field.split(",");
+            $('#efield').val(field[0]);
+            for (var i = 1 ; i < field.length ; i ++)
+            {
+                addRow2Start(field[i]);
+            }
+
 
         });
+
         $('#delSHUModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id');
@@ -147,12 +159,7 @@
             $('#toDelete').text(nama + " akan dihapus!");
         });
 
-    </script>
 
-    <!-- Select2 plugin -->
-    <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
-    <script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
-    <script type="text/javascript">
         var rowNum = 0;
         function addRow(frm) {
             rowNum ++;
@@ -175,7 +182,27 @@
         function removeRow(rnum) {
             jQuery('#rowNum'+rnum).remove();
         }
+
         var rowNum2 = 0;
+        function addRow2Start(value) {
+            rowNum2 ++;
+            var row2 =
+                '<div id="rowNum'+rowNum2+'"> ' +
+                '<div class="col-md-8 col-md-offset-1" >'+
+                '<div class="form-group" >'+
+                '<input type="text" class="form-control text-left" value='+value+' name="field[]" required="true"/>' +
+                '</div>'+
+                '</div>'+
+                '<div class="col-md-2 " >'+
+                '<div class="form-group" >'+
+                '<input type="button" value="Remove" class="btn btn-fill btn-danger btn-sm" onclick="removeRow2('+rowNum2+');">' +
+                '</div>'+
+                '</div>'+
+                '</div>';
+            jQuery('#itemRows2').append(row2);
+//            frm.add_field.value = '';
+        }
+
         function addRow2(frm) {
             rowNum2 ++;
             var row2 =
