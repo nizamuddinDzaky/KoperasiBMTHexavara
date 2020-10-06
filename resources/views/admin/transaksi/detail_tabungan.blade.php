@@ -62,7 +62,7 @@
                                             </td>
                                             <td>{{ $item->id_tabungan }}</td>
                                             <td>{{ $item->user->nama }}</td>
-                                            <td>Rp. {{ number_format(json_decode($item->detail)->saldo) }}</td>
+                                            <td>{{ number_format(json_decode($item->detail)->saldo) }}</td>
                                             <td>{{ $item->created_at->format("D, d M Y") }}</td>
                                             <td class="with-icon">
                                                 <a href="{{ route('admin.transaksi.tabungan.riwayat', [$item->id]) }}">

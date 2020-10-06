@@ -77,7 +77,7 @@
                                 <td class="text-left">{{ $usr->id_deposito }}</td>
                                 <td class="text-left">{{ $usr->jenis_deposito   }}</td>
                                 <td class="text-center">{{ $usr->created_at->format('D, d F Y') }}</td>
-                                <td class="text-left">Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2) }}</td>
+                                <td class="text-left">{{" ". number_format(json_decode($usr->detail,true)['saldo'],2) }}</td>
                                 <td class="text-center">{{ Carbon\Carbon::parse($usr->tempo)->format('D, d F Y') }}</td>
                                 <td class="text-center text-uppercase">{{ $usr->status }}</td>
                                 <td class="td-actions text-center">

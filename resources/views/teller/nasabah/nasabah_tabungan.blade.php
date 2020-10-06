@@ -56,7 +56,7 @@
                                 <td>{{ $usr->id_tabungan }}</td>
                                 <td>{{ $usr->jenis_tabungan  }}</td>
                                 <td>{{ $usr->nama   }}</td>
-                                <td>Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2)  }}</td>
+                                <td>{{" ". number_format(json_decode($usr->detail,true)['saldo'],2)  }}</td>
                                 <td>{{ $usr->created_at }}</td>
                                 <td class="text-uppercase text-center">{{ $usr->status }}</td>
                                 <td class="td-actions text-center">

@@ -53,14 +53,15 @@
                         <tbody>
                             @foreach($data_tabungan as $item)
                             <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
+{{--                                <td class="with-icon">--}}
+{{--                                    <div class="icon primary">--}}
+{{--                                        <i class="fa fa-donate"></i>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+                                <td></td>
                                 <td>{{ $item->nama_rekening }}</td>
                                 <td>{{ $item->jumlah_anggota }} ANGGOTA</td>
-                                <td>Rp. {{ number_format($item->jumlah_saldo) }}</td>
+                                <td>{{ number_format($item->jumlah_saldo) }}</td>
                                 <td>{{ count($item->pengajuan) }} PENGAJUAN BARU</td>
                                 <td class="with-icon">
                                     <a href="{{ route('admin.transaksi.tabungan.detail', [$item->id]) }}">

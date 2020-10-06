@@ -186,7 +186,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
-                                        <td>Rp. {{ number_format(json_decode($item->transaksi)->bayar_margin) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->bayar_margin) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

@@ -70,7 +70,7 @@
                                         <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
                                     @endif
                                     <td>{{ $usr->status }}</td>
-                                    <td class="text-left">Rp {{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                    <td class="text-left">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
 
                                     {{--<td class="td-actions text-center">--}}
                                     {{--<button type="button" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#editPassUsrModal" title="Ubah Password"--}}

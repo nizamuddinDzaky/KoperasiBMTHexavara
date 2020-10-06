@@ -64,7 +64,7 @@
                                 <td>{{$bmt->id}}</td>
                                 <td>{{$bmt->id_bmt}}</td>
                                 <td>{{$bmt->nama}}</td>
-                                <td class="text-right">Rp {{  number_format( floatval($bmt->saldo),2) }}</td>
+                                <td class="text-right">{{  number_format( floatval($bmt->saldo),2) }}</td>
                                 <!--<td class="text-center">-->
                                 <!--    <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editSaldoModal" title="Edit Saldo Rekening"-->
                                 <!--            data-id      = "{{$bmt->id_rekening}}"-->

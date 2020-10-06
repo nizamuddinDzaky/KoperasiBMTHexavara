@@ -63,7 +63,7 @@
                                         @endfor
                                         {{ $usr->nama  }}</td>
                                     @if($usr->tipe_rekening =="detail")
-                                        <td class="text-right">Rp {{number_format(floatval($usr->saldo),2) }}</td>
+                                        <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
                                     @else <td></td>
                                     @endif
                                     
@@ -81,7 +81,7 @@
                             <tr>
                                 <td></td>
                                 <td class="text-center text-uppercase"><h6><b>Jumlah Pendapatan</b>  </h6></td>
-                                <td class="text-right"><b>Rp {{number_format($laba,2)}}</b></td>
+                                <td class="text-right"><b>{{number_format($laba,2)}}</b></td>
                             </tr>
 
                             @foreach ($data2 as $usr)
@@ -94,7 +94,7 @@
                                         @endfor
                                         {{ $usr->nama  }}</td>
                                     @if($usr->tipe_rekening =="detail")
-                                        <td class="text-right">Rp {{number_format(floatval($usr->saldo),2) }}</td>
+                                        <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
                                     @else <td></td>
                                     @endif
                                     
@@ -112,7 +112,7 @@
                             <tr>
                                 <td></td>
                                 <td class="text-center text-uppercase"><h6>Jumlah Biaya  </h6></td>
-                                <td class="text-right"><b>Rp {{number_format($rugi,2)}}</b></td>
+                                <td class="text-right"><b>{{number_format($rugi,2)}}</b></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -122,7 +122,7 @@
                             <tr>
                                 <td></td>
                                 <td class="text-center text-uppercase"><h5><b>Laba/Rugi</b>  </h5></td>
-                                <td class="text-right"><b>Rp {{number_format($laba-$rugi,2)}}</b></td>
+                                <td class="text-right"><b>{{number_format($laba-$rugi,2)}}</b></td>
                             </tr>
                             <tr>
                                 <td></td>

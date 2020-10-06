@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body">
                     <div class="date">
-                        <p class="content">DANA DIBUTUHKAN : Rp. {{ number_format($dana) }}</p>
+                        <p class="content">DANA DIBUTUHKAN : {{ number_format($dana) }}</p>
                     </div>
                     <h4 class="title">{{ $item['nama_kegiatan'] }}</h4>
                     <p class="description">

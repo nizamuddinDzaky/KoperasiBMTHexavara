@@ -20,7 +20,7 @@
                         <div class="header text-center">
                             <h4 class="title">Riwayat Transaksi </h4>
                             <p class="category">Mudharabah Berjangka Anggota <b>{{isset($data[0])?($data[0]['jenis_deposito']." [ID : ".$data[0]['id_deposito']."]"):""}}</b></p>
-                            <p class="category"> Saldo Rata-rata : Rp {{number_format($data[0]['saldo_rata2'],2)}} / {{date("d")}} hari </p>
+                            <p class="category"> Saldo Rata-rata : {{number_format($data[0]['saldo_rata2'],2)}} / {{date("d")}} hari </p>
                             <br />
                         </div>
                         <div class="toolbar">

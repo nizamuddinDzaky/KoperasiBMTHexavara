@@ -78,7 +78,7 @@
                                     <td class="text-left">{{ $loop->iteration }}</td>
                                     <td class="text-left">{{ $shu['nama_shu']  }}</td>
                                     <td class="text-center">{{ $shu['persentase']  }}%</td>
-                                    <td class="text-right">Rp {{number_format(floatval($shu['porsi']),2) }}</td>
+                                    <td class="text-right">{{number_format(floatval($shu['porsi']),2) }}</td>
                                 </tr>
                             @endforeach
 
@@ -86,7 +86,7 @@
                                 <td></td>
                                 <td class="text-center text-uppercase"><h5>Jumlah SHU Yang Harus Dibagikan  </h5></td>
                                 <td></td>
-                                <td class="text-right">Rp {{number_format($data_shu[0]['yang_harus_dibagikan'],2)}}</td>
+                                <td class="text-right">{{number_format($data_shu[0]['yang_harus_dibagikan'],2)}}</td>
                             </tr>
                             <tr>
                                 <td></td>

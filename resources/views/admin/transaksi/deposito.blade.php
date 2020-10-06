@@ -53,14 +53,15 @@
                         <tbody>
                             @foreach($data_deposito as $deposito)
                             <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
+{{--                                <td class="with-icon">--}}
+{{--                                    <div class="icon primary">--}}
+{{--                                        <i class="fa fa-donate"></i>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+                                <td></td>
                                 <td>{{ $deposito->nama_rekening }}</td>
                                 <td>{{ $deposito->jumlah_anggota }} ANGGOTA</td>
-                                <td>Rp. {{ number_format($deposito->jumlah_saldo) }}</td>
+                                <td>{{ number_format($deposito->jumlah_saldo) }}</td>
                                 <td>{{ count($deposito->pengajuan) }} PENGAJUAN BARU</td>
                                 <td class="with-icon">
                                     <a href="{{ route('admin.transaksi.deposito.detail', [$deposito->id]) }}">

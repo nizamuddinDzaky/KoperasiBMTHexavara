@@ -55,11 +55,12 @@
                         <tbody>
                             @foreach($data as $item)
                             <tr class="zoom-effect">
-                                <td class="with-icon">
-                                    <div class="icon primary">
-                                        <i class="fa fa-donate"></i>
-                                    </div>
-                                </td>
+{{--                                <td class="with-icon">--}}
+{{--                                    <div class="icon primary">--}}
+{{--                                        <i class="fa fa-donate"></i>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+                                <td></td>
                                 <td class="text-uppercase">{{ $item['nama'] }}</td>
                                 <td class="text-uppercase">{{ $item['alamat'] }} ANGGOTA</td>
                                 <td>Rp. {{ number_format($item['saldo']) }}</td>

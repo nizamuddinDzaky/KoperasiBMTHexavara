@@ -62,18 +62,18 @@
                                     <td>{{ $item->user->nama  }}</td>
                                     <td>{{ $item->status   }}</td>
                                     @if($item->status == "Debit" || str_before($item->status, " ") == "Distribusi" || str_before($item->status, " ") == "Debit")
-                                    <td>Rp. {{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
+                                    <td>{{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
                                     @else
-                                    <td>Rp. 0</td>
+                                    <td>0</td>
                                     @endif
 
                                     @if($item->status == "Kredit" || str_before($item->status, " ") == "Kredit" || str_before($item->status, " ") == "Angsuran" || str_before($item->status, " ") == "Pembayaran" || str_before($item->status, " ") == "Angsuran")
-                                    <td>Rp. {{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
+                                    <td>{{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
                                     @else
-                                    <td>Rp. 0</td>
+                                    <td>0</td>
                                     @endif
 
-                                    <td>Rp. {{ number_format(json_decode($item->transaksi)->saldo_akhir)  }}</td>
+                                    <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir)  }}</td>
                                     {{-- <td class="text-uppercase text-center">{{ $usr->status }}</td> --}}
                                     {{-- <td class="td-actions text-center">
                                         <form  method="post" action="{{route('admin.detail_tabungan')}}">

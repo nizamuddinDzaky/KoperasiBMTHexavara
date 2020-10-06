@@ -78,7 +78,7 @@
                                     <td>{{ $sim->id_rekening }}</td>
                                     <td>{{ $sim->nama_rekening }}</td>
                                     <td>{{ $sim->katagori_rekening }}</td>
-                                    <td>IDR {{ number_format(json_decode($sim->detail)->saldo_min) }}</td>
+                                    <td>{{ number_format(json_decode($sim->detail)->saldo_min) }}</td>
                                     <td class="td-actions text-center">
                                         <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editTabModal" title="Edit"
                                                 data-id         = "{{$sim->id}}"

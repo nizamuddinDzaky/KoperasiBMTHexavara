@@ -71,7 +71,7 @@
                                 <td class="text-left">{{ $usr->id_tabungan }}</td>
                                 <td class="text-left">{{ $usr->jenis_tabungan   }}</td>
                                 <td class="text-left">{{ $usr->created_at }}</td>
-                                <td class="text-left">Rp{{" ". number_format(json_decode($usr->detail,true)['saldo'],2) }}</td>
+                                <td class="text-left">{{" ". number_format(json_decode($usr->detail,true)['saldo'],2) }}</td>
                                 <td class="text-center text-uppercase">{{ $usr->status }}</td>
                                 <td class="td-actions text-center">
                                     <form  method="post" action="{{route('anggota.detail_tabungan')}}">
