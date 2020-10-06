@@ -754,7 +754,8 @@ class LaporanController extends Controller
         $saldo_terkumpul = BMT::where('id_rekening', $rekening->id)->select('saldo')->first();
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
-        return view('admin.laporan.saldo_donasi', compact('data_donasi', 'saldo_terkumpul', 'notification', 'notification_count'));
+        $dropdownPencairan = $this->informationRepository->getDdPencairan();
+        return view('admin.laporan.saldo_donasi', compact('data_donasi', 'saldo_terkumpul', 'notification', 'notification_count', 'dropdownPencairan'));
     }
 
     public function saldo_wakaf(Request $request) {
