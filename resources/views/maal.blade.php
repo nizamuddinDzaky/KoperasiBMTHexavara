@@ -5,6 +5,7 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
 @endsection
 @section('content')
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{{url('/')}}">BMT MUDA</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +36,8 @@
 
             @php
                 $dana = json_decode($item['detail'],true)['dana'];
+                $dana_terkumpul = json_decode($item['detail'],true)['terkumpul'];
+                $persen = ($dana_terkumpul / $dana) * 100;
                 $tanggal_pelaksanaan = Carbon\Carbon::parse($item['tanggal_pelaksanaan']);
             @endphp
             <div class="col-sm-12 col-md-4 col-lg-3">
@@ -52,18 +55,24 @@
                     </div>
                     <div class="card-body">
                         <div class="date">
-                            <p class="content">DANA DIBUTUHKAN : Rp. {{ number_format($dana) }}</p>
+                            <p class="content">DANA DIBUTUHKAN : {{ number_format($dana) }}</p>
+                            <p class="content">DANA TERKUMPUL : {{ number_format($dana_terkumpul) }}</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{$persen}}%; background-color: #00ff00" aria-valuenow="{{$persen}}" aria-valuemin="0" aria-valuemax="100">{{$persen}}</div>
+                            </div>
                         </div>
                         <h4 class="title">{{ $item['nama_kegiatan'] }}</h4>
                         <p class="description">
                         <div class="summernote-content">{!! json_decode($item['detail'],true)['detail'] !!}</div>
-                        </p>
                     </div>
 
                     <div class="overlay"></div>
                 </div>
             </div>
         @endforeach
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div>
 
 
         <div class="row" style="text-align: right;">
@@ -80,6 +89,8 @@
 
             @php
                 $dana = json_decode($item['detail'],true)['dana'];
+                $dana_terkumpul = json_decode($item['detail'],true)['terkumpul'];
+                $persen = ($dana_terkumpul / $dana) * 100;
                 $tanggal_pelaksanaan = Carbon\Carbon::parse($item['tanggal_pelaksanaan']);
             @endphp
             <div class="col-sm-12 col-md-4 col-lg-3">
@@ -97,7 +108,11 @@
                     </div>
                     <div class="card-body">
                         <div class="date">
-                            <p class="content">DANA DIBUTUHKAN : Rp. {{ number_format($dana) }}</p>
+                            <p class="content">DANA DIBUTUHKAN : {{ number_format($dana) }}</p>
+                            <p class="content">DANA TERKUMPUL : {{ number_format($dana_terkumpul) }}</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{$persen}}%; background-color: #00ff00" aria-valuenow="{{$persen}}" aria-valuemin="0" aria-valuemax="100">{{$persen}}</div>
+                            </div>
                         </div>
                         <h4 class="title">{{ $item['nama_kegiatan'] }}</h4>
                         <p class="description">
