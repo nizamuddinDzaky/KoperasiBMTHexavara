@@ -14,7 +14,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Daftar Harta Rekening BMT</h4>
+                <h4 class="title">Daftar Total Simpanan Anggota</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -35,9 +35,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 class="title"> Daftar Harta Rekening</h4>
-                        <p class="category">Daftar Harta Rekening BMT</p>
-                        <br />
+                        <h4 class="title"> Daftar Total Simpanan Anggota</h4>
+                        <br/>
                     </div>
                     <div class="toolbar">
                         <!--        Here you can write extra buttons/actions for the toolbar              -->
@@ -46,10 +45,10 @@
 
                     <table class="table beautiful-table">
                         <thead class="style-head">
-                        <th class="text-left" data-sortable="true" colspan="2">NAMA </th>
+                        <th class="text-left" data-sortable="true" colspan="2">NAMA</th>
                         <th class="text-left" data-sortable="true">SALDO</th>
                         {{-- <th class="text-left" data-sortable="true">PENGAJUAN BARU</th> --}}
-                        <th class="text-center" data-sortable="true"></th>
+                        <th class="text-center" data-sortable="true">DETAIL</th>
                         </thead>
                         <tbody>
                         @foreach($data as $item)
@@ -64,18 +63,18 @@
                                 <td>{{ number_format($item->saldo) }}</td>
                                 {{-- <td>{{ count($item->pengajuan) }} PENGAJUAN BARU</td> --}}
                                 <td class="with-icon">
-{{--                                    <a href="{{ route('kas_harian', [$item['id_rekening']]) }}">--}}
-{{--                                        <div class="icon default">--}}
-{{--                                            <i class="material-icons">more_horiz</i>--}}
-{{--                                        </div>--}}
-{{--                                    </a>--}}
+                                    <a href="{{ route('total.simpanan.anggota.detail', [$item->id]) }}">
+                                        <div class="icon default">
+                                            <i class="material-icons">more_horiz</i>
+                                        </div>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
                         <tr class="zoom-effect">
                             <td></td>
                             <td style="font-weight: bold">TOTAL</td>
-                            <td style="font-weight: bold">{{number_format($total)}}</td>
+                            <td style="font-weight: bold">{{number_format($total_harta)}}</td>
                             <td ></td>
                         </tr>
                         </tbody>

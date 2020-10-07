@@ -53,6 +53,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'uses'      => 'AdminController@total_simpanan_anggota'
     ]);
 
+    Route::get('/total_simpanan_anggota/{id}', [
+        'as'        => 'total.simpanan.anggota.detail',
+        'uses'      => 'AdminController@detail_total_simpanan_anggota'
+    ]);
+
+    Route::get('/total_harta_bmt', [
+        'as'        => 'total.harta.bmt',
+        'uses'      => 'AdminController@total_harta_bmt'
+    ]);
+
+    Route::get('/total_pembiayaan', [
+        'as'        => 'admin.total.pembiayaan',
+        'uses'      => 'AdminController@total_pembiayaan'
+    ]);
+
+    Route::get('/total_pembiayaan/{nama}', [
+        'as'        => 'admin.detail.total.pembiayaan',
+        'uses'      => 'AdminController@detail_total_pembiayaan'
+    ]);
+
     Route::get('/reset', [
         'as'        => 'admin.reset.database',
         'uses'      => 'AdminController@reset'

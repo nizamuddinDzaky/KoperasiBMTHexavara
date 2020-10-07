@@ -1454,32 +1454,145 @@ class AdminController extends Controller
 
     public function total_simpanan_anggota(){
         $notification = $this->pengajuanReporsitory->getNotification();
-        $data = User::where('role', 'anggota')->get();
-        $totalSimpananPokok =0.0;
-        $totalSimpananWajib=0.0;
-        $totalSimpananKhusus=0.0;
 
-        foreach ($data as $item) {
-            $totalSimpananPokok += json_decode($item->wajib_pokok)->pokok;
-            $totalSimpananWajib += json_decode($item->wajib_pokok)->wajib;
-            $totalSimpananKhusus += json_decode($item->wajib_pokok)->khusus;
+        $total_harta = 0.0;
+        $data =  BMT::where('id', 341)->orWhere('id', 339)->orWhere('id', 342)->get();
+
+        foreach ($data as $item){
+            $total_harta += $item->saldo;
         }
 
-        $total_harta = $totalSimpananPokok + $totalSimpananWajib + $totalSimpananKhusus;
+
+        return view('admin.total_simpanan_anggota',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'data' => $data,
+            'total_harta' => $total_harta
+        ]);
+    }
+
+    public function total_harta_bmt(){
+
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $harta = Rekening::where([ ['id_rekening', 'like', '3.2%'], ['tipe_rekening', '!=', 'induk'] ])->get();
+        $total_kekayaan = 0;
+        foreach($harta as $data)
+        {
+            $bmt = BMT::where('id_rekening', $data['id'])->first();
+            $total_kekayaan += $bmt->saldo;
+        }
+
+
+        $bmt = DB::table('rekening as r')
+            ->join('bmt as b', 'b.id_rekening', '=', 'r.id')
+            ->select('b.nama', 'b.saldo')
+            ->where([ ['r.id_rekening', 'like', '3.2%'], ['r.tipe_rekening', '!=', 'induk'] ])->get();
 
 
         return view('admin.total_harta_bmt',[
             'notification' => $notification,
             'notification_count' =>count($notification),
+            'data' => $bmt,
+            'total' => $total_kekayaan,
+        ]);
+    }
+
+    public function detail_total_simpanan_anggota($id)
+    {
+        $data = User::where('role', 'anggota')->get();
+        $total = 0.0;
+        $notification = $this->pengajuanReporsitory->getNotification();
+
+        if($id == 339) //pokok
+        {
+            foreach ($data as $item) {
+                $total += json_decode($item->wajib_pokok)->pokok;
+            }
+            $tipeSimpanan = 'Pokok';
+        }
+        elseif($id = 341) //wajib
+        {
+            foreach ($data as $item) {
+                $total += json_decode($item->wajib_pokok)->wajib;
+
+            }
+            $tipeSimpanan = 'Wajib';
+        }
+        else { // khusus
+            foreach ($data as $item) {
+                $total += json_decode($item->wajib_pokok)->khusus;
+
+            }
+            $tipeSimpanan = 'Khusus';
+        }
+
+
+
+        return view('admin.detail_total_simpanan_anggota',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
-            'total_pokok' => $totalSimpananPokok,
-            'total_wajib' => $totalSimpananWajib,
-            'total_khusus' => $totalSimpananKhusus,
-            'total_harta' => $total_harta
+            'total' => $total,
+            'tipe' => $tipeSimpanan
         ]);
 
 
-        return view('admin.total_harta_bmt');
+    }
+
+    public function total_pembiayaan(){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $pembiayaan = Pembiayaan::where('status', 'active')->get();
+
+        $total_pembiayaan = 0;
+
+
+
+        $data = DB::table('pembiayaan')
+            ->select(DB::raw('SUM(JSON_EXTRACT(detail, "$.pinjaman")) AS saldo, jenis_pembiayaan as nama,count(id_user) as jumlah'))
+            ->where('status', '=', 'active')
+            ->groupBy('jenis_pembiayaan')
+            ->get();
+
+        foreach($pembiayaan as $pembiayaan)
+        {
+            $total_pembiayaan += json_decode($pembiayaan['detail'])->pinjaman;
+        }
+
+        return view('admin.total_pembiayaan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'data' => $data,
+            'total' => $total_pembiayaan,
+        ]);
+    }
+
+    public function detail_total_pembiayaan($nama){
+
+        $data = DB::table('pembiayaan as p')
+            ->join('users as u', 'u.id', '=' ,'p.id_user')
+            ->select('u.no_ktp','u.nama', 'p.detail as detail')
+            ->where('p.jenis_pembiayaan', $nama)
+            ->get();
+
+        $nama = explode(" ", $nama);
+        $nama = $nama[1];
+
+        $total_pembiayaan = 0.0;
+
+        foreach($data as $item)
+        {
+            $total_pembiayaan += json_decode($item->detail)->pinjaman;
+        }
+
+        $notification = $this->pengajuanReporsitory->getNotification();
+        return view('admin.detail_total_pembiayaan',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'data' => $data,
+            'total' => $total_pembiayaan,
+            'jenis' => $nama
+        ]);
+
     }
 
 
