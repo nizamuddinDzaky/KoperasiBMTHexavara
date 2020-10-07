@@ -63,10 +63,19 @@
                                     <td></td>
                                     <td>{{ $usr->id }}</td>
                                     <td>{{ $usr->created_at  }}</td>
-                                    <td style="text-transform: uppercase;">{{ $usr->nama }}</td>
+                                    @if($usr->nama == 'Umum')
+                                        <td style="text-transform: uppercase;">{{ json_decode($usr->transaksi)->nama }}</td>
+                                    @else
+                                        <td style="text-transform: uppercase;">{{ $usr->nama }}</td>
+                                        @endif
                                     <td style="text-transform: uppercase;">{{ $usr->nama_kegiatan  }}</td>
                                     @if(Auth::user()->tipe!="anggota")
-                                    <td>{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
+                                        @if($usr->nama == 'Umum')
+                                            <td style="text-transform: uppercase;">{{ json_decode($usr->transaksi)->no_bank }}</td>
+                                        @else
+                                            <td>{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
+                                            @endif
+
                                     <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
                                     @endif
                                     <td>{{ $usr->status }}</td>
