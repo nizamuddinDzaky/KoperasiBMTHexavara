@@ -3113,30 +3113,36 @@ class PembiayaanReporsitory {
     */
     public function pelunasanPembiayaan($data)
     {
-        $pembiayaan = Pembiayaan::where('id_pembiayaan', explode(" ", $data->idRek)[6])->first();
-        $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
 
-        $id_rekening_pembiayaan = $pembiayaan->id_rekening;
-        $nama_rekening_pembiayaan = $pembiayaan->jenis_pembiayaan;
+
+
+        $pembiayaan = Pembiayaan::where('id_pembiayaan', explode(" ", $data->idRek)[6])->first(); // ambil pembiayaam
+        $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first(); // ambil user yang melakukan pelunasan
+
+        $id_rekening_pembiayaan = $pembiayaan->id_rekening; // ambil id rekening aktiva pembiayaan
+        $nama_rekening_pembiayaan = $pembiayaan->jenis_pembiayaan; // nama pembiayaan
         
-        $sisa_angsuran = json_decode($pembiayaan->detail)->sisa_pinjaman;
-        $sisa_margin = json_decode($pembiayaan->detail)->sisa_margin;
-        $jumlah_bayar_angsuran = explode(" ", $data->idRek)[0];
-        $jumlah_bayar_margin = explode(" ", $data->idRek)[1];
+        $sisa_angsuran = json_decode($pembiayaan->detail)->sisa_angsuran; // sisa angsuran
+        $sisa_margin = json_decode($pembiayaan->detail)->sisa_margin; // sisa margin
+
+        $jumlah_bayar_angsuran = explode(" ", $data->idRek)[0]; // jumlah bayar angsuran
+        $jumlah_bayar_margin = str_replace(',',"",$data->bayar_mar); // jumlah bayar margin
+
 
         if($id_rekening_pembiayaan == 100)
         {
-            $id_rekening_pendapatan = 130;
+            $id_rekening_pendapatan = 130; // pendapatan mrb
         }
         if($id_rekening_pembiayaan == 99)
         {
-            $id_rekening_pendapatan = 129;
+            $id_rekening_pendapatan = 129; // pendapatan mda
         }
         if($id_rekening_pembiayaan == 102)
         {
-            $id_rekening_pendapatan = 131;
+            $id_rekening_pendapatan = 131; // pendapan qord
         }
 
+        //id tujuan pelunasan untuk menambah saldo
         if($data->debit == 2)
         {
             $id_tabungan = $data->tabungan;
@@ -3146,11 +3152,11 @@ class PembiayaanReporsitory {
         }
         if($data->debit == 1)
         {
-            $id_tujuan_pelunasan = json_decode($pengajuan->detail)->bank;
+            $id_tujuan_pelunasan = $data->bank;
         }
         if($data->debit == 0)
         {
-            $id_tujuan_pelunasan = json_decode(Auth::user()->detail)->id_rekening;
+            $id_tujuan_pelunasan = json_decode(Auth::user()->detail)->id_rekening; // id teller
         }
         
         $bmt_rekening_pendapatan = BMT::where('id_rekening', $id_rekening_pendapatan)->first();
@@ -3316,6 +3322,7 @@ class PembiayaanReporsitory {
         $bmt_pembiayaan->saldo = $saldo_akhir_pembiayaan;
         $bmt_rekening_pendapatan->saldo = $bmt_rekening_pendapatan->saldo + $jumlah_bayar_margin;
         $bmt_shu_berjalan->saldo = $bmt_shu_berjalan->saldo + $jumlah_bayar_margin;
+
         if($id_rekening_pembiayaan == 100)
         {
             $bmt_piutang_yang_ditangguhkan->saldo = $bmt_piutang_yang_ditangguhkan->saldo + $sisa_margin;
