@@ -1,7 +1,7 @@
 <div class="modal fade" id="donasiKegiatanWakaf" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard wizardCard">
-            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.donasi.pay')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('donasiwakaf')}}" @endif enctype="multipart/form-data">
+            <form class="wizardForm" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.donasi.pay.wakaf')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('donasiwakaf')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -23,6 +23,7 @@
 
                             <input type="hidden" name="id_donasi_wakaf" id="id_donasi_wakaf">
                             <input type="hidden" name="jenis_donasi_wakaf" id="jenis_donasi_wakaf">
+                            <input type="hidden" name="jenis_donasi" value="donasi kegiatan wakaf">
 
                             @if(Auth::user()->tipe != "anggota")
                                 <div class="row">
@@ -31,7 +32,7 @@
                                             <label for="namaSim" class="control-label">Kegiatan Wakaf <star>*</star></label>
                                             <select class="form-control select2" name="id_donasi" style="width: 100%;" required>
                                                 <option selected disabled>-Pilih Kegiatan Wakaf-</option>
-                                                @foreach ($kegiatan as $kegiatan)
+                                                @foreach ($kegiatanWakaf as $kegiatan)
                                                     <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama_kegiatan }}</option>
                                                 @endforeach
                                             </select>
@@ -170,3 +171,9 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+

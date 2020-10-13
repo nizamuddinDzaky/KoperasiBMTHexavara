@@ -859,6 +859,7 @@ class DonasiReporsitories {
                 $bank_tujuan_transfer = null;
             }
 
+
             // Get jenis donasi (donasi kegiatan/maal, zis, wakaf)
             if($data->jenis_donasi == 'donasi kegiatan')
             {
@@ -1044,10 +1045,280 @@ class DonasiReporsitories {
                             "detail"    => json_decode($kegiatan_maal_didonasi->detail)->detail,
                             "dana"      => json_decode($kegiatan_maal_didonasi->detail)->dana,
                             "terkumpul" => floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "sisa" => floatval(json_decode($kegiatan_maal_didonasi->detail)->sisa) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                             "path_poster" => json_decode($kegiatan_maal_didonasi->detail)->path_poster
                         ];
 
                         $update_dana_terkumpul = Maal::where('id', $data->id_donasi)->update([ 'detail' => json_encode($detail_maal_update) ]);
+                    }
+
+                    $update_saldo_bmt_jenis_donasi = BMT::where('id', $bmt_donasi->id)->update([ 'saldo' => floatval($bmt_donasi->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)) ]);
+
+                    if($data->debit == 2) {
+                        $dataToCheckInTabungan = [
+                            'id_tabungan' => $data->rekening,
+                            'jumlah'      => preg_replace('/[^\d.]/', '', $data->nominal),
+                            'id_pengajuan' => $nextId
+                        ];
+                        $this->updateSaldoTabungan($dataToCheckInTabungan);
+                    }
+
+                    DB::commit();
+                    $response = array('type' => 'success', 'message' => 'Pembayaran donasi berhasil dilakukan');
+                }
+                else
+                {
+                    DB::rollback();
+                    $response = array('type' => 'error', 'message' => 'Pembayaran donasi gagal dilakukan. Saldo rekening tidak cukup');
+                }
+            }
+            else
+            {
+                DB::rollback();
+                $response = array('type' => 'error', 'message' => 'Pembayaran donasi gagal dilakukan');
+            }
+        }
+        catch(Exception $ex)
+        {
+            DB::rollback();
+            $response = array('type' => 'error', 'message' => 'Pembayaran donasi gagal dilakukan');
+        }
+
+        return $response;
+    }
+
+    /**
+     * Pay donasi wakaf from teller page
+     * @return Response
+     */
+    public function payDonasiWakaf($data)
+    {
+
+        DB::beginTransaction();
+        try
+        {
+            $statement = DB::select("SHOW TABLE STATUS LIKE 'pengajuan'");
+            $nextId = $statement[0]->Auto_increment;
+
+            $donatur = User::where('id', $data->donatur)->first();
+
+            if($data->debit == 1) {
+                $file = $data->file->getClientOriginalName();
+                $file_name = preg_replace('/\s+/', '_', $file);
+                $fileToUpload = time() . "-" . $file_name;
+                $data->file('file')->storeAs(
+                    'transfer', $fileToUpload
+                );
+
+                $debit = "Transfer";
+                $path_bukti = $fileToUpload;
+                $rekening = null;
+                $atasnama = $data->atas_nama;
+                $namabank = $data->nama_bank;
+                $norek = $data->nomor_rekening;
+                $bank_tujuan_transfer = $data->bank_tujuan;
+            }
+
+            if($data->debit == 2) {
+                $debit = "Tabungan";
+                $path_bukti = null;
+                $rekening = $data->rekening;
+                $atasnama = null;
+                $namabank = null;
+                $norek = null;
+                $bank_tujuan_transfer = null;
+
+                $tabungan_pengirim = Tabungan::where('id_tabungan', $data->rekening)->first();
+            }
+
+            if($data->debit == 0) {
+                $debit = "Tunai";
+                $path_bukti = null;
+                $rekening = $data->rekening;
+                $atasnama = null;
+                $namabank = null;
+                $norek = null;
+                $bank_tujuan_transfer = null;
+            }
+
+            $jenis_pengajuan = "Wakaf";
+            $id_rekening = 114;
+
+
+            $bmt_donasi = BMT::where('id_rekening', $id_rekening)->first();
+            $saldo_awal_donasi = $bmt_donasi->saldo;
+            $saldo_akhir_donasi = $bmt_donasi->saldo + preg_replace('/[^\d.]/', '', $data->nominal);
+
+            if($data->debit == 2) {     // Pembayaran VIA Tabungan
+                $tabungan_pengirim = Tabungan::where('id_tabungan', $data->rekening)->first();
+                $rekening_pengirim = Rekening::where([ ['nama_rekening', $tabungan_pengirim->jenis_tabungan], ['tipe_rekening', 'detail'] ])->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+            }
+
+            if($bank_tujuan_transfer != null) { // Pembayaran V IA Transfer
+                $rekening_pengirim = Rekening::where('id', $data->bank_tujuan)->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+            }
+
+            if($data->debit == 0) { // Pembayaran VIA Tunai
+                $rekening_pengirim = Rekening::where('id', json_decode(Auth::user()->detail)->id_rekening)->select('id')->first();
+                $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+            }
+
+            $detail = [
+                'id_wakaf'   => $data->id_donasi,
+                'jenis_donasi'    => $data->jenis_donasi,
+                'id'        => $donatur->id,
+                'nama'      => $donatur->nama,
+                'debit'     => $debit,
+                'path_bukti'=> $path_bukti,
+                'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
+                'rekening'  => $rekening,
+                'atasnama'  => $atasnama,
+                'bank'      => $namabank,
+                'no_bank'   => $norek,
+                'bank_tujuan_transfer' => $bank_tujuan_transfer,
+                'saldo_awal' => $saldo_awal_donasi,
+                'saldo_akhir'   => $saldo_akhir_donasi,
+                'dari_rekening' => $bmt_pengirim->nama,
+                'untuk_rekening' => $bmt_donasi->nama
+            ];
+
+            if($data->jenis_donasi == 'donasi kegiatan wakaf')
+            {
+                $kegiatan_wakaf_didonasi = Wakaf::where('id', $data->id_donasi)->first();
+                $detail['dana_terkumpul_awal'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul);
+                $detail['dana_terkumpul_akhir'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                $detail['dari_rekening'] = $bmt_pengirim->nama;
+                $detail['untuk_rekening'] = $kegiatan_wakaf_didonasi->nama_kegiatan;
+                $detail['saldo_awal'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul);
+                $detail['saldo_akhir'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+            }
+
+            $dataToSave = [
+                'id'                => $nextId,
+                'id_user'           => $donatur->id,
+                'id_rekening'       => $id_rekening,
+                'jenis_pengajuan'   => $jenis_pengajuan,
+                'status'            => 'Sudah Dikonfirmasi',
+                'kategori'          => 'Donasi',
+                'detail'            => $detail,
+                'teller'            => Auth::user()->id
+            ];
+
+            $pengajuan = $this->pengajuanReporsitory->createPengajuan($dataToSave);
+
+            $dataToInsertIntoPenyimpananWakaf = [
+                'id_donatur'    => $donatur->id,
+                'id_wakaf'       => $data->id_donasi,
+                'status'        => $debit,
+                'transaksi'     => $detail,
+                'teller'        => Auth::user()->id
+            ];
+
+            $detailToPenyimpananBMT = [
+                "jumlah"        => preg_replace('/[^\d.]/', '', $data->nominal),
+                "saldo_awal"    => $saldo_awal_donasi,
+                "saldo_akhir"   => $saldo_akhir_donasi,
+                "id_pengajuan"  => $nextId
+            ];
+
+            $dataToInsertIntoPenyimpananBMT = [
+                'id_user'       => $donatur->id,
+                'id_bmt'        => $bmt_donasi->id,
+                'status'        => $data->jenis_donasi,
+                'transaksi'     => $detailToPenyimpananBMT,
+                'teller'        => Auth::user()->id
+            ];
+
+            if($pengajuan['type'] == "success")
+            {
+                if($data->debit == 2) {     // Pembayaran VIA Tabungan
+                    $tabungan_pengirim = Tabungan::where('id_tabungan', $data->rekening)->first();
+                    $rekening_pengirim = Rekening::where([ ['nama_rekening', $tabungan_pengirim->jenis_tabungan], ['tipe_rekening', 'detail'] ])->select('id')->first();
+                    $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+
+                    $detailToPenyimpananTabungan = [
+                        "teller"    => Auth::user()->id,
+                        "dari_rekening" => $tabungan_pengirim->jenis_tabungan,
+                        "untuk_rekening" => $bmt_donasi->nama,
+                        "jumlah" => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                        "saldo_awal" => json_decode($tabungan_pengirim->detail)->saldo,
+                        "saldo_akhir" => floatval(json_decode($tabungan_pengirim->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->nominal))
+                    ];
+                    $dataToPenyimpananTabungan = [
+                        "id_user"       => $donatur->id,
+                        "id_tabungan"   => $tabungan_pengirim->id,
+                        "status"        => "Pembayaran " . $bmt_donasi->nama,
+                        "transaksi"     => $detailToPenyimpananTabungan,
+                        "teller"        => Auth::user()->id
+                    ];
+
+                    if(floatval($bmt_pengirim->saldo) > floatval(preg_replace('/[^\d.]/', '', $data->nominal)))
+                    {
+                        $saldo_akhir_bmt_pengirim = floatval($bmt_pengirim->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                        $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_akhir_bmt_pengirim]);
+
+                        $update_saldo_pengirim_response = "success";
+
+                        $saveToPenyimpananTabungan = $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+                    }
+                    else
+                    {
+                        $update_saldo_pengirim_response = "error";
+                    }
+                }
+
+                if($bank_tujuan_transfer != null) { // Pembayaran VIA Transfer
+                    $rekening_pengirim = Rekening::where('id', $data->bank_tujuan)->select('id')->first();
+                    $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+
+                    $saldo_akhir_bmt_pengirim = floatval($bmt_pengirim->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                    $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_akhir_bmt_pengirim]);
+
+                    $update_saldo_pengirim_response = "success";
+                }
+
+                if($data->debit == 0) { // Pembayaran VIA Tunai
+                    $rekening_pengirim = Rekening::where('id', json_decode(Auth::user()->detail)->id_rekening)->select('id')->first();
+                    $bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->first();
+                    $saldo_akhir_bmt_pengirim = floatval($bmt_pengirim->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                    $update_saldo_bmt_pengirim = BMT::where('id_rekening', $rekening_pengirim->id)->update([ "saldo" => $saldo_akhir_bmt_pengirim]);
+
+                    $update_saldo_pengirim_response = "success";
+                }
+
+                if($update_saldo_pengirim_response == "success")
+                {
+
+                    if($data->jenis_donasi == "donasi kegiatan wakaf")
+                    {
+                        $penyimpananWakaf = $this->insertPenyimpananWakaf($dataToInsertIntoPenyimpananWakaf);
+                    }
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+
+                    $dataToInsertIntoPenyimpananBMT['id_bmt'] = $bmt_pengirim->id;
+                    $detailToPenyimpananBMT['jumlah'] = preg_replace('/[^\d.]/', '', $data->nominal);
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_pengirim->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $saldo_akhir_bmt_pengirim;
+                    $dataToInsertIntoPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToInsertIntoPenyimpananBMT);
+
+                    if($data->jenis_donasi == "donasi kegiatan wakaf")
+                    {
+                        $kegiatan_wakaf_didonasi = Wakaf::where('id', $data->id_donasi)->first();
+
+                        $detail_wakaf_update = [
+                            "detail"    => json_decode($kegiatan_wakaf_didonasi->detail)->detail,
+                            "dana"      => json_decode($kegiatan_wakaf_didonasi->detail)->dana,
+                            "terkumpul" => floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "sisa"      => floatval(json_decode($kegiatan_wakaf_didonasi->detail)->sisa) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "path_poster" => json_decode($kegiatan_wakaf_didonasi->detail)->path_poster
+                        ];
+
+                        $update_dana_terkumpul = Wakaf::where('id', $data->id_donasi)->update([ 'detail' => json_encode($detail_wakaf_update) ]);
                     }
 
                     $update_saldo_bmt_jenis_donasi = BMT::where('id', $bmt_donasi->id)->update([ 'saldo' => floatval($bmt_donasi->saldo) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)) ]);

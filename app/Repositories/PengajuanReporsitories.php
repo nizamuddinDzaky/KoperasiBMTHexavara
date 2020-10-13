@@ -47,18 +47,21 @@ class PengajuanReporsitories {
         $pengajuan->detail = json_encode($data['detail']);
         $pengajuan->teller = $data['teller'];
 
+        $message = "Pengajuan ".$data['jenis_pengajuan'];
         if($pengajuan->save())
         {
             if($data['teller'] != 0)
             {
                 $data = $data['id'];
             }
-            $response = array("type" => "success", "message" => "Pengajuan " . $data['jenis_pengajuan'] . " berhasil dibuat", "data" => $data);
+
+            $response = array("type" => "success", "message" => $message." berhasil dibuat", "data" => $data);
         } 
         else 
         {
-            $response = array("type" => "error", "message" => "Pengajuan " . $data['jenis_pengajuan'] . " gagal dibuat");
+            $response = array("type" => "error", "message" => $message. " gagal dibuat");
         }
+
         return $response;
     }
 

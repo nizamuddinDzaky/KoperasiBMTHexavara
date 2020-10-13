@@ -1130,6 +1130,11 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'    => 'teller.donasi.pay',
             'uses'  => 'TellerController@pay_donasi'
         ]);
+
+        Route::post('teller/donasi/pay/wakaf', [
+            'as'    => 'teller.donasi.pay.wakaf',
+            'uses'  => 'TellerController@pay_donasi_wakaf'
+        ]);
     });
     
     Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {

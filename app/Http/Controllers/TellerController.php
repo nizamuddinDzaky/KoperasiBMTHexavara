@@ -1576,6 +1576,27 @@ class TellerController extends Controller
         }
     }
 
+    /**
+     * Pay donasi wakaf via teller page controller
+     * @return Response
+     */
+    public function pay_donasi_wakaf(Request $request)
+    {
+        // return response()->json($request);
+        $donasi = $this->donasiReporsitory->payDonasiWakaf($request);
+        if($donasi['type'] == 'success') {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf($donasi['message']));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', $donasi['message']);
+
+        }
+    }
+
     /** 
      * Konfirmasi pengajuan simpanan anggota
      * @return Response
