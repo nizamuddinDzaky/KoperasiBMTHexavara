@@ -1510,7 +1510,7 @@ class AdminController extends Controller
             }
             $tipeSimpanan = 'Pokok';
         }
-        elseif($id = 341) //wajib
+        elseif($id == 341) //wajib
         {
             foreach ($data as $item) {
                 $total += json_decode($item->wajib_pokok)->wajib;
@@ -1528,6 +1528,7 @@ class AdminController extends Controller
 
 
 
+        
         return view('admin.detail_total_simpanan_anggota',[
             'notification' => $notification,
             'notification_count' =>count($notification),
