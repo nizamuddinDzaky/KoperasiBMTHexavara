@@ -4396,6 +4396,34 @@ class InformationRepository
             $updateKegiatan =  Maal::where('id', $request->idkegiatan)->update(["detail" => json_encode($dataToUpdateKegiatan)]);
 
 
+            $saldo_akhir_penyimpanan_maal =  $danaSosial->saldo - $jumlahPencairan;
+            $dataPenyimpananMaal = [
+                "id_maal" =>$request->idkegiatan,
+                "jenis_donasi" => "donasi kegiatan",
+                "id" => Auth::user()->id,
+                "nama" => Auth::user()->nama,
+                "debit" => "Tunai",
+                "path_bukti" => null,
+                "jumlah" => $jumlahPencairan,
+                "rekening" => 88.1,
+                "atasnama" => null,
+                "bank"      => null,
+                "no_bank"   => null,
+                'bank_tujuan_transfer' => null,
+                "saldo_awal" =>  floatval($danaSosial->saldo),
+                "saldo_akhir" => $saldo_akhir_penyimpanan_maal,
+                "dari_rekening" => $danaSosial->nama,
+                "untuk_rekening" => "Pencairan",
+            ];
+
+            $penyimpananMaal = new PenyimpananMaal();
+            $penyimpananMaal->status = "Pencairan Donasi";
+            $penyimpananMaal->id_maal = $request->idkegiatan;
+            $penyimpananMaal->id_donatur = Auth::user()->id;
+            $penyimpananMaal->transaksi = json_encode($dataPenyimpananMaal);
+            $penyimpananMaal->teller = Auth::user()->id;
+            $penyimpananMaal->save();
+
             //kurangi dana di saldo rekening bmt penyeimbang
             $saldoRekeningPenyeimbangSekarang = $rekeningPenyeimbang->saldo - $jumlahPencairan;
             $updateRekeningPenyeimbang = BMT::where('id_rekening', $request->dari)->update(['saldo' => $saldoRekeningPenyeimbangSekarang]);
@@ -4403,6 +4431,8 @@ class InformationRepository
             //kurangi dana di saldo dana sosial
             $saldoDanaSosialSekarang = $danaSosial->saldo - $jumlahPencairan;
             $updateRekeningPenyeimbang = BMT::where('id_rekening', $request->idrekening)->update(['saldo' => $saldoDanaSosialSekarang]);
+
+
 
             DB::commit();
             return true;
@@ -4473,6 +4503,34 @@ class InformationRepository
                 ];
 
                 $updateKegiatan =  Wakaf::where('id', $request->idkegiatan)->update(["detail" => json_encode($dataToUpdateKegiatan)]);
+
+                $saldo_akhir_penyimpanan_wakaf =  $danaSosial->saldo - $jumlahPencairan;
+                $dataPenyimpananWakaf = [
+                    "id_wakaf" =>$request->idkegiatan,
+                    "jenis_donasi" => "donasi kegiatan",
+                    "id" => Auth::user()->id,
+                    "nama" => Auth::user()->nama,
+                    "debit" => "Tunai",
+                    "path_bukti" => null,
+                    "jumlah" => $jumlahPencairan,
+                    "rekening" => 88.1,
+                    "atasnama" => null,
+                    "bank"      => null,
+                    "no_bank"   => null,
+                    'bank_tujuan_transfer' => null,
+                    "saldo_awal" =>  floatval($danaSosial->saldo),
+                    "saldo_akhir" => $saldo_akhir_penyimpanan_wakaf,
+                "dari_rekening" => $danaSosial->nama,
+                "untuk_rekening" => "Pencairan",
+            ];
+
+            $penyimpananWakaf = new PenyimpananWakaf();
+            $penyimpananWakaf->status = "Pencairan Donasi";
+            $penyimpananWakaf->id_wakaf = $request->idkegiatan;
+            $penyimpananWakaf->id_donatur = Auth::user()->id;
+            $penyimpananWakaf->transaksi = json_encode($dataPenyimpananWakaf);
+            $penyimpananWakaf->teller = Auth::user()->id;
+            $penyimpananWakaf->save();
 
 
                 //kurangi dana di saldo rekening bmt penyeimbang
