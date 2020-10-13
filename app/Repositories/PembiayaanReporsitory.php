@@ -150,7 +150,8 @@ class PembiayaanReporsitory {
                     "sisa_mar_bln"      => 0,
                     "kelebihan_angsuran_bulanan" => 0,
                     "kelebihan_margin_bulanan" => 0,
-                    "id_pengajuan"      => $pengajuan->id
+                    "id_pengajuan"      => $pengajuan->id,
+                    "jenis_tempo"       => $jenis_tempo,
                 ];
                 $dataToPembiayaan = [
                     "id"                => $nextId,
@@ -226,7 +227,7 @@ class PembiayaanReporsitory {
                     $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
                     $updatePengajuan = Pengajuan::where('id', $data->id_)->update([ 'status' => 'Sudah Dikonfirmasi', 'teller' => Auth::user()->id ]);
                     
-                    $this->exportPerjanjian($dataToPembiayaan, $data);
+                    $this->exportPerjanjianMRB($dataToPembiayaan, $data);
 
                     DB::commit();
                     $response = array("type" => "success", "message" => "Pengajuan " . $jenis_pembiayaan . " Berhasil Dikonfirmasi.");    
@@ -295,7 +296,11 @@ class PembiayaanReporsitory {
 
             $pinjaman = json_decode($pengajuan->detail)->jumlah;
             $nisbah = $data->nisbah / 100;
+            //nisbah tanpa pembagian
+            $nisbah_koperasi = $data->nisbah;
+            $nisbah_anggota = 100.0 - $data->nisbah;
             $margin = $pinjaman * $nisbah * $tempo;
+            $kegiatan_usaha = json_decode($pengajuan->detail)->usaha;
 
             $saldo_awal_pengirim = floatval($bmt_pengirim->saldo);
             $saldo_akhir_pengirim = floatval($bmt_pengirim->saldo) - floatval($pinjaman);
@@ -326,7 +331,11 @@ class PembiayaanReporsitory {
                     "sisa_mar_bln"      => 0,
                     "kelebihan_angsuran_bulanan" => 0,
                     "kelebihan_margin_bulanan" => 0,
-                    "id_pengajuan"      => $pengajuan->id
+                    "id_pengajuan"      => $pengajuan->id,
+                    "jenis_tempo"       => $jenis_tempo,
+                    "kegiatan_usaha"    => $kegiatan_usaha,
+                    "nisbah_anggota"   => $nisbah_anggota,
+                    "nisbah_koperasi"   => $nisbah_koperasi,
                 ];
                 $dataToPembiayaan = [
                     "id"                => $nextId,
@@ -3030,6 +3039,16 @@ class PembiayaanReporsitory {
     */
     public function exportPerjanjian($dataPembiayaan, $dataForm, $dataJaminan="")
     {
+
+        if($dataPembiayaan['id_rekening'] == 99)
+        {
+            $path = public_path('template/perjanjian_pembiayaan_mda.docx');
+        }
+        else
+        {
+            $path = public_path('template/perjanjian_pembiayaan_qord.docx');
+        }
+
         $user_pembiayaan = User::where('id', $dataPembiayaan['id_user'])->first();
         $data_pengajuan = Pengajuan::where('id', $dataPembiayaan['id_pengajuan'])->first();
         if($dataJaminan !== "")
@@ -3049,14 +3068,29 @@ class PembiayaanReporsitory {
             );
         }
 
+        $bulanSekarang = Carbon::now('m')->month;
+        $bulanRomawi = $this->numberToRoman($bulanSekarang);
+        $tahunSekarang = Carbon::now('m')->year;
+
         $export_data = array(
             "user"                              => $user_pembiayaan->nama,
             "id"                                => $dataPembiayaan['id'],
             "data_template"                     => array(
+                "id_pembiayaan"                 => $dataPembiayaan['id'],
+                "bulan_romawi"                  => $bulanRomawi,
+                "tahun"                         => $tahunSekarang,
+                "total_pokok"                   => number_format($dataPembiayaan['detail']['pinjaman'],0,",","."),
+                "jangka_waktu_angsuran"         => $dataPembiayaan['detail']['jenis_tempo'],
+                "margin_bulanan"                => $dataPembiayaan['detail']['jumlah_margin_bulanan'],
+                "saksi_1"                       => $dataForm->saksi1,
+                "saksi_2"                       => $dataForm->saksi2,
+                "kegiatan_usaha"                => $dataPembiayaan['detail']['kegiatan_usaha'],
+                "nisbah_anggota"                 => $dataPembiayaan['detail']['nisbah_anggota'],
+                "nisbah_koperasi"                => $dataPembiayaan['detail']['nisbah_koperasi'],
                 "hari_perjanjian"               => $this->helperRepository->getDayName(),
                 "tanggal_perjanjian"            => Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
                 "tempat_perjanjian"             => "Surabaya",
-                "pemberi_perjanjian"            => "HA. SUNOYO HASYIM S.Sos, Apr",
+                "nama_teller"                   => Auth::user()->nama,
                 "jabatan_pemberi_perjanjian"    => "MANAGER BMT-MUDA SURABAYA",
                 "alamat_cabang"                 => "Jl. Kedinding  Surabaya",
                 "peminjam_pihak_1"              => strtoupper($user_pembiayaan->nama),
@@ -3072,7 +3106,7 @@ class PembiayaanReporsitory {
                 "angsuran_bulanan"              => number_format($dataPembiayaan['detail']['jumlah_angsuran_bulanan'],0,",","."),
                 "angsuran_pertama"              => Carbon::now()->addMonth(1)->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->addMonth(1) ) . " " . Carbon::now()->addMonth(1)->format("Y"),
                 "saksi"                         => $dataForm->saksi2,
-                "pekerjaan_peminjam_pihak_1"    => "",
+                "pekerjaan_peminjam_pihak_1"    => ucwords(json_decode($user_pembiayaan->detail)->pekerjaan),
                 "pekerjaan_peminjam_pihak_2"    => "",
                 "jumlah_margin"                 => $dataPembiayaan['detail']['margin'],
                 "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
@@ -3080,7 +3114,80 @@ class PembiayaanReporsitory {
             ),
             "data_template_row"                 => $data_template_row,  
             "data_template_row_title"           => "barang_titipan_desc_title",
-            "template_path"                     => public_path('template/perjanjian_pembiayaan.docx')
+            "template_path"                     => $path
+        );
+
+        $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
+        return $export_data;
+    }
+
+    public function exportPerjanjianMRB($dataPembiayaan, $dataForm, $dataJaminan="")
+    {
+        $user_pembiayaan = User::where('id', $dataPembiayaan['id_user'])->first();
+        $data_pengajuan = Pengajuan::where('id', $dataPembiayaan['id_pengajuan'])->first();
+        if($dataJaminan !== "")
+        {
+            $detail_jaminan = $dataJaminan['transaksi']['field'];
+        }
+        else
+        {
+            $data_jaminan = PenyimpananJaminan::where('id_pengajuan', $dataPembiayaan['id_pengajuan'])->first();
+            $detail_jaminan = json_decode($data_jaminan->transaksi)->field;
+        }
+
+        $data_template_row = array();
+        foreach ($detail_jaminan as $key => $value) {
+            array_push(
+                $data_template_row, array('barang_titipan_desc_title' => $key, 'barang_titipan_desc_content' => $value)
+            );
+        }
+
+        $bulanSekarang = Carbon::now('m')->month;
+        $bulanRomawi = $this->numberToRoman($bulanSekarang);
+        $tahunSekarang = Carbon::now('m')->year;
+
+        $export_data = array(
+            "user"                              => $user_pembiayaan->nama,
+            "id"                                => $dataPembiayaan['id'],
+            "data_template"                     => array(
+                "id_pembiayaan"                 => $dataPembiayaan['id'],
+                "bulan_romawi"                  => $bulanRomawi,
+                "tahun"                         => $tahunSekarang,
+                "total_pokok"                   => number_format($dataPembiayaan['detail']['pinjaman'],0,",","."),
+                "total_margin"                  => number_format($dataPembiayaan['detail']['margin'],0,",","."),
+                "total_pokok_margin"            => number_format($dataPembiayaan['detail']['total_pinjaman'],0,",","."),
+                "jangka_waktu_angsuran"         => $dataPembiayaan['detail']['jenis_tempo'],
+                "margin_bulanan"                => $dataPembiayaan['detail']['jumlah_margin_bulanan'],
+                "saksi_1"                       => $dataForm->saksi1,
+                "saksi_2"                       => $dataForm->saksi2,
+                "hari_perjanjian"               => $this->helperRepository->getDayName(),
+                "tanggal_perjanjian"            => Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
+                "tempat_perjanjian"             => "Surabaya",
+                "nama_teller"                   => Auth::user()->nama,
+                "jabatan_pemberi_perjanjian"    => "MANAGER BMT-MUDA SURABAYA",
+                "alamat_cabang"                 => "Jl. Kedinding  Surabaya",
+                "peminjam_pihak_1"              => strtoupper($user_pembiayaan->nama),
+                "alamat_peminjam_pihak_1"       => strtoupper($user_pembiayaan->alamat),
+                "nik_peminjam_pihak_1"          => $user_pembiayaan->no_ktp,
+                "peminjam_pihak_2"              => strtoupper($dataForm->saksi1),
+                "alamat_peminjam_pihak_2"       => strtoupper($dataForm->alamat2),
+                "nik_peminjam_pihak_2"          => $dataForm->ktp2,
+                "jumlah_pinjaman"               => number_format($dataPembiayaan['detail']['pinjaman'],0,",","."),
+                "jumlah_pinjaman_text"          => strtoupper($this->helperRepository->getMoneyInverse($dataPembiayaan['detail']['pinjaman'])) . " RUPIAH",
+                "lama_angsuran"                 => $dataPembiayaan['detail']['lama_angsuran'],
+                "batas_akhir_angsuran"          => Carbon::now()->addMonth($dataPembiayaan['detail']['lama_angsuran'])->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->addMonth($dataPembiayaan['detail']['lama_angsuran']) ) . " " . Carbon::now()->addMonth($dataPembiayaan['detail']['lama_angsuran'])->format("Y"),
+                "angsuran_bulanan"              => number_format($dataPembiayaan['detail']['jumlah_angsuran_bulanan'],0,",","."),
+                "angsuran_pertama"              => Carbon::now()->addMonth(1)->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->addMonth(1) ) . " " . Carbon::now()->addMonth(1)->format("Y"),
+                "saksi"                         => $dataForm->saksi2,
+                "pekerjaan_peminjam_pihak_1"    => ucwords(json_decode($user_pembiayaan->detail)->pekerjaan),
+                "pekerjaan_peminjam_pihak_2"    => "",
+                "jumlah_margin"                 => $dataPembiayaan['detail']['margin'],
+                "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
+                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3])
+            ),
+            "data_template_row"                 => $data_template_row,
+            "data_template_row_title"           => "barang_titipan_desc_title",
+            "template_path"                     => public_path('template/perjanjian_pembiayaan_mrb.docx')
         );
 
         $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
@@ -3405,6 +3512,34 @@ class PembiayaanReporsitory {
         }
 
         return $response;
+    }
+
+
+    public  function numberToRoman($num)
+    {
+        // Make sure that we only use the integer portion of the value
+        $n = intval($num);
+        $result = '';
+
+        // Declare a lookup array that we will use to traverse the number:
+        $lookup = array('M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400,
+            'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40,
+            'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1);
+
+        foreach ($lookup as $roman => $value)
+        {
+            // Determine the number of matches
+            $matches = intval($n / $value);
+
+            // Store that many characters
+            $result .= str_repeat($roman, $matches);
+
+            // Substract that from the number
+            $n = $n % $value;
+        }
+
+        // The Roman numeral should be built, return it
+        return $result;
     }
 
 }
