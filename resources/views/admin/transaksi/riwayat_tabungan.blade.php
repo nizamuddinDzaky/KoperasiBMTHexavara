@@ -61,14 +61,14 @@
                                     <td>{{ $item->created_at->format('D, d M Y H:i') }}</td>
                                     <td>{{ $item->user->nama  }}</td>
                                     <td>{{ $item->status   }}</td>
-                                    @if($item->status == "Debit" || str_before($item->status, " ") == "Distribusi" || str_before($item->status, " ") == "Debit")
+                                    @if($item->status == "Debit" || str_before($item->status, " ") == "Distribusi" || (str_before($item->status, " ") == "SIMPANAN" && json_decode($item->transaksi)->jumlah > 0)  || (str_before($item->status, " ") == "Transfer" && json_decode($item->transaksi)->jumlah > 0 ))
                                     <td>{{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
                                     @else
                                     <td>0</td>
                                     @endif
 
-                                    @if($item->status == "Kredit" || str_before($item->status, " ") == "Kredit" || str_before($item->status, " ") == "Angsuran" || str_before($item->status, " ") == "Pembayaran" || str_before($item->status, " ") == "Angsuran")
-                                    <td>{{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
+                                    @if($item->status == "Kredit" || (str_before($item->status, " ") == "SIMPANAN" && json_decode($item->transaksi)->jumlah < 0 ) || str_before($item->status, " ") == "Angsuran" || str_before($item->status, " ") == "Pembayaran" || str_before($item->status, " ") == "Angsuran" || (str_before($item->status, " ") == "Transfer" && json_decode($item->transaksi)->jumlah < 0 ) || str_before($item->status, " ") == "Pelunasan" )
+                                    <td>{{ str_replace("-", "", number_format(json_decode($item->transaksi)->jumlah))  }}</td>
                                     @else
                                     <td>0</td>
                                     @endif

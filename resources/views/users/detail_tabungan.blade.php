@@ -70,12 +70,12 @@
                                             @endif
                                         @endif
                                         
-                                        @if($usr->status == "Debit" || str_before($usr->status, " ") == "Debit")
+                                        @if($usr->status == "Debit" || (str_before($usr->status, " ") == "SIMPANAN" && json_decode($usr->transaksi)->jumlah > 0))
                                         <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
                                         <td class="text-right">0.00</td>
-                                        @elseif($usr->status == "Kredit" || str_before($usr->status, " ") == "Kredit" || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran' || str_before($usr->status, ' ') == 'Pelunasan')
+                                        @elseif($usr->status == "Kredit" || (str_before($usr->status, " ") == "SIMPANAN" && json_decode($usr->transaksi)->jumlah < 0) || str_before($usr->status, ' ') == "Angsuran" || str_before($usr->status, ' ') == 'Pembayaran' || str_before($usr->status, ' ') == 'Pelunasan')
                                         <td class="text-right">0.00</td>
-                                        <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                        <td class="text-right">{{ str_replace("-","",number_format(json_decode($usr->transaksi,true)['jumlah'],2)) }}</td>
                                         @elseif($usr->status == "Transfer Antar Anggota")
                                         @if(json_decode($usr->transaksi,true)['jumlah'] < 0)
                                         <td class="text-right">0.00</td>

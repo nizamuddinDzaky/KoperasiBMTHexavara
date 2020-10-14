@@ -3681,8 +3681,8 @@ class InformationRepository
             }
             elseif(str_before($data[$i]['status'], " ") !== "Debit" && $data[$i]['status'] !== "Transfer Antar Anggota") {
                 $rek = $this->getRekeningByid(json_decode($data[$i]['transaksi'], true)['untuk_rekening']);
-                $data[$i]['id_rek'] = $rek['id_rekening'];
-                $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
+//                $data[$i]['id_rek'] = $rek['id_rekening'];
+//                $data[$i]['untuk_rekening'] = $rek['nama_rekening'];
             }elseif(str_before($data[$i]['status'], " ")=="Debit") {
                 $rek = Rekening::where('nama_rekening', json_decode($data[$i]->transaksi,true)['untuk_rekening'])->first();
                 $str = json_decode($data[$i]->transaksi,true)['untuk_rekening'];

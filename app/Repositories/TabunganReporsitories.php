@@ -181,7 +181,7 @@ class TabunganReporsitories {
             $dataToPenyimpananTabungan = [
                 "id_user"       => $pengajuan->id_user,
                 "id_tabungan"   => $tabungan->id,
-                "status"        => "Debit " . $bmtTabungan->nama,
+                "status"        => $bmtTabungan->nama,
                 "transaksi"     => $detailToPenyimpananTabungan,
                 "teller"        => Auth::user()->id
             ];
@@ -297,14 +297,14 @@ class TabunganReporsitories {
                     "teller"    => Auth::user()->id,
                     "dari_rekening" => $dariRekening,
                     "untuk_rekening" => $untukRekening,
-                    "jumlah" => json_decode($pengajuan->detail)->jumlah,
+                    "jumlah" => -json_decode($pengajuan->detail)->jumlah,
                     "saldo_awal" => json_decode($tabungan->detail)->saldo,
                     "saldo_akhir" => floatval(json_decode($tabungan->detail)->saldo) - floatval(json_decode($pengajuan->detail)->jumlah)
                 ];
                 $dataToPenyimpananTabungan = [
                     "id_user"       => $pengajuan->id_user,
                     "id_tabungan"   => $tabungan->id,
-                    "status"        => "Kredit " . $bmtUser->nama,
+                    "status"        => $bmtUser->nama,
                     "transaksi"     => $detailToPenyimpananTabungan,
                     "teller"        => Auth::user()->id
                 ];
@@ -503,7 +503,7 @@ class TabunganReporsitories {
             $dataToPenyimpananTabungan = [
                 "id_user"       => $tabungan->id_user,
                 "id_tabungan"   => $tabungan->id,
-                "status"        => "Debit " . $bmtUserCredit->nama,
+                "status"        => $bmtUserCredit->nama,
                 "transaksi"     => $detailToPenyimpananTabungan,
                 "teller"        => Auth::user()->id
             ];
@@ -619,14 +619,14 @@ class TabunganReporsitories {
                         "teller"        => Auth::user()->id,
                         "dari_rekening" => $dariRekening,
                         "untuk_rekening"=> $untukRekening,
-                        "jumlah"        => floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
+                        "jumlah"        => -floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
                         "saldo_awal"    => floatval(json_decode($tabungan->detail)->saldo),
                         "saldo_akhir"   => floatval(json_decode($tabungan->detail)->saldo) - floatval(preg_replace('/[^\d.]/', '', $data->jumlah)),
                     ];
                     $dataToPenyimpananTabungan = [
                         "id_user"       => $tabungan->id_user,
                         "id_tabungan"   => $tabungan->id,
-                        "status"        => "Kredit " . $bmtUserDebit->nama,
+                        "status"        => $bmtUserDebit->nama,
                         "transaksi"     => $detailToPenyimpananTabungan,
                         "teller"        => Auth::user()->id
                     ];
