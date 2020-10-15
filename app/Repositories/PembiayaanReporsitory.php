@@ -593,7 +593,8 @@ class PembiayaanReporsitory {
                 "sisa_mar_bln"      => 0,
                 "kelebihan_angsuran_bulanan" => 0,
                 "kelebihan_margin_bulanan" => 0,
-                "id_pengajuan"      => $nextIdPengajuan
+                "id_pengajuan"      => $nextIdPengajuan,
+                "jenis_tempo"       => $data->ketWaktu,
             ];
             $dataToPembiayaan = [
                 "id"                => $nextIdPembiayaan,
@@ -690,7 +691,7 @@ class PembiayaanReporsitory {
                     $updateBMTPembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->update([ "saldo" => $saldo_akhir_pembiayaan ]);
                     $updateBMTPiutangMRB = BMT::where('id_rekening', '101')->update([ "saldo" => $saldo_akhir_piutang_mrb ]);
                     
-                    $this->exportPerjanjian($dataToPembiayaan, $data, $dataToPenyimpananJaminan);
+                    $this->exportPerjanjianMRB($dataToPembiayaan, $data, $dataToPenyimpananJaminan);
 
                     DB::commit();
                     $response = array("type" => "success", "message" => "Pembukaan " . $jenis_pembiayaan . " Berhasil.");
@@ -760,7 +761,11 @@ class PembiayaanReporsitory {
 
             $pinjaman = preg_replace('/[^\d.]/', '', $data->jumlah);
             $nisbah = $data->nisbah / 100;
+            //nisbah tanpa pembagian
+            $nisbah_koperasi = $data->nisbah;
+            $nisbah_anggota = 100.0 - $data->nisbah;
             $margin = $pinjaman * $nisbah * $tempo;
+            $kegiatan_usaha = $data->usaha;
 
             $saldo_awal_pengirim = floatval($bmt_pengirim->saldo);
             $saldo_akhir_pengirim = floatval($bmt_pengirim->saldo) - floatval($pinjaman);
@@ -832,7 +837,11 @@ class PembiayaanReporsitory {
                 "sisa_mar_bln"      => 0,
                 "kelebihan_angsuran_bulanan" => 0,
                 "kelebihan_margin_bulanan" => 0,
-                "id_pengajuan"      => $nextIdPengajuan
+                "id_pengajuan"      => $nextIdPengajuan,
+                "jenis_tempo"       => $data->ketWaktu,
+                "kegiatan_usaha"    => $kegiatan_usaha,
+                "nisbah_anggota"   => $nisbah_anggota,
+                "nisbah_koperasi"   => $nisbah_koperasi,
             ];
             $dataToPembiayaan = [
                 "id"                => $nextIdPembiayaan,
