@@ -1962,7 +1962,7 @@ class PembiayaanReporsitory {
             $bmt_tujuan_angsuran = BMT::where('id_rekening', $bank_tujuan_angsuran)->first();
             $bmt_pembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->first();
             $bmt_shu_berjalan = BMT::where('id_rekening', 122)->first();
-            $bmt_rekening_pendapatan = BMT::where('id_rekening', $id_rekening_pembiayaan)->first();
+            $bmt_rekening_pendapatan = BMT::where('id_rekening', $id_rekening_pendapatan)->first();
             
             $saldo_awal_pengirim = floatval($bmt_tujuan_angsuran->saldo);
             $saldo_akhir_pengirim = floatval($bmt_tujuan_angsuran->saldo) + (floatval($jumlah_bayar_angsuran) + floatval($jumlah_bayar_margin));
