@@ -51,10 +51,13 @@
                             <th class="text-left" data-sortable="true">Kegiatan</th>
                             @if(Auth::user()->tipe!="anggota")
                                 <th class="text-left" data-sortable="true">Dari Rekening</th>
-                                <th class="text-left" data-sortable="true">Ke Rekening</th>
+{{--                                <th class="text-left" data-sortable="true">Ke Rekening</th>--}}
                             @endif
                             <th class="text-left" data-sortable="true">Jenis Transaksi</th>
                             <th class="text-left" data-sortable="true">Jumlah</th>
+                            @if(Auth::user()->tipe!="anggota")
+                            <th class="text-left" data-sortable="true">Saldo Akhir</th>
+                            @endif
                             {{--<th>Actions</th>--}}
                             </thead>
                             <tbody>
@@ -75,7 +78,7 @@
                                         @else
                                             <td>{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
                                         @endif
-                                        <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
+{{--                                        <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>--}}
                                     @endif
                                     <td>{{ $usr->status }}</td>
                                     @if($usr->status == "Pencairan Donasi")
@@ -83,8 +86,10 @@
                                     @else
                                         <td class="text-left">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
                                     @endif
-
-                                    {{--<td class="td-actions text-center">--}}
+                                    @if(Auth::user()->tipe!="anggota")
+                                    <td class="text-left">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
+                                    @endif
+                                        {{--<td class="td-actions text-center">--}}
                                     {{--<button type="button" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#editPassUsrModal" title="Ubah Password"--}}
                                     {{--data-id      = "{{$usr->no_ktp}}"--}}
                                     {{--data-nama    = "{{$usr->nama}}">--}}

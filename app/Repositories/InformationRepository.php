@@ -4383,20 +4383,8 @@ class InformationRepository
 
         if($bmt2->save())
         {
-            //kurangi dana sisa di kegiatan
-            $saldoSisaSekarang = json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
-            $dataToUpdateKegiatan = [
-                "detail" => json_decode($kegiatan->detail)->detail,
-                "dana" => json_decode($kegiatan->detail)->dana,
-                "terkumpul" => json_decode($kegiatan->detail)->terkumpul,
-                "sisa" =>  $saldoSisaSekarang,
-                "path_poster"=> json_decode($kegiatan->detail)->path_poster
-            ];
 
-            $updateKegiatan =  Maal::where('id', $request->idkegiatan)->update(["detail" => json_encode($dataToUpdateKegiatan)]);
-
-
-            $saldo_akhir_penyimpanan_maal =  $danaSosial->saldo - $jumlahPencairan;
+            $saldo_akhir_penyimpanan_maal = json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
             $dataPenyimpananMaal = [
                 "id_maal" =>$request->idkegiatan,
                 "jenis_donasi" => "donasi kegiatan",
@@ -4410,7 +4398,7 @@ class InformationRepository
                 "bank"      => null,
                 "no_bank"   => null,
                 'bank_tujuan_transfer' => null,
-                "saldo_awal" =>  floatval($danaSosial->saldo),
+                "saldo_awal" =>  floatval(json_decode($kegiatan->detail)->sisa),
                 "saldo_akhir" => $saldo_akhir_penyimpanan_maal,
                 "dari_rekening" => $danaSosial->nama,
                 "untuk_rekening" => "Pencairan",
@@ -4423,6 +4411,21 @@ class InformationRepository
             $penyimpananMaal->transaksi = json_encode($dataPenyimpananMaal);
             $penyimpananMaal->teller = Auth::user()->id;
             $penyimpananMaal->save();
+
+
+            //kurangi dana sisa di kegiatan
+            $saldoSisaSekarang = json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
+            $dataToUpdateKegiatan = [
+                "detail" => json_decode($kegiatan->detail)->detail,
+                "dana" => json_decode($kegiatan->detail)->dana,
+                "terkumpul" => json_decode($kegiatan->detail)->terkumpul,
+                "sisa" =>  $saldoSisaSekarang,
+                "path_poster"=> json_decode($kegiatan->detail)->path_poster
+            ];
+
+            $updateKegiatan =  Maal::where('id', $request->idkegiatan)->update(["detail" => json_encode($dataToUpdateKegiatan)]);
+
+
 
             //kurangi dana di saldo rekening bmt penyeimbang
             $saldoRekeningPenyeimbangSekarang = $rekeningPenyeimbang->saldo - $jumlahPencairan;
@@ -4492,19 +4495,7 @@ class InformationRepository
 
             if($bmt2->save())
             {
-                //kurangi dana sisa di kegiatan
-                $saldoSisaSekarang = json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
-                $dataToUpdateKegiatan = [
-                    "detail" => json_decode($kegiatan->detail)->detail,
-                    "dana" => json_decode($kegiatan->detail)->dana,
-                    "terkumpul" => json_decode($kegiatan->detail)->terkumpul,
-                    "sisa" => $saldoSisaSekarang,
-                    "path_poster"=> json_decode($kegiatan->detail)->path_poster
-                ];
-
-                $updateKegiatan =  Wakaf::where('id', $request->idkegiatan)->update(["detail" => json_encode($dataToUpdateKegiatan)]);
-
-                $saldo_akhir_penyimpanan_wakaf =  $danaSosial->saldo - $jumlahPencairan;
+                $saldo_akhir_penyimpanan_wakaf =  json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
                 $dataPenyimpananWakaf = [
                     "id_wakaf" =>$request->idkegiatan,
                     "jenis_donasi" => "donasi kegiatan",
@@ -4518,19 +4509,35 @@ class InformationRepository
                     "bank"      => null,
                     "no_bank"   => null,
                     'bank_tujuan_transfer' => null,
-                    "saldo_awal" =>  floatval($danaSosial->saldo),
+                    "saldo_awal" =>  floatval(json_decode($kegiatan->detail)->sisa),
                     "saldo_akhir" => $saldo_akhir_penyimpanan_wakaf,
-                "dari_rekening" => $danaSosial->nama,
-                "untuk_rekening" => "Pencairan",
-            ];
+                    "dari_rekening" => $danaSosial->nama,
+                    "untuk_rekening" => "Pencairan",
+                ];
 
-            $penyimpananWakaf = new PenyimpananWakaf();
-            $penyimpananWakaf->status = "Pencairan Donasi";
-            $penyimpananWakaf->id_wakaf = $request->idkegiatan;
-            $penyimpananWakaf->id_donatur = Auth::user()->id;
-            $penyimpananWakaf->transaksi = json_encode($dataPenyimpananWakaf);
-            $penyimpananWakaf->teller = Auth::user()->id;
-            $penyimpananWakaf->save();
+                $penyimpananWakaf = new PenyimpananWakaf();
+                $penyimpananWakaf->status = "Pencairan Donasi";
+                $penyimpananWakaf->id_wakaf = $request->idkegiatan;
+                $penyimpananWakaf->id_donatur = Auth::user()->id;
+                $penyimpananWakaf->transaksi = json_encode($dataPenyimpananWakaf);
+                $penyimpananWakaf->teller = Auth::user()->id;
+                $penyimpananWakaf->save();
+
+
+                //kurangi dana sisa di kegiatan
+                $saldoSisaSekarang = json_decode($kegiatan->detail)->sisa - $jumlahPencairan;
+                $dataToUpdateKegiatan = [
+                    "detail" => json_decode($kegiatan->detail)->detail,
+                    "dana" => json_decode($kegiatan->detail)->dana,
+                    "terkumpul" => json_decode($kegiatan->detail)->terkumpul,
+                    "sisa" => $saldoSisaSekarang,
+                    "path_poster"=> json_decode($kegiatan->detail)->path_poster
+                ];
+
+                $updateKegiatan =  Wakaf::where('id', $request->idkegiatan)->update(["detail" => json_encode($dataToUpdateKegiatan)]);
+
+
+
 
 
                 //kurangi dana di saldo rekening bmt penyeimbang

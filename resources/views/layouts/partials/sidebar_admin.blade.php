@@ -98,9 +98,8 @@
             <li class="@if(Request::is('admin/laporan/laba_rugi')) active @endif"><a href="{{route('laba_rugi')}}">Laporan SHU</a></li>
             <li class="@if(Request::is('admin/laporan/shu')) active @endif"><a href="{{route('shu')}}">Distribusi SHU Tahunan</a></li>
             <li class="@if(Request::is('admin/laporan/quitas')) active @endif"><a href="{{route('quitas')}}">Laporan Perubahan Quitas</a></li>
-            <li class="@if(Request::is('admin/laporan/saldo_zis')) active @endif"><a href="{{route('admin.saldo.zis')}}">Saldo ZIS</a></li>
-            <li class="@if(Request::is('admin/laporan/saldo_donasi')) active @endif"><a href="{{route('admin.saldo.donasi')}}">Saldo Donasi</a></li>
-            <li class="@if(Request::is('admin/laporan/saldo_wakaf')) active @endif"><a href="{{route('admin.saldo.wakaf')}}">Saldo Wakaf</a></li>
+{{--            <li class="@if(Request::is('admin/laporan/saldo_donasi')) active @endif"><a href="{{route('admin.saldo.donasi')}}">Saldo Donasi</a></li>--}}
+{{--            <li class="@if(Request::is('admin/laporan/saldo_wakaf')) active @endif"><a href="{{route('admin.saldo.wakaf')}}">Saldo Wakaf</a></li>--}}
             <li class="@if(Request::is('admin/laporan/keuangan*')) active @endif"><a href="{{route('admin.laporan.keuangan')}}">Catatan Laporan Keuangan</a></li>
 
 
@@ -156,6 +155,7 @@
     <div class="collapse" id="nav_maal">
     @endif
         <ul class="nav">
+            <li class="@if(Request::is('admin/laporan/saldo_zis')) active @endif"><a href="{{route('admin.saldo.zis')}}">Saldo ZIS</a></li>
             <li @if(Request::is('admin/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan Maal</a></li>
             <li @if(Request::is('admin/wakaf/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.wakaf')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.wakaf')}}" @endif>Daftar Kegiatan Wakaf</a></li>
             <li @if(Request::is('admin/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi Maal</a></li>

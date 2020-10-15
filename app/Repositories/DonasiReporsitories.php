@@ -192,6 +192,8 @@ class DonasiReporsitories {
             if(json_decode($pengajuan->detail)->id_maal != null) {
                 $kegiatan_maal = Maal::where('id', json_decode($pengajuan->detail)->id_maal)->first();
                 $saldo_awal_kegiatan = json_decode($kegiatan_maal->detail)->terkumpul;
+                $saldo_awal_kegiatan_penyimpanan_maal = json_decode($kegiatan_maal->detail)->sisa;
+                $saldo_akhir_kegiatan_penyimpanan_maal = $saldo_awal_kegiatan_penyimpanan_maal + json_decode($pengajuan->detail)->jumlah;
                 $sisa_awal = json_decode($kegiatan_maal->detail)->sisa;
                 $saldo_akhir_kegiatan = $saldo_awal_kegiatan + json_decode($pengajuan->detail)->jumlah;
                 $jumlah_donasi = json_decode($pengajuan->detail)->jumlah;
@@ -280,8 +282,8 @@ class DonasiReporsitories {
                 'bank'      => json_decode($pengajuan->detail)->bank,
                 'no_bank'   => json_decode($pengajuan->detail)->no_bank,
                 'bank_tujuan_transfer' => json_decode($pengajuan->detail)->bank_tujuan_transfer,
-                'saldo_awal' => $saldo_awal_kegiatan,
-                'saldo_akhir'   => $saldo_akhir_kegiatan,
+                'saldo_awal' => $saldo_awal_kegiatan_penyimpanan_maal,
+                'saldo_akhir'   => $saldo_akhir_kegiatan_penyimpanan_maal,
             ];
             
             if(json_decode($pengajuan->detail)->id_maal != null) {
@@ -418,6 +420,8 @@ class DonasiReporsitories {
             if(json_decode($pengajuan->detail)->id_wakaf != null) {
                 $kegiatan_wakaf = Wakaf::where('id', json_decode($pengajuan->detail)->id_wakaf)->first();
                 $saldo_awal_kegiatan = json_decode($kegiatan_wakaf->detail)->terkumpul;
+                $saldo_awal_kegiatan_penyimpanan_wakaf= json_decode($kegiatan_wakaf->detail)->sisa;
+                $saldo_akhir_kegiatan_penyimpanan_wakaf = $saldo_awal_kegiatan_penyimpanan_wakaf + json_decode($pengajuan->detail)->jumlah;
                 $sisa_awal = json_decode($kegiatan_wakaf->detail)->sisa;
                 $saldo_akhir_kegiatan = $saldo_awal_kegiatan + json_decode($pengajuan->detail)->jumlah;
                 $jumlah_donasi = json_decode($pengajuan->detail)->jumlah;
@@ -506,8 +510,8 @@ class DonasiReporsitories {
                 'bank'      => json_decode($pengajuan->detail)->bank,
                 'no_bank'   => json_decode($pengajuan->detail)->no_bank,
                 'bank_tujuan_transfer' => json_decode($pengajuan->detail)->bank_tujuan_transfer,
-                'saldo_awal' => $saldo_awal_kegiatan,
-                'saldo_akhir'   => $saldo_akhir_kegiatan,
+                'saldo_awal' => $saldo_awal_kegiatan_penyimpanan_wakaf,
+                'saldo_akhir'   => $saldo_akhir_kegiatan_penyimpanan_wakaf,
             ];
 
             if(json_decode($pengajuan->detail)->id_wakaf != null) {
@@ -923,8 +927,8 @@ class DonasiReporsitories {
                 $detail['dana_terkumpul_akhir'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
                 $detail['dari_rekening'] = $bmt_pengirim->nama;
                 $detail['untuk_rekening'] = $kegiatan_maal_didonasi->nama_kegiatan;
-                $detail['saldo_awal'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul);
-                $detail['saldo_akhir'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                $detail['saldo_awal'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->sisa);
+                $detail['saldo_akhir'] = floatval(json_decode($kegiatan_maal_didonasi->detail)->sisa) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
             }
 
             $dataToSave = [
@@ -1191,8 +1195,8 @@ class DonasiReporsitories {
                 $detail['dana_terkumpul_akhir'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
                 $detail['dari_rekening'] = $bmt_pengirim->nama;
                 $detail['untuk_rekening'] = $kegiatan_wakaf_didonasi->nama_kegiatan;
-                $detail['saldo_awal'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul);
-                $detail['saldo_akhir'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->terkumpul) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+                $detail['saldo_awal'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->sisa);
+                $detail['saldo_akhir'] = floatval(json_decode($kegiatan_wakaf_didonasi->detail)->sisa) + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
             }
 
             $dataToSave = [
