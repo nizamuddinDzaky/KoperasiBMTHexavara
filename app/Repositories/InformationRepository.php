@@ -321,7 +321,7 @@ class InformationRepository
     }
     function getUsrByKtp($id)
     {
-        $data = $this->user->select('id','no_ktp', 'nama', 'alamat', 'tipe', 'status','detail','created_at')->where('no_ktp',$id)->first();
+        $data = $this->user->select('id','no_ktp', 'nama', 'alamat', 'tipe', 'status','detail','created_at', 'pathfile')->where('no_ktp',$id)->first();
         return $data;
     }
     function getUsrByID($id)
