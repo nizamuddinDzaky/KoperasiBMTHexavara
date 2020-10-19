@@ -163,7 +163,7 @@
                               @foreach ($data['data'] as $usr)
                                 <tr>
                                     <td></td>
-                                    <td>{{ $usr->created_at->format("D, d F Y h:i:s") }}</td>
+                                    <td>{{ $usr->created_at->format("D, d F Y H:i:s") }}</td>
                                     <td style="text-transform: uppercase">{{ $usr->nama_user }}</td>
                                     
                                     @if($usr->status == "Debit")

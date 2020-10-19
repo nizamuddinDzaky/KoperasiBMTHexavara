@@ -806,7 +806,7 @@ class LaporanController extends Controller
             {
                 return redirect()
                         ->back()
-                        ->withInput()->with('message', 'Pendistribusian tidak bisa dilakukan karena saldo SHU Berjalan bernilan 0 atau lebih kecil.');
+                        ->withInput()->with('message', 'Pendistribusian tidak bisa dilakukan karena saldo SHU Berjalan bernilai 0 atau lebih kecil.');
             }
             else
             {
