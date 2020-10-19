@@ -316,9 +316,19 @@ class DistribusiPendapatanReporsitories {
     */
     public function getDateDiff()
     {
-        $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')->first();
-        $date = Carbon::parse($distribusi->created_at);
-        $now = Carbon::now();
+        $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')->orderBy('created_at', 'desc')->first();
+        if($distribusi == null)
+        {
+            $distribusi = PenyimpananBMT::first();
+            $date = Carbon::parse($distribusi->created_at);
+            $now = Carbon::now();
+        }
+        else
+        {
+            $date = Carbon::parse($distribusi->created_at);
+            $now = Carbon::now();
+        }
+
 
         return $date->diffInDays($now);
     }
@@ -420,7 +430,14 @@ class DistribusiPendapatanReporsitories {
 
                 foreach($tabungan as $user_tabungan)
                 {
-                    $bagi_hasil = (json_decode($user_tabungan->detail)->saldo / $this->getDateDiff()) / $rata_rata_product * $porsi_anggota;
+                    if($rata_rata_product == 0 || $porsi_anggota = 0){
+                        $bagi_hasil = 0;
+                    }
+                    else
+                    {
+                        $bagi_hasil = (json_decode($user_tabungan->detail)->saldo / $this->getDateDiff()) / $rata_rata_product * $porsi_anggota;
+                    }
+
                     $detailToPenyimpananTabungan = [
                         "teller"        => Auth::user()->id,
                         "dari_rekening" => "",
@@ -485,7 +502,14 @@ class DistribusiPendapatanReporsitories {
 
                 foreach($deposito as $user_deposito)
                 {
-                    $bagi_hasil = (json_decode($user_deposito->detail)->saldo / $this->getDateDiff()) / ( $rata_rata_product ) * $porsi_anggota;
+                    if($rata_rata_product == 0 || $porsi_anggota = 0){
+                        $bagi_hasil = 0;
+                    }
+                    else
+                    {
+                        $bagi_hasil = (json_decode($user_deposito->detail)->saldo / $this->getDateDiff()) / ( $rata_rata_product ) * $porsi_anggota;
+                    }
+
                     $id_pencairan = json_decode($user_deposito->detail)->id_pencairan;
                     $tabungan_pencairan = $this->tabunganReporsitory->findTabungan($id_pencairan);
 
