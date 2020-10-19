@@ -501,7 +501,14 @@ class DistribusiPendapatanReporsitories {
             {
                 $deposito = $this->depositoReporsitory->getDeposito("active", $dep->nama_rekening);
                 $rata_rata = floatval($dep->saldo) > 0 ? floatval($dep->saldo) / count($deposito) : 0;
-                $rata_rata_product = floatval($dep->saldo) > 0 ? floatval($dep->saldo) / $this->getDateDiff() : 0;
+                if($this->getDateDiff() == 0)
+                {
+                    $rata_rata_product = 0;
+                }
+                else
+                {
+                    $rata_rata_product = floatval($dep->saldo) / $this->getDateDiff();
+                }
                 $nisbah_anggota = json_decode($dep->detail)->nisbah_anggota;
                 $nisbah_bmt = 100 - json_decode($dep->detail)->nisbah_anggota;
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
