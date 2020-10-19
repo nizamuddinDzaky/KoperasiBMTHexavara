@@ -759,24 +759,42 @@ class LaporanController extends Controller
     }
 
     public function saldo_wakaf(Request $request) {
-        $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "WAKAF UANG");
-        $bmt_rekening = BMT::where('id_rekening', $rekening->id)->first();
-        $data_wakaf = PenyimpananBMT::where([
-            ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::now()->subDays(30)], ['created_at', '<=', Carbon::now()]])->get();
-
-        $saldo_terkumpul = BMT::where('id_rekening', $rekening->id)->select('saldo')->first();
+        $data_wakaf = PenyimpananWakaf::where([
+            ['created_at', '>=', Carbon::now()->subDays(30)], ['created_at', '<=', Carbon::now()]
+        ])->get();
 
         if(isset($request->start) && isset($request->end))
         {
-            $data_wakaf = PenyimpananBMT::where([
-                ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::parse($request->start)], ['created_at', '<=', Carbon::parse($request->end)]])->get();
+            $data_wakaf = PenyimpananWakaf::where([
+                ['created_at', '>=', Carbon::parse($request->start)], ['created_at', '<=', Carbon::parse($request->end)]
+            ])->get();
         }
-        
+
+        $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "WAKAF UANG");
+        $saldo_terkumpul = BMT::where('id_rekening', $rekening->id)->select('saldo')->first();
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
-
-
-        return view('admin.laporan.saldo_wakaf', compact('data_wakaf', 'saldo_terkumpul', 'notification', 'notification_count'));
+        $dropdownPencairan = $this->informationRepository->getDdPencairan();
+        return view('admin.laporan.saldo_wakaf', compact('data_wakaf', 'saldo_terkumpul', 'notification', 'notification_count', 'dropdownPencairan'));
+//        $rekening = $this->rekeningReporsitory->findRekening("nama_rekening", "WAKAF UANG");
+//        $bmt_rekening = BMT::where('id_rekening', $rekening->id)->first();
+//        $data_wakaf = PenyimpananWakaf::where([
+//            ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::now()->subDays(30)], ['created_at', '<=', Carbon::now()]])->get();
+//
+//        $saldo_terkumpul = BMT::where('id_rekening', $rekening->id)->select('saldo')->first();
+//
+//        if(isset($request->start) && isset($request->end))
+//        {
+//            $data_wakaf = PenyimpananWakaf::where([
+//                ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::parse($request->start)], ['created_at', '<=', Carbon::parse($request->end)]])->get();
+//        }
+//
+//        $notification = $this->pengajuanReporsitory->getNotification();
+//        $notification_count = count($notification);
+//
+//
+//
+//        return view('admin.laporan.saldo_wakaf', compact('data_wakaf', 'saldo_terkumpul', 'notification', 'notification_count'));
     }
 
     /** 

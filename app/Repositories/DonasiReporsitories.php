@@ -268,23 +268,48 @@ class DonasiReporsitories {
                 $update_saldo_pengirim_response = "success";
             }
 
-            $detailToPenyimpananMaal = [
-                'id_maal'   => json_decode($pengajuan->detail)->id_maal,
-                'jenis_donasi'  => json_decode($pengajuan->detail)->jenis_donasi,
-                'id'        => json_decode($pengajuan->detail)->id,
-                'nama'      => json_decode($pengajuan->detail)->nama,
-                'email'     =>json_decode($pengajuan->detail)->email,
-                'debit'     => json_decode($pengajuan->detail)->debit,
-                'path_bukti'=> json_decode($pengajuan->detail)->path_bukti,
-                'jumlah'    => json_decode($pengajuan->detail)->jumlah,
-                'rekening'  => json_decode($pengajuan->detail)->rekening,
-                'atasnama'  => json_decode($pengajuan->detail)->atasnama,
-                'bank'      => json_decode($pengajuan->detail)->bank,
-                'no_bank'   => json_decode($pengajuan->detail)->no_bank,
-                'bank_tujuan_transfer' => json_decode($pengajuan->detail)->bank_tujuan_transfer,
-                'saldo_awal' => $saldo_awal_kegiatan_penyimpanan_maal,
-                'saldo_akhir'   => $saldo_akhir_kegiatan_penyimpanan_maal,
-            ];
+            if(json_decode($pengajuan->detail)->id_maal != null)
+            {
+                $detailToPenyimpananMaal = [
+                    'id_maal'   => json_decode($pengajuan->detail)->id_maal,
+                    'jenis_donasi'  => json_decode($pengajuan->detail)->jenis_donasi,
+                    'id'        => json_decode($pengajuan->detail)->id,
+                    'nama'      => json_decode($pengajuan->detail)->nama,
+                    'email'     =>json_decode($pengajuan->detail)->email,
+                    'debit'     => json_decode($pengajuan->detail)->debit,
+                    'path_bukti'=> json_decode($pengajuan->detail)->path_bukti,
+                    'jumlah'    => json_decode($pengajuan->detail)->jumlah,
+                    'rekening'  => json_decode($pengajuan->detail)->rekening,
+                    'atasnama'  => json_decode($pengajuan->detail)->atasnama,
+                    'bank'      => json_decode($pengajuan->detail)->bank,
+                    'no_bank'   => json_decode($pengajuan->detail)->no_bank,
+                    'bank_tujuan_transfer' => json_decode($pengajuan->detail)->bank_tujuan_transfer,
+                    'saldo_awal' => $saldo_awal_kegiatan_penyimpanan_maal,
+                    'saldo_akhir'   => $saldo_akhir_kegiatan_penyimpanan_maal,
+                ];
+            }
+            else
+            {
+                $detailToPenyimpananMaal = [
+                    'id_maal'   => json_decode($pengajuan->detail)->id_maal,
+                    'jenis_donasi'  => json_decode($pengajuan->detail)->jenis_donasi,
+                    'id'        => json_decode($pengajuan->detail)->id,
+                    'nama'      => json_decode($pengajuan->detail)->nama,
+                    'email'     =>json_decode($pengajuan->detail)->email,
+                    'debit'     => json_decode($pengajuan->detail)->debit,
+                    'path_bukti'=> json_decode($pengajuan->detail)->path_bukti,
+                    'jumlah'    => json_decode($pengajuan->detail)->jumlah,
+                    'rekening'  => json_decode($pengajuan->detail)->rekening,
+                    'atasnama'  => json_decode($pengajuan->detail)->atasnama,
+                    'bank'      => json_decode($pengajuan->detail)->bank,
+                    'no_bank'   => json_decode($pengajuan->detail)->no_bank,
+                    'bank_tujuan_transfer' => json_decode($pengajuan->detail)->bank_tujuan_transfer,
+                    'saldo_awal' => $saldo_awal_kegiatan,
+                    'saldo_akhir'   => $saldo_akhir_kegiatan,
+                ];
+            }
+
+
             
             if(json_decode($pengajuan->detail)->id_maal != null) {
                 $maal = Maal::where('id', json_decode($pengajuan->detail)->id_maal)->first();

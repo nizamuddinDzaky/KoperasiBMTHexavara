@@ -67,7 +67,11 @@
                                 <td>{{ Carbon\Carbon::parse($item->created_at)->format("D, d F Y") }}</td>
                                 <td>{{ $item->User->no_ktp }}</td>
                                 <td style="text-transform: uppercase">{{ $item->User->nama }}</td>
-                                <td>{{ number_format(json_decode($item->transaksi)->jumlah, 2) }}</td>
+                                @if($item->status == "Pencairan Donasi")
+                                    <td>({{ number_format(json_decode($item->transaksi)->jumlah, 2) }})</td>
+                                @else
+                                    <td>{{ number_format(json_decode($item->transaksi)->jumlah, 2) }}</td>
+                                @endif
                                 <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir, 2) }}</td>
                             </tr>
                         @endforeach
