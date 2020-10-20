@@ -47,7 +47,7 @@
                                 @if($usr->status !== "Setoran Awal")
                                     <tr>
                                         <td></td>
-                                        <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
+                                        <td>{{ $usr->created_at->format('D, d F Y H:i:s') }}</td>
                                         <td>{{ $usr->status }}</td>
 
                                         @if(json_decode($usr->transaksi,true)['dari_rekening']==null)

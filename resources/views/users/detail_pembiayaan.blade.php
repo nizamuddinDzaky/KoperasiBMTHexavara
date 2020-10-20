@@ -49,7 +49,7 @@
                                 @if(json_decode($usr->transaksi,true)['angsuran_ke'] !== 0)
                                 <tr>
                                     <td></td>
-                                    <td>{{ $usr->created_at->format('D, d F Y h:i:s') }}</td>
+                                    <td>{{ $usr->created_at->format('D, d F Y H:i:s') }}</td>
                                     <td class="text-center text-uppercase">{{ $usr->status }}</td>
                                     <td class="text-center text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
                                     <td class="text-center text-uppercase">{{ $usr->untuk_rekening }}</td>
