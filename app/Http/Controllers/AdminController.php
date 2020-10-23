@@ -1389,8 +1389,6 @@ class AdminController extends Controller
         }
 
         $tabunganAwal = DB::table('tabungan as t')
-            ->join('pengajuan as p', 'p.id', '=', 't.id_pengajuan')
-            ->where('p.kategori', '=', 'Tabungan Awal')
             ->get();
 
         foreach ($tabunganAwal as $data)

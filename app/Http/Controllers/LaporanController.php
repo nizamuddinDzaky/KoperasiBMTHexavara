@@ -808,7 +808,15 @@ class LaporanController extends Controller
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
 
-        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data', 'notification', 'notification_count'));
+
+        //testing
+        $dataSaldoTabungan = $this->distribusiPendapatanReporsitory->getRataRataSaldoTabungan();
+        $dataSaldoTabunganNet = $this->distribusiPendapatanReporsitory->getRataRataSaldoTabunganNet();
+        $dataSaldoDeposito = $this->distribusiPendapatanReporsitory->getRataRataSaldoDeposito();
+        $dataSaldoDepositoNet = $this->distribusiPendapatanReporsitory->getRataRataSaldoDepositoNet();
+
+
+        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data', 'notification', 'notification_count', 'dataSaldoTabungan','dataSaldoTabunganNet', 'dataSaldoDeposito', 'dataSaldoDepositoNet'));
     }
 
     /** 

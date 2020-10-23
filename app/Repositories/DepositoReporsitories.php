@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\BMT;
 use App\Http\Controllers\HomeController;
+use App\PenyimpananBMT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -229,13 +230,121 @@ class DepositoReporsitories {
                         ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama')
                         ->get();
         }
+        elseif($status === "" && $nama !== "")
+        {
+            $deposito = Deposito::where([ ['jenis_deposito', $nama] ])
+                ->join('users', 'deposito.id_user', 'users.id')
+                ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama')
+                ->get();
+        }
         else {
             $deposito = Deposito::join('users', 'deposito.id_user', 'users.id')
                         ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama')
-                        ->get();;
+                        ->get();
         }
 
         return $deposito;
+    }
+
+    public function getDepositoDistribusi($nama=""){
+
+
+        $depositoAktif = Deposito::where([ ['deposito.status', 'active'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"active" AS type'))
+            ->get();
+
+        $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')
+            ->where('created_at', '<', Carbon::now()->toDateString())
+            ->orderBy('created_at', 'desc')->first();
+
+        if($distribusi == null)
+        {
+            $distribusi = PenyimpananBMT::first();
+            $date = Carbon::parse($distribusi->created_at);
+        }
+        else
+        {
+            $date = Carbon::parse($distribusi->created_at);
+            $date = $date->addDays(1);
+        }
+
+        $now = Carbon::now();
+
+        $depositoPencairanLebihAwal = Deposito::where([ ['deposito.status', 'closed'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->join('penyimpanan_deposito', 'deposito.id', 'penyimpanan_deposito.id_deposito')
+            ->where('penyimpanan_deposito.status' , 'like', 'Pencairan%')
+            ->whereDate('penyimpanan_deposito.created_at' , '<=' , $now->toDateString() )
+            ->whereDate('penyimpanan_deposito.created_at' , '>=' , $date->toDateString() )
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"pencairanawal" AS type'), 'penyimpanan_deposito.created_at as tanggal_pencairan')
+            ->get();
+
+
+        $depositoJatuhTempo = Deposito::where([ ['deposito.status', 'closed'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"jatuhtempo" AS type'))
+            ->whereDate('deposito.tempo' , '<=' , $now->toDateString() )
+            ->whereDate('deposito.tempo' , '>=' , $date->toDateString() )
+            ->get();
+
+
+        $data = $depositoAktif->merge($depositoPencairanLebihAwal)->merge($depositoJatuhTempo);
+
+        return $data;
+
+    }
+
+    //bisa di delete nanti
+    public function getDepositoDistribusiDisplay($nama="", $iduser){
+
+        $depositoAktif = Deposito::where([ ['deposito.status', 'active'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"active" AS type'))
+            ->where('users.id', $iduser)
+            ->get();
+
+        $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')
+            ->where('created_at', '<', Carbon::now()->toDateString())
+            ->orderBy('created_at', 'desc')->first();
+
+        if($distribusi == null)
+        {
+            $distribusi = PenyimpananBMT::first();
+            $date = Carbon::parse($distribusi->created_at);
+        }
+        else
+        {
+            $date = Carbon::parse($distribusi->created_at);
+            $date = $date->addDays(1);
+        }
+
+        $now = Carbon::now();
+
+        $depositoPencairanLebihAwal = Deposito::where([ ['deposito.status', 'closed'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->join('penyimpanan_deposito', 'deposito.id', 'penyimpanan_deposito.id_deposito')
+            ->where('penyimpanan_deposito.status' , 'like', 'Pencairan%')
+            ->where('users.id', $iduser)
+            ->whereDate('penyimpanan_deposito.created_at' , '<=' , $now->toDateString() )
+            ->whereDate('penyimpanan_deposito.created_at' , '>=' , $date->toDateString() )
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"pencairanawal" AS type'), 'penyimpanan_deposito.created_at as tanggal_pencairan')
+            ->get();
+
+
+        $depositoJatuhTempo = Deposito::where([ ['deposito.status', 'closed'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->where('users.id', $iduser)
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"jatuhtempo" AS type'))
+            ->whereDate('deposito.tempo' , '<=' , $now->toDateString() )
+            ->whereDate('deposito.tempo' , '>=' , $date->toDateString() )
+            ->get();
+
+
+        $data = $depositoAktif->merge($depositoPencairanLebihAwal)->merge($depositoJatuhTempo);
+
+        return $data;
+
     }
 
     /** 

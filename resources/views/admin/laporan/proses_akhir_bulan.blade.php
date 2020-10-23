@@ -30,7 +30,7 @@
 
                     @if($status == false)
                     <div class="button-group right">
-                        <button class="btn btn-primary rounded right shadow-effect" onclick="document.getElementById('form_net_profit').submit()"><i class="fa fa-share"></i> Distribusi Net Profit</button>
+                        <button class="btn btn-primary rounded right shadow-effect" onclick="document.getElementById('form_net_profit').submit()"><i class="fa fa-share"></i> Distribusi Net Sharing</button>
                         <button class="btn btn-success rounded right shadow-effect" onclick="document.getElementById('form_revenue').submit()"><i class="fa fa-share"></i> Distribusi Revenue Sharing</button>
                     </div>
                     @endif
@@ -50,6 +50,127 @@
         </div>
     </div>
     <div class="content">
+{{-- you can remove stuff from here--}}
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card text-center">
+                    <h4 id="titlePrint" class="title"><b>Tabungan Anggota Revenue</b> </h4>
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                        <tr>
+                            <th rowspan="2" class="text-center">Nama</th>
+                            <th rowspan="2" class="text-center">Saldo Rata-Rata</th>
+                            <th rowspan="2" class="text-center">Bagi Hasil</th>
+                            <th rowspan="2" class="text-center">Nama Tabungan</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($dataSaldoTabungan as $keys => $value)
+                                <tr>
+                                    <td>{{$value[0]}}</td>
+                                    <td>{{number_format($value[1],2)}}</td>
+                                    <td>{{number_format($value[2],2)}}</td>
+                                    <td>{{$value[3]}}</td>
+                                </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card text-center">
+                    <h4 id="titlePrint" class="title"><b>Tabungan Anggota Net</b> </h4>
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                        <tr>
+                            <th rowspan="2" class="text-center">Nama</th>
+                            <th rowspan="2" class="text-center">Saldo Rata-Rata</th>
+                            <th rowspan="2" class="text-center">Bagi Hasil</th>
+                            <th rowspan="2" class="text-center">Nama Tabungan</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($dataSaldoTabunganNet as $keys => $value)
+                            <tr>
+                                <td>{{$value[0]}}</td>
+                                <td>{{number_format($value[1],2)}}</td>
+                                <td>{{number_format($value[2],2)}}</td>
+                                <td>{{$value[3]}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card text-center">
+                    <h4 id="titlePrint" class="title"><b>Deposito Anggota Revenue</b> </h4>
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                        <tr>
+                            <th rowspan="2" class="text-center">Nama</th>
+                            <th rowspan="2" class="text-center">Saldo Rata-Rata</th>
+                            <th rowspan="2" class="text-center">Bagi Hasil</th>
+                            <th rowspan="2" class="text-center">Nama Deposito</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($dataSaldoDeposito as $keys => $value)
+                            <tr>
+                                <td>{{$value[0]}}</td>
+                                <td>{{number_format($value[1],2)}}</td>
+                                <td>{{number_format($value[2],2)}}</td>
+                                <td>{{$value[3]}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card text-center">
+                    <h4 id="titlePrint" class="title"><b>Deposito Anggota Net</b> </h4>
+                    <table id="bootstrap-table" class="table">
+                        <thead>
+                        <tr>
+                            <th rowspan="2" class="text-center">Nama</th>
+                            <th rowspan="2" class="text-center">Saldo Rata-Rata</th>
+                            <th rowspan="2" class="text-center">Bagi Hasil</th>
+                            <th rowspan="2" class="text-center">Nama Deposito</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($dataSaldoDepositoNet as $keys => $value)
+                            <tr>
+                                <td>{{$value[0]}}</td>
+                                <td>{{number_format($value[1],2)}}</td>
+                                <td>{{number_format($value[2],2)}}</td>
+                                <td>{{$value[3]}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 
