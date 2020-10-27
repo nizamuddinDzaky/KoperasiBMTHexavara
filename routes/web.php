@@ -846,14 +846,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'admin.maal.pencairan',
             'uses'      => 'MaalController@pencairan'
         ]);
-        //        Route::post('/edit', [
-        //            'as'        => 'edit.kegiatan',
-        //            'uses'      => 'MaalController@edit_kegiatan'
-        //        ]);
-        //        Route::post('/delete', [
-        //            'as'        => 'delete.kegiatan',
-        //            'uses'      => 'MaalController@delete_kegiatan'
-        //        ]);
+        Route::post('/edit', [
+                    'as'        => 'edit.kegiatan',
+                    'uses'      => 'MaalController@edit_kegiatan'
+                ]);
+        Route::post('/delete', [
+                    'as'        => 'delete.kegiatan',
+                    'uses'      => 'MaalController@delete_kegiatan'
+                ]);
         Route::post('/detail', [
             'as'        => 'admin.detail_transaksi',
             'uses'      => 'MaalController@detail_maal'
@@ -878,14 +878,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'kegiatan.store.wakaf',
             'uses'      => 'WakafController@add_kegiatan'
         ]);
-        //        Route::post('/edit', [
-        //            'as'        => 'edit.kegiatan',
-        //            'uses'      => 'MaalController@edit_kegiatan'
-        //        ]);
-        //        Route::post('/delete', [
-        //            'as'        => 'delete.kegiatan',
-        //            'uses'      => 'MaalController@delete_kegiatan'
-        //        ]);
+                Route::post('/edit', [
+                    'as'        => 'edit.kegiatan.wakaf',
+                    'uses'      => 'WakafController@edit_kegiatan'
+                ]);
+                Route::post('/delete', [
+                    'as'        => 'delete.kegiatan.wakaf',
+                    'uses'      => 'WakafController@delete_kegiatan'
+                ]);
         Route::post('/detail', [
             'as'        => 'admin.detail_transaksi.wakaf',
             'uses'      => 'WakafController@detail_wakaf'
@@ -1467,10 +1467,7 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'uses'      => 'LaporanController@labarugi'
         ]);
 
-        Route::get('/saldo_zis', [
-            'as'        => 'teller.saldo.zis',
-            'uses'      => 'LaporanController@saldo_zis'
-        ]);
+
         Route::get('/saldo_donasi', [
             'as'        => 'teller.saldo.donasi',
             'uses'      => 'LaporanController@saldo_donasi'
@@ -1487,24 +1484,30 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'        => 'teller.maal',
             'uses'      => 'MaalController@index'
         ]);
-        // Route::post('/add', [
-        //     'as'        => 'add.kegiatan',
-        //     'uses'      => 'MaalController@add_kegiatan'
-        // ]);
+
+        Route::get('/saldo_zis', [
+            'as'        => 'teller.saldo.zis',
+            'uses'      => 'LaporanController@saldo_zis'
+        ]);
 
         // Route::post('/add', [
         //     'as'        => 'add.kegiatan',
         //     'uses'      => 'MaalController@add_kegiatan'
         // ]);
 
-        Route::post('/edit', [
-            'as'        => 'edit.kegiatan',
-            'uses'      => 'MaalController@edit_kegiatan'
-        ]);
-        Route::post('/delete', [
-            'as'        => 'delete.kegiatan',
-            'uses'      => 'MaalController@delete_kegiatan'
-        ]);
+        // Route::post('/add', [
+        //     'as'        => 'add.kegiatan',
+        //     'uses'      => 'MaalController@add_kegiatan'
+        // ]);
+
+//        Route::post('/edit', [
+//            'as'        => 'edit.kegiatan',
+//            'uses'      => 'MaalController@edit_kegiatan'
+//        ]);
+//        Route::post('/delete', [
+//            'as'        => 'delete.kegiatan',
+//            'uses'      => 'MaalController@delete_kegiatan'
+//        ]);
         Route::post('/detail', [
             'as'        => 'teller.detail_transaksi',
             'uses'      => 'MaalController@detail_maal'
@@ -1512,6 +1515,33 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         Route::get('/transaksi', [
             'as'        => 'teller.transaksi.maal',
             'uses'      => 'MaalController@transaksi_maal'
+        ]);
+    });
+
+    Route::group(['prefix' => 'wakaf', 'middleware' => ['auth']], function () {
+        Route::get('/daftar', [
+            'as'        => 'teller.wakaf',
+            'uses'      => 'WakafController@index'
+        ]);
+//        Route::post('/pencairan', [
+//            'as'        => 'teller.wakaf.pencairan',
+//            'uses'      => 'WakafController@pencairan'
+//        ]);
+        //        Route::post('/edit', [
+        //            'as'        => 'edit.kegiatan',
+        //            'uses'      => 'MaalController@edit_kegiatan'
+        //        ]);
+        //        Route::post('/delete', [
+        //            'as'        => 'delete.kegiatan',
+        //            'uses'      => 'MaalController@delete_kegiatan'
+        //        ]);
+        Route::post('/detail', [
+            'as'        => 'teller.detail_transaksi_wakaf',
+            'uses'      => 'WakafController@detail_wakaf'
+        ]);
+        Route::get('/transaksi', [
+            'as'        => 'teller.transaksi.wakaf',
+            'uses'      => 'WakafController@transaksi_wakaf'
         ]);
     });
     

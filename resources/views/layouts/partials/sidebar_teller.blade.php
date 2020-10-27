@@ -100,9 +100,9 @@
             <li @if(Request::is('teller/nasabah/tabungan')) class="active" @endif><a href="{{route('nasabah_tabungan')}}">Saldo Tabungan</a></li>
             <li @if(Request::is('teller/nasabah/deposito')) class="active" @endif><a href="{{route('nasabah_deposito')}}">Saldo Mudharabah Berjangka</a></li>
             <li @if(Request::is('teller/nasabah/pembiayaan')) class="active" @endif><a href="{{route('nasabah_pembiayaan')}}">Saldo Pembiayaan</a></li>
-            <li @if(Request::is('teller/laporan/saldo_zis')) class="active" @endif><a href="{{ route('teller.saldo.zis') }}">Saldo ZIS</a></li>
-            <li @if(Request::is('teller/laporan/saldo_donasi')) class="active" @endif><a href="{{ route('teller.saldo.donasi') }}">Saldo Donasi</a></li>
-            <li @if(Request::is('teller/laporan/saldo_wakaf')) class="active" @endif><a href="{{ route('teller.saldo.wakaf') }}">Saldo Wakaf</a></li>
+{{--            <li @if(Request::is('teller/laporan/saldo_zis')) class="active" @endif><a href="{{ route('teller.saldo.zis') }}">Saldo ZIS</a></li>--}}
+{{--            <li @if(Request::is('teller/laporan/saldo_donasi')) class="active" @endif><a href="{{ route('teller.saldo.donasi') }}">Saldo Donasi</a></li>--}}
+{{--            <li @if(Request::is('teller/laporan/saldo_wakaf')) class="active" @endif><a href="{{ route('teller.saldo.wakaf') }}">Saldo Wakaf</a></li>--}}
             <li @if(Request::is('rapat/admin')) class="active" @endif><a href="{{ route('admin.rapat.index') }}">Rapat</a></li>
 
             {{--<li><a href="{{route('teller.pengajuan_pem')}}">Pengajuan Pembiayaan</a></li>
@@ -127,6 +127,27 @@
 
         </ul>
     </div>
+</li>
+
+<li @if(Request::is('teller/maal*')) class="active"@endif>
+    <a data-toggle="collapse" href="#nav_maal">
+        <i class="pe-7s-home"></i>
+        <p>Kegiatan Donasi
+            <b class="caret"></b></p>
+    </a>
+    @if(Request::is('teller/maal*') || Request::is('teller/wakaf*'))
+        <div class="collapse in" id="nav_maal">
+            @else
+                <div class="collapse" id="nav_maal">
+                    @endif
+                    <ul class="nav">
+                        <li class="@if(Request::is('admin/laporan/saldo_zis')) active @endif"><a href="{{route('teller.saldo.zis')}}">Saldo ZIS</a></li>
+                        <li @if(Request::is('teller/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan Maal</a></li>
+                        <li @if(Request::is('teller/wakaf/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.wakaf')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.wakaf')}}" @endif>Daftar Kegiatan Wakaf</a></li>
+                        <li @if(Request::is('teller/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi Maal</a></li>
+                        <li @if(Request::is('teller/wakaf/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.wakaf')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.wakaf')}}" @endif>Riwayat Transaksi Wakaf</a></li>
+                    </ul>
+                </div>
 </li>
 
 {{--<li @if(Request::is('anggota/maal*','teller/maal*')) class="active"@endif>

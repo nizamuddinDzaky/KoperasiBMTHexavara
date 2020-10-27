@@ -3126,8 +3126,45 @@ class InformationRepository
         if($dt->save()) return true;
         else return false;
     }
+    function editKegiatanWakaf($request){
+        $dana =str_replace(',', '', $request->dana);
+        $filename=$prevfile="";
+        $dt = $this->wakaf->where('id',$request->id_)->first();
+        if($request->file!=null){
+            $uploadedFile = $request->file('file');
+            $path = $uploadedFile->store('public/wakaf');
+            $filename =str_after($path, 'public/wakaf');
+            $prevfile =json_decode($dt['detail'],true)['path_poster'];
+        }
+        else $filename = json_decode($dt['detail'],true)['path_poster'];
+        if($prevfile!=null)
+            Storage::delete("public/wakaf/".$prevfile);
+        $detail =[
+            'detail' => $request->detail,
+            'dana' => $dana,
+            'terkumpul' =>isset(json_decode($dt['detail'],true)['terkumpul'])?json_decode($dt['detail'],true)['terkumpul']:0,
+            'sisa' => isset(json_decode($dt['detail'],true)['sisa'])?json_decode($dt['detail'],true)['sisa']:0,
+            'path_poster'=>$filename,
+        ];
+
+        // if(DateTime::createFromFormat('m/d/Y', $request->tgl))
+        //     $myDateTime = DateTime::createFromFormat('m/d/Y', $request->tgl);
+        // else $myDateTime= DateTime::createFromFormat('Y-m-d', $request->tgl);
+
+        // $date = $myDateTime->format('Y-m-d');
+        $dt->nama_kegiatan =$request->kegiatan;
+        // $dt->tanggal_pelaksaaan = $date;
+        $dt->status = "active";
+        $dt->detail = json_encode($detail);
+        if($dt->save()) return true;
+        else return false;
+    }
     function deleteKegiatan($request){
         return $this->maal->where('id', $request->id_)->delete();
+    }
+
+    function deleteKegiatanWakaf($request){
+        return $this->wakaf->where('id', $request->id_)->delete();
     }
 
     function getAllMaal(){

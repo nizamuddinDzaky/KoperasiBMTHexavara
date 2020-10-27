@@ -95,10 +95,10 @@ class WakafController extends Controller
     }
 
     public function index(){
-        if(Auth::user()->tipe=="admin")
+//        if(Auth::user()->tipe=="admin")
             $data = $this->informationRepository->getAllWakaf();
-        elseif(Auth::user()->tipe=="teller")
-            $data = $this->informationRepository->getAllWakafTell();
+//        elseif(Auth::user()->tipe=="teller")
+//            $data = $this->informationRepository->getAllWakafTell();
         $notification = $this->pengajuanReporsitory->getNotification();
 
         return view('admin.wakaf.wakaf',[
@@ -141,25 +141,25 @@ class WakafController extends Controller
     }
 
     public function edit_kegiatan(Request $request){
-        if($this->informationRepository->editKegiatan($request))
+        if($this->informationRepository->editKegiatanWakaf($request))
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Kegiatan Maal berhasil diedit!.'));
+                ->withSuccess(sprintf('Kegiatan Wakaf berhasil diedit!.'));
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Kegiatan Maal gagal diedit!.');
+                ->withInput()->with('message', 'Kegiatan Wakaf gagal diedit!.');
         }
     }
     public function delete_kegiatan(Request $request){
-        if($this->informationRepository->deleteKegiatan($request))
+        if($this->informationRepository->deleteKegiatanWakaf($request))
             return redirect()
                 ->back()
-                ->withSuccess(sprintf('Kegiatan Maal berhasil dihapus!.'));
+                ->withSuccess(sprintf('Kegiatan Wakaf berhasil dihapus!.'));
         else{
             return redirect()
                 ->back()
-                ->withInput()->with('message', 'Kegiatan Maal gagal dihapus!.');
+                ->withInput()->with('message', 'Kegiatan Wakaf gagal dihapus!.');
         }
     }
 

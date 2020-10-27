@@ -95,7 +95,7 @@
 <div class="modal fade" id="editMaalModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardE">
-            <form id="wizardFormE" method="POST" action="{{route('edit.kegiatan')}}" enctype="multipart/form-data">
+            <form id="wizardFormE" method="POST" action="{{route('edit.kegiatan.wakaf')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
                 <input type="hidden" id="id_edit" name="id_">
                 <div class="header text-center">
@@ -192,7 +192,7 @@
 <div class="modal fade" id="delMaalModal" role="dialog" aria-labelledby="delTabLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="POST" action="{{route('delete.kegiatan')}}" enctype="multipart/form-data"  id="delTabungan">
+            <form method="POST" action="{{route('delete.kegiatan.wakaf')}}" enctype="multipart/form-data"  id="delTabungan">
                 {{csrf_field()}}
                 <input type="hidden" id="id_del" name="id_">
                 <div class="modal-header">

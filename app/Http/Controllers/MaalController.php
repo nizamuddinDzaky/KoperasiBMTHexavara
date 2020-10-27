@@ -104,10 +104,14 @@ class MaalController extends Controller
         }
     }
     public function index(){
-        if(Auth::user()->tipe=="admin")
-        $data = $this->informationRepository->getAllMaal();
-        elseif(Auth::user()->tipe=="teller")
-        $data = $this->informationRepository->getAllMaalTell();
+//        if(Auth::user()->tipe=="admin")
+//        {
+            $data = $this->informationRepository->getAllMaal();
+//        }
+//        elseif(Auth::user()->tipe=="teller")
+//        {
+//            $data = $this->informationRepository->getAllMaalTell();
+//        }
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.maal.maal',[
             'notification' => $notification,

@@ -33,9 +33,11 @@
                         </select>
                     </form>
 
+                    @if(Auth::user()->tipe == 'admin')
                     <div class="button-group right">
                         <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#addMaalModal"><i class="fa fa-plus"></i> Tambah Kegiatan</button>
                     </div>
+                        @endif
                 </div>
             </div>
         </div>
@@ -53,10 +55,10 @@
                         <div class="toolbar">
                             <!--        Here you can write extra buttons/actions for the toolbar              -->
                             <div class="col-md-12 btn-group">
-                                @if(Auth::user()->tipe!="admin")
-                                <a type="button" href="{{route('admin.maal')}}" class="btn btn-primary btn-fill" style="margin-bottom:1em" data-toggle="modal" data-target="#addMaalModal" title="Tambah Kegiatan">Tambah Kegiatan
-                                </a>
-                                @endif
+{{--                                @if(Auth::user()->tipe! ="admin")--}}
+{{--                                <a type="button" href="{{route('admin.maal')}}" class="btn btn-primary btn-fill" style="margin-bottom:1em" data-toggle="modal" data-target="#addMaalModal" title="Tambah Kegiatan">Tambah Kegiatan--}}
+{{--                                </a>--}}
+{{--                                @endif--}}
                                 {{--<div class="col-md-2">--}}
                                 {{--<button class="btn btn-default btn-block" onclick="demo.showNotification('top','right')">Top Right</button>--}}
                                 {{--</div>--}}
@@ -110,7 +112,7 @@
                                                 <i class="fa fa-usd"></i>
                                             </button>
                                             @endif
-                                            @if(Auth::user()->tipe!="admin")
+                                            @if(Auth::user()->tipe=="admin")
 
                                             <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editMaalModal" title="Edit"
                                                 data-id      = "{{$usr->id}}"
@@ -131,6 +133,7 @@
                                             @endif
                                         </form>
                                     </td>
+
                                 </tr>
                             @endforeach
                             </tbody>
