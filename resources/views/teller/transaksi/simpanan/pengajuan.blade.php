@@ -107,14 +107,14 @@
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
     </div>
-    @include('modal.pengajuan')
-    @include('modal.pembiayaan.angsuranss')
-    @include('modal.pembiayaan.view_angsuran')
-    @include('modal.pembiayaan.konfirmasi_angsuran')
-    @include('modal.user_tabungan')
-    @include('modal.user_deposito')
-    @include('modal.simpanan.confirm')
-    @include('modal.simpanan.teller.pengajuan')
+{{--    @include('modal.pengajuan')--}}
+{{--    @include('modal.pembiayaan.angsuranss')--}}
+{{--    @include('modal.pembiayaan.view_angsuran')--}}
+{{--    @include('modal.pembiayaan.konfirmasi_angsuran')--}}
+{{--    @include('modal.user_tabungan')--}}
+{{--    @include('modal.user_deposito')--}}
+{{--    @include('modal.simpanan.confirm')--}}
+{{--    @include('modal.simpanan.teller.pengajuan')--}}
     {{--@include('modal.user_deposito')--}}
 
 @endsection
@@ -138,6 +138,7 @@
 
     <!-- simpanan user modal -->
     <script src="{{ asset('bmtmudathemes/assets/js/modal/simpanan.js') }}"></script>
+    <script src="{{ asset('bmtmudathemes/assets/js/pages/donasi_maal.js') }}"></script>
     
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>

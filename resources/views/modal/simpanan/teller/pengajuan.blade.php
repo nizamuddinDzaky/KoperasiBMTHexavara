@@ -28,7 +28,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih User <star>*</star></label>
-                                        <select class="form-control select2" name="user" style="width: 100%;">
+                                        <select class="form-control select2 donatur" name="user" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->nama }}</option>
@@ -67,11 +67,11 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
+                                        <select class="form-control select2 rekening-tabungan" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
-                                            @foreach ($tabungan as $rekening)
-                                            <option value="{{ $rekening->id_tabungan }}">[ {{ $rekening->id_tabungan }} ] {{ $rekening->jenis_tabungan }} [ {{ json_decode($rekening->user_detail)->nama }} ]</option>
-                                            @endforeach
+{{--                                            @foreach ($tabungan as $rekening)--}}
+{{--                                            <option value="{{ $rekening->id_tabungan }}">[ {{ $rekening->id_tabungan }} ] {{ $rekening->jenis_tabungan }} [ {{ json_decode($rekening->user_detail)->nama }} ]</option>--}}
+{{--                                            @endforeach--}}
                                         </select>
                                     </div>
                                 </div>
@@ -171,7 +171,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih User <star>*</star></label>
-                                        <select class="form-control select2" name="user" style="width: 100%;">
+                                        <select class="form-control select2 donatur " name="user" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->nama }}</option>
@@ -210,11 +210,11 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control select2" name="dari_tabungan" style="width: 100%;">
+                                        <select class="form-control select2 rekening-tabungan" name="dari_tabungan" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
-                                            @foreach ($tabungan as $rekening)
-                                            <option value="{{ $rekening->id_tabungan }}">[ {{ $rekening->id_tabungan }} ] {{ $rekening->jenis_tabungan }} [ {{ json_decode($rekening->user_detail)->nama }} ]</option>
-                                            @endforeach
+{{--                                            @foreach ($tabungan as $rekening)--}}
+{{--                                            <option value="{{ $rekening->id_tabungan }}">[ {{ $rekening->id_tabungan }} ] {{ $rekening->jenis_tabungan }} [ {{ json_decode($rekening->user_detail)->nama }} ]</option>--}}
+{{--                                            @endforeach--}}
                                         </select>
                                     </div>
                                 </div>
