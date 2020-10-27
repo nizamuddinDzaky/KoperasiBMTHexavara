@@ -29,7 +29,6 @@
                                         <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
                                         <select class="form-control select2" id="user_pelunasan" name="user" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
-                                            
                                             @foreach ($user as $item)
                                             <option value="{{ $item->id }}">[ {{ $item->id }} ] {{ $item->nama}}</option>
                                             @endforeach
@@ -93,9 +92,9 @@
                                         <label for="namaSim" class="control-label">Rekening Tabungan <star>*</star></label>
                                         <select class="form-control select2" id="tabunganPelunasan" name="tabungan" style="width: 100%;" >
                                             <option class="bs-title-option" selected value="" disabled>-Pilih Rekening Tabungan-</option>
-                                            @foreach ($tabungan as $rekening)
-                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [ {{number_format(json_decode($rekening->detail)->saldo,2) }} ] </option>
-                                            @endforeach
+{{--                                            @foreach ($tabungan as $rekening)--}}
+{{--                                                <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }} [ {{number_format(json_decode($rekening->detail)->saldo,2) }} ] </option>--}}
+{{--                                            @endforeach--}}
                                         </select>
                                     </div>
                                 </div>

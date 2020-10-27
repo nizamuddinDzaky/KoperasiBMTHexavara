@@ -60,8 +60,8 @@ $(document).ready(function() {
 
         var formatter = new Intl.NumberFormat();
 
-        var selRek = $('#idRekPelunasan');
-        selRek.on('change', function () {
+        function refreshFieldPelunasan() {
+            var selRek = $('#idRekPelunasan');
             pokok = parseFloat(selRek.val().split(' ')[0]);
             jenis = parseFloat(selRek.val().split(' ')[3]);
             margin = parseFloat(selRek.val().split(' ')[1]);
@@ -69,29 +69,51 @@ $(document).ready(function() {
             rekening = parseFloat(selRek.val().split(' ')[4]);
             id_pembiayaan = selRek.val().split(' ')[6];
 
-            if(jenis == 1)
-            {
+            if (jenis == 1) {
                 $("#bayar_margin_pelunasan").prop("disabled", false);
-            }
-            else
-            {
-                $("#bayar_margin_pelunasan").prop("disabled", false); 
+            } else {
+                $("#bayar_margin_pelunasan").prop("disabled", false);
             }
 
             $('#tagihan_pokok_pelunasan').val(formatter.format(pokok))
             $('#tagihan_margin_pelunasan').val(formatter.format(margin))
             $('#bayar_ang_pelunasan').val(formatter.format(pokok))
 
-            if(margin > bayar_margin)
-            {
+            if (margin > bayar_margin) {
                 $('#bayar_margin_pelunasan').val(formatter.format(bayar_margin * 2))
-            }
-            else
-            {
+            } else {
                 $('#bayar_margin_pelunasan').val(formatter.format(bayar_margin))
             }
             $('#idPembiayaan').val(id_pembiayaan)
-        });
+
+        }
+            var selRek = $('#idRekPelunasan');
+            selRek.on('change', function () {
+                pokok = parseFloat(selRek.val().split(' ')[0]);
+                jenis = parseFloat(selRek.val().split(' ')[3]);
+                margin = parseFloat(selRek.val().split(' ')[1]);
+                bayar_margin = parseFloat(selRek.val().split(' ')[2]);
+                rekening = parseFloat(selRek.val().split(' ')[4]);
+                id_pembiayaan = selRek.val().split(' ')[6];
+
+                if (jenis == 1) {
+                    $("#bayar_margin_pelunasan").prop("disabled", false);
+                } else {
+                    $("#bayar_margin_pelunasan").prop("disabled", false);
+                }
+
+                $('#tagihan_pokok_pelunasan').val(formatter.format(pokok))
+                $('#tagihan_margin_pelunasan').val(formatter.format(margin))
+                $('#bayar_ang_pelunasan').val(formatter.format(pokok))
+
+                if (margin > bayar_margin) {
+                    $('#bayar_margin_pelunasan').val(formatter.format(bayar_margin * 2))
+                } else {
+                    $('#bayar_margin_pelunasan').val(formatter.format(bayar_margin))
+                }
+                $('#idPembiayaan').val(id_pembiayaan)
+            });
+
 
         var selDebit = $('#debitPelunasan');
         selDebit.on('change', function() {
@@ -119,12 +141,13 @@ $(document).ready(function() {
         }
 
         $("#user_pelunasan").change(function() {
+            $("#idRekPelunasan option").not(':first').remove();
+            $("#tabunganPelunasan option").remove();
             $.ajax({
                 type: "GET",
                 url: window.location.href + "/get_user_pembiayaan/" + $(this).val(),
                 dataType: "JSON",
                 success: function (response) {
-                    console.log(response);
                     $.each(response, function (indexInArray, valueOfElement) { 
                         var detail = JSON.parse(valueOfElement.detail);
                         var template = `<option value="` + detail.sisa_angsuran + ` ` + detail.sisa_margin + 
@@ -133,11 +156,31 @@ $(document).ready(function() {
                             ` ` + valueOfElement.id_pembiayaan + `">[` + valueOfElement.id_pembiayaan + `] ` + valueOfElement.jenis_pembiayaan + ` [` + valueOfElement.nama + ` ] [` + valueOfElement.no_ktp + ` ]</option>`; 
                         
                         $('#idRekPelunasan').append(template);
+                        refreshFieldPelunasan();
                     });
                 }
             });
+
+            $.ajax({
+                type: "GET",
+                url: window.location.origin + "/api/get_user_tabungan/" + $(this).val(),
+                dataType: "json",
+                success: function (response) {
+
+                    for(let i=0; i<response.length; i++)
+                    {
+                        var template = "<option value='" + response[i].id + "'>[" + response[i].id_tabungan + "] " + response[i].jenis_tabungan + " [Rp. " + formatter.format(JSON.parse(response[i].detail).saldo) + "]</option>";
+                        $("#tabunganPelunasan").append(template);
+                    }
+
+                }
+            });
         });
+
+
     });
+
+
 
     $('#viewPelModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal

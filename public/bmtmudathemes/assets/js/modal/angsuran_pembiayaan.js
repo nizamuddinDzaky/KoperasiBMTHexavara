@@ -47,6 +47,7 @@ $(document).ready(function() {
         var form_value = $(this).val();
         var id_user = form_value.split(" ")[9];
         var formatter = new Intl.NumberFormat();
+        $("#tabungan option").remove();
 
         $.ajax({
             type: "GET",
