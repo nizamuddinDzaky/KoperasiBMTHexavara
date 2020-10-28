@@ -11,6 +11,7 @@ use App\PenyimpananBMT;
 use App\PenyimpananJaminan;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ use App\Rekening;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\DepositoReporsitories;
+use App\Repositories\HelperRepositories;
 use App\Repositories\DonasiReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\SimpananReporsitory;
@@ -54,6 +56,7 @@ class TellerController extends Controller
                                 PengajuanReporsitories $pengajuanReporsitory,
                                 AccountReporsitories $accountReporsitory,
                                 ExportRepositories $exportRepository,
+                                HelperRepositories $helperRepositories,
                                 TransferTabunganRepositories $transferTabunganRepository
                                 )
     {
@@ -81,6 +84,7 @@ class TellerController extends Controller
         $this->simpananReporsitory = $simpananReporsitory;
         $this->pembiayaanReporsitory = $pembiayaanReporsitory;
         $this->pengajuanReporsitory = $pengajuanReporsitory;
+        $this->helperRepository = $helperRepositories;
         $this->accountReporsitory = $accountReporsitory;
         $this->exportRepository = $exportRepository;
         $this->transferTabunganRepository = $transferTabunganRepository;
@@ -1185,6 +1189,9 @@ class TellerController extends Controller
         $deposito =Deposito::where('id_pengajuan',$id)->first();
         $tabungan =Tabungan::where('id',json_decode($deposito['detail'],true)['id_pencairan'])->first();
         $tempo = json_decode(Rekening::where('id',$deposito['id_rekening'])->first()['detail'],true)['jangka_waktu'];
+        $nisbah_anggota = json_decode(Rekening::where('id',$deposito['id_rekening'])->first()['detail'],true)['nisbah_anggota'];
+        $nisbah_bmt = json_decode(Rekening::where('id',$deposito['id_rekening'])->first()['detail'],true)['nisbah_bank'];
+
         $id_teller =json_decode(PenyimpananDeposito::where('id_deposito',$deposito['id'])->first()['transaksi'],true)['teller'];
         $teller = User::where('id',$id_teller)->first()['nama'];
         $tgl_realisasi = $deposito['created_at'];
@@ -1227,32 +1234,39 @@ class TellerController extends Controller
 //        }
 
         // Edit variabel in word document
-        $template = new \PhpOffice\PhpWord\TemplateProcessor('storage/formakad/template_dep.docx');
+        $path = public_path('template/template_dep.docx');
+        $template = new \PhpOffice\PhpWord\TemplateProcessor($path);
         $template->setValue('nama',strtoupper($pihak2['nama']));
+        $template->setValue('tgl_cetak',Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"));
         $template->setValue('teller',$teller);
         $template->setValue('alamat',$pihak2['alamat']);
         $template->setValue('ktp',$pihak2['no_ktp']);
-        $template->setValue('rek_tab',$tabungan['id_tabungan']);
+        $template->setValue('rek_tab',$tabungan->jenis_tabungan);
         $template->setValue('rek_dep',$deposito['id_deposito']);
         $template->setValue('manager','M. SYAMSUL ARIFIN SHOLEH');
         $template->setValue('kota',"Surabaya");
         $template->setValue('tgl_realisasi',$tgl_realisasi);
         $template->setValue('tempo',$tgl_tempo);
-        $template->setValue('tgl',$tgl_realisasi  );
+        $template->setValue('tgl',$tgl_realisasi);
         $template->setValue('bln',$tempo);
+        $template->setValue('nisbah_a',$nisbah_anggota);
+        $template->setValue('nisbah_b',$nisbah_bmt);
         $template->setValue('jumlah',number_format(json_decode($deposito['detail'],true)['saldo']));
         $template->setValue('spell',number_format(json_decode($deposito['detail'],true)['saldo']));
-
-        $filename ='storage/formakad/result_template_dep.docx';
-        $template->saveAs($filename);
-        header('Content-disposition: inline');
-        header('Content-type: application/msword'); // not sure if this is the correct MIME type
-        readfile($filename);
+        $filename = "akad_deposito - " .$pihak2['nama'].".docx";
+        $template->saveAs('storage/docx/'.$filename);
+//        header('Content-disposition: inline');
+//        header('Content-type: application/msword'); // not sure if this is the correct MIME type
+//        readfile($filename);
         $headers = array(
             'Content-Type: application/docx',
+            'Cache-Control: must-revalidate, post-check=0, pre-check=0',
+            'Content-disposition: inline',
         );
 
-        return response()->download($filename, "akad_deposito - " .$pihak2['nama'].".docx", $headers);
+        $location = public_path('storage/docx/' . $filename);
+
+        return response()->download($location, "akad_deposito - " .$pihak2['nama'].".docx", $headers);
     }
 
     
