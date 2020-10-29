@@ -1871,17 +1871,17 @@ class PembiayaanReporsitory {
                 $id_rekening_pendapatan = 131;
             }
             
-            if($data->debit == 0)
+            if($data->debit == 0) // tunai
             {
                 $bank_tujuan_angsuran = json_decode(Auth::user()->detail)->id_rekening;
                 $dari_bank = "Tunai";
             }
-            if($data->debit == 1)
+            if($data->debit == 1) // bank
             {
                 $bank_tujuan_angsuran = $data->bank;
                 $dari_bank = "[" . $data->nobank . "] " . $data->daribank;
             }
-            if($data->debit == 2)
+            if($data->debit == 2) // tabungan
             {
                 $tabungan =  Tabungan::where('id', $data->tabungan)->first();
                 $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
@@ -1976,7 +1976,7 @@ class PembiayaanReporsitory {
             $saldo_awal_pengirim = floatval($bmt_tujuan_angsuran->saldo);
             $saldo_akhir_pengirim = floatval($bmt_tujuan_angsuran->saldo) + (floatval($jumlah_bayar_angsuran) + floatval($jumlah_bayar_margin));
             
-            if($data->debit == 2)
+            if($data->debit == 2) // tabungan
             {
                 $saldo_awal_pengirim = floatval($bmt_tujuan_angsuran->saldo);
                 $saldo_akhir_pengirim = floatval($bmt_tujuan_angsuran->saldo) - (floatval($jumlah_bayar_angsuran) + floatval($jumlah_bayar_margin));
@@ -1998,6 +1998,18 @@ class PembiayaanReporsitory {
                 ];
 
                 $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+
+            }
+
+            if($data->debit == 2)
+            {
+                $dataToUpdateTabungan = [
+                    "saldo" => json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin),
+                    "id_pengajuan" => null
+                ];
+
+                $tabungan->detail = json_encode($dataToUpdateTabungan);
+                $tabungan->save();
             }
 
             $saldo_awal_pembiayaan = floatval($bmt_pembiayaan->saldo);
