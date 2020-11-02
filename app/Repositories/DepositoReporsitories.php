@@ -22,6 +22,7 @@ use App\Repositories\RekeningReporsitories;
 use App\Repositories\TabunganReporsitories;
 use Carbon\Carbon;
 use App\User;
+use function Symfony\Component\Debug\Tests\FatalErrorHandler\test_namespaced_function;
 
 class DepositoReporsitories {
     
@@ -790,8 +791,8 @@ class DepositoReporsitories {
 
                     $detailToPenyimpananBMT = [
                         "jumlah"    => preg_replace('/[^\d.]/', '', $data->jumlah),
-                        "saldo_awal"    => 0,
-                        "saldo_akhir"   => preg_replace('/[^\d.]/', '', $data->jumlah),
+                        "saldo_awal"    => $bmt->saldo,
+                        "saldo_akhir"   => $bmt->saldo + preg_replace('/[^\d.]/', '', $data->jumlah),
                         "id_pengajuan"  => $nextIdPengajuan
                     ];
                     $dataToPenyimpananBMT = [

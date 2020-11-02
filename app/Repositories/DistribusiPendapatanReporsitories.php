@@ -329,17 +329,21 @@ class DistribusiPendapatanReporsitories {
         {
             $distribusi = PenyimpananBMT::first();
             $date = Carbon::parse($distribusi->created_at);
-            $now = Carbon::now();
         }
         else
         {
             $date = Carbon::parse($distribusi->created_at);
-            $now = Carbon::now();
         }
 
+        $now = Carbon::now();
+
+        $diff = abs(strtotime($now->toDateString()) - strtotime($date->toDateString()));
+        $years = floor($diff / (365*60*60*24));
+        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
 
 
-        return $date->diffInDays($now);
+        return $now->diffInDays($date);
     }
 
     /** 
@@ -853,6 +857,8 @@ class DistribusiPendapatanReporsitories {
 
 
 
+
+
                 if($getSaldoAkhir == null && $i == 0)
                 {
                         $distribusiWithDate = PenyimpananTabungan::select('transaksi')
@@ -901,9 +907,6 @@ class DistribusiPendapatanReporsitories {
         }
 
 
-
-
-
         $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')
             ->where('created_at', '<', Carbon::now()->toDateString())
             ->orderBy('created_at', 'desc')->first();
@@ -923,6 +926,7 @@ class DistribusiPendapatanReporsitories {
         $storeSaldoAkhir = 0.0;
         $jumlahHari = $this->getDateDiff();
         $divider = 0;
+        $status = "";
         for ($i = 0 ; $i <= $jumlahHari ; $i++){
 
             if($date->diffInDays(Carbon::now()) >= 0)
@@ -937,7 +941,11 @@ class DistribusiPendapatanReporsitories {
 
 
 
-                if($getSaldoAkhir == null && $i == 0)
+                if ($tanggal != Carbon::parse('first day of january 1970')  && ($tanggal->toDateString() <= $date->toDateString() || $tanggal->toDateString() == $date->toDateString())  ) // apabila sudah jatuh tempo atau pencairan lebih awal
+                {
+                    $storeSaldoAkhir += 0;
+                }
+                else if($getSaldoAkhir == null && $i == 0)
                 {
                     $distribusiWithDate = PenyimpananDeposito::select('transaksi')
                         ->whereDate('created_at', '<=', $date->toDateString())
@@ -957,11 +965,6 @@ class DistribusiPendapatanReporsitories {
                     }
 
                 }
-                else if ($tanggal != Carbon::parse('first day of january 1970')  && ($tanggal < $date->toDateString()) ) // apabila sudah jatuh tempo atau pencairan lebih awal
-                {
-                        $storeSaldoAkhir += 0;
-
-                }
                 else if ($getSaldoAkhir == null) // apabila hari tersebut tidak ada transaksi
                 {
                     $storeSaldoAkhir += $saldoAkhir;
@@ -978,6 +981,7 @@ class DistribusiPendapatanReporsitories {
         }
 
 
+
         return $storeSaldoAkhir/$divider;
 
 
@@ -989,6 +993,7 @@ class DistribusiPendapatanReporsitories {
 
         $rekening_tabungan = $this->getRekening("TABUNGAN");
         $rekening_deposito = $this->getRekening("DEPOSITO");
+
 
         $total_rata_rata = array();
 
@@ -1028,6 +1033,7 @@ class DistribusiPendapatanReporsitories {
                     ->where('jenis_tabungan', $tab->nama_rekening)
                     ->where('users.id', $data->id)
                     ->get();
+
 
 
                 $rata_rata =  $this->getSaldoAverageProduct($tab->id_bmt);
@@ -1187,6 +1193,7 @@ class DistribusiPendapatanReporsitories {
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan); // untuk cari pendapatan per produk
                 $porsi_anggota = $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
 
+
                 foreach($deposito as $dep2)
                 {
                     $saldoTemporer = array();
@@ -1296,8 +1303,9 @@ class DistribusiPendapatanReporsitories {
                     }
                     else
                     {
-                        $saldoRataRata = $this->getSaldoAverageDepositoAnggota($data->id, $dep2->id,$tanggal);
+                        $saldoRataRata = $this->getSaldoAverageDepositoAnggota($data->id, $dep2->id, $tanggal);
                         $bagi_hasil = $this->getSaldoAverageDepositoAnggota($dep2->id_user, $dep2->id, $tanggal ) / $rata_rata * $porsi_anggota ;
+
 
                     }
                     array_push($saldoTemporer, $saldoRataRata);
