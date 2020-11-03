@@ -1408,7 +1408,7 @@ class AdminController extends Controller
         $saldoAwal = [
             "wajib"     => floatval(0),
             "pokok"     => floatval(0),
-            "khusus"     => 0,
+            "khusus"     => floatval(0),
             "margin"    => floatval(0)
         ];
 

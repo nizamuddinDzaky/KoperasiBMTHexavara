@@ -328,20 +328,14 @@ class DistribusiPendapatanReporsitories {
         if($distribusi == null)
         {
             $distribusi = PenyimpananBMT::first();
-            $date = Carbon::parse($distribusi->created_at);
+            $date = Carbon::parse($distribusi->created_at)->startOfDay();
         }
         else
         {
-            $date = Carbon::parse($distribusi->created_at);
+            $date = Carbon::parse($distribusi->created_at)->startOfDay();
         }
 
-        $now = Carbon::now();
-
-        $diff = abs(strtotime($now->toDateString()) - strtotime($date->toDateString()));
-        $years = floor($diff / (365*60*60*24));
-        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-
+        $now = Carbon::now()->startOfDay();
 
         return $now->diffInDays($date);
     }
@@ -817,7 +811,7 @@ class DistribusiPendapatanReporsitories {
 
         }
 
-
+        
         return $storeSaldoAkhir/$divider;
 
     }
