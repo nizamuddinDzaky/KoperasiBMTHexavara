@@ -381,7 +381,7 @@ class SimpananReporsitory {
                         $dataToUpdateUsers = [
                             "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                             "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                            "khusus"     => 0,
+                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
                             "margin"    => floatval(json_decode($user_simpanan->wajib_pokok)->margin)
                         ];
                     }
@@ -401,7 +401,7 @@ class SimpananReporsitory {
                         $dataToUpdateUsers = [
                             "wajib"     => floatval(json_decode($user_simpanan->wajib_pokok)->wajib),
                             "pokok"     => floatval(json_decode($user_simpanan->wajib_pokok)->pokok),
-                            "khusus"     => 0,
+                            "khusus"     => floatval(json_decode($saldo_awal_simpanan))  + json_decode($pengajuan->detail)->jumlah,
                         ];
                     }
                 }
