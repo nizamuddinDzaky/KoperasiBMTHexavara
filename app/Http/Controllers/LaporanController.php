@@ -727,13 +727,14 @@ class LaporanController extends Controller
 
         if(isset($request->start) && isset($request->end))
         {
-            $data_wakaf = PenyimpananBMT::where([ 
+            $data_zis = PenyimpananBMT::where([
                 ['id_bmt', $bmt_rekening->id], ['created_at', '>=', Carbon::parse($request->start)], ['created_at', '<=', Carbon::parse($request->end)]
             ])->get();
         }
         $saldo_terkumpul = $bmt_rekening->saldo;
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
+
 
         return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul', 'notification', 'notification_count'));
     }

@@ -64,8 +64,18 @@
                                 <td></td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->created_at)->format("D, d F Y") }}</td>
-                                <td>{{ $item->User->no_ktp }}</td>
-                                <td style="text-transform: uppercase">{{ $item->User->nama }}</td>
+                                @if($item->User->no_ktp == "9999999999999999")
+                                    <td>{{ json_decode($item->transaksi)->no_bank }}</td>
+                                @else
+                                    <td>{{ $item->User->no_ktp }}</td>
+                                    @endif
+
+                                @if($item->User->nama == "Umum")
+                                    <td style="text-transform: uppercase">{{ json_decode($item->transaksi)->nama }}</td>
+                                @else
+                                    <td style="text-transform: uppercase">{{ $item->User->nama }}</td>
+                                    @endif
+
                                 <td>{{ number_format(json_decode($item->transaksi)->jumlah, 2) }}</td>
                                 <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir, 2) }}</td>
                             </tr>

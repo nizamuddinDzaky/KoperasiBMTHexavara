@@ -332,7 +332,10 @@ class DonasiReporsitories {
                 "jumlah"        => json_decode($pengajuan->detail)->jumlah,
                 "saldo_awal"    => $saldo_awal_donasi,
                 "saldo_akhir"   => $saldo_akhir_donasi,
-                "id_pengajuan"  => $pengajuan->id
+                "id_pengajuan"  => $pengajuan->id,
+                "nama"          => json_decode($pengajuan->detail)->nama,
+                "email"         => json_decode($pengajuan->detail)->email,
+                "no_bank"       => json_decode($pengajuan->detail)->no_bank,
             ];
             $dataToInsertIntoPenyimpananBMT = [
                 'id_user'       => $pengajuan->id_user,
