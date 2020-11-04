@@ -33,7 +33,7 @@
                                     <div class="col-md-5">
                                         <div class="form-group">
                                             <label for="namaSim" class="control-label">Tanggal Berakhir <star>*</star></label>
-                                            <input type="text" name="tanggal_berakhir" class="form-control datepicker" placeholder="Tanggal Berakhir">
+                                            <input type="text" name="tanggal_berakhir" class="form-control date-picker" placeholder="Tanggal Berakhir">
                                         </div>
                                     </div>
                                 </div>

@@ -119,7 +119,25 @@
 @endsection
 
 @section('extra_script')
-
+    <script src="{{URL::asset('bootstrap/assets/js/bootstrap-datetimepicker.js')}}"></script>
     <script src="{{ asset('bmtmudathemes/assets/js/modal/rapat.js') }}"></script>
+    <script>
+    $('.date-picker').datetimepicker({
+    //                    defaultDate: "11/1/2013",
+    defaultDate: '{{\Carbon\Carbon::now()}}',
+    format: 'MM/DD/YYYY',
+    icons: {
+    time: "fa fa-clock-o",
+    date: "fa fa-calendar",
+    up: "fa fa-chevron-up",
+    down: "fa fa-chevron-down",
+    previous: 'fa fa-chevron-left',
+    next: 'fa fa-chevron-right',
+    today: 'fa fa-screenshot',
+    clear: 'fa fa-trash',
+    close: 'fa fa-remove'
+    }
+    });
+    </script>
 
 @endsection

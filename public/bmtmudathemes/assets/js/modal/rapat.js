@@ -9,13 +9,12 @@ $(document).ready(function() {
         $('#file').val(button.data('ori_cover'));
         $('.pic').attr('src', button.data('cover'));
         $('#id_rapat').val(button.data('id'));
-        console.log(button.data('cover'));
     });
 
     $('#deleteRapatModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
 
-        $('#id_rapat_to_vote').val(button.data('id_rapat'));
+        $('#id_rapat_to_delete').val(button.data('id_rapat'));
     });
 
     $('#voteModal').on('show.bs.modal', function(event) {
