@@ -332,7 +332,7 @@ class DistribusiPendapatanReporsitories {
         }
         else
         {
-            $date = Carbon::parse($distribusi->created_at)->startOfDay();
+            $date = Carbon::parse($distribusi->created_at)->startOfDay()->addDays(1);
         }
 
         $now = Carbon::now()->startOfDay();
