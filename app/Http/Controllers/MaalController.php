@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BMT;
 use App\Maal;
 use App\Pengajuan;
 use App\Repositories\InformationRepository;
@@ -124,10 +125,12 @@ class MaalController extends Controller
     }
     public function transaksi_maal(){
         $notification = $this->pengajuanReporsitory->getNotification();
+        $saldo = BMT::where('id',335)->select('saldo')->first();
         return view('admin.maal.transaksi',[
             'notification' => $notification,
             'notification_count' => count($notification),
             'data' =>$this->informationRepository->getAllPenyimpananMaal(),
+            'saldo_terkumpul' => $saldo
         ]);
     }
     public function detail_maal(Request $request){

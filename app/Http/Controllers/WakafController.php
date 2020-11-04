@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
+use App\BMT;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -112,10 +113,12 @@ class WakafController extends Controller
     }
     public function transaksi_wakaf(){
         $notification = $this->pengajuanReporsitory->getNotification();
+        $saldo = BMT::where('id',336)->select('saldo')->first();
         return view('admin.wakaf.transaksi',[
             'notification' => $notification,
             'notification_count' => count($notification),
             'riwayat_wakaf' =>$this->informationRepository->getAllPenyimpananWakaf(),
+            'saldo_terkumpul' => $saldo
         ]);
     }
     public function detail_wakaf(Request $request){

@@ -13,6 +13,17 @@
 @endsection
 
 @section('content')
+    <div class="head">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="title">Riwayat Transaksi Wakaf</h4>
+
+                <div class="head-noted right">
+                    <span>Saldo Wakaf Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul->saldo> 0 ? $saldo_terkumpul->saldo : 0, 2) }}</b></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="content">
         <div class="container-fluid">
