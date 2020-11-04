@@ -3,6 +3,40 @@
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{asset('css/donasi_nav.css')}}">
     <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <style>
+        /* Container needed to position the button. Adjust the width as needed */
+        .package {
+            position: relative;
+            margin:auto;
+            width: 50%;
+        }
+
+        /* Make the image responsive */
+        .package .bmtmuda {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Style the button and place it in the middle of the container/image */
+        .package .buttonZis {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            /*background-color: #555;*/
+            color: white;
+            font-size: 16px;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .package .buttonZis:hover {
+            background-color: black;
+        }
+    </style>
 @endsection
 @section('content')
 
@@ -23,8 +57,9 @@
         </div>
     </nav>
 
-    <div class="row">
-        <button type="button" class="btn btn-primary text-right" data-toggle="modal" data-target="#donasiZis" style="float: right">Pembayaran ZIS<i class="fa fa-external-link-alt"></i></button>
+    <div class="row package" style="text-align: center" >
+            <img src="{{asset('images/bmtmuda.jpeg')}}" class="bmtmuda" alt="bmtmuda" style="height: auto; width: 100%">
+            <button type="button" class="btn btn-lg btn-primary buttonZis" data-toggle="modal" data-target="#donasiZis">Pembayaran ZIS<i class="fa fa-external-link-alt"></i></button>
     </div>
 
 
