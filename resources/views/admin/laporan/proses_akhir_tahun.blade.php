@@ -84,18 +84,35 @@
                                 @foreach(json_decode($item['transaksi']) as $value)
                                     <tr>
                                         <td class="text-left">{{ $value->no_ktp }}</td>
-                                        <td class="text-left">{{ $value->nama  }}</td>
+                                        @if($value->no_ktp == "")
+                                            <td class="text-left">{{ $value->account_type  }}</td>
+                                        @else
+                                            <td class="text-left">{{ $value->nama  }}</td>
+                                            @endif
+
                                         <td class="text-right">{{number_format(floatval($value->simpanan_wajib),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->simpanan_pokok),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->margin),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->shu_pengelola),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->shu_pengurus),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->shu_anggota),2) }}</td>
-                                        <td class="text-right">{{number_format(floatval($value->shu_pengelola) + floatval($value->shu_pengurus) + floatval($value->shu_anggota), 2)}}</td>
+                                        @if($value->no_ktp == "")
+                                            <td class="text-right">{{number_format(floatval($value->porsi_shu),2)}}</td>
+                                        @else
+                                            <td class="text-right">{{number_format(floatval($value->shu_pengelola) + floatval($value->shu_pengurus) + floatval($value->shu_anggota), 2)}}</td>
+                                        @endif
+
                                     </tr>
 
                                     @php
+                                    if($value->no_ktp == "")
+                                    {
+                                        $total_shu_anggota += floatval($value->porsi_shu) ;
+                                    }
+                                    else{
                                     $total_shu_anggota += floatval($value->shu_pengelola) + floatval($value->shu_pengurus) + floatval($value->shu_anggota);
+                                    }
+
                                     @endphp
 
                                 @endforeach

@@ -51,6 +51,7 @@ class SHUTahunanRepositories {
         $distribusi = array();
 
         $data_shu = SHU::where('status', 'active')->get();
+
         foreach($data_shu as $item) {
             foreach($anggota as $value)
             {
@@ -127,7 +128,7 @@ class SHUTahunanRepositories {
                     "shu_pengelola" => 0,
                     "shu_pengurus"  => 0,
                     "id_rekening" => $item->id_rekening,
-                    "porsi_shu" => $porsi_shu,
+                    "porsi_shu" => $this->getPorsiSHU($item->nama_shu),
                     "nama_shu"  => $item->nama_shu
                 );
                 array_push($distribusi, $temp);
@@ -222,7 +223,8 @@ class SHUTahunanRepositories {
                 "teller"        => Auth::user()->id
             ];
             $this->insertPenyimpananSHU($dataPenyimpananSHU);
-            
+
+
             foreach($data_distribusi as $item)
             {
                 if($item['account_type'] == "ANGGOTA" || $item['account_type'] == "PENGELOLAH" || $item['account_type'] == "PENGURUS") 
@@ -291,13 +293,13 @@ class SHUTahunanRepositories {
                     $bmt_rekening = BMT::where('nama', $item['account_type'])->first();
                     $detailToPenyimpananBMT = [
                         "jumlah"           => $item['porsi_shu'],
-                        "saldo_awal"       => $bmt_tabungan->saldo,
-                        "saldo_akhir"      => $bmt_tabungan->saldo + $item['porsi_shu'],
+                        "saldo_awal"       => $bmt_rekening->saldo,
+                        "saldo_akhir"      => $bmt_rekening->saldo + $item['porsi_shu'],
                         "id_pengajuan"     => null
                     ];
                     $dataPenyimpananBMT = [
-                        "id_user"       => $user->id,
-                        "id_bmt"        => $bmt_tabungan->id,
+                        "id_user"       => Auth::user()->id,
+                        "id_bmt"        => $bmt_rekening->id,
                         "status"        => "Distribusi SHU",
                         "transaksi"     => $detailToPenyimpananBMT,
                         "teller"        => Auth::user()->id
