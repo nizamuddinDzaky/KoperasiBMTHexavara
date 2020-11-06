@@ -20,7 +20,7 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Laporan Perubahan Quitas</h4>
+                <h4 class="title">Laporan Perubahan Equitas</h4>
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
@@ -40,8 +40,8 @@
                 <div class="card">
 
                     <div class="header text-center">
-                        <h4 id="titlePrint" class="title"><b>Perubahan Quitas</b> </h4>
-                        <p id="titlePrint2" class="category">Laporan Perubahan Quitas periode {{date("F Y")}}</p>
+                        <h4 id="titlePrint" class="title"><b>Perubahan Equitas</b> </h4>
+                        <p id="titlePrint2" class="category">Laporan Perubahan Equitas periode {{date("F Y")}}</p>
                             <br />
                     </div>
 

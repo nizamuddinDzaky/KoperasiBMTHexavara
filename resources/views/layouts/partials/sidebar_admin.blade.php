@@ -97,7 +97,7 @@
             <li class="@if(Request::is('admin/laporan/neraca')) active @endif"><a href="{{route('neraca')}}">Neraca Saldo</a></li>
             <li class="@if(Request::is('admin/laporan/laba_rugi')) active @endif"><a href="{{route('laba_rugi')}}">Laporan SHU</a></li>
             <li class="@if(Request::is('admin/laporan/shu')) active @endif"><a href="{{route('shu')}}">Distribusi SHU Tahunan</a></li>
-            <li class="@if(Request::is('admin/laporan/quitas')) active @endif"><a href="{{route('quitas')}}">Laporan Perubahan Quitas</a></li>
+            <li class="@if(Request::is('admin/laporan/quitas')) active @endif"><a href="{{route('quitas')}}">Laporan Perubahan Equitas</a></li>
 {{--            <li class="@if(Request::is('admin/laporan/saldo_donasi')) active @endif"><a href="{{route('admin.saldo.donasi')}}">Saldo Donasi</a></li>--}}
 {{--            <li class="@if(Request::is('admin/laporan/saldo_wakaf')) active @endif"><a href="{{route('admin.saldo.wakaf')}}">Saldo Wakaf</a></li>--}}
             <li class="@if(Request::is('admin/laporan/keuangan*')) active @endif"><a href="{{route('admin.laporan.keuangan')}}">Catatan Laporan Keuangan</a></li>
