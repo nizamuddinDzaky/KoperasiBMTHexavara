@@ -735,8 +735,10 @@ class LaporanController extends Controller
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
 
+        $dropdownPencairan =  $this->informationRepository->getDdPencairan();
 
-        return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul', 'notification', 'notification_count'));
+
+        return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul', 'notification', 'notification_count', 'dropdownPencairan'));
     }
 
     public function saldo_donasi(Request $request) {

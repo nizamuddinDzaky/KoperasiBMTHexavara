@@ -198,4 +198,25 @@ class MaalController extends Controller
         }
 
     }
+
+    public function pencairanZis(Request $request){
+        if (floatval(str_replace(',',"",$request->jumlahPencairan)) > floatval(str_replace(',',"",$request->danaTersisa)))
+        {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Jumlah pencairan tidak boleh melebihi dana yang tersisa!');
+        }
+
+        if($this->informationRepository->pencairanDonasiZis($request)) {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Dana Donasi Zis berhasil dicairkan!'));
+        }
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Dana Donasi Zis gagal dicairkan!');
+        }
+
+    }
 }

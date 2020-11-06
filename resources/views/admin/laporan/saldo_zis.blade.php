@@ -32,7 +32,15 @@
 
                 <div class="head-noted right">
                     <span>Saldo ZIS Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul > 0 ? $saldo_terkumpul : 0, 2) }}</b></span>
+                    @if(Auth::user()->tipe=="admin")
+                        <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" title="Pencairan Dana"  data-target="#pencairanZisModal"
+                                data-tersisa = "{{ number_format($saldo_terkumpul,2) }}">
+                            <i class="fa fa-usd"></i> Pencairan ZIS
+                        </button>
+                    @endif
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -45,8 +53,10 @@
                 <div class="header text-center">
                     <h4 id="titlePrint" class="title"><b>Saldo ZIS</b> </h4>
                     <p id="titlePrint2" class="category">Laporan Saldo ZIS</p>
-                    <br />
+                    <br/>
                 </div>
+
+
 
                 <table class="table bootstrap-table-asc">
                     <thead>
@@ -88,6 +98,10 @@
     </div>
 @endsection
 
+@section('modal')
+    @include('modal.zis')
+@endsection
+
 @section('extra_script')
 
 
@@ -102,6 +116,64 @@
     </script>
 
     <script type="text/javascript">
+        $('#pencairanZisModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            $('#danaTersisa').val(button.data('tersisa'));
+        });
+
+        $('#wizardCardP').bootstrapWizard({
+            tabClass: 'nav nav-pills',
+            nextSelector: '.btn-next',
+            previousSelector: '.btn-back',
+            onNext: function(tab, navigation, index) {
+                var $valid = $('#wizardFormP').valid();
+
+                if(!$valid) {
+                    $validator.focusInvalid();
+                    return false;
+                }
+            },
+            onInit : function(tab, navigation, index){
+
+                //check number of tabs and fill the entire row
+                var $total = navigation.find('li').length;
+                $width = 100/$total;
+
+                $display_width = $(document).width();
+
+                if($display_width < 600 && $total > 3){
+                    $width = 50;
+                }
+
+                navigation.find('li').css('width',$width + '%');
+            },
+            onTabClick : function(tab, navigation, index){
+                // Disable the posibility to click on tabs
+                return false;
+            },
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index+1;
+
+                var wizard = navigation.closest('.card-wizard');
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if($current >= $total) {
+                    $(wizard).find('.btn-next').hide();
+                    $(wizard).find('.btn-finish').show();
+                } else if($current == 1){
+                    $(wizard).find('.btn-back').hide();
+                } else {
+                    $(wizard).find('.btn-back').show();
+                    $(wizard).find('.btn-next').show();
+                    $(wizard).find('.btn-finish').hide();
+                }
+            }
+
+        });
+
         var $table = $('#bootstrap-table');
         function readURL5(input) {
             if (input.files && input.files[0]) {

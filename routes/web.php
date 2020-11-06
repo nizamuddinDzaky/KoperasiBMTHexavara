@@ -846,6 +846,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'admin.maal.pencairan',
             'uses'      => 'MaalController@pencairan'
         ]);
+
+        Route::post('/pencairanzis', [
+            'as'        => 'admin.maal.pencairan.zis',
+            'uses'      => 'MaalController@pencairanZis'
+        ]);
+
         Route::post('/edit', [
                     'as'        => 'edit.kegiatan',
                     'uses'      => 'MaalController@edit_kegiatan'
