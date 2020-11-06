@@ -68,6 +68,7 @@
                             <th> Nama </th>
                             <th> Simpanan Wajib</th>
                             <th> Simpanan Pokok</th>
+                            <th> Simpanan Khusus</th>
                             <th> Margin</th>
                             <th> SHU Pengelolah</th>
                             <th> SHU Pengurus</th>
@@ -92,6 +93,7 @@
 
                                         <td class="text-right">{{number_format(floatval($value->simpanan_wajib),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->simpanan_pokok),2) }}</td>
+                                        <td class="text-right">{{number_format(floatval($value->simpanan_khusus),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->margin),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->shu_pengelola),2) }}</td>
                                         <td class="text-right">{{number_format(floatval($value->shu_pengurus),2) }}</td>
@@ -119,6 +121,7 @@
                                 <tr>
                                     <td></td>
                                     <td class="text-center text-uppercase"><h5>Total SHU Anggota </h5></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
