@@ -228,7 +228,7 @@ class DatamasterController extends Controller
     }
 
     public function edit_profile(Request $request){
-        if($request->admin=="admin"){
+        if($request->no_ktp=="admin"){
             $request->validate([
                 'nama' => 'required|string|max:255',
                 'alamat' => 'required|string|max:255',
@@ -242,6 +242,7 @@ class DatamasterController extends Controller
             ]);
         }
         $inputUser = $this->informationRepository->getAnggota($request->no_ktp);
+
         if (!$inputUser) {
             $inputUser = New User();
             $inputUser->no_ktp= $request['no_ktp'];

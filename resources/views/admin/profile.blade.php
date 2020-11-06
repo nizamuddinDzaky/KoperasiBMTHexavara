@@ -49,7 +49,7 @@
 								{{csrf_field()}}
 								<div class="modal-body">
 									@if($data['no_ktp']=="admin")
-									<input type="hidden" id="no_ktp" name="admin" value="{{ $data['no_ktp'] }}">
+									<input type="hidden" id="no_ktp" name="no_ktp" value="{{ $data['no_ktp'] }}">
 									<div class="row">
 										<div class="form-group col-md-6{{ $errors->has('no_ktp') ? 'errors' : '' }}">
 											<label for="idUsr" class="control-label">Username </label>
