@@ -35,7 +35,7 @@
                     @if(Auth::user()->tipe=="admin")
                         <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" title="Pencairan Dana"  data-target="#pencairanZisModal"
                                 data-tersisa = "{{ number_format($saldo_terkumpul,2) }}">
-                            <i class="fa fa-usd"></i> Pencairan ZIS
+                             Pencairan ZIS
                         </button>
                     @endif
 
