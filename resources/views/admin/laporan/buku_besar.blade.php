@@ -164,7 +164,12 @@
                                 <tr>
                                     <td></td>
                                     <td>{{ $usr->created_at->format("D, d F Y H:i:s") }}</td>
-                                    <td style="text-transform: uppercase">{{ $usr->nama_user }}</td>
+                                    @if($usr->nama_user == "Umum")
+                                        <td style="text-transform: uppercase">{{ json_decode($usr->transaksi)->nama }}</td>
+                                    @else
+                                        <td style="text-transform: uppercase">{{ $usr->nama_user }}</td>
+                                        @endif
+
                                     
                                     @if($usr->status == "Debit")
                                     <td>Setoran Tabungan</td>
