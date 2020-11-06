@@ -58,7 +58,7 @@
     </nav>
 
     <div class="row package" style="text-align: center" >
-            <img src="{{asset('images/bmtmuda.jpeg')}}" class="bmtmuda" alt="bmtmuda" style="height: auto; width: 100%">
+            <img src="{{asset('images/bmtmuda.jpeg')}}" class="bmtmuda" alt="bmtmuda" style="height: auto; width: 50%">
             <button type="button" class="btn btn-lg btn-primary buttonZis" data-toggle="modal" data-target="#donasiZis">Pembayaran ZIS<i class="fa fa-external-link-alt"></i></button>
     </div>
 
