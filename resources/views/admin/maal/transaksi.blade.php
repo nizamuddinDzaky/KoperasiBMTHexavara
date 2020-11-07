@@ -18,10 +18,11 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <h4 class="title">Riwayat Transaksi Maal</h4>
-
+                @if(Auth::user()->tipe != "anggota")
                 <div class="head-noted right">
                     <span>Saldo Maal Terkumpul = <b> Rp. {{ number_format($saldo_terkumpul->saldo> 0 ? $saldo_terkumpul->saldo : 0, 2) }}</b></span>
                 </div>
+                    @endif
             </div>
         </div>
     </div>

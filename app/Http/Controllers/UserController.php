@@ -898,13 +898,12 @@ class UserController extends Controller
 
     public function transaksi_maal(){
         $notification = $this->pengajuanReporsitory->getNotification();
-        $saldo = BMT::where('id',335)->select('saldo')->first();
+
         
         return view('admin.maal.transaksi',[
             'notification' => $notification,
             'notification_count' =>count($notification),
             'data' =>$this->informationRepository->getAllPenyimpananMaalUsr(),
-            'saldo_terkumpul' => $saldo
         ]);
     }
 
@@ -912,12 +911,12 @@ class UserController extends Controller
         $notification = $this->pengajuanReporsitory->getNotification();
 //        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
         $riwayat_waqaf = $this->informationRepository->getAllPenyimpananWakafUsr();
-        $saldo = BMT::where('id',336)->select('saldo')->first();
+
         return view('admin.wakaf.transaksi',[
             'notification' => $notification,
             'notification_count' =>count($notification),
             'riwayat_wakaf' =>$riwayat_waqaf,
-            'saldo_terkumpul' => $saldo
+
         ]);
     }
 
