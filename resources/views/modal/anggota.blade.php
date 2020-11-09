@@ -26,6 +26,7 @@
                             <option value="anggota">Anggota</option>
                             <option value="pengurus">Pengurus</option>
                             <option value="pengelolah">Pengelolah</option>
+                            <option value="pengelolah&pengurus">Pengelolah & Pengurus</option>
                         </select>
                     </div>
 
@@ -145,6 +146,7 @@
                             <option value="anggota">Anggota</option>
                             <option value="pengurus">Pengurus</option>
                             <option value="pengelolah">Pengelolah</option>
+                            <option value="pengelolah&pengurus">Pengelolah & Pengurus</option>
                         </select>
                     </div>
 

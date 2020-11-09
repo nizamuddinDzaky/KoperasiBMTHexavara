@@ -569,6 +569,7 @@ class LaporanController extends Controller
     public function rekening_buku(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
+
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
             'notification' => $notification,
@@ -735,10 +736,8 @@ class LaporanController extends Controller
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
 
-        $dropdownPencairan =  $this->informationRepository->getDdPencairan();
 
-
-        return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul', 'notification', 'notification_count', 'dropdownPencairan'));
+        return view('admin.laporan.saldo_zis', compact('data_zis', 'saldo_terkumpul', 'notification', 'notification_count'));
     }
 
     public function saldo_donasi(Request $request) {
