@@ -321,32 +321,32 @@ class LaporanController extends Controller
         $date = $home->MonthShifter(0)->format(('Ym'));
         foreach ($laba as $dt){
             $dt['point'] = substr_count($dt->id_bmt, '.');
-            $rekening = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
-            if(!isset($rekening)){
-                $rek = new PenyimpananRekening();
-                $rek->id_rekening = $dt->id_rekening;
-                $rek->periode = $date;
-                $rek->saldo = $dt->saldo;
-                if($rek->save());
-            }else{
-                $rekening->saldo = $dt->saldo;
-                if($rekening->save());
-            }
+//            $rekening = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
+//            if(!isset($rekening)){
+//                $rek = new PenyimpananRekening();
+//                $rek->id_rekening = $dt->id_rekening;
+//                $rek->periode = $date;
+//                $rek->saldo = $dt->saldo;
+//                if($rek->save());
+//            }else{
+//                $rekening->saldo = $dt->saldo;
+//                if($rekening->save());
+//            }
             $sum_laba += floatval($dt->saldo);
         }
         foreach ($rugi as $dt){
             $dt['point'] = substr_count($dt->id_bmt, '.');
-            $rekening = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
-            if(!isset($rekening)){
-                $rek = new PenyimpananRekening();
-                $rek->id_rekening = $dt->id_rekening;
-                $rek->periode = $date;
-                $rek->saldo = $dt->saldo;
-                if($rek->save());
-            }else {
-                $rekening->saldo = $dt->saldo;
-                if($rekening->save());
-            }
+//            $rekening = PenyimpananRekening::where('id_rekening',$dt->id_rekening)->where('periode',$date)->first();
+//            if(!isset($rekening)){
+//                $rek = new PenyimpananRekening();
+//                $rek->id_rekening = $dt->id_rekening;
+//                $rek->periode = $date;
+//                $rek->saldo = $dt->saldo;
+//                if($rek->save());
+//            }else {
+//                $rekening->saldo = $dt->saldo;
+//                if($rekening->save());
+//            }
             $sum_rugi += floatval($dt->saldo);
         }
 
@@ -394,12 +394,15 @@ class LaporanController extends Controller
     public function periode_laba_rugi(Request $request){
         $data = $this->periode_labarugi($request->periode);
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.laba_rugi',[
             'data' => $data['laba'],
             'data2' => $data['rugi'],
             'laba' =>$data['sum_laba'],
             'rugi' =>$data['sum_rugi'],
             'periode' =>$periode,
+            'notification' => $notification,
+            'notification_count' =>count($notification),
         ]);
     }
 

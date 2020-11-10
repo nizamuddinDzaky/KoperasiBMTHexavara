@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+use App\Http\Controllers\HomeController;
 use App\PenyimpananDeposito;
 use App\PenyimpananTabungan;
 use App\User;
@@ -17,7 +18,9 @@ use App\Repositories\TabunganReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\SimpananReporsitory;
 use App\Repositories\DepositoReporsitories;
+use App\Repositories\InformationRepository;
 use App\PenyimpananBMT;
+use App\PenyimpananRekening;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\DeclareDeclare;
 
@@ -26,13 +29,15 @@ class DistribusiPendapatanReporsitories {
     public function __construct(RekeningReporsitories $rekeningReporsitory,
                                 TabunganReporsitories $tabunganReporsitory,
                                 SimpananReporsitory $simpananReporsitory,
-                                DepositoReporsitories $depositoReporsitory
+                                DepositoReporsitories $depositoReporsitory,
+                                InformationRepository $informationRepository
                                 ) 
     {
         $this->rekeningReporsitory = $rekeningReporsitory;
         $this->tabunganReporsitory = $tabunganReporsitory;
         $this->simpananReporsitory = $simpananReporsitory;
         $this->depositoReporsitory = $depositoReporsitory;
+        $this->informationRepository = $informationRepository;
     }
 
     /** 
@@ -370,6 +375,8 @@ class DistribusiPendapatanReporsitories {
         DB::beginTransaction();
         try
         {
+
+            $this->insertPenyimpananRekening();
 
             if($data->jenis == "net_profit") {
                 $data_distribusi = [
@@ -1319,6 +1326,51 @@ class DistribusiPendapatanReporsitories {
         }
 
         return $saldo;
+
+    }
+
+
+    public function insertPenyimpananRekening(){
+        $laba = $this->informationRepository->getPendapatan();
+        $rugi = $this->informationRepository->getRugi();
+        $aktiva = $this->informationRepository->getAktiva();
+        $pasiva = $this->informationRepository->getPasiva();
+
+        $home = new HomeController();
+        $date = $home->MonthShifter(0)->format(('Ym'));
+
+        foreach ($laba as $dt){
+            $rek = new PenyimpananRekening();
+            $rek->id_rekening = $dt->id_rekening;
+            $rek->periode = $date;
+            $rek->saldo = $dt->saldo;
+            $rek->save();
+        }
+
+        foreach ($rugi as $dt){
+            $rek = new PenyimpananRekening();
+            $rek->id_rekening = $dt->id_rekening;
+            $rek->periode = $date;
+            $rek->saldo = $dt->saldo;
+            $rek->save();
+        }
+
+        foreach ($aktiva as $dt){
+            $rek = new PenyimpananRekening();
+            $rek->id_rekening = $dt->id_rekening;
+            $rek->periode = $date;
+            $rek->saldo = $dt->saldo;
+            $rek->save();
+        }
+
+        foreach ($pasiva as $dt){
+            $rek = new PenyimpananRekening();
+            $rek->id_rekening = $dt['id_rekening'];
+            $rek->periode = $date;
+            $rek->saldo = $dt['saldo'];
+            $rek->save();
+        }
+
 
     }
 
