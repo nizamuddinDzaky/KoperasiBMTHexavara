@@ -484,12 +484,13 @@ class LaporanController extends Controller
 
         // return response()->json($data2);
         $statusNeraca = true;
-        if($aktiva != $pasiva)
-        {
-            $statusNeraca = false;
+
+        if (abs($aktiva-$pasiva) > 0.00001) {
+            $statusNeraca =false;
         }
+
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+
         return view('admin.laporan.neraca',[
             'notification' => $notification,
             'notification_count' =>count($notification),

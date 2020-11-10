@@ -69,6 +69,37 @@ class DistribusiPendapatanReporsitories {
         $total_pendapatan = $this->getRekeningPendapatan("saldo");
         $total_pendapatan_product = 0;
 
+        $total_porsi_anggota = 0;
+        $total_porsi_bmt = 0;
+
+
+        foreach($rekening_tabungan as $tab)
+        {
+            $rata_rata =  $this->getSaldoAverageProduct($tab->id_bmt);
+            $nisbah_anggota = json_decode($tab->detail)->nisbah_anggota;
+            $nisbah_bmt = 100 - json_decode($tab->detail)->nisbah_anggota;
+            $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
+
+            $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+            $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
+
+        }
+
+        foreach($rekening_deposito as $dep)
+        {
+            $rata_rata =  $this->getSaldoAverageProduct($dep->id_bmt);
+            $nisbah_anggota = json_decode($dep->detail)->nisbah_anggota;
+            $nisbah_bmt = 100 - json_decode($dep->detail)->nisbah_anggota;
+            $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
+
+            $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+            $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
+        }
+
+        $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+        $selisihBMTAnggota = $shuBerjalan->saldo - $total_porsi_anggota;
+
+
         foreach($rekening_tabungan as $tab)
         {
             $tabungan = $this->tabunganReporsitory->getTabungan($tab->nama_rekening);
@@ -78,6 +109,16 @@ class DistribusiPendapatanReporsitories {
             $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
 
             $total_pendapatan_product += $pendapatan_product;
+
+            if ($total_porsi_bmt == 0)
+            {
+                $porsi_bmt = 0;
+            }
+            else
+            {
+                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product) / $total_porsi_bmt * $selisihBMTAnggota;
+
+            }
 
             array_push($data_rekening, [ 
                 "jenis_rekening"    => $tab->nama_rekening,
@@ -89,7 +130,7 @@ class DistribusiPendapatanReporsitories {
                 "total_pendapatan"  => $total_pendapatan,
                 "pendapatan_product" => $pendapatan_product,
                 "porsi_anggota"     => $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product),
-                "porsi_bmt"         => $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product),
+                "porsi_bmt"         => $porsi_bmt,
                 "percentage_anggota" => $total_pendapatan > 0 ?$this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product) / $total_pendapatan : 0
             ]);
         }
@@ -103,7 +144,15 @@ class DistribusiPendapatanReporsitories {
             $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
 
             $total_pendapatan_product += $pendapatan_product;
+            if ($total_porsi_bmt == 0)
+            {
+                $porsi_bmt = 0;
+            }
+            else
+            {
+                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product) / $total_porsi_bmt * $selisihBMTAnggota;
 
+            }
             array_push($data_rekening, [
                 "jenis_rekening" => $dep->nama_rekening,
                 "jumlah"         => count($deposito),
@@ -114,7 +163,7 @@ class DistribusiPendapatanReporsitories {
                 "total_pendapatan"  => $total_pendapatan,
                 "pendapatan_product" => $pendapatan_product,
                 "porsi_anggota"     => $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product),
-                "porsi_bmt"         => $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product)
+                "porsi_bmt"         => $porsi_bmt
             ]);
         }
 
@@ -439,6 +488,7 @@ class DistribusiPendapatanReporsitories {
 
             $total_pendapatan_product = 0;
             $total_porsi_bmt = 0;
+            $total_porsi_anggota = 0;
 
 
             $pendapatan_product = array();
@@ -457,6 +507,7 @@ class DistribusiPendapatanReporsitories {
                 $nisbah_bmt = 100 - json_decode($tab->detail)->nisbah_anggota;
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan); // untuk cari pendapatan per produk
                 $porsi_anggota = $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
                 $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
 
                 foreach($tabungan as $user_tabungan)
@@ -533,6 +584,7 @@ class DistribusiPendapatanReporsitories {
                 $nisbah_bmt = 100 - json_decode($dep->detail)->nisbah_anggota;
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
                 $porsi_anggota = $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
                 $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
 
 
@@ -638,6 +690,50 @@ class DistribusiPendapatanReporsitories {
                 }
             }
 
+            $shu_yang_harus_dibagikan = BMT::where('nama', 'SHU YANG HARUS DIBAGIKAN')->first();
+            $shu_berjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+            $selisihBMTAnggota = $shu_berjalan->saldo - $total_porsi_anggota;
+
+            if ($data->jenis == "revenue"){
+                $detailToPenyimpananBMT = [
+                    "jumlah"        => $total_porsi_bmt,
+                    "saldo_awal"    => $shu_yang_harus_dibagikan->saldo,
+                    "saldo_akhir"   => $shu_yang_harus_dibagikan->saldo + $selisihBMTAnggota,
+                    "id_pengajuan"  => null
+                ];
+            }
+            else
+            {
+                $detailToPenyimpananBMT = [
+                    "jumlah"        => $total_porsi_bmt,
+                    "saldo_awal"    => $shu_yang_harus_dibagikan->saldo,
+                    "saldo_akhir"   => $shu_yang_harus_dibagikan->saldo + $total_porsi_bmt,
+                    "id_pengajuan"  => null
+                ];
+            }
+
+
+            $dataToPenyimpananBMT = [
+                "id_user"   => Auth::user()->id,
+                "id_bmt"    => $shu_yang_harus_dibagikan->id,
+                "status"    => "Distribusi Pendapatan",
+                "transaksi" => $detailToPenyimpananBMT,
+                "teller"    => Auth::user()->id
+            ];
+
+            $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+            if ($data->jenis == "revenue")
+            {
+                $shu_yang_harus_dibagikan->saldo = $shu_yang_harus_dibagikan->saldo + $selisihBMTAnggota;
+                $shu_yang_harus_dibagikan->save();
+            }
+            else
+            {
+                $shu_yang_harus_dibagikan->saldo = $shu_yang_harus_dibagikan->saldo + $total_porsi_bmt;
+                $shu_yang_harus_dibagikan->save();
+            }
+
             if($data->jenis == "net_profit")
             {
                 $bmt_rekening_biaya_dan_pendapatan = BMT::where('id_bmt', 'like', '5%')->orWhere('id_bmt', 'like', '4%')->get();
@@ -668,11 +764,12 @@ class DistribusiPendapatanReporsitories {
 
             if($data->jenis == "revenue")
             {
+
                 $bmt_shu_berjalan = BMT::where('nama', 'SHU BERJALAN')->first();
                 $detailToPenyimpananBMT = [
                     "jumlah"        => $total_pendapatan,
                     "saldo_awal"    => $bmt_shu_berjalan->saldo,
-                    "saldo_akhir"   => $bmt_shu_berjalan->saldo - $total_pendapatan,
+                    "saldo_akhir"   => $bmt_shu_berjalan->saldo - $bmt_shu_berjalan->saldo,
                     "id_pengajuan"  => null
                 ];
                 $dataToPenyimpananBMT = [
@@ -683,28 +780,13 @@ class DistribusiPendapatanReporsitories {
                     "teller"    => Auth::user()->id
                 ];
                 $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
-                $bmt_shu_berjalan->saldo = $bmt_shu_berjalan->saldo - $total_pendapatan;
+                $bmt_shu_berjalan->saldo = $bmt_shu_berjalan->saldo - $bmt_shu_berjalan->saldo;
                 $bmt_shu_berjalan->save();
             }
 
-            $shu_yang_harus_dibagikan = BMT::where('nama', 'SHU YANG HARUS DIBAGIKAN')->first();
-            $detailToPenyimpananBMT = [
-                "jumlah"        => $total_porsi_bmt,
-                "saldo_awal"    => $shu_yang_harus_dibagikan->saldo,
-                "saldo_akhir"   => $shu_yang_harus_dibagikan->saldo + $total_porsi_bmt,
-                "id_pengajuan"  => null
-            ];
-            $dataToPenyimpananBMT = [
-                "id_user"   => Auth::user()->id,
-                "id_bmt"    => $shu_yang_harus_dibagikan->id,
-                "status"    => "Distribusi Pendapatan",
-                "transaksi" => $detailToPenyimpananBMT,
-                "teller"    => Auth::user()->id
-            ];
 
-            $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
-            $shu_yang_harus_dibagikan->saldo = $shu_yang_harus_dibagikan->saldo + $total_porsi_bmt;
-            $shu_yang_harus_dibagikan->save();
+
+
 
             DB::commit();
             $response = array("type" => "success", "message" => "Pendistribusian Pendapatan Berhasil Dilakukan.");
