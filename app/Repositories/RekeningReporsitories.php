@@ -141,10 +141,16 @@ class RekeningReporsitories {
                     $saldo_pengirim['saldo'] = 0;
                 }
 
+                if($data['tipe'] == 1) {
+                    $saldoAkhir = floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']);
+                }
+                else{
+                    $saldoAkhir = floatval($saldo_penerima['saldo']) - preg_replace('/[^\d.]/', '', $data['jumlah']);
+                }
                 $detail = [
                     "jumlah"    => preg_replace('/[^\d.]/', '', $data['jumlah']),
                     "saldo_awal"=> floatval($saldo_penerima['saldo']),
-                    "saldo_akhir" => floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']),
+                    "saldo_akhir" => $saldoAkhir,
                     "dari"      => $dari,
                     "ke"    => $ke,
                     "keterangan"=> $keterangan
