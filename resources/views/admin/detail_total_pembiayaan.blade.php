@@ -46,19 +46,25 @@
                         <th class="text-left">ID</th>
                         <th>Nama</th>
                         <th>Total Pinjaman</th>
+                        <th>Pokok Terbayar</th>
+                        <th>Sisa Pokok</th>
                         </thead>
                         <tbody>
-                        @foreach($data as $item)
+                        @foreach($data as $keys => $item)
                             <tr>
                                 <td class="text-left">{{ $item->no_ktp }}</td>
                                 <td class="text-left">{{ $item->nama  }}</td>
                                 <td class="text-left">{{number_format(floatval(json_decode($item->detail)->pinjaman),2) }}</td>
+                                <td class="text-left">{{number_format(floatval($pokokTerbayar[$keys]),2) }}</td>
+                                <td class="text-left">{{number_format(floatval(json_decode($item->detail)->sisa_angsuran),2) }}</td>
                             </tr>
                         @endforeach
                         <tr>
                             <td class="text-left"></td>
                             <td style="font-weight: bold">TOTAL</td>
                             <td class="text-left" style="font-weight: bold">{{number_format(floatval($total),2) }}</td>
+                            <td class="text-left"></td>
+                            <td class="text-left"></td>
                         </tr>
                 </div> <!-- end col-md-12 -->
             </div> <!-- end row -->

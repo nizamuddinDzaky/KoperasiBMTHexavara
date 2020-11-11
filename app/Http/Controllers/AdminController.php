@@ -112,7 +112,7 @@ class AdminController extends Controller
         $total_pembiayaan = 0;
         foreach($pembiayaan as $pembiayaan)
         {
-            $total_pembiayaan += json_decode($pembiayaan['detail'])->pinjaman;
+            $total_pembiayaan += json_decode($pembiayaan['detail'])->sisa_angsuran;
         }
 
         $teller = Rekening::where([ ['id_rekening', 'like', '3.2%'], ['tipe_rekening', '!=', 'induk'] ])->get();
@@ -1547,7 +1547,7 @@ class AdminController extends Controller
 
 
         $data = DB::table('pembiayaan')
-            ->select(DB::raw('SUM(JSON_EXTRACT(detail, "$.pinjaman")) AS saldo, jenis_pembiayaan as nama,count(id_user) as jumlah'))
+            ->select(DB::raw('SUM(JSON_EXTRACT(detail, "$.sisa_angsuran")) AS saldo, jenis_pembiayaan as nama,count(id_user) as jumlah'))
             ->where('status', '=', 'active')
             ->groupBy('jenis_pembiayaan')
             ->get();
@@ -1573,14 +1573,20 @@ class AdminController extends Controller
             ->where('p.jenis_pembiayaan', $nama)
             ->get();
 
+
         $nama = explode(" ", $nama);
         $nama = $nama[1];
 
         $total_pembiayaan = 0.0;
-
+        $pokokTerbayar = array();
         foreach($data as $item)
         {
             $total_pembiayaan += json_decode($item->detail)->pinjaman;
+        }
+
+        foreach($data as $keys => $item){
+            $result = json_decode($item->detail)->pinjaman - json_decode($item->detail)->sisa_angsuran;
+            array_push($pokokTerbayar, $result);
         }
 
         $notification = $this->pengajuanReporsitory->getNotification();
@@ -1589,7 +1595,8 @@ class AdminController extends Controller
             'notification_count' =>count($notification),
             'data' => $data,
             'total' => $total_pembiayaan,
-            'jenis' => $nama
+            'jenis' => $nama,
+            'pokokTerbayar' => $pokokTerbayar
         ]);
 
     }
