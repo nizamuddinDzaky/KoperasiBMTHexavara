@@ -1554,7 +1554,7 @@ class AdminController extends Controller
 
         foreach($pembiayaan as $pembiayaan)
         {
-            $total_pembiayaan += json_decode($pembiayaan['detail'])->pinjaman;
+            $total_pembiayaan += json_decode($pembiayaan['detail'])->sisa_angsuran;
         }
 
         return view('admin.total_pembiayaan',[
