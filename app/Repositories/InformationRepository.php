@@ -2060,7 +2060,7 @@ class InformationRepository
 //    SETORAN AWAL REKENING
     function setoranAwal($detail,$data){
 
-        
+
         $id_pengajuan = $data['id_pengajuan'];
         $status_pengajuan = "Sudah Dikonfirmasi";
         //        DETAIL P_TABUNGAN, P_DEPOSITO, P_PEMBIAYAAN
@@ -2236,15 +2236,24 @@ class InformationRepository
         }
 
         try {
-            DB::select('CALL sp_create_(?,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,?, ?,?,?,?,? ,?,?)', array(
-                $data['tipe'], $id_UsrTDP, $data['jenis_TDP'], intval($id_TDP),Auth::user()->id,
+//            DB::select('CALL sp_create_(?,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,?, ?,?,?,?,? ,?,?)', array(
+//                $data['tipe'], $id_UsrTDP, $data['jenis_TDP'], intval($id_TDP),Auth::user()->id,
+//                json_encode($detail_pasiva), json_encode($detail_activa), json_encode($detail_PTDP), json_encode($detail_TDP),
+//                $saldo_activa, $saldo_pasiva,$status_pengajuan,
+//                intval($id_activa), intval($id_pasiva), intval($id_user), intval($id_pengajuan),
+//                intval($id_margin), json_encode($detail_margin), floatval($jumlah_margin), json_encode($detail_user),
+//                json_encode($detail_pokok), json_encode($detail_wajib), floatval($saldo_pokok), floatval($saldo_wajib),
+//                json_encode($detail_simP),json_encode($detail_simW),intval($id_jam),json_encode($detail_jaminan)
+//            ));
+
+            $this->spCreate($data['tipe'], $id_UsrTDP, $data['jenis_TDP'], intval($id_TDP),Auth::user()->id,
                 json_encode($detail_pasiva), json_encode($detail_activa), json_encode($detail_PTDP), json_encode($detail_TDP),
                 $saldo_activa, $saldo_pasiva,$status_pengajuan,
                 intval($id_activa), intval($id_pasiva), intval($id_user), intval($id_pengajuan),
                 intval($id_margin), json_encode($detail_margin), floatval($jumlah_margin), json_encode($detail_user),
                 json_encode($detail_pokok), json_encode($detail_wajib), floatval($saldo_pokok), floatval($saldo_wajib),
-                json_encode($detail_simP),json_encode($detail_simW),intval($id_jam),json_encode($detail_jaminan)
-            ));
+                json_encode($detail_simP),json_encode($detail_simW),intval($id_jam),json_encode($detail_jaminan));
+
             //teller
             $this->UpdateSaldoPemyimpanan($activa['id_rekening'],$detail_activa['jumlah']);
             //pasiva
@@ -4690,6 +4699,364 @@ class InformationRepository
             return false;
         }
 
+    }
+
+
+
+
+    public function spCreate($tipe,$id_usrtab,$jenis_tabungan, $id_rektab,$teller, $detail_pasiva, $detail_activa, $detail_ptabungan,$detail_tabungan, $saldo_activa, $saldo_pasiva, $status_pengajuan,$id_activa, $id_pasiva, $id_user, $id_pengajuan, $id_margin, $detail_margin, $jumlah_margin, $detail_user, $detail_pokok, $detail_wajib, $saldo_pokok, $saldo_wajib, $detail_simp, $detail_simw, $id_jam, $detail_jam )
+    {
+
+        if($tipe == "Tabungan"){
+            $tabungan = new Tabungan();
+            $tabungan->id_tabungan = $id_usrtab;
+            $tabungan->id_rekening =$id_rektab;
+            $tabungan->id_user= $id_user;
+            $tabungan->id_pengajuan= $id_pengajuan;
+            $tabungan->jenis_tabungan= $jenis_tabungan;
+            $tabungan->detail= $detail_tabungan;
+            $tabungan->status= "active";
+            if($tabungan->save()){
+                $penyimpananBMTActiva = new PenyimpananBMT();
+                $penyimpananBMTActiva->id_user= $id_user ;
+                $penyimpananBMTActiva->id_bmt= $id_activa ;
+                $penyimpananBMTActiva->status= "Setoran Awal" ;
+                $penyimpananBMTActiva->transaksi= $detail_activa ;
+                $penyimpananBMTActiva->teller= $teller ;
+
+                if($penyimpananBMTActiva->save())
+                {
+                    $penyimpananBMTPasiva = new PenyimpananBMT();
+                    $penyimpananBMTPasiva->id_user= $id_user ;
+                    $penyimpananBMTPasiva->id_bmt= $id_pasiva ;
+                    $penyimpananBMTPasiva->status= "Setoran Awal" ;
+                    $penyimpananBMTPasiva->transaksi= $detail_pasiva ;
+                    $penyimpananBMTPasiva->teller= $teller;
+
+                    if($penyimpananBMTPasiva->save())
+                    {
+                        $S_ACT = BMT::where('id', $id_activa)->select('saldo')->first();
+                        $S_PAS = BMT::where('id', $id_pasiva)->select('saldo')->first();
+
+                        $S_ACT = $S_ACT->saldo + $saldo_activa;
+                        $S_PAS = $S_PAS->saldo + $saldo_pasiva;
+
+                        BMT::where('id', $id_activa)->update(
+                            ["saldo" => $S_ACT,
+                        ]);
+
+                        BMT::where('id', $id_pasiva)->update(
+                            ["saldo" => $S_PAS,
+                            ]);
+
+                        $ID_TABU = Tabungan::where('id_tabungan', $id_usrtab)->select('id')->first();
+
+                        $penyimpananTabungan = new PenyimpananTabungan();
+                        $penyimpananTabungan->id_user =$id_user;
+                        $penyimpananTabungan->id_tabungan = $ID_TABU->id;
+                        $penyimpananTabungan->status = "Setoran Awal";
+                        $penyimpananTabungan->transaksi = $detail_ptabungan;
+                        $penyimpananTabungan->teller = $teller;
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+        }
+        else if($tipe == "Tabungan Awal") {
+            $tabungan = new Tabungan();
+            $tabungan->id_tabungan = $id_usrtab;
+            $tabungan->id_rekening = $id_rektab;
+            $tabungan->id_user = $id_user;
+            $tabungan->id_pengajuan = $id_pengajuan;
+            $tabungan->jenis_tabungan = $jenis_tabungan;
+            $tabungan->detail = $detail_tabungan;
+            $tabungan->status = "active";
+
+            if ($tabungan->save()) {
+                $penyimpananBMTActiva = new PenyimpananBMT();
+                $penyimpananBMTActiva->id_user = $id_user;
+                $penyimpananBMTActiva->id_bmt = $id_activa;
+                $penyimpananBMTActiva->status = "Setoran Awal";
+                $penyimpananBMTActiva->transaksi = $detail_activa;
+                $penyimpananBMTActiva->teller = $teller;
+
+                if ($penyimpananBMTActiva->save()) {
+                    $penyimpananBMTPasiva = new PenyimpananBMT();
+                    $penyimpananBMTPasiva->id_user = $id_user;
+                    $penyimpananBMTPasiva->id_bmt = $id_pasiva;
+                    $penyimpananBMTPasiva->status = "Setoran Awal";
+                    $penyimpananBMTPasiva->transaksi = $detail_pasiva;
+                    $penyimpananBMTPasiva->teller = $teller;
+
+                    if ($penyimpananBMTPasiva->save()) {
+                        $penyimpananBMTPokok = new PenyimpananBMT();
+                        $penyimpananBMTPokok->id_user = $id_user;
+                        $penyimpananBMTPokok->id_bmt = 339;
+                        $penyimpananBMTPokok->status = "Simpanan Pokok";
+                        $penyimpananBMTPokok->transaksi = $detail_pokok;
+                        $penyimpananBMTPokok->teller = $teller;
+                        $penyimpananBMTPokok->save();
+
+                        $penyimpananBMTWajib = new PenyimpananBMT();
+                        $penyimpananBMTWajib->id_user = $id_user;
+                        $penyimpananBMTWajib->id_bmt = 341;
+                        $penyimpananBMTWajib->status = "Simpanan Wajib";
+                        $penyimpananBMTWajib->transaksi = $detail_wajib;
+                        $penyimpananBMTWajib->teller = $teller;
+                        $penyimpananBMTWajib->save();
+
+                        $penyimpananWajibPokokPokok = new PenyimpananWajibPokok();
+                        $penyimpananWajibPokokPokok->id_user = $id_user;
+                        $penyimpananWajibPokokPokok->id_bmt = 117;
+                        $penyimpananWajibPokokPokok->status = "Simpanan Pokok";
+                        $penyimpananWajibPokokPokok->transaksi = $detail_simp;
+                        $penyimpananWajibPokokPokok->teller = $teller;
+                        $penyimpananWajibPokokPokok->save();
+
+                        $penyimpananWajibPokokWajib = new PenyimpananWajibPokok();
+                        $penyimpananWajibPokokWajib->id_user = $id_user;
+                        $penyimpananWajibPokokWajib->id_bmt = 119;
+                        $penyimpananWajibPokokWajib->status = "Simpanan Wajib";
+                        $penyimpananWajibPokokWajib->transaksi = $detail_simw;
+                        $penyimpananWajibPokokWajib->teller = $teller;
+                        $penyimpananWajibPokokWajib->save();
+
+                        $S_ACT = BMT::where('id', 339)->select('saldo')->first();
+                        $S_ACT = $S_ACT->saldo + $saldo_pokok;
+                        BMT::where('id', 339)->update(
+                            ["saldo" => $S_ACT,
+                            ]);
+
+                        $S_ACT = BMT::where('id', 341)->select('saldo')->first();
+                        $S_ACT = $S_ACT->saldo + $saldo_wajib;
+                        BMT::where('id', 341)->update(
+                            ["saldo" => $S_ACT,
+                            ]);
+
+                        $S_ACT = BMT::where('id', $id_activa)->select('saldo')->first();
+                        $S_ACT = $S_ACT->saldo + $saldo_pokok;
+                        BMT::where('id', $id_activa)->update(
+                            ["saldo" => $S_ACT,
+                            ]);
+
+                        $S_ACT = BMT::where('id', $id_activa)->select('saldo')->first();
+                        $S_ACT = $S_ACT->saldo + $saldo_wajib;
+                        BMT::where('id', $id_activa)->update(
+                            ["saldo" => $S_ACT,
+                            ]);
+
+                        User::where('id', $id_user)->update([
+                            "wajib_pokok" => $detail_user,
+                            "status" => 2,
+                        ]);
+
+                        Tabungan::where('id_tabungan', $id_usrtab)->update([
+                            'detail' => $detail_tabungan]);
+
+                        Pengajuan::where('id', $id_pengajuan)->update([
+                            "status" => $status_pengajuan,
+                            "teller" => $teller
+                        ]);
+
+                        $S_ACT = BMT::where('id', $id_activa)->select('saldo')->first();
+                        $S_PAS = BMT::where('id', $id_pasiva)->select('saldo')->first();
+
+                        $S_ACT = $S_ACT->saldo + $saldo_activa;
+                        $S_PAS = $S_PAS->saldo + $saldo_pasiva;
+
+                        BMT::where('id', $id_activa)->update(
+                            ["saldo" => $S_ACT,
+                            ]);
+
+                        BMT::where('id', $id_pasiva)->update(
+                            ["saldo" => $S_PAS,
+                            ]);
+
+                        $ID_TABU = Tabungan::where('id_tabungan', $id_usrtab)->select('id')->first();
+
+                        $penyimpananTabungan = new PenyimpananTabungan();
+                        $penyimpananTabungan->id_user = $id_user;
+                        $penyimpananTabungan->id_tabungan = $ID_TABU->id;
+                        $penyimpananTabungan->status = "Setoran Awal";
+                        $penyimpananTabungan->transaksi = $detail_ptabungan;
+                        $penyimpananTabungan->teller = $teller;
+
+
+                    }
+
+
+                }
+
+
+            }
+        }
+        else if($tipe == "Deposito") {
+            $deposito = new Deposito();
+            $deposito->id_deposito = $id_usrtab;
+            $deposito->id_rekening = $id_rektab;
+            $deposito->id_user = $id_user;
+            $deposito->id_pengajuan = $id_pengajuan;
+            $deposito->jenis_deposito = $jenis_tabungan;
+            $deposito->detail = $detail_tabungan;
+            $deposito->tempo = Carbon::now();
+            $deposito->status = "active";
+            if ($deposito->save()) {
+                $penyimpananBMTActiva = new PenyimpananBMT();
+                $penyimpananBMTActiva->id_user = $id_user;
+                $penyimpananBMTActiva->id_bmt = $id_activa;
+                $penyimpananBMTActiva->status = "Deposit Awal";
+                $penyimpananBMTActiva->transaksi = $detail_activa;
+                $penyimpananBMTActiva->teller = $teller;
+
+                if ($penyimpananBMTActiva->save()) {
+                    $penyimpananBMTPasiva = new PenyimpananBMT();
+                    $penyimpananBMTPasiva->id_user = $id_user;
+                    $penyimpananBMTPasiva->id_bmt = $id_pasiva;
+                    $penyimpananBMTPasiva->status = "Deposit Awal";
+                    $penyimpananBMTPasiva->transaksi = $detail_pasiva;
+                    $penyimpananBMTPasiva->teller = $teller;
+
+                    if ($penyimpananBMTPasiva->save()) {
+                        Deposito::where('id_deposito', $id_usrtab)->update([
+                            "detail" => $detail_tabungan,
+                        ]);
+
+                        Pengajuan::where('id', $id_pengajuan)->update([
+                            "status" => $status_pengajuan,
+                            "teller" => $teller
+                        ]);
+
+                        $S_ACT = BMT::where('id', $id_activa)->select('saldo')->first();
+                        $S_PAS = BMT::where('id', $id_pasiva)->select('saldo')->first();
+
+                        $S_ACT = $S_ACT->saldo + $saldo_activa;
+                        $S_PAS = $S_PAS->saldo + $saldo_pasiva;
+
+                        BMT::where('id', $id_activa)->update(
+                            ["saldo" => $S_ACT,
+                            ]);
+
+                        BMT::where('id', $id_pasiva)->update(
+                            ["saldo" => $S_PAS,
+                            ]);
+
+                        $ID_TABU = Deposito::where('id_deposito', $id_usrtab)->select('id')->first();
+
+                        $penyimpananDeposito = new PenyimpananDeposito();
+                        $penyimpananDeposito->id_user = $id_user;
+                        $penyimpananDeposito->id_deposito = $ID_TABU->id;
+                        $penyimpananDeposito->status = "Setoran Awal";
+                        $penyimpananDeposito->transaksi = $detail_ptabungan;
+                        $penyimpananDeposito->teller = $teller;
+
+
+
+                    }
+                }
+            }
+
+
+        }
+        elseif($tipe == "Pembiayaan"){
+            $pembiayaan = new Pembiayaan();
+            $pembiayaan->id_pembiayaan = $id_usrtab;
+            $pembiayaan->id_rekening = $id_rektab;
+            $pembiayaan->id_user = $id_user;
+            $pembiayaan->id_pengajuan = $id_pengajuan;
+            $pembiayaan->jenis_pembiayaan = $jenis_tabungan;
+            $pembiayaan->detail = $detail_tabungan;
+            $pembiayaan->tempo = Carbon::now();
+            $pembiayaan->status = "active";
+            $pembiayaan->status_angsuran = 0;
+            $pembiayaan->angsuran_ke = 0;
+
+            if ($pembiayaan->save()) {
+                $penyimpananBMTActiva = new PenyimpananBMT();
+                $penyimpananBMTActiva->id_user = $id_user;
+                $penyimpananBMTActiva->id_bmt = $id_activa;
+                $penyimpananBMTActiva->status = "Pencairan Pembiayaan";
+                $penyimpananBMTActiva->transaksi = $detail_activa;
+                $penyimpananBMTActiva->teller = $teller;
+
+                if ($penyimpananBMTActiva->save()) {
+                    $penyimpananBMTPasiva = new PenyimpananBMT();
+                    $penyimpananBMTPasiva->id_user = $id_user;
+                    $penyimpananBMTPasiva->id_bmt = $id_pasiva;
+                    $penyimpananBMTPasiva->status = "Pencairan Pembiayaan";
+                    $penyimpananBMTPasiva->transaksi = $detail_pasiva;
+                    $penyimpananBMTPasiva->teller = $teller;
+
+                    if ($penyimpananBMTPasiva->save()) {
+                        Pembiayaan::where('id_pembiayaan', $id_usrtab)->update([
+                            "detail" => $detail_tabungan,
+                        ]);
+
+                        Pengajuan::where('id', $id_pengajuan)->update([
+                            "status" => $status_pengajuan,
+                            "teller" => $teller
+                        ]);
+
+                        $S_ACT = BMT::where('id', $id_activa)->select('saldo')->first();
+                        $S_PAS = BMT::where('id', $id_pasiva)->select('saldo')->first();
+
+                        $S_ACT = $S_ACT->saldo + $saldo_activa;
+                        $S_PAS = $S_PAS->saldo + $saldo_pasiva;
+
+                        BMT::where('id', $id_activa)->update(
+                            ["saldo" => $S_ACT,
+                            ]);
+
+                        BMT::where('id', $id_pasiva)->update(
+                            ["saldo" => $S_PAS,
+                            ]);
+
+                        if($id_margin != 0)
+                        {
+                            $S_MAR = BMT::where('id', $id_margin)->select('saldo')->first();
+                            $S_MAR = $S_MAR->saldo + $jumlah_margin;
+                            BMT::where('id', $id_margin)->update(
+                                ["saldo" => $S_MAR,
+                                ]);
+
+                            $penyimpananBMT = new PenyimpananBMT();
+                            $penyimpananBMT->id_user = $id_user;
+                            $penyimpananBMT->id_bmt = $id_margin;
+                            $penyimpananBMT->status = "Pencairan Pembiayaan";
+                            $penyimpananBMT->transaksi = $detail_margin;
+                            $penyimpananBMT->teller = $teller;
+
+
+                        }
+
+
+                        $ID_TABU = Pembiayaan::where('id_pembiayaan', $id_usrtab)->select('id')->first();
+
+                        $penyimpananPembiayaan = new PenyimpananPembiayaan();
+                        $penyimpananPembiayaan->id_user = $id_user;
+                        $penyimpananPembiayaan->id_pembiayaan = $ID_TABU->id;
+                        $penyimpananPembiayaan->status = "Pencairan Pembiayaan";
+                        $penyimpananPembiayaan->transaksi= $detail_ptabungan;
+                        $penyimpananPembiayaan->teller= $teller;
+                        $penyimpananPembiayaan->save();
+
+
+                        PenyimpananJaminan::where('id', $id_jam)->update([
+                            "transaksi" => $detail_jam
+                        ]);
+
+
+                        }
+                    }
+                    }
+
+        }
     }
 
 }
