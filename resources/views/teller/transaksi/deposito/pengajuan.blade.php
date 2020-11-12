@@ -60,6 +60,7 @@
                         <th></th>
                         <th data-sortable="true" class="text-left">ID</th>
                         <th data-sortable="true">Jenis Pengajuan</th>
+                        <th data-sortable="true">Nama Anggota</th>
                         <th data-sortable="true">Keterangan</th>
                         <th data-sortable="true">Tgl Pengajuan</th>
                         <th data-sortable="true">Status</th>
@@ -72,6 +73,7 @@
                                 <td></td>
                                 <td class="text-left">{{ $usr->id }}</td>
                                 <td class="text-left">{{ $usr->jenis_pengajuan   }}</td>
+                                <td class="text-left">{{ json_decode($usr->detail)->nama}}</td>
                                 @if(str_before($usr->kategori,' ')=="Debit" || str_before($usr->kategori,' ')=="Kredit" || str_before($usr->kategori,' ')=="Angsuran")
                                     <td class="text-center">{{$usr->kategori }}</td>
                                 @else    <td class="text-center">{{json_decode($usr->detail,true)['keterangan'] }}</td>
