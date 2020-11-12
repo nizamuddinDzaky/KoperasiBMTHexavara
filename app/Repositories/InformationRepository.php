@@ -1940,7 +1940,6 @@ class InformationRepository
     }
 //    DEBIT KREDIT ADMIN
     function penyimpananDebit($request){
-        dd($request);
         $id_pengajuan = $request->id;
         $status_pengajuan = "Sudah Dikonfirmasi";
         //        DETAIL P_TABUNGAN
@@ -2060,6 +2059,7 @@ class InformationRepository
     }
 //    SETORAN AWAL REKENING
     function setoranAwal($detail,$data){
+
         
         $id_pengajuan = $data['id_pengajuan'];
         $status_pengajuan = "Sudah Dikonfirmasi";
@@ -2234,6 +2234,7 @@ class InformationRepository
             }
             $id_margin = 0;
         }
+
         try {
             DB::select('CALL sp_create_(?,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,?, ?,?,?,?,? ,?,?)', array(
                 $data['tipe'], $id_UsrTDP, $data['jenis_TDP'], intval($id_TDP),Auth::user()->id,
@@ -2328,6 +2329,7 @@ class InformationRepository
 
 //    TUTUP TABUNGAN
     function tutupTabungan($request){
+
         $tab = Tabungan::where('id_tabungan',$request->id_)->first();
         if($request->jenis==0) {
             $idkas = json_decode(Auth::user()->detail,true)['id_rekening'];
@@ -2349,27 +2351,50 @@ class InformationRepository
 
 
         $ptab= PenyimpananTabungan::where('id_tabungan',$tab->id)->orderBy('id','DESC')->first();
-        $detail = [
-            'teller' => json_decode(Auth::user()->detail,true)['id_rekening'],
-            'dari_rekening' => $idkas,
-            'untuk_rekening' =>$utk,
-            'jumlah' => -json_decode($ptab->transaksi,true)['saldo_akhir'],
-            'saldo_awal' => json_decode($ptab->transaksi,true)['saldo_akhir'],
-            'saldo_akhir' => 0,
-        ];
-        $ptab_ = new PenyimpananTabungan();
-        $ptab_->id_user=$ptab->id_user;
-        $ptab_->id_tabungan=$ptab->id_tabungan;
-        $ptab_->status="Penutupan Tabungan";
-        $ptab_->transaksi=json_encode($detail);
+        if($ptab == null){
+            $ptab = Tabungan::where('id',$tab->id)->first();
+            $detail = [
+                'teller' => json_decode(Auth::user()->detail,true)['id_rekening'],
+                'dari_rekening' => $idkas,
+                'untuk_rekening' =>$utk,
+                'jumlah' => 0,
+                'saldo_awal' => 0,
+                'saldo_akhir' => 0,
+            ];
+
+            $ptab_ = new PenyimpananTabungan();
+            $ptab_->id_user=$ptab->id_user;
+            $ptab_->id_tabungan=$ptab->id;
+            $ptab_->status="Penutupan Tabungan";
+            $ptab_->transaksi=json_encode($detail);
+        }
+        else
+        {
+            $detail = [
+                'teller' => json_decode(Auth::user()->detail,true)['id_rekening'],
+                'dari_rekening' => $idkas,
+                'untuk_rekening' =>$utk,
+                'jumlah' => -json_decode($ptab->transaksi,true)['saldo_akhir'],
+                'saldo_awal' => json_decode($ptab->transaksi,true)['saldo_akhir'],
+                'saldo_akhir' => 0,
+            ];
+
+            $ptab_ = new PenyimpananTabungan();
+            $ptab_->id_user=$ptab->id_user;
+            $ptab_->id_tabungan=$ptab->id_tabungan;
+            $ptab_->status="Penutupan Tabungan";
+            $ptab_->transaksi=json_encode($detail);
+        }
+
+
         if($ptab_->save()){
             if($tab->save()){
                 // Tabungan
-                $this->AddPenyimpananBMT($tab['id_rekening'],-$jumlah,"Penutupan Tabungan");
+                $this->AddPenyimpananBMT($tab['id_rekening'],-$jumlah,"Penutupan Tabungan", $ptab->id_user);
                 $this->UpdateSaldoPemyimpanan($tab['id_rekening'],-$jumlah);
                 $this->UpdateSaldoBMT($tab['id_rekening'],-$jumlah);
                 // Kas
-                $this->AddPenyimpananBMT($idkas,-$jumlah,"Penutupan Tabungan");
+                $this->AddPenyimpananBMT($idkas,-$jumlah,"Penutupan Tabungan", Auth::user()->id);
                 $this->UpdateSaldoPemyimpanan($idkas,-$jumlah);
                 $this->UpdateSaldoBMT($idkas,-$jumlah);
                 return true;
