@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\BMT;
 use App\Deposito;
+use App\Maal;
+use App\Wakaf;
 use App\Pembiayaan;
 use App\Pengajuan;
 use App\PenyimpananWajibPokok;
@@ -1423,6 +1425,45 @@ class AdminController extends Controller
             'saldo' => 0
         ]);
 
+        $maal = Maal::get();
+        $wakaf = Wakaf::get();
+
+        foreach($maal as $item){
+
+            $detail = [
+                "detail" => json_decode($item->detail)->detail,
+                "dana" => json_decode($item->detail)->dana,
+                "terkumpul" => 0,
+                "sisa" => 0,
+                "path_poster" => json_decode($item->detail)->path_poster,
+            ];
+
+            Maal::where('id', $item->id)->update([
+                "detail" => json_encode($detail)
+            ]);
+
+        }
+
+        foreach($wakaf as $item){
+
+            $detail = [
+                "detail" => json_decode($item->detail)->detail,
+                "dana" => json_decode($item->detail)->dana,
+                "terkumpul" => 0,
+                "sisa" => 0,
+                "path_poster" => json_decode($item->detail)->path_poster,
+            ];
+
+            Wakaf::where('id', $item->id)->update([
+                "detail" => json_encode($detail)
+            ]);
+
+        }
+
+
+
+
+
         DB::table('penyimpanan_distribusi')->truncate();
         DB::table('penyimpanan_bmt')->truncate();
         DB::table('penyimpanan_wajib_pokok')->truncate();
@@ -1441,8 +1482,7 @@ class AdminController extends Controller
         DB::table('vote')->truncate();
         DB::table('rapat')->truncate();
         DB::table('deposito')->truncate();
-        DB::table('maal')->truncate();
-        DB::table('wakaf')->truncate();
+
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
