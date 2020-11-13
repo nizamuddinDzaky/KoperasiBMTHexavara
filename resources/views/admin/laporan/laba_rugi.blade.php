@@ -46,7 +46,7 @@
                             <span></span>
                         </div>
 
-                        <table id="bootstrap-table" class="table ">
+                        <table id="bootstrap-table" class="table">
                             <thead>
                                 <th class="text-left">ID</th>
                                 <th> Keterangan</th>
@@ -54,29 +54,35 @@
                             </thead>
                             <tbody>
                             @foreach ($data as $usr)
-                                <tr>
-                                    @if( $usr->tipe_rekening =="detail" && number_format(floatval($usr->saldo))!=0)
-                                    <td class="text-left">{{ $usr->id_bmt }}</td>
-                                    <td class="text-left">
-                                        @for ($i=0; $i<($usr->point) ;$i++)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        @endfor
-                                        {{ $usr->nama  }}</td>
-                                    @if($usr->tipe_rekening =="detail")
-                                        <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
-                                    @else <td></td>
+                                @if( $usr->tipe_rekening =="detail" && number_format(floatval($usr->saldo)) ==0)
+
+                                @else
+                                    <tr>
+                                        @if( $usr->tipe_rekening =="detail" && number_format(floatval($usr->saldo))!=0)
+                                            <td class="text-left">{{ $usr->id_bmt }}</td>
+                                            <td class="text-left">
+                                                @for ($i=0; $i<($usr->point) ;$i++)
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                @endfor
+                                                {{ $usr->nama  }}</td>
+                                            @if($usr->tipe_rekening =="detail")
+                                                <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
+                                            @else
+                                                <td> </td>
+                                            @endif
+                                        @elseif( $usr->tipe_rekening !="detail")
+                                            <td class="text-left">{{ $usr->id_bmt }}</td>
+                                            <td class="text-left">
+                                                @for ($i=0; $i<($usr->point) ;$i++)
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                @endfor
+                                                {{ $usr->nama  }}</td>
+                                            <td> </td>
+                                        @endif
+                                    </tr>
                                     @endif
-                                    
-                                     @elseif( $usr->tipe_rekening !="detail")
-                                    <td class="text-left">{{ $usr->id_bmt }}</td>
-                                    <td class="text-left">
-                                        @for ($i=0; $i<($usr->point) ;$i++)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        @endfor
-                                        {{ $usr->nama  }}</td>
-                                    <td></td>
-                                    @endif
-                                </tr>
+
+
                             @endforeach
                             <tr>
                                 <td></td>
@@ -85,29 +91,34 @@
                             </tr>
 
                             @foreach ($data2 as $usr)
-                                <tr>
-                                    @if( $usr->tipe_rekening =="detail" && number_format(floatval($usr->saldo))!=0)
-                                    <td class="text-left">{{ $usr->id_bmt }}</td>
-                                    <td class="text-left">
-                                        @for ($i=0; $i<($usr->point) ;$i++)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        @endfor
-                                        {{ $usr->nama  }}</td>
-                                    @if($usr->tipe_rekening =="detail")
-                                        <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
-                                    @else <td></td>
+                                @if( $usr->tipe_rekening =="detail" && number_format(floatval($usr->saldo)) ==0)
+
+                                @else
+                                    <tr>
+                                        @if( $usr->tipe_rekening =="detail" && number_format(floatval($usr->saldo))!=0)
+                                            <td class="text-left">{{ $usr->id_bmt }}</td>
+                                            <td class="text-left">
+                                                @for ($i=0; $i<($usr->point) ;$i++)
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                @endfor
+                                                {{ $usr->nama  }}</td>
+                                            @if($usr->tipe_rekening == "detail")
+                                                <td class="text-right">{{number_format(floatval($usr->saldo),2) }}</td>
+                                            @else
+                                                <td> </td>
+                                            @endif
+                                        @elseif( $usr->tipe_rekening != "detail")
+                                            <td class="text-left">{{ $usr->id_bmt }}</td>
+                                            <td class="text-left">
+                                                @for ($i=0; $i<($usr->point) ;$i++)
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                @endfor
+                                                {{ $usr->nama  }}</td>
+                                            <td> </td>
+                                        @endif
+                                    </tr>
                                     @endif
-                                    
-                                     @elseif( $usr->tipe_rekening !="detail")
-                                    <td class="text-left">{{ $usr->id_bmt }}</td>
-                                    <td class="text-left">
-                                        @for ($i=0; $i<($usr->point) ;$i++)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        @endfor
-                                        {{ $usr->nama  }}</td>
-                                    <td></td>
-                                    @endif
-                                </tr>
+
                             @endforeach
                             <tr>
                                 <td></td>
@@ -139,9 +150,6 @@
         </div>
     </div>
 @endsection
-
-@section('extra_script')
-
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
 
@@ -219,32 +227,32 @@
                     ]
                 }
             });
-//            $table.bootstrapTable({
-//                pagination: true,
-//                searchAlign: 'left',
-//                pageSize: 100,
-//
-//                formatShowingRows: function(pageFrom, pageTo, totalRows){
-//                    //do nothing here, we don't want to show the text "showing x of y from..."
-//                },
-//                formatRecordsPerPage: function(pageNumber){
-//                    return pageNumber + " rows visible";
-//                },
-//                icons: {
-//                    refresh: 'fa fa-refresh',
-//                    toggle: 'fa fa-th-list',
-//                    columns: 'fa fa-columns',
-//                    detailOpen: 'fa fa-plus-circle',
-//                    detailClose: 'fa fa-minus-circle'
-//                }
-//            });
-
-//            //activate the tooltips after the data table is initialized
-//            $('[rel="tooltip"]').tooltip();
-//
-//            $(window).resize(function () {
-//                $table.bootstrapTable('resetView');
-//            });
+           // $table.bootstrapTable({
+           //     pagination: true,
+           //     searchAlign: 'left',
+           //     pageSize: 100,
+           //
+           //     formatShowingRows: function(pageFrom, pageTo, totalRows){
+           //         //do nothing here, we don't want to show the text "showing x of y from..."
+           //     },
+           //     formatRecordsPerPage: function(pageNumber){
+           //         return pageNumber + " rows visible";
+           //     },
+           //     icons: {
+           //         refresh: 'fa fa-refresh',
+           //         toggle: 'fa fa-th-list',
+           //         columns: 'fa fa-columns',
+           //         detailOpen: 'fa fa-plus-circle',
+           //         detailClose: 'fa fa-minus-circle'
+           //     }
+           // });
+           //
+           // //activate the tooltips after the data table is initialized
+           // $('[rel="tooltip"]').tooltip();
+           //
+           // $(window).resize(function () {
+           //     $table.bootstrapTable('resetView');
+           // });
 
 
         });

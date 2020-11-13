@@ -139,12 +139,12 @@
                     <div class="card">
 
                         <div class="header text-center">
-                            <h4 id="titlePrint" class="title"><b>Distribusi Pendapatan Profit Sharing</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Distribusi Pendapatan Profit Sharing periode {{date("F Y")}}</p>
+                            <h4 id="titlePrint3" class="title"><b>Distribusi Pendapatan Profit Sharing</b> </h4>
+                            <p id="titlePrint4" class="category">Laporan Distribusi Pendapatan Profit Sharing periode {{date("F Y")}}</p>
                             <br />
                         </div>
 
-                        <table id="bootstrap-table" class="table">
+                        <table id="bootstrap-table2" class="table">
                             <thead>
                             <tr>
                                 <th rowspan="2" class="text-left">No</th>
@@ -304,6 +304,54 @@
                         {
                             extend:'pdfHtml5',
                             title: function () { return  $('#titlePrint').text()+"\n"+$('#titlePrint2').text(); },
+                            customize: function(doc) {
+                                doc.defaultStyle.fontSize = 7;
+                                doc.styles.title = {
+                                    fontSize: '11',
+                                    alignment: 'center'
+                                };
+                                doc.content.layout='Border';
+                            }
+                        }
+                    ]
+                }
+            });
+            $('#bootstrap-table2').dataTable({
+                initComplete: function () {
+                    $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
+                    $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
+                    $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
+                    $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
+                },
+                "processing": false,
+//                "dom": 'lBf<"top">rtip<"clear">',
+                "order": [],
+                "scrollX": false,
+                "paging": false,
+                "dom": 'lBfrtp',
+                "buttons": {
+                    "dom": {
+                        "button": {
+                            "tag": "button",
+                            "className": "waves-effect waves-light btn mrm"
+//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
+                        }
+                    },
+                    "buttons": [
+                        {
+                            extend: 'print',
+                            title: function () { return  $('#titlePrint3').text()+"\n"+$('#titlePrint2').text(); },
+                        },
+
+                        'copyHtml5',
+                        {
+                            extend: 'excelHtml5',
+                            messageTop: function () { return  $('#titlePrint3').text(); },
+                            messageTop: function () { return  $('#titlePrint4').text(); },
+                        },
+                        {
+                            extend:'pdfHtml5',
+                            title: function () { return  $('#titlePrint3').text()+"\n"+$('#titlePrint4').text(); },
                             customize: function(doc) {
                                 doc.defaultStyle.fontSize = 7;
                                 doc.styles.title = {
