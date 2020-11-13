@@ -30,6 +30,7 @@
                 </div>
 
                 <div class="button-group right">
+                    <a href="{{route('download.excel.data_anggota')}}" class="btn btn-success rounded right shadow-effect"><i class="fa fa-file-excel"></i> Download Excel</a>
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#addUsrModal"><i class="fa fa-user-plus"></i> Tambah User</button>
                 </div>
             </div>

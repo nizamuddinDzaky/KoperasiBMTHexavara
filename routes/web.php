@@ -459,6 +459,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'data_anggota',
             'uses'      => 'AdminController@data_anggota'
         ]);
+
+        Route::get('/anggota/download', [
+            'as'        => 'download.excel.data_anggota',
+            'uses'      => 'AdminController@download_excel_data_anggota'
+        ]);
+
         Route::post('/', [
             'as'        => 'add.bmt',
             'uses'      => 'AdminController@add_bmt'

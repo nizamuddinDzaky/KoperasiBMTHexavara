@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Rekening;
 use Illuminate\Support\Facades\Hash;
 use DB;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 use App\Repositories\RekeningReporsitories;
 
@@ -179,6 +180,55 @@ class AdminController extends Controller
             'data' => $data,
         ]);
     }
+
+    public function download_excel_data_anggota(){
+
+        $user = User::where('tipe', '!=', 'umum')->get();
+        $userProcessed = array();
+        foreach($user as $key => $value) {
+
+            $userProcessed[$key]['No KTP'] =  $value->no_ktp;
+            $userProcessed[$key]['Nama'] =$value->nama;
+            $userProcessed[$key]['Alamat'] =$value->alamat;
+            if($value->tipe == "admin" || $value->tipe == "teller" )
+            {
+                $userProcessed[$key]['Pendidikan'] ="-";
+                $userProcessed[$key]['Pekerjaan'] ="-";
+                $userProcessed[$key]['Pendapatan/bln'] ="-";
+            }
+            else
+            {
+                $userProcessed[$key]['Pendidikan'] =json_decode($value->detail)->pendidikan;
+                $userProcessed[$key]['Pekerjaan'] =json_decode($value->detail)->pekerjaan;
+                $userProcessed[$key]['Pendapatan/bln'] =number_format(json_decode($value->detail)->pendapatan);
+            }
+
+            $userProcessed[$key]['Tipe'] =$value->tipe;
+            $userProcessed[$key]['Role'] =$value->role;
+
+            if ($value->status == 2 && $value->is_active == 1)
+            {
+                $userProcessed[$key]['Status Keanggotaan'] ="Anggota Aktif";
+            }
+            else if($value->tipe == "admin" || $value->tipe == "teller")
+            {
+                $userProcessed[$key]['Status Keanggotaan'] ="-";
+            }
+            else if($value->status != 2 && $value->is_active == 1)
+            {
+                $userProcessed[$key]['Status Keanggotaan'] ="Belum Mengisi Identitas";
+            }
+            else if($value->status != 2 && $value->is_active == 0)
+            {
+                $userProcessed[$key]['Status Keanggotaan'] ="Anggota Keluar";
+            }
+
+
+        }
+
+        return (new FastExcel($userProcessed))->download('BMTMUDA_Master_Anggota.xlsx');
+    }
+
     public function showDetailAnggota(Request $request){
         $notification = $this->pengajuanReporsitory->getNotification();
         
