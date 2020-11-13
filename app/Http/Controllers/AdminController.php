@@ -198,9 +198,34 @@ class AdminController extends Controller
             }
             else
             {
-                $userProcessed[$key]['Pendidikan'] =json_decode($value->detail)->pendidikan;
-                $userProcessed[$key]['Pekerjaan'] =json_decode($value->detail)->pekerjaan;
-                $userProcessed[$key]['Pendapatan/bln'] =number_format(json_decode($value->detail)->pendapatan);
+                if (json_decode($value->detail)->pendidikan != null || json_decode($value->detail)->pendidikan != "" )
+                {
+                    $userProcessed[$key]['Pendidikan'] =json_decode($value->detail)->pendidikan;
+                }
+                else
+                {
+                    $userProcessed[$key]['Pendidikan'] ="-";
+                }
+
+                if(json_decode($value->detail)->pekerjaan != null || json_decode($value->detail)->pekerjaan != "")
+                {
+                    $userProcessed[$key]['Pekerjaan'] =json_decode($value->detail)->pekerjaan;
+                }
+                else
+                {
+                    $userProcessed[$key]['Pekerjaan'] ="-";
+                }
+
+                if(json_decode($value->detail)->pendapatan != null || json_decode($value->detail)->pendapatan != "" )
+                {
+                    $userProcessed[$key]['Pendapatan/bln'] =number_format(json_decode($value->detail)->pendapatan);
+                }
+                else
+                {
+                    $userProcessed[$key]['Pendapatan/bln'] ="-";
+                }
+
+
             }
 
             $userProcessed[$key]['Tipe'] =$value->tipe;
