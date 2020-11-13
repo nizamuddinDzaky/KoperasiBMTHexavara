@@ -58,7 +58,7 @@ $(document).ready(function() {
                     <div class="input-group">
                         <span class="input-group-addon">Rp</span>
                         <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
-                        <span class="input-group-addon">.00</span>
+<!--                        <span class="input-group-addon">.00</span>-->
                     </div>
                 </div>
             </div> 
@@ -98,7 +98,7 @@ $(document).ready(function() {
     $.fn.initMaskMoney = () => {
         $('.currency').maskMoney({
             allowZero: true,
-            precision: 0,
+            precision: 2,
             thousands: ","
         });
     }
@@ -174,7 +174,7 @@ $(document).ready(function() {
                     <div class="input-group">
                         <span class="input-group-addon">Rp</span>
                         <input type="text" class="currency form-control text-right" id="jumlah[]" name="jumlah[]" required="true">
-                        <span class="input-group-addon">.00</span>
+<!--                        <span class="input-group-addon">.00</span>-->
                     </div>
                 </div>
             </div>
@@ -213,7 +213,7 @@ $(document).ready(function() {
     $.fn.initMaskMoney = () => {
         $('.currency').maskMoney({
             allowZero: true,
-            precision: 0,
+            precision: 2,
             thousands: ","
         });
     }

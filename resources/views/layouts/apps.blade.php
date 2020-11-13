@@ -218,6 +218,13 @@
             thousands: ","
         });
 
+        $('.currencyDecimal').maskMoney({
+            allowZero: true,
+            precision: 2,
+            thousands: ","
+        });
+
+
     });
     $('.resetDatabase').on('click', function (event){
         var r = confirm("Apakah anda yakin ingin reset database?");
