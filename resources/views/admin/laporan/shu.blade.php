@@ -134,7 +134,7 @@
 
                             @foreach($data_distribusi as $item)
                                 <tr>
-                                    <td class="text-left">{{ $item['no_ktp'] }}</td>
+                                    <td class="text-left"><span style="color: white">'</span>{{$item['no_ktp'] }}</td>
                                     <td class="text-left">{{ $item['nama']  }}</td>
                                     <td class="text-right">{{number_format(floatval($item['simpanan_pokok']),2) }}</td>
                                     <td class="text-right">{{number_format(floatval($item['simpanan_wajib']),2) }}</td>
