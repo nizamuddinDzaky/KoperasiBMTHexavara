@@ -215,7 +215,7 @@ class SHUTahunanRepositories {
     */
     public function getTotalHarta()
     {
-        $user = User::where([ ['tipe', 'anggota'], ['status', '2'] ])->get();
+        $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['is_active',1] ])->get();
         return $user;
     }
 

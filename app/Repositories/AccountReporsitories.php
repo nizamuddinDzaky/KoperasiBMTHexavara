@@ -41,7 +41,7 @@ class AccountReporsitories {
     */
     public function getAccount($type)
     {
-        $account = User::where('tipe', $type)->get();
+        $account = User::where('tipe', $type)->where('status',2)->where('is_active',1)->get();
         return $account;
     }
 

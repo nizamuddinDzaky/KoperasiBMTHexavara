@@ -1100,7 +1100,7 @@ class DistribusiPendapatanReporsitories {
 
         $saldo = array();
 
-        $anggota = User::where('tipe', 'anggota')->get();
+        $anggota = User::where('tipe', 'anggota')->where('status',2)->where('is_active',1)->get();
 
 
         foreach ($anggota as $data)
@@ -1185,7 +1185,7 @@ class DistribusiPendapatanReporsitories {
 
         $saldo = array();
 
-        $anggota = User::where('tipe', 'anggota')->get();
+        $anggota = User::where('tipe', 'anggota')->where('status',2)->where('is_active',1)->get();
 
 
         foreach ($anggota as $data)
@@ -1261,7 +1261,7 @@ class DistribusiPendapatanReporsitories {
 
         $total_rata_rata = $this->getTotalProductAverage($total_rata_rata); //valid
         $total_pendapatan = $this->getRekeningPendapatan("saldo");
-        $anggota = User::where('tipe', 'anggota')->get();
+        $anggota = User::where('tipe', 'anggota')->where('status',2)->where('is_active',1)->get();
 
         foreach ($anggota as $data)
         {
@@ -1346,7 +1346,7 @@ class DistribusiPendapatanReporsitories {
 
         $total_rata_rata = $this->getTotalProductAverage($total_rata_rata);
         $total_pendapatan = $this->getRekeningSHU("saldo");
-        $anggota = User::where('tipe', 'anggota')->get();
+        $anggota = User::where('tipe', 'anggota')->where('status',2)->where('is_active',1)->get();
 
         foreach ($anggota as $data)
         {
