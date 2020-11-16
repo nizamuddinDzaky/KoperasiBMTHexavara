@@ -336,6 +336,7 @@ class DonasiReporsitories {
                 "nama"          => json_decode($pengajuan->detail)->nama,
                 "email"         => json_decode($pengajuan->detail)->email,
                 "no_bank"       => json_decode($pengajuan->detail)->no_bank,
+                "jenis"         => json_decode($pengajuan->detail)->debit
             ];
             $dataToInsertIntoPenyimpananBMT = [
                 'id_user'       => $pengajuan->id_user,
@@ -983,12 +984,26 @@ class DonasiReporsitories {
                 'teller'        => Auth::user()->id
             ];
 
-            $detailToPenyimpananBMT = [
-                "jumlah"        => preg_replace('/[^\d.]/', '', $data->nominal),
-                "saldo_awal"    => $saldo_awal_donasi,
-                "saldo_akhir"   => $saldo_akhir_donasi,
-                "id_pengajuan"  => $nextId
-            ];
+            if($data->jenis_donasi == 'zis')
+            {
+                $detailToPenyimpananBMT = [
+                    "jumlah"        => preg_replace('/[^\d.]/', '', $data->nominal),
+                    "saldo_awal"    => $saldo_awal_donasi,
+                    "saldo_akhir"   => $saldo_akhir_donasi,
+                    "id_pengajuan"  => $nextId,
+                    "jenis"         => $debit
+                ];
+            }
+            else
+            {
+                $detailToPenyimpananBMT = [
+                    "jumlah"        => preg_replace('/[^\d.]/', '', $data->nominal),
+                    "saldo_awal"    => $saldo_awal_donasi,
+                    "saldo_akhir"   => $saldo_akhir_donasi,
+                    "id_pengajuan"  => $nextId
+                ];
+            }
+
 
             $dataToInsertIntoPenyimpananBMT = [
                 'id_user'       => $donatur->id,
