@@ -331,11 +331,6 @@ class InformationRepository
     }
     function getAllNasabah()
     {
-        $data = $this->user->select('id','no_ktp', 'nama', 'alamat', 'tipe', 'status','wajib_pokok')->where('tipe',"anggota")->get();
-        return $data;
-    }
-    function getAllNasabahUpgrade()
-    {
         $data = $this->user->select('id','no_ktp', 'nama', 'alamat', 'tipe', 'status','wajib_pokok')->where('tipe',"anggota")->where('status', 2)->where('is_active', 1)->get();
         return $data;
     }
@@ -3016,7 +3011,7 @@ class InformationRepository
             $id_bmt = $this->bmt->where('id_rekening',json_decode(Auth::user()->detail,true)['id_rekening'])->first();
         }
 
-        $usr = $this->getAllNasabahUpgrade();
+        $usr = $this->getAllNasabah();
         $home = new HomeController;
         $periode = $home->MonthShifter(0)->format(('Y'));
         try {
