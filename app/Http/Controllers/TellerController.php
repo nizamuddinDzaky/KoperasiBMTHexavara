@@ -1352,7 +1352,7 @@ class TellerController extends Controller
             'user'  => $user,
             'tabungan_user' => $tabungan_user,
             'datasaldoDepInDate' => $depositoExpiredNotAutoExtended,
-            'users'    => User::where('tipe', 'anggota')->get(),
+            'users'    => User::where('tipe', 'anggota')->where('status',2)->where('is_active',1)->get(),
             'tabungan' => $this->tabunganReporsitory->getTabungan(),
             'simpanan' => $this->simpananReporsitory->getUserPengajuanSimpanan(),
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
@@ -1974,12 +1974,14 @@ class TellerController extends Controller
     {
         $user = User::find($id);
         $filename = "anggota_keluar_" . str_replace(" ", "_", $user->nama) . "_" . $user->id . ".docx";
-        $location = public_path("storage/public/docx/" . $filename);
+        $location = public_path("storage/docx/" . $filename);
+        $headers = array(
+            'Content-Type: application/docx',
+            'Cache-Control: must-revalidate, post-check=0, pre-check=0',
+            'Content-disposition: inline',
+        );
 
-        $this->exportRepository->saveToPC($location, $filename);
-        return redirect()
-            ->back()
-            ->withSuccess(sprintf("File berhasil di download."));
+        return response()->download($location, $filename, $headers);
     }
 
     /** 
