@@ -109,15 +109,12 @@
                                 <i class="pe-7s-tools"></i> Settings
                             </a>
                         </li>
-                        @if(Auth::user()->tipe == "anggota")
                         <li class="divider"></li>
-                        <li>
-                            <a href="" data-toggle="modal" data-target="#resetPasswordModal">
-                                <i class="pe-7s-lock"></i> Reset Password
-                            </a>
-                        </li>
-                        @endif
-                        <li class="divider"></li>
+                        {{--<li>--}}
+                            {{--<a href="#">--}}
+                                {{--<i class="pe-7s-lock"></i> Lock Screen--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
                         <li>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -147,8 +144,3 @@
         </div>
     </div>
 </nav>
-
-@section('modal')
-    @include('modal.reset_password')
-
-    @endsection
