@@ -147,8 +147,3 @@
         </div>
     </div>
 </nav>
-
-@section('modal')
-    @include('modal.reset_password')
-
-    @endsection

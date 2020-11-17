@@ -114,6 +114,7 @@
 </div>
 
 @yield('modal')
+@include('modal.reset_password')
 
 
 
