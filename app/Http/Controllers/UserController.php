@@ -15,6 +15,7 @@ use App\Wakaf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use \Validator;
 use App\Repositories\PembiayaanReporsitory;
@@ -1318,6 +1319,46 @@ class UserController extends Controller
                 ->back()
                 ->withInput()->with('message', $tabungan['message']);
         }
+    }
+
+
+    public function reset_password(Request $request){
+        $this->validate($request, [
+            'passwordLama' => 'required|min:6',
+            'passwordBaru' => 'required|min:6',
+            'ulangiPassword' => 'required|min:6',
+        ]);
+
+        $passwordLama = $request->passwordLama;
+        $passwordBaru =$request->passwordBaru;
+        $ulangiPassword = $request->ulangiPassword;
+
+        if (Hash::check($passwordLama,Auth::user()->password )){
+
+            if ($passwordBaru == $ulangiPassword)
+            {
+                if(User::where('id', Auth::user()->id)->update([
+                   'password' => Hash::make($passwordBaru)
+                ])){
+                    session()->flash('success', "Berhasil Mengubah Password");
+                    return redirect()
+                        ->back();
+                }
+            }
+            else {
+                session()->flash('message', "Ulangi Password Dengan Benar");
+                return redirect()
+                    ->back();
+            }
+
+        }
+        else
+        {
+            session()->flash('message', "Password Lama Salah");
+            return redirect()
+                ->back();
+        }
+
     }
 
     
