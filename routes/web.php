@@ -700,6 +700,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'uses'      => 'LaporanController@quitas'
         ]);
 
+        Route::get('/quitas/{jenis}', [
+            'as'        => 'quitas.simulasi',
+            'uses'      => 'LaporanController@equitas_simulasi'
+        ]);
+
         Route::post('/quitas', [
             'as'        => 'periode.quitas',
             'uses'      => 'LaporanController@periode_quitas'

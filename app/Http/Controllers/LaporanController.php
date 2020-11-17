@@ -239,22 +239,17 @@ class LaporanController extends Controller
         $sum = null;
         $home = new HomeController();
         $date_now = $home->MonthShifter(+1)->format(('Y-m'));
-        $date_prev = $home->MonthShifter(-1)->format(('Y-m-t'));
         $i=0;
         foreach ($data as $dt){
-            $bmt = PenyimpananBMT::select('transaksi')->where('id_bmt',$dt['id'])
-                ->where('penyimpanan_bmt.created_at',">",$date_prev)
-                ->where('penyimpanan_bmt.created_at',"<",$date_now."-01")
-                ->get();
-            if(count($bmt)==0){
+            $bmt = BMT::where('id',$dt['id'])
+                ->first();
+
+
+            if($bmt == null){
                 $data[$i]['saldo'] =0;
             }
             else{
-                $total=0;
-                foreach($bmt as $bm){
-                    $total+=json_decode($bm->transaksi,true)['jumlah'];
-                }
-                $data[$i]['saldo'] =$total;
+                $data[$i]['saldo'] =$bmt->saldo;
             }
 
             $data[$i]['point'] = substr_count($dt['id_bmt'], '.');
@@ -265,7 +260,7 @@ class LaporanController extends Controller
         $awal = $this->getquitas($date_now."-01");
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+
         return view('admin.laporan.quitas',[
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -275,27 +270,87 @@ class LaporanController extends Controller
             'periode'  => $periode
         ]);
     }
-    public function periode_quitas(Request $request){
+
+    public function equitas_simulasi($jenis){
+        $shu = $this->distribusiPendapatanReporsitory->perubahanEquitas($jenis);
+        
         $data = $this->informationRepository->getModal();
         $sum = null;
         $home = new HomeController();
-        $date = $home->date_query(substr($request->periode,4,2));
+        $date_now = $home->MonthShifter(+1)->format(('Y-m'));
+        $date_prev = $home->MonthShifter(-1)->format(('Y-m-t'));
         $i=0;
-        foreach ($data as $dt){
-            $bmt = PenyimpananBMT::select('transaksi')->where('id_bmt',$dt['id'])
-                ->where('penyimpanan_bmt.created_at',">",$date['prev'])
-                ->where('penyimpanan_bmt.created_at',"<",$date['now'])
-                ->get();
 
-            if(count($bmt)==0){
+        foreach ($data as $dt){
+            $bmt = BMT::where('id',$dt['id'])
+                ->first();
+
+
+            if($bmt == null){
                 $data[$i]['saldo'] =0;
             }
             else{
-                $total=0;
-                foreach($bmt as $bm){
-                    $total+=json_decode($bm->transaksi,true)['jumlah'];
+                if($bmt->id == 344)
+                {
+                    $data[$i]['saldo'] =0;
                 }
-                $data[$i]['saldo'] =$total;
+                else if($bmt->id == 397)
+                {
+                    $data[$i]['saldo'] =$shu;
+                }
+                else{
+                    $data[$i]['saldo'] =$bmt->saldo;
+                }
+
+            }
+
+            $data[$i]['point'] = substr_count($dt['id_bmt'], '.');
+            $sum += floatval($data[$i]['saldo']);
+            $i++;
+
+        }
+
+        $awal = $this->getquitas($date_now."-01");
+        $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $notification = $this->pengajuanReporsitory->getNotification();
+
+
+        return view('admin.laporan.quitas',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'awal' => $awal,
+            'data' => $data,
+            'sum' =>$sum,
+            'periode'  => $periode
+        ]);
+
+
+
+    }
+
+    public function periode_quitas(Request $request){
+        if (!isset($request->periode))
+        {
+            return redirect()
+                ->back()
+                ->withErrors(sprintf('Pilih periode'));
+        }
+        $data = $this->informationRepository->getModal();
+        $sum = null;
+        $date = $request->periode;
+        $month = Carbon::createFromDate(substr($date, 0,4),substr($date, 4,2))->startOfMonth();
+        $month = $month->format('F Y');
+        $i=0;
+        foreach ($data as $dt){
+            $rekening = PenyimpananRekening::select('saldo')->where('id_rekening',$dt['id_rekening'])
+                ->where('periode', $date)
+                ->first();
+
+            if($rekening == null){
+                $data[$i]['saldo'] =0;
+            }
+            else{
+                $data[$i]['saldo'] = $rekening->saldo;
             }
 
             $data[$i]['point'] = substr_count($dt['id_bmt'], '.');
@@ -305,11 +360,15 @@ class LaporanController extends Controller
         }
         $awal = $this->getquitas($request->periode);
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.quitas',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'awal' => $awal,
             'data' => $data,
             'sum' =>$sum,
-            'periode'  => $periode
+            'periode'  => $periode,
+            'month' => $month
         ]);
     }
 

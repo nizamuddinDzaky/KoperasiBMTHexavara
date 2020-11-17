@@ -425,7 +425,7 @@ class DistribusiPendapatanReporsitories {
         try
         {
 
-            $this->insertPenyimpananRekening();
+            $this->insertPenyimpananRekeningLabaRugi();
 
             if($data->jenis == "net_profit") {
                 $data_distribusi = [
@@ -787,7 +787,7 @@ class DistribusiPendapatanReporsitories {
 
 
 
-
+            $this->insertPenyimpananRekeningAktivaPasiva();
             DB::commit();
             $response = array("type" => "success", "message" => "Pendistribusian Pendapatan Berhasil Dilakukan.");
         }
@@ -1412,48 +1412,257 @@ class DistribusiPendapatanReporsitories {
     }
 
 
-    public function insertPenyimpananRekening(){
+    public function insertPenyimpananRekeningLabaRugi(){
         $laba = $this->informationRepository->getPendapatan();
         $rugi = $this->informationRepository->getRugi();
+
+
+        $home = new HomeController();
+        $date = $home->MonthShifter(0)->format(('Ym'));
+
+        foreach ($laba as $dt){
+
+            $rekening = PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt->id_rekening)->first();
+
+            if($rekening == null)
+            {
+                $rek = new PenyimpananRekening();
+                $rek->id_rekening = $dt->id_rekening;
+                $rek->periode = $date;
+                $rek->saldo = $dt->saldo;
+                $rek->save();
+            }
+            else
+            {
+                PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt->id_rekening)->update([
+                   'saldo' => $dt->saldo
+                ]);
+            }
+
+
+        }
+
+        foreach ($rugi as $dt){
+            $rekening = PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt->id_rekening)->first();
+
+            if($rekening == null)
+            {
+                $rek = new PenyimpananRekening();
+                $rek->id_rekening = $dt->id_rekening;
+                $rek->periode = $date;
+                $rek->saldo = $dt->saldo;
+                $rek->save();
+            }
+            else
+            {
+                PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt->id_rekening)->update([
+                    'saldo' => $dt->saldo
+                ]);
+            }
+        }
+
+
+
+    }
+
+    public function insertPenyimpananRekeningAktivaPasiva(){
         $aktiva = $this->informationRepository->getAktiva();
         $pasiva = $this->informationRepository->getPasiva();
 
         $home = new HomeController();
         $date = $home->MonthShifter(0)->format(('Ym'));
 
-        foreach ($laba as $dt){
-            $rek = new PenyimpananRekening();
-            $rek->id_rekening = $dt->id_rekening;
-            $rek->periode = $date;
-            $rek->saldo = $dt->saldo;
-            $rek->save();
-        }
-
-        foreach ($rugi as $dt){
-            $rek = new PenyimpananRekening();
-            $rek->id_rekening = $dt->id_rekening;
-            $rek->periode = $date;
-            $rek->saldo = $dt->saldo;
-            $rek->save();
-        }
-
         foreach ($aktiva as $dt){
-            $rek = new PenyimpananRekening();
-            $rek->id_rekening = $dt->id_rekening;
-            $rek->periode = $date;
-            $rek->saldo = $dt->saldo;
-            $rek->save();
+            $rekening = PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt->id_rekening)->first();
+
+            if($rekening == null)
+            {
+                $rek = new PenyimpananRekening();
+                $rek->id_rekening = $dt->id_rekening;
+                $rek->periode = $date;
+                $rek->saldo = $dt->saldo;
+                $rek->save();
+            }
+            else
+            {
+                PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt->id_rekening)->update([
+                    'saldo' => $dt->saldo
+                ]);
+            }
         }
 
         foreach ($pasiva as $dt){
-            $rek = new PenyimpananRekening();
-            $rek->id_rekening = $dt['id_rekening'];
-            $rek->periode = $date;
-            $rek->saldo = $dt['saldo'];
-            $rek->save();
+            $rekening = PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt['id_rekening'])->first();
+
+            if($rekening == null)
+            {
+                $rek = new PenyimpananRekening();
+                $rek->id_rekening = $dt['id_rekening'];
+                $rek->periode = $date;
+                $rek->saldo = $dt['saldo'];
+                $rek->save();
+            }
+            else
+            {
+                PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt['id_rekening'])->update([
+                    'saldo' => $dt['saldo']
+                ]);
+            }
         }
 
+    }
 
+    public function perubahanEquitas($jenis)
+    {
+        DB::beginTransaction();
+        try
+        {
+
+            $shu_yang_harus_dibagikan_sekarang = BMT::where('id', 397)->select('saldo')->first();
+            $saldo_shu_yang_harus_dibagikan_sekarang = $shu_yang_harus_dibagikan_sekarang->saldo;
+
+            if($jenis == "net_profit")
+            {
+                $pendapatan = $this->getRekeningSHU();
+            }
+            else
+            {
+                $pendapatan = $this->getRekeningPendapatan();
+            }
+
+            /** Get Rekening Bagi Hasil */
+            $rekening_tabungan = $this->getRekening("TABUNGAN");
+            $rekening_deposito = $this->getRekening("DEPOSITO");
+
+            $data_rekening = array();
+            $total_rata_rata = array();
+
+
+            // need some change
+            foreach($rekening_tabungan as $tab)
+            {
+                $rata_rata_product_tabungan = $this->getSaldoAverageProduct($tab->id_bmt);
+                array_push($total_rata_rata, $rata_rata_product_tabungan);
+            }
+
+            foreach($rekening_deposito as $dep)
+            {
+                $rata_rata_product_deposito = $this->getSaldoAverageProduct($dep->id_bmt);
+                array_push($total_rata_rata, $rata_rata_product_deposito);
+            }
+
+            $total_rata_rata = $this->getTotalProductAverage($total_rata_rata); //valid
+            if($jenis == "net_profit")
+            {
+                $total_pendapatan = $this->getRekeningSHU("saldo");
+            }
+            else
+            {
+                $total_pendapatan = $this->getRekeningPendapatan("saldo");
+            }
+
+            $total_pendapatan_product = 0;
+            $total_porsi_bmt = 0;
+            $total_porsi_anggota = 0;
+
+
+            $pendapatan_product = array();
+            $rata_rata_saldo_anggota = 0.0;
+
+            $response = array();
+
+            $temp = array();
+
+            foreach($rekening_tabungan as $tab)
+            {
+
+                $tabungan = $this->tabunganReporsitory->getTabungan($tab->nama_rekening);
+                $rata_rata =  $this->getSaldoAverageProduct($tab->id_bmt);
+                $nisbah_anggota = json_decode($tab->detail)->nisbah_anggota;
+                $nisbah_bmt = 100 - json_decode($tab->detail)->nisbah_anggota;
+                $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan); // untuk cari pendapatan per produk
+                $porsi_anggota = $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
+
+                foreach($tabungan as $user_tabungan) {
+
+                    if ($rata_rata == 0 || $porsi_anggota == 0) {
+                        $bagi_hasil = 0;
+                    } else {
+                        $bagi_hasil = $this->getSaldoAverageTabunganAnggota($user_tabungan->id_user, $user_tabungan->id) / $rata_rata * $porsi_anggota;
+                    }
+
+
+                }
+            }
+
+            $tanggal = "";
+
+
+            foreach($rekening_deposito as $dep)
+            {
+                $deposito = $this->depositoReporsitory->getDepositoDistribusi($dep->nama_rekening);
+                $rata_rata =  $this->getSaldoAverageProduct($dep->id_bmt);
+                $nisbah_anggota = json_decode($dep->detail)->nisbah_anggota;
+                $nisbah_bmt = 100 - json_decode($dep->detail)->nisbah_anggota;
+                $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
+                $porsi_anggota = $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
+
+
+                foreach($deposito as $user_deposito)
+                {
+                    if($rata_rata == 0 || $porsi_anggota == 0){
+                        $bagi_hasil = 0;
+                    }
+                    else
+                    {
+                        if ($user_deposito->type == 'jatuhtempo'){
+                            $tanggal =  $user_deposito->tempo;
+                        }
+                        else if($user_deposito->type == 'pencairanawal')
+                        {
+                            $tanggal = $user_deposito->tanggal_pencairan;
+                        }
+                        else if($user_deposito->type == 'active')
+                        {
+                            $tanggal = Carbon::parse('first day of January 1970');
+                        }
+
+                        $bagi_hasil = $this->getSaldoAverageDepositoAnggota($user_deposito->id_user, $user_deposito->id, $tanggal ) / $rata_rata * $porsi_anggota ;
+
+                    }
+                    $id_pencairan = json_decode($user_deposito->detail)->id_pencairan;
+
+
+                }
+            }
+
+            $shu_berjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+            $selisihBMTAnggota = $shu_berjalan->saldo - $total_porsi_anggota;
+
+            if ($jenis == "revenue"){
+                $saldo_shu_yang_harus_dibagikan_sekarang = $saldo_shu_yang_harus_dibagikan_sekarang + $selisihBMTAnggota;
+            }
+            else
+            {
+                $saldo_shu_yang_harus_dibagikan_sekarang =  $saldo_shu_yang_harus_dibagikan_sekarang + $total_porsi_bmt;
+            }
+
+
+            return $saldo_shu_yang_harus_dibagikan_sekarang;
+
+
+            DB::commit();
+        }
+        catch(Exception $ex)
+        {
+            DB::rollback();
+        }
+
+        return $response;
     }
 
 

@@ -24,13 +24,24 @@
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.quitas')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('periode.quitas')}}" @endif method="post">
                     {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
                             <option disabled selected > - Periode -</option>
+                            @foreach($periode as $item)
+                                <option value="{{$item}}">{{substr($item,0,4)}} - {{substr($item,4,2)}}</option>
+                                @endforeach
                         </select>
+                        <button type="submit" class="btn btn-info btn-fill btn-sm"> <i class="pe-7s-search"></i> Search</button>
                     </form>
+
+                    <div class="button-group right">
+                        <a class="btn btn-primary rounded right shadow-effect" href="{{route('quitas.simulasi', "net_profit")}}" ><i class="fa fa-share"></i> Distribusi Net Sharing</a>
+                        <a class="btn btn-success rounded right shadow-effect" href="{{route('quitas.simulasi', 'revenue')}}" ><i class="fa fa-share"></i> Distribusi Revenue Sharing</a>
+                    </div>
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -41,8 +52,14 @@
 
                     <div class="header text-center">
                         <h4 id="titlePrint" class="title"><b>Perubahan Equitas</b> </h4>
-                        <p id="titlePrint2" class="category">Laporan Perubahan Equitas periode {{date("F Y")}}</p>
-                            <br />
+                        @if(isset($month))
+                            <p id="titlePrint2" class="category">Laporan Perubahan Equitas periode {{$month}}</p>
+                            <br/>
+                        @else
+                            <p id="titlePrint2" class="category">Laporan Perubahan Equitas periode {{date("F Y")}}</p>
+                            <br/>
+                            @endif
+
                     </div>
 
                     <table id="bootstrap-table" class="table">
