@@ -1606,6 +1606,11 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
         'uses'      => 'UserController@index'
     ]);
 
+    Route::post('/reset_password',[
+        'as'        => 'reset_password.anggota',
+        'uses'      => 'UserController@reset_password'
+    ]);
+
     Route::get('/dashboard', [
         'as'        => 'dashboard',
         'uses'      => 'UserController@index'
