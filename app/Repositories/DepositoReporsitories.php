@@ -1215,7 +1215,13 @@ class DepositoReporsitories {
                     foreach($rekening->deposito as $deposito)
                     {
                         $pengajuan = Pengajuan::where([ ['jenis_pengajuan', 'Buka Mudharabah Berjangka ' . $deposito->jenis_deposito], ['status', 'Menunggu Konfirmasi'] ])->get();
-                        $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                        if($deposito->status == "active")
+                        {
+                            $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                        }else{
+                            $rekening['jumlah_saldo'] += 0;
+                        }
+
                         $rekening['pengajuan'] = $pengajuan;
                     }
                 }
@@ -1238,7 +1244,12 @@ class DepositoReporsitories {
                     foreach($rekening->deposito as $deposito)
                     {
                         $pengajuan = Pengajuan::where([ ['jenis_pengajuan', 'Buka Mudharabah Berjangka ' . $deposito->jenis_deposito], ['status', 'Menunggu Konfirmasi'] ])->get();
-                        $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                        if($deposito->status == "active")
+                        {
+                            $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                        }else{
+                            $rekening['jumlah_saldo'] += 0;
+                        }
                         $rekening['pengajuan'] = $pengajuan;
                     }
                 }
