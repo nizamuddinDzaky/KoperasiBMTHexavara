@@ -22,6 +22,7 @@ use App\Repositories\InformationRepository;
 use App\PenyimpananBMT;
 use App\PenyimpananRekening;
 use Carbon\Carbon;
+use phpDocumentor\Reflection\Project;
 use PhpParser\Node\Stmt\DeclareDeclare;
 
 class DistribusiPendapatanReporsitories {
@@ -858,14 +859,14 @@ class DistribusiPendapatanReporsitories {
                 {
                     $getDistribusiPendapatan = PenyimpananBMT::where('status', 'Distribusi Pendapatan')
                         ->where('created_at', '<', Carbon::now()->toDateString())
-                        ->where('id', $idbmt)->orderBy('created_at', 'desc')->first();
+                        ->where('id_bmt', $idbmt)->orderBy('created_at', 'desc')->first();
 
                     if ($getDistribusiPendapatan == null )
                     {
 
                         $distribusiWithDate = PenyimpananBMT::select('transaksi')
                             ->whereDate('created_at','<=', $date2->toDateString() )
-                            ->where('id', $idbmt)->orderBy('created_at', 'desc')->first();
+                            ->where('id_bmt', $idbmt)->orderBy('created_at', 'desc')->first();
 
                         if ($distribusiWithDate == null)
                         {
@@ -899,6 +900,7 @@ class DistribusiPendapatanReporsitories {
             }
 
         }
+
 
         
         return $storeSaldoAkhir/$divider;
