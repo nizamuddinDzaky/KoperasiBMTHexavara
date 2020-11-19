@@ -26,9 +26,7 @@
                     <p class="filter-title">Periode</p>
                     <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
                     {{ csrf_field() }}
-                        <select required  name="periode" class="beautiful-select" style="height: 1.9em">
-                            <option disabled selected > - Periode -</option>
-                        </select>
+                            <input type="text" class="form-control daterange" placeholder="Filter" />
                     </form>
 
                     {{-- <div class="button-group right">
@@ -51,6 +49,7 @@
                             <th class="text-center" data-sortable="true">DETAIL</th>
                         </thead>
                         <tbody>
+                        @if($data_deposito != null)
                             @foreach($data_deposito as $deposito)
                             <tr class="zoom-effect">
 {{--                                <td class="with-icon">--}}
@@ -64,7 +63,11 @@
                                 <td>{{ number_format($deposito->jumlah_saldo) }}</td>
                                 <td>{{ count($deposito->pengajuan) }} PENGAJUAN BARU</td>
                                 <td class="with-icon">
-                                    <a href="{{ route('admin.transaksi.deposito.detail', [$deposito->id]) }}">
+                                    @if($start != "start" && $end != "end")
+                                    <a href="{{ route('admin.transaksi.deposito.detail', [$deposito->id, $start, $end]) }}">
+                                        @else
+                                            <a href="{{ route('admin.transaksi.deposito.detail', [$deposito->id, "start", "end"]) }}">
+                                            @endif
                                         <div class="icon default">
                                             <i class="material-icons">more_horiz</i>
                                         </div>
@@ -72,6 +75,7 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div><!--  end card  -->

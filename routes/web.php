@@ -255,7 +255,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
                 'uses' => 'AdminController@deposito'
             ]);
 
-            Route::get('/detail/{id}', [
+            Route::get('/detail/{id}/{startDate}/{endDate}', [
                 'as'    => 'admin.transaksi.deposito.detail',
                 'uses'  => 'AdminController@detail_deposito'
             ]);

@@ -1263,4 +1263,85 @@ class DepositoReporsitories {
 
         return $rekening_deposito;
     }
+
+
+    public function getGroupingDepositoPeriode($start, $end, $id="")
+    {
+
+        if($id == "")
+        {
+            $rekening_deposito = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'DEPOSITO'] ])->get();
+            foreach($rekening_deposito as $rekening)
+            {
+
+                foreach($rekening->deposito as $keys => $item)
+                {
+                    if($item->created_at < $start || $item->created_at > $end)
+                    {
+                        $rekening->deposito->forget($keys);
+                    }
+
+                }
+
+
+                $rekening['jumlah_anggota'] = count($rekening->deposito);
+
+                if(count($rekening->deposito) > 0)
+                {
+                    foreach($rekening->deposito as $deposito)
+                    {
+                        $pengajuan = Pengajuan::where([ ['jenis_pengajuan', 'Buka Mudharabah Berjangka ' . $deposito->jenis_deposito], ['status', 'Menunggu Konfirmasi'] ])->get();
+                        if($deposito->status == "active")
+                        {
+                            $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                        }else{
+                            $rekening['jumlah_saldo'] += 0;
+                        }
+
+                        $rekening['pengajuan'] = $pengajuan;
+                    }
+                }
+                else
+                {
+                    $rekening['jumlah_saldo'] = 0;
+                    $rekening['pengajuan'] = [];
+                }
+            }
+        }
+        else {
+            $rekening_deposito = Rekening::where([['tipe_rekening', 'detail'], ['katagori_rekening', 'DEPOSITO'], ['id', $id]])->get();
+            foreach ($rekening_deposito as $rekening) {
+
+                foreach ($rekening_deposito as $rekening) {
+
+                    foreach ($rekening->deposito as $keys => $item) {
+                        if ($item->created_at < $start || $item->created_at > $end) {
+                            $rekening->deposito->forget($keys);
+                        }
+
+                    }
+
+                    $rekening['jumlah_anggota'] = count($rekening->deposito);
+
+
+                    if (count($rekening->deposito) > 0) {
+                        foreach ($rekening->deposito as $deposito) {
+                            $pengajuan = Pengajuan::where([['jenis_pengajuan', 'Buka Mudharabah Berjangka ' . $deposito->jenis_deposito], ['status', 'Menunggu Konfirmasi']])->get();
+                            if ($deposito->status == "active") {
+                                $rekening['jumlah_saldo'] += json_decode($deposito->detail)->jumlah;
+                            } else {
+                                $rekening['jumlah_saldo'] += 0;
+                            }
+                            $rekening['pengajuan'] = $pengajuan;
+                        }
+                    } else {
+                        $rekening['jumlah_saldo'] = 0;
+                        $rekening['pengajuan'] = [];
+                    }
+                }
+            }
+        }
+
+        return $rekening_deposito;
+    }
 }

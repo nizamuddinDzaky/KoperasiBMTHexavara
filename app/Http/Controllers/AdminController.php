@@ -25,7 +25,7 @@ use App\Rekening;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use Rap2hpoutre\FastExcel\FastExcel;
-
+use Carbon\Carbon;
 use App\Repositories\RekeningReporsitories;
 
 class AdminController extends Controller
@@ -1239,19 +1239,46 @@ class AdminController extends Controller
      * Deposito anggota controller
      * @return View
     */
-    public function deposito(){
-        $data_deposito = $this->depositoReporsitory->getGroupingDeposito();
+    public function deposito(Request $request){
+
+        if(isset($request->start) && isset($request->end))
+        {
+            $start = Carbon::createFromFormat('d-m-Y',$request->start)->format('Y-m-d');
+            $end = Carbon::createFromFormat('d-m-Y', $request->end)->format('Y-m-d');
+            $data_deposito = $this->depositoReporsitory->getGroupingDepositoPeriode($start,$end);
+        }
+        else{
+            $start = "start";
+            $end = "end";
+            $data_deposito = $this->depositoReporsitory->getGroupingDeposito();
+        }
+
+
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
-        return view('admin.transaksi.deposito', compact('data_deposito', 'notification', 'notification_count'));
+        return view('admin.transaksi.deposito', compact('data_deposito', 'notification', 'notification_count', 'start', 'end'));
     }
 
     /**
      * Detail deposito anggota controller
      * @return View
     */
-    public function detail_deposito($id){
-        $data_deposito = $this->depositoReporsitory->getGroupingDeposito($id);
+    public function detail_deposito(Request $request,$id, $startDate, $endDate){
+
+        if(isset($request->start) && isset($request->end))
+        {
+            $start = Carbon::createFromFormat('d-m-Y',$request->start)->format('Y-m-d');
+            $end = Carbon::createFromFormat('d-m-Y', $request->end)->format('Y-m-d');
+            $data_deposito = $this->depositoReporsitory->getGroupingDepositoPeriode($start,$end,$id);
+        }
+        else if($startDate != "start" && $endDate != "end")
+        {
+            $data_deposito = $this->depositoReporsitory->getGroupingDepositoPeriode($startDate,$endDate, $id);
+        }
+        else{
+            $data_deposito = $this->depositoReporsitory->getGroupingDeposito($id);
+        }
+
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
         return view('admin.transaksi.detail_deposito', compact('data_deposito', 'notification', 'notification_count'));
