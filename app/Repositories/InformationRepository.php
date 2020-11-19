@@ -3767,7 +3767,13 @@ class InformationRepository
         }
         
         $saldo_rata2 = $this->nasabah_rata2($tab,"tabungan");
-        // dd($saldo_rata2); 
+
+        if($data == null)
+        {
+            $tabungan = Tabungan::where('id', $id)->select('jenis_tabungan', 'id as id_tabungan')->first();
+            $data[0]['jenis_tabungan']=$tabungan->jenis_tabungan;
+            $data[0]['id_tabungan']=$tabungan->id_tabungan;
+        }
         $data[0]['saldo_rata2']=$saldo_rata2;
         return $data;
         

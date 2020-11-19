@@ -43,6 +43,7 @@
                             <th></th>
                             </thead>
                             <tbody>
+                            @if(isset($data[0]->id))
                             @foreach ($data as $usr)
                                 @if($usr->status !== "Setoran Awal")
                                     <tr>
@@ -100,6 +101,7 @@
                                 @endif
 
                             @endforeach
+                                @endif
                             </tbody>
                         </table>
 
