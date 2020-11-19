@@ -15,7 +15,7 @@
     <div class="row">
 
         <a href="{{ route("teller.dashboard.kas") }}">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #8892D6">
                     <div class="card-body">
                         <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas) }}</span>
@@ -29,7 +29,7 @@
         </a>
 
         <a href="{{ route("teller.dashboard.tabungan") }}">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #45BBE0">
                     <div class="card-body">
                         <span class="card-title card-number-large">{{ number_format($saldo_tabungan) }}</span>
@@ -43,7 +43,7 @@
         </a>
 
         <a href="{{ route("teller.dashboard.deposito") }}">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #F06292">
                     <div class="card-body">
                         <span class="card-title card-number-large">{{ number_format($saldo_deposito) }}</span>
@@ -57,7 +57,7 @@
         </a>
 
         <a href="{{ route("teller.dashboard.pembiayaan") }}">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #78C350">
                     <div class="card-body">
                         <span class="card-title card-number-large">{{ number_format($saldo_pembiayaan) }}</span>

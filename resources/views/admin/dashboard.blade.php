@@ -14,7 +14,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-2 small-card">
+            <div class="col-md-4">
                 <a href="{{route('total.harta.bmt')}}">
                     <div class="card dashboard link" style="background-color: #3097D1">
                         <div class="card-body">
@@ -24,7 +24,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-2 small-card">
+            <div class="col-md-4">
                 <a href="{{route('total.simpanan.anggota')}}">
                     <div class="card dashboard link" style="background-color: #FCD12A">
                         <div class="card-body">
@@ -34,7 +34,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-2 small-card">
+            <div class="col-md-4">
                 <a href="{{ route('admin.transaksi.teller_list') }}">
                     <div class="card dashboard link" style="background-color: #8892D6">
                         <div class="card-body">
@@ -44,7 +44,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-2 small-card">
+            <div class="col-md-4">
                 <a href="{{ route('admin.transaksi.tabungan') }}">
                     <div class="card dashboard link" style="background-color: #45BBE0">
                         <div class="card-body">
@@ -54,7 +54,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-2 small-card">
+            <div class="col-md-4">
                 <a href="{{ route('admin.transaksi.deposito') }}">
                     <div class="card dashboard link" style="background-color: #F06292">
                         <div class="card-body">
@@ -64,7 +64,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-2 small-card">
+            <div class="col-md-4">
                 <a href="{{ route('admin.total.pembiayaan') }}">
                 <div class="card dashboard link" style="background-color: #78C350">
                     <div class="card-body">
