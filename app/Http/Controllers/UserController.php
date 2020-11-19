@@ -329,8 +329,7 @@ class UserController extends Controller
     public function detail_tabungan(Request $request)
     {
         $notification = $this->pengajuanReporsitory->getNotification();
-        // return response()->json($this->informationRepository->getTransaksiTabUsr($request->id_));
-        // return response()->json($request);
+
         return view('users.detail_tabungan', [
             'notification' => $notification,
             'notification_count' =>count($notification),

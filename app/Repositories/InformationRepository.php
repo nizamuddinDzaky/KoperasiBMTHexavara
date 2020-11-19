@@ -3762,7 +3762,29 @@ class InformationRepository
             }
             elseif($data[$i]['status']=="Transfer Antar Anggota") {
                 $str = json_decode($data[$i]->transaksi,true);
-                $data[$i]['untuk_rekening'] = $str['untuk_rekening'];
+
+
+                if($str['jumlah'] < 0 )
+                {
+                    $idrekening = explode(']', $str['untuk_rekening']);
+                    $idrekeningFinal = explode('[', $idrekening[0]);
+                    $idUser = Tabungan::where('id_tabungan', $idrekeningFinal[1])->select('id_user')->first();
+                    $namaUser = User::where('id', $idUser->id_user)->select('nama')->first();
+                    $data[$i]['untuk_rekening'] = $namaUser->nama;
+                }
+                elseif($str['jumlah'] > 0)
+                {
+                    $idrekening = explode(']', $str['dari_rekening']);
+                    $idrekeningFinal = explode('[', $idrekening[0]);
+                    $idUser = Tabungan::where('id_tabungan', $idrekeningFinal[1])->select('id_user')->first();
+                    $namaUser = User::where('id', $idUser->id_user)->select('nama')->first();
+                    $data[$i]['dari_rekening'] = $namaUser->nama;
+                }
+                else
+                {
+                    $data[$i]['untuk_rekening'] = $str['untuk_rekening'];
+                }
+
             }
         }
         

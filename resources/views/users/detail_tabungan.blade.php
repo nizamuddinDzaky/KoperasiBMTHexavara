@@ -53,6 +53,8 @@
 
                                         @if(json_decode($usr->transaksi,true)['dari_rekening']==null)
                                             <td class="text-left text-uppercase">TUNAI</td>
+                                        @elseif($usr->status == "Transfer Antar Anggota" && json_decode($usr->transaksi,true)['jumlah'] > 0  )
+                                            <td class="text-left text-uppercase">{{ $usr->dari_rekening }}</td>
                                         @else
                                             <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
                                         @endif
@@ -65,7 +67,9 @@
                                             @endif
                                         @else
                                             @if(json_decode($usr->transaksi,true)['untuk_rekening']==null)
-                                                <td class="text-left text-uppercase">TUNAI</td>    
+                                                <td class="text-left text-uppercase">TUNAI</td>
+                                            @elseif($usr->status == "Transfer Antar Anggota" && json_decode($usr->transaksi,true)['jumlah'] < 0  )
+                                                <td class="text-left text-uppercase">{{ $usr->untuk_rekening }}</td>
                                             @else
                                                 <td class="text-left text-uppercase">{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
                                             @endif
