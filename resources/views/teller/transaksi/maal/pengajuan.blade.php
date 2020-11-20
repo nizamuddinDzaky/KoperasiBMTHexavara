@@ -87,7 +87,161 @@
 
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
+        <script type="text/javascript">
+            function umumKegiatanDisable(){
+                var checkBox = document.getElementById("umumFlagKegiatan");
+                var x = document.getElementById("namaUmumKegiatan");
+                var y = document.getElementById('emailUmumKegiatan');
+                if(checkBox.checked === true)
+                {
+                    document.getElementById("umumSelectKegiatan").disabled = true;
+                    x.style.display = "block";
+                    y.style.display = "block";
+                    document.getElementById("namaPendonasi").required = true;
+                    document.getElementById("email").required = true;
+                    var z = document.getElementById("opsiPembayaranUmumKegiatan");
+                    z.remove(3);
+
+                }else {
+                    document.getElementById("umumSelectKegiatan").disabled = false;
+                    x.style.display = "none";
+                    y.style.display = "none";
+                    document.getElementById("namaPendonasi").required = false;
+                    document.getElementById("email").required = false;
+                    var opsiRekening = new Option('Rekening Tabungan', '2');
+                    var z = document.getElementById("opsiPembayaranUmumKegiatan");
+                    z.add(opsiRekening, undefined);
+
+                }
+            }
+
+            function umumWakafDisable(){
+                var checkBox = document.getElementById("umumFlagWakaf");
+                var x = document.getElementById("namaUmumWakaf");
+                var y = document.getElementById('emailUmumWakaf');
+                if(checkBox.checked === true)
+                {
+                    document.getElementById("umumSelectWakaf").disabled = true;
+                    x.style.display = "block";
+                    y.style.display = "block";
+                    document.getElementById("namaPendonasiWakaf").required = true;
+                    document.getElementById("emailWakaf").required = true;
+                    var z = document.getElementById("opsiPembayaranUmumWakaf");
+                    z.remove(3);
+
+                }else{
+                    document.getElementById("umumSelectWakaf").disabled = false;
+                    x.style.display = "none";
+                    y.style.display = "none";
+                    document.getElementById("namaPendonasiWakaf").required = false;
+                    document.getElementById("emailWakaf").required = false;
+                    var opsiRekening = new Option('Rekening Tabungan', '2');
+                    var z = document.getElementById("opsiPembayaranUmumWakaf");
+                    z.add(opsiRekening, undefined);
+
+                }
+
+
+            }
+
+            function umumZISDisable(){
+                var checkBox = document.getElementById("umumFlagZIS");
+                var x = document.getElementById("namaUmumZIS");
+                var y = document.getElementById('emailUmumZIS');
+                if(checkBox.checked === true)
+                {
+                    document.getElementById("umumSelectZIS").disabled = true;
+                    x.style.display = "block";
+                    y.style.display = "block";
+                    document.getElementById("namaPendonasiZIS").required = true;
+                    document.getElementById("emailZIS").required = true;
+                    var z = document.getElementById("opsiPembayaranUmumZIS");
+                    z.remove(3);
+
+                }else {
+                    document.getElementById("umumSelectZIS").disabled = false;
+                    x.style.display = "none";
+                    y.style.display = "none";
+                    document.getElementById("namaPendonasiZIS").required = false;
+                    document.getElementById("emailZIS").required = false;
+                    var opsiRekening = new Option('Rekening Tabungan', '2');
+                    var z = document.getElementById("opsiPembayaranUmumZIS");
+                    z.add(opsiRekening, undefined);
+
+                }
+            }
+
+
+
+            $('#donasiKegiatan').on('show.bs.modal', function (event) {
+                var checkBox = document.getElementById("umumFlagKegiatan");
+                var x = document.getElementById("namaUmumKegiatan");
+                var y = document.getElementById('emailUmumKegiatan');
+                if(checkBox.checked == true)
+                {
+                    document.getElementById("umumSelectKegiatan").disabled = true;
+                    x.style.display = "block";
+                    y.style.display = "block";
+                    document.getElementById("namaPendonasi").required = true;
+                    document.getElementById("email").required = true;
+                }else{
+                    document.getElementById("umumSelectKegiatan").disabled = false;
+                    x.style.display = "none";
+                    y.style.display = "none";
+                    document.getElementById("namaPendonasi").required = false;
+                    document.getElementById("email").required = false;
+                }
+
+            });
+
+            $('#donasiKegiatanWakaf').on('show.bs.modal', function (event) {
+                var checkBox = document.getElementById("umumFlagWakaf");
+                var x = document.getElementById("namaUmumWakaf");
+                var y = document.getElementById('emailUmumWakaf');
+                if(checkBox.checked == true)
+                {
+                    document.getElementById("umumSelectWakaf").disabled = true;
+                    x.style.display = "block";
+                    y.style.display = "block";
+                    document.getElementById("namaPendonasiWakaf").required = true;
+                    document.getElementById("emailWakaf").required = true;
+                }else{
+                    document.getElementById("umumSelectWakaf").disabled = false;
+                    x.style.display = "none";
+                    y.style.display = "none";
+                    document.getElementById("namaPendonasiWakaf").required = false;
+                    document.getElementById("emailWakaf").required = false;
+                }
+
+            });
+
+            $('#donasiZis').on('show.bs.modal', function (event) {
+                var checkBox = document.getElementById("umumFlagZIS");
+                var x = document.getElementById("namaUmumZIS");
+                var y = document.getElementById('emailUmumZIS');
+                if(checkBox.checked == true)
+                {
+                    document.getElementById("umumSelectZIS").disabled = true;
+                    x.style.display = "block";
+                    y.style.display = "block";
+                    document.getElementById("namaPendonasiZIS").required = true;
+                    document.getElementById("emailZIS").required = true;
+                }else{
+                    document.getElementById("umumSelectZIS").disabled = false;
+                    x.style.display = "none";
+                    y.style.display = "none";
+                    document.getElementById("namaPendonasiZIS").required = false;
+                    document.getElementById("emailZIS").required = false;
+                }
+
+            });
+
+        </script>
+
     <script type="text/javascript">
+
+
+
         $('#viewSimModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).

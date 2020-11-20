@@ -854,7 +854,19 @@ class DonasiReporsitories {
             $statement = DB::select("SHOW TABLE STATUS LIKE 'pengajuan'");
             $nextId = $statement[0]->Auto_increment;
 
-            $donatur = User::where('id', $data->donatur)->first();
+            if(isset($data->email) && isset($data->nama))
+            {
+                $donatur = User::where('no_ktp', '9999999999999999' )->first();
+                $nama = $data->nama;
+                $email = $data->email;
+            }
+            else
+            {
+                $donatur = User::where('id', $data->donatur)->first();
+                $nama = $donatur->nama;
+                $email = "";
+            }
+
 
             if($data->debit == 1) {
                 $file = $data->file->getClientOriginalName();
@@ -937,7 +949,7 @@ class DonasiReporsitories {
                 'id_maal'   => $data->id_donasi,
                 'jenis_donasi'    => $data->jenis_donasi,
                 'id'        => $donatur->id,
-                'nama'      => $donatur->nama,
+                'nama'      => $nama,
                 'debit'     => $debit,
                 'path_bukti'=> $path_bukti,
                 'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
@@ -949,7 +961,8 @@ class DonasiReporsitories {
                 'saldo_awal' => $saldo_awal_donasi,
                 'saldo_akhir'   => $saldo_akhir_donasi,
                 'dari_rekening' => $bmt_pengirim->nama,
-                'untuk_rekening' => $bmt_donasi->nama
+                'untuk_rekening' => $bmt_donasi->nama,
+                'email'         => $email
             ];
 
             if($data->jenis_donasi == 'donasi kegiatan')
@@ -991,7 +1004,10 @@ class DonasiReporsitories {
                     "saldo_awal"    => $saldo_awal_donasi,
                     "saldo_akhir"   => $saldo_akhir_donasi,
                     "id_pengajuan"  => $nextId,
-                    "jenis"         => $debit
+                    "jenis"         => $debit,
+                    "nama"          => $nama,
+                    "email"         => $email,
+                    "no_bank"       => $norek,
                 ];
             }
             else
@@ -1150,7 +1166,18 @@ class DonasiReporsitories {
             $statement = DB::select("SHOW TABLE STATUS LIKE 'pengajuan'");
             $nextId = $statement[0]->Auto_increment;
 
-            $donatur = User::where('id', $data->donatur)->first();
+            if(isset($data->email) && isset($data->nama))
+            {
+                $donatur = User::where('no_ktp', '9999999999999999' )->first();
+                $nama = $data->nama;
+                $email = $data->email;
+            }
+            else
+            {
+                $donatur = User::where('id', $data->donatur)->first();
+                $nama = $donatur->nama;
+                $email = "";
+            }
 
             if($data->debit == 1) {
                 $file = $data->file->getClientOriginalName();
@@ -1219,7 +1246,7 @@ class DonasiReporsitories {
                 'id_wakaf'   => $data->id_donasi,
                 'jenis_donasi'    => $data->jenis_donasi,
                 'id'        => $donatur->id,
-                'nama'      => $donatur->nama,
+                'nama'      => $nama,
                 'debit'     => $debit,
                 'path_bukti'=> $path_bukti,
                 'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
@@ -1231,7 +1258,8 @@ class DonasiReporsitories {
                 'saldo_awal' => $saldo_awal_donasi,
                 'saldo_akhir'   => $saldo_akhir_donasi,
                 'dari_rekening' => $bmt_pengirim->nama,
-                'untuk_rekening' => $bmt_donasi->nama
+                'untuk_rekening' => $bmt_donasi->nama,
+                'email'         => $email
             ];
 
             if($data->jenis_donasi == 'donasi kegiatan wakaf')

@@ -1575,8 +1575,8 @@ class TellerController extends Controller
     */
     public function pay_donasi(Request $request)
     {
-        // return response()->json($request);
         $donasi = $this->donasiReporsitory->payDonasi($request);
+
         if($donasi['type'] == 'success') {
             return redirect()
                 ->back()

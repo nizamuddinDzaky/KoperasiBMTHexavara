@@ -43,7 +43,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Email <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="emai;" name="email" required>
+                                        <input type="text" class="form-control text-left"  id="email" name="email" required>
                                     </div>
                                 </div>
                             </div>

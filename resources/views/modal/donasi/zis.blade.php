@@ -186,7 +186,7 @@
                                     <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                         <div class="form-group">
                                             <label for="namaSim" class="control-label">Donatur <star>*</star></label>
-                                            <select class="form-control select2 donatur" name="donatur" style="width: 100%;" required>
+                                            <select class="form-control select2 donatur" id="umumSelectZIS" name="donatur" style="width: 100%;" required>
                                                 <option selected disabled>- Pilih Donatur -</option>
                                                 @foreach ($anggota as $anggota)
                                                     <option value="{{ $anggota->id }}">{{ $anggota->nama }}</option>
@@ -195,7 +195,34 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <input type="checkbox" onclick="umumZISDisable()" id="umumFlagZIS" name="umumFlagZIS" value="umumZIS">
+                                            <label for="vehicle1">Umum</label><br>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
+
+                            <div class="row" id="namaUmumZIS">
+                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Nama <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="namaPendonasiZIS" name="nama">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="emailUmumZIS">
+                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Email <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="emailZIS" name="email">
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
@@ -210,7 +237,7 @@
                                 <div class="col-sm-12 col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Jenis Pembayaran <star>*</star></label>
-                                        <select class="form-control opsi-pembayaran" name="debit" style="width: 100%;" required>
+                                        <select class="form-control opsi-pembayaran" id="opsiPembayaranUmumZIS" name="debit" style="width: 100%;" required>
                                             <option selected value="-1" disabled>-Pilih jenis pembayaran-</option>
                                             @if(Auth::user()->tipe != "anggota")
                                                 <option value="0">Tunai</option>
