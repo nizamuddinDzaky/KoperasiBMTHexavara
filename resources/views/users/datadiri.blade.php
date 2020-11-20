@@ -710,7 +710,7 @@
                 $('.date-picker').datetimepicker({
 //                    defaultDate: "11/1/2013",
                     defaultDate: '{{isset(json_decode(Auth::user()->detail,true)['tgl_lahir'])?json_decode(Auth::user()->detail,true)['tgl_lahir']:""}}',
-                    format: 'MM/DD/YYYY',
+                    format: 'DD/MM/YYYY',
                     icons: {
                         time: "fa fa-clock-o",
                         date: "fa fa-calendar",

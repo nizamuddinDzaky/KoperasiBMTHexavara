@@ -156,7 +156,7 @@ class UserController extends Controller
             'filenikah' => 'file|max:2000', // max 2MB
         ]);
         if(preg_match("/^[0-9,]+$/", $request->pendapatan)) $request->pendapatan = str_replace(',',"",$request->pendapatan);
-
+        $tglLahir = Carbon::createFromFormat('d/m/Y', $request->tglLahir)->format('m/d/Y');
         $detail = [
             'nama' => $request->nama,
             'no_ktp' => Auth::user()->no_ktp,
@@ -164,7 +164,7 @@ class UserController extends Controller
             'telepon' => $request->telepon,
             'jenis_kelamin' => $request->jenisKel,
             'tempat_lahir' => $request->tempat,
-            'tgl_lahir' => $request->tglLahir,
+            'tgl_lahir' => $tglLahir,
             'alamat_ktp' => $request->alamat,
             'alamat_domisili' => $request->domisili,
             'pendidikan' => $request->pendidikan,
