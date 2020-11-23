@@ -1568,7 +1568,6 @@ class AdminController extends Controller
         DB::table('pembiayaan')->truncate();
         DB::table('pengajuan')->truncate();
         DB::table('vote')->truncate();
-        DB::table('rapat')->truncate();
         DB::table('deposito')->truncate();
 
 
