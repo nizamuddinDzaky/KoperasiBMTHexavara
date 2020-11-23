@@ -164,11 +164,11 @@
                                         </button>
                                         @endif
 
-                                        <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delUsrModal" title="Delete"
-                                                data-id         = "{{$usr->no_ktp}}"
-                                                data-nama       = "{{$usr->nama}}">
-                                            <i class="fa fa-remove"></i>
-                                        </button>
+{{--                                        <button type="button"  class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#delUsrModal" title="Delete"--}}
+{{--                                                data-id         = "{{$usr->no_ktp}}"--}}
+{{--                                                data-nama       = "{{$usr->nama}}">--}}
+{{--                                            <i class="fa fa-remove"></i>--}}
+{{--                                        </button>--}}
                                         @endif
                                         {{--<a class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#deleteUsrModal" title="Delete">--}}
                                         {{--<i class="fa fa-remove"></i>--}}
