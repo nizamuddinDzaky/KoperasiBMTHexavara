@@ -251,13 +251,14 @@ class AccountReporsitories {
             $deposito = $this->depositoReporsitory->getUserDeposito($status="active", $user=$pengajuan->id_user);
             $user_rekening = User::where('id', $pengajuan->id_user)->first();
             $bmt_teller_pencairan = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first();
-            
+
             $this->exportKeteranganAnggotaKeluar($pengajuan);
 
             if(count($tabungan) > 0)
             {
                 foreach($tabungan as $rekening_tabungan)
                 {
+
                     if($bmt_teller_pencairan->saldo > json_decode($rekening_tabungan->detail)->saldo)
                     {
                         $detailToPenyimpananTabungan = [
@@ -459,11 +460,17 @@ class AccountReporsitories {
                     "pokok" => json_decode($user_rekening->wajib_pokok)->pokok,
                     "khusus" => json_decode($user_rekening->wajib_pokok)->khusus
                 ];
-                $user_rekening->wajib_pokok = json_encode($dataToUpdateWajibPokok);
-                $user_rekening->save();
 
                 $bmt_simpanan_wajib->saldo = $bmt_simpanan_wajib->saldo - json_decode($user_rekening->wajib_pokok)->wajib;
                 $update_bmt_simpanan_wajib = $bmt_simpanan_wajib->save();
+
+                $bmt_teller_pencairan->saldo = $bmt_teller_pencairan->saldo - json_decode($user_rekening->wajib_pokok)->wajib;
+                $update_bmt_teller_wajib = $bmt_teller_pencairan->save();
+
+                $user_rekening->wajib_pokok = json_encode($dataToUpdateWajibPokok);
+                $user_rekening->save();
+
+
             }
 
             if(isset(json_decode($user_rekening->wajib_pokok)->pokok) && $bmt_teller_pencairan->saldo > json_decode($user_rekening->wajib_pokok)->pokok)
@@ -516,11 +523,18 @@ class AccountReporsitories {
                     "pokok" => 0,
                     "khusus" => json_decode($user_rekening->wajib_pokok)->khusus
                 ];
-                $user_rekening->wajib_pokok = json_encode($dataToUpdateWajibPokok);
-                $user_rekening->save();
 
                 $bmt_simpanan_pokok->saldo = $bmt_simpanan_pokok->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
                 $update_bmt_simpanan_pokok = $bmt_simpanan_pokok->save();
+
+                $bmt_teller_pencairan->saldo = $bmt_teller_pencairan->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
+                $update_bmt_teller_pokok = $bmt_teller_pencairan->save();
+
+
+                $user_rekening->wajib_pokok = json_encode($dataToUpdateWajibPokok);
+                $user_rekening->save();
+
+
             }
 
             if(isset(json_decode($user_rekening->wajib_pokok)->khusus) && $bmt_teller_pencairan->saldo > json_decode($user_rekening->wajib_pokok)->khusus)
@@ -573,31 +587,68 @@ class AccountReporsitories {
                     "pokok" => json_decode($user_rekening->wajib_pokok)->pokok,
                     "khusus" => 0
                 ];
-                $user_rekening->wajib_pokok = json_encode($dataToUpdateWajibPokok);
-                $user_rekening->save();
 
                 $bmt_simpanan_khusus->saldo = $bmt_simpanan_khusus->saldo - json_decode($user_rekening->wajib_pokok)->khusus;
                 $update_bmt_simpanan_khusus = $bmt_simpanan_khusus->save();
+
+                $bmt_teller_pencairan->saldo = $bmt_teller_pencairan->saldo - json_decode($user_rekening->wajib_pokok)->khusus;
+                $update_bmt_teller_khusus = $bmt_teller_pencairan->save();
+
+                $user_rekening->wajib_pokok = json_encode($dataToUpdateWajibPokok);
+                $user_rekening->save();
+
+
+
             }
+
 
             $user_rekening->status = 1;
             $user_rekening->is_active = 0;
 
             $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id;
 
-            if($update_bmt_simpanan_khusus && $update_bmt_simpanan_pokok && $update_bmt_simpanan_wajib &&
-            isset($update_bmt_teller_pencairan_deposito) && $update_bmt_teller_pencairan_deposito && isset($update_bmt_teller_pencairan_tabungan) && $update_bmt_teller_pencairan_tabungan)
-            {
-                $user_rekening->save(); $pengajuan->save();
-                DB::commit();
-                $response = array("type" => "success", "message" => "Pencairan Penutupan Rekening Berhasil");
+        if (count($deposito) > 0 && count($tabungan) > 0 )
+        {
+                if ($update_bmt_simpanan_khusus && $update_bmt_simpanan_pokok && $update_bmt_simpanan_wajib && isset($update_bmt_teller_pencairan_deposito) && $update_bmt_teller_pencairan_deposito && isset($update_bmt_teller_pencairan_tabungan) && $update_bmt_teller_pencairan_tabungan && $update_bmt_teller_khusus & $update_bmt_teller_pokok && $update_bmt_teller_wajib ) {
+                    $user_rekening->save();
+                    $pengajuan->save();
+                    DB::commit();
+                    $response = array("type" => "success", "message" => "Pencairan Penutupan Rekening Berhasil");
+                }
+                else
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+                }
             }
-            else
-            {
-                DB::rollback();
-                $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+            else if (count($tabungan) > 0 ) {
+                if ($update_bmt_simpanan_khusus && $update_bmt_simpanan_pokok && $update_bmt_simpanan_wajib && isset($update_bmt_teller_pencairan_tabungan) && $update_bmt_teller_pencairan_tabungan  && $update_bmt_teller_khusus & $update_bmt_teller_pokok && $update_bmt_teller_wajib ) {
+                    $user_rekening->save();
+                    $pengajuan->save();
+                    DB::commit();
+                    $response = array("type" => "success", "message" => "Pencairan Penutupan Rekening Berhasil");
+                }
+                else
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+                }
+
             }
-        }
+            elseif (count($deposito) > 0) {
+                if ($update_bmt_simpanan_khusus && $update_bmt_simpanan_pokok && $update_bmt_simpanan_wajib && isset($update_bmt_teller_pencairan_deposito) && $update_bmt_teller_pencairan_deposito  && $update_bmt_teller_khusus & $update_bmt_teller_pokok && $update_bmt_teller_wajib) {
+                    $user_rekening->save();
+                    $pengajuan->save();
+                    DB::commit();
+                    $response = array("type" => "success", "message" => "Pencairan Penutupan Rekening Berhasil");
+                }
+                else
+                {
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+                }
+            }
+}
         catch(Exception $ex)
         {
             DB::rollback();
@@ -639,9 +690,9 @@ class AccountReporsitories {
                 "nik"   => $user->no_ktp,
                 "nama_user" => strtoupper($user->nama),
                 "tanggal_keluar"    => $this->helperRepository->getDayName() . ", " . Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y H:i A P"),
-                "jumlah_simpanan_pokok"    => json_decode($user->wajib_pokok)->pokok,
-                "jumlah_simpanan_wajib"    => json_decode($user->wajib_pokok)->wajib,
-                "jumlah_simpanan_sukarela"    => json_decode($user->wajib_pokok)->khusus,
+                "jumlah_simpanan_pokok"    => number_format(json_decode($user->wajib_pokok)->pokok,2),
+                "jumlah_simpanan_wajib"    => number_format(json_decode($user->wajib_pokok)->wajib,2),
+                "jumlah_simpanan_sukarela"    => number_format(json_decode($user->wajib_pokok)->khusus,2),
                 "pihak_bmt"         => "SUNOYO",
                 "cabang"            => "Surabaya",
                 "tanggal_penetapan" => Carbon::now()->format('d') . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
