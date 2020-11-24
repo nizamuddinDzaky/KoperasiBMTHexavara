@@ -99,7 +99,7 @@
                                 <td>{{ $item->user->nama }}</td>
                                 <td>{{ $item->user->alamat }}</td>
                                 <td>{{ $item->flag == 1 ? "Setuju" : "Tidak Setuju" }}</td>
-                                @if(isset($item->tanda_tangan))
+                                @if($item->tanda_tangan != "")
                                 <td><img src="{{asset('storage/public/rapat/'.$item->tanda_tangan)}}" style="width: 65%; height: 45%" alt="tanda_tangan_voter"></td>
                                 @else
                                     <td>Belum ada tanda tangan</td>
