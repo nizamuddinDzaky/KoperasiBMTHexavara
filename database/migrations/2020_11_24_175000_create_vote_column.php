@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJaminanTable extends Migration
+class CreateVoteColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateJaminanTable extends Migration
      */
     public function up()
     {
-        Schema::create('jaminan', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('nama_jaminan');
-            $table->string('status');
-            $table->text('detail');
-            $table->timestamps();
+        Schema::table('vote', function (Blueprint $table) {
+            $table->string('tanda_tangan', 191)->after('id_rapat');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateJaminanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jaminan');
+        Schema::table('vote', function (Blueprint $table) {
+            $table->dropColumn('tanda_tangan');
+        });
     }
 }

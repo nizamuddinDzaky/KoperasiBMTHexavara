@@ -8,7 +8,14 @@
     @include('layouts.top_navbar')
 @endsection
 @section('extra_style')
+    <link rel="stylesheet" href="{{asset('css/jquery.signature.css')}}">
+    <style>
 
+        #defaultSignature canvas{
+            width: 100% !important;
+            height: auto;
+        }
+    </style>
 @endsection
 @section('content')
 <div class="content">
@@ -82,6 +89,7 @@
                         <th class="text-left" data-sortable="true">NAMA USER</th>
                         <th class="text-left" data-sortable="true">ALAMAT</th>
                         <th class="text-left" data-sortable="true">VOTE</th>
+                        <th class="text-left" data-sortable="true">Tanda Tangan</th>
                     </thead>
                     <tbody id="data_rapat">
                         @foreach ($vote as $item)
@@ -91,6 +99,11 @@
                                 <td>{{ $item->user->nama }}</td>
                                 <td>{{ $item->user->alamat }}</td>
                                 <td>{{ $item->flag == 1 ? "Setuju" : "Tidak Setuju" }}</td>
+                                @if(isset($item->tanda_tangan))
+                                <td><img src="{{asset('storage/public/rapat/'.$item->tanda_tangan)}}" style="width: 65%; height: 45%" alt="tanda_tangan_voter"></td>
+                                @else
+                                    <td>Belum ada tanda tangan</td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -108,7 +121,24 @@
 @endsection
 
 @section('extra_script')
-
+    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
     <script src="{{ asset('bmtmudathemes/assets/js/modal/rapat.js') }}"></script>
+    <script src="{{ asset('js/jquery.signature.js') }}"></script>
+    <script type="text/javascript">
+        var tt = $('#defaultSignature').signature({syncField: '#signature64', syncFormat: 'PNG'});
+        $('#clear').click(function(e) {
+            e.preventDefault();
+            tt.signature('clear');
+            $("#signature64").val('');
+        });
 
+        $('#voting').click(function(e) {
+            var tt = document.getElementById("signature64").value;
+
+            if(tt = null || tt == "")
+            {
+                window.alert('Tanda tangan di tempat yang tersedia')
+            }
+        });
+    </script>
 @endsection

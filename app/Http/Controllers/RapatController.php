@@ -261,13 +261,28 @@ class RapatController extends Controller
     */
     public function vote(Request $request)
     {
-        // return response()->json($request->vote == "setuju" ? 1 : 0);
+
+        if (isset($request->signed)){
+            $folderPath = public_path('storage/public/rapat/');
+            $image_parts = explode(";base64,", $request->signed);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            $file = $folderPath . uniqid() . '.'.$image_type;
+
+        }
+
+        $path = str_after($file,$folderPath);
+
+
         $vote = new Vote();
         $vote->flag = $request->vote == "setuju" ? 1 : 0;
         $vote->id_user = Auth::user()->id;
         $vote->id_rapat = $request->id;
+        $vote->tanda_tangan = $path;
         if($vote->save())
         {
+            file_put_contents($file, $image_base64);
             return redirect()->back()
                 ->withSuccess(sprintf('Voting Berhasil.'));
         }

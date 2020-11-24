@@ -13,11 +13,15 @@
                 </div>
                 <div class="modal-body">
                     <h4>Yaqin Anda <span class="vote"></span> Dengan Rapat Ini?</h4>
+                    <label for="">Tanda Tangan:</label> <br>
                     <h5 id="toDelete"></h5>
+                        <div id="defaultSignature"></div>
+                        <textarea id="signature64" name="signed" style="display: none" required></textarea>
+                    <button type="button" id="clear" class="btn btn-danger btn-sm">Hapus Tanda Tangan</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-danger">Voting</button>
+                    <button type="submit" class="btn btn-danger" id="voting">Voting</button>
                 </div>
             </form>
         </div>
