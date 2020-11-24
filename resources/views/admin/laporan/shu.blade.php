@@ -135,7 +135,12 @@
                             @foreach($data_distribusi as $item)
                                 <tr>
                                     <td class="text-left"><span style="color: white">'</span>{{$item['no_ktp'] }}</td>
-                                    <td class="text-left">{{ $item['nama']  }}</td>
+                                    @if($item['nama'] == "")
+                                        <td class="text-left">{{ $item['account_type']  }}</td>
+                                    @else
+                                        <td class="text-left">{{ $item['nama']  }}</td>
+                                        @endif
+
                                     <td class="text-right">{{number_format(floatval($item['simpanan_pokok']),2) }}</td>
                                     <td class="text-right">{{number_format(floatval($item['simpanan_wajib']),2) }}</td>
                                     <td class="text-right">{{number_format(floatval($item['simpanan_khusus']),2) }}</td>
@@ -143,11 +148,22 @@
                                     <td class="text-right">{{number_format(floatval($item['shu_pengelola']),2)}}</td>
                                     <td class="text-right">{{number_format(floatval($item['shu_pengurus']),2)}}</td>
                                     <td class="text-right">{{number_format(floatval($item['shu_anggota']),2)}}</td>
-                                    <td class="text-right">{{number_format(floatval($item['shu_pengelola']) + floatval($item['shu_pengurus']) + floatval($item['shu_anggota']), 2)}}</td>
+                                    @if(isset($item['porsi_shu']))
+                                        <td class="text-right">{{number_format($item['porsi_shu'], 2)}}</td>
+                                    @else
+                                        <td class="text-right">{{number_format(floatval($item['shu_pengelola']) + floatval($item['shu_pengurus']) + floatval($item['shu_anggota']), 2)}}</td>
+                                        @endif
+
+
                                 </tr>
                                 
                                 @php
-                                $total_shu_anggota += floatval($item['shu_pengelola']) + floatval($item['shu_pengurus']) + floatval($item['shu_anggota']);
+                                if (isset($item['porsi_shu'])){
+                                    $total_shu_anggota += floatval($item['shu_pengelola']) + floatval($item['shu_pengurus']) + floatval($item['shu_anggota']) + floatval($item['porsi_shu'])  ;
+                                }else{
+                                    $total_shu_anggota += floatval($item['shu_pengelola']) + floatval($item['shu_pengurus']) + floatval($item['shu_anggota']);
+                                }
+
                                 @endphp
 
                             @endforeach
