@@ -204,25 +204,28 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row" id="namaUmumZIS">
+                                    <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="namaSim" class="control-label">Nama <star>*</star></label>
+                                            <input type="text" class="form-control text-left"  id="namaPendonasiZIS" name="nama">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="emailUmumZIS">
+                                    <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="namaSim" class="control-label">Email <star>*</star></label>
+                                            <input type="text" class="form-control text-left"  id="emailZIS" name="email">
+                                        </div>
+                                    </div>
+                                </div>
+
                             @endif
 
-                            <div class="row" id="namaUmumZIS">
-                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label for="namaSim" class="control-label">Nama <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="namaPendonasiZIS" name="nama">
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row" id="emailUmumZIS">
-                                <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label for="namaSim" class="control-label">Email <star>*</star></label>
-                                        <input type="text" class="form-control text-left"  id="emailZIS" name="email">
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="row">
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
