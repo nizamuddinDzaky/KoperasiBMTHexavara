@@ -17,6 +17,14 @@ $(document).ready(function() {
         $('#id_rapat_to_delete').val(button.data('id_rapat'));
     });
 
+    $('#showTandaTanganRapat').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var gambar = button.data('gambar');
+        var nama = button.data('nama');
+        $('#gambar_tanda_tangan').attr('src', gambar );
+        $('#tanda_tangan_title').html('Tanda Tangan ' + nama );
+    });
+
     $('#voteModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
 

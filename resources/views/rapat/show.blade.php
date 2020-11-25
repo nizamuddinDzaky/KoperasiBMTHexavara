@@ -100,7 +100,14 @@
                                 <td>{{ $item->user->alamat }}</td>
                                 <td>{{ $item->flag == 1 ? "Setuju" : "Tidak Setuju" }}</td>
                                 @if($item->tanda_tangan != "")
-                                <td><img src="{{asset('storage/public/rapat/'.$item->tanda_tangan)}}" style="width: 65%; height: 45%" alt="tanda_tangan_voter"></td>
+                                    <td>
+                                    <button type="button" class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#showTandaTanganRapat" title="Edit"
+                                            data-gambar      = "{{asset('storage/public/rapat/'.$item->tanda_tangan)}}"
+                                            data-nama        = "{{$item->user->nama}}">
+                                        <i class="fa fa-list-alt"></i>
+                                    </button>
+                                    </td>
+
                                 @else
                                     <td>Belum ada tanda tangan</td>
                                 @endif
@@ -116,12 +123,12 @@
     </div>
 </div>
 
-@include('modal.rapat.vote')
 
 @endsection
-
+@include('modal.rapat.vote')
+@include('modal.rapat.tanda_tangan')
 @section('extra_script')
-    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.ui.touch-punch.min.js')}}"></script>
     <script src="{{ asset('bmtmudathemes/assets/js/modal/rapat.js') }}"></script>
     <script src="{{ asset('js/jquery.signature.js') }}"></script>
     <script type="text/javascript">
@@ -140,5 +147,8 @@
                 window.alert('Tanda tangan di tempat yang tersedia')
             }
         });
+
+
+
     </script>
 @endsection
