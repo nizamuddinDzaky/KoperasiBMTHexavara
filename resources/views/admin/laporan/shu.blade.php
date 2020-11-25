@@ -129,7 +129,14 @@
                             <tbody>
                             
                             @php
-                                $total_shu_anggota = 0;        
+                                $total_shu_anggota = 0;
+                                $simpanan_pokok = 0;
+                                $simpanan_wajib = 0;
+                                $simpanan_khusus = 0;
+                                $margin = 0;
+                                $shu_pengelolah = 0;
+                                $shu_pengurus = 0;
+                                $shu_anggota = 0;
                             @endphp
 
                             @foreach($data_distribusi as $item)
@@ -162,11 +169,31 @@
                                     $total_shu_anggota += floatval($item['shu_pengelola']) + floatval($item['shu_pengurus']) + floatval($item['shu_anggota']) + floatval($item['porsi_shu'])  ;
                                 }else{
                                     $total_shu_anggota += floatval($item['shu_pengelola']) + floatval($item['shu_pengurus']) + floatval($item['shu_anggota']);
+                                    $simpanan_pokok += floatval($item['simpanan_pokok']) ;
+                                    $simpanan_wajib += floatval($item['simpanan_wajib']);
+                                    $simpanan_khusus += floatval($item['simpanan_khusus']);
+                                    $margin += floatval($item['margin']);
+                                    $shu_pengelolah += floatval($item['shu_pengelola']);
+                                    $shu_pengurus += floatval($item['shu_pengurus']);
+                                    $shu_anggota += floatval($item['shu_anggota']);
                                 }
 
                                 @endphp
 
                             @endforeach
+                            <tr>
+                                <td></td>
+                                <td class="text-center text-uppercase"><h5>Total</h5></td>
+                                <td class="text-right">{{number_format($simpanan_pokok,2)}}</td>
+                                <td class="text-right">{{number_format($simpanan_wajib,2)}}</td>
+                                <td class="text-right">{{number_format($simpanan_khusus,2)}}</td>
+                                <td class="text-right">{{number_format($margin,2)}}</td>
+                                <td class="text-right">{{number_format($shu_pengelolah,2)}}</td>
+                                <td class="text-right">{{number_format($shu_pengurus,2)}}</td>
+                                <td class="text-right">{{number_format($shu_anggota,2)}}</td>
+                                <td class="text-right"> </td>
+
+                            </tr>
                             <tr>
                                 <td></td>
                                 <td class="text-center text-uppercase"><h5>Total SHU Anggota </h5></td>
