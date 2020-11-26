@@ -281,6 +281,15 @@ class DepositoReporsitories {
             ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"pencairanawal" AS type'), 'penyimpanan_deposito.created_at as tanggal_pencairan')
             ->get();
 
+        $depositoPencairanLebihAwalNotActive = Deposito::where([ ['deposito.status', 'not active'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->join('penyimpanan_deposito', 'deposito.id', 'penyimpanan_deposito.id_deposito')
+            ->where('penyimpanan_deposito.status' , 'like', 'Pencairan%')
+            ->whereDate('penyimpanan_deposito.created_at' , '<=' , $now->toDateString() )
+            ->whereDate('penyimpanan_deposito.created_at' , '>=' , $date->toDateString() )
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"pencairanawal" AS type'), 'penyimpanan_deposito.created_at as tanggal_pencairan')
+            ->get();
+
 
         $depositoJatuhTempo = Deposito::where([ ['deposito.status', 'closed'], ['jenis_deposito', $nama] ])
             ->join('users', 'deposito.id_user', 'users.id')
@@ -290,7 +299,7 @@ class DepositoReporsitories {
             ->get();
 
 
-        $data = $depositoAktif->merge($depositoPencairanLebihAwal)->merge($depositoJatuhTempo);
+        $data = $depositoAktif->merge($depositoPencairanLebihAwal)->merge($depositoJatuhTempo)->merge($depositoPencairanLebihAwalNotActive);
 
         return $data;
 
@@ -332,6 +341,15 @@ class DepositoReporsitories {
             ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"pencairanawal" AS type'), 'penyimpanan_deposito.created_at as tanggal_pencairan')
             ->get();
 
+        $depositoPencairanLebihAwalNotActive = Deposito::where([ ['deposito.status', 'not active'], ['jenis_deposito', $nama] ])
+            ->join('users', 'deposito.id_user', 'users.id')
+            ->join('penyimpanan_deposito', 'deposito.id', 'penyimpanan_deposito.id_deposito')
+            ->where('penyimpanan_deposito.status' , 'like', 'Pencairan%')
+            ->whereDate('penyimpanan_deposito.created_at' , '<=' , $now->toDateString() )
+            ->whereDate('penyimpanan_deposito.created_at' , '>=' , $date->toDateString() )
+            ->select('deposito.*', 'users.id as id_user', 'users.no_ktp', 'users.nama',DB::raw('"pencairanawal" AS type'), 'penyimpanan_deposito.created_at as tanggal_pencairan')
+            ->get();
+
 
         $depositoJatuhTempo = Deposito::where([ ['deposito.status', 'closed'], ['jenis_deposito', $nama] ])
             ->join('users', 'deposito.id_user', 'users.id')
@@ -342,7 +360,7 @@ class DepositoReporsitories {
             ->get();
 
 
-        $data = $depositoAktif->merge($depositoPencairanLebihAwal)->merge($depositoJatuhTempo);
+        $data = $depositoAktif->merge($depositoPencairanLebihAwal)->merge($depositoJatuhTempo)->merge($depositoPencairanLebihAwalNotActive);
 
         return $data;
 

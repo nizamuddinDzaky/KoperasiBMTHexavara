@@ -478,6 +478,7 @@ class DistribusiPendapatanReporsitories {
             }
 
             $total_rata_rata = $this->getTotalProductAverage($total_rata_rata); //valid
+
             if($data->jenis == "net_profit")
             {
                 $total_pendapatan = $this->getRekeningSHU("saldo");
@@ -522,43 +523,20 @@ class DistribusiPendapatanReporsitories {
                         $bagi_hasil = $this->getSaldoAverageTabunganAnggota($user_tabungan->id_user, $user_tabungan->id) / $rata_rata * $porsi_anggota ;
                     }
 
+                    $active_flag = User::where('id', $user_tabungan->id_user)->select('is_active')->first();
 
-                    $detailToPenyimpananTabungan = [
-                        "teller"        => Auth::user()->id,
-                        "dari_rekening" => "",
-                        "untuk_rekening" => $user_tabungan->jenis_tabungan,
-                        "jumlah"    => $bagi_hasil,
-                        "saldo_awal" => json_decode($user_tabungan->detail)->saldo,
-                        "saldo_akhir" => json_decode($user_tabungan->detail)->saldo + $bagi_hasil
-                    ];
-                    $dataToPenyimpananTabungan = [
-                        "id_user"   => $user_tabungan->id_user,
-                        "id_tabungan" => $user_tabungan->id,
-                        "status"    => "Distribusi Pendapatan",
-                        "transaksi" => $detailToPenyimpananTabungan,
-                        "teller"    => Auth::user()->id
-                    ];
+                    if(($user_tabungan->status != 'active' && $active_flag->is_active == 0) || ($user_tabungan->status != 'active' && $active_flag->is_active == 1) ){
+                        $zakat = BMT::where('id',334)->first();
 
-                    $insertPenyimpananTabungan = $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
-
-                    if($insertPenyimpananTabungan == "success")
-                    {
-                        $bmt_tabungan = BMT::where('id_rekening', $user_tabungan->id_rekening)->first();
-                        $tabungan_pendistribusian = $this->tabunganReporsitory->findTabungan($user_tabungan->id);
-
-                        $dataToUpdateTabungan = [
-                            "saldo" => json_decode($user_tabungan->detail)->saldo + $bagi_hasil,
-                            "id_pengajuan" => null
-                        ];
                         $detailToPenyimpananBMT = [
                             "jumlah"        => $bagi_hasil,
-                            "saldo_awal"    => $bmt_tabungan->saldo,
-                            "saldo_akhir"   => $bmt_tabungan->saldo + $bagi_hasil,
+                            "saldo_awal"    => $zakat->saldo,
+                            "saldo_akhir"   => $zakat->saldo + $bagi_hasil,
                             "id_pengajuan"  => null
                         ];
                         $dataToPenyimpananBMT = [
                             "id_user"   => $user_tabungan->id_user,
-                            "id_bmt"    => $bmt_tabungan->id,
+                            "id_bmt"    => $zakat->id,
                             "status"    => "Distribusi Pendapatan",
                             "transaksi" => $detailToPenyimpananBMT,
                             "teller"    => Auth::user()->id
@@ -566,11 +544,64 @@ class DistribusiPendapatanReporsitories {
 
                         $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
-                        $tabungan_pendistribusian->detail = json_encode($dataToUpdateTabungan);
-                        $bmt_tabungan->saldo = $bmt_tabungan->saldo + $bagi_hasil;
+                        $zakat->saldo = $zakat->saldo + $bagi_hasil;
+                        $zakat->save();
 
-                        $tabungan_pendistribusian->save(); $bmt_tabungan->save();
                     }
+                    else
+                    {
+                        $detailToPenyimpananTabungan = [
+                            "teller"        => Auth::user()->id,
+                            "dari_rekening" => "",
+                            "untuk_rekening" => $user_tabungan->jenis_tabungan,
+                            "jumlah"    => $bagi_hasil,
+                            "saldo_awal" => json_decode($user_tabungan->detail)->saldo,
+                            "saldo_akhir" => json_decode($user_tabungan->detail)->saldo + $bagi_hasil
+                        ];
+                        $dataToPenyimpananTabungan = [
+                            "id_user"   => $user_tabungan->id_user,
+                            "id_tabungan" => $user_tabungan->id,
+                            "status"    => "Distribusi Pendapatan",
+                            "transaksi" => $detailToPenyimpananTabungan,
+                            "teller"    => Auth::user()->id
+                        ];
+
+                        $insertPenyimpananTabungan = $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+
+                        if($insertPenyimpananTabungan == "success")
+                        {
+                            $bmt_tabungan = BMT::where('id_rekening', $user_tabungan->id_rekening)->first();
+                            $tabungan_pendistribusian = $this->tabunganReporsitory->findTabungan($user_tabungan->id);
+
+                            $dataToUpdateTabungan = [
+                                "saldo" => json_decode($user_tabungan->detail)->saldo + $bagi_hasil,
+                                "id_pengajuan" => null
+                            ];
+                            $detailToPenyimpananBMT = [
+                                "jumlah"        => $bagi_hasil,
+                                "saldo_awal"    => $bmt_tabungan->saldo,
+                                "saldo_akhir"   => $bmt_tabungan->saldo + $bagi_hasil,
+                                "id_pengajuan"  => null
+                            ];
+                            $dataToPenyimpananBMT = [
+                                "id_user"   => $user_tabungan->id_user,
+                                "id_bmt"    => $bmt_tabungan->id,
+                                "status"    => "Distribusi Pendapatan",
+                                "transaksi" => $detailToPenyimpananBMT,
+                                "teller"    => Auth::user()->id
+                            ];
+
+                            $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                            $tabungan_pendistribusian->detail = json_encode($dataToUpdateTabungan);
+                            $bmt_tabungan->saldo = $bmt_tabungan->saldo + $bagi_hasil;
+
+                            $tabungan_pendistribusian->save(); $bmt_tabungan->save();
+                        }
+                    }
+
+
+
                 }
             }
 
@@ -610,46 +641,28 @@ class DistribusiPendapatanReporsitories {
 
                         $bagi_hasil = $this->getSaldoAverageDepositoAnggota($user_deposito->id_user, $user_deposito->id, $tanggal ) / $rata_rata * $porsi_anggota ;
 
+
+
                     }
+                    $type = $user_deposito->type;
+                    $active_flag = User::where('id', $user_deposito->id_user)->select('is_active')->first();
                     $id_pencairan = json_decode($user_deposito->detail)->id_pencairan;
                     $tabungan_pencairan = $this->tabunganReporsitory->findTabungan($id_pencairan);
 
-                    $detailToPenyimpananTabungan = [
-                        "teller"        => Auth::user()->id,
-                        "dari_rekening" => "",
-                        "untuk_rekening" => $tabungan_pencairan->jenis_tabungan,
-                        "jumlah"    => $bagi_hasil,
-                        "saldo_awal" => json_decode($tabungan_pencairan->detail)->saldo,
-                        "saldo_akhir" => json_decode($tabungan_pencairan->detail)->saldo + $bagi_hasil
-                    ];
-                    $dataToPenyimpananTabungan = [
-                        "id_user"   => $tabungan_pencairan->id_user,
-                        "id_tabungan" => $tabungan_pencairan->id,
-                        "status"    => "Distribusi Pendapatan",
-                        "transaksi" => $detailToPenyimpananTabungan,
-                        "teller"    => Auth::user()->id
-                    ];
-
-                    $insertPenyimpananTabungan = $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
-                    
-                    if($insertPenyimpananTabungan == "success")
+                    if(($active_flag->is_active == 1 && $type == "pencairanawal") || ($active_flag->is_active == 0 && $type == "pencairanawal") || ($active_flag->is_active == 0 && $type == "jatuhtempo")  )
                     {
-                        $bmt_tabungan = BMT::where('id_rekening', $tabungan_pencairan->id_rekening)->first();
 
-                        $dataToUpdateTabunganPencairan = [
-                            "saldo" => json_decode($tabungan_pencairan->detail)->saldo + $bagi_hasil,
-                            "id_pengajuan" => null
-                        ];
+                        $zakat = BMT::where('id',334)->first();
 
                         $detailToPenyimpananBMT = [
                             "jumlah"        => $bagi_hasil,
-                            "saldo_awal"    => $bmt_tabungan->saldo,
-                            "saldo_akhir"   => $bmt_tabungan->saldo + $bagi_hasil,
+                            "saldo_awal"    => $zakat->saldo,
+                            "saldo_akhir"   => $zakat->saldo + $bagi_hasil,
                             "id_pengajuan"  => null
                         ];
                         $dataToPenyimpananBMT = [
                             "id_user"   => $user_tabungan->id_user,
-                            "id_bmt"    => $bmt_tabungan->id,
+                            "id_bmt"    => $zakat->id,
                             "status"    => "Distribusi Pendapatan",
                             "transaksi" => $detailToPenyimpananBMT,
                             "teller"    => Auth::user()->id
@@ -657,11 +670,62 @@ class DistribusiPendapatanReporsitories {
 
                         $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
-                        $tabungan_pencairan->detail = json_encode($dataToUpdateTabunganPencairan);
-                        $bmt_tabungan->saldo = $bmt_tabungan->saldo + $bagi_hasil;
-
-                        $tabungan_pencairan->save(); $bmt_tabungan->save();
+                        $zakat->saldo = $zakat->saldo + $bagi_hasil;
+                        $zakat->save();
                     }
+                    else
+                    {
+                        $detailToPenyimpananTabungan = [
+                            "teller"        => Auth::user()->id,
+                            "dari_rekening" => "",
+                            "untuk_rekening" => $tabungan_pencairan->jenis_tabungan,
+                            "jumlah"    => $bagi_hasil,
+                            "saldo_awal" => json_decode($tabungan_pencairan->detail)->saldo,
+                            "saldo_akhir" => json_decode($tabungan_pencairan->detail)->saldo + $bagi_hasil
+                        ];
+                        $dataToPenyimpananTabungan = [
+                            "id_user"   => $tabungan_pencairan->id_user,
+                            "id_tabungan" => $tabungan_pencairan->id,
+                            "status"    => "Distribusi Pendapatan",
+                            "transaksi" => $detailToPenyimpananTabungan,
+                            "teller"    => Auth::user()->id
+                        ];
+
+                        $insertPenyimpananTabungan = $this->tabunganReporsitory->insertPenyimpananTabungan($dataToPenyimpananTabungan);
+
+                        if($insertPenyimpananTabungan == "success")
+                        {
+                            $bmt_tabungan = BMT::where('id_rekening', $tabungan_pencairan->id_rekening)->first();
+
+                            $dataToUpdateTabunganPencairan = [
+                                "saldo" => json_decode($tabungan_pencairan->detail)->saldo + $bagi_hasil,
+                                "id_pengajuan" => null
+                            ];
+
+                            $detailToPenyimpananBMT = [
+                                "jumlah"        => $bagi_hasil,
+                                "saldo_awal"    => $bmt_tabungan->saldo,
+                                "saldo_akhir"   => $bmt_tabungan->saldo + $bagi_hasil,
+                                "id_pengajuan"  => null
+                            ];
+                            $dataToPenyimpananBMT = [
+                                "id_user"   => $user_tabungan->id_user,
+                                "id_bmt"    => $bmt_tabungan->id,
+                                "status"    => "Distribusi Pendapatan",
+                                "transaksi" => $detailToPenyimpananBMT,
+                                "teller"    => Auth::user()->id
+                            ];
+
+                            $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                            $tabungan_pencairan->detail = json_encode($dataToUpdateTabunganPencairan);
+                            $bmt_tabungan->saldo = $bmt_tabungan->saldo + $bagi_hasil;
+
+                            $tabungan_pencairan->save(); $bmt_tabungan->save();
+                        }
+                    }
+
+
 
                 }
             }
