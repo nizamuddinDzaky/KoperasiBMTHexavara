@@ -115,6 +115,23 @@
 											</div>
 										</div>
 									</div>
+
+										<div class="row {{ $errors->has('profile_picture_admin') ? ' has-error' : '' }}">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label>Profile Picture</label>
+													<input type="file" class="form-control" name="profile_picture_admin" onchange="readURL5(this);"  accept=".jpg, .png, .jpeg|images/*">
+													@if ($errors->has('profile_picture_admin'))
+														<span class="help-block">
+                                                		<strong>{{ $errors->first('profile_picture_admin') }}</strong>
+                                            		</span>
+													@endif
+												</div>
+											</div>
+										</div>
+										<div class="text-center">
+											<img style="margin: auto;width:100px;" id="pic5" src=""/>
+										</div>
 								</div>
 
 
@@ -136,7 +153,9 @@
 						<div class="content">
 							<div class="author">
 								<a href="#">
-									@if($data['no_ktp']=="admin")
+									@if($data['no_ktp']=="admin" && isset(json_decode(Auth::user()->pathfile,true)['profile']))
+									<img class="avatar border-gray" src="{{ asset('storage/public/file/' . json_decode(Auth::user()->pathfile,true)['profile']) }}" alt="..."/>
+									@elseif($data['no_ktp']=="admin")
 										<img class="avatar border-gray" src="{{ URL::asset('bootstrap/assets/img/man.svg') }}" alt="..."/>
 									@else
 										<img class="avatar border-gray" src="{{ URL::asset('bootstrap/assets/img/default-avatar2.png') }}" alt="..."/>
@@ -218,6 +237,21 @@
 	<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 {{--	<script src="{{ URL::asset('bootstrap/assets/js/demo.js')  	}}"></script>--}}
 	<script>
+
+		function readURL5(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#pic5')
+							.attr('src', e.target.result)
+							.width(200)
+							.height(auto)
+				};
+
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
 
 
         type = ['','info','success','warning','danger'];

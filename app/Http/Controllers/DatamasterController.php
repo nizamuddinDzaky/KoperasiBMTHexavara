@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
+use Illuminate\Support\Facades\Storage;
 
 class DatamasterController extends Controller
 {
@@ -232,6 +233,7 @@ class DatamasterController extends Controller
             $request->validate([
                 'nama' => 'required|string|max:255',
                 'alamat' => 'required|string|max:255',
+                'profile_picture_admin' => 'file|max:2000',
             ]);
         }
         else {
@@ -254,6 +256,29 @@ class DatamasterController extends Controller
             $inputUser->no_ktp= $request['no_ktp'];
             $inputUser->nama= $request['nama'];
             $inputUser->alamat= $request['alamat'];
+        }
+
+        if(isset($request->profile_picture_admin)){
+
+            $uploadedFile = $request->file('profile_picture_admin');
+            $path = $uploadedFile->store('public/file');
+            $filename =str_after($path, 'public/file/');
+            $detail = [
+                'profile' => $filename,
+                'KTP' => $inputUser->pathfile != null && json_decode($inputUser->pathfile,true)['KTP'] != null ? json_decode($inputUser->pathfile,true)['KTP'] : null,
+                'KSK' => $inputUser->pathfile != null && json_decode($inputUser->pathfile,true)['KSK'] != null ? json_decode($inputUser->pathfile,true)['KSK'] : null,
+                'Nikah' => $inputUser->pathfile != null && json_decode($inputUser->pathfile,true)['Nikah'] != null ? json_decode($inputUser->pathfile,true)['Nikah'] : null,
+            ];
+
+            if($inputUser->pathfile != null && json_decode($inputUser->pathfile,true)['profile'] != null)
+            {
+                $prevfile = json_decode($inputUser->pathfile,true)['profile'];
+                if($prevfile)
+                    Storage::delete("public/file/".$prevfile);
+            }
+
+            $inputUser->pathfile = json_encode($detail);
+
         }
 
         if($inputUser->save())  $status = ["success" ,"Data User berhasil diubah"];
