@@ -1016,7 +1016,11 @@ class DonasiReporsitories {
                     "jumlah"        => preg_replace('/[^\d.]/', '', $data->nominal),
                     "saldo_awal"    => $saldo_awal_donasi,
                     "saldo_akhir"   => $saldo_akhir_donasi,
-                    "id_pengajuan"  => $nextId
+                    "id_pengajuan"  => $nextId,
+                    "jenis"         => $debit,
+                    "nama"          => $nama,
+                    "email"         => $email,
+                    "no_bank"       => $norek,
                 ];
             }
 
@@ -1298,7 +1302,12 @@ class DonasiReporsitories {
                 "jumlah"        => preg_replace('/[^\d.]/', '', $data->nominal),
                 "saldo_awal"    => $saldo_awal_donasi,
                 "saldo_akhir"   => $saldo_akhir_donasi,
-                "id_pengajuan"  => $nextId
+                "id_pengajuan"  => $nextId,
+                "jenis"         => $debit,
+                "nama"          => $nama,
+                "email"         => $email,
+                "no_bank"       => $norek,
+
             ];
 
             $dataToInsertIntoPenyimpananBMT = [
