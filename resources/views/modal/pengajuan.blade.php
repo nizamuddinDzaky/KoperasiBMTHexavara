@@ -134,7 +134,7 @@
                                         <select class="form-control" id="nasabah" name="nama_nasabah" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($dropdown8 as $usr)
-                                            <option value="{{ $usr->no_ktp }}">[{{ $usr->no_ktp }}] {{ $usr->nama }}</option>
+                                            <option value="{{ $usr->no_ktp }}">[{{ $usr->no_ktp }}] {{ $usr->nama }} - {{$usr->alamat}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -776,7 +776,7 @@
                                         <select class="form-control" id="nasabah2" name="nama_nasabah" style="width: 100%;" required>
                                             <option selected disabled class="bs-title-option" value="">-- Pilih --</option>
                                             @foreach ($dropdown8 as $usr)
-                                                <option value="{{ $usr->no_ktp }}" class="{{ $usr->no_ktp }}"> [{{ $usr->no_ktp }}] {{ $usr->nama }}</option>
+                                                <option value="{{ $usr->no_ktp }}" class="{{ $usr->no_ktp }}"> [{{ $usr->no_ktp }}] {{ $usr->nama }} - {{$usr->alamat}}</option>
                                             @endforeach
 
                                         </select>
