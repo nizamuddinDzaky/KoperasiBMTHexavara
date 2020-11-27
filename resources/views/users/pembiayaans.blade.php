@@ -555,7 +555,7 @@
                 angtotal = parseFloat(angbln + marbln);
                 sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
                 
-                var formatter = new Intl.NumberFormat();
+                var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
                 $('#ang_total').on('keyup', function (){
                     if (rekening!=2) {
                         angtotal = parseFloat($('#ang_total').val());

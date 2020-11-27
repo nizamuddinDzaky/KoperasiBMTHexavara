@@ -935,8 +935,8 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="jumlahdep" name="jumlah"  required>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="jumlahdep" name="jumlah"  required>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -1099,8 +1099,8 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="vjumlahdep" name="jumlah"  disabled>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="vjumlahdep" name="jumlah"  disabled>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -1470,8 +1470,8 @@
                                         <label class="control-label">Jumlah Uang</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" name="jumlah" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" name="jumlah" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>

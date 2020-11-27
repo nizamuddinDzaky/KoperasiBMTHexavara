@@ -103,7 +103,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="jumlahcls"  disabled>
-                                            <span class="input-group-addon">.00</span>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -203,8 +203,8 @@
                                         <label class="control-label">Total Saldo Saat ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="krejumlah"  disabled>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="krejumlah"  disabled>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -213,8 +213,8 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="saldo_kre" name="jumlah" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="saldo_kre" name="jumlah" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -771,8 +771,8 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="vjumlah" name="jumlah" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="vjumlah" name="jumlah" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -1365,8 +1365,8 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="tjumlah" name="jumlah" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="tjumlah" name="jumlah" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>

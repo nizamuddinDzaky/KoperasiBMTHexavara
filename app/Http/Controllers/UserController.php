@@ -349,7 +349,8 @@ class UserController extends Controller
 
     public function debit_tabungan(Request $request)
     {
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+
         $this->validate($request, [
             'file' => 'file|max:2000', // max 2MB
         ]);
@@ -400,7 +401,8 @@ class UserController extends Controller
 
     public function kredit_tabungan(Request $request)
     {
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+
         if($request->idRek<$request->jumlah){
             $rek = "Mohon maaf Saldo Rekening Tabungan Anda tidak CUKUP!.";
             return redirect()
@@ -505,7 +507,8 @@ class UserController extends Controller
             $bank_bmt_tujuan = null;
         }
 
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+
         $detail = [
             'atasnama' => $atasnama,
             'nama' => $nama,
@@ -538,7 +541,7 @@ class UserController extends Controller
     {
         $dataInDate = $this->informationRepository->getAllDepUsrActiveInDate();
         $data = $this->informationRepository->getAllDepUsrActive();
-        
+
         $depositoExpiredNotAutoExtended = array();
         foreach ($dataInDate as $value) {
             if(json_decode($value->detail)->perpanjangan_otomatis == true)
@@ -599,7 +602,7 @@ class UserController extends Controller
             $nama = $request->nama;
             $id_user = $request->id_user;
         }
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
         $detail = [
             'atasnama' => $atasnama,
             'nama' => $nama,

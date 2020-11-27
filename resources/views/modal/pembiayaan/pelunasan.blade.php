@@ -154,7 +154,7 @@
                                         <label class="control-label">Sisa Tagihan Pokok <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="tagihan_pokok_pelunasan" name="tagihan_pokok" disabled>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="tagihan_pokok_pelunasan" name="tagihan_pokok" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@
                                         <label class="control-label">Sisa Tagihan Margin<star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="tagihan_margin_pelunasan" name="tagihan_margin" disabled>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="tagihan_margin_pelunasan" name="tagihan_margin" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                             <label class="control-label">Jumlah Bayar Angsuran Pokok<star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right" id="bayar_ang_pelunasan" name="bayar_ang" disabled>
+                                                <input type="text" class="currencyDecimal form-control text-right" id="bayar_ang_pelunasan" name="bayar_ang" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +185,7 @@
                                             <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currency form-control text-right"  id="bayar_margin_pelunasan" name="bayar_mar">
+                                                <input type="text" class="currencyDecimal form-control text-right"  id="bayar_margin_pelunasan" name="bayar_mar">
                                             </div>
                                         </div>
                                     </div>

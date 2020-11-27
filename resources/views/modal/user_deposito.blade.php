@@ -54,8 +54,8 @@
                                         <label class="control-label">Total Saldo Saat ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="extjumlah"  disabled>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="extjumlah"  disabled>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -64,8 +64,8 @@
                                         <label class="control-label">Saldo yang ingin diperpanjang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="saldo_per" name="jumlah" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="saldo_per" name="jumlah" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -346,8 +346,8 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="wjumlah" disabled="" name="jumlah"  required>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="wjumlah" disabled="" name="jumlah"  required>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -510,8 +510,8 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="wLebihAwalJumlah" disabled="" name="jumlah"  required>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="wLebihAwalJumlah" disabled="" name="jumlah"  required>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>

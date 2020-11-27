@@ -58,7 +58,7 @@ $(document).ready(function() {
         
         var tipe_user = $("#tipe_user").val();
 
-        var formatter = new Intl.NumberFormat();
+        var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
 
         function refreshFieldPelunasan() {
             var selRek = $('#idRekPelunasan');

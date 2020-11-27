@@ -13,19 +13,19 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <a href="{{ route("anggota.dashboard.harta") }}">
                     <div class="card dashboard link" style="background-color: #8892D6">
                         <div class="card-body">
                             
                             @if(isset($simpanan['wajib']) && isset($simpanan['khusus']) && isset($simpanan['pokok']))
-                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['pokok'] + $simpanan['khusus'])}}</span>
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['pokok'] + $simpanan['khusus'],2)}}</span>
                             @elseif(isset($simpanan['wajib']) && isset($simpanan['pokok']))
-                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['pokok']) }}</span>
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['pokok'],2) }}</span>
                             @elseif(isset($simpanan['wajib']) && isset($simpanan['khusus']))
-                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['khusus']) }}</span>
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['wajib'] + $simpanan['khusus'],2) }}</span>
                             @elseif(isset($simpanan['pokok']) && isset($simpanan['khusus']))
-                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['pokok'] + $simpanan['khusus']) }}</span>
+                                <span class="card-title card-number-large" id="harta">{{ number_format($simpanan['pokok'] + $simpanan['khusus'],2) }}</span>
                             @endif
 
                             <p class="card-category" style="margin-bottom:0">Total Harta Dalam Rekening BMT</p>
@@ -34,33 +34,33 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <a href="{{ route("anggota.dashboard.tabungan") }}">
                     <div class="card dashboard link" style="background-color: #45BBE0">
                         <div class="card-body">
-                            <span class="card-title card-number-large">{{number_format($tab)}}</span>
+                            <span class="card-title card-number-large">{{number_format($tab,2)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
                             {{-- <span class="card-description">Bersumber dari total tabungan semua Anggota</span> --}}
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <a href="{{ route("anggota.dashboard.deposito") }}">
                     <div class="card dashboard link" style="background-color: #F06292">
                         <div class="card-body">
-                            <span class="card-title card-number-large">{{number_format($deposito)}}</span>
+                            <span class="card-title card-number-large">{{number_format($deposito,2)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
                             {{-- <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span> --}}
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <a href="{{ route("anggota.dashboard.pembiayaan") }}">
                     <div class="card dashboard link" style="background-color: #78C350">
                         <div class="card-body">
-                            <span class="card-title card-number-large">{{number_format($pinjaman)}}</span>
+                            <span class="card-title card-number-large">{{number_format($pinjaman,2)}}</span>
                             <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
                             {{-- <span class="card-description">Bersumber dari total pembiayaan anggota</span> --}}
                         </div>

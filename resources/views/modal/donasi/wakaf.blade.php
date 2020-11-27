@@ -89,7 +89,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="currency form-control text-left"  id="nominal" name="nominal" required>
+                                        <input type="text" class="currencyDecimal form-control text-left"  id="nominal" name="nominal" required>
                                     </div>
                                 </div>
                             </div>

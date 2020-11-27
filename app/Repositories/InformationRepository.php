@@ -3882,7 +3882,8 @@ class InformationRepository
         return $data;
     }
     function extendDeposito($request){
-        if(preg_match("/^[0-9,]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+
         $tabUsr = $this->deposito->where('id_deposito',$request->id_)->first();
         $tabUsrBr = $this->rekening->where('id',$request->lama)->first();
         if($request->teller=="teller"){
