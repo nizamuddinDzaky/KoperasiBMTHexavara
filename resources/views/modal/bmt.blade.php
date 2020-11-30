@@ -322,8 +322,8 @@
                                         <label class="control-label">Saldo Rekening <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="j_rek" disabled>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="j_rek" disabled>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                         <span id="validate-status"class="help-block text-danger"><star>*</star></span>
                                     </div>
@@ -342,8 +342,8 @@
                                         <label class="control-label">Total<star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="tot_nas" disabled>
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="tot_nas" disabled>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -355,8 +355,8 @@
                                         <label class="control-label">Jumlah Upgrade per Anggota <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="j_upgrade" name="jumlah" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="j_upgrade" name="jumlah" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>

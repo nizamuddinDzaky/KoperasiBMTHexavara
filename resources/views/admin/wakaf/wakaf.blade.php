@@ -164,6 +164,7 @@
             $('#id_maals').val(178);
         });
         $('#editMaalModal').on('show.bs.modal', function (event) {
+            var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -172,7 +173,7 @@
             $('#etgl').val(button.data('tgl'));
             $('#edetail').val(button.data('detail'));
             $('#eidRekMaal').val(button.data('idrek'));
-            $('#edana').val(button.data('dana'));
+            $('#edana').val(formatter.format(button.data('dana')));
             if(button.data('path')!=="http://localhost:8000/storage/public/maal")
                 $('#epic').attr("src",button.data('path'));
             else  $('#epic').attr("src","");

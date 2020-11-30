@@ -62,7 +62,7 @@
                                     <td>{{ $item->user->nama  }}</td>
                                     <td>{{ $item->status   }}</td>
                                     @if($item->status == "Debit" || str_before($item->status, " ") == "Distribusi" || (str_before($item->status, " ") == "SIMPANAN" && json_decode($item->transaksi)->jumlah > 0)  || (str_before($item->status, " ") == "Transfer" && json_decode($item->transaksi)->jumlah > 0 ))
-                                    <td>{{ number_format(json_decode($item->transaksi)->jumlah)  }}</td>
+                                    <td>{{ number_format(json_decode($item->transaksi)->jumlah,2)  }}</td>
                                     @else
                                     <td>0</td>
                                     @endif

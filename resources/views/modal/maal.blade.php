@@ -46,7 +46,7 @@
                                     <label class="control-label">Jumlah Dana Yang Dibutuhkan<star>*</star></label>
                                     <div class="input-group">
                                         <span class="input-group-addon">Rp</span>
-                                        <input type="text" class="currency form-control text-right" name="jumlah"  required>
+                                        <input type="text" class="currencyDecimal form-control text-right" name="jumlah"  required>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="form-group">
                                     <label class="control-label">Detail Kegiatan<star>*</star></label>
-                                    <textarea class="summernote" name="detail" required rows="3"></textarea>
+                                    <textarea class="summernote"  name="detail" required rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                                     <label class="control-label">Jumlah Dana Yang Dibutuhkan<star>*</star></label>
                                     <div class="input-group">
                                         <span class="input-group-addon">Rp</span>
-                                        <input type="text" class="currency form-control text-right" id="edana" name="dana"  required>
+                                        <input type="text" class="currencyDecimal form-control text-right" id="edana" name="dana"  required>
                                     </div>
                                 </div>
                             </div>
@@ -152,6 +152,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Detail Kegiatan<star>*</star></label>
                                     <textarea class="form-control" id="edetail" name="detail" required rows="3"></textarea>
+{{--                                    <textarea class="summernote" id="edetail" name="detail"  required rows="3"></textarea>--}}
                                 </div>
                             </div>
                         </div>
@@ -251,8 +252,8 @@
                                         <label class="control-label">Jumlah Dana Tersisa Saat Ini <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="danaTersisa" name="danaTersisa" required="true" readonly="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="danaTersisa" name="danaTersisa" required="true" readonly="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -261,8 +262,8 @@
                                         <label class="control-label">Jumlah Pencairan<star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="jumlahPencairan" name="jumlahPencairan" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="jumlahPencairan" name="jumlahPencairan" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>

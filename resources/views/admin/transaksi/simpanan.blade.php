@@ -78,7 +78,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
-                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -114,7 +114,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
-                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -150,7 +150,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
-                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->jumlah,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -186,7 +186,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
-                                        <td>{{ number_format(json_decode($item->transaksi)->bayar_margin) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->bayar_margin,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

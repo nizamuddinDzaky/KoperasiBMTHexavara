@@ -60,7 +60,7 @@
                                 <td></td>
                                 <td>{{ $deposito->nama_rekening }}</td>
                                 <td>{{ $deposito->jumlah_anggota }} ANGGOTA</td>
-                                <td>{{ number_format($deposito->jumlah_saldo) }}</td>
+                                <td>{{ number_format($deposito->jumlah_saldo,2) }}</td>
                                 <td>{{ count($deposito->pengajuan) }} PENGAJUAN BARU</td>
                                 <td class="with-icon">
                                     @if($start != "start" && $end != "end")

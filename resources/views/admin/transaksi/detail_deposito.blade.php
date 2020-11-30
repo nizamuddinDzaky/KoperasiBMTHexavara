@@ -61,7 +61,7 @@
                                             </td>
                                             <td>{{ $item->id_deposito }}</td>
                                             <td>{{ $item->user->nama }}</td>
-                                            <td>{{ number_format(json_decode($item->detail)->jumlah) }}</td>
+                                            <td>{{ number_format(json_decode($item->detail)->jumlah,2) }}</td>
                                             <td>{{ $item->created_at->format('D, d M Y') }}</td>
                                             <td>{{ $item->status }}</td>
                                             {{-- <td class="with-icon">

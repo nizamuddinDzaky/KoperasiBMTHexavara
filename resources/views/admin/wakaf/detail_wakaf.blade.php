@@ -50,7 +50,11 @@
                                     <td class="text-center text-uppercase"> {{json_decode($usr->transaksi,true)['dari_rekening'] }}</td>
                                     <td class="text-center text-uppercase"> {{json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>
                                     <td class="text-center text-uppercase">{{$usr->status}}</td>
-                                    <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                    @if($usr->status == "Pencairan Donasi")
+                                        <td class="text-right">({{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }})</td>
+                                    @else
+                                        <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }}</td>
+                                    @endif
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_awal'],2) }}</td>
                                     <td class="text-right">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
 

@@ -44,8 +44,8 @@
                                         <label class="control-label">Jumlah Pencairan<star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currency form-control text-right" id="jumlahPencairan" name="jumlahPencairan" required="true">
-                                            <span class="input-group-addon">.00</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="jumlahPencairan" name="jumlahPencairan" required="true">
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>
