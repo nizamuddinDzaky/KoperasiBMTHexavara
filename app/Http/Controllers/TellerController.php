@@ -1251,8 +1251,8 @@ class TellerController extends Controller
         $template->setValue('bln',$tempo);
         $template->setValue('nisbah_a',$nisbah_anggota);
         $template->setValue('nisbah_b',$nisbah_bmt);
-        $template->setValue('jumlah',number_format(json_decode($deposito['detail'],true)['saldo']));
-        $template->setValue('spell',number_format(json_decode($deposito['detail'],true)['saldo']));
+        $template->setValue('jumlah',number_format(json_decode($deposito['detail'],true)['saldo'],2));
+        $template->setValue('spell',number_format(json_decode($deposito['detail'],true)['saldo'],2));
         $filename = "akad_deposito - " .$pihak2['nama'].".docx";
         $template->saveAs('storage/docx/'.$filename);
 //        header('Content-disposition: inline');

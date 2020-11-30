@@ -26,7 +26,7 @@
                                 <td class="text-left">{{ $usr['id'] }}</td>
                                 <td>{{ $usr['created_at']->format('D, d F Y') }}</td>
                                 <td class="text-left text-uppercase">{{ json_decode($usr['detail'],true)['nama'] }}</td>
-                                <td class="text-left">{{ number_format(json_decode($usr['detail'],true)['jumlah']) }}</td>
+                                <td class="text-left">{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}</td>
                                 <td class="text-left">{{ $usr['jenis_pengajuan']   }}</td>
                                 <td class="text-left">{{$usr['status'] }}</td>
                                 <td class="td-actions text-center">

@@ -88,7 +88,7 @@
                                                     data-ktp     = "{{ $usr['no_ktp']  }}"
                                                     data-iduser     = "{{ json_decode($usr['detail'],true)['id']}}"
                                                     data-debit     = "{{ json_decode($usr['detail'],true)['angsuran']}}"
-                                                    data-jumlah     = "{{ number_format(json_decode($usr['detail'],true)['jumlah'])}}"
+                                                    data-jumlah     = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2)}}"
                                                     @if($usr['kategori']=="Angsuran Pembiayaan" || $usr['kategori']=="Pelunasan Pembiayaan")
                                                     data-idtab = "{{ json_decode($usr['detail'],true)['id_pembiayaan'] }}"
                                                     data-namatab = "{{ json_decode($usr['detail'],true)['nama_pembiayaan'] }}"
@@ -130,7 +130,7 @@
                                                     @if($usr['kategori']=="Pembiayaan")
                                                     data-keterangan = "{{ json_decode($usr['detail'],true)['keterangan'] }}"
                                                     data-atasnama   = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
-                                                    data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah']) }}"
+                                                    data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                                     data-jenis       = "{{ json_decode($usr['detail'],true)['jenis_Usaha'] }}"
                                                     data-usaha       = "{{ json_decode($usr['detail'],true)['usaha'] }}"
                                                     data-jaminan       = "{{ json_decode($usr['detail'],true)['jaminan'] }}"
@@ -163,7 +163,7 @@
 
                                             data-atasnama   = "{{ json_decode($usr['detail'],true)['atasnama'] }}"
                                             @if($usr['kategori']=="Pembiayaan")
-                                            data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah']) }}"
+                                            data-jumlah       = "{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}"
                                             data-jenis       = "{{ json_decode($usr['detail'],true)['jenis_Usaha'] }}"
                                             data-usaha       = "{{ json_decode($usr['detail'],true)['usaha'] }}"
                                             data-jaminan       = "{{ json_decode($usr['detail'],true)['jaminan'] }}"
@@ -559,7 +559,7 @@
                 marbln = parseFloat(selRek.val().split(' ')[6]);
                 sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
 
-                var formatter = new Intl.NumberFormat();
+                var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
                 $('#showPok').hide()
                 $('#angHide').show()
                 $('#marginHide').show()

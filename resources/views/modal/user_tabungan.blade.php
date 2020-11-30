@@ -1456,7 +1456,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="currency form-control text-right" id="vjumlah_transfer_antar_tabungan" name="jumlah" disabled>
-                                            <span class="input-group-addon">.00</span>
+{{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
                                 </div>

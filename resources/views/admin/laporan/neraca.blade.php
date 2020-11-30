@@ -82,9 +82,9 @@
 
                                     @if($usr->tipe_rekening =="detail")
                                         @if(number_format(floatval($usr->saldo)) < 0)
-                                            <td class="text-right">({{ number_format( abs(floatval($usr->saldo)) )}})</td>
+                                            <td class="text-right">({{ number_format( abs(floatval($usr->saldo)),2 )}})</td>
                                         @else
-                                            <td class="text-right">{{ number_format(floatval($usr->saldo)) }}</td>
+                                            <td class="text-right">{{ number_format(floatval($usr->saldo)),2 }}</td>
                                         @endif
                                     @else <td></td>
                                     @endif
@@ -93,7 +93,7 @@
                         <tr>
                             <td></td>
                             <td class="text-center text-uppercase"><h5><b>JUMLAH AKTIVA</b>  </h5></td>
-                            <td class="text-right"><b>{{number_format($aktiva)}}</b></td>
+                            <td class="text-right"><b>{{number_format($aktiva,2)}}</b></td>
                         </tr>
 
                         </tbody>
@@ -126,9 +126,9 @@
                                     {{ $usr['nama']  }}</td>
                                 @if($usr['tipe_rekening'] =="detail")
                                     @if(number_format(floatval($usr['saldo']))<0)
-                                        <td class="text-right">({{ number_format( abs(floatval($usr['saldo'])) )}})</td>
+                                        <td class="text-right">({{ number_format( abs(floatval($usr['saldo'])),2 )}})</td>
                                     @else
-                                        <td class="text-right">{{number_format(floatval($usr['saldo'])) }}</td>
+                                        <td class="text-right">{{number_format(floatval($usr['saldo']),2) }}</td>
                                     @endif
                                 @else <td></td>
                                 @endif
@@ -137,7 +137,7 @@
                         <tr>
                             <td></td>
                             <td class="text-center text-uppercase"><h5><b>TOTAL KEWAJIBAN DAN MODAL</b>  </h5></td>
-                            <td class="text-right"><b>{{number_format($pasiva)}}</b></td>
+                            <td class="text-right"><b>{{number_format($pasiva,2)}}</b></td>
                         </tr>
 
                         </tbody>

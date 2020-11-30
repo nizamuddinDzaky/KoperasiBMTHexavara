@@ -18,7 +18,7 @@
             <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #8892D6">
                     <div class="card-body">
-                        <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas) }}</span>
+                        <span class="card-title card-number-large" id="harta">{{ number_format($saldo_kas,2) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Dana Dalam Kas Anda</p>
                         {{-- <span class="card-description">Bersumber dari kas dalam akun Teller</span> --}}
                         
@@ -32,7 +32,7 @@
             <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #45BBE0">
                     <div class="card-body">
-                        <span class="card-title card-number-large">{{ number_format($saldo_tabungan) }}</span>
+                        <span class="card-title card-number-large">{{ number_format($saldo_tabungan,2) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Tabungan Anggota</p>
                         {{-- <span class="card-description">Bersumber dari total tabungan semua anggota</span> --}}
                         
@@ -46,7 +46,7 @@
             <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #F06292">
                     <div class="card-body">
-                        <span class="card-title card-number-large">{{ number_format($saldo_deposito) }}</span>
+                        <span class="card-title card-number-large">{{ number_format($saldo_deposito,2) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Mudharabah Berjangka</p>
                         {{-- <span class="card-description">Bersumber dari total simpanan mudharabah berjangka anggota</span> --}}
 
@@ -60,7 +60,7 @@
             <div class="col-md-4">
                 <div class="card dashboard link" style="background-color: #78C350">
                     <div class="card-body">
-                        <span class="card-title card-number-large">{{ number_format($saldo_pembiayaan) }}</span>
+                        <span class="card-title card-number-large">{{ number_format($saldo_pembiayaan,2) }}</span>
                         <p class="card-category" style="margin-bottom:0">Total Pembiayaan</p>
                         {{-- <span class="card-description">Bersumber dari total pembiayaan anggota</span> --}}
 

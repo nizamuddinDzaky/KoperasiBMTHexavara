@@ -124,11 +124,11 @@
                                                         data-id         = "{{$usr->id}}"
                                                         data-namauser   = "{{ json_decode($usr->detail,true)['nama'] }}"
                                                         data-ktp     = "{{ $usr->no_ktp }}"
-                                                        data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                        data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
                                                         @if($usr->jenis_pengajuan =="Perpanjangan Deposito")
                                                         data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
                                                         data-saldo    = "{{ number_format(json_decode($usr->detail,true)['saldo'],2)}}"
-                                                        data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
+                                                        data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2)}}"
                                                         data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                         data-atasnama   = "Pribadi"
                                                         data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
@@ -169,7 +169,7 @@
                                                 data-ktp     = "{{ $usr->no_ktp  }}"
                                                 data-iduser     = "{{ json_decode($usr->detail,true)['id']}}"
                                                 data-debit     = "{{ json_decode($usr->detail,true)[strtolower(str_before($usr->kategori,' '))]}}"
-                                                data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
+                                                data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2)}}"
                                                 data-bank     = "{{ json_decode($usr->detail,true)['bank']}}"
                                                     @if(str_before($usr->kategori,' ')=="Debit")
                                                     data-path     = "{{ url('/storage/public/transfer/'.json_decode($usr->detail,true)['path_bukti'])}}"
@@ -189,9 +189,9 @@
                                                 data-saldo    = "{{ number_format(json_decode($usr->detail,true)['saldo'],2)}}"
                                                 data-atasnama   = "Pribadi"
                                                 data-kategori   = "{{ json_decode($usr->detail,true)['id_rekening_baru'] }}"
-                                                data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
+                                                data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2)}}"
                                                 @elseif(str_before($usr->kategori,' ')=="Pencairan")
-                                                data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'])}}"
+                                                data-jumlah     = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2)}}"
                                                 data-iddep     = "{{ json_decode($usr->detail,true)['id_deposito']}}"
                                                 {{-- data-atasnama   = "{{ json_decode($usr->detail,true)['atasnama'] }}"
                                                 data-bank   = "{{ json_decode($usr->detail,true)['bank'] }}"
@@ -222,7 +222,7 @@
                                                 @if($usr->kategori=="Tabungan" || $usr->kategori=="Tabungan Awal")
                                                 data-akad       = "{{ json_decode($usr->detail,true)['akad'] }}"
                                                 @elseif($usr->kategori=="Pembiayaan")
-                                                data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
                                                 data-jenis       = "{{ json_decode($usr->detail,true)['jenis_Usaha'] }}"
                                                 data-usaha       = "{{ json_decode($usr->detail,true)['usaha'] }}"
                                                 data-jaminan       = "{{ json_decode($usr->detail,true)['jaminan'] }}"
@@ -230,7 +230,7 @@
                                                 data-ketwaktu       = "{{ str_after(json_decode($usr->detail,true)['keterangan'],' ') }}"
                                                 data-path       = "{{ url('/storage/public/'.json_decode($usr->detail,true)['path_jaminan']) }}"
                                                 @elseif($usr->kategori=="Deposito")
-                                                data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah']) }}"
+                                                data-jumlah       = "{{ number_format(json_decode($usr->detail,true)['jumlah'],2) }}"
                                                 data-rek_tab       = "{{ isset(json_decode($usr->detail,true)['id_pencairan'])?json_decode($usr->detail,true)['id_pencairan']:"" }}"
                                                 data-nisbah       = "{{ json_decode($usr->deposito,true)['nisbah_anggota'] }}"
                                                 @endif

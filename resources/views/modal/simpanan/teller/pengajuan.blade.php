@@ -42,7 +42,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left currency"  id="nominal" name="nominal" required>
+                                        <input type="text" class="form-control text-left currencyDecimal"  id="nominal" name="nominal" required>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@
                                 <div class="col-sm-12 col-md-10 col-lg-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="namaSim" class="control-label">Nominal <star>*</star></label>
-                                        <input type="text" class="form-control text-left currency"  id="nominal" name="nominal" required>
+                                        <input type="text" class="form-control text-left currencyDecimal"  id="nominal" name="nominal" required>
                                     </div>
                                 </div>
                             </div>
