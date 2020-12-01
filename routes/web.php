@@ -73,10 +73,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'uses'      => 'AdminController@detail_total_pembiayaan'
     ]);
 
-    Route::get('/reset', [
-        'as'        => 'admin.reset.database',
-        'uses'      => 'AdminController@reset'
-    ]);
+//    Route::get('/reset', [
+//        'as'        => 'admin.reset.database',
+//        'uses'      => 'AdminController@reset'
+//    ]);
     Route::get('akad/{id}', [
         'as'        => 'akad.pengajuan_pembiayaan',
         'uses'      => 'TellerController@akad_pembiayaan'
