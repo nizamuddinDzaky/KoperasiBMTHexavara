@@ -31,7 +31,7 @@
                                         <select class="form-control select2 donatur" name="user" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->nama }}</option>
+                                            <option value="{{ $user->id }}">{{ $user->nama }} - {{$user->alamat}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -174,7 +174,7 @@
                                         <select class="form-control select2 donatur " name="user" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->nama }}</option>
+                                            <option value="{{ $user->id }}">{{ $user->nama }} - {{$user->alamat}}</option>
                                             @endforeach
                                         </select>
                                     </div>

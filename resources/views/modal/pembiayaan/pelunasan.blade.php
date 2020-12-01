@@ -30,7 +30,7 @@
                                         <select class="form-control select2" id="user_pelunasan" name="user" style="width: 100%;">
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Pembiayaan-</option>
                                             @foreach ($user as $item)
-                                            <option value="{{ $item->id }}">[ {{ $item->id }} ] {{ $item->nama}}</option>
+                                            <option value="{{ $item->id }}">[ {{ $item->id }} ] {{ $item->nama}} - {{$item->alamat}}</option>
                                             @endforeach
 
                                         </select>

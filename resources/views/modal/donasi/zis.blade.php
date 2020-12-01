@@ -189,7 +189,7 @@
                                             <select class="form-control select2 donatur" id="umumSelectZIS" name="donatur" style="width: 100%;" required>
                                                 <option selected disabled>- Pilih Donatur -</option>
                                                 @foreach ($anggota as $anggota)
-                                                    <option value="{{ $anggota->id }}">{{ $anggota->nama }}</option>
+                                                    <option value="{{ $anggota->id }}">{{ $anggota->nama }} - {{$anggota->alamat}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

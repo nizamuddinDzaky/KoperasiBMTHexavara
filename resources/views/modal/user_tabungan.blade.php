@@ -1336,7 +1336,7 @@
                                         <select class="form-control select2" id="user_pengirim" name="user_pengirim" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Anggota Pengirim-</option>
                                             @foreach ($user as $usr)
-                                                <option value="{{ $usr->id }}"> {{$usr->nama }}</option>
+                                                <option value="{{ $usr->id }}"> {{$usr->nama }} - {{$usr->alamat}}</option>
                                             @endforeach
                                         </select>
                                     </div>
