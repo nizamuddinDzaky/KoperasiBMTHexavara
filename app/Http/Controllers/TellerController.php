@@ -1170,7 +1170,7 @@ class TellerController extends Controller
     public function akad_pembiayaan($id)
     {
         $pembiayaan = Pembiayaan::where('id', $id)->first();
-        $user_pembiayaan = strtolower($pembiayaan->user->nama);
+        $user_pembiayaan = strtolower(preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $pembiayaan->user->nama));
         $filename = 'perjanjian_pembiayaan_' . str_replace(" ", "_", $user_pembiayaan) . "_" . $id . '.docx';
         $location = public_path('storage/docx/' . $filename);
         

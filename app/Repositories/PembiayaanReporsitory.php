@@ -3059,6 +3059,7 @@ class PembiayaanReporsitory {
      * @return Response
     */
     public function exportPerjanjian($dataPembiayaan, $dataForm, $dataJaminan="")
+
     {
 
         if($dataPembiayaan['id_rekening'] == 99)
@@ -3081,7 +3082,7 @@ class PembiayaanReporsitory {
             $data_jaminan = PenyimpananJaminan::where('id_pengajuan', $dataPembiayaan['id_pengajuan'])->first();
             $detail_jaminan = json_decode($data_jaminan->transaksi)->field;
         }
-        
+
         $data_template_row = array();
         foreach ($detail_jaminan as $key => $value) {
             array_push(
@@ -3094,7 +3095,7 @@ class PembiayaanReporsitory {
         $tahunSekarang = Carbon::now('m')->year;
 
         $export_data = array(
-            "user"                              => $user_pembiayaan->nama,
+            "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
             "id"                                => $dataPembiayaan['id'],
             "data_template"                     => array(
                 "id_pembiayaan"                 => $dataPembiayaan['id'],
@@ -3103,8 +3104,8 @@ class PembiayaanReporsitory {
                 "total_pokok"                   => number_format($dataPembiayaan['detail']['pinjaman'],0,",","."),
                 "jangka_waktu_angsuran"         => $dataPembiayaan['detail']['jenis_tempo'],
                 "margin_bulanan"                => $dataPembiayaan['detail']['jumlah_margin_bulanan'],
-                "saksi_1"                       => $dataForm->saksi1,
-                "saksi_2"                       => $dataForm->saksi2,
+                "saksi_1"                       => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $dataForm->saksi1),
+                "saksi_2"                       => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $dataForm->saksi2),
                 "kegiatan_usaha"                => $dataPembiayaan['detail']['kegiatan_usaha'],
                 "nisbah_anggota"                 => $dataPembiayaan['detail']['nisbah_anggota'],
                 "nisbah_koperasi"                => $dataPembiayaan['detail']['nisbah_koperasi'],
@@ -3141,7 +3142,6 @@ class PembiayaanReporsitory {
         $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
         return $export_data;
     }
-
     public function exportPerjanjianMRB($dataPembiayaan, $dataForm, $dataJaminan="")
     {
         $user_pembiayaan = User::where('id', $dataPembiayaan['id_user'])->first();
@@ -3168,7 +3168,7 @@ class PembiayaanReporsitory {
         $tahunSekarang = Carbon::now('m')->year;
 
         $export_data = array(
-            "user"                              => $user_pembiayaan->nama,
+            "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
             "id"                                => $dataPembiayaan['id'],
             "data_template"                     => array(
                 "id_pembiayaan"                 => $dataPembiayaan['id'],
@@ -3179,8 +3179,8 @@ class PembiayaanReporsitory {
                 "total_pokok_margin"            => number_format($dataPembiayaan['detail']['total_pinjaman'],0,",","."),
                 "jangka_waktu_angsuran"         => $dataPembiayaan['detail']['jenis_tempo'],
                 "margin_bulanan"                => $dataPembiayaan['detail']['jumlah_margin_bulanan'],
-                "saksi_1"                       => $dataForm->saksi1,
-                "saksi_2"                       => $dataForm->saksi2,
+                "saksi_1"                       => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $dataForm->saksi1),
+                "saksi_2"                       => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $dataForm->saksi2),
                 "hari_perjanjian"               => $this->helperRepository->getDayName(),
                 "tanggal_perjanjian"            => Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
                 "tempat_perjanjian"             => "Surabaya",
