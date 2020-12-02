@@ -1232,8 +1232,9 @@ class TellerController extends Controller
 //        foreach($textlines as $line) {
 //            $section->addText(htmlspecialchars($line));
 //        }
-
+//        dd(preg_replace('/[^A-Za-z0-9_\.-]/', ' ',$pihak2['nama']));
         // Edit variabel in word document
+        $nameForFile = preg_replace('/[^A-Za-z0-9_\.-]/', ' ',$pihak2['nama']);
         $path = public_path('template/template_dep.docx');
         $template = new \PhpOffice\PhpWord\TemplateProcessor($path);
         $template->setValue('nama',strtoupper($pihak2['nama']));
@@ -1253,7 +1254,7 @@ class TellerController extends Controller
         $template->setValue('nisbah_b',$nisbah_bmt);
         $template->setValue('jumlah',number_format(json_decode($deposito['detail'],true)['saldo'],2));
         $template->setValue('spell',number_format(json_decode($deposito['detail'],true)['saldo'],2));
-        $filename = "akad_deposito - " .$pihak2['nama'].".docx";
+        $filename = "akad_deposito - " .$nameForFile.".docx";
         $template->saveAs('storage/docx/'.$filename);
 //        header('Content-disposition: inline');
 //        header('Content-type: application/msword'); // not sure if this is the correct MIME type
@@ -1266,7 +1267,7 @@ class TellerController extends Controller
 
         $location = public_path('storage/docx/' . $filename);
 
-        return response()->download($location, "akad_deposito - " .$pihak2['nama'].".docx", $headers);
+        return response()->download($location, "akad_deposito - " .$nameForFile.".docx", $headers);
     }
 
     

@@ -684,7 +684,7 @@ class AccountReporsitories {
         $total = number_format($total, 2);
 
         $export_data = array(
-            "user"                              => $user->nama,
+            "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ',$user->nama),
             "id"                                => $user->id,
             "data_template"                     => array(
                 "nik"   => $user->no_ktp,
