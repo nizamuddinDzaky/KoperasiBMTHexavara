@@ -355,8 +355,8 @@ class TransferTabunganRepositories {
             $status = $data['keterangan'];
             $saldo_penerima = $bmt_penerima->saldo;
             $saldo_pengirim = $bmt_pengirim->saldo;
-            
-            if(($saldo_pengirim - preg_replace('/[^\d.]/', '', $data['jumlah'])) < preg_replace('/[^\d.]/', '', $data['jumlah']))
+
+            if(($saldo_pengirim - preg_replace('/[^\d.]/', '', $data['jumlah'])) < 0)
             {
                 DB::rollback();
                 $result = array('type' => 'error', 'message' => 'Transfer Antar Rekening Gagal. Saldo rekening pengirim tidak cukup.');
