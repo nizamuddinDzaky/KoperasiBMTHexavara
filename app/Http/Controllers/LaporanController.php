@@ -620,7 +620,9 @@ class LaporanController extends Controller
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $notification = $this->pengajuanReporsitory->getNotification();
         $periodeToday = Carbon::now()->year."".Carbon::now()->month;
-        $periode = $periode->merge($periodeToday);
+        if(!$periode->contains($periodeToday)){
+            $periode = $periode->merge($periodeToday);
+        }
         return view('admin.laporan.buku_besar',[
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -634,7 +636,9 @@ class LaporanController extends Controller
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
         $periodeToday = Carbon::now()->year."".Carbon::now()->month;
-        $periode = $periode->merge($periodeToday);
+        if(!$periode->contains($periodeToday)){
+            $periode = $periode->merge($periodeToday);
+        }
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
             'notification' => $notification,
@@ -647,7 +651,9 @@ class LaporanController extends Controller
     public function rekening_buku_periodik(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $periodeToday = Carbon::now()->year."".Carbon::now()->month;
-        $periode = $periode->merge($periodeToday);
+        if(!$periode->contains($periodeToday)){
+            $periode = $periode->merge($periodeToday);
+        }
         $data =$this->informationRepository->BukuBesar_($request);
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
