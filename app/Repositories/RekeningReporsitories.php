@@ -454,14 +454,14 @@ class RekeningReporsitories {
                  *  This is will add saldo to teller and reduce saldo to penyeimbang 
                 */
                 if(explode(".", $rekeningPenerima->id_bmt)[0] == 1) {
-                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
+//                    if(floatval($rekeningPengirim->saldo) >= floatval($data['jumlah'])) {
                         $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
                         $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) + floatval($data['jumlah'])  ]);
 
                         return "success";
-                    } else {
-                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
-                    }
+//                    } else {
+//                        return "Saldo Rekening " . $rekeningPengirim->nama . " Tidak Cukup";
+//                    }
                 }
 
                 /**
