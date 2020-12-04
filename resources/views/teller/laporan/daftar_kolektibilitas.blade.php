@@ -35,7 +35,6 @@
 
                     <div class="header text-center">
                         <h4 id="titlePrint" class="title"> Daftar Kolektibilitas</h4>
-                        <p id="titlePrint2" class="category">Daftar Kolektibilitas</p>
                         <br />
                     </div>
 
@@ -346,18 +345,18 @@
                     "buttons": [
                         {
                             extend: 'print',
-                            title: function () { return  $('#titlePrint2').text()+"\n"+$('#titlePrint2').text(); },
+                            title: function () { return  $('#titlePrint').text()+"\n"+$('#titlePrint').text(); },
                         },
 
                         'copyHtml5',
                         {
                             extend: 'excelHtml5',
                             messageTop: function () { return  $('#titlePrint').text(); },
-                            messageTop: function () { return  $('#titlePrint2').text(); },
+                            // messageTop: function () { return  $('#titlePrint').text(); },
                         },
                         {
                             extend:'pdfHtml5',
-                            title: function () { return  $('#titlePrint').text()+"\n"+$('#titlePrint2').text(); },
+                            title: function () { return  $('#titlePrint').text()+"\n"+$('#titlePrint').text(); },
                             customize: function(doc) {
                                 doc.defaultStyle.fontSize = 7;
                                 doc.styles.title = {
