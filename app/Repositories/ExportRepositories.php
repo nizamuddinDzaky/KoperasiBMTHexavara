@@ -16,6 +16,7 @@ use App\Repositories\DepositoReporsitories;
 use PhpOffice\PhpWord\PhpWord;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\Settings;
 
 class ExportRepositories {
 
@@ -51,7 +52,7 @@ class ExportRepositories {
         $this->phpWord->setDefaultFontName('Times New Roman');
         $this->phpWord->setDefaultFontSize(12);
         $this->phpWord->getSettings()->setDecimalSymbol(',');
-
+        Settings::setOutputEscapingEnabled(true);
         $this->phpWord->addTitleStyle(1, array(
             'name'  => 'Times New Roman',
             'size'  => 12,
@@ -91,7 +92,7 @@ class ExportRepositories {
     public function generateContent($template_path, $data, $dataRow="", $dataRowTitle="")
     {
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template_path);
-
+        Settings::setOutputEscapingEnabled(true);
         foreach($data as $key => $value)
         {
             $templateProcessor->setValues(array(
@@ -132,6 +133,7 @@ class ExportRepositories {
     */
     public function getPages($pages) {
         $zip = new \PhpOffice\PhpWord\Shared\ZipArchive();
+        Settings::setOutputEscapingEnabled(true);
         $zip->open($pages);
         preg_match("/\<Pages>(.*)\<\/Pages\>/", $zip->getFromName("docProps/app.xml"), $var);
 
