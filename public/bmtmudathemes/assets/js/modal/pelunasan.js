@@ -148,7 +148,7 @@ $(document).ready(function() {
                 url: window.location.href + "/get_user_pembiayaan/" + $(this).val(),
                 dataType: "JSON",
                 success: function (response) {
-                    $.each(response, function (indexInArray, valueOfElement) { 
+                    $.each(response, function (indexInArray, valueOfElement) {
                         var detail = JSON.parse(valueOfElement.detail);
                         var template = `<option value="` + detail.sisa_angsuran + ` ` + detail.sisa_margin + 
                             ` ` + detail.jumlah_margin_bulanan + ` ` + detail.jenis_pinjaman + 
@@ -156,7 +156,7 @@ $(document).ready(function() {
                             ` ` + valueOfElement.id_pembiayaan + `">[` + valueOfElement.id_pembiayaan + `] ` + valueOfElement.jenis_pembiayaan + ` [` + valueOfElement.nama + ` ] [` + valueOfElement.no_ktp + ` ]</option>`; 
                         
                         $('#idRekPelunasan').append(template);
-                        refreshFieldPelunasan();
+                        // refreshFieldPelunasan();
                     });
                 }
             });
