@@ -40,7 +40,7 @@
                                                             $rekening->id_rekening . " " .
                                                             json_decode($rekening->detail,true )['sisa_pinjaman'] . " " . 
                                                             $rekening->id_user
-                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}] [Sisa Pinjaman : {{number_format(json_decode($rekening->detail,true )['sisa_pinjaman'])}}]</option>
                                                     @else
                                                         <option value="{{
                                                             json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
@@ -53,7 +53,7 @@
                                                             $rekening->id_rekening . " " .
                                                             json_decode($rekening->detail,true )['sisa_pinjaman'] . " " . 
                                                             $rekening->id_user
-                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}] [Sisa Pinjaman : {{number_format(json_decode($rekening->detail,true )['sisa_angsuran'])}}]</option>
                                                     @endif
                                                 @elseif(json_decode($rekening->detail,true )['kelebihan_angsuran_bulanan'] > 0)
                                                     @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
@@ -68,7 +68,7 @@
                                                             $rekening->id_rekening . " " .
                                                             json_decode($rekening->detail,true )['sisa_pinjaman'] . " " . 
                                                             $rekening->id_user
-                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}] [Sisa Pinjaman : {{number_format(json_decode($rekening->detail,true )['sisa_pinjaman'])}}]</option>
                                                     @else
                                                         <option value="{{
                                                             json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
@@ -81,7 +81,7 @@
                                                             $rekening->id_rekening . " " .
                                                             json_decode($rekening->detail,true )['sisa_pinjaman'] . " " . 
                                                             $rekening->id_user
-                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}] [Sisa Pinjaman : {{number_format(json_decode($rekening->detail,true )['sisa_angsuran'])}}]</option>
                                                     @endif
                                                 @else
                                                     @if(json_decode($rekening->detail,true )['sisa_angsuran'] > json_decode($rekening->detail,true)['jumlah_angsuran_bulanan'])
@@ -96,7 +96,7 @@
                                                             $rekening->id_rekening . " " .
                                                             json_decode($rekening->detail,true )['sisa_pinjaman'] . " " . 
                                                             $rekening->id_user
-                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}] [Sisa Pinjaman : {{number_format(json_decode($rekening->detail,true )['sisa_pinjaman'])}}]</option>
                                                     @else
                                                         <option value="{{
                                                             json_decode($rekening->detail,true )['angsuran_pokok'] ." " .
@@ -109,7 +109,7 @@
                                                             $rekening->id_rekening . " " .
                                                             json_decode($rekening->detail,true )['sisa_pinjaman'] . " " .
                                                             $rekening->id_user
-                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                        }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}] [Sisa Pinjaman : {{number_format(json_decode($rekening->detail,true )['sisa_angsuran'])}}]</option>
                                                     @endif
                                                 @endif
                                             @endforeach

@@ -56,7 +56,7 @@
                                                         $rekening->status_angsuran." ".
                                                         $rekening->id_rekening . " " . 
                                                         $rekening->id_pembiayaan
-                                                    }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}]</option>
+                                                    }}">[{{$rekening->id_pembiayaan }}] {{ $rekening->jenis_pembiayaan }} [{{ $rekening->nama }}] [{{ $rekening->no_ktp }}] [Sisa Pinjaman : {{number_format(json_decode($rekening->detail,true )['sisa_angsuran'],2)}}]</option>
                                                 @endforeach
                                             @endif
 

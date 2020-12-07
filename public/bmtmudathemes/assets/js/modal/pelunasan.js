@@ -153,7 +153,7 @@ $(document).ready(function() {
                         var template = `<option value="` + detail.sisa_angsuran + ` ` + detail.sisa_margin + 
                             ` ` + detail.jumlah_margin_bulanan + ` ` + detail.jenis_pinjaman + 
                             ` ` + valueOfElement.status_angsuran + ` ` + valueOfElement.id_rekening + 
-                            ` ` + valueOfElement.id_pembiayaan + `">[` + valueOfElement.id_pembiayaan + `] ` + valueOfElement.jenis_pembiayaan + ` [` + valueOfElement.nama + ` ] [` + valueOfElement.no_ktp + ` ]</option>`; 
+                            ` ` + valueOfElement.id_pembiayaan + `">[` + valueOfElement.id_pembiayaan + `] ` + valueOfElement.jenis_pembiayaan + ` [` + valueOfElement.nama + ` ] [` + valueOfElement.no_ktp + ` ] [Sisa Pinjaman : `  + formatter.format(detail.sisa_angsuran) + `]</option>`;
                         
                         $('#idRekPelunasan').append(template);
                         // refreshFieldPelunasan();
