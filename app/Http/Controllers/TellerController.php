@@ -29,6 +29,7 @@ use App\Repositories\PengajuanReporsitories;
 use App\Repositories\AccountReporsitories;
 use App\Repositories\ExportRepositories;
 use App\Repositories\TransferTabunganRepositories;
+use PhpOffice\PhpWord\Settings;
 
 class TellerController extends Controller
 {
@@ -1244,6 +1245,7 @@ class TellerController extends Controller
         $nameForFile = preg_replace('/[^A-Za-z0-9_\.-]/', ' ',$pihak2['nama']);
         $path = public_path('template/template_dep.docx');
         $template = new \PhpOffice\PhpWord\TemplateProcessor($path);
+        Settings::setOutputEscapingEnabled(true);
         $template->setValue('nama',strtoupper($pihak2['nama']));
         $template->setValue('tgl_cetak',Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"));
         $template->setValue('teller',$teller);
