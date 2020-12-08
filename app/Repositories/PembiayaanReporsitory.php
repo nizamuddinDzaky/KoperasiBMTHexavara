@@ -3563,4 +3563,150 @@ class PembiayaanReporsitory {
         return $result;
     }
 
+    public function exportPerjanjianEdi()
+    {
+        $path = public_path('template/perjanjian_pembiayaan_mda.docx');
+
+
+        $user_pembiayaan = User::where('id', 651)->first();
+        $data_pengajuan = Pengajuan::where('id', 604)->first();
+
+
+        $data_jaminan = PenyimpananJaminan::where('id_pengajuan', 604)->first();
+        $detail_jaminan = json_decode($data_jaminan->transaksi)->field;
+
+
+        $data_template_row = array();
+        foreach ($detail_jaminan as $key => $value) {
+            array_push(
+                $data_template_row, array('barang_titipan_desc_title' => $key, 'barang_titipan_desc_content' => $value)
+            );
+        }
+
+        $bulanSekarang = Carbon::now('m')->month;
+        $bulanRomawi = $this->numberToRoman($bulanSekarang);
+        $tahunSekarang = Carbon::now('m')->year;
+
+        $export_data = array(
+            "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
+            "id"                                => 211,
+            "data_template"                     => array(
+                "id_pembiayaan"                 => 604,
+                "bulan_romawi"                  => $bulanRomawi,
+                "tahun"                         => $tahunSekarang,
+                "total_pokok"                   => number_format(35000000,0,",","."),
+                "jangka_waktu_angsuran"         => 'Bulan',
+                "margin_bulanan"                => 700000,
+                "saksi_1"                       => 'Tita Novita Sari',
+                "saksi_2"                       => 'Santi Pramitadewi',
+                "kegiatan_usaha"                => 'dagang roti',
+                "nisbah_anggota"                 => 98,
+                "nisbah_koperasi"                => 2,
+                "hari_perjanjian"               => 'Senin',
+                "tanggal_perjanjian"            => Carbon::now()->subDay(1)->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
+                "tempat_perjanjian"             => "Surabaya",
+                "nama_teller"                   => 'H.A. Sunoyo Hasyim, S.Sos, Apr.',
+                "jabatan_pemberi_perjanjian"    => "MANAGER BMT-MUDA SURABAYA",
+                "alamat_cabang"                 => "Jl. Kedinding  Surabaya",
+                "peminjam_pihak_1"              => strtoupper($user_pembiayaan->nama),
+                "alamat_peminjam_pihak_1"       => strtoupper($user_pembiayaan->alamat),
+                "nik_peminjam_pihak_1"          => $user_pembiayaan->no_ktp,
+                "peminjam_pihak_2"              => strtoupper('Santi Pramitadewi'),
+                "alamat_peminjam_pihak_2"       => strtoupper('Granting barat 63 Simokerto Surabaya'),
+                "nik_peminjam_pihak_2"          => '3578115304910001',
+                "jumlah_pinjaman"               => number_format(35000000,0,",","."),
+                "jumlah_pinjaman_text"          => strtoupper($this->helperRepository->getMoneyInverse(35000000)) . " RUPIAH",
+                "lama_angsuran"                 => 36,
+                "batas_akhir_angsuran"          => Carbon::now()->subDay(1)->addMonth(36)->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->subDay(1)->addMonth(36 ) . " " . Carbon::now()->subDay(1)->addMonth(36)->format("Y"),
+                "angsuran_bulanan"              => number_format(972222,0,",","."),
+                "angsuran_pertama"              => Carbon::now()->subDay(1)->addMonth(1)->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->subDay(1)->addMonth(1) ) . " " . Carbon::now()->subDay(1)->addMonth(1)->format("Y"),
+                "saksi"                         => 'Santi Pramitadewi',
+                "pekerjaan_peminjam_pihak_1"    => ucwords(json_decode($user_pembiayaan->detail)->pekerjaan),
+                "pekerjaan_peminjam_pihak_2"    => "",
+                "jumlah_margin"                 => 25200000,
+                "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
+                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : 0
+            ),
+            "data_template_row"                 => $data_template_row,
+            "data_template_row_title"           => "barang_titipan_desc_title",
+            "template_path"                     => $path
+        );
+
+        $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
+        return $export_data;
+    }
+
+    public function exportPerjanjianMat()
+    {
+        $path = public_path('template/perjanjian_pembiayaan_mda.docx');
+
+
+        $user_pembiayaan = User::where('id', 384)->first();
+        $data_pengajuan = Pengajuan::where('id', 607 )->first();
+
+
+        $data_jaminan = PenyimpananJaminan::where('id_pengajuan', 607)->first();
+        $detail_jaminan = json_decode($data_jaminan->transaksi)->field;
+
+
+        $data_template_row = array();
+        foreach ($detail_jaminan as $key => $value) {
+            array_push(
+                $data_template_row, array('barang_titipan_desc_title' => $key, 'barang_titipan_desc_content' => $value)
+            );
+        }
+
+        $bulanSekarang = Carbon::now('m')->month;
+        $bulanRomawi = $this->numberToRoman($bulanSekarang);
+        $tahunSekarang = Carbon::now('m')->year;
+
+        $export_data = array(
+            "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
+            "id"                                => 213,
+            "data_template"                     => array(
+                "id_pembiayaan"                 => 607,
+                "bulan_romawi"                  => $bulanRomawi,
+                "tahun"                         => $tahunSekarang,
+                "total_pokok"                   => number_format(63000000,0,",","."),
+                "jangka_waktu_angsuran"         => 'Bulan',
+                "margin_bulanan"                => 1260000,
+                "saksi_1"                       => 'Tita Novita Sari',
+                "saksi_2"                       => 'Sutimah',
+                "kegiatan_usaha"                => 'Migrasi',
+                "nisbah_anggota"                 => 98,
+                "nisbah_koperasi"                => 2,
+                "hari_perjanjian"               => 'Senin',
+                "tanggal_perjanjian"            => Carbon::now()->subDay(1)->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
+                "tempat_perjanjian"             => "Surabaya",
+                "nama_teller"                   => 'H.A. Sunoyo Hasyim, S.Sos, Apr.',
+                "jabatan_pemberi_perjanjian"    => "MANAGER BMT-MUDA SURABAYA",
+                "alamat_cabang"                 => "Jl. Kedinding  Surabaya",
+                "peminjam_pihak_1"              => strtoupper($user_pembiayaan->nama),
+                "alamat_peminjam_pihak_1"       => strtoupper($user_pembiayaan->alamat),
+                "nik_peminjam_pihak_1"          => $user_pembiayaan->no_ktp,
+                "peminjam_pihak_2"              => strtoupper('Sutimah'),
+                "alamat_peminjam_pihak_2"       => strtoupper('Kedinding lor flamboyan 41 Surabaya'),
+                "nik_peminjam_pihak_2"          => '3578177006600009',
+                "jumlah_pinjaman"               => number_format(63000000,0,",","."),
+                "jumlah_pinjaman_text"          => strtoupper($this->helperRepository->getMoneyInverse(63000000)) . " RUPIAH",
+                "lama_angsuran"                 => 60,
+                "batas_akhir_angsuran"          => Carbon::now()->subDay(1)->addMonth(60)->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->subDay(1)->addMonth(60 ) . " " . Carbon::now()->subDay(1)->addMonth(60)->format("Y"),
+                        "angsuran_bulanan"              => number_format(1050000,0,",","."),
+                "angsuran_pertama"              => Carbon::now()->subDay(1)->addMonth(1)->format("d") . " " . $this->helperRepository->getMonthName( Carbon::now()->subDay(1)->addMonth(1) ) . " " . Carbon::now()->subDay(1)->addMonth(1)->format("Y"),
+                "saksi"                         => 'Sutimah',
+                "pekerjaan_peminjam_pihak_1"    => ucwords(json_decode($user_pembiayaan->detail)->pekerjaan),
+                "pekerjaan_peminjam_pihak_2"    => "",
+                "jumlah_margin"                 => 75600000,
+                "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
+                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : 0
+            ),
+            "data_template_row"                 => $data_template_row,
+            "data_template_row_title"           => "barang_titipan_desc_title",
+            "template_path"                     => $path
+        );
+
+        $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
+        return $export_data;
+    }
+
 }
