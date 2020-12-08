@@ -1030,11 +1030,6 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
         'uses'  => 'TellerController@open_pembiayaan'
     ]);
 
-    Route::get('fix', [
-        'as'    => 'teller.fix',
-        'uses'  => 'TellerController@fixWord'
-    ]);
-
     /** 
      * Konfirmasi pengajuan angsuran pembiayaan
      * @method POST
