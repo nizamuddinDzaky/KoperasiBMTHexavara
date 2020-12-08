@@ -123,17 +123,24 @@ class TellerController extends Controller
             $saldoDeposito = $saldoDeposito + $bmtdeposito->saldo;
         }
 
-        $rekeningPembiayaan = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'PEMBIAYAAN'] ])->get();
-        $idRekeningPembiayaan = array();
-        foreach($rekeningPembiayaan as $pembiayaan)
-        {
-            array_push($idRekeningPembiayaan, $pembiayaan->id);
-        }
-        $bmtPembiayaan = BMT::whereIn('id_rekening', $idRekeningPembiayaan)->select(['saldo', 'nama'])->get();
+//        $rekeningPembiayaan = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'PEMBIAYAAN'] ])->get();
+//        $idRekeningPembiayaan = array();
+//        foreach($rekeningPembiayaan as $pembiayaan)
+//        {
+//            array_push($idRekeningPembiayaan, $pembiayaan->id);
+//        }
+//        $bmtPembiayaan = BMT::whereIn('id_rekening', $idRekeningPembiayaan)->select(['saldo', 'nama'])->get();
+//        $saldoPembiayaan = 0;
+//        foreach($bmtPembiayaan as $bmtpembiayaan)
+//        {
+//            $saldoPembiayaan = $saldoPembiayaan + $bmtpembiayaan->saldo;
+//        }
+
+        $pembiayaan = Pembiayaan::where('status', 'active')->get();
         $saldoPembiayaan = 0;
-        foreach($bmtPembiayaan as $bmtpembiayaan)
+        foreach($pembiayaan as $pembiayaan)
         {
-            $saldoPembiayaan = $saldoPembiayaan + $bmtpembiayaan->saldo;
+            $saldoPembiayaan += json_decode($pembiayaan['detail'])->sisa_angsuran;
         }
 
         $pengajuan =$this->pengajuan->select('status')
