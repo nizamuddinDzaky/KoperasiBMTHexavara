@@ -392,7 +392,6 @@ class InformationRepository
     {
         $data = $this->rekening->select('id', 'id_rekening', 'nama_rekening', 'tipe_rekening', 'id_induk', 'detail')
             ->where('tipe_rekening', "detail")
-            ->where('id','!=', 179)
             ->where('katagori_rekening', "TABUNGAN")->get();
         return $data;
     }

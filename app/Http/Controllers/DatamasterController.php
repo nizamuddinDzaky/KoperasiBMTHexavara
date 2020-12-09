@@ -496,7 +496,7 @@ class DatamasterController extends Controller
 
     public function delete_tabungan(Request $request)
     {
-        if($this->$this->informationRepository->delTDP($request->id_))
+        if($this->informationRepository->delTDP($request->id_))
             return redirect()
                 ->back()
                 ->withSuccess(sprintf('Data Tabungan berhasil dihapus!.'));

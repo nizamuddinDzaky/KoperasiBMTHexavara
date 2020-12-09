@@ -143,7 +143,6 @@
             var rekMar = button.data('rekmar');
             var rekPen = button.data('rekpen');
             var wajib = button.data('wajib');
-            console.log(rekPen);
             var zis = button.data('zis');
             var saldo = button.data('saldo');
             var awal = button.data('awal');
@@ -161,8 +160,8 @@
             $('#id_rek').val(idrek);
             $('#namaSim').val(nama);
             $('#nisbah').val(nisbah);
-            $('#editrekMar').val(rekMar);
-            $('#editrekPen').val(rekPen);
+            // $('#editrekMar').val(rekMar);
+            // $('#editrekPen').val(rekPen);
 
             $('#wajib').val(wajib);
             $('#zis').val(zis);
@@ -176,6 +175,19 @@
             $('#baru').val(baru);
             $('#buku').val(buku);
             $('#editTabLabel').text("Edit : " + nama);
+
+            $('#editrekMar').val(rekMar);
+            $('#editrekMar').select2().trigger('change');
+
+            $('#editrekPen').val(rekPen);
+            $('#editrekPen').select2().trigger('change');
+
+            $('#wajib').val(wajib);
+            $('#wajib').select2().trigger('change');
+
+            $('#zis').val(zis);
+            $('#zis').select2().trigger('change');
+
         });
 
         $('#delTabModal').on('show.bs.modal', function (event) {
