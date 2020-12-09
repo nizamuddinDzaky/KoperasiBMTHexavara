@@ -694,7 +694,7 @@
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @if(Auth::user()->tipe=="anggota")
                                                 @foreach ($data as $rekening)
-                                                    <option value="{{ isset($rekening['id'])?$rekening['id']:0 }}"> [{{isset($rekening['id_tabungan'])?$rekening['id_tabungan']:0 }}] {{isset($rekening['jenis_tabungan'])?$rekening['jenis_tabungan']:0}}  [ Saldo : {{number_format(json_decode($rekening->detail)->saldo,2)}}] </option>
+                                                    <option value="{{ isset($rekening['id'])?$rekening['id']:0 }}"> [{{isset($rekening['id_tabungan'])?$rekening['id_tabungan']:0 }}] {{isset($rekening['jenis_tabungan'])?$rekening['jenis_tabungan']:0}}  [ Saldo : {{number_format(json_decode($rekening['detail'])->saldo,2)}}] </option>
                                                 @endforeach
                                             @else
                                                 @foreach ($tabactive as $rekening)

@@ -74,7 +74,7 @@
                             <th></th>
                         </thead>
                         <tbody>
-                        @foreach ($data as $usr)
+                        @foreach ($dataPengajuan as $usr)
                             <tr>
                                 <td></td>
                                 <td>{{ $usr['id'] }}</td>
