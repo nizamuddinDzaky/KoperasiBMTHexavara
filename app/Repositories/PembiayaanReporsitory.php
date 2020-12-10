@@ -3062,13 +3062,21 @@ class PembiayaanReporsitory {
 
     {
 
+        $bulanSekarang = Carbon::now('m')->month;
+        $bulanRomawi = $this->numberToRoman($bulanSekarang);
+        $tahunSekarang = Carbon::now('m')->year;
+        $no_pembiayaan = "";
+
         if($dataPembiayaan['id_rekening'] == 99)
         {
             $path = public_path('template/perjanjian_pembiayaan_mda.docx');
+            $no_pembiayaan = $dataPembiayaan['id']."/MUDA/MDA/".$bulanRomawi."/".$tahunSekarang;
+
         }
         else
         {
             $path = public_path('template/perjanjian_pembiayaan_qord.docx');
+            $no_pembiayaan = $dataPembiayaan['id']."/MUDA/QORD/".$bulanRomawi."/".$tahunSekarang;
         }
 
         $user_pembiayaan = User::where('id', $dataPembiayaan['id_user'])->first();
@@ -3090,9 +3098,7 @@ class PembiayaanReporsitory {
             );
         }
 
-        $bulanSekarang = Carbon::now('m')->month;
-        $bulanRomawi = $this->numberToRoman($bulanSekarang);
-        $tahunSekarang = Carbon::now('m')->year;
+
 
         $export_data = array(
             "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
@@ -3132,7 +3138,8 @@ class PembiayaanReporsitory {
                 "pekerjaan_peminjam_pihak_2"    => "",
                 "jumlah_margin"                 => $dataPembiayaan['detail']['margin'],
                 "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
-                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3])
+                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3]),
+                "no_pembiayaan"                 => $no_pembiayaan
             ),
             "data_template_row"                 => $data_template_row,  
             "data_template_row_title"           => "barang_titipan_desc_title",
@@ -3166,6 +3173,8 @@ class PembiayaanReporsitory {
         $bulanSekarang = Carbon::now('m')->month;
         $bulanRomawi = $this->numberToRoman($bulanSekarang);
         $tahunSekarang = Carbon::now('m')->year;
+
+        $no_pembiayaan = $dataPembiayaan['id']."/MUDA/MRB/".$bulanRomawi."/".$tahunSekarang;
 
         $export_data = array(
             "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
@@ -3204,7 +3213,8 @@ class PembiayaanReporsitory {
                 "pekerjaan_peminjam_pihak_2"    => "",
                 "jumlah_margin"                 => $dataPembiayaan['detail']['margin'],
                 "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
-                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3])
+                "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3]),
+                "no_pembiayaan"                 => $no_pembiayaan,
             ),
             "data_template_row"                 => $data_template_row,
             "data_template_row_title"           => "barang_titipan_desc_title",
