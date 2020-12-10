@@ -1824,7 +1824,7 @@ class InformationRepository
         return $data;
     }
     function getAllTabActive(){
-        $data = Tabungan::select('tabungan.*', 'users.no_ktp', 'users.nama')
+        $data = Tabungan::select('tabungan.*', 'users.no_ktp', 'users.nama', 'users.alamat')
             ->where('tabungan.status',"active")
             ->join('users', 'users.id', '=', 'tabungan.id_user')->get();
 

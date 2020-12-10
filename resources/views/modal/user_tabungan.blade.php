@@ -156,7 +156,7 @@
                                         <select class="form-control" id="kreidRek" name="idRek" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabactive as $rekening)
-                                                <option value="{{ (json_decode($rekening->detail,true )['saldo'])}}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}  [{{$rekening->nama}}]  [{{$rekening->no_ktp}}] [ Saldo : {{number_format(json_decode($rekening->detail)->saldo,2)}}]</option>
+                                                <option value="{{ (json_decode($rekening->detail,true )['saldo'])}}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}  [{{$rekening->nama}}]  [{{$rekening->alamat}}] [ Saldo : {{number_format(json_decode($rekening->detail)->saldo,2)}}]</option>
                                             @endforeach
                                             <input type="hidden" id="idRekKR" name="id_" value="t">
                                         </select>
@@ -698,7 +698,7 @@
                                                 @endforeach
                                             @else
                                                 @foreach ($tabactive as $rekening)
-                                                    <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}  [{{$rekening->nama}}] [{{$rekening->no_ktp}}] [ Saldo : {{number_format(json_decode($rekening->detail)->saldo,2)}}]</option>
+                                                    <option value="{{ $rekening->id }}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}  [{{$rekening->nama}}] [{{$rekening->alamat}}] [ Saldo : {{number_format(json_decode($rekening->detail)->saldo,2)}}]</option>
                                                 @endforeach
                                             @endif
                                         </select>
