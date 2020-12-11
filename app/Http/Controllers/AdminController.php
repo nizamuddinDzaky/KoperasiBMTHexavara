@@ -1708,12 +1708,20 @@ class AdminController extends Controller
     }
 
     public function detail_total_pembiayaan($nama){
-
-        $data = DB::table('pembiayaan as p')
+        $data = array();
+        $dataPembiayaan = DB::table('pembiayaan as p')
             ->join('users as u', 'u.id', '=' ,'p.id_user')
             ->select('u.no_ktp','u.nama', 'p.detail as detail')
             ->where('p.jenis_pembiayaan', $nama)
             ->get();
+
+        foreach ($dataPembiayaan as $keys => $value){
+
+            if(json_decode($value->detail)->sisa_angsuran != '0' || json_decode($value->detail)->sisa_angsuran != '0.00')
+            {
+                array_push($data, $value);
+            }
+        }
 
 
         $nama = explode(" ", $nama);
