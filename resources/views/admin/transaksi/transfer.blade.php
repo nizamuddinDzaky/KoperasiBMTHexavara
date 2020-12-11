@@ -31,6 +31,7 @@
                     <button class="btn btn-info rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekAdminModal" data-jenis="pemasukan"><i class="fas fa-credit-card"></i> &nbsp;Transfer Pemasukan</button>
                     <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#jurnalLainRekAdminModal" data-jenis="pengeluaran"><i class="fas fa-credit-card"></i> &nbsp;Transfer Pengeluaran</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#wapokRekModal"><i class="fas fa-credit-card"></i> &nbsp;Upgrade Simpanan</button>
+                    <button class="btn btn-warning rounded right shadow-effect" data-toggle="modal" data-target="#penyesuaianWapokRekModal"><i class="fas fa-credit-card"></i>  Penyesuaian Simpanan</button>
                 </div>
             </div>
         </div>
@@ -170,6 +171,7 @@
             $('#idRekS').val(button.data('id'));
             $('#saldo').val(button.data('saldo'));
         });
+
 
     </script>
 
@@ -559,6 +561,56 @@
                 previousSelector: '.btn-back',
                 onNext: function(tab, navigation, index) {
                     var $valid = $('#wizardFormWP').valid();
+
+                    if(!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    }
+                },
+                onInit : function(tab, navigation, index){
+
+                    //check number of tabs and fill the entire row
+                    var $total = navigation.find('li').length;
+                    $width = 100/$total;
+
+                    $display_width = $(document).width();
+
+                    if($display_width < 600 && $total > 3){
+                        $width = 50;
+                    }
+
+                    navigation.find('li').css('width',$width + '%');
+                },
+                onTabClick : function(tab, navigation, index){
+                    // Disable the posibility to click on tabs
+                    return false;
+                },
+                onTabShow: function(tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index+1;
+
+                    var wizard = navigation.closest('.card-wizard');
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $(wizard).find('.btn-next').hide();
+                        $(wizard).find('.btn-finish').show();
+                    } else if($current == 1){
+                        $(wizard).find('.btn-back').hide();
+                    } else {
+                        $(wizard).find('.btn-back').show();
+                        $(wizard).find('.btn-next').show();
+                        $(wizard).find('.btn-finish').hide();
+                    }
+                }
+
+            });
+            $('#wizardCardPWP').bootstrapWizard({
+                tabClass: 'nav nav-pills',
+                nextSelector: '.btn-next',
+                previousSelector: '.btn-back',
+                onNext: function(tab, navigation, index) {
+                    var $valid = $('#wizardFormPWP').valid();
 
                     if(!$valid) {
                         $validator.focusInvalid();

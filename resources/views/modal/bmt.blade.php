@@ -243,7 +243,7 @@
             <form id="wizardFormWP" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('upgrade_simp')}}" @else action="{{route('teller.upgrade_simp')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="header text-center">
-                    <h3 class="title">Updgrade Simpanan Wajib Pokok</h3>
+                    <h3 class="title">Upgrade Simpanan Wajib Pokok</h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 
@@ -377,6 +377,103 @@
     </div>
 </div>
 
+@if(Auth::user()->tipe == "admin")
+<div class="modal fade" id="penyesuaianWapokRekModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="card card-wizard" id="wizardCardPWP">
+            <form id="wizardFormPWP" method="POST" action="{{route('penyesuaian_simp')}}"  enctype="multipart/form-data">
+                {{csrf_field()}}
+                <div class="header text-center">
+                    <h3 class="title">Penyesuaian Simpanan Anggota</h3>
+                    <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
+                </div>
+
+                <div class="content">
+                    <ul class="nav">
+                        <li><a href="#tab1TabPWP" data-toggle="tab">Data Simpanan</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1TabPWP">
+                            <h5 class="text-center">Pastikan kembali data yang anda masukkan sudah benar!</h5>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Jenis Simpanan <star>*</star></label>
+                                        <select class="form-control select2"  name="jenisSimpananPenyesuaian" id="jenisSimpananPenyesuaian" style="width: 100%;" required>
+                                            <option value="0" selected>Simpanan Wajib</option>
+                                            <option value="1">Simpanan Pokok</option>
+                                            <option value="2">Simpanan Khusus</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Anggota <star>*</star></label>
+                                        <select class="form-control select2"  name="anggota" id="anggotaPenyesuaian" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Anggota-</option>
+                                            @foreach ($dropdownUserPenyesuaian as $usr)
+                                                <option value="{{ $usr->id }}"> [{{$usr->nama }}] [{{$usr->no_ktp}}] [{{$usr->alamat}}]</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="id_" class="control-label">Pilih Rekening Penyeimbang <star>*</star></label>
+                                        <select class="form-control select2"  name="rekeningPenyeimbangPenyesuaian" style="width: 100%;" required>
+                                            <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
+                                            @foreach ($rekening_penyeimbang_penyesuaian as $rekening)
+                                                <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="saldoRek">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Saldo Simpanan <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="saldoSimpananPenyesuaian" name="saldoSimpananPenyesuaian" disabled>
+                                            {{--                                            <span class="input-group-addon">.00</span>--}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Nominal Seharusnya <star>*</star></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="currencyDecimal form-control text-right" id="nominalSeharusnya" name="nominalSeharusnya" required="true">
+                                            {{--                                            <span class="input-group-addon">.00</span>--}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <button type="submit" id="submit-button" class="btn btn-info btn-fill btn-wd btn-finish pull-right">Sesuaikan Simpanan </button>
+                    <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal" style="margin-right: 0.5em">Batal</button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+@endif
 {{--Modal Jurnal Lain Rekening Admin--}}
 @if(Auth::user()->tipe == "admin")
 <div class="modal fade" id="jurnalLainRekAdminModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">

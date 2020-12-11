@@ -3094,6 +3094,142 @@ class InformationRepository
         }
     }
 
+    //Penyesuaian Simpanan
+    function penyesuaianSimpanan($request){
+        $iduser = $request->anggota;
+        $idrekeningpenyeimbang = $request->rekeningPenyeimbangPenyesuaian;
+        $idsimpanan = $request->jenisSimpananPenyesuaian;
+        $nominalPenyesuaian = str_replace(',',"",$request->nominalSeharusnya);
+        $user = User::where('id', $iduser)->select('wajib_pokok')->first();
+        $bmtpenyeimbang = BMT::where('id_rekening', $idrekeningpenyeimbang)->first();
+
+        if($idsimpanan == 0 ){
+            $idrekening = 119;
+            $untukRekening = "SIMPANAN WAJIB ANGGOTA";
+            $keywordSimpanan = "Wajib";
+            $saldoSimpananUser = json_decode($user->wajib_pokok)->wajib;
+
+            $detailSaldo = [
+                "wajib" => $nominalPenyesuaian,
+                "pokok" => json_decode($user->wajib_pokok)->pokok,
+                "khusus" => json_decode($user->wajib_pokok)->khusus,
+                "margin" => json_decode($user->wajib_pokok)->margin,
+            ];
+
+        }else if($idsimpanan == 1){
+            $idrekening = 117;
+            $untukRekening = "SIMPANAN POKOK ANGGOTA";
+            $keywordSimpanan = "Pokok";
+            $saldoSimpananUser = json_decode($user->wajib_pokok)->pokok;
+
+            $detailSaldo = [
+                "wajib" => json_decode($user->wajib_pokok)->wajib,
+                "pokok" => $nominalPenyesuaian,
+                "khusus" => json_decode($user->wajib_pokok)->khusus,
+                "margin" => json_decode($user->wajib_pokok)->margin,
+            ];
+        }else{
+            $untukRekening = "SIMPANAN KHUSUS ANGGOTA";
+            $keywordSimpanan = "Khusus";
+            $idrekening = 120;
+            $saldoSimpananUser = json_decode($user->wajib_pokok)->khusus;
+
+            $detailSaldo = [
+                "wajib" => json_decode($user->wajib_pokok)->wajib,
+                "pokok" => json_decode($user->wajib_pokok)->pokok,
+                "khusus" => $nominalPenyesuaian,
+                "margin" => json_decode($user->wajib_pokok)->margin,
+            ];
+        }
+
+        if($nominalPenyesuaian === $saldoSimpananUser){
+            return true;
+        }
+        elseif ($nominalPenyesuaian > $saldoSimpananUser){
+            $jumlah = $nominalPenyesuaian - $saldoSimpananUser;
+
+            //masukkan ke penyimpanan wajib pokok
+            $detailToPenyimpananWajibPokok = [
+                "teller"        => 1,
+                "dari_rekening" => "",
+                "untuk_rekening"=> $untukRekening,
+                "jumlah"        => $jumlah,
+                "saldo_awal"    => $saldoSimpananUser,
+                "saldo_akhir"   => $saldoSimpananUser + $jumlah,
+            ];
+            $dataToPenyimpananWajibPokok = [
+                "id_user"       => $iduser,
+                "id_rekening"   => $idrekening,
+                "status"        => 'Simpanan ' . $keywordSimpanan,
+                "transaksi"     => $detailToPenyimpananWajibPokok,
+                "teller"        => 1
+            ];
+
+
+            $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+
+            //masukkan ke penyimpanan bmt simpanan dan update saldo bmt
+            $this->AddPenyimpananBMT($idrekening, $jumlah, 'Penyesuaian Simpanan Anggota', $iduser);
+            $this->UpdateSaldoBMT($idrekening, $jumlah);
+            $this->UpdateSaldoPemyimpanan($idrekening, $jumlah);
+
+            //masukkan ke penyumpanan bmt penyeimbang dan update saldo bmt penyeimbang
+            $this->AddPenyimpananBMT($idrekeningpenyeimbang, $jumlah, 'Penyesuaian Simpanan Anggota', $iduser);
+            $this->UpdateSaldoBMT($idrekeningpenyeimbang, $jumlah);
+            $this->UpdateSaldoPemyimpanan($idrekeningpenyeimbang, $jumlah);
+
+
+            User::where('id', $iduser)->update([
+               "wajib_pokok" => json_encode($detailSaldo)
+            ]);
+
+            return true;
+        }else if ($nominalPenyesuaian < $saldoSimpananUser){
+            $jumlah = $saldoSimpananUser - $nominalPenyesuaian;
+
+            //masukkan ke penyimpanan wajib pokok
+            $detailToPenyimpananWajibPokok = [
+                "teller"        => 1,
+                "dari_rekening" => "",
+                "untuk_rekening"=> $untukRekening,
+                "jumlah"        => -$jumlah,
+                "saldo_awal"    => $saldoSimpananUser,
+                "saldo_akhir"   => $saldoSimpananUser - $jumlah,
+            ];
+            $dataToPenyimpananWajibPokok = [
+                "id_user"       => $iduser,
+                "id_rekening"   => $idrekening,
+                "status"        => 'Simpanan ' . $keywordSimpanan,
+                "transaksi"     => $detailToPenyimpananWajibPokok,
+                "teller"        => 1
+            ];
+
+            if ($bmtpenyeimbang->saldo > $jumlah)
+            {
+                $this->simpananReporsitory->insertPenyimpananWajibPokok($dataToPenyimpananWajibPokok);
+
+                //masukkan ke penyimpanan bmt simpanan dan update saldo bmt
+                $this->AddPenyimpananBMT($idrekening, -$jumlah, 'Penyesuaian Simpanan Anggota', $iduser);
+                $this->UpdateSaldoBMT($idrekening, -$jumlah);
+                $this->UpdateSaldoPemyimpanan($idrekening, -$jumlah);
+
+                $this->AddPenyimpananBMT($idrekeningpenyeimbang, -$jumlah, 'Penyesuaian Simpanan Anggota', $iduser);
+                $this->UpdateSaldoBMT($idrekeningpenyeimbang, -$jumlah);
+                $this->UpdateSaldoPemyimpanan($idrekeningpenyeimbang, -$jumlah);
+
+                User::where('id', $iduser)->update([
+                    "wajib_pokok" => json_encode($detailSaldo)
+                ]);
+
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+
+    }
+
 //    MAAL
     function addKegiatan($request){
         $filename="";

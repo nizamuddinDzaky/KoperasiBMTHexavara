@@ -429,15 +429,18 @@ class AdminController extends Controller
     public function transfer(){
         $notification = $this->pengajuanReporsitory->getNotification();
         $rekening_penyeimbang = $this->rekeningReporsitory->getRekeningExcludedCategory(['KAS ADMIN'], "detail","id_rekening");
-        // return response()->json($rekening_penyeimbang);
+        $rekening_penyeimbang_penyesuaian = $this->rekeningReporsitory->getRekeningExcludedCategory(['KAS ADMIN','SIMPANAN', 'MUDHARABAH','INKOPSYAH', 'BMT MBS', 'A.K.P', 'PINJAMAN', 'JAMSOSTEK','ZAKAT','DANA SOSIAL','WAKAF UANG', 'PEMINDAHAN', 'DANA CADANGAN UMUM', 'SHU', 'PAJAK', 'PENDAPATAN','BIAYA','BEBAN'], "detail","id_rekening");
+
         return view('admin.transaksi.transfer',[
             'notification' => $notification,
             'notification_count' =>count($notification),
             'rekening_penyeimbang' => $rekening_penyeimbang,
+            'rekening_penyeimbang_penyesuaian' => $rekening_penyeimbang_penyesuaian,
             'nasabah' => count($this->informationRepository->getAllNasabah()),
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
-            'dropdown' => $this->rekeningReporsitory->getRekening($type="detail", $sort="id_rekening")
+            'dropdown' => $this->rekeningReporsitory->getRekening($type="detail", $sort="id_rekening"),
+            'dropdownUserPenyesuaian' => User::where([ ['tipe', 'anggota'], ['status', '2'], ['is_active', '1'] ])->get()
         ]);
     }
     public function transfer_rekening(Request $request){
@@ -474,6 +477,19 @@ class AdminController extends Controller
             return redirect()
                 ->back()
                 ->withInput()->with('message', 'Simpanan gagal di-upgrade!.');
+        }
+    }
+
+    public function penyesuaian_simpanan(Request $request){
+
+        if($this->informationRepository->penyesuaianSimpanan($request))
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Simpanan berhasil di-sesuaikan!.'));
+        else{
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Simpanan gagal di-sesuaikan! Saldo Penyeimbang tidak cukup!.');
         }
     }
 

@@ -7,6 +7,8 @@ use App\Repositories\TabunganReporsitories;
 use App\Repositories\RekeningReporsitories;
 use App\Repositories\PembiayaanReporsitory;
 use Illuminate\Support\Facades\Auth;
+use App\User;
+
 
 class ApiController extends Controller
 {
@@ -66,6 +68,25 @@ class ApiController extends Controller
             $rekening = $this->rekeningReporsitory->getRekeningExcludedCategory(['kas', 'bank', 'shu berjalan'], "detail", "id_rekening");
         }
         return response()->json($rekening);
+    }
+
+    /**
+     * Get saldo simpanan user
+     * @return Response
+     */
+    public function getSaldoSimpanan($idsimpanan, $iduser){
+        $saldo = User::where('id', $iduser)->select('wajib_pokok')->first();
+
+        if($idsimpanan == 0){
+            $saldo = json_decode($saldo->wajib_pokok)->wajib;
+        }else if($idsimpanan == 1){
+            $saldo = json_decode($saldo->wajib_pokok)->pokok;
+        }else{
+            $saldo = json_decode($saldo->wajib_pokok)->khusus;
+        }
+
+        return response()->json($saldo);
+
     }
 
 }

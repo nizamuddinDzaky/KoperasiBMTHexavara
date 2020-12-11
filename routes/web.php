@@ -334,6 +334,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as' => 'upgrade_simp',
             'uses' => 'AdminController@upgrade_simpanan'
         ]);
+        Route::post('/penyesuaian', [
+            'as' => 'penyesuaian_simp',
+            'uses' => 'AdminController@penyesuaian_simpanan'
+        ]);
         Route::post('/simpananwajib', [
             'as' => 'simpanan_wajib',
             'uses' => 'TellerController@simpanan_wajib'
@@ -2010,6 +2014,11 @@ Route::group([
     Route::get('get_rekening_with_excluding', [
         'as'    => 'api.get_rekening_with_excluding',
         'uses'  => 'ApiController@getRekeningWithExcluding'   
+    ]);
+
+    Route::get('get_saldo_simpanan/{idsimpanan}/{iduser}', [
+        'as'    => 'api.get_saldo_simpanan',
+        'uses'  => 'ApiController@getSaldoSimpanan'
     ]);
 });
 

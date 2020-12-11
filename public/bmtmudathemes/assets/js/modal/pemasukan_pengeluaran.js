@@ -1,3 +1,41 @@
+$().ready(function(){
+    $("#anggotaPenyesuaian").change(function() {
+        var base_url = window.location.origin.toString();
+
+        var idsimpanan = $("#jenisSimpananPenyesuaian").val();
+        var iduser =  $("#anggotaPenyesuaian").val();
+
+        $.ajax({
+            type: "GET",
+            url: base_url + "/api/get_saldo_simpanan/" + idsimpanan + "/" + iduser,
+            dataType: "JSON",
+            success: function (response) {
+                $("#saldoSimpananPenyesuaian").val(new Intl.NumberFormat().format(response));
+            }
+        });
+    });
+
+    $("#jenisSimpananPenyesuaian").change(function() {
+        var base_url = window.location.origin.toString();
+
+        var idsimpanan = $("#jenisSimpananPenyesuaian").val();
+        var iduser =  $("#anggotaPenyesuaian").val();
+
+        $.ajax({
+            type: "GET",
+            url: base_url + "/api/get_saldo_simpanan/" + idsimpanan + "/" + iduser,
+            dataType: "JSON",
+            success: function (response) {
+                $("#saldoSimpananPenyesuaian").val(new Intl.NumberFormat().format(response));
+            }
+        });
+    });
+
+});
+
+
+
+
 $(document).ready(function() {
 
     var rekening = [];
