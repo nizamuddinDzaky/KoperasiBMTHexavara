@@ -62,7 +62,7 @@
 {{--                                </td>--}}
                                 <td></td>
                                 <td class="text-uppercase">{{ $item['nama'] }}</td>
-                                <td class="text-uppercase">{{ $item['alamat'] }} ANGGOTA</td>
+                                <td class="text-uppercase">{{ $item['alamat'] }}</td>
                                 <td>Rp. {{ number_format($item['saldo']) }}</td>
                                 {{-- <td>{{ count($item->pengajuan) }} PENGAJUAN BARU</td> --}}
                                 <td class="with-icon">
