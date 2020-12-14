@@ -84,7 +84,8 @@ class DatamasterController extends Controller
             }
 
             $new_idk =array();$prev_="";
-            if(!isset($induks));
+
+            if(count($induks) == 0);
             else {
                 $prev_ = str_before($induks[0], '.');
                 foreach ($induks as $id){
@@ -95,7 +96,7 @@ class DatamasterController extends Controller
             }
             $old_id =$prev_.".".current($new_idk);
 
-            if (!isset($new_idk) ) {
+            if (count($new_idk) == 0 ) {
                 $new_id = $id . ".1";
             }
             else {
@@ -121,6 +122,7 @@ class DatamasterController extends Controller
         $inputRekening->id_induk=$data['induk'];
         $inputRekening->nama_rekening=$request->namaRek;
         $inputRekening->tipe_rekening=$request->tipeRek;
+
 
         try{
             if($inputRekening->save());
