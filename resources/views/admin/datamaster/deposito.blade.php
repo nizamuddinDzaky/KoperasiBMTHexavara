@@ -132,16 +132,22 @@
             $('#id_depo').val(iddep);
             $('#id_rek').val(idrek);
             $('#nama').val(nama);
-
+            
             $('#editrekMar').val(button.data('rekmar'));
+            $('#editrekMar').select2().trigger('change');
             $('#editrekPaj').val(button.data('rekpaj'));
+            $('#editrekPaj').select2().trigger('change');
             $('#editrekTemp').val(button.data('rektemp'));
+            $('#editrekTemp').select2().trigger('change');
             $('#editrekCad').val(button.data('rekcad'));
+            $('#editrekCad').select2().trigger('change');
             $('#editrekPin').val(button.data('rekpin'));
+            $('#editrekPin').select2().trigger('change');
 
             $('#edwaktu').val(button.data('waktu'));
             $('#ednisbah').val(button.data('nisbah'));
             $('#edwajib').val(button.data('wajib'));
+            $('#edwajib').select2().trigger('change');
             $('#editDepLabel').text("Edit : " + nama);
         });
 
