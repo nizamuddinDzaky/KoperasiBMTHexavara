@@ -59,6 +59,7 @@
                         <th data-sortable="true" class="text-left">ID</th>
                         <th data-sortable="true">Jenis Pengajuan</th>
                         <th data-sortable="true">Nama Anggota</th>
+                        <th data-sortable="true">Jumlah</th>
                         <th data-sortable="true">Tgl Pengajuan</th>
                         <th data-sortable="true">Status</th>
                         <th data-sortable="true">Teller</th>
@@ -74,6 +75,11 @@
                                     <td class="text-center text-uppercase">{{json_decode($usr->detail,true)['nama']  }}</td>
                                 @else    
                                     <td class="text-center text-uppercase">{{json_decode($usr->detail,true)['nama'] }}</td>
+                                @endif
+                                @if(isset(json_decode($usr->detail,true)['jumlah']))
+                                    <td class="text-left text-uppercase">{{number_format(json_decode($usr->detail,true)['jumlah'],2) }}</td>
+                                @else
+                                    <td class="text-left text-uppercase">0.00</td>
                                 @endif
                                 <td>{{ $usr->created_at }}</td>
                                 <td class="text-center text-uppercase">{{ $usr->status }}</td>

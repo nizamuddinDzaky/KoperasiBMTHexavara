@@ -50,7 +50,7 @@
                             <th class="text-left" data-sortable="true">ID Pengajuan</th>
                             <th class="text-left" data-sortable="true">Jenis Pengajuan</th>
                             <th class="text-left" data-sortable="true">Nama Anggota</th>
-                            <th class="text-left" data-sortable="true">Kategori</th>
+                            <th class="text-left" data-sortable="true">Jumlah</th>
                             <th class="text-left" data-sortable="true">Tanggal Pengajuan</th>
                             <th class="text-left" data-sortable="true">Status</th>
                             <th class="text-left">Actions</th>
@@ -62,7 +62,7 @@
                                 <td class="text-left">{{ $usr['id'] }}</td>
                                 <td class="text-left">{{ $usr['jenis_pengajuan']   }}</td>
                                 <td class="text-center">{{ json_decode($usr['detail'],true)['nama'] }}</td>
-                                <td class="text-left">{{$usr['kategori'] }}</td>
+                                <td class="text-left">{{ number_format(json_decode($usr['detail'],true)['jumlah'],2) }}</td>
                                 <td>{{ $usr['created_at']->format('d F Y') }}</td>
                                 <td class="text-left">{{ $usr['status'] }}</td>
                                 <td class="td-actions text-center">

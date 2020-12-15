@@ -681,6 +681,7 @@ class AccountReporsitories {
             $total += json_decode($deposit['detail'])->jumlah;
         }
 
+        $total = $total + json_decode($user->wajib_pokok)->pokok + json_decode($user->wajib_pokok)->wajib + json_decode($user->wajib_pokok)->khusus;
         $total = number_format($total, 2);
 
         $export_data = array(
