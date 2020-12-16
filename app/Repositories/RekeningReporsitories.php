@@ -91,6 +91,8 @@ class RekeningReporsitories {
                         $eksekutor = "Teller"; // Who is do it
                     }
 
+
+
                     $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
                     $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
                     $rekening_penerima = Rekening::where('id', $ke)->first();
@@ -108,12 +110,13 @@ class RekeningReporsitories {
                         $dari = json_decode(Auth::user()->detail)->id_rekening;
                         $eksekutor = "Teller"; // Who is do it
                     }
-                    
+
                     $ke = $data['dari'];
                     $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
                     $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
                     $rekening_penerima = Rekening::where('id', $ke)->first();
                     $rekening_pengirim = Rekening::where('id', $dari)->first();
+
                     $id_penerima = $bmt_penerima->id;
                     $id_pengirim = $bmt_pengirim->id;
                     $keterangan = "Pengeluaran - KK [" . $data['keterangan'] . "]";
@@ -143,10 +146,67 @@ class RekeningReporsitories {
 
                 if($data['tipe'] == 1) {
                     $saldoAkhir = floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    $rekening_pengirim_id = explode(".", $rekening_pengirim->id_rekening);
+                    if ($rekening_pengirim_id[0] == "4" || $rekening_pengirim_id[0] == "5" ){
+                        $shuBerjalan = BMT::where('id', 344)->first();
+                        $saldoAkhirShuBerjalan = $shuBerjalan->saldo + preg_replace('/[^\d.]/', '', $data['jumlah']);
+
+                        $detailSHU = [
+                            "jumlah"    => preg_replace('/[^\d.]/', '', $data['jumlah']),
+                            "saldo_awal"=> floatval($shuBerjalan->saldo),
+                            "saldo_akhir" => $saldoAkhirShuBerjalan,
+                            "id_pengajuan"=> null
+                        ];
+                        $teller = Auth::user()->id;
+
+                        $dataToPenyimpananBMTSHU = [
+                            "id_user"   => $id_user,
+                            "id_bmt"    => 344,
+                            "status"    => $status,
+                            "transaksi" => $detailSHU,
+                            "teller"    => $teller
+                        ];
+
+                        $this->insertPenyimpananBMT($dataToPenyimpananBMTSHU);
+
+
+                    }
                 }
                 else{
-                    $saldoAkhir = floatval($saldo_penerima['saldo']) - preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    $rekening_penerima_id = explode(".", $rekening_penerima->id_rekening);
+                    if($rekening_penerima_id[0] == "2" || $rekening_penerima_id[0] == "3" || $rekening_penerima_id[0] == "4")
+                    {
+                        $saldoAkhir = floatval($saldo_penerima['saldo']) - preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    }
+                    else{
+                        $saldoAkhir = floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    }
+
+                    if ($rekening_penerima_id[0] == "4" || $rekening_penerima_id[0] == "5" ){
+                        $shuBerjalan = BMT::where('id', 344)->first();
+                        $saldoAkhirShuBerjalan = $shuBerjalan->saldo - preg_replace('/[^\d.]/', '', $data['jumlah']);
+
+                        $detailSHU = [
+                            "jumlah"    => preg_replace('/[^\d.]/', '', $data['jumlah']),
+                            "saldo_awal"=> floatval($shuBerjalan->saldo),
+                            "saldo_akhir" => $saldoAkhirShuBerjalan,
+                            "id_pengajuan"=> null
+                        ];
+                        $teller = Auth::user()->id;
+
+                        $dataToPenyimpananBMTSHU = [
+                            "id_user"   => $id_user,
+                            "id_bmt"    => 344,
+                            "status"    => $status,
+                            "transaksi" => $detailSHU,
+                            "teller"    => $teller
+                        ];
+
+                        $this->insertPenyimpananBMT($dataToPenyimpananBMTSHU);
+
+                    }
                 }
+
                 $detail = [
                     "jumlah"    => preg_replace('/[^\d.]/', '', $data['jumlah']),
                     "saldo_awal"=> floatval($saldo_penerima['saldo']),
