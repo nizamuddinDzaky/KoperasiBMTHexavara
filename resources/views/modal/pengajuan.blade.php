@@ -1648,7 +1648,7 @@
                                             <label class="control-label">Nisbah BMT <star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"></span>
-                                                <input type="text" name="nisbah"  class="form-control text-right" required>
+                                                <input type="number" name="nisbah"  class="form-control text-right" required>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>

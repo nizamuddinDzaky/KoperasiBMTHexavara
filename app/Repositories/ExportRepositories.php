@@ -89,7 +89,7 @@ class ExportRepositories {
      * Generate content to export
      * @return Response
     */
-    public function generateContent($template_path, $data, $dataRow="", $dataRowTitle="")
+    public function generateContent($template_path, $data, $dataRow="", $dataRowTitle="", $rahn)
     {
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template_path);
         Settings::setOutputEscapingEnabled(true);
@@ -101,11 +101,18 @@ class ExportRepositories {
         }
 
         if($dataRow !== "")
-        {   
-            for($i=1; $i<=$this->getPages($template_path); $i++)
+        {
+            if ($rahn == "rahn")
             {
-                $templateProcessor->cloneRowAndSetValues($dataRowTitle, $dataRow);
+                    $templateProcessor->cloneRowAndSetValues($dataRowTitle, $dataRow);
+            }else{
+                for($i=1; $i<=$this->getPages($template_path); $i++)
+                {
+                    $templateProcessor->cloneRowAndSetValues($dataRowTitle, $dataRow);
+                }
             }
+
+
         }
 
         return $templateProcessor;
@@ -115,10 +122,10 @@ class ExportRepositories {
      * Export to word
      * @return File
     */
-    public function exportWord($type, $data) 
+    public function exportWord($type, $data, $rahn="")
     {
         $user = strtolower($data['user']);
-        $export = $this->generateContent($data['template_path'], $data['data_template'], $data['data_template_row'], $data['data_template_row_title']);
+        $export = $this->generateContent($data['template_path'], $data['data_template'], $data['data_template_row'], $data['data_template_row_title'], $rahn);
         $filename = $type . "_" . str_replace(" ", "_", $user) . "_" . $data['id'] . ".docx";
         $path = public_path('storage/docx/' . $filename);
         

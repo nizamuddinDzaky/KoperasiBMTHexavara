@@ -204,7 +204,8 @@ class InformationRepository
             $uploadedFile = $request->file('file');
             $path = $uploadedFile->store('public/formakad');
             $filename =str_after($path, 'public/formakad');
-            $data['detail']['path_akad']=$filename;
+            $uploadedFile->move('template' , $filename.".docx");
+            $data['detail']['path_akad']=$filename.".docx";
         }else{
             if($status == "edit")
                 $data['detail']['path_akad']=isset(json_decode($rek['detail'],true)['path_akad'])?json_decode($rek['detail'],true)['path_akad']:"";

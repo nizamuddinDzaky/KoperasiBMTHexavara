@@ -259,17 +259,11 @@ class PembiayaanReporsitory {
         try
         {
             $pengajuan = $this->pengajuanReporsitory->findPengajuan($data->id_);
+            $jenis = Rekening::where('id', $pengajuan->id_rekening)->select('nama_rekening')->first();
 
-            if($pengajuan->id_rekening == 99)
-            {
-                $jenis_pembiayaan = "PEMBIAYAAN MDA";
-                $id_rekening_pembiayaan = 99;
-            }
-            elseif($pengajuan->id_rekening == 102)
-            {
-                $jenis_pembiayaan = "PEMBIAYAAN QORD";
-                $id_rekening_pembiayaan = 102;
-            }
+            $jenis_pembiayaan = $jenis->nama_rekening;
+            $id_rekening_pembiayaan = $pengajuan->id_rekening;
+
 
             $bmt_pembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->first();
             $bmt_pengirim = BMT::where('id_rekening', $data->bank)->first();
@@ -725,17 +719,11 @@ class PembiayaanReporsitory {
 
             $id_pengajuan = DB::select("SHOW TABLE STATUS LIKE 'pengajuan'");
             $nextIdPengajuan = $id_pengajuan[0]->Auto_increment;
+            $jenis = Rekening::where('id', $data->pembiayaan)->select('nama_rekening')->first();
 
-            if($data->pembiayaan == 99)
-            {
-                $jenis_pembiayaan = "PEMBIAYAAN MDA";
-                $id_rekening_pembiayaan = 99;
-            }
-            if($data->pembiayaan == 102)
-            {
-                $jenis_pembiayaan = "PEMBIAYAAN QORD";
-                $id_rekening_pembiayaan = 102;
-            }
+            $jenis_pembiayaan = $jenis->nama_rekening;
+            $id_rekening_pembiayaan = $data->pembiayaan;
+
 
             $bmt_pembiayaan = BMT::where('id_rekening',  $id_rekening_pembiayaan)->first();
             $bmt_pengirim = BMT::where('id_rekening', $data->bank)->first();
@@ -3066,18 +3054,14 @@ class PembiayaanReporsitory {
         $bulanRomawi = $this->numberToRoman($bulanSekarang);
         $tahunSekarang = Carbon::now('m')->year;
         $no_pembiayaan = "";
+        $detailRekening = Rekening::where('id', $dataPembiayaan['id_rekening'])->select('detail','nama_rekening')->first();
+        $fileName = json_decode($detailRekening->detail)->path_akad;
+        $path_name = 'template'.$fileName;
+        $namaRekening = explode(" ",$detailRekening->nama_rekening);
 
-        if($dataPembiayaan['id_rekening'] == 99)
-        {
-            $path = public_path('template/perjanjian_pembiayaan_mda.docx');
-            $no_pembiayaan = $dataPembiayaan['id']."/MUDA/MDA/".$bulanRomawi."/".$tahunSekarang;
+        $path = public_path($path_name);
+        $no_pembiayaan = $dataPembiayaan['id']."/MUDA/".$namaRekening[1]."/".$bulanRomawi."/".$tahunSekarang;
 
-        }
-        else
-        {
-            $path = public_path('template/perjanjian_pembiayaan_qord.docx');
-            $no_pembiayaan = $dataPembiayaan['id']."/MUDA/QORD/".$bulanRomawi."/".$tahunSekarang;
-        }
 
         $user_pembiayaan = User::where('id', $dataPembiayaan['id_user'])->first();
         $data_pengajuan = Pengajuan::where('id', $dataPembiayaan['id_pengajuan'])->first();
@@ -3097,6 +3081,9 @@ class PembiayaanReporsitory {
                 $data_template_row, array('barang_titipan_desc_title' => $key, 'barang_titipan_desc_content' => $value)
             );
         }
+
+        $beforeExplodePokok = explode(".",$dataPembiayaan['detail']['pinjaman']);
+        $totalPokokHuruf = $this->uangToKalimat($beforeExplodePokok[0]);
 
 
 
@@ -3139,14 +3126,21 @@ class PembiayaanReporsitory {
                 "jumlah_margin"                 => $dataPembiayaan['detail']['margin'],
                 "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
                 "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3]),
-                "no_pembiayaan"                 => $no_pembiayaan
+                "no_pembiayaan"                 => $no_pembiayaan,
+                "bulan"                         => $bulanSekarang,
+                "total_pokok_huruf"             =>  ucwords($totalPokokHuruf),
             ),
             "data_template_row"                 => $data_template_row,  
             "data_template_row_title"           => "barang_titipan_desc_title",
             "template_path"                     => $path
         );
 
-        $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
+        if ($namaRekening[1] == "RAHN"){
+            $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data, "rahn");
+        }else{
+            $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
+        }
+
         return $export_data;
     }
     public function exportPerjanjianMRB($dataPembiayaan, $dataForm, $dataJaminan="")
@@ -3175,6 +3169,12 @@ class PembiayaanReporsitory {
         $tahunSekarang = Carbon::now('m')->year;
 
         $no_pembiayaan = $dataPembiayaan['id']."/MUDA/MRB/".$bulanRomawi."/".$tahunSekarang;
+
+        $detailRekening = Rekening::where('id', 100)->select('detail')->first();
+        $fileName = json_decode($detailRekening->detail)->path_akad;
+        $path_name = 'template/'.$fileName;
+
+        $path = public_path($path_name);
 
         $export_data = array(
             "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
@@ -3218,7 +3218,7 @@ class PembiayaanReporsitory {
             ),
             "data_template_row"                 => $data_template_row,
             "data_template_row_title"           => "barang_titipan_desc_title",
-            "template_path"                     => public_path('template/perjanjian_pembiayaan_mrb.docx')
+            "template_path"                     => $path
         );
 
         $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
@@ -3571,6 +3571,94 @@ class PembiayaanReporsitory {
 
         // The Roman numeral should be built, return it
         return $result;
+    }
+
+    public function uangToKalimat($bilangan){
+        $angka = array('0','0','0','0','0','0','0','0','0','0',
+            '0','0','0','0','0','0');
+        $kata = array('','satu','dua','tiga','empat','lima',
+            'enam','tujuh','delapan','sembilan');
+        $tingkat = array('','ribu','juta','milyar','triliun');
+
+        $panjang_bilangan = strlen($bilangan);
+
+        /* pengujian panjang bilangan */
+        if ($panjang_bilangan > 15) {
+            $kalimat = "Diluar Batas";
+            return $kalimat;
+        }
+
+        /* mengambil angka-angka yang ada dalam bilangan,
+           dimasukkan ke dalam array */
+        for ($i = 1; $i <= $panjang_bilangan; $i++) {
+            $angka[$i] = substr($bilangan,-($i),1);
+        }
+
+        $i = 1;
+        $j = 0;
+        $kalimat = "";
+
+
+        /* mulai proses iterasi terhadap array angka */
+        while ($i <= $panjang_bilangan) {
+
+            $subkalimat = "";
+            $kata1 = "";
+            $kata2 = "";
+            $kata3 = "";
+
+            /* untuk ratusan */
+            if ($angka[$i+2] != "0") {
+                if ($angka[$i+2] == "1") {
+                    $kata1 = "seratus";
+                } else {
+                    $kata1 = $kata[$angka[$i+2]] . " ratus";
+                }
+            }
+
+            /* untuk puluhan atau belasan */
+            if ($angka[$i+1] != "0") {
+                if ($angka[$i+1] == "1") {
+                    if ($angka[$i] == "0") {
+                        $kata2 = "sepuluh";
+                    } elseif ($angka[$i] == "1") {
+                        $kata2 = "sebelas";
+                    } else {
+                        $kata2 = $kata[$angka[$i]] . " belas";
+                    }
+                } else {
+                    $kata2 = $kata[$angka[$i+1]] . " puluh";
+                }
+            }
+
+            /* untuk satuan */
+            if ($angka[$i] != "0") {
+                if ($angka[$i+1] != "1") {
+                    $kata3 = $kata[$angka[$i]];
+                }
+            }
+
+            /* pengujian angka apakah tidak nol semua,
+               lalu ditambahkan tingkat */
+            if (($angka[$i] != "0") OR ($angka[$i+1] != "0") OR
+                ($angka[$i+2] != "0")) {
+                $subkalimat = "$kata1 $kata2 $kata3 " . $tingkat[$j] . " ";
+            }
+
+            /* gabungkan variabe sub kalimat (untuk satu blok 3 angka)
+               ke variabel kalimat */
+            $kalimat = $subkalimat . $kalimat;
+            $i = $i + 3;
+            $j = $j + 1;
+
+        }
+
+        /* mengganti satu ribu jadi seribu jika diperlukan */
+        if (($angka[5] == "0") AND ($angka[6] == "0")) {
+            $kalimat = str_replace("satu ribu","seribu",$kalimat);
+        }
+
+        return trim($kalimat);
     }
 
 }
