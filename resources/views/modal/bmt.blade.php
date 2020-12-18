@@ -110,10 +110,21 @@
                                 @endif --}}
 
                                 <div class="row">
-                                    <div class="col-md-3 ">
+                                    <div class="col-md-3 " id="rekeningPenyeimbangPemasukan">
                                         <div class="form-group">
                                             <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
-                                            <select class="form-control select2" id="idRekJ" name="dari[]" style="width: 100%;" required>
+                                            <select class="form-control select2" id="idRekJPem" name="dari[]" style="width: 100%;" required>
+                                                <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
+                                                @foreach ($dropdownPemasukan as $rekening)
+                                                    <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="rekeningPenyeimbangPengeluaran">
+                                        <div class="form-group">
+                                            <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
+                                            <select class="form-control select2" id="idRekPeng" name="dari[]" style="width: 100%;" required>
                                                 <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                                                 @foreach ($dropdown as $rekening)
                                                     <option value="{{ $rekening->id }}">[{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }} @if($rekening->saldo != "") [ Rp. {{ number_format($rekening->saldo, 2) }} ] @else [ Rp. 0 ] @endif</option>

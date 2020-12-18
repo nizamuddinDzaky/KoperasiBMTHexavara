@@ -46,15 +46,26 @@ $(document).ready(function() {
 
         $("#title_jurnal_lain").html("Transfer " + button.data('jenis'));
         $("#title_jurnal_lain").css("text-transform", "capitalize");
+        var pemasukan = document.getElementById("rekeningPenyeimbangPemasukan");
+        var pengeluaran = document.getElementById("rekeningPenyeimbangPengeluaran");
+
         if(button.data('jenis') == "pemasukan")
         {
             tipe = "1";
             $("#tipe").val(1);
+            pemasukan.style.display = 'block';
+            pengeluaran.style.display = 'none';
+            $('#rekeningPenyeimbangPengeluaran').find('input, textarea, button, select').attr('disabled','disabled');
+            $('#rekeningPenyeimbangPemasukan').find('input, textarea, button, select').removeAttr('disabled');
         }
         else
         {
             tipe = "0";
             $("#tipe").val(0);
+            pemasukan.style.display = 'none';
+            pengeluaran.style.display = 'block';
+            $('#rekeningPenyeimbangPemasukan').find('input, textarea, button, select').attr('disabled','disabled');
+            $('#rekeningPenyeimbangPengeluaran').find('input, textarea, button, select').removeAttr('disabled');
         }
     });
 

@@ -306,7 +306,7 @@ class AdminController extends Controller
     public function data_shu(){
         $data = $this->informationRepository->getAllSHU();
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+
         return view('admin.datamaster.shu',[
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -440,6 +440,7 @@ class AdminController extends Controller
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
             'dropdown' => $this->rekeningReporsitory->getRekening($type="detail", $sort="id_rekening"),
+            'dropdownPemasukan' => [],
             'dropdownUserPenyesuaian' => User::where([ ['tipe', 'anggota'], ['status', '2'], ['is_active', '1'] ])->get()
         ]);
     }

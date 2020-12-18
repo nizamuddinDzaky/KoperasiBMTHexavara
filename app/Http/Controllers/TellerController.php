@@ -1405,6 +1405,7 @@ class TellerController extends Controller
             'data' => $this->informationRepository->getAllPengajuanBMT(),
             // 'dropdown' => $this->informationRepository->getDdBMT(),
             'dropdown' => $this->rekeningReporsitory->getRekeningExcludedCategory($excluded=array('kas teller', 'bank', 'shu berjalan'), $type="detail", $sort="id_rekening"),
+            'dropdownPemasukan' => $this->rekeningReporsitory->getRekeningExcludedCategory($excluded=array('kas', 'bank', 'shu berjalan'), $type="detail", $sort="id_rekening"),
             'rekening_penyeimbang' => $rekening_penyeimbang
         ]);
     }
