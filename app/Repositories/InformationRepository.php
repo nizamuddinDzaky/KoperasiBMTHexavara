@@ -1843,7 +1843,7 @@ class InformationRepository
         return $data;
     }
     function getAllPem(){
-        $data = Pembiayaan::select('pembiayaan.*', 'rekening.detail as rekening', 'users.no_ktp', 'users.nama')
+        $data = Pembiayaan::select('pembiayaan.*', 'rekening.detail as rekening', 'users.no_ktp', 'users.nama', 'users.alamat')
             ->join('rekening', 'rekening.id', '=', 'pembiayaan.id_rekening')
             ->join('users', 'users.id', '=', 'pembiayaan.id_user')
             ->where('pembiayaan.status',"active")
@@ -1851,7 +1851,7 @@ class InformationRepository
         return $data;
     }
     function getAllPemView(){
-        $data = Pembiayaan::select('pembiayaan.*', 'rekening.detail as rekening', 'users.no_ktp', 'users.nama')
+        $data = Pembiayaan::select('pembiayaan.*', 'rekening.detail as rekening', 'users.no_ktp', 'users.nama', 'users.alamat')
             ->join('rekening', 'rekening.id', '=', 'pembiayaan.id_rekening')
             ->join('users', 'users.id', '=', 'pembiayaan.id_user')
             ->get();
@@ -3815,7 +3815,7 @@ class InformationRepository
     function getAllPemUsr()
     {
 
-        $data = $this->pembiayaan->select('pembiayaan.*', 'rekening.detail as rekening','users.no_ktp', 'users.nama')
+        $data = $this->pembiayaan->select('pembiayaan.*', 'rekening.detail as rekening','users.no_ktp', 'users.nama', 'users.alamat')
             ->join('users', 'users.id', '=', 'pembiayaan.id_user')
             ->join('rekening', 'rekening.id', '=', 'pembiayaan.id_rekening')
             ->where('id_user', Auth::user()->id)
@@ -3824,7 +3824,7 @@ class InformationRepository
     }
     function getAllPemUsrActive()
     {
-        $data = $this->pembiayaan->select('pembiayaan.*', 'rekening.detail as rekening','users.no_ktp', 'users.nama')
+        $data = $this->pembiayaan->select('pembiayaan.*', 'rekening.detail as rekening','users.no_ktp', 'users.nama', 'users.alamat')
             ->join('users', 'users.id', '=', 'pembiayaan.id_user')
             ->join('rekening', 'rekening.id', '=', 'pembiayaan.id_rekening')
             ->where('id_user', Auth::user()->id)
