@@ -157,7 +157,12 @@
                             @else
                             <tbody>
                                 <tr>
-                                    <td colspan="6" align="center"><b>Saldo Awal</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td align="right"> <b>Saldo Awal</b> </td>
+                                    <td ></td>
+                                    <td></td>
+                                    <td></td>
                                     <td><b>{{ number_format($data['saldo_awal'], 2) }}</b></td>
                                 </tr>
                               @foreach ($data['data'] as $usr)
@@ -200,10 +205,20 @@
 
                             @endforeach
                                 <tr>
-                                    <td colspan="7" align="center">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5" class="text-center text-uppercase"><h5><b>Jumlah Total Bulanan</b>  </h5></td>
+                                    <td ></td>
+                                    <td></td>
+                                    <td class="text-center text-uppercase"> <h5><b>Jumlah Total Bulanan</b>  </h5></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="text-right"><b>Rp</b></td>
                                     <td><b> {{number_format(isset($data['total'])?$data['total']:0,2)}}</b></td>
                                 </tr>
