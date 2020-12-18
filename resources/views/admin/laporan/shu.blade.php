@@ -62,7 +62,7 @@
                     <div class="card">
                         <div class="header text-center">
                             <h4 id="titlePrint" class="title"><b>Laporan SHU</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")-1}}@endif</p>
+                            <p id="titlePrint2" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")}}@endif</p>
                             <br />
                         </div>
                         <table id="bootstrap-table" class="table">
@@ -106,7 +106,7 @@
                     <div class="card">
                         <div class="header text-center">
                             <h4 id="titlePrint3" class="title"><b>Laporan SHU Anggota</b> </h4>
-                            <p id="titlePrint4" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")-1}}@endif</p>
+                            <p id="titlePrint4" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")}}@endif</p>
                             <br />
                         </div>
                         <div class="toolbar">
