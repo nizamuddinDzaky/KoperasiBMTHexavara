@@ -68,12 +68,12 @@
                                     @endif
 
                                     @if($item->status == "Kredit" || (str_before($item->status, " ") == "SIMPANAN" && json_decode($item->transaksi)->jumlah < 0 ) || str_before($item->status, " ") == "Angsuran" || str_before($item->status, " ") == "Pembayaran" || str_before($item->status, " ") == "Angsuran" || (str_before($item->status, " ") == "Transfer" && json_decode($item->transaksi)->jumlah < 0 ) || str_before($item->status, " ") == "Pelunasan" )
-                                    <td>{{ str_replace("-", "", number_format(json_decode($item->transaksi)->jumlah))  }}</td>
+                                    <td>{{ str_replace("-", "", number_format(json_decode($item->transaksi)->jumlah,2))  }}</td>
                                     @else
                                     <td>0</td>
                                     @endif
 
-                                    <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir)  }}</td>
+                                    <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir,2)  }}</td>
                                     {{-- <td class="text-uppercase text-center">{{ $usr->status }}</td> --}}
                                     {{-- <td class="td-actions text-center">
                                         <form  method="post" action="{{route('admin.detail_tabungan')}}">

@@ -641,12 +641,13 @@ class SimpananReporsitory {
                 $bank_tujuan_transfer = $data->dari_tabungan;
 
                 $rekening_tabungan = Tabungan::where('id_tabungan', $bank_tujuan_transfer)->first();
-                $saldo_bmt_pengirim = json_decode($rekening_tabungan->detail)->saldo;
+                $saldo_tabungan_pengirim = json_decode($rekening_tabungan->detail)->saldo;
                 $bmt_bank_pengirim = BMT::where('id_rekening', $rekening_tabungan->id_rekening)->first();
+                $saldo_bmt_pengirim = $bmt_bank_pengirim->saldo;
                 $id_bmt_bank_pengirim = $bmt_bank_pengirim->id;
 
                 $dataToUpdateTabungan = [
-                    "saldo" => $saldo_bmt_pengirim - floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                    "saldo" => $saldo_tabungan_pengirim - floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                     "id_pengajuan" => $nextId
                 ];
             }
@@ -846,6 +847,7 @@ class SimpananReporsitory {
                     "saldo_akhir" => floatval($saldo_awal_bmt_simpanan) + floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                     "id_pengajuan" => $nextId
                 ];
+
                 $dataToPenyimpananBMT = [
                     "id_user"   => $user->id,
                     "id_bmt"    => $id_bmt_simpanan,
@@ -866,21 +868,21 @@ class SimpananReporsitory {
 
                         $simpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
-                        $bmt_teller = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first(); // kas teller
-                        $detailToPenyimpananBMT['saldo_awal'] = $bmt_teller->saldo;
-                        $detailToPenyimpananBMT['saldo_akhir'] = $bmt_teller->saldo + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
-                        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
-                        $dataToPenyimpananBMT['id_bmt'] = $bmt_teller->id;
-
-                        $simpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+//                        $bmt_teller = BMT::where('id_rekening', json_decode(Auth::user()->detail)->id_rekening)->first(); // kas teller
+//                        $detailToPenyimpananBMT['saldo_awal'] = $bmt_teller->saldo;
+//                        $detailToPenyimpananBMT['saldo_akhir'] = $bmt_teller->saldo + floatval(preg_replace('/[^\d.]/', '', $data->nominal));
+//                        $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+//                        $dataToPenyimpananBMT['id_bmt'] = $bmt_teller->id;
+//
+//                        $simpananBMTPengirim = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                         $detailToPenyimpananTabungan = [
                             "teller"        => Auth::user()->id,
                             "dari_rekening"    => $bmt_bank_pengirim->nama,
                             "untuk_rekening"   => $bmt_simpanan->nama,
                             "jumlah"  => floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
-                            "saldo_awal"  => $saldo_bmt_pengirim,
-                            "saldo_akhir"  =>  $saldo_bmt_pengirim - floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
+                            "saldo_awal"  => $saldo_tabungan_pengirim,
+                            "saldo_akhir"  =>  $saldo_tabungan_pengirim - floatval(preg_replace('/[^\d.]/', '', $data->nominal)),
                         ];
                         $dataToPenyimpananTabungan = [
                             "id_user"   => $data->user,
