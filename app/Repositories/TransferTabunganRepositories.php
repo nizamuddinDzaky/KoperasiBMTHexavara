@@ -11,6 +11,7 @@ use App\Repositories\PengajuanReporsitories;
 use App\Repositories\TabunganReporsitories;
 use App\Repositories\RekeningReporsitories;
 use Illuminate\Support\Facades\DB;
+use function Composer\Autoload\includeFile;
 
 class TransferTabunganRepositories {
     
@@ -349,6 +350,27 @@ class TransferTabunganRepositories {
             $id_pengirim = $bmt_pengirim->id;
             $keterangan = "Jurnal Lain [" . $data['keterangan'] . "]";
 
+            $idRekeningPengirim = substr($rekening_pengirim->id_rekening,0,1);
+            $idRekeningPenerima = substr($rekening_penerima->id_rekening,0,1);
+            $tipePengirim = "";
+            $tipePenerima = "";
+
+            if($idRekeningPengirim == "1" || $idRekeningPengirim == "5" )
+            {
+                $tipePengirim = "aktiva";
+            }else{
+                $tipePengirim = "pasiva";
+            }
+
+            if($idRekeningPenerima == "2" || $idRekeningPenerima == "3" || $idRekeningPenerima == "4" )
+            {
+                $tipePenerima = "pasiva";
+            }else{
+                $tipePenerima = "aktiva";
+            }
+
+
+
             $id_user = Auth::user()->id;
             $id_bmt_penerima = $id_penerima;
             $id_bmt_pengirim = $id_pengirim;
@@ -361,52 +383,163 @@ class TransferTabunganRepositories {
                 DB::rollback();
                 $result = array('type' => 'error', 'message' => 'Transfer Antar Rekening Gagal. Saldo rekening pengirim tidak cukup.');
             }
-            else 
-            {
-                $detail = [
-                    "jumlah"    => preg_replace('/[^\d.]/', '', $data['jumlah']),
-                    "saldo_awal"=> floatval($saldo_penerima),
-                    "saldo_akhir" => floatval($saldo_penerima) + preg_replace('/[^\d.]/', '', $data['jumlah']),
-                    "dari"      => $dari,
-                    "ke"    => $ke,
-                    "keterangan"=> $keterangan
-                ];
-                $teller = Auth::user()->id;
+            else {
+                if ($tipePengirim == $tipePenerima) { // jika sama berarti sumber berkurang tujuan bertambah
+                    //penerima
+                    $detail = [
+                        "jumlah" => preg_replace('/[^\d.]/', '', $data['jumlah']),
+                        "saldo_awal" => floatval($saldo_penerima),
+                        "saldo_akhir" => floatval($saldo_penerima) + preg_replace('/[^\d.]/', '', $data['jumlah']),
+                        "dari" => $dari,
+                        "ke" => $ke,
+                        "keterangan" => $keterangan
+                    ];
+                    $teller = Auth::user()->id;
 
-                $dataToPenyimpananBMT = [
-                    "id_user"   => $id_user,
-                    "id_bmt"    => $id_penerima,
-                    "status"    => $status,
-                    "transaksi" => $detail,
-                    "teller"    => $teller
-                ];
-                $dataToBMT = [
-                    "id_rekening_pengirim"  => $dari,
-                    "id_rekening_penerima"  => $ke,
-                    "jumlah"                => preg_replace('/[^\d.]/', '', $data['jumlah'])
-                ];
-                if( 
-                    $this->rekeningRepository->insertPenyimpananBMT($dataToPenyimpananBMT) == "success"
-                )
-                {
+                    $dataToPenyimpananBMT = [
+                        "id_user" => $id_user,
+                        "id_bmt" => $id_penerima,
+                        "status" => $status,
+                        "transaksi" => $detail,
+                        "teller" => $teller
+                    ];
+                    $dataToBMT = [
+                        "id_rekening_pengirim" => $dari,
+                        "id_rekening_penerima" => $ke,
+                        "jumlah" => preg_replace('/[^\d.]/', '', $data['jumlah'])
+                    ];
+                    $this->rekeningRepository->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    //pengirim
                     $detail['jumlah'] = -preg_replace('/[^\d.]/', '', $data['jumlah']);
                     $detail['saldo_awal'] = floatval($saldo_pengirim);
                     $detail['saldo_akhir'] = floatval($saldo_pengirim) - preg_replace('/[^\d.]/', '', $data['jumlah']);
                     $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
                     $dataToPenyimpananBMT['transaksi'] = $detail;
                     $this->rekeningRepository->insertPenyimpananBMT($dataToPenyimpananBMT);
-                    
-                    if($this->updateSaldoRekening($dataToBMT) == "success")
+
+                    $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                    if($shuBerjalan->saldo == "")
                     {
-                        DB::commit();
-                        $result = array('type' => 'success', 'message' => 'Transfer Antar Rekening Berhasil Dilakukan');
+                        $saldoShuBerjalan = 0;
                     }
                     else
                     {
+                        $saldoShuBerjalan = $shuBerjalan->saldo;
+                    }
+
+                    if($idRekeningPenerima == "4")
+                    {
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) + floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }elseif($idRekeningPenerima == "5"){
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) - floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }
+
+                    $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                    if($shuBerjalan->saldo == "")
+                    {
+                        $saldoShuBerjalan = 0;
+                    }
+                    else
+                    {
+                        $saldoShuBerjalan = $shuBerjalan->saldo;
+                    }
+
+                    if($idRekeningPengirim == "4")
+                    {
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) - floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }else if($idRekeningPengirim == "5"){
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) + floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }
+
+
+                    if ($this->updateSaldoRekening($dataToBMT) == "success") {
+                        DB::commit();
+                        $result = array('type' => 'success', 'message' => 'Transfer Antar Rekening Berhasil Dilakukan');
+                    } else {
                         DB::rollback();
                         $result = array('type' => 'error', 'message' => 'Transfer Antar Rekening Gagal. Terjadi kesalahan saat update saldo rekening.');
                     }
+
+                } else { // sumber berkurang tujuan juga berkurang
+                    //penerima
+                    $detail = [
+                        "jumlah" => preg_replace('/[^\d.]/', '', $data['jumlah']),
+                        "saldo_awal" => floatval($saldo_penerima),
+                        "saldo_akhir" => floatval($saldo_penerima) - preg_replace('/[^\d.]/', '', $data['jumlah']),
+                        "dari" => $dari,
+                        "ke" => $ke,
+                        "keterangan" => $keterangan
+                    ];
+
+                    $teller = Auth::user()->id;
+
+                    $dataToPenyimpananBMT = [
+                        "id_user" => $id_user,
+                        "id_bmt" => $id_penerima,
+                        "status" => $status,
+                        "transaksi" => $detail,
+                        "teller" => $teller
+                    ];
+                    $dataToBMT = [
+                        "id_rekening_pengirim" => $dari,
+                        "id_rekening_penerima" => $ke,
+                        "jumlah" => preg_replace('/[^\d.]/', '', $data['jumlah'])
+                    ];
+                    $this->rekeningRepository->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    //pengirim
+                    $detail['jumlah'] = -preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    $detail['saldo_awal'] = floatval($saldo_pengirim);
+                    $detail['saldo_akhir'] = floatval($saldo_pengirim) - preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    $dataToPenyimpananBMT['id_bmt'] = $id_pengirim;
+                    $dataToPenyimpananBMT['transaksi'] = $detail;
+                    $this->rekeningRepository->insertPenyimpananBMT($dataToPenyimpananBMT);
+
+                    $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                    if($shuBerjalan->saldo == "")
+                    {
+                        $saldoShuBerjalan = 0;
+                    }
+                    else
+                    {
+                        $saldoShuBerjalan = $shuBerjalan->saldo;
+                    }
+
+                    if($idRekeningPenerima == "4")
+                    {
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) - floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }elseif($idRekeningPenerima == "5"){
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) + floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }
+
+                    $shuBerjalan = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->first();
+                    if($shuBerjalan->saldo == "")
+                    {
+                        $saldoShuBerjalan = 0;
+                    }
+                    else
+                    {
+                        $saldoShuBerjalan = $shuBerjalan->saldo;
+                    }
+
+                    if($idRekeningPengirim == "4")
+                    {
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) - floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }else if($idRekeningPengirim == "5"){
+                        $shuBerjalanUpdate = BMT::where('nama', 'SHU BERJALAN')->select('saldo')->update([ "saldo" => floatval($saldoShuBerjalan) + floatval(preg_replace('/[^\d.]/', '', $data['jumlah'])) ]);
+                    }
+
+                    if ($this->updateSaldoRekeningBedaTipe($dataToBMT) == "success") {
+                        DB::commit();
+                        $result = array('type' => 'success', 'message' => 'Transfer Antar Rekening Berhasil Dilakukan');
+                    } else {
+                        DB::rollback();
+                        $result = array('type' => 'error', 'message' => 'Transfer Antar Rekening Gagal. Terjadi kesalahan saat update saldo rekening.');
+                    }
+
                 }
+
             }
         }
         catch(\Exception $e)
@@ -438,6 +571,26 @@ class TransferTabunganRepositories {
         {
             return "error";
         }
-    }   
+    }
+
+    public function updateSaldoRekeningBedaTipe($data)
+    {
+        $rekeningPengirim = BMT::where('id_rekening', $data['id_rekening_pengirim'])->select([ 'saldo', 'id_bmt', 'id_rekening', 'nama' ])->first();
+        $rekeningPenerima = BMT::where('id_rekening', $data['id_rekening_penerima'])->select([ 'saldo', 'id_bmt', 'id_rekening', 'nama' ])->first();
+
+        $pengirimUpdate = BMT::where('id_rekening', $data['id_rekening_pengirim'])->update([ "saldo" => floatval($rekeningPengirim->saldo) - floatval($data['jumlah'])  ]);
+        $penerimaUpdate = BMT::where('id_rekening', $data['id_rekening_penerima'])->update([ "saldo" => floatval($rekeningPenerima->saldo) - floatval($data['jumlah'])  ]);
+
+        if($pengirimUpdate && $penerimaUpdate)
+        {
+            return "success";
+        }
+        else
+        {
+            return "error";
+        }
+    }
+
+
 
 }
