@@ -62,6 +62,26 @@ class RekeningReporsitories {
         return $data;
     }
 
+    public function getRekeningExcludedCategoryIDRekening($excluded, $type="", $sort="")
+    {
+        $rekening = "SELECT rekening.*, bmt.saldo FROM rekening INNER JOIN bmt ON rekening.id=bmt.id_rekening WHERE rekening.id_rekening <>'".$excluded[0]."'";
+        for($i=1; $i < count($excluded); $i++) {
+            $rekening .= " AND rekening.id_rekening <> '" . $excluded[$i] . "'";
+        }
+
+        if($type != "") {
+            $rekening .= " AND tipe_rekening='" . $type . "'";
+        }
+
+        if($sort != "") {
+            $rekening .= " ORDER BY " . $sort . " ASC";
+        }
+
+        $data = DB::select( DB::raw($rekening) );
+
+        return $data;
+    }
+
     /** 
      * Pengeluaran pemasukan rekening 
      * use in teller dashboard
