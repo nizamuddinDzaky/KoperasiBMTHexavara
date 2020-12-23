@@ -886,13 +886,14 @@ class LaporanController extends Controller
 
 
         //testing
-        $dataSaldoTabungan = $this->distribusiPendapatanReporsitory->getRataRataSaldoTabungan();
-        $dataSaldoTabunganNet = $this->distribusiPendapatanReporsitory->getRataRataSaldoTabunganNet();
-        $dataSaldoDeposito = $this->distribusiPendapatanReporsitory->getRataRataSaldoDeposito();
-        $dataSaldoDepositoNet = $this->distribusiPendapatanReporsitory->getRataRataSaldoDepositoNet();
+//        $dataSaldoTabungan = $this->distribusiPendapatanReporsitory->getRataRataSaldoTabungan();
+//        $dataSaldoTabunganNet = $this->distribusiPendapatanReporsitory->getRataRataSaldoTabunganNet();
+//        $dataSaldoDeposito = $this->distribusiPendapatanReporsitory->getRataRataSaldoDeposito();
+//        $dataSaldoDepositoNet = $this->distribusiPendapatanReporsitory->getRataRataSaldoDepositoNet();
 
 
-        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data', 'notification', 'notification_count', 'dataSaldoTabungan','dataSaldoTabunganNet', 'dataSaldoDeposito', 'dataSaldoDepositoNet'));
+//        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data', 'notification', 'notification_count', 'dataSaldoTabungan','dataSaldoTabunganNet', 'dataSaldoDeposito', 'dataSaldoDepositoNet'));
+        return view('admin.laporan.proses_akhir_bulan', compact('status', 'data', 'notification', 'notification_count'));
     }
 
     /** 
@@ -901,6 +902,7 @@ class LaporanController extends Controller
     */
     public function do_proses_akhir_bulan(Request $request)
     {
+        ini_set('max_execution_time', 0);
         if($request->jenis == "revenue")
         {
             $rekening_shu_berjalan = BMT::where('nama', 'SHU BERJALAN')->first();
