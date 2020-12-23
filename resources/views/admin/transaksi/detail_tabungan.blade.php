@@ -42,7 +42,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <table class="table beautiful-table">
+                    <table class="table beautiful-table" id="data-table">
                         <thead class="style-head">
                             <th class="text-left" data-sortable="true" colspan="2">ID </th>
                             <th class="text-left" data-sortable="true">NAMA ANGGOTA</th>
@@ -86,3 +86,12 @@
         </div> <!-- end row -->
     </div>
 @endsection
+
+@section('extra_script')
+    <script>
+        $('#data-table').dataTable( {
+            "processing": false
+        } );
+
+    </script>
+    @endsection
