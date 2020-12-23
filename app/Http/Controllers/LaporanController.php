@@ -224,14 +224,33 @@ class LaporanController extends Controller
             'periode' =>$periode,
         ]);
     }
-    public function getquitas($date){
-        $periode = PenyimpananRekening::select('periode')->distinct()->where('periode',"<",$date)
-            ->orderBy('periode',"DESC")->pluck('periode');
-        if(count($periode)==0) return 0;
-        $data = $this->informationRepository->getModal();
-        $data2 = $this->informationRepository->getRekModal();
-        $rekening = PenyimpananRekening::whereIn('id_rekening',$data2)->where('periode',$periode[0])->get()->pluck('saldo')->toArray();
-        return (array_sum($rekening));
+    public function getquitas($date, $status = ""){
+        if ($status == ""){
+            $dateChecker = Carbon::parse($date);
+            $dateChecker = $dateChecker->subMonth(2)->month;
+            $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')
+                ->whereMonth('created_at', $dateChecker)->first();
+            if($distribusi == null){
+                return 0;
+            }else{
+                $periode = PenyimpananRekening::select('periode')->distinct()->where('periode',"<",$date)
+                    ->orderBy('periode',"DESC")->pluck('periode');
+                if(count($periode)==0) return 0;
+                $data = $this->informationRepository->getModal();
+                $data2 = $this->informationRepository->getRekModal();
+                $rekening = PenyimpananRekening::whereIn('id_rekening',$data2)->where('periode',$periode[0])->get()->pluck('saldo')->toArray();
+                return (array_sum($rekening));
+            }
+        }
+        else{
+            $periode = PenyimpananRekening::select('periode')->distinct()->where('periode',"<",$date)
+                ->orderBy('periode',"DESC")->pluck('periode');
+            if(count($periode)==0) return 0;
+            $data = $this->informationRepository->getModal();
+            $data2 = $this->informationRepository->getRekModal();
+            $rekening = PenyimpananRekening::whereIn('id_rekening',$data2)->where('periode',$periode[0])->get()->pluck('saldo')->toArray();
+            return (array_sum($rekening));
+        }
 
     }
     public function quitas(){
@@ -243,7 +262,6 @@ class LaporanController extends Controller
         foreach ($data as $dt){
             $bmt = BMT::where('id',$dt['id'])
                 ->first();
-
 
             if($bmt == null){
                 $data[$i]['saldo'] =0;
@@ -272,6 +290,7 @@ class LaporanController extends Controller
     }
 
     public function equitas_simulasi($jenis){
+        ini_set('max_execution_time', 0);
         $shu = $this->distribusiPendapatanReporsitory->perubahanEquitas($jenis);
         
         $data = $this->informationRepository->getModal();
@@ -358,7 +377,7 @@ class LaporanController extends Controller
             $i++;
 
         }
-        $awal = $this->getquitas($request->periode);
+        $awal = $this->getquitas($request->periode, "periode");
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.quitas',[
