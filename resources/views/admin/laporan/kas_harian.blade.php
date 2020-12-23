@@ -44,23 +44,25 @@
                     <br />
                 </div>
 
-                <table class="table">
+                <table class="table" id="bootstrap-table">
                     <thead>
                     <th >ID</th>
-                    {{-- <th >ID Rekening</th> --}}
                     <th >Teller</th>
                     <th >Tgl Transaksi</th>
                     <th>Keterangan</th>
-
                     <th >Debit(Pemasukan)</th>
                     <th >Kredit(Pengeluaran)</th>
                     <th >jumlah</th>
                     </thead>
                         <tbody>
-
                             @if(count($data) > 0)
                             <tr>
-                                <td colspan="6" align="center"><b>Saldo Awal</b></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="left"><b>Saldo Awal</b></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
                                 <td><b>{{ number_format($data['saldo_awal'], 2) }}</b></td>
                             </tr>
                             @endif
@@ -94,7 +96,12 @@
                             
                             @if(count($data) > 0)
                             <tr>
-                                <td colspan="6" align="center"><h5><b>Jumlah Total Kas Harian</b></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="left"><h5><b>Jumlah Total Kas Harian</b></h5></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
                                 <td><b>{{ number_format($data['saldo_akhir'], 2) }}</b></td>
                             </tr>
                             @endif
