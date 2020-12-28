@@ -1584,8 +1584,8 @@ class DistribusiPendapatanReporsitories {
         try
         {
 
-            $shu_yang_harus_dibagikan_sekarang = BMT::where('id', 397)->select('saldo')->first();
-            $saldo_shu_yang_harus_dibagikan_sekarang = $shu_yang_harus_dibagikan_sekarang->saldo;
+            $shu_berjalan_sekarang = BMT::where('id', 344)->select('saldo')->first();
+            $saldo_shu_berjalan_sekarang = $shu_berjalan_sekarang->saldo;
 
             if($jenis == "net_profit")
             {
@@ -1710,15 +1710,15 @@ class DistribusiPendapatanReporsitories {
             $selisihBMTAnggota = $shu_berjalan->saldo - $total_porsi_anggota;
 
             if ($jenis == "revenue"){
-                $saldo_shu_yang_harus_dibagikan_sekarang = $saldo_shu_yang_harus_dibagikan_sekarang + $selisihBMTAnggota;
+                $saldo_shu_berjalan_sekarang = $selisihBMTAnggota;
             }
             else
             {
-                $saldo_shu_yang_harus_dibagikan_sekarang =  $saldo_shu_yang_harus_dibagikan_sekarang + $total_porsi_bmt;
+                $saldo_shu_berjalan_sekarang =  $total_porsi_bmt;
             }
 
 
-            return $saldo_shu_yang_harus_dibagikan_sekarang;
+            return $saldo_shu_berjalan_sekarang;
 
 
             DB::commit();

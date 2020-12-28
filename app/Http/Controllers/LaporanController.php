@@ -311,11 +311,11 @@ class LaporanController extends Controller
             else{
                 if($bmt->id == 344)
                 {
-                    $data[$i]['saldo'] =0;
+                    $data[$i]['saldo'] =$shu;
                 }
                 else if($bmt->id == 397)
                 {
-                    $data[$i]['saldo'] =$shu;
+                    $data[$i]['saldo'] =$bmt->saldo;
                 }
                 else{
                     $data[$i]['saldo'] =$bmt->saldo;

@@ -65,7 +65,6 @@
                             <th data-field="idRek" data-sortable="true">ID Rekening</th>
                             <th data-field="nama" data-sortable="true">Jenis MDB</th>
                             <th data-field="nisbah" data-sortable="true">Nisbah</th>
-                            <th data-field="saldo" data-sortable="true">Saldo Minimal</th>
                             {{--<th data-field="actions" class="td-actions text-right" data-events="operateEvents" data-formatter="operateFormatter">Actions</th>--}}
                             <th>Actions</th>
                             </thead>
@@ -76,8 +75,7 @@
                                     <td>{{ $dep->id }}</td>
                                     <td>{{ $dep->id_rekening }}</td>
                                     <td>{{ $dep->nama_rekening }}</td>
-                                    <td>{{ $dep->nisbah }}%</td>
-                                    <td>{{ number_format($dep->saldo_minimal) }}</td>
+                                    <td>{{ json_decode($dep->detail)->nisbah_anggota }}%</td>
                                     <td class="td-actions text-center">
                                         <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editDepModal" title="Edit"
                                                 data-id         = "{{$dep->id}}"
