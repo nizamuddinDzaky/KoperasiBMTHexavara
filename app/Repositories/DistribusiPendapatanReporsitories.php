@@ -792,12 +792,16 @@ class DistribusiPendapatanReporsitories {
             {
                 $shu_yang_harus_dibagikan->saldo = $shu_yang_harus_dibagikan->saldo + $selisihBMTAnggota;
                 $shu_yang_harus_dibagikan->save();
+                $this->insertPenyimpananShuBerjalan($selisihBMTAnggota);
             }
             else
             {
                 $shu_yang_harus_dibagikan->saldo = $shu_yang_harus_dibagikan->saldo + $total_porsi_bmt;
                 $shu_yang_harus_dibagikan->save();
+                $this->insertPenyimpananShuBerjalan($total_porsi_bmt);
             }
+
+
 
             if($data->jenis == "net_profit")
             {
@@ -1481,6 +1485,7 @@ class DistribusiPendapatanReporsitories {
     public function insertPenyimpananRekeningLabaRugi(){
         $laba = $this->informationRepository->getPendapatan();
         $rugi = $this->informationRepository->getRugi();
+        $rekening3 = $this->informationRepository->getPasiva3();
 
 
         $home = new HomeController();
@@ -1527,13 +1532,34 @@ class DistribusiPendapatanReporsitories {
             }
         }
 
+        foreach ($rekening3 as $dt){
+            $rekening = PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt['id_rekening'])->first();
+
+            if($rekening == null)
+            {
+                $rek = new PenyimpananRekening();
+                $rek->id_rekening = $dt['id_rekening'];
+                $rek->periode = $date;
+                $rek->saldo = $dt['saldo'];
+                $rek->save();
+            }
+            else
+            {
+                PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt['id_rekening'])->update([
+                    'saldo' => $dt['saldo']
+                ]);
+            }
+        }
+
+
+
 
 
     }
 
     public function insertPenyimpananRekeningAktivaPasiva(){
         $aktiva = $this->informationRepository->getAktiva();
-        $pasiva = $this->informationRepository->getPasiva();
+        $pasiva = $this->informationRepository->getPasivaDistribusiPendapatan();
 
         $home = new HomeController();
         $date = $home->MonthShifter(0)->format(('Ym'));
@@ -1576,6 +1602,28 @@ class DistribusiPendapatanReporsitories {
             }
         }
 
+    }
+
+    public function insertPenyimpananShuBerjalan($shu){
+        $home = new HomeController();
+        $date = $home->MonthShifter(0)->format(('Ym'));
+
+        $rekening = PenyimpananRekening::where('periode',$date)->where('id_rekening', 122 )->first();
+
+        if($rekening == null)
+        {
+            $rek = new PenyimpananRekening();
+            $rek->id_rekening = 122;
+            $rek->periode = $date;
+            $rek->saldo = $shu;
+            $rek->save();
+        }
+        else
+        {
+            PenyimpananRekening::where('periode',$date)->where('id_rekening', 122)->update([
+                'saldo' => $shu
+            ]);
+        }
     }
 
     public function perubahanEquitas($jenis)

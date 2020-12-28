@@ -313,10 +313,6 @@ class LaporanController extends Controller
                 {
                     $data[$i]['saldo'] =$shu;
                 }
-                else if($bmt->id == 397)
-                {
-                    $data[$i]['saldo'] =$bmt->saldo;
-                }
                 else{
                     $data[$i]['saldo'] =$bmt->saldo;
                 }

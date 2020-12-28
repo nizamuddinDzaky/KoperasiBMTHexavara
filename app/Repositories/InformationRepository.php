@@ -832,6 +832,23 @@ class InformationRepository
 
         return $obj;
     }
+    function getPasivaDistribusiPendapatan(){
+        $data = $this->bmt->select('bmt.*','rekening.tipe_rekening')
+            ->where('id_bmt','like','2%')
+            ->join('rekening','rekening.id','bmt.id_rekening')
+            ->orderBy('id_bmt')->get()->toArray();
+
+        return $data;
+    }
+
+    function getPasiva3(){
+        $data = $this->bmt->select('bmt.*','rekening.tipe_rekening')
+            ->where('id_bmt','like','3%')
+            ->join('rekening','rekening.id','bmt.id_rekening')
+            ->orderBy('id_bmt')->get()->toArray();
+
+        return $data;
+    }
     function getModal(){
         $data = $this->bmt->select('bmt.*','rekening.tipe_rekening')
             ->where('id_bmt','like','3%')
