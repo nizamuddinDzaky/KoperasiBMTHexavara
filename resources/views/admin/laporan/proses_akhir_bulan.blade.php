@@ -30,7 +30,7 @@
 
                     @if($status == false)
                     <div class="button-group right">
-                        <button class="btn btn-primary rounded right shadow-effect" onclick="document.getElementById('form_net_profit').submit()"><i class="fa fa-share"></i> Distribusi Net Sharing</button>
+                        <button class="btn btn-primary rounded right shadow-effect" onclick="document.getElementById('form_net_profit').submit()"><i class="fa fa-share"></i> Distribusi Profit Sharing</button>
                         <button class="btn btn-success rounded right shadow-effect" onclick="document.getElementById('form_revenue').submit()"><i class="fa fa-share"></i> Distribusi Revenue Sharing</button>
                     </div>
                     @endif

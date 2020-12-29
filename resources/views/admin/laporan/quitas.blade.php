@@ -36,7 +36,7 @@
                     </form>
 
                     <div class="button-group right">
-                        <a class="btn btn-primary rounded right shadow-effect" href="{{route('quitas.simulasi', "net_profit")}}" ><i class="fa fa-share"></i> Distribusi Net Sharing</a>
+                        <a class="btn btn-primary rounded right shadow-effect" href="{{route('quitas.simulasi', "net_profit")}}" ><i class="fa fa-share"></i> Distribusi Profit Sharing</a>
                         <a class="btn btn-success rounded right shadow-effect" href="{{route('quitas.simulasi', 'revenue')}}" ><i class="fa fa-share"></i> Distribusi Revenue Sharing</a>
                     </div>
                 </div>
