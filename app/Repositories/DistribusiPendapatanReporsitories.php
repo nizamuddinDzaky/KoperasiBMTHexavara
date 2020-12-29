@@ -117,7 +117,8 @@ class DistribusiPendapatanReporsitories {
             }
             else
             {
-                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product) / $total_porsi_bmt * $selisihBMTAnggota;
+//                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product) / $total_porsi_bmt * $selisihBMTAnggota;
+                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
 
             }
 
@@ -151,7 +152,8 @@ class DistribusiPendapatanReporsitories {
             }
             else
             {
-                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product) / $total_porsi_bmt * $selisihBMTAnggota;
+//                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product) / $total_porsi_bmt * $selisihBMTAnggota;
+                $porsi_bmt = $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
 
             }
             array_push($data_rekening, [
@@ -761,7 +763,7 @@ class DistribusiPendapatanReporsitories {
 
             if ($data->jenis == "revenue"){
                 $detailToPenyimpananBMT = [
-                    "jumlah"        => $total_porsi_bmt,
+                    "jumlah"        => $selisihBMTAnggota,
                     "saldo_awal"    => $shu_yang_harus_dibagikan->saldo,
                     "saldo_akhir"   => $shu_yang_harus_dibagikan->saldo + $selisihBMTAnggota,
                     "id_pengajuan"  => null
