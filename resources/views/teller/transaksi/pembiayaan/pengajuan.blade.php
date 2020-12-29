@@ -457,6 +457,36 @@
             }
         }
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#pic')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(auto)
+                };
+
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function readURLPelunasan(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#picpelunasanteller')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(auto)
+                };
+
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         $().ready(function(){
             $('#bootstrap-table').dataTable({
                 initComplete: function () {

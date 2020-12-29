@@ -734,10 +734,18 @@
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('#pic')
-                        .attr('src', e.target.result)
-                        .width(200)
-                        .height(auto)
+                    $('#picanggota').attr('src', e.target.result).width(200).height(auto);
+                };
+
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function readURLPelunasan(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#picpelunasan').attr('src', e.target.result).width(200).height(auto);
                 };
 
 

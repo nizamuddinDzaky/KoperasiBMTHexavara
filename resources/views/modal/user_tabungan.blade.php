@@ -756,14 +756,20 @@
                                     <div class="form-group">
                                         <label>Upload Bukti Transfer <star>*</star></label><br>
                                         <span class="btn btn-info btn-fill btn-file center-block"> Browse
-                                            <input type="file" onchange="readURL(this);" id="bukti" name="file" accept=".jpg, .png, .jpeg|images/*" />
+                                            <input type="file" onchange="readURLTabungan(this);" id="bukti" name="file" accept=".jpg, .png, .jpeg|images/*" />
                                         </span><br><br>
                                         <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                                     </div>
                                 </div>
+                                @if(Auth::user()->tipe == "anggota")
                                 <div class="text-center">
-                                    <img style="margin: auto;width:100px;height:auto" id="pic" src=""/>
+                                    <img style="margin: auto;width:100px;height:auto" id="pictabungan" src=""/>
                                 </div>
+                                @else
+                                    <div class="text-center">
+                                        <img style="margin: auto;width:100px;height:auto" id="pictabunganteller" src=""/>
+                                    </div>
+                                @endif
                             </div>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">

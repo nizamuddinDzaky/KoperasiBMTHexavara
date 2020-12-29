@@ -217,9 +217,16 @@
                                         <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                                     </div>
                                 </div>
-                                <div class="text-center">
-                                    <img style="margin: auto;width:100px;height:auto" id="pic" src=""/>
-                                </div>
+                                @if(Auth::user()->tipe== "anggota")
+                                    <div class="text-center">
+                                        <img style="margin: auto;width:100px;height:auto" id="picanggota" src=""/>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <img style="margin: auto;width:100px;height:auto" id="pic" src=""/>
+                                    </div>
+                                    @endif
+
                             </div>
                             {{--PEMBAYARAN--}}
                             <div class="row">

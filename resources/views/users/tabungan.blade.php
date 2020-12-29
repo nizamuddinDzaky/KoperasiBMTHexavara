@@ -651,6 +651,21 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        function readURLTabungan(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#pictabungan')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(auto)
+                };
+
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
         type = ['','info','success','warning','danger'];
         demo = {
             showNotification: function(from, align){
