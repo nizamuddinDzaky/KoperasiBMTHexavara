@@ -113,13 +113,15 @@ class RekeningReporsitories {
 
 
 
-                    $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
-                    $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
+                    $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first(); // kas teller
+                    $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first(); // rekening penyeimbang
                     $rekening_penerima = Rekening::where('id', $ke)->first();
                     $rekening_pengirim = Rekening::where('id', $dari)->first();
                     $id_penerima = $bmt_penerima->id;
                     $id_pengirim = $bmt_pengirim->id;
                     $keterangan = "Pemasukan - KT [" . $data['keterangan'] . "]";
+
+
                 } else {
                     $jenis = "Pengeluaran";
 
@@ -132,8 +134,8 @@ class RekeningReporsitories {
                     }
 
                     $ke = $data['dari'];
-                    $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first();
-                    $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first();
+                    $bmt_penerima = BMT::where('id_rekening', $ke)->select('id')->first(); // rekening penyeimbang
+                    $bmt_pengirim = BMT::where('id_rekening', $dari)->select('id')->first(); // kas teller
                     $rekening_penerima = Rekening::where('id', $ke)->first();
                     $rekening_pengirim = Rekening::where('id', $dari)->first();
 
@@ -167,6 +169,19 @@ class RekeningReporsitories {
                 if($data['tipe'] == 1) {
                     $saldoAkhir = floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']);
                     $rekening_pengirim_id = explode(".", $rekening_pengirim->id_rekening);
+
+                    //pengecekan apakah sama-sama aktiva
+                    if ($rekening_pengirim_id[0] == "1" || $rekening_pengirim_id[0] == "5")
+                    {
+                        if (($saldo_pengirim->saldo - preg_replace('/[^\d.]/', '', $data['jumlah'])) < 0 ){
+                            DB::rollback();
+                            $result = array('type' => 'error', 'message' => 'Transfer Pengeluaran/Pemasukan Gagal Dilakukan. Saldo Rekening Penyeimbang Tidak Mencukupi');
+                            return $result;
+                        }
+                    }
+
+
+
                     if ($rekening_pengirim_id[0] == "4" || $rekening_pengirim_id[0] == "5" ){
                         $shuBerjalan = BMT::where('id', 344)->first();
                         $saldoAkhirShuBerjalan = $shuBerjalan->saldo + preg_replace('/[^\d.]/', '', $data['jumlah']);
@@ -188,9 +203,9 @@ class RekeningReporsitories {
                         ];
 
                         $this->insertPenyimpananBMT($dataToPenyimpananBMTSHU);
-
-
                     }
+
+
                 }
                 else{
                     $rekening_penerima_id = explode(".", $rekening_penerima->id_rekening);
@@ -200,6 +215,14 @@ class RekeningReporsitories {
                     }
                     else{
                         $saldoAkhir = floatval($saldo_penerima['saldo']) + preg_replace('/[^\d.]/', '', $data['jumlah']);
+                    }
+
+
+                    //pengecekan apakah kas teller menjadi minus atau tidak
+                    if (($saldo_pengirim->saldo - preg_replace('/[^\d.]/', '', $data['jumlah'])) < 0 ){
+                        DB::rollback();
+                        $result = array('type' => 'error', 'message' => 'Transfer Pengeluaran/Pemasukan Gagal Dilakukan. Saldo Kas Teller Tidak Mencukupi');
+                        return $result;
                     }
 
                     if ($rekening_penerima_id[0] == "4" || $rekening_penerima_id[0] == "5" ){
@@ -271,7 +294,6 @@ class RekeningReporsitories {
         catch(\Exception $e)
         {
             DB::rollback();
-
             $result = array('type' => 'error', 'message' => 'Transfer Pengeluaran/Pemasukan Gagal.');
         }
 
