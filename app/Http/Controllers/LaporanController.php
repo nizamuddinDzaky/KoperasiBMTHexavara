@@ -981,7 +981,7 @@ class LaporanController extends Controller
     */
     public function do_proses_akhir_tahun(Request $request)
     {
-        
+        ini_set('max_execution_time', 0);
         $rekening_shu_yang_harus_dibagikan = BMT::where('nama', 'SHU YANG HARUS DIBAGIKAN')->first();
         if($rekening_shu_yang_harus_dibagikan->saldo <= 0)
         {
