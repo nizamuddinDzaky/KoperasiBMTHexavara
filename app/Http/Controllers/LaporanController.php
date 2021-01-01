@@ -634,7 +634,7 @@ class LaporanController extends Controller
     public function buku_besar(){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $notification = $this->pengajuanReporsitory->getNotification();
-        $periodeToday = Carbon::now()->year."".Carbon::now()->month;
+        $periodeToday = Carbon::now()->year."".Carbon::now()->format('m');
         if(!$periode->contains($periodeToday)){
             $periode = $periode->merge($periodeToday);
         }
@@ -650,7 +650,7 @@ class LaporanController extends Controller
     public function rekening_buku(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
-        $periodeToday = Carbon::now()->year."".Carbon::now()->month;
+        $periodeToday = Carbon::now()->year."".Carbon::now()->format('m');
         if(!$periode->contains($periodeToday)){
             $periode = $periode->merge($periodeToday);
         }
@@ -665,7 +665,7 @@ class LaporanController extends Controller
     }
     public function rekening_buku_periodik(Request $request){
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
-        $periodeToday = Carbon::now()->year."".Carbon::now()->month;
+        $periodeToday = Carbon::now()->year."".Carbon::now()->format('m');
         if(!$periode->contains($periodeToday)){
             $periode = $periode->merge($periodeToday);
         }

@@ -98,7 +98,9 @@ class HomeController extends Controller
     }
     public function date_query($periode){
         if($periode !=0 ){
-            $time = strtotime($periode."/01");
+            $year = substr($periode,0,4);
+            $month = substr($periode,4,2);
+            $time = strtotime($year."/".$month."/01");
             $newformat = date('Y-m',$time);
             $aDate = new DateTime($newformat);
             $dateA = clone($aDate);

@@ -93,7 +93,7 @@
                                 <div class="col-md-3"></div>
                                 <div class="col-md-8">
                                     {{--<h5 class="text-center">Periode Laporan</h5>--}}
-                                    <form id="buku_besar" @if(Auth::user()->tipe == "admin") action="{{route('rekening.buku_besar')}}" @else action="{{route('teller.rekening.buku_besar_')}}" @endif method="post">
+                                    <form id="buku_besar" @if(Auth::user()->tipe == "admin") action="{{route('rekening.buku_besar_')}}" @else action="{{route('teller.rekening.buku_besar_')}}" @endif method="post">
                                         {{ csrf_field() }}
                                         <div align="center">
                                             <div class="row">

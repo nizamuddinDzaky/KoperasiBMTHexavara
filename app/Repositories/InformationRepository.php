@@ -891,11 +891,10 @@ class InformationRepository
     }
     function BukuBesar(Request $request){
         $home = new HomeController();
-        $date = $home->date_query(substr($request->periode,4,2));
+        $date = $home->date_query($request->periode);
         $d = BMT::where('id_rekening',$request->rekening)->first();
         $data['id_rek'] = $d['id_bmt'];
         $data['nama_rek'] = $d['nama'];
-//        dd("dsa");
         $dt = PenyimpananBMT::select('penyimpanan_bmt.id','bmt.id_bmt as id_rek','penyimpanan_bmt.id_bmt','penyimpanan_bmt.id_user','users.nama as nama_user','penyimpanan_bmt.status','penyimpanan_bmt.status'
             ,'penyimpanan_bmt.created_at','penyimpanan_bmt.updated_at','bmt.saldo','penyimpanan_bmt.transaksi','bmt.id_rekening','bmt.nama')
             ->where('penyimpanan_bmt.id_bmt',$d['id'])
@@ -930,7 +929,6 @@ class InformationRepository
         $d = BMT::where('id_rekening',$request->rekening)->first();
         $data['id_rek'] = $d['id_bmt'];
         $data['nama_rek'] = $d['nama'];
-//        dd("dsa");
         $dt = PenyimpananBMT::select('penyimpanan_bmt.id','bmt.id_bmt as id_rek','penyimpanan_bmt.id_bmt','penyimpanan_bmt.id_user','users.nama as nama_user','penyimpanan_bmt.status','penyimpanan_bmt.status'
             ,'penyimpanan_bmt.created_at','penyimpanan_bmt.updated_at','bmt.saldo','penyimpanan_bmt.transaksi','bmt.id_rekening','bmt.nama')
             ->where('penyimpanan_bmt.id_bmt',$d['id'])
