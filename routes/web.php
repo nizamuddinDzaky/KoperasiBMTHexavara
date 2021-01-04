@@ -1169,6 +1169,11 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
                 'uses' => 'TellerController@periode_pengajuan'
             ]);
 
+            Route::post('/pembiayaan', [
+                'as' => 'teller.periode.pengajuan.pembiayaan',
+                'uses' => 'TellerController@periode_pengajuan_pembiayaan'
+            ]);
+
             /** 
              * Daftar Pengajuan Penutupan Rekening
              * @method GET

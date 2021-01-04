@@ -9,6 +9,7 @@ use App\Pengajuan;
 use App\PenyimpananDeposito;
 use App\PenyimpananBMT;
 use App\PenyimpananJaminan;
+use App\PenyimpananRekening;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
 use Carbon\Carbon;
@@ -1074,6 +1075,11 @@ class TellerController extends Controller
     public function pengajuan_pembiayaan(){
         $home = new HomeController;
         $date = $home->date_query(0);
+        $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $periodeToday = Carbon::now()->year."".Carbon::now()->format('m');
+        if(!$periode->contains($periodeToday)){
+            $periode = $periode->merge($periodeToday);
+        }
         $dropdown = $this->informationRepository->getDdTab();
         $dropdown2 = $this->informationRepository->getDdDep();
         $dropdown3 = $this->informationRepository->getDdPem();
@@ -1104,9 +1110,59 @@ class TellerController extends Controller
             'tabungan'  => $this->informationRepository->getAllTab(),
             'notification' => $notification,
             'notification_count' =>count($notification),
-            'user'  => $user
+            'user'  => $user,
+            'periode' => $periode
         ]);
     }
+
+    public function periode_pengajuan_pembiayaan(Request $request){
+        $home = new HomeController;
+        $date = $home->date_query($request->periode);
+        $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+        $periodeToday = Carbon::now()->year."".Carbon::now()->format('m');
+        if(!$periode->contains($periodeToday)){
+            $periode = $periode->merge($periodeToday);
+        }
+
+        $dropdown = $this->informationRepository->getDdTab();
+        $dropdown2 = $this->informationRepository->getDdDep();
+        $dropdown3 = $this->informationRepository->getDdPem();
+        $data = $this->informationRepository->getAllpengajuanPemTell($date);
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $user = User::where([ ['tipe', 'anggota'], ['status', 2] ])->get();
+
+        return view('teller.transaksi.pembiayaan.pengajuan',[
+            'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
+            'datasaldoPem' => $this->informationRepository->getAllPem(),
+            'datasaldoPem2' => $this->informationRepository->getAllPemView(),
+            'kegiatan' => $dropdown,
+            'kegiatanWakaf' => $this->informationRepository->getAllWakaf(),
+            'datasaldo' =>  $this->informationRepository->getAllTabUsr(),
+            'data' => $data,
+            'tab' =>  $this->informationRepository->getAllTab(),
+            'tabactive' =>  $this->informationRepository->getAllTabActive(),
+            'dropdown' => $dropdown,
+            'dropdown2' => $dropdown2,
+            'dropdown3' => $dropdown3,
+            'dropdown4' => $this->informationRepository->getAllrekeningNoUsrTab(),
+            'dropdown5' => $this->informationRepository->getAllTabNoUsr(),
+            'dropdown6' => $this->informationRepository->getDdBank(),
+            'dropdown7' => $this->informationRepository->getDdTeller($id_rekening=json_decode(Auth::user()->detail)->id_rekening),
+            'dropdown8' => $this->informationRepository->getAllNasabah(),
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'periode'  => $this->informationRepository->periode(),
+            'tabungan'  => $this->informationRepository->getAllTab(),
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'user'  => $user,
+            'periode' => $periode
+        ]);
+    }
+
+
+
+
+
     public function periode_pem(Request $request){
         $home = new HomeController;
         $date = $home->date_query($request->periode);
