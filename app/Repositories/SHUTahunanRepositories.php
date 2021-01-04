@@ -311,7 +311,7 @@ class SHUTahunanRepositories {
 
                         if(in_array($user->id, $used) == false)
                         {
-                            array_push($used, $bmt_tabungan->id);
+                            array_push($used, $user->id);
                             
                             $bmt_tabungan->saldo = $bmt_tabungan->saldo + $pendapatan_shu;
                             $bmt_tabungan->save();
