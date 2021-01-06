@@ -184,7 +184,7 @@
                                     <td>{{ $usr->status }}</td>
                                     @endif
 
-                                    @if(substr($data['id_rek'],0,1) == "2" || substr($data['id_rek'],0,1) == "3" )
+                                    @if(substr($data['id_rek'],0,1) == "2" || substr($data['id_rek'],0,1) == "3" || substr($data['id_rek'],0,1) == "4"  )
                                         @if(json_decode($usr->transaksi)->saldo_awal > json_decode($usr->transaksi)->saldo_akhir)
                                             @if(json_decode($usr->transaksi)->jumlah < 0)
                                                 <td>{{ number_format(-json_decode($usr->transaksi)->jumlah, 2) }}</td>
