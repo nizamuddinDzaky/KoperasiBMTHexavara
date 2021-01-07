@@ -70,12 +70,12 @@
                             <th class="text-center"> Total</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-left"></td>
-                                <td class="text-left text-uppercase"><h5><strong>Saldo Kekayaan Bersih Awal Bulan</strong> </h5></td>
-                                <td class="text-right"></td>
-                                <td class="text-right">{{ isset($awal)?number_format(floatval($awal),2):0 }}</td>
-                            </tr>
+{{--                            <tr>--}}
+{{--                                <td class="text-left"></td>--}}
+{{--                                <td class="text-left text-uppercase"><h5><strong>Saldo Kekayaan Bersih Awal Bulan</strong> </h5></td>--}}
+{{--                                <td class="text-right"></td>--}}
+{{--                                <td class="text-right">{{ isset($awal)?number_format(floatval($awal),2):0 }}</td>--}}
+{{--                            </tr>--}}
                             @foreach ($data as $usr)
                                 <tr>
                                     <td class="text-left">{{ $usr['id_bmt'] }}</td>
@@ -97,12 +97,12 @@
                                 <td></td>
                                 <td class="text-right">{{number_format($sum,2)}}</td>
                             </tr>
-                            <tr>
-                                <td></td>
-                                <td class="text-left text-uppercase"><h5><strong>Tambah Kekayaan</strong> </h5></td>
-                                <td></td>
-                                <td class="text-right">{{number_format($sum+$awal,2)}}</td>
-                            </tr>
+{{--                            <tr>--}}
+{{--                                <td></td>--}}
+{{--                                <td class="text-left text-uppercase"><h5><strong>Tambah Kekayaan</strong> </h5></td>--}}
+{{--                                <td></td>--}}
+{{--                                <td class="text-right">{{number_format($sum+$awal,2)}}</td>--}}
+{{--                            </tr>--}}
                         </tbody>
 
                     </table>
