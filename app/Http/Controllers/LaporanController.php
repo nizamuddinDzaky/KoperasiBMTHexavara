@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BMT;
 use App\PenyimpananBMT;
+use App\PenyimpananDistribusi;
 use App\PenyimpananRekening;
 use App\PenyimpananMaal;
 use App\PenyimpananWakaf;
@@ -680,15 +681,38 @@ class LaporanController extends Controller
         ]);
     }
     public function distribusi(){
+        ini_set('max_execution_time', 0);
         $notification = $this->pengajuanReporsitory->getNotification();
+        $periode = DB::select(DB::raw('SELECT DISTINCT YEAR(created_at) as year, MONTH(created_at) as month FROM penyimpanan_distribusi'));
 
         return view('admin.laporan.distribusi',[
             'notification' => $notification,
             'notification_count' =>count($notification),
             'data' => $this->distribusiPendapatanReporsitory->getDistribusiData(),
+//            'data' => json_decode($something->transaksi,true),
             'data_revenue' => $this->distribusiPendapatanReporsitory->getDistribusiRevenueData(),
+//            'data_revenue' => json_decode($something->transaksi,true),
             'status' => $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus(),
+            "periode" => $periode
         ]);
+    }
+
+    public function periode_distribusi(Request $request){
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $dataPeriode = explode('-',$request->periode);
+        $data = PenyimpananDistribusi::select('transaksi')->whereYear('created_at', $dataPeriode[0])->whereMonth('created_at', $dataPeriode[1])->first();
+        $periode = DB::select(DB::raw('SELECT DISTINCT YEAR(created_at) as year, MONTH(created_at) as month FROM penyimpanan_distribusi'));
+        $periodeStatus = [Carbon::create()->month($dataPeriode[1])->format('F'),$dataPeriode[0]];
+        return view('admin.laporan.distribusi',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'data' => json_decode($data->transaksi,true),
+            'data_revenue' => json_decode($data->transaksi,true),
+            'status' => $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus(),
+            "periode" => $periode,
+            "periode_status" => $periodeStatus
+        ]);
+
     }
 
     public function distribusi_pendapatan(Request $request){

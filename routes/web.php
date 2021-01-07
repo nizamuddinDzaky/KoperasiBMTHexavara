@@ -808,6 +808,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'distribusi',
             'uses'      => 'LaporanController@distribusi'
         ]);
+        Route::post('/periode/distribusi', [
+            'as'        => 'periode.distribusi',
+            'uses'      => 'LaporanController@periode_distribusi'
+        ]);
         Route::post('/distribusi', [
             'as'        => 'distribusi.pendapatan',
             'uses'      => 'LaporanController@distribusi_pendapatan'
