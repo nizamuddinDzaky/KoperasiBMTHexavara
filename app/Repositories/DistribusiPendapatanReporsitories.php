@@ -548,6 +548,7 @@ class DistribusiPendapatanReporsitories {
                 $nisbah_bmt = 100 - json_decode($tab->detail)->nisbah_anggota;
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan); // untuk cari pendapatan per produk
                 $porsi_anggota = $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $insertPenyimpananRekening = $this->insertPenyimpananRekeningPorsiRugi($porsi_anggota, json_decode($tab->detail)->rek_margin);
                 $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
                 $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
 
@@ -649,13 +650,13 @@ class DistribusiPendapatanReporsitories {
 
             foreach($rekening_deposito as $dep)
             {
-
                 $deposito = $this->depositoReporsitory->getDepositoDistribusi($dep->nama_rekening);
                 $rata_rata = Session::get($dep->nama_rekening);
                 $nisbah_anggota = json_decode($dep->detail)->nisbah_anggota;
                 $nisbah_bmt = 100 - json_decode($dep->detail)->nisbah_anggota;
                 $pendapatan_product = $this->getPendapatanProduk($rata_rata, $total_rata_rata, $total_pendapatan);
                 $porsi_anggota = $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
+                $insertPenyimpananRekening = $this->insertPenyimpananRekeningPorsiRugi($porsi_anggota, json_decode($dep->detail)->rek_margin);
                 $total_porsi_anggota += $this->getPorsiPendapatanProduct($nisbah_anggota, $pendapatan_product);
                 $total_porsi_bmt += $this->getPorsiPendapatanProduct($nisbah_bmt, $pendapatan_product);
 
@@ -1520,9 +1521,8 @@ class DistribusiPendapatanReporsitories {
 
     public function insertPenyimpananRekeningLabaRugi(){
         $laba = $this->informationRepository->getPendapatan();
-        $rugi = $this->informationRepository->getRugi();
         $rekening3 = $this->informationRepository->getPasiva3();
-
+        $rugi = $this->informationRepository->getRugi();
 
         $home = new HomeController();
         $date = $home->MonthShifter(0)->format(('Ym'));
@@ -1568,6 +1568,8 @@ class DistribusiPendapatanReporsitories {
             }
         }
 
+
+
         foreach ($rekening3 as $dt){
             $rekening = PenyimpananRekening::where('periode',$date)->where('id_rekening', $dt['id_rekening'])->first();
 
@@ -1588,8 +1590,57 @@ class DistribusiPendapatanReporsitories {
         }
 
 
+    }
+
+    public function insertPenyimpananRekeningPorsiRugi($porsi_anggota, $rekening_margin){
+        //masuk ke buku besar lalu keluar lagi
+        //tambah ke penyimpanan rekening
+        $home = new HomeController();
+        $date = $home->MonthShifter(0)->format(('Ym'));
+
+        // update penyimpanan rekening sesuai dengan porsi product
+        $rekeningMargin = Rekening::where('id_rekening', $rekening_margin)->select('id')->first();
+        $saldoPenyimpananRekening = PenyimpananRekening::where('id_rekening', $rekeningMargin->id)->where('periode',$date)->select('saldo')->first();
+        $penyimpananRekening = PenyimpananRekening::where('id_rekening', $rekeningMargin->id)
+            ->where('periode',$date)->first();
+        $penyimpananRekening->saldo = $saldoPenyimpananRekening->saldo + $porsi_anggota;
+        $penyimpananRekening->save();
+
+        //masuk ke buku besar
+        $bmt = BMT::where('id_rekening', $rekeningMargin->id)->select('id', 'saldo')->first();
+        $saldo = $bmt->saldo + $porsi_anggota;
+        $detailToPenyimpananBMT = [
+            "jumlah"        => $porsi_anggota,
+            "saldo_awal"    => $bmt->saldo,
+            "saldo_akhir"   => $bmt->saldo + $porsi_anggota,
+            "id_pengajuan"  => null
+        ];
+        $dataToPenyimpananBMT = [
+            "id_user"   => Auth::user()->id,
+            "id_bmt"    => $bmt->id,
+            "status"    => "Distribusi Pendapatan",
+            "transaksi" => $detailToPenyimpananBMT,
+            "teller"    => Auth::user()->id
+        ];
+
+        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
 
+        $detailToPenyimpananBMT = [
+            "jumlah"        => $porsi_anggota,
+            "saldo_awal"    => $saldo,
+            "saldo_akhir"   => $saldo - $porsi_anggota,
+            "id_pengajuan"  => null
+        ];
+        $dataToPenyimpananBMT = [
+            "id_user"   => Auth::user()->id,
+            "id_bmt"    => $bmt->id,
+            "status"    => "Distribusi Pendapatan",
+            "transaksi" => $detailToPenyimpananBMT,
+            "teller"    => Auth::user()->id
+        ];
+
+        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
     }
 
