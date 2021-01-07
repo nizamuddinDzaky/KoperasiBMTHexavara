@@ -7,6 +7,7 @@ use App\PenyimpananBMT;
 use App\PenyimpananDistribusi;
 use App\PenyimpananRekening;
 use App\PenyimpananMaal;
+use App\PenyimpananSHU;
 use App\PenyimpananWakaf;
 use App\Repositories\InformationRepository;
 use App\Repositories\RekeningReporsitories;
@@ -689,9 +690,7 @@ class LaporanController extends Controller
             'notification' => $notification,
             'notification_count' =>count($notification),
             'data' => $this->distribusiPendapatanReporsitory->getDistribusiData(),
-//            'data' => json_decode($something->transaksi,true),
             'data_revenue' => $this->distribusiPendapatanReporsitory->getDistribusiRevenueData(),
-//            'data_revenue' => json_decode($something->transaksi,true),
             'status' => $this->distribusiPendapatanReporsitory->checkDistribusiPendapatanStatus(),
             "periode" => $periode
         ]);
@@ -744,13 +743,34 @@ class LaporanController extends Controller
         $data_distribusi = $this->shuTahunanRepository->getDataDistribusiSHU();
         $status_distribusi = $this->shuTahunanRepository->checkStatus();
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+        $periode = DB::select(DB::raw('SELECT DISTINCT YEAR(created_at) as year FROM penyimpanan_shu'));
+
         return view('admin.laporan.shu',[
             'notification' => $notification,
             'notification_count' =>count($notification),
             'data_distribusi' => $data_distribusi,
             'data_shu' => $data_shu,
             'status' => $status_distribusi,
+            'periode' => $periode
+        ]);
+    }
+
+    public function  periodeLaporanSHU(Request $request){
+        $data_shu = PenyimpananSHU::whereYear('created_at', $request->periode)->where('status', 'Distribusi SHU Persentase')->select('transaksi')->first();
+        $data_distribusi = PenyimpananSHU::whereYear('created_at', $request->periode)->where('status', 'Distribusi SHU')->select('transaksi')->first();
+        $status_distribusi = $this->shuTahunanRepository->checkStatus();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $periode = DB::select(DB::raw('SELECT DISTINCT YEAR(created_at) as year FROM penyimpanan_shu'));
+        $periodeStatus = $request->periode;
+
+        return view('admin.laporan.shu',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'data_distribusi' => json_decode($data_distribusi->transaksi,true),
+            'data_shu' => json_decode($data_shu->transaksi,true),
+            'status' => $status_distribusi,
+            'periode' => $periode,
+            'periode_status' => $periodeStatus
         ]);
     }
 

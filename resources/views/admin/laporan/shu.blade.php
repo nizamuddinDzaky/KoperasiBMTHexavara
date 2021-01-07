@@ -24,11 +24,15 @@
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.laporan.shu')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
                     {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
                             <option disabled selected > - Periode -</option>
+                            @foreach($periode as $item)
+                                <option value="{{$item->year}}">{{$item->year}}</option>
+                                @endforeach
                         </select>
+                        <button type="submit" class="btn btn-info btn-fill btn-sm"> <i class="pe-7s-search"></i> Search</button>
                     </form>
                 </div>
 
@@ -62,7 +66,7 @@
                     <div class="card">
                         <div class="header text-center">
                             <h4 id="titlePrint" class="title"><b>Laporan SHU</b> </h4>
-                            <p id="titlePrint2" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")}}@endif</p>
+                            <p id="titlePrint2" class="category">Laporan Pembagian SHU Akhir Tahun periode @if(isset($periode_status)) {{$periode_status}} @elseif($status == true){{date("Y")}} @else {{date("Y")}}@endif</p>
                             <br />
                         </div>
                         <table id="bootstrap-table" class="table">
@@ -106,7 +110,7 @@
                     <div class="card">
                         <div class="header text-center">
                             <h4 id="titlePrint3" class="title"><b>Laporan SHU Anggota</b> </h4>
-                            <p id="titlePrint4" class="category">Laporan Pembagian SHU Akhir Tahun periode @if($status == true){{date("Y")}} @else {{date("Y")}}@endif</p>
+                            <p id="titlePrint4" class="category">Laporan Pembagian SHU Akhir Tahun periode @if(isset($periode_status)) {{$periode_status}} @elseif($status == true){{date("Y")}} @else {{date("Y")}}@endif</p>
                             <br />
                         </div>
                         <div class="toolbar">

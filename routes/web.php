@@ -791,6 +791,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as'        => 'shu',
             'uses'      => 'LaporanController@shu'
         ]);
+
+        Route::post('/periode/shu', [
+            'as'        => 'periode.laporan.shu',
+            'uses'      => 'LaporanController@periodeLaporanSHU'
+        ]);
+
         Route::post('/shu', [
             'as'        => 'periode.shu',
             'uses'      => 'LaporanController@periode_shu'

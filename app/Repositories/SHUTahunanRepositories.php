@@ -174,6 +174,8 @@ class SHUTahunanRepositories {
         }
 
 
+
+
         return $distribusi;
     }
 
@@ -255,6 +257,15 @@ class SHUTahunanRepositories {
             $bmt_shu_yang_harus_dibagikan = BMT::where('nama', 'SHU YANG HARUS DIBAGIKAN')->first();
             $bmt_shu_saldo = $bmt_shu_yang_harus_dibagikan->saldo;
 
+            $dataPenyimpananDistribusi = [
+                "id_user"       => Auth::user()->id,
+                "status"        => "Distribusi SHU Persentase",
+                "transaksi"     => $this->getSHU(),
+                "teller"        => Auth::user()->id
+            ];
+            $this->insertPenyimpananSHU($dataPenyimpananDistribusi);
+
+
             $dataPenyimpananSHU = [
                 "id_user"       => Auth::user()->id,
                 "status"        => "Distribusi SHU",
@@ -262,6 +273,9 @@ class SHUTahunanRepositories {
                 "teller"        => Auth::user()->id
             ];
             $this->insertPenyimpananSHU($dataPenyimpananSHU);
+
+
+
 
 
             foreach($data_distribusi as $item)
