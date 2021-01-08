@@ -554,7 +554,7 @@ class LaporanController extends Controller
             $pasiva += floatval($dt2['saldo']);
         }
         $data2 = collect($data2_array);
-        // $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
+         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $str = substr($date,0,4)."/".substr($date,4,2)."/01";
         $time_input = date_create($str);
 
@@ -575,7 +575,7 @@ class LaporanController extends Controller
             'aktiva' =>$aktiva,
             'pasiva' =>$pasiva,
             'statusNeraca' => $statusNeraca,
-            // 'periode'  => $periode,
+             'periode'  => $periode,
             'bulan'=> date_format($time_input,"F Y")
         ]);
     }
@@ -583,7 +583,8 @@ class LaporanController extends Controller
     public function periode_neraca(Request $request){
 
         $data = $this->informationRepository->getAktiva();
-        $date = $request->periode;
+        $date = str_replace('/','', $request->periode);
+        $notification = $this->pengajuanReporsitory->getNotification();
 
         $data2 = $this->informationRepository->getPasiva();
         $aktiva = $pasiva=null;
@@ -604,16 +605,24 @@ class LaporanController extends Controller
         }
         $data2 = collect($data2_array);
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
-        $str = substr($request->periode,0,4)."/".substr($request->periode,4,2)."/01";
-        $time_input = date_create($str);
+        $time = Carbon::createFromDate(substr($date,0,4), substr($date,4,6), 1)->format('F Y');
+
+        $statusNeraca = true;
+
+        if (abs($aktiva-$pasiva) > 0.00001) {
+            $statusNeraca =false;
+        }
 
         return view('admin.laporan.neraca',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
             'data' => $data,
             'data2' => $data2,
             'aktiva' =>$aktiva,
             'pasiva' =>$pasiva,
             'periode'  => $periode,
-            'bulan'=> date_format($time_input,"F Y")
+            'bulan'=> $time,
+            'statusNeraca' => $statusNeraca
         ]);
     }
     public function rekapitulasi_kas(){

@@ -40,14 +40,15 @@
 
                 <div class="head-filter">
                     <p class="filter-title">Periode</p>
-                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
+                    <form @if(Auth::user()->tipe=="admin")action="{{route('periode.neraca')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.neraca')}}" @endif method="post">
                     {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
                             <option disabled selected > - Periode -</option>
-                            {{-- @foreach($periode as $p)
-                                <option value="{{ substr($p,0,4)."/".substr($p,5,6)}}"> {{substr($p,0,4)}} - {{substr($p,5,6)}}</option>
-                            @endforeach --}}
+                             @foreach($periode as $p)
+                                <option value="{{ substr($p,0,4)."/".substr($p,4,6)}}"> {{substr($p,0,4)}} - {{substr($p,4,6)}}</option>
+                            @endforeach
                         </select>
+                        <button type="submit" class="btn btn-info btn-fill btn-sm"> <i class="pe-7s-search"></i> Search</button>
                     </form>
                 </div>
             </div>
