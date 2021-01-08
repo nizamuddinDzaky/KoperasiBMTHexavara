@@ -25,7 +25,12 @@
 
                         <div class="header text-center">
                            <h4 id="titlePrint" class="title"><b>Laporan Laba/Rugi</b> </h4>
-                            <p id="titlePrint2"  class="category">Laporan Pendapatan periode {{date("F Y")}}</p>
+                            @if(isset($time_status))
+                                <p id="titlePrint2"  class="category">Laporan Pendapatan periode {{$time}}</p>
+                            @else
+                                <p id="titlePrint2"  class="category">Laporan Pendapatan periode {{date("F Y")}}</p>
+                            @endif
+
                                 <br />
                         </div>
                         <div class="toolbar">

@@ -469,6 +469,8 @@ class LaporanController extends Controller
     }
     public function periode_laba_rugi(Request $request){
         $data = $this->periode_labarugi($request->periode);
+        $time = Carbon::createFromDate(substr($request->periode,0,4), substr($request->periode,4,6), 1)->format('F Y');
+        $timeStatus = true;
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.laba_rugi',[
@@ -479,6 +481,8 @@ class LaporanController extends Controller
             'periode' =>$periode,
             'notification' => $notification,
             'notification_count' =>count($notification),
+            'time' => $time,
+            'time_status' => $timeStatus
         ]);
     }
 
