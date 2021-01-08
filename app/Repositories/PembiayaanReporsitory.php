@@ -3252,8 +3252,6 @@ class PembiayaanReporsitory {
     public function pelunasanPembiayaan($data)
     {
 
-
-
         $pembiayaan = Pembiayaan::where('id_pembiayaan', explode(" ", $data->idRek)[6])->first(); // ambil pembiayaam
         $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first(); // ambil user yang melakukan pelunasan
 
@@ -3267,22 +3265,15 @@ class PembiayaanReporsitory {
         $jumlah_bayar_margin = str_replace(',',"",$data->bayar_mar); // jumlah bayar margin
 
 
-        if($id_rekening_pembiayaan == 100)
-        {
-            $id_rekening_pendapatan = 130; // pendapatan mrb
-        }
-        if($id_rekening_pembiayaan == 99)
-        {
-            $id_rekening_pendapatan = 129; // pendapatan mda
-        }
-        if($id_rekening_pembiayaan == 102)
-        {
-            $id_rekening_pendapatan = 131; // pendapan qord
-        }
+        $rekening_pendapatan = Rekening::where('id', $id_rekening_pembiayaan)->select('detail')->first();
+        $id_rekening_pendapatan = Rekening::where('id_rekening', json_decode($rekening_pendapatan->detail)->rek_margin)->select('id')->first();
+        $id_rekening_pendapatan = $id_rekening_pendapatan->id;
+
 
         //id tujuan pelunasan untuk menambah saldo
         if($data->debit == 2)
         {
+            //ini tabungan yang akan dikurangi
             $id_tabungan = $data->tabungan;
             $tabungan = Tabungan::where('id', $id_tabungan)->first();
             $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
@@ -3304,7 +3295,13 @@ class PembiayaanReporsitory {
         $bmt_shu_berjalan = BMT::where('id_rekening', 122)->first();
 
         $saldo_awal_tujuan_pelunasan = $bmt_tujuan_pelunasan->saldo;
-        $saldo_akhir_tujuan_pelunasan = $bmt_tujuan_pelunasan->saldo + ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
+        if ($data->debit == 2){
+            $saldo_akhir_tujuan_pelunasan = $bmt_tujuan_pelunasan->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
+        }
+        else{
+            $saldo_akhir_tujuan_pelunasan = $bmt_tujuan_pelunasan->saldo + ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
+        }
+
         
         if($id_rekening_pembiayaan == 100)
         {
@@ -3321,16 +3318,16 @@ class PembiayaanReporsitory {
 
         if($data->debit == 2)
         {
-            $saldo_awal_tujuan_pelunasan = json_decode($tabungan->detail)->saldo;
-            $saldo_akhir_tujuan_pelunasan = json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
+            $saldo_awal_tujuan_pelunasan_tabungan = json_decode($tabungan->detail)->saldo;
+            $saldo_akhir_tujuan_pelunasan_tabungan = json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
 
             $detailToPenyimpananTabungan = [
                 "teller"            => Auth::user()->id,
                 "dari_rekening"     => $tabungan->jenis_tabungan,
                 "untuk_rekening"    => $pembiayaan->jenis_pembiayaan,
                 "jumlah"            => $jumlah_bayar_angsuran + $jumlah_bayar_margin,
-                "saldo_awal"        => json_decode($tabungan->detail)->saldo,
-                "saldo_akhir"       => json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin)
+                "saldo_awal"        => $saldo_awal_tujuan_pelunasan_tabungan,
+                "saldo_akhir"       => $saldo_akhir_tujuan_pelunasan_tabungan
             ];
             $dataToPenyimpananTabungan = [
                 "id_user"           => $tabungan->id_user,
