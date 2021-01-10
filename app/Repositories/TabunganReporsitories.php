@@ -291,6 +291,36 @@ class TabunganReporsitories {
                     $bmtAsalCreditTabungan = BMT::where('id_rekening', $data->daribank)->first(); // rekening koperasi (mandiri unair, dll)
                     $untukRekening = "Transfer";
                     $dariRekening = $bmtAsalCreditTabungan->nama;
+
+
+                    $detailToPenyimpananBMT = [
+                        "jumlah"        => json_decode($pengajuan->detail)->jumlah,
+                        "saldo_awal"    => $bmtAsalCreditTabungan->saldo,
+                        "saldo_akhir"   => floatval($bmtAsalCreditTabungan->saldo) - floatval(json_decode($pengajuan->detail)->jumlah),
+                        "id_pengajuan"  => $pengajuan->id
+                    ];
+                    $dataToPenyimpananBMT = [
+                        "id_user"       => $pengajuan->id_user,
+                        "id_bmt"        => $bmtAsalCreditTabungan->id,
+                        "status"        => $bmtUser->nama,
+                        "transaksi"     => $detailToPenyimpananBMT,
+                        "teller"        => Auth::user()->id
+                    ];
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                }
+
+                if(json_decode($pengajuan->detail)->kredit == "Tunai"){
+                    $detailToPenyimpananBMT['jumlah'] = -floatval(json_decode($pengajuan->detail)->jumlah);
+                    $detailToPenyimpananBMT['saldo_awal'] = $userLogedBMT->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
+                    $dataToPenyimpananBMT['id_bmt'] = $userLogedBMT->id;
+                    $dataToPenyimpananBMT['id_user'] = $pengajuan->id_user;
+                    $dataToPenyimpananBMT['status']  = $bmtUser->nama;
+                    $dataToPenyimpananBMT['teller']  = Auth::user()->id;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
                 }
 
                 $detailToPenyimpananTabungan = [
@@ -333,14 +363,6 @@ class TabunganReporsitories {
                     $this->insertPenyimpananTabungan($dataToPenyimpananTabungan) == 'success'
                 ) 
                 {
-
-                    $detailToPenyimpananBMT['jumlah'] = -floatval(json_decode($pengajuan->detail)->jumlah);
-                    $detailToPenyimpananBMT['saldo_awal'] = $userLogedBMT->saldo;
-                    $detailToPenyimpananBMT['saldo_akhir'] = floatval($userLogedBMT->saldo) - floatval(json_decode($pengajuan->detail)->jumlah);
-                    $dataToPenyimpananBMT['id_bmt'] = $userLogedBMT->id;
-                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
-
-                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
                     /** 
                      * Filter transaction method 
