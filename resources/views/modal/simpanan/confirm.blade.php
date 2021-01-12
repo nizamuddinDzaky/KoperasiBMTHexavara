@@ -52,7 +52,7 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control" name="dari_tabungan" style="width: 100%;" disabled>
+                                        <select class="form-control" name="dari_tabungan" id="rekening_confirm_wajib" style="width: 100%;" disabled>
                                             <option class="bs-title-option" disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
                                             <option value="{{ $rekening->id_tabungan }}">[ {{ $rekening->id_tabungan }} ] {{ $rekening->jenis_tabungan }} [ {{ json_decode($rekening->detail)->saldo }} ]</option>
@@ -290,8 +290,8 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Pilih Rekening Tabungan <star>*</star></label>
-                                        <select class="form-control" name="dari_tabungan" style="width: 100%;" disabled>
-                                            <option class="bs-title-option" disabled value="">-Pilih Rekening Tabungan-</option>
+                                        <select class="form-control" name="dari_tabungan" id="rekening_confirm_khusus" style="width: 100%;" disabled>
+                                            <option class="bs-title-option"  disabled value="">-Pilih Rekening Tabungan-</option>
                                             @foreach ($tabungan as $rekening)
                                             <option value="{{ $rekening->id_tabungan }}">[ {{ $rekening->id_tabungan }} ] {{ $rekening->jenis_tabungan }} [ {{ json_decode($rekening->detail)->saldo }} ]</option>
                                             @endforeach

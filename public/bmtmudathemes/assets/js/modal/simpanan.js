@@ -6,7 +6,8 @@ $(document).ready(function() {
         {
             $('.opsi-pembayaran').val("2");
             $('.opsi-tabungan').removeClass('hide');
-            $('.opsi-tabungan').val($(event.relatedTarget).data('bank_tujuan'));
+            $('#rekening_confirm_wajib').val($(event.relatedTarget).data('bank_tujuan'));
+            $('#rekening_confirm_wajib').select2().trigger('change');
             $('.id_pengajuan').val($(event.relatedTarget).data('id'));
         }
         if($(event.relatedTarget).data('debit') == "Transfer")
@@ -48,8 +49,11 @@ $(document).ready(function() {
         $('.nominal').val($(event.relatedTarget).data('jumlah'));
         if($(event.relatedTarget).data('debit') == "Tabungan")
         {
+            console.log($(event.relatedTarget).data('bank_tujuan'))
             $('.opsi-pembayaran').val("2");
             $('.opsi-tabungan').removeClass('hide');
+            $('#rekening_confirm_khusus').val($(event.relatedTarget).data('bank_tujuan'));
+            $('#rekening_confirm_khusus').select2().trigger('change');
             $('.opsi-tabungan').val($(event.relatedTarget).data('bank_tujuan'));
             $('.id_pengajuan').val($(event.relatedTarget).data('id'));
         }
