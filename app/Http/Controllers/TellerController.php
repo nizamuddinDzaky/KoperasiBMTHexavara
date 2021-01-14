@@ -2040,7 +2040,7 @@ class TellerController extends Controller
     public function download_keterangan_user_keluar($id)
     {
         $user = User::find($id);
-        $namaUserProcessed = preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user->nama);
+        $namaUserProcessed = strtolower(preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user->nama));
         $filename = "anggota_keluar_" . str_replace(" ", "_", $namaUserProcessed ) . "_" . $user->id . ".docx";
         $location = public_path("storage/docx/" . $filename);
         $headers = array(
