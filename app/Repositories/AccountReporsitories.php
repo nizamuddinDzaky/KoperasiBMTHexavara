@@ -448,12 +448,14 @@ class AccountReporsitories {
 
                 $insertPenyimpananBMTWajib = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
 
-                $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_wajib->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_wajib->saldo - json_decode($user_rekening->wajib_pokok)->wajib;
-                $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_wajib->id;
-                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+                if (json_decode($user_rekening->wajib_pokok)->wajib > 0) {
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_wajib->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_wajib->saldo - json_decode($user_rekening->wajib_pokok)->wajib;
+                    $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_wajib->id;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                }
 
                 $dataToUpdateWajibPokok = [
                     "wajib" => 0,
@@ -510,13 +512,14 @@ class AccountReporsitories {
                 ];
 
                 $insertPenyimpananBMTPokok = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                if (json_decode($user_rekening->wajib_pokok)->pokok > 0) {
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_pokok->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_pokok->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
+                    $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_pokok->id;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
-                $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_pokok->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_pokok->saldo - json_decode($user_rekening->wajib_pokok)->pokok;
-                $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_pokok->id;
-                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
-
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                }
                 
                 $dataToUpdateWajibPokok = [
                     "wajib" => json_decode($user_rekening->wajib_pokok)->wajib,
@@ -574,14 +577,15 @@ class AccountReporsitories {
                 ];
 
                 $insertPenyimpananBMTKhusus = $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                if (json_decode($user_rekening->wajib_pokok)->khusus > 0) {
+                    $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_khusus->saldo;
+                    $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_khusus->saldo - json_decode($user_rekening->wajib_pokok)->khusus;
+                    $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_khusus->id;
+                    $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
 
-                $detailToPenyimpananBMT['saldo_awal'] = $bmt_simpanan_khusus->saldo;
-                $detailToPenyimpananBMT['saldo_akhir'] = $bmt_simpanan_khusus->saldo - json_decode($user_rekening->wajib_pokok)->khusus;
-                $dataToPenyimpananBMT['id_bmt'] = $bmt_simpanan_khusus->id;
-                $dataToPenyimpananBMT['transaksi'] = $detailToPenyimpananBMT;
+                    $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                }
 
-                $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
-                
                 $dataToUpdateWajibPokok = [
                     "wajib" => json_decode($user_rekening->wajib_pokok)->wajib,
                     "pokok" => json_decode($user_rekening->wajib_pokok)->pokok,
@@ -596,7 +600,6 @@ class AccountReporsitories {
 
                 $user_rekening->wajib_pokok = json_encode($dataToUpdateWajibPokok);
                 $user_rekening->save();
-
 
 
             }
