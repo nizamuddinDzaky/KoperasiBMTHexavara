@@ -50,7 +50,7 @@
                                     <tbody>
                                     @foreach($data as $item)
                                         <tr>
-                                            @if($tipe = 'Khusus')
+                                            @if($tipe == 'Khusus')
                                                 @if(json_decode($item->wajib_pokok)->khusus != 0)
                                                     <td class="text-left">{{ $item['no_ktp'] }}</td>
                                                     <td class="text-left">{{ $item['nama']  }}</td>
@@ -63,8 +63,6 @@
                                                     <td class="text-left">{{number_format(floatval(json_decode($item->wajib_pokok)->pokok),2) }}</td>
                                                 @elseif($tipe == 'Wajib')
                                                     <td class="text-left">{{number_format(floatval(json_decode($item->wajib_pokok)->wajib),2) }}</td>
-                                                @else
-                                                    <td class="text-left">{{number_format(floatval(json_decode($item->wajib_pokok)->khusus),2) }}</td>
                                                 @endif
                                             @endif
 
