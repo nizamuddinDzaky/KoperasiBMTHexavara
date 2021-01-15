@@ -43,7 +43,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#simpok" aria-controls="simpok" role="tab" data-toggle="tab">SIMPANAN POKOK</a></li>
+                        <li role="presentation" class="active"><a href="#simpok" aria-controls="simpok" role="tab" data-toggle="tab">SIMPANAN POKOK</a></li>
                     <li role="presentation"><a href="#simwa" aria-controls="simwa" role="tab" data-toggle="tab">SIMPANAN WAJIB</a></li>
                     <li role="presentation"><a href="#simsus" aria-controls="simsus" role="tab" data-toggle="tab">SIMPANAN KHUSUS</a></li>
                     <li role="presentation"><a href="#nisbah" aria-controls="nisbah" role="tab" data-toggle="tab">KONTRIBUSI NISBAH</a></li>
@@ -66,19 +66,23 @@
                             <table class="bootstrap-table-asc table">
                                 <thead>
                                     <th></th>
-                                    <th class="text-left" data-sortable="true">ID </th>
+                                    <th class="text-left" data-sortable="true">TANGGAL </th>
                                     <th class="text-left" data-sortable="true">NAMA</th>
                                     <th class="text-left" data-sortable="true">NO KTP</th>
-                                    <th class="text-left" data-sortable="true">JUMLAH SIMPANAN POKOK</th>
+                                    <th class="text-left" data-sortable="true">JENIS TRANSAKSI</th>
+                                    <th class="text-left" data-sortable="true">JUMLAH</th>
+                                    <th class="text-left" data-sortable="true">SALDO AKHIR</th>
                                 </thead>
                                 <tbody>
                                     @foreach($simpanan_pokok as $item)
                                     <tr>
                                         <td></td>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>{{ number_format(json_decode($item->transaksi)->jumlah,2) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -102,19 +106,23 @@
                             <table class="bootstrap-table-asc table">
                                 <thead>
                                     <th></th>
-                                    <th class="text-left" data-sortable="true">ID </th>
+                                    <th class="text-left" data-sortable="true">TANGGAL </th>
                                     <th class="text-left" data-sortable="true">NAMA</th>
                                     <th class="text-left" data-sortable="true">NO KTP</th>
-                                    <th class="text-left" data-sortable="true">JUMLAH SIMPANAN WAJIB</th>
+                                    <th class="text-left" data-sortable="true">JENIS TRANSAKSI</th>
+                                    <th class="text-left" data-sortable="true">JUMLAH</th>
+                                    <th class="text-left" data-sortable="true">SALDO AKHIR</th>
                                 </thead>
                                 <tbody>
                                     @foreach($simpanan_wajib as $item)
                                     <tr>
                                         <td></td>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>{{ number_format(json_decode($item->transaksi)->jumlah,2) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -138,19 +146,23 @@
                             <table class="bootstrap-table-asc table">
                                 <thead>
                                     <th></th>
-                                    <th class="text-left" data-sortable="true">ID </th>
+                                    <th class="text-left" data-sortable="true">TANGGAL </th>
                                     <th class="text-left" data-sortable="true">NAMA</th>
                                     <th class="text-left" data-sortable="true">NO KTP</th>
-                                    <th class="text-left" data-sortable="true">JUMLAH SIMPANAN KHUSUS</th>
+                                    <th class="text-left" data-sortable="true">JENIS TRANSAKSI</th>
+                                    <th class="text-left" data-sortable="true">JUMLAH</th>
+                                    <th class="text-left" data-sortable="true">SALDO AKHIR</th>
                                 </thead>
                                 <tbody>
                                     @foreach($simpanan_khusus as $item)
                                     <tr>
                                         <td></td>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->user->nama }}</td>
                                         <td>{{ $item->user->no_ktp }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>{{ number_format(json_decode($item->transaksi)->jumlah,2) }}</td>
+                                        <td>{{ number_format(json_decode($item->transaksi)->saldo_akhir,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -184,9 +196,9 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->user->nama }}</td>
-                                        <td>{{ $item->user->no_ktp }}</td>
-                                        <td>{{ number_format(json_decode($item->transaksi)->bayar_margin,2) }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ $item->no_ktp }}</td>
+                                        <td>{{ number_format(json_decode($item->wajib_pokok)->margin,2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

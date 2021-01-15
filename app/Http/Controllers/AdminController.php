@@ -1211,7 +1211,8 @@ class AdminController extends Controller
         $simpanan_pokok = PenyimpananWajibPokok::where('status', 'Simpanan Pokok')->orWhere('status', 'Pencairan Simpanan Pokok')->get();
         $simpanan_wajib = PenyimpananWajibPokok::where('status', 'Simpanan Wajib')->orWhere('status', 'Pencairan Simpanan Wajib')->get();
         $simpanan_khusus = PenyimpananWajibPokok::where('status', 'Simpanan Khusus')->orWhere('status', 'Pencairan Simpanan Khusus')->get();
-        $kontribusi_margin = PenyimpananPembiayaan::where('status', 'like', 'Angsuran%')->orWhere('status', 'like', 'Pelunasan%')->get();
+//        $kontribusi_margin = PenyimpananPembiayaan::where('status', 'like', 'Angsuran%')->orWhere('status', 'like', 'Pelunasan%')->get();
+        $kontribusi_margin = $data = User::where('tipe', 'anggota')->where('status', 2)->where('is_active', 1)->get();
         $notification = $this->pengajuanReporsitory->getNotification();
         $notification_count = count($notification);
 
@@ -1669,7 +1670,6 @@ class AdminController extends Controller
 
 
 
-        
         return view('admin.detail_total_simpanan_anggota',[
             'notification' => $notification,
             'notification_count' =>count($notification),
