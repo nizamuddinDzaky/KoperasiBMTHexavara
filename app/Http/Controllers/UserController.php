@@ -7,6 +7,7 @@ use App\Deposito;
 use App\Pembiayaan;
 use App\Pengajuan;
 use App\PenyimpananBMT;
+use App\PenyimpananPembiayaan;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
 use App\User;
@@ -664,12 +665,42 @@ class UserController extends Controller
     public function detail_pembiayaan(Request $request)
     {
         $notification = $this->pengajuanReporsitory->getNotification();
-        
         return view('users.detail_pembiayaan', [
             'notification' => $notification,
             'notification_count' =>count($notification),
             'data' => $this->informationRepository->getTransaksiPemUsr($request->id_),
         ]);
+    }
+
+    public function hapus_angsuran(Request $request){
+        $id_pembiayaan = $request->id;
+        $id = PenyimpananPembiayaan::where('id', $id_pembiayaan )->select('id_pembiayaan')->first();
+        $nama = explode(' ', $request->nama);
+
+            if($nama[1] == "MRB"){
+                $pembiayaan = $this->pembiayaanReporsitory->cancel_angsuran_mrb($id_pembiayaan);
+
+                if($pembiayaan['type'] == 'success'){
+                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'')
+                        ->withSuccess(sprintf($pembiayaan['message']));
+                }
+                else{
+                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'')
+                        ->withInput()->with('message', $pembiayaan['message']);
+                }
+            }else
+            {
+                $pembiayaan = $this->pembiayaanReporsitory->cancel_angsuran_lain($id_pembiayaan);
+                if($pembiayaan['type'] == 'success'){
+                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'')
+                        ->withSuccess(sprintf($pembiayaan['message']));
+                }
+                else{
+                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'')
+                        ->withInput()->with('message', $pembiayaan['message']);
+                }
+            }
+
     }
 
     public function angsur_pembiayaan(Request $request)

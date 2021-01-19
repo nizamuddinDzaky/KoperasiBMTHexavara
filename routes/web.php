@@ -1278,9 +1278,13 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
                 'as'        => 'pengajuan_pembiayaan',
                 'uses'      => 'TellerController@pengajuan_pembiayaan'
             ]);
-            Route::post('/detail', [
+            Route::get('/detail', [
                 'as'        => 'teller.detail_pembiayaan',
                 'uses'      => 'UserController@detail_pembiayaan'
+            ]);
+            Route::post('/hapus_angsuran', [
+                'as'        => 'teller.hapus.angsuran',
+                'uses'      => 'UserController@hapus_angsuran'
             ]);
             Route::get('/', [
                 'as'        => 'nasabah_pembiayaan',

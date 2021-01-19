@@ -68,7 +68,7 @@
                                 <td class="text-center">{{ Carbon\Carbon::parse($usr->tempo)->format('d F Y') }}</td>
                                 <td class="text-uppercase text-center">{{ $usr->status }}</td>
                                 <td class="td-actions text-center">
-                                    <form  method="post" action="{{route('teller.detail_pembiayaan')}}">
+                                    <form  method="get" action="{{route('teller.detail_pembiayaan')}}">
                                         <input type="hidden" id="id_status" name="id_" value="{{$usr->id}}">
                                         {{csrf_field()}}
                                         <button type="submit" class="btn btn-social btn-info btn-fill" title="Detail"

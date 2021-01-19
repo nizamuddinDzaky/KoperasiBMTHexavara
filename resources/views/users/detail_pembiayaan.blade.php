@@ -42,6 +42,9 @@
                                 <th class="text-center" data-sortable="true">Pokok</th>
                                 <th class="text-center" data-sortable="true">Bagi Hasil</th>
                                 <th class="text-center" data-sortable="true">Saldo</th>
+                                @if(Auth::user()->tipe == "teller")
+                                <th class="text-center">Aksi</th>
+                                @endif
                             {{--<th>Actions</th>--}}
                             </thead>
                             <tbody>
@@ -61,6 +64,16 @@
                                     @else
                                     <td class="text-right">0.00</td>
                                     @endif
+                                    @if(Auth::user()->tipe == "teller")
+                                    <td>
+                                        <button type="button" class="btn btn-social btn-danger btn-fill" data-toggle="modal" data-target="#deleteAngsuranModal" title="Delete"
+                                                data-id       = "{{$usr->id}}"
+                                                data-nama     = "{{ $data[0]['jenis_pembiayaan'] }}"
+                                        >
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                        @endif
                                 </tr>
                                 @endif
                             @endforeach
@@ -72,7 +85,9 @@
             </div> <!-- end row -->
         </div>
     </div>
+    @include('modal.pembiayaan.delete_angsuran')
 @endsection
+
 
 
 
@@ -85,11 +100,20 @@
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">
 
+        $('#deleteAngsuranModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var id = button.data('id');
+            var nama = button.data('nama');
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            $('#id_angsuran_to_delete').val(id);
+            $('#nama_to_delete').val(nama);
+        });
+
         $('#delModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id');
             var nama = button.data('nama');
-            console.log(nama);
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             $('#id_del').val(id);
