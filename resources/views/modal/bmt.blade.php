@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Transfer dari Rekening <star>*</star></label>
+                                        <label for="id_" class="control-label">Rekening Debit <star>*</star></label>
                                         <select class="form-control select2" name="dari" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                                             @foreach ($rekening_penyeimbang as $rekening)
@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="id_" class="control-label">Transfer ke Rekening <star>*</star></label>
+                                        <label for="id_" class="control-label">Rekening Kredit <star>*</star></label>
                                         <select class="form-control select2" name="untuk" style="width: 100%;" required>
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening BMT-</option>
                                             @foreach ($rekening_penyeimbang as $rekening)
