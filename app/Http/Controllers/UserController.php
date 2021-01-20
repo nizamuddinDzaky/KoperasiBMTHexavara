@@ -690,14 +690,15 @@ class UserController extends Controller
                 }
             }else
             {
-//                $pembiayaan = $this->pembiayaanReporsitory->cancel_angsuran_lain($id_pembiayaan);
-//                if($pembiayaan['type'] == 'success'){
-                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'');
-//                }
-//                else{
-//                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'')
-//                        ->withInput()->with('message', $pembiayaan['message']);
-//                }
+                $pembiayaan = $this->pembiayaanReporsitory->cancel_angsuran_lain($id_pembiayaan);
+                if($pembiayaan['type'] == 'success'){
+                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'')
+                        ->withSuccess(sprintf($pembiayaan['message']));
+                }
+                else{
+                    return redirect('/teller/nasabah/pembiayaan/detail?id_='.$id->id_pembiayaan.'token='.csrf_token().'')
+                        ->withInput()->with('message', $pembiayaan['message']);
+                }
             }
 
     }
