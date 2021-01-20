@@ -71,7 +71,7 @@
 
             @php
                 $dana = json_decode($item['detail'],true)['dana'];
-                $dana_terkumpul = json_decode($item['detail'],true)['terkumpul'];
+                $dana_terkumpul = json_decode($item['detail'],true)['sisa'];
                 $persen = ($dana_terkumpul / $dana) * 100;
                 $tanggal_pelaksanaan = Carbon\Carbon::parse($item['tanggal_pelaksanaan']);
             @endphp
@@ -121,7 +121,7 @@
 
             @php
                 $dana = json_decode($item['detail'],true)['dana'];
-                $dana_terkumpul = json_decode($item['detail'],true)['terkumpul'];
+                $dana_terkumpul = json_decode($item['detail'],true)['sisa'];
                 $persen = ($dana_terkumpul / $dana) * 100;
                 $tanggal_pelaksanaan = Carbon\Carbon::parse($item['tanggal_pelaksanaan']);
             @endphp
