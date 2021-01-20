@@ -191,7 +191,7 @@
                                             <label class="control-label">Jumlah Bayar Margin <star>*</star></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input type="text" class="currencyDecimal form-control text-right"  id="bayar_margin_pelunasan" name="bayar_mar">
+                                                <input type="text" @if(Auth::user()->tipe!=='anggota') class="currencyDecimal form-control text-right" @else class="currency form-control text-right"  @endif  id="bayar_margin_pelunasan" name="bayar_mar">
                                             </div>
                                         </div>
                                     </div>

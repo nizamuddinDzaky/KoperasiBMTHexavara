@@ -213,7 +213,7 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currencyDecimal form-control text-right" id="saldo_kre" name="jumlah" required="true">
+                                            <input type="text" @if(Auth::user()->tipe!=='anggota') class="currencyDecimal form-control text-right" @else class="currency form-control text-right"  @endif id="saldo_kre" name="jumlah" required="true">
 {{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
@@ -777,7 +777,7 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currencyDecimal form-control text-right" id="vjumlah" name="jumlah" required="true">
+                                            <input type="text" @if(Auth::user()->tipe!=='anggota') class="currencyDecimal form-control text-right" @else class="currency form-control text-right"  @endif id="vjumlah" name="jumlah" required="true">
 {{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
@@ -1371,7 +1371,7 @@
                                         <label class="control-label">Jumlah Uang <star>*</star></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="currencyDecimal form-control text-right" id="tjumlah" name="jumlah" required="true">
+                                            <input type="text" @if(Auth::user()->tipe!=='anggota') class="currencyDecimal form-control text-right" @else class="currency form-control text-right"  @endif id="tjumlah" name="jumlah" required="true">
 {{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
                                     </div>
