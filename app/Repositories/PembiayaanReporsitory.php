@@ -3582,8 +3582,8 @@ class PembiayaanReporsitory {
                    'margin' => json_decode($item->transaksi)->margin,
                    'jumlah' => json_decode($item->transaksi)->jumlah,
                    'tagihan' => json_decode($item->transaksi)->tagihan,
-                   'sisa_angsuran' => json_decode($item->transaksi)->sisa_angsuran,
-                   'sisa_margin' => json_decode($item->transaksi)->sisa_margin,
+                   'sisa_angsuran' => json_decode($item->transaksi)->sisa_angsuran + floatval($bayar_angsuran),
+                   'sisa_margin' => json_decode($item->transaksi)->sisa_margin + floatval($bayar_margin),
                    'sisa_pinjaman' => floatval(json_decode($item->transaksi)->sisa_pinjaman) + floatval($total_bayar),
                    'bayar_angsuran' => json_decode($item->transaksi)->bayar_angsuran,
                    'bayar_margin' => json_decode($item->transaksi)->bayar_margin,
@@ -3814,6 +3814,7 @@ class PembiayaanReporsitory {
     }
 
     public function cancel_angsuran_lain($id_pembiayaan){
+
 
     }
 
