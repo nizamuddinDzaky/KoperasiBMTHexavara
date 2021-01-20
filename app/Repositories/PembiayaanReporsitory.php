@@ -3705,7 +3705,7 @@ class PembiayaanReporsitory {
                 }else{
                     //kas teller atau bank
                     $detailToPenyimpananBMT = [
-                        "jumlah" => floatval($total_bayar),
+                        "jumlah" => -floatval($total_bayar),
                         "saldo_awal" => floatval($bmt_teller->saldo),
                         "saldo_akhir" => floatval($bmt_teller->saldo) - floatval($total_bayar),
                         "id_pengajuan" => null
@@ -3991,7 +3991,7 @@ class PembiayaanReporsitory {
             }else{
                 //kas teller atau bank
                 $detailToPenyimpananBMT = [
-                    "jumlah" => floatval($total_bayar),
+                    "jumlah" => -floatval($total_bayar),
                     "saldo_awal" => floatval($bmt_teller->saldo),
                     "saldo_akhir" => floatval($bmt_teller->saldo) - floatval($total_bayar),
                     "id_pengajuan" => null
