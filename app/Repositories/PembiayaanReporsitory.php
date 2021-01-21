@@ -2272,6 +2272,7 @@ class PembiayaanReporsitory {
         return $response;
     }
 
+
     /** 
      * Angsuran pembiayaan MRB via teller
      * @return Response
@@ -2281,6 +2282,7 @@ class PembiayaanReporsitory {
         DB::beginTransaction();
         try
         {
+            // cari pembiayaan, cari history pembiayaan terakhir, cari user
             $pembiayaan = Pembiayaan::where('id_pembiayaan', $data->id_)->first();
             $penyimpananPembiayaan = PenyimpananPembiayaan::where('id_pembiayaan', $pembiayaan->id)->orderBy('created_at', 'desc')->take(1)->get();
             $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
@@ -2290,7 +2292,7 @@ class PembiayaanReporsitory {
         
             if($data->debit == 0)
             {
-                $bank_tujuan_angsuran = json_decode(Auth::user()->detail)->id_rekening;
+                $bank_tujuan_angsuran = json_decode(Auth::user()->detail)->id_rekening; //teller
                 $dari_bank = "Tunai";
             }
             if($data->debit == 1)
@@ -2302,21 +2304,20 @@ class PembiayaanReporsitory {
             {
                 $tabungan =  Tabungan::where('id', $data->tabungan)->first();
                 $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
-                $bmt_tabungan = BMT::where('id_rekening', $tabungan->id_rekening)->first();
+                $bmt_tabungan = BMT::where('id_rekening', $tabungan->id_rekening)->first(); // bmt tabungan
                 $bank_tujuan_angsuran = $tabungan->id_rekening;
                 $dari_bank = "[" . $tabungan->id_tabungan . "] " . $tabungan->jenis_tabungan;
             }
 
             $tagihan_pokok_angsuran = json_decode($pembiayaan->detail)->jumlah_angsuran_bulanan;
             $jumlah_bayar_angsuran = preg_replace('/[^\d.]/', '', $data->bayar_ang);
-//            $jumlah_bayar_angsuran = preg_replace('/[^\d.]/', '', $data->sisa_ang);
             $tagihan_pokok_margin = json_decode($pembiayaan->detail)->jumlah_margin_bulanan;
             $jumlah_bayar_margin = preg_replace('/[^\d.]/', '', $data->bayar_mar);
-//            $jumlah_bayar_margin = preg_replace('/[^\d.]/', '', $data->sisa_mar);
             $kekurangan_pembayaran_angsuran = 0;
             $kekurangan_pembayaran_margin = 0;
 
-            if(json_decode($pembiayaan->detail)->sisa_margin > 0)
+
+            if(json_decode($pembiayaan->detail)->sisa_margin > 0) //pemecahan
             {
                 if($jumlah_bayar_margin < $tagihan_pokok_margin)
                 {
@@ -2350,9 +2351,7 @@ class PembiayaanReporsitory {
             if($jumlah_bayar_margin > $tagihan_pokok_margin)
             {
                 $kelebihan_margin_bulanan = $jumlah_bayar_margin - $tagihan_pokok_margin;
-            }
-            else
-            {
+            } else {
                 $kelebihan_margin_bulanan = 0;
             }
 
@@ -2753,18 +2752,9 @@ class PembiayaanReporsitory {
             $jumlah_bayar_angsuran = json_decode($pengajuan->detail)->bayar_ang;
             $jumlah_bayar_margin = json_decode($pengajuan->detail)->bayar_mar;
 
-            if($id_rekening_pembiayaan == 100)
-            {
-                $id_rekening_pendapatan = 130;
-            }
-            if($id_rekening_pembiayaan == 99)
-            {
-                $id_rekening_pendapatan = 129;
-            }
-            if($id_rekening_pembiayaan == 102)
-            {
-                $id_rekening_pendapatan = 131;
-            }
+            $rekening_pendapatan = Rekening::where('id', $id_rekening_pembiayaan)->select('detail')->first();
+            $id_rekening_pendapatan = Rekening::where('id_rekening', json_decode($rekening_pendapatan->detail)->rek_margin)->select('id')->first();
+            $id_rekening_pendapatan = $id_rekening_pendapatan->id;
 
             if(json_decode($pengajuan->detail)->angsuran == "Tabungan")
             {
@@ -3559,6 +3549,14 @@ class PembiayaanReporsitory {
             $untuk_rekening = json_decode($penyimpanan_pembiayaan->transaksi)->untuk_rekening;
             $rekening_tujuan = Rekening::where('id', $untuk_rekening)->first();
             $nama_rekening = explode(' ', $rekening_tujuan->nama_rekening);
+            $user_pembiayaan = User::where('id', $id_user)->first();
+            $user_pembiayaan->wajib_pokok = json_encode([
+                "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                "margin" => json_decode($user_pembiayaan->wajib_pokok)->margin - floatval($bayar_margin),
+            ]);
+            $user_pembiayaan->save();
 
 
             //update data selanjutnya
@@ -3834,6 +3832,14 @@ class PembiayaanReporsitory {
             $untuk_rekening = json_decode($penyimpanan_pembiayaan->transaksi)->untuk_rekening;
             $rekening_tujuan = Rekening::where('id', $untuk_rekening)->first();
             $nama_rekening = explode(' ', $rekening_tujuan->nama_rekening);
+            $user_pembiayaan = User::where('id', $id_user)->first();
+            $user_pembiayaan->wajib_pokok = json_encode([
+                "wajib" => json_decode($user_pembiayaan->wajib_pokok)->wajib,
+                "pokok" => json_decode($user_pembiayaan->wajib_pokok)->pokok,
+                "khusus" => json_decode($user_pembiayaan->wajib_pokok)->khusus,
+                "margin" => json_decode($user_pembiayaan->wajib_pokok)->margin - floatval($bayar_margin),
+            ]);
+            $user_pembiayaan->save();
 
             //update data selanjutnya
             $data = PenyimpananPembiayaan::select('penyimpanan_pembiayaan.*', 'pembiayaan.jenis_pembiayaan','pembiayaan.id_pembiayaan', 'pembiayaan.detail')
