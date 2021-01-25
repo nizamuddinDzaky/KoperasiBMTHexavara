@@ -1664,7 +1664,15 @@ class AdminController extends Controller
             foreach ($data as $item) {
                 $total += json_decode($item->wajib_pokok)->khusus;
             }
+
+            foreach ($data as $key => $item){
+                if(json_decode($item->wajib_pokok)->khusus == 0 ){
+                    $data->forget($key);
+                }
+            }
+
             $tipeSimpanan = 'Khusus';
+
         }
 
 

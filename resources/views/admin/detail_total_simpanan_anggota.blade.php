@@ -50,22 +50,15 @@
                                     <tbody>
                                     @foreach($data as $item)
                                         <tr>
-                                            @if($tipe == 'Khusus')
-                                                @if(json_decode($item->wajib_pokok)->khusus != 0)
-                                                    <td class="text-left">{{ $item['no_ktp'] }}</td>
-                                                    <td class="text-left">{{ $item['nama']  }}</td>
-                                                    <td class="text-left">{{number_format(floatval(json_decode($item->wajib_pokok)->khusus),2) }}</td>
-                                                    @endif
-                                            @else
                                                 <td class="text-left">{{ $item['no_ktp'] }}</td>
                                                 <td class="text-left">{{ $item['nama']  }}</td>
                                                 @if($tipe == 'Pokok')
                                                     <td class="text-left">{{number_format(floatval(json_decode($item->wajib_pokok)->pokok),2) }}</td>
                                                 @elseif($tipe == 'Wajib')
                                                     <td class="text-left">{{number_format(floatval(json_decode($item->wajib_pokok)->wajib),2) }}</td>
+                                                @elseif($tipe == 'Khusus')
+                                                    <td class="text-left">{{number_format(floatval(json_decode($item->wajib_pokok)->khusus),2) }}</td>
                                                 @endif
-                                            @endif
-
                                         </tr>
                                     @endforeach
                                     <tr>
@@ -79,6 +72,47 @@
 @endsection
 
                     @section('extra_script')
+                        <script type="text/javascript">
+                            var $table = $('#bootstrap-table2');
+
+                            $().ready(function(){
+
+
+                                $('#bootstrap-table2').dataTable({
+                                    initComplete: function () {
+                                        $('.buttons-pdf').html('<span class="fas fa-file" data-toggle="tooltip" title="Export To Pdf"/> PDF')
+                                        $('.buttons-print').html('<span class="fas fa-print" data-toggle="tooltip" title="Print Table"/> Print')
+                                        $('.buttons-copy').html('<span class="fas fa-copy" data-toggle="tooltip" title="Copy Table"/> Copy')
+                                        $('.buttons-excel').html('<span class="fas fa-paste" data-toggle="tooltip" title="Export to Excel"/> Excel')
+                                    },
+                                    "processing": true,
+                                    "paging" : false,
+//                "dom": 'lBf<"top">rtip<"clear">',
+                                    "order": [],
+                                    "scrollX": false,
+                                    "dom": 'lBfrtip',
+                                    "buttons": {
+                                        "dom": {
+                                            "button": {
+                                                "tag": "button",
+                                                "className": "waves-effect waves-light btn mrm"
+//                            "className": "waves-effect waves-light btn-info btn-fill btn mrm"
+                                            }
+                                        },
+                                        "buttons": [
+                                            'copyHtml5',
+                                            {
+                                                extend: 'excelHtml5',
+                                                messageTop: function () { return  $('#titlePrint3').text(); },
+                                                // messageTop: function () { return  $('#titlePrint4').text(); },
+                                            },
+                                            'print',
+                                            'pdfHtml5' ]
+                                    }
+                                });
+                            });
+
+                        </script>
                         <script type="text/javascript">
                             {{--url_add = "{{route('anggota.add_pembiayaan')}}";--}}
                             {{--url_edit = "{{route('anggota.edit_pengajuan')}}";--}}
