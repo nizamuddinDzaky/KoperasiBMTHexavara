@@ -12,6 +12,7 @@ $(document).ready(function() {
                 dataType: "JSON",
                 success: function (response) {
                     id_user = id;
+                    $("#rekening_penerima").empty();
                     response.forEach(element => {
                         var saldo = JSON.parse(element.detail);
                         var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + ` [Saldo : ` + saldo.saldo +  ` ]</option>`;
@@ -31,6 +32,7 @@ $(document).ready(function() {
                 url: url + "/api/get_user_tabungan/" + id,
                 dataType: "JSON",
                 success: function (response) {
+                    $("#rekening_pengirim").empty();
                     response.forEach(element => {
                         var saldo = JSON.parse(element.detail);
                         var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan +` [Saldo : ` + saldo.saldo +  ` ]</option>`;
