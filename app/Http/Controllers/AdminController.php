@@ -1642,12 +1642,14 @@ class AdminController extends Controller
 
     public function detail_total_simpanan_anggota($id)
     {
-        $data = User::where('tipe', 'anggota')->where('status', 2)->where('is_active', 1)->get();
+
         $total = 0.0;
         $notification = $this->pengajuanReporsitory->getNotification();
 
         if($id == 339) //pokok
         {
+            $data = User::where('tipe', 'anggota')->where('status', 2)->where('is_active', 1)
+                ->where('wajib_pokok->pokok', '!=' , 0)->get();
             foreach ($data as $item) {
                 $total += json_decode($item->wajib_pokok)->pokok;
             }
@@ -1655,15 +1657,20 @@ class AdminController extends Controller
         }
         elseif($id == 341) //wajib
         {
+            $data = User::where('tipe', 'anggota')->where('status', 2)->where('is_active', 1)
+                ->where('wajib_pokok->wajib', '!=' , 0)->get();
             foreach ($data as $item) {
                 $total += json_decode($item->wajib_pokok)->wajib;
             }
             $tipeSimpanan = 'Wajib';
         }
         else { // khusus
+            $data = User::where('tipe', 'anggota')->where('status', 2)->where('is_active', 1)
+                ->where('wajib_pokok->khusus', '!=' , 0)->get();
             foreach ($data as $item) {
                 $total += json_decode($item->wajib_pokok)->khusus;
             }
+
             $tipeSimpanan = 'Khusus';
         }
 
