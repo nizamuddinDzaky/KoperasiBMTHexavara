@@ -28,7 +28,7 @@
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan-</option>
                                             @if(Auth::user()->tipe=="teller")
                                                 @foreach ($tabactive as $rekening)
-                                                    <option value="{{ (number_format(json_decode($rekening->detail,true )['saldo']))}}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}  [{{$rekening->nama}}]  [{{$rekening->no_ktp}}]</option>
+                                                    <option value="{{ (number_format(json_decode($rekening->detail,true )['saldo']))}}"> [{{$rekening->id_tabungan }}] {{ $rekening->jenis_tabungan }}  [{{$rekening->nama}}]  [{{$rekening->no_ktp}}] [Saldo : Rp {{number_format(json_decode($rekening->detail)->saldo,2)}}]</option>
                                              @endforeach
                                             @endif
                                             <input type="hidden" id="idRekCls" name="id_">

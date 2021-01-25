@@ -13,7 +13,8 @@ $(document).ready(function() {
                 success: function (response) {
                     id_user = id;
                     response.forEach(element => {
-                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + `</option>`;
+                        var saldo = JSON.parse(element.detail);
+                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + ` [Saldo : ` + saldo.saldo +  ` ]</option>`;
                         $("#rekening_penerima").append(template);
                     });
                     
@@ -31,7 +32,8 @@ $(document).ready(function() {
                 dataType: "JSON",
                 success: function (response) {
                     response.forEach(element => {
-                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + `</option>`;
+                        var saldo = JSON.parse(element.detail);
+                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan +` [Saldo : ` + saldo.saldo +  ` ]</option>`;
                         $("#rekening_pengirim").append(template);
                     });
                     
