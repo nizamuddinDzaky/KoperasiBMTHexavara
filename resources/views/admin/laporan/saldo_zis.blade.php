@@ -66,6 +66,7 @@
                         <th data-sortable="true" class="text-left">NIK</th>
                         <th data-sortable="true" class="text-left">Anggota</th>
                         <th data-sortable="true" class="text-left">Jenis Transaksi</th>
+                        <th data-sortable="true" class="text-left">Keterangan</th>
                         <th data-sortable="true">Jumlah</th>
                         <th data-sortable="true">Saldo</th>
                     </thead>
@@ -92,6 +93,12 @@
                                 @else
                                     <td>{{json_decode($item->transaksi)->jenis}}</td>
                                     @endif
+
+                                @if(!isset(json_decode($item->transaksi)->keterangan))
+                                    <td>-</td>
+                                @else
+                                    <td>{{json_decode($item->transaksi)->keterangan}}</td>
+                                @endif
 
 
                                 @if($item->status == "pencairan donasi zis")

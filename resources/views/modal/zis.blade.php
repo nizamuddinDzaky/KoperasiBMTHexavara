@@ -18,7 +18,7 @@
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1p">
                             <div class="row">
-                                <div class="col-md-4 ">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="id_" class="control-label">Rekening Penyeimbang <star>*</star></label>
                                         <select class="form-control select2" id="idRekJ" name="dari" style="width: 100%;" required>
@@ -29,7 +29,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Jumlah Dana Tersisa Saat Ini <star>*</star></label>
                                         <div class="input-group">
@@ -39,7 +39,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Jumlah Pencairan<star>*</star></label>
                                         <div class="input-group">
@@ -47,6 +47,12 @@
                                             <input type="text" class="currencyDecimal form-control text-right" id="jumlahPencairan" name="jumlahPencairan" required="true">
 {{--                                            <span class="input-group-addon">.00</span>--}}
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Keterangan<star>*</star></label>
+                                            <input type="text" class="form-control" id="keteranganPencairanZIS" name="keteranganPencairanZIS" required="true">
                                     </div>
                                 </div>
                             </div>

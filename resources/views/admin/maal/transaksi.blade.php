@@ -67,6 +67,7 @@
 {{--                            <th class="text-left" data-sortable="true">Ke Rekening</th>--}}
                             @endif
                             <th class="text-left" data-sortable="true">Jenis Transaksi</th>
+                            <th class="text-left" data-sortable="true">Keterangan</th>
                             <th class="text-left" data-sortable="true">Jumlah</th>
                             @if(Auth::user()->tipe!="anggota")
                             <th class="text-left" data-sortable="true">Saldo Akhir</th>
@@ -95,6 +96,12 @@
 {{--                                    <td>{{ json_decode($usr->transaksi,true)['untuk_rekening'] }}</td>--}}
                                     @endif
                                     <td>{{ $usr->status }}</td>
+                                    @if(!isset(json_decode($usr->transaksi)->keterangan))
+                                        <td>-</td>
+                                    @else
+                                        <td>{{json_decode($usr->transaksi)->keterangan}}</td>
+                                    @endif
+
                                     @if($usr->status == "Pencairan Donasi")
                                         <td class="text-left">({{ number_format(json_decode($usr->transaksi,true)['jumlah'],2) }})</td>
                                     @else

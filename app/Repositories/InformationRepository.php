@@ -4653,6 +4653,7 @@ class InformationRepository
                 "saldo_akhir" => $saldo_akhir_penyimpanan_maal,
                 "dari_rekening" => $danaSosial->nama,
                 "untuk_rekening" => "Pencairan",
+                "keterangan"       => $request->keteranganPencairanMAAL,
             ];
 
             $penyimpananMaal = new PenyimpananMaal();
@@ -4851,6 +4852,7 @@ class InformationRepository
                 'jumlah' => $jumlahPencairan,
                 'saldo_awal' => floatval($rekeningPenyeimbang->saldo),
                 'saldo_akhir' => $rekeningPenyeimbang->saldo - $jumlahPencairan,
+                'keterangan' => $request->keteranganPencairanZIS,
             ];
             $bmt2->transaksi=json_encode($detail);
 
