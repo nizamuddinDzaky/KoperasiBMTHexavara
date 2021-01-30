@@ -105,11 +105,12 @@ class TellerController extends Controller
         {
             array_push($idRekeningTabungan, $tabungan->id);
         }
-        $bmtTabungan = BMT::whereIn('id_rekening', $idRekeningTabungan)->select(['saldo', 'nama'])->get();
+//        $bmtTabungan = BM::whereIn('id_rekening', $idRekeningTabungan)->select(['saldo', 'nama'])->get();
+        $bmtTabungan = Tabungan::where('status', 'active')->get();
         $saldoTabungan = 0;
         foreach($bmtTabungan as $bmttabungan)
         {
-            $saldoTabungan = $saldoTabungan + $bmttabungan->saldo;
+            $saldoTabungan = $saldoTabungan + json_decode($bmttabungan->detail)->saldo;
         }
 
         $rekeningDeposito = Rekening::where([ ['tipe_rekening', 'detail'], ['katagori_rekening', 'DEPOSITO'] ])->get();
