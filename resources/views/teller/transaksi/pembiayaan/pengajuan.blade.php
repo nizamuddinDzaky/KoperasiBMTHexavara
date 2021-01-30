@@ -635,16 +635,16 @@
                 else if(angke == 0) {
                     $('#sisa_mar').hide()
                     $('#bayar_mar').show()
-                    if(parseFloat(selRek.val().split(' ')[7]) !== 99)
-                    {
-                        $('#bayar_ang').val(formatter.format(pokok-(margin/lama)))
-                        $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
-                    }
-                    else
-                    {
+                    // if(parseFloat(selRek.val().split(' ')[7]) !== 99)
+                    // {
+                    //     $('#bayar_ang').val(formatter.format(pokok-(margin/lama)))
+                    //     $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
+                    // }
+                    // else
+                    // {
                         $('#bayar_ang').val(formatter.format(angbln))
                         $('#bagi_pokok').val(formatter.format(angbln))
-                    }
+                    // }
                     
                     $('#bagi_margin').attr("required",true);
                 }
