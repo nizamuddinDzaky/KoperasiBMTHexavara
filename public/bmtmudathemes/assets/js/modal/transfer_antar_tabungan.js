@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#transferTabModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
-
+        var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
         $(document).on("change", "#user_penerima", function() {
             var id = $(this).val();
             var url = window.location.origin;
@@ -15,7 +15,7 @@ $(document).ready(function() {
                     $("#rekening_penerima").empty();
                     response.forEach(element => {
                         var saldo = JSON.parse(element.detail);
-                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + ` [Saldo : ` + saldo.saldo +  ` ]</option>`;
+                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + ` [Saldo : ` + formatter.format(saldo.saldo) +  ` ]</option>`;
                         $("#rekening_penerima").append(template);
                     });
                     
@@ -35,7 +35,7 @@ $(document).ready(function() {
                     $("#rekening_pengirim").empty();
                     response.forEach(element => {
                         var saldo = JSON.parse(element.detail);
-                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan +` [Saldo : ` + saldo.saldo +  ` ]</option>`;
+                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan +` [Saldo : ` + formatter.format(saldo.saldo) +  ` ]</option>`;
                         $("#rekening_pengirim").append(template);
                     });
                     
