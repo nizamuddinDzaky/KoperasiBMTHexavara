@@ -913,14 +913,15 @@ class DistribusiPendapatanReporsitories {
     */
     public function getDistribusiHistory($date)
     {
-        $distribusi = PenyimpananDistribusi::whereMonth('created_at', Carbon::now()->format('n'))
-                                            ->whereYear('created_at', Carbon::now()->format('yy'))
+        $distribusi = PenyimpananDistribusi::whereMonth('created_at', Carbon::now()->format('m'))
+                                            ->whereYear('created_at', Carbon::now()->format('Y'))
                                             ->get();
+
         
         if($date !== "")
         {
-            $distribusi = PenyimpananDistribusi::whereMonth('created_at', Carbon::parse($date)->format('n'))
-                                            ->whereYear('created_at', Carbon::parse($date)->format('yy'))
+            $distribusi = PenyimpananDistribusi::whereMonth('created_at', Carbon::parse($date)->format('m'))
+                                            ->whereYear('created_at', Carbon::parse($date)->format('Y'))
                                             ->get();
         }
         return $distribusi;
