@@ -3016,8 +3016,7 @@ class PembiayaanReporsitory {
 
             if(json_decode($pengajuan->detail)->angsuran == "Tabungan")
             {
-                $saldo_awal_tujuan_pelunasan = json_decode($tabungan->detail)->saldo;
-                $saldo_akhir_tujuan_pelunasan = json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
+                $saldo_akhir_tujuan_pelunasan_tabungan = json_decode($tabungan->detail)->saldo - ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
 
                 $detailToPenyimpananTabungan = [
                     "teller"            => Auth::user()->id,
@@ -3125,7 +3124,7 @@ class PembiayaanReporsitory {
                 else
                 {
                     $dataToUpdateTabungan = [
-                        "saldo" => $saldo_akhir_tujuan_pelunasan,
+                        "saldo" => $saldo_akhir_tujuan_pelunasan_tabungan,
                         "id_pengajuan"  => $pengajuan->id
                     ];
                     
@@ -3636,7 +3635,7 @@ class PembiayaanReporsitory {
         if($data->debit == 2)
         {
             $dataToUpdateTabungan = [
-                "saldo" => $saldo_akhir_tujuan_pelunasan,
+                "saldo" => $saldo_akhir_tujuan_pelunasan_tabungan,
                 "id_pengajuan"  => null
             ];
 
