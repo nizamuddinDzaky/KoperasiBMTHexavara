@@ -4626,7 +4626,7 @@ class InformationRepository
         $bmt2->status="pencairan donasi maal";
         $bmt2->teller=Auth::user()->id;
         $detail = [
-            'jumlah' => $jumlahPencairan,
+            'jumlah' => -$jumlahPencairan,
             'saldo_awal' => floatval($rekeningPenyeimbang->saldo),
             'saldo_akhir' => $rekeningPenyeimbang->saldo - $jumlahPencairan,
         ];
@@ -4739,7 +4739,7 @@ class InformationRepository
             $bmt2->status="pencairan donasi wakaf";
             $bmt2->teller=Auth::user()->id;
             $detail = [
-                'jumlah' => $jumlahPencairan,
+                'jumlah' => -$jumlahPencairan,
                 'saldo_awal' => floatval($rekeningPenyeimbang->saldo),
                 'saldo_akhir' => $rekeningPenyeimbang->saldo - $jumlahPencairan,
             ];
@@ -4849,7 +4849,7 @@ class InformationRepository
             $bmt2->status="pencairan donasi zis";
             $bmt2->teller=Auth::user()->id;
             $detail = [
-                'jumlah' => $jumlahPencairan,
+                'jumlah' => -$jumlahPencairan,
                 'saldo_awal' => floatval($rekeningPenyeimbang->saldo),
                 'saldo_akhir' => $rekeningPenyeimbang->saldo - $jumlahPencairan,
                 'keterangan' => $request->keteranganPencairanZIS,
