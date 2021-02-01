@@ -768,6 +768,7 @@ class DistribusiPendapatanReporsitories {
 
                 }
             }
+
             foreach($pendapatan as $rekening_pendapatan)
             {
                 if($rekening_pendapatan->saldo > 0)
@@ -871,6 +872,31 @@ class DistribusiPendapatanReporsitories {
 
             if($data->jenis == "revenue")
             {
+                $bmt_rekening_biaya = BMT::where('id_bmt', 'like', '5%')->get();
+
+                foreach($bmt_rekening_biaya as $rekening_biaya)
+                {
+                    if($rekening_biaya->saldo > 0)
+                    {
+                        $detailToPenyimpananBMT = [
+                            "jumlah"        => $rekening_biaya->saldo,
+                            "saldo_awal"    => $rekening_biaya->saldo,
+                            "saldo_akhir"   => $rekening_biaya->saldo - $rekening_biaya->saldo,
+                            "id_pengajuan"  => null
+                        ];
+                        $dataToPenyimpananBMT = [
+                            "id_user"   => Auth::user()->id,
+                            "id_bmt"    => $rekening_biaya->id,
+                            "status"    => "Distribusi Pendapatan",
+                            "transaksi" => $detailToPenyimpananBMT,
+                            "teller"    => Auth::user()->id
+                        ];
+
+                        $this->rekeningReporsitory->insertPenyimpananBMT($dataToPenyimpananBMT);
+                        $rekening_biaya->saldo = 0; $rekening_biaya->save();
+                    }
+                }
+
 
                 $bmt_shu_berjalan = BMT::where('nama', 'SHU BERJALAN')->first();
                 $detailToPenyimpananBMT = [
