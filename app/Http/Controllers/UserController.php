@@ -636,7 +636,22 @@ class UserController extends Controller
         $data = $this->informationRepository->getAllPemUsr();
         $tab = $data;
         $notification = $this->pengajuanReporsitory->getNotification();
-        
+        $dataSaldoPem = $this->informationRepository->getAllPemUsrActive();
+        foreach ($dataSaldoPem as $keys => $item)
+        {
+            if($item->jenis_pembiayaan == "PEMBIAYAAN MRB")
+            {
+                $tagihan = $this->pembiayaanReporsitory->checkTagihanMRB($item->id);
+                $item['tagihan_angsuran_sekarang'] = $tagihan[1];
+                $item['tagihan_margin_sekarang'] = $tagihan[0];
+            }
+            if($item->jenis_pembiayaan  !== "PEMBIAYAAN MRB")
+            {
+                $tagihan = $this->pembiayaanReporsitory->checkTagihanLain($item->id);
+                $item['tagihan_angsuran_sekarang'] = $tagihan;
+            }
+
+        }
         return view('users.pembiayaans', [
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -646,7 +661,7 @@ class UserController extends Controller
             'data' => $data,
             'datasaldo' => $data,
             'tabungan'  => $this->informationRepository->getAllTabUsrActive(),
-            'datasaldoPem' => $this->informationRepository->getAllPemUsrActive(),
+            'datasaldoPem' => $dataSaldoPem,
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'data2' => $this->informationRepository->getAllpengajuanUsrPem(),
             'tab' => $tab,
@@ -717,8 +732,8 @@ class UserController extends Controller
         
         if($pembiayaan->jenis_pembiayaan == "PEMBIAYAAN MRB")
         {
-            $bayar_margin = $tagihan_margin_bulanan;
-            $bayar_angsuran = str_replace(',',"",$request->bayar_ang) - $tagihan_margin_bulanan;
+            $bayar_margin = 0;
+            $bayar_angsuran = str_replace(',',"",$request->bayar_ang);
         }
         else
         {

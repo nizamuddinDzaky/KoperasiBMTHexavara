@@ -1088,9 +1088,27 @@ class TellerController extends Controller
         $notification = $this->pengajuanReporsitory->getNotification();
         $user = User::where([ ['tipe', 'anggota'], ['status', 2] ])->get();
 
+        $dataSaldoPem = $this->informationRepository->getAllPem();
+          foreach ($dataSaldoPem as $keys => $item)
+          {
+
+              if($item->jenis_pembiayaan == "PEMBIAYAAN MRB")
+              {
+                  $tagihan = $this->pembiayaanReporsitory->checkTagihanMRB($item->id);
+                  $item['tagihan_angsuran_sekarang'] = $tagihan[1];
+                  $item['tagihan_margin_sekarang'] = $tagihan[0];
+              }
+                if($item->jenis_pembiayaan  !== "PEMBIAYAAN MRB")
+              {
+                  $tagihan = $this->pembiayaanReporsitory->checkTagihanLain($item->id);
+                  $item['tagihan_angsuran_sekarang'] = $tagihan;
+              }
+
+          }
+
         return view('teller.transaksi.pembiayaan.pengajuan',[
             'bank_bmt' => $this->tabunganReporsitory->getRekening('BANK'),
-            'datasaldoPem' => $this->informationRepository->getAllPem(),
+            'datasaldoPem' => $dataSaldoPem,
             'datasaldoPem2' => $this->informationRepository->getAllPemView(),
             'kegiatan' => $dropdown,
             'kegiatanWakaf' => $this->informationRepository->getAllWakaf(),

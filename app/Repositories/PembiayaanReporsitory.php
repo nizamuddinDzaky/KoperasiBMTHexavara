@@ -957,11 +957,11 @@ class PembiayaanReporsitory {
 
             if($pembiayaan->status == "active") {
 
-//                if (preg_replace('/[^\d.]/', '', $data->bayar_ang) > json_decode($pembiayaan->detail)->sisa_pinjaman ){
-//                    DB::rollback();
-//                    $response = array("type" => "error", "message" => "Pengajuan Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi Karena Pembayaran Lebih Besar Dari Sisa Pinjaman");
-//                    return $response;
-//                }
+                if (preg_replace('/[^\d.]/', '', $data->bayar_ang) > json_decode($pembiayaan->detail)->sisa_pinjaman ){
+                    DB::rollback();
+                    $response = array("type" => "error", "message" => "Angsuran " . $pembiayaan->jenis_pembiayaan . " Gagal Dikonfirmasi Karena Pembayaran Lebih Besar Dari Sisa Pinjaman");
+                    return $response;
+                }
 
 
 
@@ -991,47 +991,66 @@ class PembiayaanReporsitory {
                 $jumlah_bayar_angsuran = json_decode($pengajuan->detail)->bayar_ang;
                 $tagihan_pokok_margin = json_decode($pembiayaan->detail)->jumlah_margin_bulanan;
                 $jumlah_bayar_margin = json_decode($pengajuan->detail)->bayar_mar;
-                $kekurangan_pembayaran_angsuran = 0;
-                $kekurangan_pembayaran_margin = 0;
 
-                if(json_decode($pembiayaan->detail)->sisa_margin > 0)
+                $tagihan = $this->checkTagihanMRB($pembiayaan->id);
+                $tagihan_margin = $tagihan[0];
+                $tagihan_angsuran = $tagihan[1];
+
+
+                $margin_kurang = 0.0; // untuk cek tagihan margin
+                $angsuran_kurang = 0.0; // untuk cek tagihan angsuran
+
+                $pembayaranSetelahDikurangiSisa = 0.0;
+                if ($tagihan_margin > 0)
                 {
-                    if($jumlah_bayar_margin < $tagihan_pokok_margin)
-                    {
-                        $kekurangan_pembayaran_margin = $tagihan_pokok_margin - $jumlah_bayar_margin;
-                        $jumlah_bayar_angsuran = $jumlah_bayar_angsuran - $kekurangan_pembayaran_margin;
-                        $jumlah_bayar_margin = $jumlah_bayar_margin + $kekurangan_pembayaran_margin;
+                    if ($tagihan_margin > $jumlah_bayar_angsuran){
+                        $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran - $jumlah_bayar_angsuran;
+                        $margin_kurang = $jumlah_bayar_angsuran;
+                    }else{
+                        $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran - $tagihan_margin;
                     }
+
+                }else{
+                    $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran;
                 }
 
-                if(json_decode($pembiayaan->detail)->sisa_angsuran > $tagihan_pokok_angsuran)
+
+                if ($tagihan_angsuran > 0)
                 {
-                    if($jumlah_bayar_angsuran < $tagihan_pokok_angsuran)
-                    {
-                        $kekurangan_pembayaran_angsuran = $tagihan_pokok_angsuran - $jumlah_bayar_angsuran;
+                    if ($tagihan_angsuran > $pembayaranSetelahDikurangiSisa){
+                        $angsuran_kurang = $pembayaranSetelahDikurangiSisa;
+                        $pembayaranSetelahDikurangiSisa = $pembayaranSetelahDikurangiSisa - $pembayaranSetelahDikurangiSisa;
+
+                    }else{
+                        $angsuran_kurang = $tagihan_angsuran;
+                        $pembayaranSetelahDikurangiSisa = $pembayaranSetelahDikurangiSisa - $tagihan_angsuran;
                     }
-                }
-                else
-                {
-                    $kekurangan_pembayaran_angsuran = json_decode($pembiayaan->detail)->sisa_angsuran - $jumlah_bayar_angsuran;
+
                 }
 
-                if($jumlah_bayar_angsuran > $tagihan_pokok_angsuran)
+
+
+
+                $pemecahan = $this->pemecahanPembayaranMRB($pembiayaan->id, $pembayaranSetelahDikurangiSisa);
+
+                if ($tagihan_margin > 0 && $tagihan_margin < $jumlah_bayar_angsuran)
                 {
-                    $kelebihan_angsuran_bulanan = $jumlah_bayar_angsuran - $tagihan_pokok_angsuran;
+                    $jumlah_bayar_margin = $pemecahan[1] + $tagihan_margin;
+                }elseif($tagihan_margin > 0 && $tagihan_margin > $jumlah_bayar_angsuran){
+                    $jumlah_bayar_margin = $pemecahan[1] + $margin_kurang;
                 }
-                else
-                {
-                    $kelebihan_angsuran_bulanan = 0;
+                else {
+                    $jumlah_bayar_margin = $pemecahan[1];
                 }
-                
-                if($jumlah_bayar_margin > $tagihan_pokok_margin)
+
+                if ($tagihan_angsuran > 0 && $tagihan_angsuran < $pembayaranSetelahDikurangiSisa )
                 {
-                    $kelebihan_margin_bulanan = $jumlah_bayar_margin - $tagihan_pokok_margin;
+                    $jumlah_bayar_angsuran = $pemecahan[0] + $tagihan_angsuran;
                 }
-                else
-                {
-                    $kelebihan_margin_bulanan = 0;
+                elseif($tagihan_angsuran > 0 && $tagihan_angsuran > $pembayaranSetelahDikurangiSisa ){
+                    $jumlah_bayar_angsuran = $pemecahan[0] + $angsuran_kurang;
+                }else{
+                    $jumlah_bayar_angsuran = $pemecahan[0];
                 }
                 
                 $sisa_angsuran = json_decode($pembiayaan->detail)->sisa_angsuran;
@@ -1041,8 +1060,6 @@ class PembiayaanReporsitory {
                 
                 $tagihan = $tagihan_pokok_angsuran + $tagihan_pokok_margin;
 
-                $sisa_margin_bulanan = $kekurangan_pembayaran_margin;
-                $sisa_angsuran_bulanan = $kekurangan_pembayaran_angsuran;
 
                 $sisa_pinjaman = (json_decode($pembiayaan->detail)->sisa_pinjaman) - ($jumlah_bayar_angsuran + $jumlah_bayar_margin);
                 
@@ -1060,10 +1077,10 @@ class PembiayaanReporsitory {
                     "tagihan_bulanan"   => json_decode($pembiayaan->detail)->tagihan_bulanan,
                     "jumlah_angsuran_bulanan"  => round($total_pinjaman / json_decode($pembiayaan->detail)->lama_angsuran), 
                     "jumlah_margin_bulanan"    => round($total_margin / json_decode($pembiayaan->detail)->lama_angsuran),
-                    "sisa_ang_bln"      => $sisa_angsuran_bulanan,
+                    "sisa_ang_bln"      => 0,
                     "sisa_mar_bln"      => 0,
-                    "kelebihan_angsuran_bulanan" => $kelebihan_angsuran_bulanan,
-                    "kelebihan_margin_bulanan" =>  $kelebihan_margin_bulanan,
+                    "kelebihan_angsuran_bulanan" => 0,
+                    "kelebihan_margin_bulanan" =>  0,
                     "id_pengajuan"      => $pengajuan->id
                 ];
 
@@ -1184,9 +1201,9 @@ class PembiayaanReporsitory {
                             $updatePendapatanMRB = BMT::where('id_rekening', 130)->update([ "saldo" => $bmt_pendapatan_mrb->saldo + $jumlah_bayar_margin ]);
                             $updatePiutangMRB = BMT::where('id_rekening', 101)->update([ "saldo" => $bmt_piutang_mrb->saldo + $jumlah_bayar_margin ]);
 
-                            if($kekurangan_pembayaran_angsuran <= 0)
+                            if($this->cekTambahTempoMRB($pembiayaan->id) == true)
                             {
-                                $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1)->format('yy-m-d');
+                                $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1);
                             }
                             else
                             {
@@ -1300,9 +1317,9 @@ class PembiayaanReporsitory {
                         $updatePendapatanMRB = BMT::where('id_rekening', 130)->update([ "saldo" => $bmt_pendapatan_mrb->saldo + $jumlah_bayar_margin ]);
                         $updatePiutangMRB = BMT::where('id_rekening', 101)->update([ "saldo" => $bmt_piutang_mrb->saldo + $jumlah_bayar_margin ]);
 
-                        if($kekurangan_pembayaran_angsuran <= 0)
+                        if($this->cekTambahTempoMRB($pembiayaan->id) == true)
                         {
-                            $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1)->format('yy-m-d');
+                            $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1);
                         }
                         else
                         {
@@ -2289,16 +2306,20 @@ class PembiayaanReporsitory {
             }
         }
 
-        $tanggalSekarang = Carbon::now()->startOfDay();
+        $tanggalSekarang = Carbon::now()->startOfDay()->addDay(1);
         $tempoAwal = $pembiayaan->created_at;
+        $tempoAwal = Carbon::createFromFormat('Y-m-d H:i:s', $tempoAwal);
+        $tanggalSekarang = Carbon::createFromFormat('Y-m-d H:i:s', $tanggalSekarang);
 
+        $d1=new DateTime($tanggalSekarang);
+        $d2=new DateTime($tempoAwal);
+        $Months = $d2->diff($d1);
+        $diff_in_months = (($Months->y) * 12) + ($Months->m);
 
-        $tempoAwal = Carbon::createFromFormat('Y-m-d H:i:s', $tempoAwal)->startOfDay();
-        $diff_in_months = $tempoAwal->diffInMonths($tanggalSekarang);
-        $sisa_pokok = ($diff_in_months * $tagihan_pokok) - $total_bayar_angsuran;
+        $sisa_pokok = ($diff_in_months  * $tagihan_pokok) - $total_bayar_angsuran;
+
         return $sisa_pokok;
 
-        //  x kali margin bulanan - total margin terbayar
 
 
     }
@@ -2308,7 +2329,7 @@ class PembiayaanReporsitory {
         $margin_pokok = json_decode($pembiayaan->detail)->jumlah_margin_bulanan;
         $penyimpanan_pembiayaan= PenyimpananPembiayaan::where('id_pembiayaan', $id)->where('status', 'Angsuran Pembiayaan [Pokok]')->get();
         $total_bayar_margin = 0.0;
-
+//        dd($penyimpanan_pembiayaan);
 
         if ($penyimpanan_pembiayaan == null) {
             return false;
@@ -2318,16 +2339,23 @@ class PembiayaanReporsitory {
             }
         }
 
-        $tanggalSekarang = Carbon::now()->startOfDay();
+        $tanggalSekarang = Carbon::now()->startOfDay()->addDay(1);
         $tempoAwal = $pembiayaan->created_at;
+        $tempoAwal = Carbon::createFromFormat('Y-m-d H:i:s', $tempoAwal);
+        $tanggalSekarang = Carbon::createFromFormat('Y-m-d H:i:s', $tanggalSekarang);
+
+        $d1=new DateTime($tanggalSekarang);
+        $d2=new DateTime($tempoAwal);
+        $Months = $d2->diff($d1);
+        $diff_in_months = (($Months->y) * 12) + ($Months->m);
 
 
-        $tempoAwal = Carbon::createFromFormat('Y-m-d H:i:s', $tempoAwal)->startOfDay();
-        $diff_in_months = $tempoAwal->diffInMonths($tanggalSekarang);
         $sisa_margin = ($diff_in_months * $margin_pokok) - $total_bayar_margin;
+
         return $sisa_margin;
 
     }
+
 
     public function pemecahanPembayaranMRB($id, $pembayaranSetelahDikurangiSisa){
         $pembiayaan = Pembiayaan::where('id', $id)->select('detail')->first();
@@ -2370,54 +2398,53 @@ class PembiayaanReporsitory {
     }
 
     public function checkTagihanMRB($id){
-        $pembiayaan = Pembiayaan::where('id', $id)->select('detail', 'created_at')->first();
         $angsuran = $this->cariSisaAngsuranMRB($id);
         $margin = $this->cariSisaMarginMRB($id);
 
         if ($angsuran < 0 )
         {
-            $kelebihan_angsuran = -$angsuran;
-            $kekurangan_angsuran = 0.0;
+            $tagihan_pokok_angsuran = 0;
         }else{
-            $kelebihan_angsuran = 0.0;
-            $kekurangan_angsuran = $angsuran;
+            $tagihan_pokok_angsuran = $angsuran;
         }
 
         if($margin < 0 ){
-            $kelebihan_margin = -$margin;
-            $kekurangan_margin = 0.0;
+            $tagihan_pokok_margin = 0;
         }else{
-            $kelebihan_margin = 0.0;
-            $kekurangan_margin = $margin;
+            $tagihan_pokok_margin = $margin;
         }
 
-        $tanggalSekarang = Carbon::now()->startOfDay();
-        $tempoAwal = $pembiayaan->created_at;
-        $tempoAwal = Carbon::createFromFormat('Y-m-d H:i:s', $tempoAwal)->startOfDay();
-        $diff_in_months = $tanggalSekarang->diffInMonths($tempoAwal);
-        $tempoAwal = $tempoAwal->addMonths($diff_in_months);
-
-
-        if($tempoAwal < $tanggalSekarang && $tempoAwal->month == $tanggalSekarang->month)
-        {
-            dd('jatuh tempo');
-        }
-        else{
-            dd('dibawah tempo');
-        }
-
-
-
-
-
-
-
-
-
-
-
-
+        return [$tagihan_pokok_margin, $tagihan_pokok_angsuran];
     }
+
+    public function checkTagihanLain($id){
+        $angsuran = $this->cariSisaAngsuranMRB($id);
+
+        if ($angsuran < 0 )
+        {
+            $tagihan_pokok_angsuran = 0;
+        }else{
+            $tagihan_pokok_angsuran = $angsuran;
+        }
+
+        return $tagihan_pokok_angsuran;
+    }
+
+
+    public function cekTambahTempoMRB($id){
+            $sisamargin = $this->cariSisaMarginMRB($id);
+            $sisaangsuran = $this->cariSisaAngsuranMRB($id);
+            $pembiayaan = Pembiayaan::where('id', $id)->select( 'tempo')->first();
+            $tanggalSekarang = Carbon::now()->startOfDay();
+            $tempoAwal = Carbon::createFromFormat('Y-m-d', $pembiayaan->tempo)->startOfDay();
+
+            if ($sisaangsuran <= 0 && $sisamargin <= 0 && $tanggalSekarang->greaterThanOrEqualTo($tempoAwal)){
+                return true;
+            }else{
+                return false;
+            }
+    }
+
 
 
     /** 
@@ -2434,7 +2461,7 @@ class PembiayaanReporsitory {
             $penyimpananPembiayaan = PenyimpananPembiayaan::where('id_pembiayaan', $pembiayaan->id)->orderBy('created_at', 'desc')->take(1)->get();
             $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first();
 
-//            $this->checkTagihanMRB($pembiayaan->id);
+
 
             if (preg_replace('/[^\d.]/', '', $data->bayar_ang) > json_decode($pembiayaan->detail)->sisa_pinjaman ){
                 DB::rollback();
@@ -2466,121 +2493,81 @@ class PembiayaanReporsitory {
             }
 
             $tagihan_pokok_angsuran = json_decode($pembiayaan->detail)->jumlah_angsuran_bulanan;
-            $jumlah_bayar_angsuran = preg_replace('/[^\d.]/', '', $data->bayar_ang);
+            $jumlah_bayar_angsuran = floatval(preg_replace('/[^\d.]/', '', $data->bayar_ang));
             $tagihan_pokok_margin = json_decode($pembiayaan->detail)->jumlah_margin_bulanan;
-            $jumlah_bayar_margin = preg_replace('/[^\d.]/', '', $data->bayar_mar);
+
+
+            $tagihan = $this->checkTagihanMRB($pembiayaan->id);
+            $tagihan_margin = $tagihan[0];
+            $tagihan_angsuran = $tagihan[1];
 
 
 
-//            $tagihanBulanIni = $this->checkTagihanMRB($pembiayaan->id);
-//            $sisa = $this->cariSisaAngsuranMRB($pembiayaan->id);
-//            $sisa_margin = $this->cariSisaMarginMRB($pembiayaan->id);
-//
-//            $margin_kurang = 0.0; // untuk margin yang jumlah bayaran angsuran nya kurang dari sisa margin
-//            $angsuran_kurang = 0.0; // untuk angsuran yang jumlah bayaran angsuran nya kurang dari sisa angsuran
-////            dd($sisa, $sisa_margin);
-//
-//            if ($sisa_margin > 0)
-//            {
-//                if ($sisa_margin > $jumlah_bayar_angsuran){
-//                    $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran - $jumlah_bayar_angsuran;
-//                    $margin_kurang = $jumlah_bayar_angsuran;
-//                }else{
-//                    $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran - $sisa_margin;
-//                }
-//
-//            }else{
-//                $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran;
-//            }
-////            dd($pembayaranSetelahDikurangiSisa, $margin_kurang);
-//
-//
-//            if ($sisa > 0)
-//            {
-//                if ($sisa > $pembayaranSetelahDikurangiSisa){
-//                    $angsuran_kurang = $pembayaranSetelahDikurangiSisa;
-//                    $pembayaranSetelahDikurangiSisa = $pembayaranSetelahDikurangiSisa - $pembayaranSetelahDikurangiSisa;
-//
-//                }else{
-//                    $pembayaranSetelahDikurangiSisa = $pembayaranSetelahDikurangiSisa - $sisa;
-//                }
-//
-//            }
-//
-//
-//            $pemecahan = $this->pemecahanPembayaranMRB($pembiayaan->id, $pembayaranSetelahDikurangiSisa);
-//
-//            if ($sisa_margin > 0 && $sisa_margin < $jumlah_bayar_angsuran)
-//            {
-//                $jumlah_bayar_margin = $pemecahan[1] + $sisa_margin;
-//            }elseif($sisa_margin > 0 && $sisa_margin > $jumlah_bayar_angsuran){
-//                $jumlah_bayar_margin = $pemecahan[1] + $margin_kurang;
-//            }
-//            else {
-//                $jumlah_bayar_margin = $pemecahan[1];
-//            }
-//
-//            if ($sisa > 0 && $sisa < $pembayaranSetelahDikurangiSisa || $sisa > 0 &&  $pembayaranSetelahDikurangiSisa == 0.0 )
-//            {
-//                $jumlah_bayar_angsuran = $pemecahan[0] + $sisa;
-//            }
-//            elseif($sisa > 0 && $sisa > $pembayaranSetelahDikurangiSisa ){
-//                $jumlah_bayar_angsuran = $pemecahan[0] + $angsuran_kurang;
-//            }else{
-//                $jumlah_bayar_angsuran = $pemecahan[0];
-//            }
+            $margin_kurang = 0.0; // untuk cek tagihan margin
+            $angsuran_kurang = 0.0; // untuk cek tagihan angsuran
 
-
-            $kekurangan_pembayaran_angsuran = 0;
-            $kekurangan_pembayaran_margin = 0;
-
-
-
-
-            if(json_decode($pembiayaan->detail)->sisa_margin > 0) //pemecahan
+            $pembayaranSetelahDikurangiSisa = 0.0;
+            if ($tagihan_margin > 0)
             {
-                if($jumlah_bayar_margin < $tagihan_pokok_margin)
-                {
-                    $kekurangan_pembayaran_margin = $tagihan_pokok_margin - $jumlah_bayar_margin;
-                    $jumlah_bayar_angsuran = $jumlah_bayar_angsuran - $kekurangan_pembayaran_margin;
-                    $jumlah_bayar_margin = $jumlah_bayar_margin + $kekurangan_pembayaran_margin;
+                if ($tagihan_margin > $jumlah_bayar_angsuran){
+                    $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran - $jumlah_bayar_angsuran;
+                    $margin_kurang = $jumlah_bayar_angsuran;
+                }else{
+                    $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran - $tagihan_margin;
                 }
+
+            }else{
+                $pembayaranSetelahDikurangiSisa = $jumlah_bayar_angsuran;
             }
 
-            if(json_decode($pembiayaan->detail)->sisa_angsuran > $tagihan_pokok_angsuran)
+
+            if ($tagihan_angsuran > 0)
             {
-                if($jumlah_bayar_angsuran < $tagihan_pokok_angsuran)
-                {
-                    $kekurangan_pembayaran_angsuran = $tagihan_pokok_angsuran - $jumlah_bayar_angsuran;
+                if ($tagihan_angsuran > $pembayaranSetelahDikurangiSisa){
+                    $angsuran_kurang = $pembayaranSetelahDikurangiSisa;
+                    $pembayaranSetelahDikurangiSisa = $pembayaranSetelahDikurangiSisa - $pembayaranSetelahDikurangiSisa;
+
+                }else{
+                    $angsuran_kurang = $tagihan_angsuran;
+                    $pembayaranSetelahDikurangiSisa = $pembayaranSetelahDikurangiSisa - $tagihan_angsuran;
                 }
-            }
-            else
-            {
-                $kekurangan_pembayaran_angsuran = json_decode($pembiayaan->detail)->sisa_angsuran - $jumlah_bayar_angsuran;
+
             }
 
-            if($jumlah_bayar_angsuran > $tagihan_pokok_angsuran)
+
+
+
+            $pemecahan = $this->pemecahanPembayaranMRB($pembiayaan->id, $pembayaranSetelahDikurangiSisa);
+
+            if ($tagihan_margin > 0 && $tagihan_margin < $jumlah_bayar_angsuran)
             {
-                $kelebihan_angsuran_bulanan = $jumlah_bayar_angsuran - $tagihan_pokok_angsuran;
+                $jumlah_bayar_margin = $pemecahan[1] + $tagihan_margin;
+            }elseif($tagihan_margin > 0 && $tagihan_margin > $jumlah_bayar_angsuran){
+                $jumlah_bayar_margin = $pemecahan[1] + $margin_kurang;
             }
-            else
-            {
-                $kelebihan_angsuran_bulanan = 0;
+            else {
+                $jumlah_bayar_margin = $pemecahan[1];
             }
 
-            if($jumlah_bayar_margin > $tagihan_pokok_margin)
+            if ($tagihan_angsuran > 0 && $tagihan_angsuran < $pembayaranSetelahDikurangiSisa )
             {
-                $kelebihan_margin_bulanan = $jumlah_bayar_margin - $tagihan_pokok_margin;
-            } else {
-                $kelebihan_margin_bulanan = 0;
+                $jumlah_bayar_angsuran = $pemecahan[0] + $tagihan_angsuran;
             }
+            elseif($tagihan_angsuran > 0 && $tagihan_angsuran > $pembayaranSetelahDikurangiSisa ){
+                $jumlah_bayar_angsuran = $pemecahan[0] + $angsuran_kurang;
+            }else{
+                $jumlah_bayar_angsuran = $pemecahan[0];
+            }
+
+
+
 
             $sisa_angsuran = json_decode($pembiayaan->detail)->sisa_angsuran;
             $sisa_margin = json_decode($pembiayaan->detail)->sisa_margin;
             $total_pinjaman = json_decode($pembiayaan->detail)->pinjaman;
             $total_margin = json_decode($pembiayaan->detail)->margin;
-            $sisa_margin_bulanan = $kekurangan_pembayaran_margin;
-            $sisa_angsuran_bulanan = $kekurangan_pembayaran_angsuran;
+//            $sisa_margin_bulanan = $kekurangan_pembayaran_margin;
+//            $sisa_angsuran_bulanan = $kekurangan_pembayaran_angsuran;
             
             $tagihan = $tagihan_pokok_angsuran + $tagihan_pokok_margin;
 
@@ -2601,8 +2588,8 @@ class PembiayaanReporsitory {
                 "tagihan_bulanan"   => json_decode($pembiayaan->detail)->tagihan_bulanan,
                 "jumlah_angsuran_bulanan"  => round($total_pinjaman / json_decode($pembiayaan->detail)->lama_angsuran), 
                 "jumlah_margin_bulanan"    => round($total_margin / json_decode($pembiayaan->detail)->lama_angsuran),
-                "sisa_ang_bln"      => $sisa_angsuran_bulanan,
-                "sisa_mar_bln"      => $sisa_margin_bulanan,
+                "sisa_ang_bln"      => 0,
+                "sisa_mar_bln"      => 0,
                 "kelebihan_angsuran_bulanan" => 0,
                 "kelebihan_margin_bulanan" =>  0,
                 "id_pengajuan"      => null
@@ -2733,9 +2720,9 @@ class PembiayaanReporsitory {
                         $updatePiutangMRB = BMT::where('id_rekening', 101)->update([ "saldo" => $bmt_piutang_mrb->saldo + $jumlah_bayar_margin ]);
                         $updatePendapatanMRB = BMT::where('id_rekening', 130)->update([ "saldo" => $bmt_pendapatan_mrb->saldo + $jumlah_bayar_margin ]);
 
-                        if($kekurangan_pembayaran_angsuran <= 0)
+                        if($this->cekTambahTempoMRB($pembiayaan->id) == true)
                         {
-                            $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1)->format('yy-m-d');
+                            $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1);
                         }
                         else
                         {
@@ -2889,14 +2876,14 @@ class PembiayaanReporsitory {
                     $updatePiutangMRB = BMT::where('id_rekening', 101)->update([ "saldo" => $bmt_piutang_mrb->saldo + $jumlah_bayar_margin ]);
                     $updatePendapatanMRB = BMT::where('id_rekening', 130)->update([ "saldo" => $bmt_pendapatan_mrb->saldo + $jumlah_bayar_margin ]);
 
-                    if($kekurangan_pembayaran_angsuran <= 0)
-                    {
-                        $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1)->format('yy-m-d');
-                    }
-                    else
-                    {
-                        $tempo_pembayaran = $pembiayaan->tempo;
-                    }
+                         if($this->cekTambahTempoMRB($pembiayaan->id) == true)
+                        {
+                            $tempo_pembayaran = Carbon::parse($pembiayaan->tempo)->addMonth(1);
+                        }
+                        else
+                        {
+                            $tempo_pembayaran = $pembiayaan->tempo;
+                        }
 
                     $updatePembiayaan = Pembiayaan::where('id_pembiayaan', $data->id_)->update([
                         'tempo'     => $tempo_pembayaran,
@@ -3841,7 +3828,7 @@ class PembiayaanReporsitory {
                'jumlah_margin_bulanan' =>json_decode($pembiayaan->detail)->jumlah_margin_bulanan,
                'sisa_ang_bln' =>  json_decode($pembiayaan->detail)->sisa_ang_bln,
                'sisa_mar_bln' =>  json_decode($pembiayaan->detail)->sisa_mar_bln,
-               'kelebihan_angsuran_bulanan' => json_decode($pembiayaan->detail)->kelebihan_angsuran_bulanan - floatval($kelebihan_angsuran),
+               'kelebihan_angsuran_bulanan' => json_decode($pembiayaan->detail)->kelebihan_angsuran_bulanan,
                'kelebihan_margin_bulanan' => json_decode($pembiayaan->detail)->kelebihan_margin_bulanan,
                'id_pengajuan' => json_decode($pembiayaan->detail)->id_pengajuan,
            ];
@@ -4130,8 +4117,8 @@ class PembiayaanReporsitory {
                 'jumlah_margin_bulanan' =>json_decode($pembiayaan->detail)->jumlah_margin_bulanan,
                 'sisa_ang_bln' =>  json_decode($pembiayaan->detail)->sisa_ang_bln,
                 'sisa_mar_bln' =>  json_decode($pembiayaan->detail)->sisa_mar_bln,
-                'kelebihan_angsuran_bulanan' => json_decode($pembiayaan->detail)->kelebihan_angsuran_bulanan - $kelebihan_angsuran,
-                'kelebihan_margin_bulanan' => json_decode($pembiayaan->detail)->kelebihan_margin_bulanan - $kelebihan_margin,
+                'kelebihan_angsuran_bulanan' => json_decode($pembiayaan->detail)->kelebihan_angsuran_bulanan,
+                'kelebihan_margin_bulanan' => json_decode($pembiayaan->detail)->kelebihan_margin_bulanan,
                 'id_pengajuan' => json_decode($pembiayaan->detail)->id_pengajuan,
             ];
             $pembiayaan->detail = json_encode($data_pembiayaan);

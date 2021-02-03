@@ -606,7 +606,7 @@
                 $('#marginHide').show()
                 $('#bayar_mar_mrb').hide()
                 if(marbln==0) {
-                    $('#marginHide').hide()
+                    $('#marginHide').show()
                     $('#bagi_margin').attr("required",false);
                 }
                 if(angbln==0) {

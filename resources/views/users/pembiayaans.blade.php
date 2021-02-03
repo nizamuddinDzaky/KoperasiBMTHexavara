@@ -539,9 +539,8 @@
             var selA4 =$('#toHide_angpok');
             var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
             var selRek = $('#angidRek');
-            
+
             selRek.on('change', function () {
-                $('#pembayaranAngsuran').show();
                 var id = $('#idRekA').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
                 $('#idRekA').val(id);
@@ -551,77 +550,76 @@
                 rekening = parseFloat(selRek.val().split(' ')[3]);
                 angke = parseFloat(selRek.val().split(' ')[4]);
                 angbln = parseFloat(selRek.val().split(' ')[5]);
+                if(angbln < 0)
+                {
+                    angbln = 0.0;
+                }
                 marbln = parseFloat(selRek.val().split(' ')[6]);
-                angtotal = parseFloat(angbln + marbln);
                 sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
-                
+                bayar_margin_mrb = parseFloat(selRek.val().split(' ')[10]);
+                jenis_mrb = selRek.val().split(' ')[11];
                 var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
-                $('#ang_total').on('keyup', function (){
-                    if (rekening!=2) {
-                        angtotal = parseFloat($('#ang_total').val());
-                        angsuran = parseFloat(angtotal - marbln);
-                        $('#bayar_mar').val(marbln);
-                        $('#bayar_ang').val(angsuran);   
-                        $("#marginHide").hide();
-                    }
-                });
-
                 $('#showPok').hide()
                 $('#angHide').show()
                 $('#marginHide').show()
+                $('#bayar_mar_mrb').hide()
                 if(marbln==0) {
-                    console.log("A")
-                    $('#marginHide').hide()
+                    $('#marginHide').show()
                     $('#bagi_margin').attr("required",false);
                 }
                 if(angbln==0) {
-                    console.log("B")
-                    $('#angHide').hide()
-                    $('#showPok').show()
+                    // if(jenis_mrb !== 'MRB') {
+                    //     $('#angHide').hide()
+                    // }
+
+                    // $('#showPok').show()
                     $('#bagi_margin').attr("required",false);
                 }
-
                 if(rekening!=2) {
-                    console.log("C")
+                    $('#marginHide').hide()
                     $('#sisa_mar').show()
                     $('#bayar_mar').hide()
-                    $('#bayar_margin').val(formatter.format(marbln))
+                    $('#bayar_mar_mrb').show()
+                    // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
-                    $('#bayar_ang').val(formatter.format(angbln + marbln))
+                    if(jenis_mrb == 'MRB'){
+                        $('#bayar_ang').val(formatter.format(angbln + bayar_margin_mrb))
+                    }else {
+                        $('#bayar_ang').val(formatter.format(angbln + marbln))
+                    }
+
                     $('#bagi_margin').attr("required",false);
-                    $("#marginHide").hide();
                 }
-                else if(angke == 0 ) {
+                else if(angke == 0) {
                     $('#sisa_mar').hide()
                     $('#bayar_mar').show()
-
-                    if(parseFloat(selRek.val().split(' ')[7]) !== 99)
-                    {
-                        $('#bayar_ang').val(formatter.format(pokok-(margin/lama)))
-                        $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
-                    }
-                    else
-                    {
-                        $('#bayar_ang').val(formatter.format(angbln))
-                        $('#bagi_pokok').val(formatter.format(angbln))
-                    }
+                    // if(parseFloat(selRek.val().split(' ')[7]) !== 99)
+                    // {
+                    //     $('#bayar_ang').val(formatter.format(pokok-(margin/lama)))
+                    //     $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
+                    // }
+                    // else
+                    // {
+                    $('#bayar_ang').val(formatter.format(angbln))
+                    $('#bagi_pokok').val(formatter.format(angbln))
+                    // }
 
                     $('#bagi_margin').attr("required",true);
                 }
                 else {
                     $('#sisa_mar').show()
                     $('#bagi_margin').attr("required",false);
-                    $('#bayar_mar').hide()
-                    $('#bayar_ang').val(angbln)
-                    // $('#bayar_margin').val(marbln)
-                    $('#bagi_pokok').val(pokok-(margin/lama))
+                    // $('#bayar_mar_mrb').show()
+                    $('#bayar_ang').val(formatter.format(angbln))
+                    // $('#bayar_margin').val(formatter.format(marbln))
+                    $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
                 }
-
                 $('#tagihan_pokok').val(formatter.format(sisa_pinjaman))
                 $('#tagihan_margin').val(formatter.format(marbln))
                 $('#sisa_ang_').val(formatter.format(angbln))
                 $('#sisa_mar_').val(formatter.format(marbln))
                 $('#jenis_').val(rekening);
+                $('#bagi_margin_mrb').val(formatter.format(bayar_margin_mrb));
 
                 if(parseFloat(selRek.val().split(' ')[7]) !== 99)
                 {
@@ -633,6 +631,100 @@
                 }
                 selA4.hide();
             });
+
+            // selRek.on('change', function () {
+            //     $('#pembayaranAngsuran').show();
+            //     var id = $('#idRekA').val(selRek.find(":selected").text().split(']')[0]);
+            //     id = id.val().split('[')[1];
+            //     $('#idRekA').val(id);
+            //     pokok = parseFloat(selRek.val().split(' ')[0]);
+            //     lama = parseFloat(selRek.val().split(' ')[2]);
+            //     margin = parseFloat(selRek.val().split(' ')[1]);
+            //     rekening = parseFloat(selRek.val().split(' ')[3]);
+            //     angke = parseFloat(selRek.val().split(' ')[4]);
+            //     angbln = parseFloat(selRek.val().split(' ')[5]);
+            //     marbln = parseFloat(selRek.val().split(' ')[6]);
+            //     angtotal = parseFloat(angbln + marbln);
+            //     sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
+            //
+            //     var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
+            //     $('#ang_total').on('keyup', function (){
+            //         if (rekening!=2) {
+            //             angtotal = parseFloat($('#ang_total').val());
+            //             angsuran = parseFloat(angtotal - marbln);
+            //             $('#bayar_mar').val(marbln);
+            //             $('#bayar_ang').val(angsuran);
+            //             $("#marginHide").hide();
+            //         }
+            //     });
+            //
+            //     $('#showPok').hide()
+            //     $('#angHide').show()
+            //     $('#marginHide').show()
+            //     if(marbln==0) {
+            //         console.log("A")
+            //         $('#marginHide').hide()
+            //         $('#bagi_margin').attr("required",false);
+            //     }
+            //     if(angbln==0) {
+            //         console.log("B")
+            //         $('#angHide').hide()
+            //         $('#showPok').show()
+            //         $('#bagi_margin').attr("required",false);
+            //     }
+            //
+            //     if(rekening!=2) {
+            //         console.log("C")
+            //         $('#sisa_mar').show()
+            //         $('#bayar_mar').hide()
+            //         $('#bayar_margin').val(formatter.format(marbln))
+            //         $('#bagi_pokok').val(formatter.format(angbln))
+            //         $('#bayar_ang').val(formatter.format(angbln + marbln))
+            //         $('#bagi_margin').attr("required",false);
+            //         $("#marginHide").hide();
+            //     }
+            //     else if(angke == 0 ) {
+            //         $('#sisa_mar').hide()
+            //         $('#bayar_mar').show()
+            //
+            //         if(parseFloat(selRek.val().split(' ')[7]) !== 99)
+            //         {
+            //             $('#bayar_ang').val(formatter.format(pokok-(margin/lama)))
+            //             $('#bagi_pokok').val(formatter.format(pokok-(margin/lama)))
+            //         }
+            //         else
+            //         {
+            //             $('#bayar_ang').val(formatter.format(angbln))
+            //             $('#bagi_pokok').val(formatter.format(angbln))
+            //         }
+            //
+            //         $('#bagi_margin').attr("required",true);
+            //     }
+            //     else {
+            //         $('#sisa_mar').show()
+            //         $('#bagi_margin').attr("required",false);
+            //         $('#bayar_mar').hide()
+            //         $('#bayar_ang').val(angbln)
+            //         // $('#bayar_margin').val(marbln)
+            //         $('#bagi_pokok').val(pokok-(margin/lama))
+            //     }
+            //
+            //     $('#tagihan_pokok').val(formatter.format(sisa_pinjaman))
+            //     $('#tagihan_margin').val(formatter.format(marbln))
+            //     $('#sisa_ang_').val(formatter.format(angbln))
+            //     $('#sisa_mar_').val(formatter.format(marbln))
+            //     $('#jenis_').val(rekening);
+            //
+            //     if(parseFloat(selRek.val().split(' ')[7]) !== 99)
+            //     {
+            //         $('#pokok_').val(pokok-(margin/lama))
+            //     }
+            //     else
+            //     {
+            //         $('#pokok_').val(angbln)
+            //     }
+            //     selA4.hide();
+            // });
 
 
             var selAr = $('#toHideDeb');
