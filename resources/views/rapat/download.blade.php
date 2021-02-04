@@ -37,7 +37,7 @@
             <td>{{ $item->user->nama }}</td>
             <td>{{ $item->user->alamat }}</td>
             <td>{{ $item->flag == 1 ? "Setuju" : "Tidak Setuju" }}</td>
-            <td><img src="{{public_path('storage/public/rapat/'.$item->tanda_tangan)}}" style="height: 100px; width: 150px " alt=""></td>
+            <td><img src="{{asset('storage/public/rapat/'.$item->tanda_tangan)}}" style="height: 100px; width: 150px " alt=""></td>
         </tr>
     @endforeach
     </tbody>
