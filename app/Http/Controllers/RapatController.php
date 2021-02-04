@@ -16,6 +16,7 @@ use App\Rekening;
 use App\Rapat;
 use App\Vote;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class RapatController extends Controller
 {
@@ -109,6 +110,16 @@ class RapatController extends Controller
         $notification_count = count($notification);
         return view('rapat.show', compact('rapat', 'id_rapat', 'vote', 'is_finish_voting', 'notification', 'notification_count'));
     }
+
+    public function downloadRapatPDF($id){
+        $rapat = Rapat::find($id);
+        $vote = Vote::where('id_rapat', $id)->get();
+        $pdf = PDF::loadview('rapat.download',['vote'=>$vote, 'rapat' => $rapat]);
+        return $pdf->download('laporan-rapat.pdf');
+        return redirect('/rapat');
+    }
+
+
 
     /** 
      * Admin rapat dashboar page

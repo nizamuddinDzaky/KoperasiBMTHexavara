@@ -79,7 +79,8 @@
                 <div class="header text-center">
                     <h4 class="title">Data Voter Rapat </h4>
                     <p class="category">Berikut adalah data Voter rapat anda</p>
-                    <br />
+                    <br/>
+                    <a href="{{route('rapat.download', $id_rapat )}}" style="float: right" class="btn btn-primary">Download PDF</a>
                 </div>
 
                 <table class="table bootstrap-table">

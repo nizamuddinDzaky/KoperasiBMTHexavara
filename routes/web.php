@@ -1926,6 +1926,11 @@ Route::group([
         'uses'  => 'RapatController@show'
     ]);
 
+    Route::get('download/{id}', [
+        'as'    => 'rapat.download',
+        'uses'  => 'RapatController@downloadRapatPDF'
+    ]);
+
     /** 
      * Show create new rapat form
      * @return Response
