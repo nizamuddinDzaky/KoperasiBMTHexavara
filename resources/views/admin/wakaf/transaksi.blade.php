@@ -70,7 +70,9 @@
                             @if(Auth::user()->tipe!="anggota")
                             <th class="text-left" data-sortable="true">Saldo Akhir</th>
                             @endif
-                            {{--<th>Actions</th>--}}
+                            @if(Auth::user()->tipe=="teller")
+                                <th class="text-left" data-sortable="true">Actions</th>
+                                @endif
                             </thead>
                             <tbody>
                             @foreach ($riwayat_wakaf as $usr)
@@ -100,7 +102,13 @@
                                     @endif
                                     @if(Auth::user()->tipe!="anggota")
                                     <td class="text-left">{{ number_format(json_decode($usr->transaksi,true)['saldo_akhir'],2) }}</td>
+
                                     @endif
+                                    @if(Auth::user()->tipe=="teller")
+                                        <td class="text-left"><a href="{{route('teller.cetak.donasiwakaf',$usr->id)}}" id="detail" class="btn btn-social btn-primary btn-fill"</a>
+                                            <i class="fa fa-list-alt"></i>
+                                        </td>
+                                        @endif
                                         {{--<td class="td-actions text-center">--}}
                                     {{--<button type="button" class="btn btn-social btn-info btn-fill" data-toggle="modal" data-target="#editPassUsrModal" title="Ubah Password"--}}
                                     {{--data-id      = "{{$usr->no_ktp}}"--}}

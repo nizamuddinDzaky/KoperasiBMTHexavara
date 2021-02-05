@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Maal;
+use App\PenyimpananWakaf;
 use App\Wakaf;
 use App\Pengajuan;
 use App\Repositories\InformationRepository;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use App\Repositories\DonasiReporsitories;
+use PhpOffice\PhpWord\Settings;
 
 class WakafController extends Controller
 {
@@ -184,6 +186,48 @@ class WakafController extends Controller
                 ->back()
                 ->withInput()->with('message', 'Dana Donasi Wakaf gagal dicairkan!');
         }
+
+    }
+
+    public function cetak_donasi_wakaf($id){
+
+        $data = PenyimpananWakaf::select('penyimpanan_wakaf.*','users.nama','wakaf.nama_kegiatan')
+            ->where('penyimpanan_wakaf.id',$id)
+            ->leftjoin('users','users.id','id_donatur')
+            ->leftjoin('wakaf','wakaf.id','penyimpanan_wakaf.id_wakaf')
+            ->first();
+
+        if ($data->nama == "Umum")
+        {
+            $alamat = "";
+        }
+        else{
+            $alamat = User::where('id', $data->id_donatur)->select('alamat')->first();
+            $alamat = $alamat->alamat;
+        }
+
+        $nameForFile = preg_replace('/[^A-Za-z0-9_\.-]/', ' ',json_decode($data->transaksi)->nama);
+        $path = public_path('template/tanda_terima_wakaf.docx');
+        $template = new \PhpOffice\PhpWord\TemplateProcessor($path);
+        Settings::setOutputEscapingEnabled(true);
+        $template->setValue('nama',strtoupper(json_decode($data->transaksi)->nama));
+        $template->setValue('jumlah',number_format(json_decode($data->transaksi)->jumlah,2));
+        $template->setValue('alamat',$alamat);
+        $template->setValue('tujuan',json_decode($data->transaksi)->untuk_rekening);
+        $filename = "tandaterima_wakaf_uang - " .$nameForFile.".docx";
+        $template->saveAs('storage/docx/'.$filename);
+        $headers = array(
+            'Content-Type: application/docx',
+            'Cache-Control: must-revalidate, post-check=0, pre-check=0',
+            'Content-disposition: inline',
+        );
+
+        $location = public_path('storage/docx/' . $filename);
+
+        return response()->download($location, "tandaterima_wakaf_uang - " .$nameForFile.".docx", $headers);
+
+
+
 
     }
 }

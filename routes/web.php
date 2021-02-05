@@ -1327,6 +1327,11 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'uses' => 'WakafController@konfirmasi_donasi_wakaf'
         ]);
 
+        Route::get('/cetak_wakaf/{id}', [
+            'as' => 'teller.cetak.donasiwakaf',
+            'uses' => 'WakafController@cetak_donasi_wakaf'
+        ]);
+
         Route::group(['prefix' => 'tabungan', 'middleware' => ['auth']], function () {
             Route::get('/', [
                 'as'        => 'pengajuan_tabungan',
