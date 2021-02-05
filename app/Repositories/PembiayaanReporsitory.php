@@ -3834,6 +3834,7 @@ class PembiayaanReporsitory {
            ];
            $pembiayaan->detail = json_encode($data_pembiayaan);
            $pembiayaan->angsuran_ke = $angsuran_ke;
+           $pembiayaan->status = "active";
            $pembiayaan->save();
 
 
@@ -4123,6 +4124,7 @@ class PembiayaanReporsitory {
             ];
             $pembiayaan->detail = json_encode($data_pembiayaan);
             $pembiayaan->angsuran_ke = $angsuran_ke;
+            $pembiayaan->status = "active";
             $pembiayaan->save();
 
 
