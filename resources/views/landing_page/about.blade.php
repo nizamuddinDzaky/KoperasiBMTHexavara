@@ -40,9 +40,8 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top header-transparent">
+<header id="header" class="fixed-top">
     <div class="container-fluid">
-
         <div class="row justify-content-center">
             <div class="col-xl-11 d-flex align-items-center">
             {{--                <h1 class="logo mr-auto"><a href="index.html">BizPage</a></h1>--}}
@@ -76,27 +75,28 @@
 </header><!-- End Header -->
 
 <!-- ======= Intro Section ======= -->
-<section id="intro">
-    <div class="intro-container">
-        <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
+{{--<section id="intro">--}}
+{{--    <div class="intro-container">--}}
+
+{{--        <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">--}}
 
 {{--            <ol class="carousel-indicators"></ol>--}}
 
-            <div class="carousel-inner" role="listbox">
+{{--            <div class="carousel-inner" role="listbox">--}}
 
-                <div class="carousel-item active" style="background-image: url(assets/img/intro-carousel/1.jpg)">
-                    <div class="carousel-container">
-                        <div class="container">
-                            <h2 class="animate__animated animate__fadeInDown">BMT MUDA</h2>
-                            <h2 class="animate__animated animate__fadeInDown">Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada</h2>
-                            <p class="animate__animated animate__fadeInUp">Jalan Kedinding Lor Gang Tanjung 49 <br>
-                                Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
-                                Kota Surabaya <br>
-                                <strong>Phone:</strong> (031) 371 9610<br></p>
+{{--                <div class="carousel-item active" style="background-image: url(assets/img/intro-carousel/1.jpg)">--}}
+{{--                    <div class="carousel-container">--}}
+{{--                        <div class="container">--}}
+{{--                            <h2 class="animate__animated animate__fadeInDown">BMT MUDA</h2>--}}
+{{--                            <h2 class="animate__animated animate__fadeInDown">Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada</h2>--}}
+{{--                            <p class="animate__animated animate__fadeInUp">Jalan Kedinding Lor Gang Tanjung 49 <br>--}}
+{{--                                Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>--}}
+{{--                                Kota Surabaya <br>--}}
+{{--                                <strong>Phone:</strong> (031) 371 9610<br></p>--}}
 {{--                            <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>--}}
-                        </div>
-                    </div>
-                </div>
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
 {{--                <div class="carousel-item" style="background-image: url(assets/img/intro-carousel/2.jpg)">--}}
 {{--                    <div class="carousel-container">--}}
@@ -138,7 +138,7 @@
 {{--                    </div>--}}
 {{--                </div>--}}
 
-            </div>
+{{--            </div>--}}
 
 {{--            <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">--}}
 {{--                <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>--}}
@@ -150,85 +150,28 @@
 {{--                <span class="sr-only">Next</span>--}}
 {{--            </a>--}}
 
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</section><!-- End Intro Section -->--}}
+
+<main id="main" style="margin-top: 5%">
+
+    <section id="services">
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header wow fadeInUp">
+                <h3>Tentang Kami</h3>
+               <p>BMT MUDA <br>
+                   Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada <br>
+                   Jalan Kedinding Lor Gang Tanjung 49 <br>
+                   Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
+                   Kota Surabaya <br>
+                   <strong>Phone:</strong> (031) 371 9610<br></p>
+
+                            </header>
         </div>
-    </div>
-</section><!-- End Intro Section -->
+    </section>
 
-<main id="main">
-
-    <!-- ======= Featured Services Section Section ======= -->
-{{--    <section id="featured-services">--}}
-{{--        <div class="container">--}}
-{{--            <div class="row">--}}
-
-{{--                <div class="col-lg-4 box">--}}
-{{--                    <i class="ion-ios-bookmarks-outline"></i>--}}
-{{--                    <h4 class="title"><a href="">Lorem Ipsum Delino</a></h4>--}}
-{{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-{{--                </div>--}}
-
-{{--                <div class="col-lg-4 box box-bg">--}}
-{{--                    <i class="ion-ios-stopwatch-outline"></i>--}}
-{{--                    <h4 class="title"><a href="">Dolor Sitema</a></h4>--}}
-{{--                    <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>--}}
-{{--                </div>--}}
-
-{{--                <div class="col-lg-4 box">--}}
-{{--                    <i class="ion-ios-heart-outline"></i>--}}
-{{--                    <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>--}}
-{{--                    <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>--}}
-{{--                </div>--}}
-
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </section><!-- End Featured Services Section -->--}}
-
-    <!-- ======= Services Section ======= -->
-{{--    <section id="Deskripsi">--}}
-{{--        <div class="container mt-3" data-aos="fade-up">--}}
-
-{{--            <header class="section-header wow fadeInUp">--}}
-{{--                <h3>Deskripsi</h3>--}}
-{{--                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>--}}
-{{--            </header>--}}
-
-{{--            <div class="row">--}}
-
-{{--                <div class="col-lg-4 col-md-6 box" data-aos="fade-up" data-aos-delay="100">--}}
-{{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-{{--                    <h4 class="title"><a href="">Lorem Ipsum</a></h4>--}}
-{{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-4 col-md-6 box" data-aos="fade-up" data-aos-delay="200">--}}
-{{--                    <div class="icon"><i class="ion-ios-bookmarks-outline"></i></div>--}}
-{{--                    <h4 class="title"><a href="">Dolor Sitema</a></h4>--}}
-{{--                    <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-4 col-md-6 box" data-aos="fade-up" data-aos-delay="300">--}}
-{{--                    <div class="icon"><i class="ion-ios-paper-outline"></i></div>--}}
-{{--                    <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>--}}
-{{--                    <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-4 col-md-6 box" data-aos="fade-up" data-aos-delay="200">--}}
-{{--                    <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>--}}
-{{--                    <h4 class="title"><a href="">Magni Dolores</a></h4>--}}
-{{--                    <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-4 col-md-6 box" data-aos="fade-up" data-aos-delay="300">--}}
-{{--                    <div class="icon"><i class="ion-ios-barcode-outline"></i></div>--}}
-{{--                    <h4 class="title"><a href="">Nemo Enim</a></h4>--}}
-{{--                    <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-4 col-md-6 box" data-aos="fade-up" data-aos-delay="400">--}}
-{{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-{{--                    <h4 class="title"><a href="">Eiusmod Tempor</a></h4>--}}
-{{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-{{--                </div>--}}
-
-{{--            </div>--}}
-
-{{--        </div>--}}
-{{--    </section><!-- End Services Section -->--}}
 
     <!-- ======= About Us Section ======= -->
     <section id="about">
@@ -559,185 +502,6 @@
 
         </div>
     </section><!-- End Portfolio Section -->
-
-    <!-- ======= Our Clients Section ======= -->
-    <section id="clients">
-        <div class="container" data-aos="zoom-in">
-
-            <header class="section-header">
-                <h3>Our Clients</h3>
-            </header>
-
-            <div class="owl-carousel clients-carousel">
-                <img src="assets/img/clients/client-1.png" alt="">
-                <img src="assets/img/clients/client-2.png" alt="">
-                <img src="assets/img/clients/client-3.png" alt="">
-                <img src="assets/img/clients/client-4.png" alt="">
-                <img src="assets/img/clients/client-5.png" alt="">
-                <img src="assets/img/clients/client-6.png" alt="">
-                <img src="assets/img/clients/client-7.png" alt="">
-                <img src="assets/img/clients/client-8.png" alt="">
-            </div>
-
-        </div>
-    </section><!-- End Our Clients Section -->
-
-    <!-- ======= Testimonials Section ======= -->
-    <section id="testimonials" class="section-bg">
-        <div class="container" data-aos="fade-up">
-
-            <header class="section-header">
-                <h3>Testimonials</h3>
-            </header>
-
-            <div class="owl-carousel testimonials-carousel">
-
-                <div class="testimonial-item">
-                    <img src="assets/img/testimonial-1.jpg" class="testimonial-img" alt="">
-                    <h3>Saul Goodman</h3>
-                    <h4>Ceo &amp; Founder</h4>
-                    <p>
-                        <img src="assets/img/quote-sign-left.png" class="quote-sign-left" alt="">
-                        Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                        <img src="assets/img/quote-sign-right.png" class="quote-sign-right" alt="">
-                    </p>
-                </div>
-
-                <div class="testimonial-item">
-                    <img src="assets/img/testimonial-2.jpg" class="testimonial-img" alt="">
-                    <h3>Sara Wilsson</h3>
-                    <h4>Designer</h4>
-                    <p>
-                        <img src="assets/img/quote-sign-left.png" class="quote-sign-left" alt="">
-                        Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                        <img src="assets/img/quote-sign-right.png" class="quote-sign-right" alt="">
-                    </p>
-                </div>
-
-                <div class="testimonial-item">
-                    <img src="assets/img/testimonial-3.jpg" class="testimonial-img" alt="">
-                    <h3>Jena Karlis</h3>
-                    <h4>Store Owner</h4>
-                    <p>
-                        <img src="assets/img/quote-sign-left.png" class="quote-sign-left" alt="">
-                        Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                        <img src="assets/img/quote-sign-right.png" class="quote-sign-right" alt="">
-                    </p>
-                </div>
-
-                <div class="testimonial-item">
-                    <img src="assets/img/testimonial-4.jpg" class="testimonial-img" alt="">
-                    <h3>Matt Brandon</h3>
-                    <h4>Freelancer</h4>
-                    <p>
-                        <img src="assets/img/quote-sign-left.png" class="quote-sign-left" alt="">
-                        Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                        <img src="assets/img/quote-sign-right.png" class="quote-sign-right" alt="">
-                    </p>
-                </div>
-
-                <div class="testimonial-item">
-                    <img src="assets/img/testimonial-5.jpg" class="testimonial-img" alt="">
-                    <h3>John Larson</h3>
-                    <h4>Entrepreneur</h4>
-                    <p>
-                        <img src="assets/img/quote-sign-left.png" class="quote-sign-left" alt="">
-                        Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                        <img src="assets/img/quote-sign-right.png" class="quote-sign-right" alt="">
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-    </section><!-- End Testimonials Section -->
-
-    <!-- ======= Team Section ======= -->
-    <section id="team">
-        <div class="container" data-aos="fade-up">
-            <div class="section-header">
-                <h3>Team</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
-            </div>
-
-            <div class="row">
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="member" data-aos="fade-up" data-aos-delay="100">
-                        <img src="assets/img/team-1.jpg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Walter White</h4>
-                                <span>Chief Executive Officer</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="member" data-aos="fade-up" data-aos-delay="200">
-                        <img src="assets/img/team-2.jpg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Sarah Jhonson</h4>
-                                <span>Product Manager</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="member" data-aos="fade-up" data-aos-delay="300">
-                        <img src="assets/img/team-3.jpg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>William Anderson</h4>
-                                <span>CTO</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="member" data-aos="fade-up" data-aos-delay="400">
-                        <img src="assets/img/team-4.jpg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Amanda Jepson</h4>
-                                <span>Accountant</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section><!-- End Team Section -->
 
 
 
