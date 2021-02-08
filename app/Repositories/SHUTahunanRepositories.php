@@ -41,12 +41,17 @@ class SHUTahunanRepositories {
     public function getDataDistribusiSHU()
     {
         $harta_anggota = array();
+        $margin_anggota = array();
         $anggota = $this->getTotalHarta();
         foreach($anggota as $item)
         {
             array_push($harta_anggota, json_decode($item->wajib_pokok)->wajib + json_decode($item->wajib_pokok)->pokok + json_decode($item->wajib_pokok)->khusus + json_decode($item->wajib_pokok)->margin);
         }
+        foreach ($anggota as $item){
+            array_push($margin_anggota, json_decode($item->wajib_pokok)->margin);
+        }
         $total_harta = array_sum($harta_anggota);
+        $total_margin =  array_sum($margin_anggota);
 
         $distribusi = array();
 
@@ -59,7 +64,9 @@ class SHUTahunanRepositories {
                 if($item->nama_shu == "ANGGOTA" && $value->role == "anggota" && $value->tipe =="anggota") {
                     $porsi_shu = $this->getPorsiSHU("ANGGOTA");
                     $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
-                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * $porsi_shu : 0;
+                    $margin_anggota = json_decode($value->wajib_pokok)->margin;
+                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
+                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
@@ -82,7 +89,8 @@ class SHUTahunanRepositories {
                     $user = User::where([ ['status', '2'], ['role', 'pengurus'], ['tipe', 'anggota'] ])
                         ->orWhere([ ['status', '2'], ['tipe', 'anggota'], ['role', 'pengelolah&pengurus'] ])->get();
                     $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
-                    $dibagikan_ke_anggota = ($harta_anggota > 0 && $total_harta > 0) ? ($harta_anggota / $total_harta * $porsi_shu_anggota) : 0;
+                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
+                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
@@ -104,7 +112,8 @@ class SHUTahunanRepositories {
                     $user = User::where([ ['status', '2'], ['role', 'pengelolah'], ['tipe', 'anggota'] ])
                         ->orWhere([ ['status', '2'], ['tipe', 'anggota'], ['role', 'pengelolah&pengurus'] ])->get();
                     $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
-                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * $porsi_shu_anggota : 0;
+                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
+                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
@@ -130,7 +139,8 @@ class SHUTahunanRepositories {
                     $userPengelolah = User::where([ ['status', '2'], ['role', 'pengelolah'], ['tipe', 'anggota'] ])
                         ->orWhere([ ['status', '2'], ['tipe', 'anggota'], ['role', 'pengelolah&pengurus'] ])->get();
                     $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
-                    $dibagikan_ke_anggota = ($harta_anggota > 0 && $total_harta > 0) ? ($harta_anggota / $total_harta * $porsi_shu_anggota) : 0;
+                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
+                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
