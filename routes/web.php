@@ -16,6 +16,14 @@ Route::get('/', function () {
     // return view('components/loader');
 });
 
+Route::get('/homepage', function () {
+    return view('landing_page.homepage');
+});
+
+Route::get('/about', function () {
+    return view('landing_page.about');
+});
+
 
 Auth::routes();
 
@@ -325,6 +333,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
             'as' => 'admin.konfirmasi.donasiwakaf',
             'uses' => 'WakafController@konfirmasi_donasi_wakaf'
         ]);
+
+
         //
         Route::post('/jurnallain', [
             'as' => 'jurnal_lain',
