@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Maal;
 use App\PenyimpananWakaf;
+use App\Repositories\HelperRepositories;
 use App\Wakaf;
 use App\Pengajuan;
 use App\Repositories\InformationRepository;
 use App\Repositories\PengajuanReporsitories;
 use App\Tabungan;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
@@ -19,6 +21,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Repositories\DonasiReporsitories;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class WakafController extends Controller
 {
@@ -37,7 +40,8 @@ class WakafController extends Controller
                                 Pengajuan $pengajuan,
                                 InformationRepository $informationRepository,
                                 DonasiReporsitories $donasiReporsitory,
-                                PengajuanReporsitories $pengajuanReporsitory
+                                PengajuanReporsitories $pengajuanReporsitory,
+                                HelperRepositories $helperRepositories
     )
     {
         $this->middleware(function ($request, $next) {
@@ -61,6 +65,7 @@ class WakafController extends Controller
         $this->informationRepository = $informationRepository;
         $this->donasiReporsitory = $donasiReporsitory;
         $this->pengajuanReporsitory = $pengajuanReporsitory;
+        $this->helperRepository = $helperRepositories;
     }
 
     /**
@@ -208,9 +213,10 @@ class WakafController extends Controller
 
         $nameForFile = preg_replace('/[^A-Za-z0-9_\.-]/', ' ',json_decode($data->transaksi)->nama);
         $path = public_path('template/tanda_terima_wakaf.docx');
-        $template = new \PhpOffice\PhpWord\TemplateProcessor($path);
+        $template = new TemplateProcessor($path);
         Settings::setOutputEscapingEnabled(true);
         $template->setValue('nama',strtoupper(json_decode($data->transaksi)->nama));
+        $template->setValue('tanggal',Carbon::now()->format("d") . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"));
         $template->setValue('jumlah',number_format(json_decode($data->transaksi)->jumlah,2));
         $template->setValue('alamat',$alamat);
         $template->setValue('tujuan',json_decode($data->transaksi)->untuk_rekening);
@@ -218,16 +224,12 @@ class WakafController extends Controller
         $template->saveAs('storage/docx/'.$filename);
         $headers = array(
             'Content-Type: application/docx',
-            'Cache-Control: must-revalidate, post-check=0, pre-check=0',
+            'Cache-Control: must-revalidate, post- check=0, pre-check=0',
             'Content-disposition: inline',
         );
 
         $location = public_path('storage/docx/' . $filename);
 
         return response()->download($location, "tandaterima_wakaf_uang - " .$nameForFile.".docx", $headers);
-
-
-
-
     }
 }
