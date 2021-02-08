@@ -127,7 +127,9 @@
                             <th> Margin</th>
                             <th> SHU Pengelolah</th>
                             <th> SHU Pengurus</th>
-                            <th> SHU Anggota</th>
+                            <th> SHU Simpanan</th>
+                            <th> SHU Margin</th>
+                            <th> Total SHU Anggota</th>
                             <th> Total Pendapatan SHU</th>
                             </thead>
                             <tbody>
@@ -141,6 +143,8 @@
                                 $shu_pengelolah = 0;
                                 $shu_pengurus = 0;
                                 $shu_anggota = 0;
+                                $pendapatan_simpanan = 0;
+                                $pendapatan_margin = 0;
                             @endphp
 
                             @foreach($data_distribusi as $item)
@@ -158,6 +162,13 @@
                                     <td class="text-right">{{number_format(floatval($item['margin']),2) }}</td>
                                     <td class="text-right">{{number_format(floatval($item['shu_pengelola']),2)}}</td>
                                     <td class="text-right">{{number_format(floatval($item['shu_pengurus']),2)}}</td>
+                                    @if(isset($item['pendapatan_simpanan']))
+                                    <td class="text-right">{{number_format(floatval($item['pendapatan_simpanan']),2)}}</td>
+                                    <td class="text-right">{{number_format(floatval($item['pendapatan_margin']),2)}}</td>
+                                    @else
+                                        <td class="text-right">0</td>
+                                        <td class="text-right">0</td>
+                                        @endif
                                     <td class="text-right">{{number_format(floatval($item['shu_anggota']),2)}}</td>
                                     @if(isset($item['porsi_shu']))
                                         <td class="text-right">{{number_format($item['porsi_shu'], 2)}}</td>
@@ -180,6 +191,17 @@
                                     $shu_pengelolah += floatval($item['shu_pengelola']);
                                     $shu_pengurus += floatval($item['shu_pengurus']);
                                     $shu_anggota += floatval($item['shu_anggota']);
+                                    if (isset($item['pendapatan_simpanan'])){
+                                    $pendapatan_simpanan += floatval($item['pendapatan_simpanan']);
+                                    $pendapatan_margin += floatval($item['pendapatan_margin']);
+                                    }
+                                    else {
+                                         $pendapatan_simpanan = 0.0;
+                                         $pendapatan_margin = 0.0;
+                                        }
+
+
+
                                 }
 
                                 @endphp
@@ -194,6 +216,10 @@
                                 <td class="text-right">{{number_format($margin,2)}}</td>
                                 <td class="text-right">{{number_format($shu_pengelolah,2)}}</td>
                                 <td class="text-right">{{number_format($shu_pengurus,2)}}</td>
+
+                                <td class="text-right">{{number_format($pendapatan_simpanan,2)}}</td>
+                                <td class="text-right">{{number_format($pendapatan_margin,2)}}</td>
+
                                 <td class="text-right">{{number_format($shu_anggota,2)}}</td>
                                 <td class="text-right"> </td>
 
@@ -207,11 +233,15 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
                                 <td  class="text-right">Rp</td>
                                 <td class="text-right"> {{number_format($total_shu_anggota,2)}}</td>
 
                             </tr>
                             <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

@@ -63,10 +63,10 @@ class SHUTahunanRepositories {
             {
                 if($item->nama_shu == "ANGGOTA" && $value->role == "anggota" && $value->tipe =="anggota") {
                     $porsi_shu = $this->getPorsiSHU("ANGGOTA");
-                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
+                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus;
                     $margin_anggota = json_decode($value->wajib_pokok)->margin;
                     $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
-                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
+                    $dibagikan_ke_anggota_margin = $margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0;
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
@@ -75,10 +75,12 @@ class SHUTahunanRepositories {
                         "margin" => json_decode($value->wajib_pokok)->margin,
                         "simpanan_pokok" => json_decode($value->wajib_pokok)->pokok,
                         "simpanan_khusus" => json_decode($value->wajib_pokok)->khusus,
-                        "shu_anggota" => $dibagikan_ke_anggota,
+                        "shu_anggota" => $dibagikan_ke_anggota + $dibagikan_ke_anggota_margin,
                         "shu_pengelola" => 0,
                         "shu_pengurus"  => 0,
-                        "id_rekening" => $item->id_rekening
+                        "id_rekening" => $item->id_rekening,
+                        "pendapatan_simpanan" => $dibagikan_ke_anggota,
+                        "pendapatan_margin" => $dibagikan_ke_anggota_margin
                     );
                     array_push($distribusi, $temp);
                 }
@@ -86,11 +88,12 @@ class SHUTahunanRepositories {
                 if($item->nama_shu == "PENGURUS" && $value->role == "pengurus"  && $value->tipe =="anggota") {
                     $porsi_shu_pengurus = $this->getPorsiSHU("PENGURUS");
                     $porsi_shu_anggota = $this->getPorsiSHU("ANGGOTA");
+                    $margin_anggota = json_decode($value->wajib_pokok)->margin;
                     $user = User::where([ ['status', '2'], ['role', 'pengurus'], ['tipe', 'anggota'] ])
                         ->orWhere([ ['status', '2'], ['tipe', 'anggota'], ['role', 'pengelolah&pengurus'] ])->get();
-                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
-                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
-                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
+                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus;
+                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu_anggota : 0;
+                    $dibagikan_ke_anggota_margin =  $margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu_anggota : 0;
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
@@ -99,10 +102,12 @@ class SHUTahunanRepositories {
                         "margin" => json_decode($value->wajib_pokok)->margin,
                         "simpanan_pokok" => json_decode($value->wajib_pokok)->pokok,
                         "simpanan_khusus" => json_decode($value->wajib_pokok)->khusus,
-                        "shu_anggota" => $dibagikan_ke_anggota, 
+                        "shu_anggota" => $dibagikan_ke_anggota + $dibagikan_ke_anggota_margin,
                         "shu_pengelola" => 0,
                         "shu_pengurus"  => $porsi_shu_pengurus / count($user),
-                        "id_rekening" => $item->id_rekening
+                        "id_rekening" => $item->id_rekening,
+                        "pendapatan_simpanan" => $dibagikan_ke_anggota,
+                        "pendapatan_margin" => $dibagikan_ke_anggota_margin
                     );
                     array_push($distribusi, $temp);
                 }
@@ -111,9 +116,10 @@ class SHUTahunanRepositories {
                     $porsi_shu_anggota = $this->getPorsiSHU("ANGGOTA");
                     $user = User::where([ ['status', '2'], ['role', 'pengelolah'], ['tipe', 'anggota'] ])
                         ->orWhere([ ['status', '2'], ['tipe', 'anggota'], ['role', 'pengelolah&pengurus'] ])->get();
-                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
-                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
-                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
+                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus;
+                    $margin_anggota = json_decode($value->wajib_pokok)->margin;
+                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu_anggota : 0;
+                    $dibagikan_ke_anggota_margin = $margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu_anggota : 0;
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
@@ -122,10 +128,12 @@ class SHUTahunanRepositories {
                         "margin" => json_decode($value->wajib_pokok)->margin,
                         "simpanan_pokok" => json_decode($value->wajib_pokok)->pokok,
                         "simpanan_khusus" => json_decode($value->wajib_pokok)->khusus,
-                        "shu_anggota" => $dibagikan_ke_anggota, 
+                        "shu_anggota" => $dibagikan_ke_anggota + $dibagikan_ke_anggota_margin,
                         "shu_pengelola" => $porsi_shu_pengelolah / count($user),
                         "shu_pengurus"  => 0,
-                        "id_rekening" => $item->id_rekening
+                        "id_rekening" => $item->id_rekening,
+                        "pendapatan_simpanan" => $dibagikan_ke_anggota,
+                        "pendapatan_margin" => $dibagikan_ke_anggota_margin
                     );
                     array_push($distribusi, $temp);
                 }
@@ -138,9 +146,10 @@ class SHUTahunanRepositories {
                         ->orWhere([ ['status', '2'], ['tipe', 'anggota'], ['role', 'pengelolah&pengurus'] ])->get();
                     $userPengelolah = User::where([ ['status', '2'], ['role', 'pengelolah'], ['tipe', 'anggota'] ])
                         ->orWhere([ ['status', '2'], ['tipe', 'anggota'], ['role', 'pengelolah&pengurus'] ])->get();
-                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus + json_decode($value->wajib_pokok)->margin;
-                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu : 0;
-                    $dibagikan_ke_anggota = $dibagikan_ke_anggota + ($margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu : 0);
+                    $harta_anggota = json_decode($value->wajib_pokok)->wajib + json_decode($value->wajib_pokok)->pokok + json_decode($value->wajib_pokok)->khusus;
+                    $margin_anggota = json_decode($value->wajib_pokok)->margin;
+                    $dibagikan_ke_anggota = $harta_anggota > 0 && $total_harta > 0 ? $harta_anggota / $total_harta * (50/100) * $porsi_shu_anggota : 0;
+                    $dibagikan_ke_anggota_margin =$margin_anggota > 0 && $total_margin > 0 ? $margin_anggota / $total_margin * (50/100) * $porsi_shu_anggota : 0;
                     $temp = array(
                         "no_ktp"    => $value->no_ktp,
                         "nama"  => $value->nama,
@@ -149,10 +158,13 @@ class SHUTahunanRepositories {
                         "margin" => json_decode($value->wajib_pokok)->margin,
                         "simpanan_pokok" => json_decode($value->wajib_pokok)->pokok,
                         "simpanan_khusus" => json_decode($value->wajib_pokok)->khusus,
-                        "shu_anggota" => $dibagikan_ke_anggota,
+                        "shu_anggota" => $dibagikan_ke_anggota + $dibagikan_ke_anggota_margin,
                         "shu_pengelola" => $porsi_shu_pengelolah / count($userPengelolah),
                         "shu_pengurus"  => $porsi_shu_pengurus / count($userPengurus),
-                        "id_rekening" => $item->id_rekening
+                        "id_rekening" => $item->id_rekening,
+                        "pendapatan_simpanan" => $dibagikan_ke_anggota,
+                        "pendapatan_margin" => $dibagikan_ke_anggota_margin
+
                     );
                     array_push($distribusi, $temp);
 
@@ -176,7 +188,9 @@ class SHUTahunanRepositories {
                     "shu_pengurus"  => 0,
                     "id_rekening" => $item->id_rekening,
                     "porsi_shu" => $this->getPorsiSHU($item->nama_shu),
-                    "nama_shu"  => $item->nama_shu
+                    "nama_shu"  => $item->nama_shu,
+                    "pendapatan_margin" => 0,
+                    "pendapatan_simpanan" => 0,
                 );
                 array_push($distribusi, $temp);
 
