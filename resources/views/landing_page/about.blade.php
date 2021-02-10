@@ -28,6 +28,11 @@
 
     <!-- Template Main CSS File -->
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+    <style>
+        .desc-misi {
+            text-align: center;
+        }
+    </style>
 
     <!-- =======================================================
     * Template Name: BizPage - v3.2.1
@@ -166,9 +171,9 @@
                    Jalan Kedinding Lor Gang Tanjung 49 <br>
                    Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                    Kota Surabaya <br>
-                   <strong>Phone:</strong> (031) 371 9610<br></p>
+                   <strong>Phone:</strong> (031) 371 9610  <br></p>
 
-                            </header>
+            </header>
         </div>
     </section>
 
@@ -178,21 +183,22 @@
         <div class="container" data-aos="fade-up">
 
             <header class="section-header">
-                <h3>Deskripsi</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <h3>Moto Visi Misi</h3>
             </header>
 
             <div class="row about-cols">
 
+
+
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="about-col">
                         <div class="img">
-                            <img src="assets/img/about-mission.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
+                            <img src="assets/img/about-plan.jpg" alt="" class="img-fluid">
+                            <div class="icon"><i class="ion-ios-list-outline"></i></div>
                         </div>
-                        <h2 class="title"><a href="#">Our Mission</a></h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        <h2 class="title"><a href="#">Moto Kami</a></h2>
+                        <p style="text-align: center">
+                            “Powerful, Independent, Prosperous”
                         </p>
                     </div>
                 </div>
@@ -200,12 +206,24 @@
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="about-col">
                         <div class="img">
-                            <img src="assets/img/about-plan.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-list-outline"></i></div>
+                            <img src="assets/img/about-mission.jpg" alt="" class="img-fluid">
+                            <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
                         </div>
-                        <h2 class="title"><a href="#">Our Plan</a></h2>
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                        <h2 class="title"><a href="#">Misi Kami</a></h2>
+                        <p class="desc-misi">
+                            Providing financial services based on sharia, professional, trustworthy, and accountable.
+                        </p>
+                        <p class="desc-misi">
+                            Empowering the populist economy that can give benefit to the ummah.
+                        </p>
+                        <p class="desc-misi">
+                            Improve the quality of professional employees and fully understand the aspects of BMT.
+                        </p>
+                        <p class="desc-misi">
+                            Improve the performance of BMT with information technology-based systems.
+                        </p>
+                        <p class="desc-misi">
+                            Uphold consistency in applying Sharia principles in BMT operations.
                         </p>
                     </div>
                 </div>
@@ -216,10 +234,10 @@
                             <img src="assets/img/about-vision.jpg" alt="" class="img-fluid">
                             <div class="icon"><i class="ion-ios-eye-outline"></i></div>
                         </div>
-                        <h2 class="title"><a href="#">Our Vision</a></h2>
-                        <p>
-                            Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores eos qui ratione voluptatem sequi nesciunt Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.
-                        </p>
+                        <h2 class="title"><a href="#">Visi Kami</a></h2>
+                       <p style="text-align: center">
+                           Being a leading BMT, professional and can provide benefits to the people of Surabaya in particular and East Java in general.
+                       </p>
                     </div>
                 </div>
 
@@ -234,7 +252,7 @@
 
             <header class="section-header wow fadeInUp">
                 <h3>PENDIRI</h3>
-                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>
+{{--                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>--}}
             </header>
 
             <div class="row">
@@ -379,7 +397,7 @@
 
             <header class="section-header wow fadeInUp">
                 <h3>Rencana Keuangan</h3>
-                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>
+{{--                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>--}}
             </header>
 
             <div class="row">
@@ -416,15 +434,44 @@
         </div>
     </section><!-- End Skills Section -->
 
-    <!-- ======= Skills Section ======= -->
-    <section id="skills">
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="section-bg">
         <div class="container" data-aos="fade-up">
+
             <header class="section-header">
-                <h3>Cara Kerja</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
+                <h3 class="section-title">Cara Kerja</h3>
             </header>
+
+            <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="col-lg-6 col-md-6 portfolio-item">
+                    <div class="portfolio-wrap">
+                        <figure>
+                            <img src="{{asset('images/scope.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/scope.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3" style="margin-left: 5%!important;"><i class="ion ion-eye"></i></a>
+                        </figure>
+
+                        <div class="portfolio-info">
+                            <h4><a href="portfolio-details.html">Scopes</a></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 portfolio-item">
+                    <div class="portfolio-wrap">
+                        <figure>
+                            <img src="{{asset('images/syariah.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/syariah.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="App 2" style="margin-left: 5%!important;"><i class="ion ion-eye"></i></a>
+                        </figure>
+
+                        <div class="portfolio-info">
+                            <h4><a href="portfolio-details.html">Finasial Syariah BMT MUDA</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </section><!-- End Skills Section -->
+    </section><!-- End Portfolio Section -->
 
     <!-- ======= Skills Section ======= -->
     <section id="skills">
@@ -432,7 +479,70 @@
 
             <header class="section-header">
                 <h3>Struktur Organisasi</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
+                <h4 style="font-weight: bold; color: black">Advisory Board</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Prof. Dr. Raditya Sukmana</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div> <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Dr. Karjadi Mintaroem</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div> <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Siti Nur Indah Rofiqoh, S.E. MM</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div> <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Rahmat Heru Setianto, SE.,M.Sc</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                </div>
+                <h4 style="font-weight: bold; color: black">Shariah Advisory Board</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Robiatul Adawiyah, Lc, MIRKH</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Ali Hamdan, S.Si.,M.EI</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                </div>
+                <h4 style="font-weight: bold; color: black">Board</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Chair <br> Shochrul Rohmatul Ajija, S.E.,M.Ec</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Secretary <br> Siti Mudawamah, S.Kom</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Treasurer <br> H.Sunoyo, S.Sos, Apr</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                </div>
+                <h4 style="font-weight: bold; color: black">Executive</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Director <br> H.Sunoyo, S.Sos, Apr</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Chief Marketing <br> Sri Cahyaning Umi Salama S.E.I., M.Si.</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                </div>
             </header>
         </div>
     </section><!-- End Skills Section -->
@@ -445,16 +555,13 @@
                 <h3 class="section-title">Izin Pendirian</h3>
             </header>
 
-            <div class="row" data-aos="fade-up" data-aos-delay="100">
-        </div>
-
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
             <div class="col-lg-4 col-md-6 portfolio-item">
                 <div class="portfolio-wrap">
                     <figure>
                         <img src="{{asset('images/nib_bmt_muda.png')}}" class="img-fluid" alt="">
-                        <a href="{{asset('images/nib_bmt_muda.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3"><i class="ion ion-eye"></i></a>
+                        <a href="{{asset('images/nib_bmt_muda.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3" ><i class="ion ion-eye"></i></a>
                     </figure>
 
                     <div class="portfolio-info">
@@ -482,7 +589,7 @@
                     </figure>
 
                     <div class="portfolio-info">
-                        <h4><a href="portfolio-details.html">Surat Izin Usaha Simpan Pinjam</a></h4>
+                        <h4><a href="portfolio-details.html">Izin Usaha Simpan Pinjam</a></h4>
                     </div>
                 </div>
             </div>
@@ -515,27 +622,31 @@
 
                 <div class="col-lg-3 col-md-6 footer-info">
                     <h3>BMT MUDA</h3>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
+                    <p class="font-weight-bold">Tanggal Pendirian</p>
+                    <p>30 Januari 2014</p>
+                    <p class="font-weight-bold">No & Tanggal Pendirian</p>
+                    <p>No 44 Tanggal 30 Januari 2014</p>
+                    <p class="font-weight-bold">No & Tanggal Legal Entity</p>
+                    <p>NO P2T/10/09.01/01/V/2012 8th Mei 2012</p>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Useful Links</h4>
+                    <h4>Links</h4>
                     <ul>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Home</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">About us</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Services</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Privacy policy</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/homepage')}}">Home</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/about')}}">Tentang Kami</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/login')}}">Login</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-contact">
                     <h4>Alamat Kami</h4>
                     <p>
-                        Jalan Kedinding Lor Gang Tanjung 49 <br>
+                        Head Office : Jalan Kedinding Lor Gang Tanjung 49 <br>
                         Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                         Kota Surabaya <br>
-                        <strong>Phone:</strong> (031) 371 9610<br>
+                        Branch Office : Jl.Raya Bungah No.18, Gresik <br>
+                        <strong>Phone:</strong> (031) 371 9610 / 0858-508-19919	<br>
                         {{--                        <strong>Email:</strong> info@example.com<br>--}}
                     </p>
 
@@ -549,13 +660,13 @@
 
                 </div>
 
-                <div class="col-lg-3 col-md-6 footer-newsletter">
-                    <h4>Our Newsletter</h4>
-                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem marada parida nodela caramase seza.</p>
-                    <form action="" method="post">
-                        <input type="email" name="email"><input type="submit" value="Subscribe">
-                    </form>
-                </div>
+                {{--                <div class="col-lg-3 col-md-6 footer-newsletter">--}}
+                {{--                    <h4>Our Newsletter</h4>--}}
+                {{--                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem marada parida nodela caramase seza.</p>--}}
+                {{--                    <form action="" method="post">--}}
+                {{--                        <input type="email" name="email"><input type="submit" value="Subscribe">--}}
+                {{--                    </form>--}}
+                {{--                </div>--}}
 
             </div>
         </div>

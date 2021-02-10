@@ -28,6 +28,11 @@
 
     <!-- Template Main CSS File -->
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+    <style>
+        .desc-mitra-kerja {
+            text-align: center;
+        }
+    </style>
 
     <!-- =======================================================
     * Template Name: BizPage - v3.2.1
@@ -163,49 +168,73 @@
 
             <header class="section-header">
                 <h3>Mitra Kerja</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </header>
 
             <div class="row about-cols">
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="about-col">
-                        <div class="img">
-                            <img src="assets/img/about-mission.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
-                        </div>
-                        <h2 class="title"><a href="#">Our Mission</a></h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        <h2 class="title pt-3">BMT MMU Sidogiri (BMT Maslahah)</h2>
+                        <p class="desc-mitra-kerja">
+                            Assisting the estabilishment and adopting the software
                         </p>
                     </div>
                 </div>
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="about-col">
-                        <div class="img">
-                            <img src="assets/img/about-plan.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-list-outline"></i></div>
-                        </div>
-                        <h2 class="title"><a href="#">Our Plan</a></h2>
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                        <h2 class="title pt-3">PT. BPRS Kota Mojokerto</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage IDR 150 million in Mei'12-Agst'13 and IDR 100 million in Mei'14-Mei'15
                         </p>
                     </div>
                 </div>
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                     <div class="about-col">
-                        <div class="img">
-                            <img src="assets/img/about-vision.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-eye-outline"></i></div>
-                        </div>
-                        <h2 class="title"><a href="#">Our Vision</a></h2>
-                        <p>
-                            Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores eos qui ratione voluptatem sequi nesciunt Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.
+                        <h2 class="title pt-3">PT. Jamsostek (BPJS)</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage IDR 460 million in Mei'12-Mei'15 and IDR 125 million in Mei'12-Mei'17
                         </p>
                     </div>
                 </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="about-col">
+                        <h2 class="title pt-3">Bank Mandiri</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage IDR 100 million in Sep'14-Sep'15
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="about-col">
+                        <h2 class="title pt-3">Induk Koperasi Syariah (Inkopsyah) Jakarta</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage IDR 400 million in Jan'15-Jan'18
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="about-col">
+                        <h2 class="title pt-3">LAZ Bank Mandiri Syariah</h2>
+                        <p class="desc-mitra-kerja">
+                            Sponsorship Training Mahar 2014
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">Bank Syariah Mandiri</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage IDR 1 billion in April’16 – April’19
+                        </p>
+                    </div>
+                </div>
+
 
             </div>
 
@@ -231,7 +260,10 @@
         <div class="container" data-aos="fade-up">
             <header class="section-header">
                 <h3>Keanggotaan</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
+                <h4 style="font-weight: bold; color: black; text-align: center">Syarat</h4>
+                <p></p>
+                <h4 style="font-weight: bold; color: black; text-align: center">Hak</h4>
+                <p></p>
                 <a class="btn" style="display: flex; justify-content: center; background-color: #18d26e!important; color: white" href="{{url('/register')}}">Daftar Sekarang</a>
             </header>
         </div>
@@ -256,146 +288,134 @@
                 <div class=" col-lg-12">
                     <ul id="portfolio-flters">
                         <li data-filter="*" class="filter-active">All</li>
-                        <li data-filter=".filter-app">App</li>
-                        <li data-filter=".filter-card">Card</li>
-                        <li data-filter=".filter-web">Web</li>
+                        <li data-filter=".filter-pertemuan">Pertemuan Rutin</li>
+                        <li data-filter=".filter-origami">Origami Mahar</li>
+                        <li data-filter=".filter-cake">Training Art Cake</li>
                     </ul>
                 </div>
             </div>
 
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-pertemuan">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/app1.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/app1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/annual1.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/annual1.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Pertemuan Rutin"><i class="ion ion-eye"></i></a>
                         </figure>
 
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">App 1</a></h4>
-                            <p>App</p>
+                            <h4>Pertemuan Rutin</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-pertemuan">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/web3.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/web3.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/annual2.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/annual2.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Pertemuan Rutin"><i class="ion ion-eye"></i></a>
                         </figure>
 
+
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Web 3</a></h4>
-                            <p>Web</p>
+                            <h4>Pertemuan Rutin</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-pertemuan">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/app2.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/app2.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="App 2"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/annual3.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/annual3.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Pertemuan Rutin"><i class="ion ion-eye"></i></a>
                         </figure>
 
+
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">App 2</a></h4>
-                            <p>App</p>
+                            <h4>Pertemuan Rutin</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-origami">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/card2.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/card2.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="Card 2"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/origami1.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/origami1.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Origami Mahar"><i class="ion ion-eye"></i></a>
                         </figure>
 
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Card 2</a></h4>
-                            <p>Card</p>
+                            <h4>Origami Mahar</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-origami">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/web2.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/web2.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="Web 2"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/origami2.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/origami2.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Origami Mahar"><i class="ion ion-eye"></i></a>
                         </figure>
 
+
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Web 2</a></h4>
-                            <p>Web</p>
+                            <h4>Origami Mahar</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-origami">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/app3.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/app3.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="App 3"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/origami3.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/origami3.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Origami Mahar"><i class="ion ion-eye"></i></a>
                         </figure>
 
+
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">App 3</a></h4>
-                            <p>App</p>
+                            <h4>Origami Mahar</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-cake">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/card1.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/card1.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="Card 1"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/cake1.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/cake1.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Training Art Cake"><i class="ion ion-eye"></i></a>
                         </figure>
 
+
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Card 1</a></h4>
-                            <p>Card</p>
+                            <h4>Training Art Cake</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-cake">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/card3.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/card3.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="Card 3"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/cake2.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/cake2.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Training Art Cake"><i class="ion ion-eye"></i></a>
                         </figure>
 
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Card 3</a></h4>
-                            <p>Card</p>
+                            <h4>Training Art Cake</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="col-lg-4 col-md-6 portfolio-item filter-cake">
                     <div class="portfolio-wrap">
                         <figure>
-                            <img src="assets/img/portfolio/web1.jpg" class="img-fluid" alt="">
-                            <a href="assets/img/portfolio/web1.jpg" class="link-preview venobox" data-gall="portfolioGallery" title="Web 1"><i class="ion ion-eye"></i></a>
-                            <a href="portfolio-details.html" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            <img src="{{asset('images/cake3.png')}}" class="img-fluid" alt="">
+                            <a href="{{asset('images/cake3.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Training Art Cake"><i class="ion ion-eye"></i></a>
                         </figure>
 
+
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Web 1</a></h4>
-                            <p>Web</p>
+                            <h4>Training Art Cake</h4>
                         </div>
                     </div>
                 </div>
@@ -415,28 +435,32 @@
 
                 <div class="col-lg-3 col-md-6 footer-info">
                     <h3>BMT MUDA</h3>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
+                    <p class="font-weight-bold">Tanggal Pendirian</p>
+                    <p>30 Januari 2014</p>
+                    <p class="font-weight-bold">No & Tanggal Pendirian</p>
+                    <p>No 44 Tanggal 30 Januari 2014</p>
+                    <p class="font-weight-bold">No & Tanggal Legal Entity</p>
+                    <p>NO P2T/10/09.01/01/V/2012 8th Mei 2012</p>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Useful Links</h4>
+                    <h4>Links</h4>
                     <ul>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Home</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">About us</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Services</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="#">Privacy policy</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/homepage')}}">Home</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/about')}}">Tentang Kami</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/login')}}">Login</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-contact">
                     <h4>Alamat Kami</h4>
                     <p>
-                        Jalan Kedinding Lor Gang Tanjung 49 <br>
+                        Head Office : Jalan Kedinding Lor Gang Tanjung 49 <br>
                         Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                         Kota Surabaya <br>
-                        <strong>Phone:</strong> (031) 371 9610<br>
-{{--                        <strong>Email:</strong> info@example.com<br>--}}
+                        Branch Office : Jl.Raya Bungah No.18, Gresik <br>
+                        <strong>Phone:</strong> (031) 371 9610 / 0858-508-19919	<br>
+                        {{--                        <strong>Email:</strong> info@example.com<br>--}}
                     </p>
 
                     <div class="social-links">
@@ -449,13 +473,13 @@
 
                 </div>
 
-                <div class="col-lg-3 col-md-6 footer-newsletter">
-                    <h4>Our Newsletter</h4>
-                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem marada parida nodela caramase seza.</p>
-                    <form action="" method="post">
-                        <input type="email" name="email"><input type="submit" value="Subscribe">
-                    </form>
-                </div>
+                {{--                <div class="col-lg-3 col-md-6 footer-newsletter">--}}
+                {{--                    <h4>Our Newsletter</h4>--}}
+                {{--                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem marada parida nodela caramase seza.</p>--}}
+                {{--                    <form action="" method="post">--}}
+                {{--                        <input type="email" name="email"><input type="submit" value="Subscribe">--}}
+                {{--                    </form>--}}
+                {{--                </div>--}}
 
             </div>
         </div>
