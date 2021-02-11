@@ -98,7 +98,8 @@
                                 Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                                 Kota Surabaya <br>
                                 <strong>Phone:</strong> (031) 371 9610 / 0858-5081-9919<br></p>
-                            <a href="#keanggotaan" class="btn-get-started scrollto animate__animated animate__fadeInUp">Daftar Anggota</a>
+{{--                            <a href="#keanggotaan" class="btn-get-started scrollto animate__animated animate__fadeInUp">Daftar Anggota</a>--}}
+                            <a href="{{url('/register')}}" class="btn-get-started scrollto animate__animated animate__fadeInUp">Daftar Anggota</a>
                             {{--                            <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>--}}
                         </div>
                     </div>
