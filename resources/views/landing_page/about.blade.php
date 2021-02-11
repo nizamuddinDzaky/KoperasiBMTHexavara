@@ -51,7 +51,7 @@
             <div class="col-xl-11 d-flex align-items-center">
             {{--                <h1 class="logo mr-auto"><a href="index.html">BizPage</a></h1>--}}
             <!-- Uncomment below if you prefer to use an image logo -->
-                <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>
+                <a href="{{asset('/homepage')}}"><img src="{{asset('bootstrap/assets/img/bmt_logo.jpg')}}" alt="logo bmt muda" class="img-fluid" style="height: 10%; width:10%"</a>
 
                 <nav class="nav-menu d-none d-lg-block">
                     <ul>
@@ -159,7 +159,7 @@
 {{--    </div>--}}
 {{--</section><!-- End Intro Section -->--}}
 
-<main id="main" style="margin-top: 5%">
+<main id="main" style="margin-top: 7.5%; margin-bottom: -5%">
 
     <section id="services">
         <div class="container" data-aos="fade-up">
@@ -171,7 +171,7 @@
                    Jalan Kedinding Lor Gang Tanjung 49 <br>
                    Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                    Kota Surabaya <br>
-                   <strong>Phone:</strong> (031) 371 9610  <br></p>
+                   <strong>Phone:</strong> (031) 371 9610 / 0858-5081-9919   <br></p>
 
             </header>
         </div>
@@ -396,7 +396,7 @@
         <div class="container" data-aos="fade-up">
 
             <header class="section-header wow fadeInUp">
-                <h3>Rencana Keuangan</h3>
+                <h3>Rapat</h3>
 {{--                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>--}}
             </header>
 
@@ -424,15 +424,15 @@
     </section><!-- End Download Section -->
 
     <!-- ======= Skills Section ======= -->
-    <section id="skills">
-        <div class="container" data-aos="fade-up">
+{{--    <section id="skills">--}}
+{{--        <div class="container" data-aos="fade-up">--}}
 
-            <header class="section-header">
-                <h3>Ruang Lingkup</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
-            </header>
-        </div>
-    </section><!-- End Skills Section -->
+{{--            <header class="section-header">--}}
+{{--                <h3>Ruang Lingkup</h3>--}}
+{{--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>--}}
+{{--            </header>--}}
+{{--        </div>--}}
+{{--    </section><!-- End Skills Section -->--}}
 
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="section-bg">
@@ -623,9 +623,9 @@
                 <div class="col-lg-3 col-md-6 footer-info">
                     <h3>BMT MUDA</h3>
                     <p class="font-weight-bold">Tanggal Pendirian</p>
-                    <p>30 Januari 2014</p>
+                    <p>30 Januari 2012</p>
                     <p class="font-weight-bold">No & Tanggal Pendirian</p>
-                    <p>No 44 Tanggal 30 Januari 2014</p>
+                    <p>No 44 Tanggal 30 Januari 2012</p>
                     <p class="font-weight-bold">No & Tanggal Legal Entity</p>
                     <p>NO P2T/10/09.01/01/V/2012 8th Mei 2012</p>
                 </div>
@@ -646,8 +646,7 @@
                         Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                         Kota Surabaya <br>
                         Branch Office : Jl.Raya Bungah No.18, Gresik <br>
-                        <strong>Phone:</strong> (031) 371 9610 / 0858-508-19919	<br>
-                        {{--                        <strong>Email:</strong> info@example.com<br>--}}
+                        <strong>Phone:</strong> (031) 371 9610121212 / 0858-5081-9919	<br>
                     </p>
 
                     <div class="social-links">

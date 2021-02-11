@@ -52,7 +52,7 @@
             <div class="col-xl-11 d-flex align-items-center">
 {{--                <h1 class="logo mr-auto"><a href="index.html">BizPage</a></h1>--}}
                 <!-- Uncomment below if you prefer to use an image logo -->
-                    <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>
+                    <a href="{{asset('/homepage')}}"><img src="{{asset('bootstrap/assets/img/bmt_logo.jpg')}}" alt="logo bmt muda" class="img-fluid" style="height: 10%; width:10%"></a>
 
                 <nav class="nav-menu d-none d-lg-block">
                     <ul>
@@ -89,7 +89,7 @@
 
             <div class="carousel-inner" role="listbox">
 
-                <div class="carousel-item active" style="background-image: url(assets/img/intro-carousel/1.jpg)">
+                <div class="carousel-item active" style="background-image: url(bootstrap/assets/img/bmt_logo.jpg)">
                     <div class="carousel-container">
                         <div class="container">
                             <h2 class="animate__animated animate__fadeInDown">BMT MUDA</h2>
@@ -97,7 +97,7 @@
                             <p class="animate__animated animate__fadeInUp">Jalan Kedinding Lor Gang Tanjung 49 <br>
                                 Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                                 Kota Surabaya <br>
-                                <strong>Phone:</strong> (031) 371 9610<br></p>
+                                <strong>Phone:</strong> (031) 371 9610 / 0858-5081-9919<br></p>
                             <a href="#keanggotaan" class="btn-get-started scrollto animate__animated animate__fadeInUp">Daftar Anggota</a>
                             {{--                            <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>--}}
                         </div>
@@ -240,42 +240,46 @@
 
         </div>
     </section><!-- End About Us Section -->
-    <section id="skills">
-        <div class="container" data-aos="fade-up">
-            <header class="section-header">
-                <h3>Produk Baitul Tanwi</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
-            </header>
-        </div>
-    </section><!-- End Skills Section -->
-    <section id="skills">
-        <div class="container" data-aos="fade-up">
-            <header class="section-header">
-                <h3>Produk Baitul Maal</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
-            </header>
-        </div>
-    </section><!-- End Skills Section -->
-    <section id="keanggotaan">
-        <div class="container" data-aos="fade-up">
-            <header class="section-header">
-                <h3>Keanggotaan</h3>
-                <h4 style="font-weight: bold; color: black; text-align: center">Syarat</h4>
-                <p></p>
-                <h4 style="font-weight: bold; color: black; text-align: center">Hak</h4>
-                <p></p>
-                <a class="btn" style="display: flex; justify-content: center; background-color: #18d26e!important; color: white" href="{{url('/register')}}">Daftar Sekarang</a>
-            </header>
-        </div>
-    </section><!-- End Skills Section -->
-    <section id="skills">
-        <div class="container" data-aos="fade-up">
-            <header class="section-header">
-                <h3>Mitra Binaan</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
-            </header>
-        </div>
-    </section><!-- End Skills Section -->
+{{--    <section id="skills">--}}
+{{--        <div class="container" data-aos="fade-up">--}}
+{{--            <header class="section-header">--}}
+{{--                <h3>Produk Baitul Tanwi</h3>--}}
+{{--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>--}}
+{{--            </header>--}}
+{{--        </div>--}}
+{{--    </section><!-- End Skills Section -->--}}
+{{--    <section id="skills">--}}
+{{--        <div class="container" data-aos="fade-up">--}}
+{{--            <header class="section-header">--}}
+{{--                <h3>Produk Baitul Maal</h3>--}}
+{{--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>--}}
+{{--            </header>--}}
+{{--        </div>--}}
+{{--    </section><!-- End Skills Section -->--}}
+
+
+{{--    <section id="keanggotaan" class="mt-5 mb-5">--}}
+{{--        <div class="container" data-aos="fade-up">--}}
+{{--            <header class="section-header">--}}
+{{--                <h3>Keanggotaan</h3>--}}
+{{--                <h4 style="font-weight: bold; color: black; text-align: center">Syarat</h4>--}}
+{{--                <p></p>--}}
+{{--                <h4 style="font-weight: bold; color: black; text-align: center">Hak</h4>--}}
+{{--                <p></p>--}}
+{{--                <a class="btn" style="display: flex; justify-content: center; background-color: #18d26e!important; color: white" href="{{url('/register')}}">Daftar Sekarang</a>--}}
+{{--            </header>--}}
+{{--        </div>--}}
+{{--    </section><!-- End Skills Section -->--}}
+{{--    --}}
+
+{{--    <section id="skills">--}}
+{{--        <div class="container" data-aos="fade-up">--}}
+{{--            <header class="section-header">--}}
+{{--                <h3>Mitra Binaan</h3>--}}
+{{--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>--}}
+{{--            </header>--}}
+{{--        </div>--}}
+{{--    </section><!-- End Skills Section -->--}}
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="section-bg">
         <div class="container" data-aos="fade-up">
@@ -436,9 +440,9 @@
                 <div class="col-lg-3 col-md-6 footer-info">
                     <h3>BMT MUDA</h3>
                     <p class="font-weight-bold">Tanggal Pendirian</p>
-                    <p>30 Januari 2014</p>
+                    <p>30 Januari 2012</p>
                     <p class="font-weight-bold">No & Tanggal Pendirian</p>
-                    <p>No 44 Tanggal 30 Januari 2014</p>
+                    <p>No 44 Tanggal 30 Januari 2012</p>
                     <p class="font-weight-bold">No & Tanggal Legal Entity</p>
                     <p>NO P2T/10/09.01/01/V/2012 8th Mei 2012</p>
                 </div>
@@ -459,7 +463,7 @@
                         Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                         Kota Surabaya <br>
                         Branch Office : Jl.Raya Bungah No.18, Gresik <br>
-                        <strong>Phone:</strong> (031) 371 9610 / 0858-508-19919	<br>
+                        <strong>Phone:</strong> (031) 371 9610 / 0858-5081-9919	<br>
                         {{--                        <strong>Email:</strong> info@example.com<br>--}}
                     </p>
 
