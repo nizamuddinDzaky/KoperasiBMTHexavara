@@ -10,8 +10,7 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="icon" type="image/png" href="http://demos.creative-tim.com/light-bootstrap-dashboard-pro/assets/img/favicon.ico">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
@@ -51,12 +50,13 @@
             <div class="col-xl-11 d-flex align-items-center">
             {{--                <h1 class="logo mr-auto"><a href="index.html">BizPage</a></h1>--}}
             <!-- Uncomment below if you prefer to use an image logo -->
-                <a href="{{asset('/homepage')}}"><img src="{{asset('bootstrap/assets/img/bmt_logo.jpg')}}" alt="logo bmt muda" class="img-fluid" style="height: 10%; width:10%"</a>
+                <a href="{{asset('/')}}"><img src="{{asset('bootstrap/assets/img/bmt_logo.jpg')}}" alt="logo bmt muda" class="img-fluid" style="height: 10%; width:10%"</a>
 
                 <nav class="nav-menu d-none d-lg-block">
                     <ul>
-                        <li><a href="{{url('/homepage')}}">Home</a></li>
+                        <li><a href="{{url('/')}}">Home</a></li>
                         <li class="active"><a href="{{url('/about')}}">Tentang Kami</a></li>
+                        <li class="active"><a href="{{url('/maal')}}">Maal</a></li>
                         <li><a href="{{url('/login')}}">Login</a></li>
                         {{--                        <li><a href="#services">Services</a></li>--}}
                         {{--                        <li><a href="#portfolio">Portfolio</a></li>--}}
@@ -621,7 +621,7 @@
             <div class="row">
 
                 <div class="col-lg-3 col-md-6 footer-info">
-                    <h3>BMT MUDA</h3>
+                    <a href="{{asset('/')}}"><img src="{{asset('bootstrap/assets/img/bmt_logo.jpg')}}" alt="logo bmt muda" class="img-fluid" style="height: 30%; width:70%"></a>
                     <p class="font-weight-bold">Tanggal Pendirian</p>
                     <p>30 Januari 2012</p>
                     <p class="font-weight-bold">No & Tanggal Pendirian</p>
@@ -633,8 +633,9 @@
                 <div class="col-lg-3 col-md-6 footer-links">
                     <h4>Links</h4>
                     <ul>
-                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/homepage')}}">Home</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/')}}">Home</a></li>
                         <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/about')}}">Tentang Kami</a></li>
+                        <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/maal')}}">Maal</a></li>
                         <li><i class="ion-ios-arrow-right"></i> <a href="{{url('/login')}}">Login</a></li>
                     </ul>
                 </div>

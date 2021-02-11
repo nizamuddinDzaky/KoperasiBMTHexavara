@@ -11,12 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home_page');
-    // return view('components/loader');
-});
+//Route::get('/', function () {
+//    return view('home_page');
+//    // return view('components/loader');
+//});
 
-Route::get('/homepage', function () {
+Route::get('/', function () {
     return view('landing_page.homepage');
 });
 
