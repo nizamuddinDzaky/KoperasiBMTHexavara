@@ -549,7 +549,7 @@
 
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="section-bg">
-        <div class="container" data-aos="fade-up">
+        <div class="container mb-5" data-aos="fade-up">
 
             <header class="section-header">
                 <h3 class="section-title">Izin Pendirian</h3>
