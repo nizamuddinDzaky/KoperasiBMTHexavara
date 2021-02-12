@@ -163,79 +163,63 @@
 
 <main id="main">
 
-    <!-- ======= About Us Section ======= -->
-    <section id="about">
+<!-- ======= About Us Section ======= -->
+<section id="about">
         <div class="container" data-aos="fade-up">
 
             <header class="section-header">
-                <h3>Mitra Kerja</h3>
+                <h3>Moto Visi Misi</h3>
             </header>
 
             <div class="row about-cols">
 
+
+
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="about-col">
-                        <h2 class="title pt-3">BMT MMU Sidogiri (BMT Maslahah)</h2>
-                        <p class="desc-mitra-kerja">
-                            Assisting the estabilishment and adopting the software
+                        <div class="img">
+                            <img src="assets/img/about-plan.jpg" alt="" class="img-fluid">
+                            <div class="icon"><i class="ion-ios-list-outline"></i></div>
+                        </div>
+                        <h2 class="title"><a href="#">Moto Kami</a></h2>
+                        <p style="text-align: center">
+                            “Kuat, Mandiri, Sejahtera”
                         </p>
                     </div>
                 </div>
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="about-col">
-                        <h2 class="title pt-3">PT. BPRS Kota Mojokerto</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage IDR 150 million in Mei'12-Agst'13 and IDR 100 million in Mei'14-Mei'15
+                        <div class="img">
+                            <img src="assets/img/about-mission.jpg" alt="" class="img-fluid">
+                            <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
+                        </div>
+                        <h2 class="title"><a href="#">Misi Kami</a></h2>
+                        <p class="desc-misi">
+                            Memberikan layanan keuangan berbasis syariah, profesional, terpercaya, dan akuntabel.
+                        </p><p class="desc-misi">
+                            Memberdayakan ekonomi kerakyatan yang bermanfaat bagi umat.
+                        </p><p class="desc-misi">
+                            Meningkatkan kualitas tenaga profesional dan memahami betul aspek BMT.
+                        </p><p class="desc-misi">
+                            Meningkatkan kinerja BMT dengan sistem berbasis teknologi informasi.
+                        </p><p class="desc-misi">
+                            Menjunjung tinggi konsistensi penerapan prinsip Syariah dalam operasional BMT.
                         </p>
                     </div>
                 </div>
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                     <div class="about-col">
-                        <h2 class="title pt-3">PT. Jamsostek (BPJS)</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage IDR 460 million in Mei'12-Mei'15 and IDR 125 million in Mei'12-Mei'17
-                        </p>
+                        <div class="img">
+                            <img src="assets/img/about-vision.jpg" alt="" class="img-fluid">
+                            <div class="icon"><i class="ion-ios-eye-outline"></i></div>
+                        </div>
+                        <h2 class="title"><a href="#">Visi Kami</a></h2>
+                       <p style="text-align: center">
+                       Menjadi BMT yang terdepan, profesional dan dapat memberikan manfaat bagi masyarakat Surabaya pada khususnya dan Jawa Timur pada umumnya.</p>
                     </div>
                 </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-                    <div class="about-col">
-                        <h2 class="title pt-3">Bank Mandiri</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage IDR 100 million in Sep'14-Sep'15
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-                    <div class="about-col">
-                        <h2 class="title pt-3">Induk Koperasi Syariah (Inkopsyah) Jakarta</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage IDR 400 million in Jan'15-Jan'18
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
-                    <div class="about-col">
-                        <h2 class="title pt-3">LAZ Bank Mandiri Syariah</h2>
-                        <p class="desc-mitra-kerja">
-                            Sponsorship Training Mahar 2014
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-                    <div class="about-col">
-                        <h2 class="title  pt-3">Bank Syariah Mandiri</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage IDR 1 billion in April’16 – April’19
-                        </p>
-                    </div>
-                </div>
-
 
             </div>
 
@@ -445,7 +429,7 @@
                     <p class="font-weight-bold">No & Tanggal Pendirian</p>
                     <p>No 44 Tanggal 30 Januari 2012</p>
                     <p class="font-weight-bold">No & Tanggal Legal Entity</p>
-                    <p>NO P2T/10/09.01/01/V/2012 8th Mei 2012</p>
+                    <p>NO BH/P2T/10/09.01/01/V/2012 8th Mei 2012</p>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">

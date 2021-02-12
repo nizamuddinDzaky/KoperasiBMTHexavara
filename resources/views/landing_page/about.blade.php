@@ -177,69 +177,79 @@
         </div>
     </section>
 
-
-    <!-- ======= About Us Section ======= -->
-    <section id="about">
+     <!-- ======= About Us Section ======= -->
+     <section id="about">
         <div class="container" data-aos="fade-up">
 
             <header class="section-header">
-                <h3>Moto Visi Misi</h3>
+                <h3>Mitra Kerja</h3>
             </header>
 
             <div class="row about-cols">
 
-
-
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="about-col">
-                        <div class="img">
-                            <img src="assets/img/about-plan.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-list-outline"></i></div>
-                        </div>
-                        <h2 class="title"><a href="#">Moto Kami</a></h2>
-                        <p style="text-align: center">
-                            “Powerful, Independent, Prosperous”
+                        <h2 class="title pt-3">BMT MMU Sidogiri (BMT Maslahah)</h2>
+                        <p class="desc-mitra-kerja">
+                            Membantu pengembangan dan adopsi perangkat lunak / software
                         </p>
                     </div>
                 </div>
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="about-col">
-                        <div class="img">
-                            <img src="assets/img/about-mission.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
-                        </div>
-                        <h2 class="title"><a href="#">Misi Kami</a></h2>
-                        <p class="desc-misi">
-                            Providing financial services based on sharia, professional, trustworthy, and accountable.
-                        </p>
-                        <p class="desc-misi">
-                            Empowering the populist economy that can give benefit to the ummah.
-                        </p>
-                        <p class="desc-misi">
-                            Improve the quality of professional employees and fully understand the aspects of BMT.
-                        </p>
-                        <p class="desc-misi">
-                            Improve the performance of BMT with information technology-based systems.
-                        </p>
-                        <p class="desc-misi">
-                            Uphold consistency in applying Sharia principles in BMT operations.
+                        <h2 class="title pt-3">PT. BPRS Kota Mojokerto</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage 150 juta rupiah di periode Mei'12-Agst'13 dan 100 juta rupiah di periode Mei'14-Mei'15
                         </p>
                     </div>
                 </div>
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                     <div class="about-col">
-                        <div class="img">
-                            <img src="assets/img/about-vision.jpg" alt="" class="img-fluid">
-                            <div class="icon"><i class="ion-ios-eye-outline"></i></div>
-                        </div>
-                        <h2 class="title"><a href="#">Visi Kami</a></h2>
-                       <p style="text-align: center">
-                           Being a leading BMT, professional and can provide benefits to the people of Surabaya in particular and East Java in general.
-                       </p>
+                        <h2 class="title pt-3">PT. Jamsostek (BPJS)</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage 460 juta rupiah di periode in Mei'12-Mei'15 dan 125 juta rupiah di periode Mei'12-Mei'17
+                        </p>
                     </div>
                 </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="about-col">
+                        <h2 class="title pt-3">Bank Mandiri</h2>
+                        <p class="desc-mitra-kerja">
+                           Linkage 100 juta rupiah di periode Sep'14-Sep'15
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="about-col">
+                        <h2 class="title pt-3">Induk Koperasi Syariah (Inkopsyah) Jakarta</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage 4000 juta rupiah di periode  Jan'15-Jan'18
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="about-col">
+                        <h2 class="title pt-3">LAZ Bank Mandiri Syariah</h2>
+                        <p class="desc-mitra-kerja">
+                            Sponsorship Training Mahar 2014
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">Bank Syariah Mandiri</h2>
+                        <p class="desc-mitra-kerja">
+                            Linkage 1 milyar rupiah di periode  April’16 – April’19
+                        </p>
+                    </div>
+                </div>
+
 
             </div>
 
@@ -256,136 +266,46 @@
             </header>
 
             <div class="row">
-
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
 {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                    <h4 class="title">Shochrul Rohmatul Ajija</h4>
+                    <h4 class="title">H. Karjadi Mintaroem, Drs.Ec, MS</h4>
+{{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                </div>
+                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+{{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                    <h4 class="title">Shochrul Rohmatul Ajija, S.E, M.Sc</h4>
 {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="200">
 {{--                    <div class="icon"><i class="ion-ios-bookmarks-outline"></i></div>--}}
-                    <h4 class="title">Sri Cahyaning Umi Salama</h4>
+                    <h4 class="title">Okta Sindhu Hartadinata, SE.Ak</h4>
 {{--                    <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>--}}
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="300">
 {{--                    <div class="icon"><i class="ion-ios-paper-outline"></i></div>--}}
-                    <h4 class="title">Nur Aulia</h4>
+                    <h4 class="title">Suhardiyanti Endi Akhsani, S.E</h4>
 {{--                    <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>--}}
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="200">
 {{--                    <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>--}}
-                    <h4 class="title">Abdul Malik</h4>
+                    <h4 class="title">Sri Michaiyah</h4>
 {{--                    <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>--}}
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="300">
 {{--                    <div class="icon"><i class="ion-ios-barcode-outline"></i></div>--}}
-                    <h4 class="title">Sunoyo</h4>
+                    <h4 class="title">Sudarti, S.E</h4>
 {{--                    <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>--}}
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
 {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Umu Kholifah</h4>
+                    <h4 class="title">Rahmat Heru Setianto, S.E, M.Sc</h4>
 {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
                     {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Ratna Dyah Apsari</h4>
+                    <h4 class="title">H. Sunayo, S.Sos, Apr</h4>
                     {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
                 </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Ragil</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Farlian</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Harmonia</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Promptia</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Khalid</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Sudarmaji</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Yulian Poesoko</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Ristya Paraisuda</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Vina</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Rifki Hamdani</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Rizal Arddi</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">M. Anugerah</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Oby Pratama</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Mas Abay</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Indra mbak Nia</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Novita Ariani</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
 
         </div>
@@ -408,7 +328,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="icon"><i class="ion-ios-paper-outline"></i></div>
-                    <h4 class="title" style="color: white!important;"><a href="" class="btn btn-primary">Download RAT</a></h4>
+                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1H6H-BbUs_0bIeaWc9j_KBBmgdglKWjnc/view?usp=sharing" class="btn btn-primary">Download RAT</a></h4>
                     <p class="description">Rapat Anggota Tahunan</p>
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
@@ -452,7 +372,7 @@
                         </figure>
 
                         <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Scopes</a></h4>
+                            <h4><a href="portfolio-details.html">Ruang Lingkup</a></h4>
                         </div>
                     </div>
                 </div>
@@ -479,19 +399,22 @@
 
             <header class="section-header">
                 <h3>Struktur Organisasi</h3>
-                <h4 style="font-weight: bold; color: black">Advisory Board</h4>
+                <h4 style="font-weight: bold; color: black">Pembina</h4>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Prof. Dr. Raditya Sukmana</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div> <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
                         <h4 class="title">Dr. Karjadi Mintaroem</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div> <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        </div>{{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                </div>
+                <h4 style="font-weight: bold; color: black">Pengawas</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
                         <h4 class="title">Siti Nur Indah Rofiqoh, S.E. MM</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div><div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Prof. Dr. Raditya Sukmana</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div> <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
@@ -499,47 +422,52 @@
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                 </div>
-                <h4 style="font-weight: bold; color: black">Shariah Advisory Board</h4>
+                <h4 style="font-weight: bold; color: black">Dewan Pengawas Syariah</h4>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Robiatul Adawiyah, Lc, MIRKH</h4>
+                        <h4 class="title"><b>Ketua</b> <br>Robiatul Adawiyah, Lc, MIRKH</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Ali Hamdan, S.Si.,M.EI</h4>
+                        <h4 class="title"><b>Anggota</b> <br>Ali Hamdan, S.Si.,M.EI</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                 </div>
-                <h4 style="font-weight: bold; color: black">Board</h4>
+                <h4 style="font-weight: bold; color: black">Pengurus</h4>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Chair <br> Shochrul Rohmatul Ajija, S.E.,M.Ec</h4>
+                        <h4 class="title"><b>Ketua</b> <br> Shochrul Rohmatul Ajija, S.E.,M.Ec</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Secretary <br> Siti Mudawamah, S.Kom</h4>
+                        <h4 class="title"><b>Sekretaris</b> <br> Siti Mudawamah, S.Kom</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Treasurer <br> H.Sunoyo, S.Sos, Apr</h4>
+                        <h4 class="title"><b>Bendahara</b> <br> H.Sunoyo, S.Sos, Apr</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                 </div>
-                <h4 style="font-weight: bold; color: black">Executive</h4>
+                <h4 style="font-weight: bold; color: black">Pengelola</h4>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Director <br> H.Sunoyo, S.Sos, Apr</h4>
+                        <h4 class="title"><b>Direktur Utama</b> <br> H.Sunoyo, S.Sos, Apr</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Chief Marketing <br> Sri Cahyaning Umi Salama S.E.I., M.Si.</h4>
+                        <h4 class="title"><b>Direktur Marketing</b> <br> Sri Cahyaning Umi Salama S.E.I., M.Si.</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title"><b>Direktur Baitul Maal</b> <br> Ahmad Hudaifah S.E, M.Ec.</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                 </div>
@@ -627,7 +555,7 @@
                     <p class="font-weight-bold">No & Tanggal Pendirian</p>
                     <p>No 44 Tanggal 30 Januari 2012</p>
                     <p class="font-weight-bold">No & Tanggal Legal Entity</p>
-                    <p>NO P2T/10/09.01/01/V/2012 8th Mei 2012</p>
+                    <p>NO BH/P2T/10/09.01/01/V/2012 8th Mei 2012</p>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
