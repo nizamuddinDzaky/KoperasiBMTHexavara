@@ -181,9 +181,9 @@
                             <img src="assets/img/about-plan.jpg" alt="" class="img-fluid">
                             <div class="icon"><i class="ion-ios-list-outline"></i></div>
                         </div>
-                        <h2 class="title"><a href="#">Moto Kami</a></h2>
+                        <h2 class="title"><a href="#">Moto</a></h2>
                         <p style="text-align: center">
-                            “Kuat, Mandiri, Sejahtera”
+                            Kuat, Mandiri, Sejahtera
                         </p>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
                             <img src="assets/img/about-mission.jpg" alt="" class="img-fluid">
                             <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
                         </div>
-                        <h2 class="title"><a href="#">Misi Kami</a></h2>
+                        <h2 class="title"><a href="#">Misi</a></h2>
                         <p class="desc-misi">
                             Memberikan layanan keuangan berbasis syariah, profesional, terpercaya, dan akuntabel.
                         </p><p class="desc-misi">
@@ -215,7 +215,7 @@
                             <img src="assets/img/about-vision.jpg" alt="" class="img-fluid">
                             <div class="icon"><i class="ion-ios-eye-outline"></i></div>
                         </div>
-                        <h2 class="title"><a href="#">Visi Kami</a></h2>
+                        <h2 class="title"><a href="#">Visi</a></h2>
                        <p style="text-align: center">
                        Menjadi BMT yang terdepan, profesional dan dapat memberikan manfaat bagi masyarakat Surabaya pada khususnya dan Jawa Timur pada umumnya.</p>
                     </div>
@@ -449,7 +449,7 @@
                         Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                         Kota Surabaya <br>
                         Branch Office : Jl.Raya Bungah No.18, Gresik <br>
-                        <strong>Phone:</strong> (031) 371 9610 / 0858-5081-9919	<br>
+                        <strong>Phone:</strong> 031-3719610/0858-5081-9919	<br>
                         {{--                        <strong>Email:</strong> info@example.com<br>--}}
                     </p>
 

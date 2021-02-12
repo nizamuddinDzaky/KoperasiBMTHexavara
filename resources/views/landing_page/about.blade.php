@@ -186,6 +186,59 @@
             </header>
 
             <div class="row about-cols">
+                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">Universitas Internasional Semen Indonesia</h2>
+                        <p class="desc-mitra-kerja">
+                            Lab BMT S1 Ekonomi Syariah
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">Fakultas Ekonomi dan Bisnis Universitas Airlangga</h2>
+                        <p class="desc-mitra-kerja">
+                            Kerjasama triple helix untuk pengembangan masyarakat sekitar Surabaya
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">Pusat KJKS Jatim dan Inkopsyah</h2>
+                        <p class="desc-mitra-kerja">
+                            Kerjasama sebagai koperasi sekunder
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">Inisiatif Zakat Indonesia </h2>
+                        <p class="desc-mitra-kerja">
+                            Kerjasama sebagai mitra pengembangan Baitul Maal
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">Koperasi 64 Bahari</h2>
+                        <p class="desc-mitra-kerja">
+                            Kerjasama sebagai mitra binaan untuk nelayan di sekitar kantor pusat
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="about-col">
+                        <h2 class="title  pt-3">AcSES (Association of Sharia Economic Studies), Fakultas Ekonomi dan Bisnis, Univerasitas Airlangga</h2>
+                        <p class="desc-mitra-kerja">
+                            Kerjasama sebagai mitra pengembangan keilmuan ekonomi syariah
+                        </p>
+                    </div>
+                </div>
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="about-col">
@@ -200,7 +253,7 @@
                     <div class="about-col">
                         <h2 class="title pt-3">PT. BPRS Kota Mojokerto</h2>
                         <p class="desc-mitra-kerja">
-                            Linkage 150 juta rupiah di periode Mei'12-Agst'13 dan 100 juta rupiah di periode Mei'14-Mei'15
+                            Puskop sekunder bina umat terpadu (but) periode 2020 sebesar Rp. 100 jt
                         </p>
                     </div>
                 </div>
@@ -232,15 +285,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
-                    <div class="about-col">
-                        <h2 class="title pt-3">LAZ Bank Mandiri Syariah</h2>
-                        <p class="desc-mitra-kerja">
-                            Sponsorship Training Mahar 2014
-                        </p>
-                    </div>
-                </div>
-
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
                     <div class="about-col">
                         <h2 class="title  pt-3">Bank Syariah Mandiri</h2>
@@ -249,7 +293,6 @@
                         </p>
                     </div>
                 </div>
-
 
             </div>
 
@@ -288,7 +331,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="200">
 {{--                    <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>--}}
-                    <h4 class="title">Sri Michaiyah</h4>
+                    <h4 class="title">Sri Muchaiyah</h4>
 {{--                    <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>--}}
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="300">
@@ -303,7 +346,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
                     {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">H. Sunayo, S.Sos, Apr</h4>
+                    <h4 class="title">H. Sunoyo, S.Sos, Apr</h4>
                     {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
                 </div>
             </div>
@@ -323,17 +366,17 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="icon"><i class="ion-ios-paper-outline"></i></div>
-                    <h4 class="title" style="color: white!important;"><a href="" class="btn btn-primary">Download RAB</a></h4>
+                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1KbRMDPukyP3I2vJ4FML5nrNI9PgX0X4i/view?usp=sharing" class="btn btn-primary">Download RAB</a></h4>
                     <p class="description">Rencana Anggaran Belanja Tahun Depan</p>
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="icon"><i class="ion-ios-paper-outline"></i></div>
-                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1H6H-BbUs_0bIeaWc9j_KBBmgdglKWjnc/view?usp=sharing" class="btn btn-primary">Download RAT</a></h4>
+                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1wEjtte_Ebdop8s0wLQC7jIYvzV_VEAcS/view?usp=sharing" class="btn btn-primary">Download RAT</a></h4>
                     <p class="description">Rapat Anggota Tahunan</p>
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="icon"><i class="ion-ios-paper-outline" ></i></div>
-                    <h4 class="title" style="color: white!important;"><a href="" class="btn btn-primary">Download RALB</a></h4>
+                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1C5pyb7_0ebeRO7GSvC13q6EHfxGWJQQg/view?usp=sharing" class="btn btn-primary">Download RALB</a></h4>
                     <p class="description">Rapat Anggota Luar Biasa </p>
                 </div>
 
@@ -410,28 +453,35 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Siti Nur Indah Rofiqoh, S.E. MM</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div><div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Prof. Dr. Raditya Sukmana</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div> <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
                         <h4 class="title">Rahmat Heru Setianto, SE.,M.Sc</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Prof. Dr. Raditya Sukmana</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div> 
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title">Elva Farihah SE, M.Si</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div> 
                 </div>
                 <h4 style="font-weight: bold; color: black">Dewan Pengawas Syariah</h4>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Ketua</b> <br>Robiatul Adawiyah, Lc, MIRKH</h4>
+                        <h4 class="title"> Ahmad Hudaifah SE.,M.Ec</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
                         {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Anggota</b> <br>Ali Hamdan, S.Si.,M.EI</h4>
+                        <h4 class="title"> Robiatul Adawiyah, Lc, MIRKH</h4>
+                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
+                        <h4 class="title"> Salman Abdurrubi Perwiragama, Lc</h4>
                         {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
                     </div>
                 </div>
@@ -575,7 +625,7 @@
                         Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
                         Kota Surabaya <br>
                         Branch Office : Jl.Raya Bungah No.18, Gresik <br>
-                        <strong>Phone:</strong> (031) 371 9610121212 / 0858-5081-9919	<br>
+                        <strong>Phone:</strong> 031-3719610/0858-5081-9919	<br>
                     </p>
 
                     <div class="social-links">
