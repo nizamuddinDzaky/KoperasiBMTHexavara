@@ -56,7 +56,7 @@
                     <ul>
                         <li><a href="{{url('/')}}">Home</a></li>
                         <li class="active"><a href="{{url('/about')}}">Tentang Kami</a></li>
-                        <li class="active"><a href="{{url('/maal')}}">Maal</a></li>
+                        <li ><a href="{{url('/maal')}}">Maal</a></li>
                         <li><a href="{{url('/login')}}">Login</a></li>
                         {{--                        <li><a href="#services">Services</a></li>--}}
                         {{--                        <li><a href="#portfolio">Portfolio</a></li>--}}
