@@ -183,7 +183,7 @@
                         </div>
                         <h2 class="title"><a href="#">Moto</a></h2>
                         <p style="text-align: center">
-                            Kuat, Mandiri, Sejahtera
+                            Berdaya, Mandiri, Sejahtera
                         </p>
                     </div>
                 </div>

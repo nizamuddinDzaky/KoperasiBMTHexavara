@@ -31,6 +31,7 @@
         .desc-misi {
             text-align: center;
         }
+        
     </style>
 
     <!-- =======================================================
@@ -206,7 +207,7 @@
 
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
                     <div class="about-col">
-                        <h2 class="title  pt-3">Pusat KJKS Jatim dan Inkopsyah</h2>
+                        <h2 class="title  pt-3">Kopsyah Bina Umat Terpadu</h2>
                         <p class="desc-mitra-kerja">
                             Kerjasama sebagai koperasi sekunder
                         </p>
@@ -253,7 +254,7 @@
                     <div class="about-col">
                         <h2 class="title pt-3">PT. BPRS Kota Mojokerto</h2>
                         <p class="desc-mitra-kerja">
-                            Puskop sekunder bina umat terpadu (but) periode 2020 sebesar Rp. 100 jt
+                            Partner Financial
                         </p>
                     </div>
                 </div>
@@ -280,7 +281,7 @@
                     <div class="about-col">
                         <h2 class="title pt-3">Induk Koperasi Syariah (Inkopsyah) Jakarta</h2>
                         <p class="desc-mitra-kerja">
-                            Linkage 4000 juta rupiah di periode  Jan'15-Jan'18
+                            Linkage 400 juta rupiah di periode  Jan'15-Jan'18
                         </p>
                     </div>
                 </div>
@@ -347,6 +348,26 @@
                 <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
                     {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
                     <h4 class="title">H. Sunoyo, S.Sos, Apr</h4>
+                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
+                </div>
+                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
+                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
+                    <h4 class="title">Yusifa Nur Aulia</h4>
+                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
+                </div>
+                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
+                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
+                    <h4 class="title">Sri Cahyaning Umi Salama</h4>
+                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
+                </div>
+                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
+                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
+                    <h4 class="title">Rumayya Batubara</h4>
+                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
+                </div>
+                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
+                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
+                    <h4 class="title">Nur Chamimah</h4>
                     {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
                 </div>
             </div>
@@ -580,6 +601,18 @@
 
                     <div class="portfolio-info">
                         <h4><a href="portfolio-details.html">Surat Keterangan Domisili</a></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 portfolio-item">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="{{asset('images/tanda_bukti_nazhir.jpeg')}}" class="img-fluid" alt="">
+                        <a href="{{asset('images/tanda_bukti_nazhir.jpeg')}}" class="link-preview venobox" data-gall="portfolioGallery" title="App 2"><i class="ion ion-eye"></i></a>
+                    </figure>
+
+                    <div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">Bukti Pendaftaran Nahzir</a></h4>
                     </div>
                 </div>
             </div>
