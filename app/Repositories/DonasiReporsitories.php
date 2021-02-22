@@ -105,10 +105,17 @@ class DonasiReporsitories {
                 $email = $data->email;
             }
 
-            $jumlah = preg_replace('/[^\d]/', '', $data->nominal);
-            if ($jumlah[0] == "0"){
-                $jumlah = ltrim($jumlah, $jumlah[0]);
+
+            if(preg_match("/[a-z.]/i", $data->nominal)){
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pengajuan Donasi gagal dibuat. Gunakan format angka yang tepat");
+                return $response;
             }
+
+            $jumlah = preg_replace('/[^\d]/', '', $data->nominal);
+            $jumlah = ltrim($jumlah, "0");
+
+
 
 
                 $detail = [
@@ -765,11 +772,14 @@ class DonasiReporsitories {
                     $email = $data->email;
                 }
 
+            if(preg_match("/[a-z.]/i", $data->nominal)){
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pengajuan Donasi gagal dibuat. Gunakan format angka yang tepat");
+                return $response;
+            }
 
             $jumlah = preg_replace('/[^\d]/', '', $data->nominal);
-            if ($jumlah[0] == "0"){
-                $jumlah = ltrim($jumlah, $jumlah[0]);
-            }
+            $jumlah = ltrim($jumlah, "0");
 
 
             $detail = [
