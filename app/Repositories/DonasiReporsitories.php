@@ -105,6 +105,11 @@ class DonasiReporsitories {
                 $email = $data->email;
             }
 
+            $jumlah = preg_replace('/[^\d]/', '', $data->nominal);
+            if ($jumlah[0] == "0"){
+                $jumlah = ltrim($jumlah, $jumlah[0]);
+            }
+
 
                 $detail = [
                     'id_maal'   => $data->id_donasi,
@@ -113,7 +118,7 @@ class DonasiReporsitories {
                     'nama'      => $nama,
                     'debit'     => $debit,
                     'path_bukti'=> $path_bukti,
-                    'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
+                    'jumlah'    => $jumlah,
                     'rekening'  => $rekening,
                     'atasnama'  => $atasnama,
                     'bank'      => $namabank,
@@ -761,14 +766,20 @@ class DonasiReporsitories {
                 }
 
 
-                $detail = [
+            $jumlah = preg_replace('/[^\d]/', '', $data->nominal);
+            if ($jumlah[0] == "0"){
+                $jumlah = ltrim($jumlah, $jumlah[0]);
+            }
+
+
+            $detail = [
                     'id_wakaf'   => $data->id_donasi_wakaf,
                     'jenis_donasi'    => $data->jenis_donasi_wakaf,
                     'id'        => $id,
                     'nama'      => $nama,
                     'debit'     => $debit,
                     'path_bukti'=> $path_bukti,
-                    'jumlah'    => preg_replace('/[^\d.]/', '', $data->nominal),
+                    'jumlah'    => $jumlah,
                     'rekening'  => $rekening,
                     'atasnama'  => $atasnama,
                     'bank'      => $namabank,
