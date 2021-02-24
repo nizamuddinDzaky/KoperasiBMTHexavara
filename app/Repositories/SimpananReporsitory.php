@@ -128,6 +128,16 @@ class SimpananReporsitory {
             {
                 $jenis_simpanan = "Simpanan Pokok";
             }
+
+
+            if(preg_match("/[a-z.]/i", $data->nominal)){
+                DB::rollback();
+                return array("type" => "error", "message" => "Pengajuan simpanan gagal dibuat. Gunakan format angka yang tepat.");
+            }
+
+            $data->nominal = preg_replace('/[^\d]/', '', $data->nominal);
+            $data->nominal = ltrim($data->nominal, "0");
+
             $detailToPengajuan = [
                 "daribank"      => $daribank,
                 "no_bank"       => $nobank,

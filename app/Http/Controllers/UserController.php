@@ -302,7 +302,7 @@ class UserController extends Controller
         $notification = $this->pengajuanReporsitory->getNotification();
         $user = User::where([ ['tipe', 'anggota'], ['status', '2'], ['id', '!=', Auth::user()->id] ])->get();
         $tabungan_user = Tabungan::where([ ['id_user', Auth::user()->id], ['status', 'active'] ])->get();
-        
+
         return view('users.tabungan', [
             'notification' => $notification,
             'notification_count' =>count($notification),
@@ -351,7 +351,14 @@ class UserController extends Controller
 
     public function debit_tabungan(Request $request)
     {
-        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/[a-z.]/i", $request->jumlah)){
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan Debit Tabungan gagal dilakukan! Gunakan format angka yang tepat.');
+        }
+
+        $request->jumlah = preg_replace('/[^\d]/', '', $request->jumlah);
+        $request->jumlah = ltrim($request->jumlah, "0");
 
         $this->validate($request, [
             'file' => 'file|max:2000', // max 2MB
@@ -403,7 +410,15 @@ class UserController extends Controller
 
     public function kredit_tabungan(Request $request)
     {
-        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/[a-z.]/i", $request->jumlah)){
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan Debit Tabungan gagal dilakukan! Gunakan format angka yang tepat.');
+        }
+
+        $request->jumlah = preg_replace('/[^\d]/', '', $request->jumlah);
+        $request->jumlah = ltrim($request->jumlah, "0");
+        dd($request->jumlah);
 
         if($request->idRek<$request->jumlah){
             $rek = "Mohon maaf Saldo Rekening Tabungan Anda tidak CUKUP!.";
@@ -509,7 +524,16 @@ class UserController extends Controller
             $bank_bmt_tujuan = null;
         }
 
-        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+
+        if(preg_match("/[a-z.]/i", $request->jumlah)){
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan pembukaan Mudharabah Berjangka gagal dilakukan! Gunakan format angka yang tepat.');
+        }
+
+        $request->jumlah = preg_replace('/[^\d]/', '', $request->jumlah);
+        $request->jumlah = ltrim($request->jumlah, "0");
+//        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
 
         $detail = [
             'atasnama' => $atasnama,
@@ -604,7 +628,16 @@ class UserController extends Controller
             $nama = $request->nama;
             $id_user = $request->id_user;
         }
-        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+
+        if(preg_match("/[a-z.]/i", $request->jumlah)){
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan pembiayaan gagal dilakukan! Gunakan format angka yang tepat.');
+        }
+
+        $request->jumlah = preg_replace('/[^\d]/', '', $request->jumlah);
+        $request->jumlah = ltrim($request->jumlah, "0");
+
         $detail = [
             'atasnama' => $atasnama,
             'nama' => $nama,
@@ -729,6 +762,15 @@ class UserController extends Controller
         {
             $tagihan_margin_bulanan = json_decode($pembiayaan->detail)->sisa_margin;
         }
+
+        if(preg_match("/[a-z.]/i", $request->bayar_ang)){
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan Anggsuran gagal dilakukan! Gunakan format angka yang tepat.');
+        }
+
+        $request->bayar_ang = preg_replace('/[^\d]/', '', $request->bayar_ang);
+        $request->bayar_ang = ltrim($request->bayar_ang, "0");
         
         if($pembiayaan->jenis_pembiayaan == "PEMBIAYAAN MRB")
         {
@@ -737,9 +779,19 @@ class UserController extends Controller
         }
         else
         {
+            if(preg_match("/[a-z.]/i", $request->bayar_mar)){
+                return redirect()
+                    ->back()
+                    ->withInput()->with('message', 'Pengajuan Anggsuran gagal dilakukan! Gunakan format angka yang tepat.');
+            }
+
+            $request->bayar_mar = preg_replace('/[^\d]/', '', $request->bayar_mar);
+            $request->bayar_mar = ltrim($request->bayar_mar, "0");
             $bayar_margin = str_replace(',',"",$request->bayar_mar);
             $bayar_angsuran = str_replace(',',"",$request->bayar_ang);
         }
+
+
         
         $sisa_pinjaman = explode(" ",$request->idRek)[8];
         $tabungan = Tabungan::where('id', $request->tabungan)->first();
@@ -1259,6 +1311,15 @@ class UserController extends Controller
             $fileToUpload = null;
         }
 
+        if(preg_match("/[a-z.]/i", $request->bayar_mar)){
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Pengajuan Pelunasan Pembiayaan gagal dilakukan! Gunakan format angka yang tepat');
+        }
+
+        $request->bayar_mar = preg_replace('/[^\d]/', '', $request->bayar_mar);
+        $request->bayar_mar = ltrim($request->bayar_mar, "0");
+
         $detail = [
             'angsuran' => $kredit,
             'id_pembiayaan' => explode(" ", $request->idRek)[6],
@@ -1357,6 +1418,7 @@ class UserController extends Controller
     */
     public function pengajuan_transfer_antar_tabungan(Request $request)
     {
+
         $tabungan = $this->transferTabunganRepository->pengajuanTransferAntarTabungan($request);
         // return response()->json($tabungan);
         if ($tabungan['type'] == "success") {

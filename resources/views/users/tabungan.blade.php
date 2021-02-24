@@ -36,7 +36,7 @@
                 <div class="button-group right">
                     <button class="btn btn-primary rounded right shadow-effect" data-toggle="modal" data-target="#debitTabModal"><i class="fa fa-credit-card"></i> Setor Tunai</button>
                     <button class="btn btn-success rounded right shadow-effect" data-toggle="modal" data-target="#kreditTabModal"><i class="fa fa-sign-out-alt"></i> Tarik Tunai</button>
-                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-target="#transferTabModal"><i class="fa fa-sign-out-alt"></i> Transfer Antar Anggota</button>
+                    <button class="btn btn-danger rounded right shadow-effect" data-toggle="modal" data-page="user" data-target="#transferTabModal"><i class="fa fa-sign-out-alt"></i> Transfer Antar Anggota</button>
                 </div>
             </div>
         </div>

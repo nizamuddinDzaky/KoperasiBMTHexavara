@@ -1358,7 +1358,7 @@
                                             <option class="bs-title-option" selected disabled value="">-Pilih Rekening Tabungan Anda-</option>
                                             @if(Auth::user()->tipe == "anggota")
                                             @foreach ($tabungan_user as $tabungan)
-                                                <option value="{{ $tabungan->id_tabungan }}"> [{{$tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }}</option>
+                                                <option value="{{ $tabungan->id_tabungan }}"> [{{$tabungan->id_tabungan }}] {{ $tabungan->jenis_tabungan }} [ Saldo : {{number_format(json_decode($tabungan->detail)->saldo,2)}} ] </option>
                                             @endforeach
                                             @endif
                                         </select>

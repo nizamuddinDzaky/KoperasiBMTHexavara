@@ -4033,7 +4033,12 @@ class InformationRepository
         return $data;
     }
     function extendDeposito($request){
-        if(preg_match("/^[0-9,.]+$/", $request->jumlah)) $request->jumlah = str_replace(',',"",$request->jumlah);
+        if(preg_match("/[a-z.]/i", $request->jumlah)){
+            return false;
+        }
+
+        $request->jumlah = preg_replace('/[^\d]/', '', $request->jumlah);
+        $request->jumlah = ltrim($request->jumlah, "0");
 
         $tabUsr = $this->deposito->where('id_deposito',$request->id_)->first();
         $tabUsrBr = $this->rekening->where('id',$request->lama)->first();

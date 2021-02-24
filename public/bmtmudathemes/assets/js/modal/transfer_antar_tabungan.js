@@ -2,6 +2,8 @@ $(document).ready(function() {
     $('#transferTabModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
+        var role = button.data('page');
+
         $(document).on("change", "#user_penerima", function() {
             var id = $(this).val();
             var url = window.location.origin;
@@ -15,8 +17,17 @@ $(document).ready(function() {
                     $("#rekening_penerima").empty();
                     response.forEach(element => {
                         var saldo = JSON.parse(element.detail);
-                        var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + ` [Saldo : ` + formatter.format(saldo.saldo) +  ` ]</option>`;
-                        $("#rekening_penerima").append(template);
+                        if (role == "user")
+                        {
+                            var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan + ` </option>`;
+                            $("#rekening_penerima").append(template);
+                        }else if (role == "teller")
+                        {
+                            var template = `<option value="` + element.id_tabungan + `">[ ` + element.id_tabungan + ` ] ` + element.jenis_tabungan +` [Saldo : ` + formatter.format(saldo.saldo) +  ` ]</option>`;
+                            $("#rekening_penerima").append(template);
+                        }
+
+
                     });
                     
                 }

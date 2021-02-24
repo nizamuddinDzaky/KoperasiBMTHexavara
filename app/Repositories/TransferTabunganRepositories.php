@@ -33,8 +33,17 @@ class TransferTabunganRepositories {
         try {
             $tabungan = Tabungan::where('id_tabungan', $data->rekening_pengirim)->first();
             $rekening = Rekening::where('id', $tabungan->id_rekening)->first();
-            $nominal = floatval(preg_replace('/[^\d.]/', '', $data->jumlah));
-            
+
+            if(preg_match("/[a-z.]/i", $data->jumlah)){
+                DB::rollback();
+                $response = array("type" => "error", "message" => "Pengajuan Transfer Antar Tabungan Gagal Dibuat. Gunakan format angka yang tepat.");
+                return $response;
+            }
+
+            $data->jumlah = preg_replace('/[^\d]/', '', $data->jumlah);
+            $data->jumlah = ltrim($data->jumlah, "0");
+            $nominal = floatval($data->jumlah);
+
             $saldo_tabungan = json_decode($tabungan->detail)->saldo - $nominal;
 
             if($saldo_tabungan > $nominal && $saldo_tabungan > json_decode($rekening->detail)->saldo_min)
@@ -70,12 +79,12 @@ class TransferTabunganRepositories {
                     $response = array("type" => "error", "message" => "Pengajuan Transfer Antar Tabungan Gagal Dibuat.");    
                 }
             }
-            elseif($saldo_akhir_tabungan < $nominal)
+            elseif($saldo_tabungan < $nominal)
             {
                 DB::rollback();
                 $response = array("type" => "error", "message" => "Pengajuan Transfer Antar Tabungan Gagal Dibuat. Saldo tabungan anda tidak cukup.");    
             }
-            elseif($saldo_akhir_tabungan < json_decode($rekening->detail)->saldo_min)
+            elseif($saldo_tabungan < json_decode($rekening->detail)->saldo_min)
             {
                 DB::rollback();
                 $response = array("type" => "error", "message" => "Pengajuan Transfer Antar Tabungan Gagal Dibuat. Saldo tabungan anda melebihi limit transaksi.");    
