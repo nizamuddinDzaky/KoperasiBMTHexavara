@@ -3416,6 +3416,7 @@ class PembiayaanReporsitory {
                 "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
                 "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3]),
                 "no_pembiayaan"                 => $no_pembiayaan,
+                "usaha"                         => json_decode($data_pengajuan->detail)->usaha
             ),
             "data_template_row"                 => $data_template_row,
             "data_template_row_title"           => "barang_titipan_desc_title",
