@@ -414,11 +414,12 @@ class DistribusiPendapatanReporsitories {
     */
     public function checkDistribusiPendapatanStatus()
     {
-        $distribusi = PenyimpananBMT::where([
-            ['status', 'Distribusi Pendapatan'],
-            ['created_at', '>', Carbon::now()->subDay(30)]
-        ])->count();
-        
+        $distribusi = PenyimpananBMT::where('status', 'Distribusi Pendapatan')
+            ->whereDate('created_at', Carbon::now()->toDateString())
+            ->first();
+
+        ($distribusi == null ) ? $distribusi = 0 : $distribusi = 1;
+
         return $distribusi;
     }
 
