@@ -582,7 +582,7 @@ class InformationRepository
             ->where([['kategori','like',"% Pembiayaan"],['pengajuan.teller', Auth::user()->id]])
             ->orWhere([['kategori','like',"% Pembiayaan"],['pengajuan.teller', 0]])
             ->join('users', 'users.id', '=', 'pengajuan.id_user')
-            ->LeftJoin('pembiayaan', 'pengajuan.id', '=', 'pembiayaan.id_pengajuan')
+            ->join('pembiayaan', 'pengajuan.id', '=', 'pembiayaan.id_pengajuan')
             ->where('kategori','!=',"Pembiayaan")
             ->where('pengajuan.created_at', ">" , $date['prev'])
             ->where('pengajuan.created_at', "<" , $date['now'])
@@ -593,7 +593,7 @@ class InformationRepository
             ->join('rekening', 'rekening.id', '=', 'pengajuan.id_rekening')
             ->where('pengajuan.created_at', ">" , $date['prev'])
             ->where('pengajuan.created_at', "<" , $date['now'])
-            ->Leftjoin('penyimpanan_jaminan', 'penyimpanan_jaminan.id_pengajuan', '=', 'pengajuan.id')
+            ->join('penyimpanan_jaminan', 'penyimpanan_jaminan.id_pengajuan', '=', 'pengajuan.id')
             ->join('jaminan', 'jaminan.id', '=', 'penyimpanan_jaminan.id_jaminan')
             ->where([['kategori',"Pembiayaan"],['pengajuan.teller', Auth::user()->id]])
             ->orWhere([['kategori',"Pembiayaan"],['pengajuan.teller', 0]])
@@ -621,6 +621,7 @@ class InformationRepository
                 $dt['id_tabungan'] =$tab['id'];
             }
         }
+//        dd($data);
         return $data;
     }
 

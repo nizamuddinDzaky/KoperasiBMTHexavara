@@ -73,12 +73,14 @@
                             <th></th>
                             <th data-field="id" data-sortable="true" class="text-left">No KTP</th>
                             <th data-field="nama" data-sortable="true">Nama</th>
+                            <th data-field="jenis" data-sortable="true">Jenis Kelamin</th>
+                            <th data-field="nohp" data-sortable="true">No Telepon</th>
                             <th data-field="alamat" data-sortable="true">Alamat</th>
                             <th data-field="jenis" data-sortable="true">Pendidikan</th>
                             <th data-field="jenis" data-sortable="true">Pekerjaan</th>
                             <th data-field="jenis" data-sortable="true">Pendapatan/bln</th>
-                            <th data-field="jenis" data-sortable="true">Tipe</th>
-                            <th data-field="jenis" data-sortable="true">Role</th>
+{{--                            <th data-field="jenis" data-sortable="true">Tipe</th>--}}
+{{--                            <th data-field="jenis" data-sortable="true">Role</th>--}}
                             <th data-field="registrasi" data-sortable="true">Status Keanggotaan</th>
                             <th data-field="registrasi" data-sortable="true">Detail</th>
                             <th>Actions</th>
@@ -89,6 +91,17 @@
                                     <td></td>
                                     <td>{{ $usr->no_ktp }}</td>
                                     <td>{{ $usr->nama   }}</td>
+                                    @if(isset(json_decode($usr->detail,true)['jenis_kelamin']))
+                                        <td>{{json_decode($usr->detail,true)['jenis_kelamin']}}</td>
+                                    @else
+                                        <td>-</td>
+                                    @endif
+                                    @if(isset(json_decode($usr->detail,true)['telepon']))
+                                        <td>{{json_decode($usr->detail,true)['telepon']}}</td>
+                                    @else
+                                        <td>-</td>
+                                    @endif
+
                                     <td>{{ $usr->alamat }}</td>
                                     
                                     @if(!isset( json_decode($usr->detail,true)['pendidikan']))
@@ -115,8 +128,8 @@
                                     @endif
                                     <td class="text-uppercase text-center">{{ isset(json_decode($usr->detail,true)['pendapatan'])?number_format(json_decode($usr->detail,true)['pendapatan'],2):"" }}</td>
 
-                                    <td class="text-uppercase text-center">{{ $usr->tipe }}</td>
-                                    <td class="text-uppercase text-center">{{ $usr->role }}</td>
+{{--                                    <td class="text-uppercase text-center">{{ $usr->tipe }}</td>--}}
+{{--                                    <td class="text-uppercase text-center">{{ $usr->role }}</td>--}}
 
                                     @if($usr->status == 2 && $usr->is_active == 1)
                                         <td class="text-uppercase text-center">Anggota Aktif</td>
