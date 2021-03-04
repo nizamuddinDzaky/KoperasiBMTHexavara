@@ -331,6 +331,7 @@ class DatamasterController extends Controller
         $detail_teller= json_decode($detail_teller,true);
         if($request->tipe=="teller")
             $detail_teller['id_rekening'] = $request->idteller;
+            $detail_teller['kota'] = $request->kotateller;
 
         $inputUser = $this->informationRepository->getAnggota($id);
         if (!isset($inputUser)) {

@@ -139,6 +139,10 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group" id="toShow3">
+                        <label for="kotaTeller" class="control-label"> Kota <star>*</star></label>
+                        <input  type="text" class="form-control" id="kotateller2" name="kotateller" required>
+                    </div>
                     <div class="form-group">
                         <label for="tipeUsr" class="control-label" >Role User <star>*</star></label>
                         <select {{--<onchange="IndukCheck(this)">--}} id="role" class="form-control"  name="role" required="true">

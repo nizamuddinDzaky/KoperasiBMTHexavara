@@ -165,7 +165,13 @@
                                                 data-tipe    = "{{$usr->tipe}}"
                                                 data-role    = "{{$usr->role}}"
                                                 data-id_kas    = "{{ isset(json_decode($usr->detail,true)['id_rekening'])?json_decode($usr->detail,true)['id_rekening']:"" }}"
-                                                data-p    = "{{$usr->password}}">
+                                                data-p    = "{{$usr->password}}"
+                                                @if($usr->tipe == "teller")
+                                                    @if(isset(json_decode($usr->detail,true)['kota']))
+                                                        data-kota="{{json_decode($usr->detail,true)['kota']}}"
+                                                    @endif
+                                                    @endif
+                                                >
                                             <i class="fa fa-edit"></i>
                                         </button>
 
@@ -226,11 +232,20 @@
                var alamat = button.data('alamat');
                var nama = button.data('nama');
                var tipe = button.data('tipe');
+               if(tipe == "teller"){
+                   var kota = button.data('kota');
+                   console.log(kota);
+                   $('#kotateller2').val(kota);
+               }
                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-               if( tipe=="teller")
+               if( tipe=="teller"){
                    $('#toShow2').show();
-               else $('#toShow2').hide();
+                   $('#toShow3').show();
+               } else{
+                   $('#toShow2').hide();
+                   $('#toShow3').hide();
+               }
 
                $('#id_edit').val(id);
                $('#idrekteller2').val(button.data('id_kas'));
