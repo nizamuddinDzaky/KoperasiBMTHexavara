@@ -290,6 +290,16 @@
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script type="text/javascript">
+        $('#rekPem').on('change', function (event){
+            if($(this).val() == 100){
+                $('#labelUntukUsaha').html('Barang');
+                $('#jenisUsaha').val("Lain-lain");
+            }else{
+                $('#labelUntukUsaha').html('Untuk Usaha');
+            }
+        });
+
+
         $('#viewAngModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).

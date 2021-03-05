@@ -1478,7 +1478,7 @@
                                 <div class="row">
                                     <div class="col-md-5 col-md-offset-1">
                                         <div class="form-group">
-                                            <label class="control-label">Untuk Usaha</label>
+                                            <label class="control-label" id="labelUntukUsaha">Untuk Usaha</label>
                                             <input class="form-control"
                                                 type="text"
                                                 name="usaha"
@@ -1489,8 +1489,8 @@
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label class="control-label">Jenis Usaha</label>
-                                            <select  name="jenisUsaha" class="form-control" required="true">
+                                            <label class="control-label" id="labelJenisUsaha">Jenis Usaha</label>
+                                            <select  name="jenisUsaha" class="form-control" id="jenisUsaha" required="true">
                                                 <option selected="" disabled="">- Pilih -</option>
                                                 <option value="Pertanian">Pertanian</option>
                                                 <option value="Dagang">Dagang</option>

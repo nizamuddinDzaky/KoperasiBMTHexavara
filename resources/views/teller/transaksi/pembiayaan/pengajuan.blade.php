@@ -262,6 +262,18 @@
 
     <script type="text/javascript">
 
+
+        $('#rekPem').on('change', function (event){
+           if($(this).val() == 100){
+                $('#labelUntukUsaha').html('Barang');
+                $('#jenisUsaha').val("Lain-lain");
+
+            }else{
+               $('#labelUntukUsaha').html('Untuk Usaha');
+           }
+        });
+
+
        //  PEMBIAYAAN
         $('#viewPemModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
