@@ -35,7 +35,7 @@
                         </div>
                         <div class="toolbar">
                             <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            <form action="{{route('periode.labarugi')}}" method="post">
+                            <form @if(Auth::user()->tipe == "admin") action="{{route('periode.labarugi')}}" @elseif(Auth::user()->tipe == "teller") action="{{route('teller.periode.labarugi')}}"  @endif method="post">
                                 {{ csrf_field() }}
                                 <div align="center">
                                     <select required  name="periode" class="select pull-center" style="height: 1.9em">

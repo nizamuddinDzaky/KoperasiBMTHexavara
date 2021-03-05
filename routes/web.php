@@ -1457,6 +1457,10 @@ Route::group(['prefix' => 'teller', 'middleware' => ['auth','permissions.require
             'as'        => 'teller.periode.labarugi',
             'uses'      => 'LaporanController@periode_laba_rugi'
         ]);
+        Route::post('/laba_rugi', [
+            'as'        => 'teller.periode.labarugi',
+            'uses'      => 'LaporanController@periode_laba_rugi'
+        ]);
         Route::get('/aktiva', [
             'as'        => 'teller.aktiva',
             'uses'      => 'LaporanController@aktiva'
