@@ -8,6 +8,17 @@
 	@include('layouts.top_navbar')
 @endsection
 
+@section('extra_style')
+<link rel="stylesheet" href="{{asset('css/jquery.signature.css')}}">
+<style>
+
+	#defaultSignature canvas{
+		width: 100% !important;
+		height: auto;
+	}
+</style>
+	@endsection
+
 @section('content')
 	<div class="content">
 		<div class="container-fluid">
@@ -155,6 +166,27 @@
 												/>
 											</div>
 										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-5 col-md-offset-1">
+											<div class="form-group">
+												<label class="control-label">Tanda Tangan<star>*</star></label>
+												<h5 id="toDelete"></h5>
+												<div id="defaultSignature"></div>
+												<textarea id="signature64" name="tanda_tangan" style="display: none" required></textarea>
+												<button type="button" id="clear" class="btn btn-danger btn-sm" style="margin-left: 20%; margin-top: 5%">Hapus Tanda Tangan</button>
+
+											</div>
+										</div>
+										@if(isset(json_decode(Auth::user()->pathfile)->Tanda_tangan))
+										<div class="col-md-4" id="tandaTanganSekarang">
+											<div class="form-group">
+											<label class="control-label">Tanda Tangan Sekarang</label>
+											<img src="{{asset('storage/public/tanda_tangan/'.json_decode(Auth::user()->pathfile)->Tanda_tangan)}}" class="" style="width: 100%; height : 80%" alt="">
+											</div>
+										</div>
+										@endif
 									</div>
 
 								</div>
@@ -494,6 +526,7 @@
 @endsection
 
 @section('extra_script')
+	<script type="text/javascript" src="{{asset('js/jquery.ui.touch-punch.min.js')}}"></script>
 
 	<script src="{{URL::asset('bmtmudathemes/assets/js/loading.js')}}"></script>
 
@@ -504,7 +537,18 @@
 
 	<script src="{{URL::asset('bootstrap/assets/js/jquery.validate.min.js')}}"></script>
 	<script src="{{URL::asset('bootstrap/assets/js/jquery.bootstrap.wizard.min.js')}}"></script>
+	<script src="{{ asset('js/jquery.signature.js') }}"></script>
 	<script type="text/javascript">
+		var tt = $('#defaultSignature').signature({syncField: '#signature64', syncFormat: 'PNG'});
+		$('#clear').click(function(e) {
+			e.preventDefault();
+			tt.signature('clear');
+			$("#signature64").val('');
+		});
+
+	</script>
+	<script type="text/javascript">
+
         $().ready(function(){
 
                 var $validator = $("#wizardForm").validate({
@@ -550,6 +594,21 @@
                 previousSelector: '.btn-back',
                 onNext: function(tab, navigation, index) {
                     var $valid = $('#wizardForm').valid();
+
+					var tt = document.getElementById("signature64").value;
+
+					var tandaTanganStatus = document.getElementById("tandaTanganSekarang");
+
+					if(tandaTanganStatus){
+
+					}else{
+						if(tt == "" || tt == null)
+						{
+							window.alert('Tanda tangan di tempat yang tersedia')
+							return false;
+						}
+					}
+
 
                     if(!$valid) {
                         $validator.focusInvalid();

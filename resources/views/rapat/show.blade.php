@@ -143,7 +143,7 @@
         $('#voting').click(function(e) {
             var tt = document.getElementById("signature64").value;
 
-            if(tt = null || tt == "")
+            if(tt == null || tt == "")
             {
                 window.alert('Tanda tangan di tempat yang tersedia')
             }

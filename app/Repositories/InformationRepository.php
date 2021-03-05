@@ -3572,12 +3572,27 @@ class InformationRepository
     //    ANGGOTA
     function addIdentitas($data,$request)
     {
+        //handle tanda tangan
+        $user = $this->getAnggota(Auth::user()->no_ktp);
+        if (isset($request->tanda_tangan) && $request->tanda_tangan != null){
+            $folderPath = public_path('storage/public/tanda_tangan/');
+            $image_parts = explode(";base64,", $request->tanda_tangan);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            $file = $folderPath . uniqid() . '.'.$image_type;
+            $tanda_tangan_path = str_after($file,$folderPath);
+        }else{
+            $tanda_tangan_path = json_decode($user->pathfile,true)['Tanda_tangan'];
+        }
+
+
+
 
         $uploadedKTP = $request->file('filektp');
         $uploadedKSK = $request->file('fileksk');
         $uploadedNikah = $request->file('filenikah');
         $filename =$filename2=$filename3=$prevfile=$prevfile2=$prevfile3=null;
-        $user = $this->getAnggota(Auth::user()->no_ktp);
         if($uploadedKTP){
             $path = $uploadedKTP->store('public/file');
             $filename =str_after($path, 'public/file/');
@@ -3602,6 +3617,7 @@ class InformationRepository
             'KTP' => $filename,
             'KSK' => $filename2,
             'Nikah' => $filename3,
+            'Tanda_tangan' => $tanda_tangan_path
         ];
         if($prevfile){
             Storage::delete("public/file/".$prevfile);
@@ -3632,6 +3648,11 @@ class InformationRepository
                 'nama' => $data['nama'],
                 'alamat' => $data['alamat_domisili'],
             ]);
+
+        if (isset($request->tanda_tangan) && $request->tanda_tangan != null) {
+            file_put_contents($file, $image_base64);
+        }
+
         return $dt;
     }
     function daftar_pengajuan_baru($tabungan){
