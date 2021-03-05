@@ -1760,5 +1760,18 @@ class AdminController extends Controller
 
     }
 
+    public function backup_database(){
+
+        $date = Carbon::now()->format('dmY_h:i:s');
+        $DB_USERNAME = env('DB_USERNAME');
+        $DB_PASSWORD = env('DB_PASSWORD');
+        $DB_DATABASE = env('DB_DATABASE');
+
+        shell_exec('cd storage/db_backup && mysqldump -u '.$DB_USERNAME.' -p --password='.$DB_PASSWORD.' --routines '.$DB_DATABASE.' > bmt_backup_'.$date.'.sql');
+
+        $path = public_path('storage/db_backup/bmt_backup_'.$date.'.sql');
+        return response()->download($path);
+    }
+
 
 }

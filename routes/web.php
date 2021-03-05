@@ -56,6 +56,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'uses'      => 'AdminController@index'
     ]);
 
+    Route::get('/backupdatabase', [
+        'as'        => 'admin.backup.database',
+        'uses'      => 'AdminController@backup_database'
+    ]);
+
     Route::get('/total_simpanan_anggota', [
         'as'        => 'total.simpanan.anggota',
         'uses'      => 'AdminController@total_simpanan_anggota'

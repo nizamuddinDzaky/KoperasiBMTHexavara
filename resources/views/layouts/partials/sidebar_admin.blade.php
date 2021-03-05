@@ -164,9 +164,9 @@
     </div>
 </li>
 
-{{--<li>--}}
-{{--    <a class="resetDatabase">--}}
-{{--        <i class="pe-7s-trash"></i>--}}
-{{--        <p>Reset Database</p>--}}
-{{--    </a>--}}
-{{--</li>--}}
+<li>
+    <a href="{{route('admin.backup.database')}}">
+        <i class="pe-7s-cloud-download"></i>
+        <p>Backup Database</p>
+    </a>
+</li>
