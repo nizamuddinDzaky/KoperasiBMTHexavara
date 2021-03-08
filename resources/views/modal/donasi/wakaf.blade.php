@@ -8,7 +8,7 @@
                 @endif
 
                 <div class="header text-center">
-                    <h3 class="title">Donasi Kegiatan </h3>
+                    <h3 class="title">Donasi Kegiatan Wakaf </h3>
                     <p class="category">BMT MANDIRI UKHUWAH PERSADA</p>
                 </div>
 

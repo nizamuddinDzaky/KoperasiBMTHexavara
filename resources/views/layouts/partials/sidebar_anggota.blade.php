@@ -31,18 +31,20 @@
             <b class="caret"></b>
         </p>
     </a>
-    @if(Request::is('anggota/maal*','teller/maal*'))
+    @if(Request::is('anggota/maal*','teller/maal*', 'anggota/zis*', 'anggota/wakaf*'))
     <div class="collapse in" id="nav_maalt">
     @else
     <div class="collapse" id="nav_maalt">
     @endif
         <ul class="nav">
-            <li @if(Request::is('anggota/maal/donasi*','teller/maal/donasi*'))class="active"@endif><a @if(Auth::user()->tipe=="anggota") href="{{route('anggota.donasi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.donasi.maal')}}" @endif>Donasi Kegiatan</a></li>
+            <li @if(Request::is('anggota/maal/donasi*','teller/maal/donasi*', 'anggota/maal'))class="active"@endif><a @if(Auth::user()->tipe=="anggota") href="{{route('anggota.donasi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.donasi.maal')}}" @endif>Donasi Kegiatan</a></li>
+            <li @if(Request::is('anggota/zis*','teller/maal/donasi*'))class="active"@endif><a @if(Auth::user()->tipe=="anggota") href="{{route('anggota.donasi.zis')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.donasi.maal')}}" @endif>ZIS</a></li>
+            <li @if(Request::is('anggota/wakaf','teller/maal/donasi*'))class="active"@endif><a @if(Auth::user()->tipe=="anggota") href="{{route('anggota.donasi.wakaf')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.donasi.maal')}}" @endif>Wakaf</a></li>
             @if(Auth::user()->tipe=="teller")
             <li @if(Request::is('anggota/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan</a></li>
             @endif
-            <li @if(Request::is('teller/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @elseif(Auth::user()->tipe=="anggota") href="{{route('anggota.transaksi.maal')}}" @endif>Riwayat Transaksi Maal</a></li>
-            <li @if(Request::is('teller/wakaf/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.wakaf')}}" @elseif(Auth::user()->tipe=="anggota") href="{{route('anggota.transaksi.wakaf')}}" @endif>Riwayat Transaksi Wakaf</a></li>
+            <li @if(Request::is('anggota/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @elseif(Auth::user()->tipe=="anggota") href="{{route('anggota.transaksi.maal')}}" @endif>Riwayat Transaksi Maal</a></li>
+            <li @if(Request::is('anggota/wakaf/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.wakaf')}}" @elseif(Auth::user()->tipe=="anggota") href="{{route('anggota.transaksi.wakaf')}}" @endif>Riwayat Transaksi Wakaf</a></li>
         </ul>
     </div>
 </li>

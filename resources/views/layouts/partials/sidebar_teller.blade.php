@@ -141,7 +141,7 @@
                 <div class="collapse" id="nav_maal">
                     @endif
                     <ul class="nav">
-                        <li class="@if(Request::is('admin/laporan/saldo_zis')) active @endif"><a href="{{route('teller.saldo.zis')}}">Saldo ZIS</a></li>
+                        <li class="@if(Request::is('teller/maal/saldo_zis')) active @endif"><a href="{{route('teller.saldo.zis')}}">Saldo ZIS</a></li>
                         <li @if(Request::is('teller/maal/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.maal')}}" @endif>Daftar Kegiatan Maal</a></li>
                         <li @if(Request::is('teller/wakaf/daftar*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.wakaf')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.wakaf')}}" @endif>Daftar Kegiatan Wakaf</a></li>
                         <li @if(Request::is('teller/maal/transaksi*'))class="active"@endif><a @if(Auth::user()->tipe=="admin") href="{{route('admin.transaksi.maal')}}" @elseif(Auth::user()->tipe=="teller") href="{{route('teller.transaksi.maal')}}" @endif>Riwayat Transaksi Maal</a></li>

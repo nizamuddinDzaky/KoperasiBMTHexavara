@@ -874,10 +874,7 @@ class UserController extends Controller
 //    MAAL
     public function donasi_maal(){
         $dr =$this->informationRepository->getAllTabUsr();
-        $riwayat_zis = PenyimpananBMT::where([ ['id_bmt', '334'], ['id_user', Auth::user()->id] ])->get();
-//        $riwayat_waqaf = PenyimpananBMT::where([ ['id_bmt', '336'], ['id_user', Auth::user()->id] ])->get();
         $kegiatan = Maal::paginate('8');
-        $kegiatan_wakaf = Wakaf::paginate('8');
         $notification = $this->pengajuanReporsitory->getNotification();
         
         return view('users.donasi_maal',[
@@ -886,14 +883,43 @@ class UserController extends Controller
             'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
             "kegiatan"  => $kegiatan,
             'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
-            'riwayat_zis' => $riwayat_zis,
-            'kegiatan_wakaf' => $kegiatan_wakaf,
-            // 'riwayat_zis' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "zis"),
-            // 'riwayat_wakaf' => $this->donasiReporsitory->getUserDonasi(Auth::user()->id, "wakaf"),
             'dropdown' => $dr,
             'dropdown6' => $this->informationRepository->getDdBank(),
         ]);
     }
+
+    public function donasi_zis(){
+        $dr =$this->informationRepository->getAllTabUsr();
+        $riwayat_zis = PenyimpananBMT::where([ ['id_bmt', '334'], ['id_user', Auth::user()->id] ])->get();
+        $notification = $this->pengajuanReporsitory->getNotification();
+
+        return view('users.donasi_zis',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
+            'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
+            'riwayat_zis' => $riwayat_zis,
+            'dropdown' => $dr,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+        ]);
+    }
+
+    public function donasi_wakaf(){
+        $dr =$this->informationRepository->getAllTabUsr();
+        $kegiatan_wakaf = Wakaf::paginate('8');
+        $notification = $this->pengajuanReporsitory->getNotification();
+
+        return view('users.donasi_wakaf',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'bank_bmt' => $this->tabunganReporsitory->getRekening("BANK"),
+            'tabungan' => $this->tabunganReporsitory->getUserTabungan(Auth::user()->id),
+            'kegiatan_wakaf' => $kegiatan_wakaf,
+            'dropdown' => $dr,
+            'dropdown6' => $this->informationRepository->getDdBank(),
+        ]);
+    }
+
     public function donasi_maalt(){
         if(Auth::user()->tipe="teller")$dr =$this->informationRepository->getAllTab();
         else $dr =$this->informationRepository->getAllTabUsr();

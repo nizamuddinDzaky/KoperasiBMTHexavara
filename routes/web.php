@@ -1672,6 +1672,16 @@ Route::group(['prefix' => 'anggota', 'middleware' => ['auth','permissions.requir
         'uses'      => 'UserController@donasi_maal'
     ]);
 
+    Route::get('/zis', [
+        'as'        => 'anggota.donasi.zis',
+        'uses'      => 'UserController@donasi_zis'
+    ]);
+
+    Route::get('/wakaf', [
+        'as'        => 'anggota.donasi.wakaf',
+        'uses'      => 'UserController@donasi_wakaf'
+    ]);
+
     Route::get('/wakaf/transaksi', [
         'as'        => 'anggota.transaksi.wakaf',
         'uses'      => 'UserController@transaksi_wakaf'

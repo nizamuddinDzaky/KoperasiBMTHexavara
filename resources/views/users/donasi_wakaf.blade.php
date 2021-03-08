@@ -1,11 +1,11 @@
 @extends('layouts.apps')
 
 @section('side-navbar')
-	@include('layouts.side_navbar')
+    @include('layouts.side_navbar')
 @endsection
 
 @section('top-navbar')
-	@include('layouts.top_navbar')
+    @include('layouts.top_navbar')
 @endsection
 @section('extra_style')
     <link href="{{ URL::asset('css/select2.min.css') }}" rel="stylesheet"/>
@@ -14,12 +14,12 @@
     <div class="head">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h4 class="title">Donasi Kegiatan</h4>
+                <h4 class="title">Donasi Wakaf</h4>
 
                 <div class="head-filter">
-                    <p class="filter-title">Periode Event</p>
+                    <p class="filter-title">Periode Wakaf</p>
                     <form @if(Auth::user()->tipe=="admin")action="{{route('periode.pengajuan')}}" @elseif(Auth::user()->tipe=="teller")action="{{route('teller.periode.pengajuan')}}" @endif method="post">
-                    {{ csrf_field() }}
+                        {{ csrf_field() }}
                         <select required  name="periode" class="beautiful-select" style="height: 1.9em">
                             <option disabled selected > - Periode -</option>
                         </select>
@@ -32,15 +32,15 @@
             </div>
         </div>
     </div>
-	<div class="content">
-            @include('users/donasi/kegiatan')
-        </div>
+    <div class="content">
+                    @include('users/donasi/wakaf')
+    </div>
     </div>
 
 @endsection
 
 @section('modal')
-    @include('modal/donasi/kegiatan')
+    @include('modal/donasi/wakaf')
 @endsection
 
 @section('extra_script')
@@ -48,10 +48,10 @@
     <!-- Tab selected index -->
     <script src="{{ asset('bmtmudathemes/assets/js/pages/donasi_maal.js') }}"></script>
 
-	<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
-	<script src="{{URL::asset('bootstrap/assets/js/moment.min.js')}}"></script>
-	<!--  Date Time Picker Plugin is included in this js file -->
-	<script src="{{URL::asset('bootstrap/assets/js/bootstrap-datetimepicker.js')}}"></script>
+    <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+    <script src="{{URL::asset('bootstrap/assets/js/moment.min.js')}}"></script>
+    <!--  Date Time Picker Plugin is included in this js file -->
+    <script src="{{URL::asset('bootstrap/assets/js/bootstrap-datetimepicker.js')}}"></script>
     <!-- Select2 plugin -->
     <script src=" {{  URL::asset('/js/select2.min.js') }}"></script>
     <script src="{{URL::asset('bootstrap/assets/js/jquery.validate.min.js')}}"></script>
@@ -60,7 +60,7 @@
     <!-- Donasi script -->
     <script src="{{ asset('bmtmudathemes/assets/js/modal/donasi.js') }}"></script>
 
-	<script type="text/javascript">
+    <script type="text/javascript">
         $().ready(function(){
 
             $('.currency').maskMoney({
@@ -235,9 +235,9 @@
 
             swal("Data disimpan!", "Terima kasih telah melengkapi data diri anda!", "success");
         }
-	</script>
+    </script>
 
-	<script type="text/javascript">
+    <script type="text/javascript">
         $().ready(function(){
             $("#idRekTab").select2({
                 dropdownParent: $("#wizardCard")
@@ -317,9 +317,9 @@
             },
         }
 
-	</script>
+    </script>
 
-	<script type="text/javascript">
+    <script type="text/javascript">
 
         function stopRKey(evt) {
             var evt = (evt) ? evt : ((event) ? event : null);
@@ -329,8 +329,8 @@
 
         document.onkeypress = stopRKey;
 
-	</script>
+    </script>
 @endsection
 @section('footer')
-	@include('layouts.footer')
+    @include('layouts.footer')
 @endsection
