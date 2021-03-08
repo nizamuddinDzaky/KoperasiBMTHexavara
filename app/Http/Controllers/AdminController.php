@@ -192,6 +192,8 @@ class AdminController extends Controller
             $userProcessed[$key]['Alamat'] =$value->alamat;
             if($value->tipe == "admin" || $value->tipe == "teller" )
             {
+                $userProcessed[$key]['Jenis Kelamin'] = "-";
+                $userProcessed[$key]['No Telepon'] = "-";
                 $userProcessed[$key]['Pendidikan'] ="-";
                 $userProcessed[$key]['Pekerjaan'] ="-";
                 $userProcessed[$key]['Pendapatan/bln'] ="-";
@@ -200,12 +202,16 @@ class AdminController extends Controller
             {
                 if (json_decode($value->detail) != null )
                 {
+                    $userProcessed[$key]['Jenis Kelamin'] = json_decode($value->detail)->jenis_kelamin;
+                    $userProcessed[$key]['No Telepon'] = json_decode($value->detail)->telepon;
                     $userProcessed[$key]['Pendidikan'] =json_decode($value->detail)->pendidikan;
                     $userProcessed[$key]['Pekerjaan'] =json_decode($value->detail)->pekerjaan;
                     $userProcessed[$key]['Pendapatan/bln'] =number_format(json_decode($value->detail)->pendapatan);
                 }
                 else
                 {
+                    $userProcessed[$key]['Jenis Kelamin'] = "-";
+                    $userProcessed[$key]['No Telepon'] = "-";
                     $userProcessed[$key]['Pendidikan'] ="-";
                     $userProcessed[$key]['Pekerjaan'] ="-";
                     $userProcessed[$key]['Pendapatan/bln'] ="-";
