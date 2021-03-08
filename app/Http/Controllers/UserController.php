@@ -418,7 +418,6 @@ class UserController extends Controller
 
         $request->jumlah = preg_replace('/[^\d]/', '', $request->jumlah);
         $request->jumlah = ltrim($request->jumlah, "0");
-        dd($request->jumlah);
 
         if($request->idRek<$request->jumlah){
             $rek = "Mohon maaf Saldo Rekening Tabungan Anda tidak CUKUP!.";
