@@ -46,7 +46,7 @@ $(document).ready(function() {
     $("#angidRek").change(function() {
         var form_value = $(this).val();
         var id_user = form_value.split(" ")[9];
-        var formatter = new Intl.NumberFormat();
+        var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
         $("#tabungan option").remove();
 
         $.ajax({

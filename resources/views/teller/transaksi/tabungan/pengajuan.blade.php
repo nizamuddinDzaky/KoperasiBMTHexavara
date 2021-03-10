@@ -748,7 +748,7 @@
     </script>
     <script type="text/javascript">
         $().ready(function(){
-            var formatter = new Intl.NumberFormat();
+            var formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits:2});
             var selWjb = $('#nasabah_wajib');
             var Wjb = $('#toHideWB');
 
