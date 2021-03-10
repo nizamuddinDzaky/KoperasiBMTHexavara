@@ -329,9 +329,17 @@ class DatamasterController extends Controller
         }
         $detail_teller = $this->informationRepository->getUsrByKtp($id)['detail'];
         $detail_teller= json_decode($detail_teller,true);
-        if($request->tipe=="teller")
+        if($request->tipe =="teller")
+        {
             $detail_teller['id_rekening'] = $request->idteller;
             $detail_teller['kota'] = $request->kotateller;
+        }
+
+        if ($request->tipe == "anggota"){
+            $detail_teller['telepon'] = $request->teleponanggota;
+        }
+
+
 
         $inputUser = $this->informationRepository->getAnggota($id);
         if (!isset($inputUser)) {
@@ -347,8 +355,7 @@ class DatamasterController extends Controller
             $inputUser->nama= $request['nama'];
             $inputUser->alamat= $request['alamat'];
             $inputUser->tipe= $request['tipe'];
-            if($inputUser->tipe=="teller")
-                $inputUser->detail= json_encode($detail_teller);
+            $inputUser->detail= json_encode($detail_teller);
             $inputUser->role= $request['role'];
         }
         if($inputUser->save())

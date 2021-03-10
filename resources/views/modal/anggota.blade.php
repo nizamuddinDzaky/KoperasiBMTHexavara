@@ -122,6 +122,11 @@
                         <input type="text" class="form-control" id="alamat_usr" name="alamat" required="true">
                     </div>
 
+                    <div class="form-group" id="toShow4">
+                        <label for="teleponAnggota" class="control-label"> Telepon <star>*</star></label>
+                        <input  type="text" class="form-control" id="teleponanggota" name="teleponanggota" required>
+                    </div>
+
                     <div class="form-group">
                         <label for="tipe_usr" class="control-label">Tipe User <star>*</star></label>
                         <select {{--<onchange="IndukCheck(this)">--}} class="form-control" id="tipe_usr" name="tipe" required="true">

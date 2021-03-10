@@ -170,7 +170,11 @@
                                                     @if(isset(json_decode($usr->detail,true)['kota']))
                                                         data-kota="{{json_decode($usr->detail,true)['kota']}}"
                                                     @endif
+                                                @elseif($usr->tipe == "anggota")
+                                                    @if(isset(json_decode($usr->detail,true)['telepon']))
+                                                    data-telepon="{{json_decode($usr->detail,true)['telepon']}}"
                                                     @endif
+                                                @endif
                                                 >
                                             <i class="fa fa-edit"></i>
                                         </button>
@@ -234,8 +238,12 @@
                var tipe = button.data('tipe');
                if(tipe == "teller"){
                    var kota = button.data('kota');
-                   console.log(kota);
                    $('#kotateller2').val(kota);
+               }
+
+               if (tipe == "anggota"){
+                   var telepon = button.data('telepon');
+                   $('#teleponanggota').val(telepon);
                }
                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -245,6 +253,12 @@
                } else{
                    $('#toShow2').hide();
                    $('#toShow3').hide();
+               }
+
+               if (tipe =="anggota"){
+                   $('#toShow4').show();
+               }else{
+                   $('#toShow4').hide();
                }
 
                $('#id_edit').val(id);
