@@ -89,16 +89,12 @@
 
             <div class="carousel-inner" role="listbox">
 
-                <div class="carousel-item active" style="background-image: url(bootstrap/assets/img/bmt_logo.jpg)">
+                <div class="carousel-item active" style="background-image: url({{$homepage->gambar}})">
                     <div class="carousel-container">
                         <div class="container">
-                            <h2 class="animate__animated animate__fadeInDown">BMT MUDA</h2>
-                            <h2 class="animate__animated animate__fadeInDown">Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada</h2>
-                            <p class="animate__animated animate__fadeInUp">Jalan Kedinding Lor Gang Tanjung 49 <br>
-                                Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
-                                Kota Surabaya <br>
-                                <strong>Phone:</strong> (031) 371 9610 / 0858-5081-9919<br></p>
-{{--                            <a href="#keanggotaan" class="btn-get-started scrollto animate__animated animate__fadeInUp">Daftar Anggota</a>--}}
+                            <h2 class="animate__animated animate__fadeInDown">{{$homepage->title}}</h2>
+                            <h2 class="animate__animated animate__fadeInDown">{{$homepage->subtitle}}</h2>
+                            <p class="animate__animated animate__fadeInUp">{!! $homepage->deskripsi !!}</p>
                             <a href="{{url('/register')}}" class="btn-get-started scrollto animate__animated animate__fadeInUp">Daftar Anggota</a>
                             {{--                            <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>--}}
                         </div>
@@ -182,9 +178,9 @@
                             <div class="icon"><i class="ion-ios-list-outline"></i></div>
                         </div>
                         <h2 class="title"><a href="#">Moto</a></h2>
-                        <p style="text-align: center">
-                            Berdaya, Mandiri, Sejahtera
-                        </p>
+                        <div style="text-align: center">
+                            {!! $homepage->moto  !!}
+                        </div>
                     </div>
                 </div>
 
@@ -195,17 +191,10 @@
                             <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
                         </div>
                         <h2 class="title"><a href="#">Misi</a></h2>
-                        <p class="desc-misi">
-                            Memberikan layanan keuangan berbasis syariah, profesional, terpercaya, dan akuntabel.
-                        </p><p class="desc-misi">
-                            Memberdayakan ekonomi kerakyatan yang bermanfaat bagi umat.
-                        </p><p class="desc-misi">
-                            Meningkatkan kualitas tenaga profesional dan memahami betul aspek BMT.
-                        </p><p class="desc-misi">
-                            Meningkatkan kinerja BMT dengan sistem berbasis teknologi informasi.
-                        </p><p class="desc-misi">
-                            Menjunjung tinggi konsistensi penerapan prinsip Syariah dalam operasional BMT.
-                        </p>
+                        <div style="text-align: center">
+                       {!! $homepage->misi !!}
+                        </div>
+
                     </div>
                 </div>
 
@@ -216,8 +205,10 @@
                             <div class="icon"><i class="ion-ios-eye-outline"></i></div>
                         </div>
                         <h2 class="title"><a href="#">Visi</a></h2>
-                       <p style="text-align: center">
-                       Menjadi BMT yang terdepan, profesional dan dapat memberikan manfaat bagi masyarakat Surabaya pada khususnya dan Jawa Timur pada umumnya.</p>
+                       <div style="text-align: center">
+                           {!! $homepage->visi !!}
+                       </div>
+
                     </div>
                 </div>
 
@@ -277,138 +268,29 @@
                 <div class=" col-lg-12">
                     <ul id="portfolio-flters">
                         <li data-filter="*" class="filter-active">All</li>
-                        <li data-filter=".filter-pertemuan">Pertemuan Rutin</li>
-                        <li data-filter=".filter-origami">Origami Mahar</li>
-                        <li data-filter=".filter-cake">Training Art Cake</li>
+                        @foreach($kategori as $keys => $value)
+                            <li data-filter=".{{$value->class}}">{{$value->nama}}</li>
+                            @endforeach
                     </ul>
                 </div>
             </div>
 
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-pertemuan">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/annual1.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/annual1.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Pertemuan Rutin"><i class="ion ion-eye"></i></a>
-                        </figure>
+                @foreach($kegiatan as $keys => $value)
+                    <div class="col-lg-4 col-md-6 portfolio-item {{$value->class}}">
+                        <div class="portfolio-wrap">
+                            <figure>
+                                <img src="{{asset($value->gambar)}}" class="img-fluid" alt="">
+                                <a href="{{asset($value->gambar)}}" class="link-preview venobox" data-gall="portfolioGallery" title="{{$value->keterangan}}"><i class="ion ion-eye"></i></a>
+                            </figure>
 
-                        <div class="portfolio-info">
-                            <h4>Pertemuan Rutin</h4>
+                            <div class="portfolio-info">
+                                <h4>{{$value->keterangan}}</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-pertemuan">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/annual2.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/annual2.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Pertemuan Rutin"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-
-                        <div class="portfolio-info">
-                            <h4>Pertemuan Rutin</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-pertemuan">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/annual3.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/annual3.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Pertemuan Rutin"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-
-                        <div class="portfolio-info">
-                            <h4>Pertemuan Rutin</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-origami">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/origami1.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/origami1.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Origami Mahar"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-                        <div class="portfolio-info">
-                            <h4>Origami Mahar</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-origami">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/origami2.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/origami2.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Origami Mahar"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-
-                        <div class="portfolio-info">
-                            <h4>Origami Mahar</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-origami">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/origami3.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/origami3.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Origami Mahar"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-
-                        <div class="portfolio-info">
-                            <h4>Origami Mahar</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-cake">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/cake1.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/cake1.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Training Art Cake"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-
-                        <div class="portfolio-info">
-                            <h4>Training Art Cake</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-cake">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/cake2.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/cake2.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Training Art Cake"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-                        <div class="portfolio-info">
-                            <h4>Training Art Cake</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-cake">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/cake3.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/cake3.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Training Art Cake"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-
-                        <div class="portfolio-info">
-                            <h4>Training Art Cake</h4>
-                        </div>
-                    </div>
-                </div>
-
+                    @endforeach
             </div>
 
         </div>
@@ -423,13 +305,9 @@
             <div class="row">
 
                 <div class="col-lg-3 col-md-6 footer-info">
-                    <a href="{{asset('/')}}"><img src="{{asset('bootstrap/assets/img/bmt_logo.jpg')}}" alt="logo bmt muda" class="img-fluid" style="height: 30%; width:70%"></a>
-                    <p class="font-weight-bold">Tanggal Pendirian</p>
-                    <p>30 Januari 2012</p>
-                    <p class="font-weight-bold">No & Tanggal Pendirian</p>
-                    <p>No 44 Tanggal 30 Januari 2012</p>
-                    <p class="font-weight-bold">No & Tanggal Legal Entity</p>
-                    <p>NO BH/P2T/10/09.01/01/V/2012 8th Mei 2012</p>
+                    <a href="{{asset('/')}}"><img src="{{asset($footer->logo)}}" alt="logo bmt muda" class="img-fluid" style="height: 30%; width:70%"></a>
+                    {!! $footer->keterangan !!}
+
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
@@ -444,14 +322,7 @@
 
                 <div class="col-lg-3 col-md-6 footer-contact">
                     <h4>Alamat Kami</h4>
-                    <p>
-                        Head Office : Jalan Kedinding Lor Gang Tanjung 49 <br>
-                        Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
-                        Kota Surabaya <br>
-                        Branch Office : Jl.Raya Bungah No.18, Gresik <br>
-                        <strong>Phone:</strong> 031-3719610/0858-5081-9919	<br>
-                        {{--                        <strong>Email:</strong> info@example.com<br>--}}
-                    </p>
+                    {!! $footer->alamat !!}
 
                     <div class="social-links">
                         <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>

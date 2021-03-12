@@ -16,13 +16,15 @@
 //    // return view('components/loader');
 //});
 
-Route::get('/', function () {
-    return view('landing_page.homepage');
-});
+Route::get('/', [
+    'as'        => 'home',
+    'uses'      => 'LandingHomeController@home'
+]);
 
-Route::get('/about', function () {
-    return view('landing_page.about');
-});
+Route::get('/about', [
+    'as'        => 'about',
+    'uses'      => 'LandingAboutController@home'
+]);
 
 
 Auth::routes();
@@ -60,6 +62,154 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'as'        => 'admin.backup.database',
         'uses'      => 'AdminController@backup_database'
     ]);
+
+    // all about home
+    Route::get('/landing_page/home', [
+        'as'        => 'admin.landingpage.home',
+        'uses'      => 'LandingHomeController@index'
+    ]);
+
+    Route::post('/landing_page/home/updateheadline', [
+        'as'        => 'admin.landingpage.headline.update',
+        'uses'      => 'LandingHomeController@updateHeadline'
+    ]);
+
+    Route::post('/landing_page/home/updatevisimisi', [
+        'as'        => 'admin.landingpage.visimisi.update',
+        'uses'      => 'LandingHomeController@updateVisiMisi'
+    ]);
+
+    Route::post('/landing_page/home/insertkategori', [
+        'as'        => 'admin.landingpage.kategori.insert',
+        'uses'      => 'LandingHomeController@insertKategori'
+    ]);
+
+    Route::post('/landing_page/home/updatekategori', [
+        'as'        => 'admin.landingpage.kategori.update',
+        'uses'      => 'LandingHomeController@updateKategori'
+    ]);
+
+    Route::get('/landing_page/home/deletekategori/{id}', [
+        'as'        => 'admin.landingpage.kategori.delete',
+        'uses'      => 'LandingHomeController@deleteKategori'
+    ]);
+
+    Route::post('/landing_page/home/insertkegiatan', [
+        'as'        => 'admin.landingpage.kegiatan.insert',
+        'uses'      => 'LandingHomeController@insertKegiatan'
+    ]);
+
+    Route::post('/landing_page/home/updatekegiatan', [
+        'as'        => 'admin.landingpage.kegiatan.update',
+        'uses'      => 'LandingHomeController@updateKegiatan'
+    ]);
+    Route::get('/landing_page/home/deletekegiatan/{id}', [
+        'as'        => 'admin.landingpage.kegiatan.delete',
+        'uses'      => 'LandingHomeController@deleteKegiatan'
+    ]);
+
+    Route::post('/landing_page/home/updatefooter', [
+        'as'        => 'admin.landingpage.footer.update',
+        'uses'      => 'LandingHomeController@updateFooter'
+    ]);
+//end of homepage
+
+
+
+    //all about tentang_kami
+    Route::get('/landing_page/tentang_kami', [
+        'as'        => 'admin.landingpage.about',
+        'uses'      => 'LandingAboutController@index'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/insertmitrakerja', [
+        'as'        => 'admin.landingpage.mitrakerja.insert',
+        'uses'      => 'LandingAboutController@insertMitraKerja'
+    ]);
+    Route::post('/landing_page/tentang_kami/updatemitrakerja', [
+        'as'        => 'admin.landingpage.mitrakerja.update',
+        'uses'      => 'LandingAboutController@updateMitraKerja'
+    ]);
+    Route::get('/landing_page/tentang_kami/deletemitrakerja/{id}', [
+        'as'        => 'admin.landingpage.mitrakerja.delete',
+        'uses'      => 'LandingAboutController@deleteMitraKerja'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/insertpendiri', [
+        'as'        => 'admin.landingpage.pendiri.insert',
+        'uses'      => 'LandingAboutController@insertPendiri'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/editpendiri', [
+        'as'        => 'admin.landingpage.pendiri.update',
+        'uses'      => 'LandingAboutController@updatePendiri'
+    ]);
+    Route::get('/landing_page/tentang_kami/deletependiri/{id}', [
+        'as'        => 'admin.landingpage.pendiri.delete',
+        'uses'      => 'LandingAboutController@deletePendiri'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/editrapat', [
+        'as'        => 'admin.landingpage.rapat.update',
+        'uses'      => 'LandingAboutController@updateRapat'
+    ]);
+
+    Route::get('/landing_page/tentang_kami/downloadrapat/{id}', [
+        'as'        => 'admin.landingpage.rapat.download',
+        'uses'      => 'LandingAboutController@downloadRapat'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/insertcarakerja', [
+        'as'        => 'admin.landingpage.carakerja.insert',
+        'uses'      => 'LandingAboutController@insertCaraKerja'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/editcarakerja', [
+        'as'        => 'admin.landingpage.carakerja.update',
+        'uses'      => 'LandingAboutController@updateCaraKerja'
+    ]);
+
+    Route::get('/landing_page/tentang_kami/deletecarakerja/{id}', [
+        'as'        => 'admin.landingpage.carakerja.delete',
+        'uses'      => 'LandingAboutController@deleteCaraKerja'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/insertstrukturorganisasi', [
+        'as'        => 'admin.landingpage.strukturorganisasi.insert',
+        'uses'      => 'LandingAboutController@insertStrukturOrganisasi'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/updatestrukturorganisasi', [
+        'as'        => 'admin.landingpage.strukturorganisasi.update',
+        'uses'      => 'LandingAboutController@updateStrukturOrganisasi'
+    ]);
+
+    Route::get('/landing_page/tentang_kami/deletestrukturorganisasi/{id}', [
+        'as'        => 'admin.landingpage.strukturorganisasi.delete',
+        'uses'      => 'LandingAboutController@deleteStrukturOrganisasi'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/insertizinpendirian', [
+        'as'        => 'admin.landingpage.izinpendirian.insert',
+        'uses'      => 'LandingAboutController@insertIzinPendirian'
+    ]);
+
+    Route::post('/landing_page/tentang_kami/updateizinpendirian', [
+        'as'        => 'admin.landingpage.izinpendirian.update',
+        'uses'      => 'LandingAboutController@updateIzinPendirian'
+    ]);
+
+    Route::get('/landing_page/tentang_kami/deleteizinpendirian/{id}', [
+        'as'        => 'admin.landingpage.izinpendirian.delete',
+        'uses'      => 'LandingAboutController@deleteIzinPendirian'
+    ]);
+
+
+
+
+
+
+//    end of tentang kami
 
     Route::get('/total_simpanan_anggota', [
         'as'        => 'total.simpanan.anggota',

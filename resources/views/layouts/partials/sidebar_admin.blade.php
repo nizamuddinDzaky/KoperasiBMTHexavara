@@ -164,6 +164,24 @@
     </div>
 </li>
 
+<li @if(Request::is('admin/landing_page*')) class="active"@endif>
+    <a data-toggle="collapse" href="#nav_landing">
+        <i class="pe-7s-edit"></i>
+        <p>Landing Page
+            <b class="caret"></b></p>
+    </a>
+    @if(Request::is('admin/landing_page*'))
+        <div class="collapse in" id="nav_landing">
+            @else
+                <div class="collapse" id="nav_landing">
+                    @endif
+                    <ul class="nav">
+                        <li class="@if(Request::is('admin/landing_page/home')) active @endif"><a href="{{route('admin.landingpage.home')}}">Home</a></li>
+                        <li class="@if(Request::is('admin/landing_page/tentang_kami')) active @endif"><a href="{{route('admin.landingpage.about')}}">Tentang Kami</a></li>
+                    </ul>
+                </div>
+</li>
+
 <li>
     <a href="{{route('admin.backup.database')}}">
         <i class="pe-7s-cloud-download"></i>

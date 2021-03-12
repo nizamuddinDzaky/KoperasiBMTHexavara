@@ -167,12 +167,7 @@
 
             <header class="section-header wow fadeInUp">
                 <h3>Tentang Kami</h3>
-               <p>BMT MUDA <br>
-                   Baitul Maal Wat Tamwil Mandiri Ukhuwah Persada <br>
-                   Jalan Kedinding Lor Gang Tanjung 49 <br>
-                   Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
-                   Kota Surabaya <br>
-                   <strong>Phone:</strong> (031) 371 9610 / 0858-5081-9919   <br></p>
+                {!! $homepage->deskripsi !!}
 
             </header>
         </div>
@@ -187,114 +182,16 @@
             </header>
 
             <div class="row about-cols">
+                @foreach($mitrakerja as $keys => $value)
                  <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
                     <div class="about-col">
-                        <h2 class="title  pt-3">Universitas Internasional Semen Indonesia</h2>
-                        <p class="desc-mitra-kerja">
-                            Lab BMT S1 Ekonomi Syariah
+                        <h2 class="title pt-3">{{$value->nama}}</h2>
+                        <p style="text-align: center">
+                            {{$value->keterangan}}
                         </p>
                     </div>
                 </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-                    <div class="about-col">
-                        <h2 class="title  pt-3">Fakultas Ekonomi dan Bisnis Universitas Airlangga</h2>
-                        <p class="desc-mitra-kerja">
-                            Kerjasama triple helix untuk pengembangan masyarakat sekitar Surabaya
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-                    <div class="about-col">
-                        <h2 class="title  pt-3">Kopsyah Bina Umat Terpadu</h2>
-                        <p class="desc-mitra-kerja">
-                            Kerjasama sebagai koperasi sekunder
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-                    <div class="about-col">
-                        <h2 class="title  pt-3">Inisiatif Zakat Indonesia </h2>
-                        <p class="desc-mitra-kerja">
-                            Kerjasama sebagai mitra pengembangan Baitul Maal
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-                    <div class="about-col">
-                        <h2 class="title  pt-3">Koperasi 64 Bahari</h2>
-                        <p class="desc-mitra-kerja">
-                            Kerjasama sebagai mitra binaan untuk nelayan di sekitar kantor pusat
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-                    <div class="about-col">
-                        <h2 class="title  pt-3">AcSES (Association of Sharia Economic Studies), Fakultas Ekonomi dan Bisnis, Univerasitas Airlangga</h2>
-                        <p class="desc-mitra-kerja">
-                            Kerjasama sebagai mitra pengembangan keilmuan ekonomi syariah
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="about-col">
-                        <h2 class="title pt-3">BMT MMU Sidogiri (BMT Maslahah)</h2>
-                        <p class="desc-mitra-kerja">
-                            Membantu pengembangan dan adopsi perangkat lunak / software
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="about-col">
-                        <h2 class="title pt-3">PT. BPRS Kota Mojokerto</h2>
-                        <p class="desc-mitra-kerja">
-                            Partner Financial
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="about-col">
-                        <h2 class="title pt-3">PT. Jamsostek (BPJS)</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage 460 juta rupiah di periode in Mei'12-Mei'15 dan 125 juta rupiah di periode Mei'12-Mei'17
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-                    <div class="about-col">
-                        <h2 class="title pt-3">Bank Mandiri</h2>
-                        <p class="desc-mitra-kerja">
-                           Linkage 100 juta rupiah di periode Sep'14-Sep'15
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-                    <div class="about-col">
-                        <h2 class="title pt-3">Induk Koperasi Syariah (Inkopsyah) Jakarta</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage 400 juta rupiah di periode  Jan'15-Jan'18
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-                    <div class="about-col">
-                        <h2 class="title  pt-3">Bank Syariah Mandiri</h2>
-                        <p class="desc-mitra-kerja">
-                            Linkage 1 milyar rupiah di periode  April’16 – April’19
-                        </p>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
 
         </div>
@@ -306,70 +203,14 @@
 
             <header class="section-header wow fadeInUp">
                 <h3>PENDIRI</h3>
-{{--                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>--}}
             </header>
 
             <div class="row">
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-{{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                    <h4 class="title">H. Karjadi Mintaroem, Drs.Ec, MS</h4>
-{{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-{{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                    <h4 class="title">Shochrul Rohmatul Ajija, S.E, M.Sc</h4>
-{{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="200">
-{{--                    <div class="icon"><i class="ion-ios-bookmarks-outline"></i></div>--}}
-                    <h4 class="title">Okta Sindhu Hartadinata, SE.Ak</h4>
-{{--                    <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="300">
-{{--                    <div class="icon"><i class="ion-ios-paper-outline"></i></div>--}}
-                    <h4 class="title">Suhardiyanti Endi Akhsani, S.E</h4>
-{{--                    <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="200">
-{{--                    <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>--}}
-                    <h4 class="title">Sri Muchaiyah</h4>
-{{--                    <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="300">
-{{--                    <div class="icon"><i class="ion-ios-barcode-outline"></i></div>--}}
-                    <h4 class="title">Sudarti, S.E</h4>
-{{--                    <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-{{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Rahmat Heru Setianto, S.E, M.Sc</h4>
-{{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">H. Sunoyo, S.Sos, Apr</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Yusifa Nur Aulia</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Sri Cahyaning Umi Salama</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Rumayya Batubara</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
-                <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="400">
-                    {{--                    <div class="icon"><i class="ion-ios-people-outline"></i></div>--}}
-                    <h4 class="title">Nur Chamimah</h4>
-                    {{--                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>--}}
-                </div>
+                @foreach($pendiri as $keys => $value)
+                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                        <h4 class="title">{{$value->nama}}</h4>
+                    </div>
+                    @endforeach
             </div>
 
         </div>
@@ -381,25 +222,16 @@
 
             <header class="section-header wow fadeInUp">
                 <h3>Rapat</h3>
-{{--                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>--}}
             </header>
 
             <div class="row">
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="icon"><i class="ion-ios-paper-outline"></i></div>
-                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1KbRMDPukyP3I2vJ4FML5nrNI9PgX0X4i/view?usp=sharing" class="btn btn-primary">Download RAB</a></h4>
-                    <p class="description">Rencana Anggaran Belanja Tahun Depan</p>
-                </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="icon"><i class="ion-ios-paper-outline"></i></div>
-                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1wEjtte_Ebdop8s0wLQC7jIYvzV_VEAcS/view?usp=sharing" class="btn btn-primary">Download RAT</a></h4>
-                    <p class="description">Rapat Anggota Tahunan</p>
-                </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="icon"><i class="ion-ios-paper-outline" ></i></div>
-                    <h4 class="title" style="color: white!important;"><a href="https://drive.google.com/file/d/1C5pyb7_0ebeRO7GSvC13q6EHfxGWJQQg/view?usp=sharing" class="btn btn-primary">Download RALB</a></h4>
-                    <p class="description">Rapat Anggota Luar Biasa </p>
-                </div>
+                @foreach($rapat as $keys => $value)
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="icon"><i class="ion-ios-paper-outline"></i></div>
+                        <h4 class="title" style="color: white!important;"><a href="{{url('admin/landing_page/tentang_kami/downloadrapat').'/'.$value->id}}" class="btn btn-primary">Download {{$value->nama}}</a></h4>
+                        <p class="description">{{$value->nama}}</p>
+                    </div>
+                    @endforeach
 
 
             </div>
@@ -428,30 +260,20 @@
 
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
-                <div class="col-lg-6 col-md-6 portfolio-item">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/scope.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/scope.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3" style="margin-left: 5%!important;"><i class="ion ion-eye"></i></a>
-                        </figure>
+                @foreach($carakerja as $keys => $value)
+                    <div class="col-lg-6 col-md-6 portfolio-item">
+                        <div class="portfolio-wrap">
+                            <figure>
+                                <img src="{{asset($value->gambar)}}" class="img-fluid" alt="">
+                                <a href="{{asset($value->gambar)}}" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3" style="margin-left: 5%!important;"><i class="ion ion-eye"></i></a>
+                            </figure>
 
-                        <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Ruang Lingkup</a></h4>
+                            <div class="portfolio-info">
+                                <h4><a>{{$value->keterangan}}</a></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 portfolio-item">
-                    <div class="portfolio-wrap">
-                        <figure>
-                            <img src="{{asset('images/syariah.png')}}" class="img-fluid" alt="">
-                            <a href="{{asset('images/syariah.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="App 2" style="margin-left: 5%!important;"><i class="ion ion-eye"></i></a>
-                        </figure>
-
-                        <div class="portfolio-info">
-                            <h4><a href="portfolio-details.html">Finasial Syariah BMT MUDA</a></h4>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
             </div>
 
         </div>
@@ -465,82 +287,43 @@
                 <h3>Struktur Organisasi</h3>
                 <h4 style="font-weight: bold; color: black">Pembina</h4>
                 <div class="row">
+                    @foreach($pembina as $value)
                     <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Dr. Karjadi Mintaroem</h4>
-                        </div>{{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
+                        <h4 class="title">@if($value->jabatan != null)<b>{{$value->jabatan}}</b> <br>@endif{{$value->nama}}</h4>
+                        </div>
+                        @endforeach
                 </div>
                 <h4 style="font-weight: bold; color: black">Pengawas</h4>
                 <div class="row">
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Rahmat Heru Setianto, SE.,M.Sc</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Prof. Dr. Raditya Sukmana</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div> 
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title">Elva Farihah SE, M.Si</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div> 
+                    @foreach($pengawas as $value)
+                        <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                            <h4 class="title">@if($value->jabatan != null)<b>{{$value->jabatan}}</b> <br>@endif{{$value->nama}}</h4>
+                        </div>
+                    @endforeach
                 </div>
                 <h4 style="font-weight: bold; color: black">Dewan Pengawas Syariah</h4>
                 <div class="row">
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"> Ahmad Hudaifah SE.,M.Ec</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"> Robiatul Adawiyah, Lc, MIRKH</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"> Salman Abdurrubi Perwiragama, Lc</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
+                    @foreach($dewanpengawas as $value)
+                        <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                            <h4 class="title">@if($value->jabatan != null)<b>{{$value->jabatan}}</b> <br>@endif{{$value->nama}}</h4>
+                        </div>
+                    @endforeach
                 </div>
                 <h4 style="font-weight: bold; color: black">Pengurus</h4>
                 <div class="row">
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Ketua</b> <br> Shochrul Rohmatul Ajija, S.E.,M.Ec</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Sekretaris</b> <br> Siti Mudawamah, S.Kom</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Bendahara</b> <br> H.Sunoyo, S.Sos, Apr</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
+                    @foreach($pengurus as $value)
+                        <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                            <h4 class="title">@if($value->jabatan != null)<b>{{$value->jabatan}}</b> <br>@endif{{$value->nama}}</h4>
+                        </div>
+                    @endforeach
                 </div>
                 <h4 style="font-weight: bold; color: black">Pengelola</h4>
                 <div class="row">
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Direktur Utama</b> <br> H.Sunoyo, S.Sos, Apr</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Direktur Marketing</b> <br> Sri Cahyaning Umi Salama S.E.I., M.Si.</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
-                    <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
-                        {{--                    <div class="icon"><i class="ion-ios-analytics-outline"></i></div>--}}
-                        <h4 class="title"><b>Direktur Baitul Maal</b> <br> Ahmad Hudaifah S.E, M.Ec.</h4>
-                        {{--                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>--}}
-                    </div>
+                    @foreach($pengelola as $value)
+                        <div class="col-lg-3 col-md-3 box" data-aos="fade-up" data-aos-delay="100">
+                            <h4 class="title">@if($value->jabatan != null)<b>{{$value->jabatan}}</b> <br>@endif{{$value->nama}}</h4>
+                        </div>
+                    @endforeach
                 </div>
             </header>
         </div>
@@ -555,67 +338,20 @@
             </header>
 
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
+            @foreach($izin_pendirian as $value)
             <div class="col-lg-4 col-md-6 portfolio-item">
                 <div class="portfolio-wrap">
                     <figure>
-                        <img src="{{asset('images/nib_bmt_muda.png')}}" class="img-fluid" alt="">
-                        <a href="{{asset('images/nib_bmt_muda.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3" ><i class="ion ion-eye"></i></a>
+                        <img src="{{asset($value->gambar)}}" class="img-fluid" alt="">
+                        <a href="{{asset($value->gambar)}}" class="link-preview venobox" data-gall="portfolioGallery" title="Web 3" ><i class="ion ion-eye"></i></a>
                     </figure>
 
                     <div class="portfolio-info">
-                        <h4><a href="portfolio-details.html">Nomor Induk Berusaha</a></h4>
+                        <h4><a href="portfolio-details.html">{{$value->keterangan}}</a></h4>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 portfolio-item">
-                <div class="portfolio-wrap">
-                    <figure>
-                        <img src="{{asset('images/nik_bmt_muda.png')}}" class="img-fluid" alt="">
-                        <a href="{{asset('images/nik_bmt_muda.png')}}" class="link-preview venobox" data-gall="portfolioGallery" title="App 2"><i class="ion ion-eye"></i></a>
-                    </figure>
-
-                    <div class="portfolio-info">
-                        <h4><a href="portfolio-details.html">Nomor Induk Koperasi</a></h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 portfolio-item">
-                <div class="portfolio-wrap">
-                    <figure>
-                        <img src="{{asset('images/siu_simpanpinjam.jpeg')}}" class="img-fluid" alt="">
-                        <a href="{{asset('images/siu_simpanpinjam.jpeg')}}" class="link-preview venobox" data-gall="portfolioGallery" title="App 2"><i class="ion ion-eye"></i></a>
-                    </figure>
-
-                    <div class="portfolio-info">
-                        <h4><a href="portfolio-details.html">Izin Usaha Simpan Pinjam</a></h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 portfolio-item">
-                <div class="portfolio-wrap">
-                    <figure>
-                        <img src="{{asset('images/surat_keterangan_domisili.jpeg')}}" class="img-fluid" alt="">
-                        <a href="{{asset('images/surat_keterangan_domisili.jpeg')}}" class="link-preview venobox" data-gall="portfolioGallery" title="App 2"><i class="ion ion-eye"></i></a>
-                    </figure>
-
-                    <div class="portfolio-info">
-                        <h4><a href="portfolio-details.html">Surat Keterangan Domisili</a></h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 portfolio-item">
-                <div class="portfolio-wrap">
-                    <figure>
-                        <img src="{{asset('images/tanda_bukti_nazhir.jpeg')}}" class="img-fluid" alt="">
-                        <a href="{{asset('images/tanda_bukti_nazhir.jpeg')}}" class="link-preview venobox" data-gall="portfolioGallery" title="App 2"><i class="ion ion-eye"></i></a>
-                    </figure>
-
-                    <div class="portfolio-info">
-                        <h4><a href="portfolio-details.html">Bukti Pendaftaran Nahzir</a></h4>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         </div>
@@ -632,13 +368,9 @@
             <div class="row">
 
                 <div class="col-lg-3 col-md-6 footer-info">
-                    <a href="{{asset('/')}}"><img src="{{asset('bootstrap/assets/img/bmt_logo.jpg')}}" alt="logo bmt muda" class="img-fluid" style="height: 30%; width:70%"></a>
-                    <p class="font-weight-bold">Tanggal Pendirian</p>
-                    <p>30 Januari 2012</p>
-                    <p class="font-weight-bold">No & Tanggal Pendirian</p>
-                    <p>No 44 Tanggal 30 Januari 2012</p>
-                    <p class="font-weight-bold">No & Tanggal Legal Entity</p>
-                    <p>NO BH/P2T/10/09.01/01/V/2012 8th Mei 2012</p>
+                    <a href="{{asset('/')}}"><img src="{{asset($footer->logo)}}" alt="logo bmt muda" class="img-fluid" style="height: 30%; width:70%"></a>
+                    {!! $footer->keterangan !!}
+
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
@@ -653,13 +385,7 @@
 
                 <div class="col-lg-3 col-md-6 footer-contact">
                     <h4>Alamat Kami</h4>
-                    <p>
-                        Head Office : Jalan Kedinding Lor Gang Tanjung 49 <br>
-                        Kelurahan Tanah Kali Kedinding, Kecamatan Kenjeran<br>
-                        Kota Surabaya <br>
-                        Branch Office : Jl.Raya Bungah No.18, Gresik <br>
-                        <strong>Phone:</strong> 031-3719610/0858-5081-9919	<br>
-                    </p>
+                    {!! $footer->alamat !!}
 
                     <div class="social-links">
                         <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
