@@ -260,6 +260,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'as'        => 'edit_profile',
         'uses'      => 'DatamasterController@edit_profile'
     ]);
+    Route::get('/editdatadiri/{ktp}', [
+        'as'        => 'edit_datadiri_admin',
+        'uses'      => 'AdminController@datadiri'
+    ]);
+
+    Route::post('upadtedatadiri', [
+        'as'        => 'update_datadiri_admin',
+        'uses'      => 'AdminController@updateidentitas'
+    ]);
+
     Route::post('/edit_pass', [
         'as'        => 'admin.edit_pass',
         'uses'      => 'AdminController@edit_pass'

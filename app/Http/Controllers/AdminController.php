@@ -1780,4 +1780,73 @@ class AdminController extends Controller
     }
 
 
+    public function datadiri($no_ktp)
+    {
+        $notification = $this->pengajuanReporsitory->getNotification();
+        $notification_count = count($notification);
+        $user = User::where('no_ktp', $no_ktp)->first();
+        return view('admin.editdatadiri',[
+            'dropdown7' => $this->informationRepository->getDdTeller(),
+            'tab' =>  $this->informationRepository->getAllTabungan(),
+            'status' =>  $this->informationRepository->getUsrByKtp($no_ktp),
+            'user' => $user,
+            'notification' => $notification,
+            'notification_count' => $notification_count
+        ]);
+    }
+
+    public function updateidentitas(Request $request)
+    {
+
+        $this->validate($request, [
+            'filektp' => 'file|max:2000', // max 2MB
+            'fileksk' => 'file|max:2000', // max 2MB
+            'filenikah' => 'file|max:2000', // max 2MB
+        ]);
+
+        if(preg_match("/^[0-9,]+$/", $request->pendapatan)) $request->pendapatan = str_replace(',',"",$request->pendapatan);
+        $tglLahir = Carbon::createFromFormat('d/m/Y', $request->tglLahir)->format('m/d/Y');
+        $detail = [
+            'nama' => $request->nama,
+            'no_ktp' => $request->no_ktp,
+            'nik' => $request->nik,
+            'telepon' => $request->telepon,
+            'jenis_kelamin' => $request->jenisKel,
+            'tempat_lahir' => $request->tempat,
+            'tgl_lahir' => $tglLahir,
+            'alamat_ktp' => $request->alamat,
+            'alamat_domisili' => $request->domisili,
+            'pendidikan' => $request->pendidikan,
+            'pekerjaan' => $request->kerja,
+            'pendapatan' => $request->pendapatan,
+            'alamat_kerja' => $request->alamatKer,
+            'status' => $request->status,
+            'nama_wali' => $request->wali,
+            'ayah' => $request->ayah,
+            'ibu' => $request->ibu,
+            'jml_sumis' => $request->jsumis,
+            'jml_anak' => $request->juman,
+            'jml_ortu' => $request->jortu,
+            'lain' => $request->lain,
+            'rumah' => $request->rumah,
+        ];
+
+        if(Auth::user()->tipe=="teller"){
+            $detail['id_rekening'] = json_decode(Auth::user()->detail,true)['id_rekening'];
+        }
+
+
+        if ($this->informationRepository->addIdentitas($detail, $request)) {
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Identitas Anggota berhasil diupdate!.'));
+        }
+        else {
+            return redirect()
+                ->back()
+                ->withInput()->with('message', 'Identitas gagal diupdate!.');
+        }
+    }
+
+
 }

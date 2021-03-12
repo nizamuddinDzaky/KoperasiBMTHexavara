@@ -3573,7 +3573,13 @@ class InformationRepository
     function addIdentitas($data,$request)
     {
         //handle tanda tangan
-        $user = $this->getAnggota(Auth::user()->no_ktp);
+        if (Auth::user()->tipe == "admin"){
+            $user = $this->getAnggota($request->no_ktp);
+            $user_edit = User::where('no_ktp', $request->no_ktp)->first();
+        }else{
+            $user = $this->getAnggota(Auth::user()->no_ktp);
+        }
+
         if (isset($request->tanda_tangan) && $request->tanda_tangan != null){
             $folderPath = public_path('storage/public/tanda_tangan/');
             $image_parts = explode(";base64,", $request->tanda_tangan);
@@ -3583,7 +3589,12 @@ class InformationRepository
             $file = $folderPath . uniqid() . '.'.$image_type;
             $tanda_tangan_path = str_after($file,$folderPath);
         }else{
-            $tanda_tangan_path = json_decode($user->pathfile,true)['Tanda_tangan'];
+            if (isset(json_decode($user->pathfile,true)['Tanda_tangan'])){
+                $tanda_tangan_path = json_decode($user->pathfile,true)['Tanda_tangan'];
+            }else{
+                $tanda_tangan_path = "";
+            }
+
         }
 
 
@@ -3626,28 +3637,63 @@ class InformationRepository
             Storage::delete("public/file/".$prevfile2);
         if($prevfile3)
             Storage::delete("public/file/".$prevfile3);
-        $pengajuan = Pengajuan::where('kategori',"Tabungan Awal")->where('status',"Menunggu Konfirmasi")->where('id_user',Auth::user()->id)->first();
-        if(Auth::user()->tipe=="teller"){
-            $data['no_ktp']=Auth::user()->no_ktp;
-            $status=2;
-        }
-        elseif(!isset($pengajuan) && count($this->getAllTabUsr()) != 0){
-            $status = 2;
-        }
-        else{
-            if(!isset($pengajuan))
-                $this->daftar_pengajuan_baru($request->tab);
-            $status =1;
+        if (Auth::user()->tipe == "admin"){
+            $pengajuan = Pengajuan::where('kategori',"Tabungan Awal")->where('status',"Menunggu Konfirmasi")->where('id_user', $user_edit->id)->first();
+        }else{
+            $pengajuan = Pengajuan::where('kategori',"Tabungan Awal")->where('status',"Menunggu Konfirmasi")->where('id_user',Auth::user()->id)->first();
         }
 
-        $dt = $this->user->where('id', Auth::user()->id)
-            ->update(['detail' => $encode,
-                'no_ktp' => $data['no_ktp'],
-                'pathfile' => json_encode($detail),
-                'status' => $status,
-                'nama' => $data['nama'],
-                'alamat' => $data['alamat_domisili'],
-            ]);
+        if(Auth::user()->tipe == "admin"){
+            if(Auth::user()->tipe =="teller"){
+                $data['no_ktp']=Auth::user()->no_ktp;
+                $status=2;
+            }
+            elseif(!isset($pengajuan) && count($this->getAllTabUsr($user_edit->id)) != 0){
+                $status = 2;
+            }
+            else{
+                if(!isset($pengajuan))
+                    $this->daftar_pengajuan_baru($request->tab);
+                $status =1;
+            }
+        }else{
+            if(Auth::user()->tipe =="teller"){
+                $data['no_ktp']=Auth::user()->no_ktp;
+                $status=2;
+            }
+            elseif(!isset($pengajuan) && count($this->getAllTabUsr()) != 0){
+                $status = 2;
+            }
+            else{
+                if(!isset($pengajuan))
+                    $this->daftar_pengajuan_baru($request->tab);
+                $status =1;
+            }
+        }
+
+
+        if (Auth::user()->tipe == "admin"){
+            $dt = $this->user->where('id',  $user_edit->id)
+                ->update(['detail' => $encode,
+                    'no_ktp' => $data['no_ktp'],
+                    'pathfile' => json_encode($detail),
+                    'status' => $status,
+                    'nama' => $data['nama'],
+                    'alamat' => $data['alamat_domisili'],
+                ]);
+
+        }else{
+
+            $dt = $this->user->where('id', Auth::user()->id)
+                ->update(['detail' => $encode,
+                    'no_ktp' => $data['no_ktp'],
+                    'pathfile' => json_encode($detail),
+                    'status' => $status,
+                    'nama' => $data['nama'],
+                    'alamat' => $data['alamat_domisili'],
+                ]);
+        }
+
 
         if (isset($request->tanda_tangan) && $request->tanda_tangan != null) {
             file_put_contents($file, $image_base64);
@@ -3753,11 +3799,18 @@ class InformationRepository
         if($user->save())return true;
         else return false;
     }
-    function getAllTabUsr()
+    function getAllTabUsr($id = "")
     {
         $data = Tabungan::select('tabungan.*', 'users.no_ktp', 'users.nama')
             ->join('users', 'users.id', '=', 'tabungan.id_user')
             ->where('tabungan.id_user',Auth::user()->id)->orderBy('id','DESC')->get();
+
+        if (Auth::user()->tipe == "admin"){
+            $data = Tabungan::select('tabungan.*', 'users.no_ktp', 'users.nama')
+                ->join('users', 'users.id', '=', 'tabungan.id_user')
+                ->where('tabungan.id_user',$id)->orderBy('id','DESC')->get();
+        }
+
         return $data;
     }
     function getAllTabUsrActive()

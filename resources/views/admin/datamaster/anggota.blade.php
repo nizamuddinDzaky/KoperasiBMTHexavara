@@ -158,26 +158,32 @@
                                             <i class="fa fa-key"></i>
                                         </button>
                                         @if($usr->tipe!="admin")
-                                        <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editUsrModal" title="Edit"
-                                                          data-id      = "{{$usr->no_ktp}}"
-                                                          data-nama    = "{{$usr->nama}}"
-                                                          data-alamat    = "{{$usr->alamat}}"
-                                                data-tipe    = "{{$usr->tipe}}"
-                                                data-role    = "{{$usr->role}}"
-                                                data-id_kas    = "{{ isset(json_decode($usr->detail,true)['id_rekening'])?json_decode($usr->detail,true)['id_rekening']:"" }}"
-                                                data-p    = "{{$usr->password}}"
-                                                @if($usr->tipe == "teller")
-                                                    @if(isset(json_decode($usr->detail,true)['kota']))
+                                            @if($usr->tipe == "anggota")
+                                                <button type="button" class="btn btn-social btn-success btn-fill" onclick="editDataDiri({{$usr->no_ktp}})"><i class="fa fa-edit"></i></button>
+                                                @elseif($usr->tipe == "teller")
+                                                <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editUsrModal" title="Edit"
+                                                        data-id      = "{{$usr->no_ktp}}"
+                                                        data-nama    = "{{$usr->nama}}"
+                                                        data-alamat    = "{{$usr->alamat}}"
+                                                        data-tipe    = "{{$usr->tipe}}"
+                                                        data-role    = "{{$usr->role}}"
+                                                        data-id_kas    = "{{ isset(json_decode($usr->detail,true)['id_rekening'])?json_decode($usr->detail,true)['id_rekening']:"" }}"
+                                                        data-p    = "{{$usr->password}}"
+                                                        @if($usr->tipe == "teller")
+                                                        @if(isset(json_decode($usr->detail,true)['kota']))
                                                         data-kota="{{json_decode($usr->detail,true)['kota']}}"
-                                                    @endif
-                                                @elseif($usr->tipe == "anggota")
-                                                    @if(isset(json_decode($usr->detail,true)['telepon']))
-                                                    data-telepon="{{json_decode($usr->detail,true)['telepon']}}"
-                                                    @endif
-                                                @endif
+                                                        @endif
+                                                        @elseif($usr->tipe == "anggota")
+                                                        @if(isset(json_decode($usr->detail,true)['telepon']))
+                                                        data-telepon="{{json_decode($usr->detail,true)['telepon']}}"
+                                                        @endif
+                                                        @endif
                                                 >
-                                            <i class="fa fa-edit"></i>
-                                        </button>
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                @endif
+
+
 
                                         @if($usr->is_active == 0)
                                         <button type="button"  class="btn btn-social btn-primary btn-fill" data-toggle="modal" data-target="#reactiveUsrModal" title="Reactive User"
@@ -215,6 +221,10 @@
 @section('extra_script')
 
     <script type="text/javascript">
+        function editDataDiri(ktp){
+
+            window.location.href = "{{  url('/admin/editdatadiri') }}" + "/" + ktp;
+        }
            //        $('#editUsrModal').on('hidden.bs.modal', function () {
         //            if (!$('#editUsrModal').hasClass('no-reload')) {
         //                location.reload();
