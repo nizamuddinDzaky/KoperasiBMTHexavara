@@ -228,7 +228,7 @@
                 @foreach($rapat as $keys => $value)
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="icon"><i class="ion-ios-paper-outline"></i></div>
-                        <h4 class="title" style="color: white!important;"><a href="{{url('admin/landing_page/tentang_kami/downloadrapat').'/'.$value->id}}" class="btn btn-primary">Download {{$value->nama}}</a></h4>
+                        <h4 class="title" style="color: white!important;"><a href="{{url('landing_page/tentang_kami/downloadrapat').'/'.$value->id}}" class="btn btn-primary">Download {{$value->nama}}</a></h4>
                         <p class="description">{{$value->nama}}</p>
                     </div>
                     @endforeach

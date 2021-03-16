@@ -26,6 +26,11 @@ Route::get('/about', [
     'uses'      => 'LandingAboutController@home'
 ]);
 
+Route::get('/landing_page/tentang_kami/downloadrapat/{id}', [
+    'as'        => 'landingpage.rapat.download',
+    'uses'      => 'LandingAboutController@downloadRapat'
+]);
+
 
 Auth::routes();
 
