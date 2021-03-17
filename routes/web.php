@@ -21,6 +21,12 @@ Route::get('/', [
     'uses'      => 'LandingHomeController@home'
 ]);
 
+Route::get('/tausiah/{id}', [
+    'as'        => 'tausiah',
+    'uses'      => 'LandingHomeController@tausiah'
+]);
+
+
 Route::get('/about', [
     'as'        => 'about',
     'uses'      => 'LandingAboutController@home'
@@ -117,6 +123,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
         'as'        => 'admin.landingpage.footer.update',
         'uses'      => 'LandingHomeController@updateFooter'
     ]);
+
+    Route::post('/landing_page/home/inserttausiah', [
+        'as'        => 'admin.landingpage.tausiah.insert',
+        'uses'      => 'LandingHomeController@insertTausiah'
+    ]);
+
+    Route::post('/landing_page/home/updatetausiah', [
+        'as'        => 'admin.landingpage.tausiah.update',
+        'uses'      => 'LandingHomeController@updateTausiah'
+    ]);
+
+    Route::get('/landing_page/home/deletetausiah/{id}', [
+        'as'        => 'admin.landingpage.tausiah.delete',
+        'uses'      => 'LandingHomeController@deleteTausiah'
+    ]);
+
+
 //end of homepage
 
 

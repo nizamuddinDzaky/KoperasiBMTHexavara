@@ -51,7 +51,7 @@
                     <a class="nav-link" href="{{url('/')}}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://www.bmtmuda.com/2012/01/profile-bmt.html">Profile</a>
+                    <a class="nav-link" href="{{url('/about')}}">Tentang Kami</a>
                 </li>
             </ul>
         </div>

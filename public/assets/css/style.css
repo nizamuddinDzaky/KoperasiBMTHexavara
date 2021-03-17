@@ -384,10 +384,23 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 }
 
+#intro_tausiah {
+  width: 100%;
+  height: 13vh;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+
 @media (max-height: 500px) {
   #intro {
     height: 150vh;
   }
+
+  #intro_tausiah {
+    height: 150vh;
+  }
+
 }
 
 #intro .carousel, #intro .carousel-inner, #intro .carousel-item, #intro .carousel-item::before {
@@ -754,6 +767,99 @@ section {
 }
 
 #about .about-col p {
+  font-size: 14px;
+  line-height: 24px;
+  color: #333;
+  margin-bottom: 0;
+  padding: 0 20px 20px 20px;
+}
+
+#tausiah {
+  /*background: url("../img/about-bg.jpg") center top no-repeat fixed;*/
+  background-size: cover;
+  padding: 60px 0 40px 0;
+  position: relative;
+}
+
+#tausiah::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 9;
+}
+
+#tausiah .container {
+  position: relative;
+  z-index: 10;
+}
+
+#tausiah .about-col {
+  background: #fff;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+#tausiah .about-col .img {
+  position: relative;
+}
+
+#tausiah .about-col .img img {
+  border-radius: 4px 4px 0 0;
+}
+
+#tausiah .about-col .icon {
+  width: 64px;
+  height: 64px;
+  padding-top: 8px;
+  text-align: center;
+  position: absolute;
+  background-color: #18d26e;
+  border-radius: 50%;
+  text-align: center;
+  border: 4px solid #fff;
+  left: calc( 50% - 32px);
+  bottom: -30px;
+  transition: 0.3s;
+}
+
+#tausiah .about-col i {
+  font-size: 36px;
+  line-height: 1;
+  color: #fff;
+  transition: 0.3s;
+}
+
+#tausiah .about-col:hover .icon {
+  background-color: #fff;
+}
+
+#tausiah .about-col:hover i {
+  color: #18d26e;
+}
+
+#tausiah .about-col h2 {
+  color: #000;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 0;
+  margin: 40px 0 12px 0;
+}
+
+#tausiah .about-col h2 a {
+  color: #000;
+}
+
+#tausiah .about-col h2 a:hover {
+  color: #18d26e;
+}
+
+#tausiah .about-col p {
   font-size: 14px;
   line-height: 24px;
   color: #333;

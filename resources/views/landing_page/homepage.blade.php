@@ -295,6 +295,40 @@
 
         </div>
     </section><!-- End Portfolio Section -->
+    <section id="tausiah" class="section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h3 class="section-title">Tausiah</h3>
+            </header>
+
+
+
+            <div class="row about-cols" >
+
+                @foreach($tausiah as $keys => $value)
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="about-col">
+                        <div class="img">
+                            <img src="{{asset($value->gambar)}}" alt="" class="img-fluid">
+                        </div>
+                        <form>
+                            <h2 class="title"><a href="{{route('tausiah', $value->id)}}">{{$value->judul}}</a></h2>
+                        </form>
+
+                        <div style="text-align: center">
+                            {!! substr($value->isi, 0 ,200)  !!}...
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <div class="col-md-4 offset-md-6">
+                {{$tausiah->links()}}
+            </div>
+
+        </div>
+    </section>
 
 </main><!-- End #main -->
 

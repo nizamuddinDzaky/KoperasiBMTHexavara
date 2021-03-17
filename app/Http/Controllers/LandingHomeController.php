@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tausiah;
 use Illuminate\Http\Request;
 use App\Repositories\PengajuanReporsitories;
 use App\Homepage;
@@ -36,9 +37,10 @@ class LandingHomeController extends Controller
         }
 
         $footer = Footer::first();
+        $tausiah = Tausiah::orderBy('created_at', 'DESC')->paginate(6);
 
 
-        return view('landing_page.homepage', compact('homepage', 'kategori', 'kegiatan', 'footer'));
+        return view('landing_page.homepage', compact('homepage', 'kategori', 'kegiatan', 'footer', 'tausiah'));
     }
 
 
@@ -51,6 +53,7 @@ class LandingHomeController extends Controller
             ->select('k.*', 'kk.nama as kategori')
             ->get();
         $footer = Footer::first();
+        $tausiah = Tausiah::orderBy('created_at', 'DESC')->get();
 
         return view('admin.landing_page.home', [
             'notification' => $notification,
@@ -58,8 +61,20 @@ class LandingHomeController extends Controller
             'homepage' => $homepage,
             'kategori' => $kategori,
             'kegiatan' => $kegiatan,
+            'tausiah' => $tausiah,
             'footer' => $footer
         ]);
+    }
+
+    public function tausiah($id){
+
+        $tausiah = Tausiah::find($id);
+        $footer = Footer::first();
+
+
+
+        return view('landing_page.tausiah', get_defined_vars());
+
     }
 
     public function updateHeadline(Request $request)
@@ -247,5 +262,68 @@ class LandingHomeController extends Controller
                 ->withInput()->with('Footer gagal diupdate');
         }
 
+    }
+
+    public function insertTausiah(Request $request){
+        $tausiah = new Tausiah;
+        $tausiah->judul = $request->judul;
+        $tausiah->isi = $request->isi;
+
+        session()->flash('active', 'tausiah');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $nama = time() . "-" . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $target_upload = 'images/tausiah';
+            $file->move($target_upload, $nama);
+            $path_now = $target_upload . "/" . $nama;
+            $tausiah->gambar = $path_now;
+        }
+
+
+        if ($tausiah->save()){
+            return redirect()->back()
+                ->withSuccess(sprintf('Tausiah berhasil ditambahkan'));
+        }else{
+            return redirect()->back()
+                ->withInput()->with('Tausiah gagal ditambahkan');
+        }
+    }
+
+    public function updateTausiah(Request $request){
+        $tausiah = Tausiah::find($request->id);
+        $tausiah->judul = $request->judul;
+        $tausiah->isi = $request->isi;
+
+        session()->flash('active', 'tausiah');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $nama = time() . "-" . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $target_upload = 'images/tausiah';
+            $file->move($target_upload, $nama);
+            $path_now = $target_upload . "/" . $nama;
+            $tausiah->gambar = $path_now;
+        }
+
+
+        if ($tausiah->save()){
+            return redirect()->back()
+                ->withSuccess(sprintf('Tausiah berhasil diupdate'));
+        }else{
+            return redirect()->back()
+                ->withInput()->with('Tausiah gagal diupdate');
+        }
+    }
+
+    public function deleteTausiah($id){
+
+        $tausiah = Tausiah::find($id);
+        session()->flash('active', 'tausiah');
+        if ($tausiah->delete()){
+            return redirect()->back()
+                ->withSuccess(sprintf('Tausiah berhasil dihapus'));
+        }else{
+            return redirect()->back()
+                ->withInput()->with('Tausiah gagal dihapus');
+        }
     }
 }

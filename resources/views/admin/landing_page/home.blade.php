@@ -29,6 +29,7 @@
                     <li role="presentation" @if(Session::get('active') == 'headline' || !Session::has('active')) class="active" @endif><a href="#headline" aria-controls="kegiatan" role="tab" data-toggle="tab">HEADLINE</a></li>
                     <li role="presentation" @if(Session::get('active') == 'visimisi')class="active"@endif><a href="#motovisimisi" aria-controls="zis" role="tab" data-toggle="tab">MOTO VISI MISI</a></li>
                     <li role="presentation" @if(Session::get('active') == 'kegiatan')class="active"@endif><a href="#kegiatan" aria-controls="wakaf" role="tab" data-toggle="tab">KEGIATAN</a></li>
+                    <li role="presentation" @if(Session::get('active') == 'tausiah')class="active"@endif><a href="#tausiah" aria-controls="wakaf" role="tab" data-toggle="tab">TAUSIAH</a></li>
                     <li role="presentation" @if(Session::get('active') == 'footer')class="active"@endif><a href="#footer" aria-controls="wakaf" role="tab" data-toggle="tab">FOOTER</a></li>
                 </ul>
             </div>
@@ -46,6 +47,9 @@
                 @include('admin/landing_page/home/kegiatan')
                 @include('admin/landing_page/home/kategori')
             </div>
+            <div role="tabpanel" @if(Session::get('active') == 'tausiah')class="tab-pane active" @else class="tab-pane" @endif  id="tausiah">
+                @include('admin/landing_page/home/tausiah')
+            </div>
             <div role="tabpanel" @if(Session::get('active') == 'footer')class="tab-pane active" @else class="tab-pane" @endif  id="footer">
                 @include('admin/landing_page/home/footer')
             </div>
@@ -62,6 +66,8 @@
     @include('admin/landing_page/home/modal/tambahkegiatan')
     @include('admin/landing_page/home/modal/editkegiatan')
     @include('admin/landing_page/home/modal/editfooter')
+    @include('admin/landing_page/home/modal/tambahtausiah')
+    @include('admin/landing_page/home/modal/edittausiah')
 @endsection
 
 @section('extra_script')
@@ -96,6 +102,15 @@
             }
 
         }
+
+        function deleteTausiah(id){
+
+            var r = confirm("Apakah anda yakin ingin menghapus tausiah ini?");
+
+            if(r== true){
+                window.location.href =  "{{url('admin/landing_page/home/deletetausiah')}}" + "/" + id;
+            }
+        }
     </script>
 {{--    handle data inject modal--}}
     <script type="text/javascript">
@@ -105,6 +120,16 @@
         });
 
         $("#alamatFooter").on("summernote.enter", function(we, e) {
+            $(this).summernote("pasteHTML", "<br><br>");
+            e.preventDefault();
+        });
+
+        $("#isiTausiah").on("summernote.enter", function(we, e) {
+            $(this).summernote("pasteHTML", "<br><br>");
+            e.preventDefault();
+        });
+
+        $("#isiTausiahEdit").on("summernote.enter", function(we, e) {
             $(this).summernote("pasteHTML", "<br><br>");
             e.preventDefault();
         });
@@ -169,6 +194,18 @@
             $('#keteranganFooter').summernote('code', keterangan);
             $('#alamatFooter').summernote('code', alamat);
 
+        });
+
+        $('#editTausiahModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var id = button.data('id')
+            var judul = button.data('judul');
+            var isi = button.data('isi');
+            console.log(isi)
+
+            $('#id_tausiah_edit').val(id);
+            $('#judul_tausiah_edit').val(judul);
+            $('#isiTausiahEdit').summernote('code', isi);
         });
 
 
