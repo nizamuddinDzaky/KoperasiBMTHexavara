@@ -669,6 +669,11 @@ class LaporanController extends Controller
         if(!$periode->contains($periodeToday)){
             $periode = $periode->merge($periodeToday);
         }
+        if (   $data['data']->isEmpty())
+        {
+            session()->now('message', 'Tidak Ditemukan Data');
+        }
+
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
             'notification' => $notification,
@@ -685,6 +690,12 @@ class LaporanController extends Controller
             $periode = $periode->merge($periodeToday);
         }
         $data =$this->informationRepository->BukuBesar_($request);
+
+        if ($data['data']->isEmpty())
+        {
+            session()->now('message', 'Tidak Ditemukan Data');
+        }
+
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
             'data' => $data,
