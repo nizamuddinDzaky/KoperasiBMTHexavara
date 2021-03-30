@@ -89,7 +89,7 @@ class ExportRepositories {
      * Generate content to export
      * @return Response
     */
-    public function generateContent($template_path, $data, $dataRow="", $dataRowTitle="", $rahn)
+    public function generateContent($template_path, $data, $dataImage = array(), $dataRow="", $dataRowTitle="", $rahn)
     {
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template_path);
         Settings::setOutputEscapingEnabled(true);
@@ -100,19 +100,32 @@ class ExportRepositories {
             ));
         }
 
+        // echo $dataImage['ttd_nasabah'];
+        
+        if(count($dataImage) > 0){
+            foreach($dataImage as $key => $pathImage){
+                if(file_exists($pathImage)){
+                    if ($rahn == "rahn"){
+                        $templateProcessor->setImageValue($key, array('path' => $pathImage, 'width' => 50, 'height' => 25, 'ratio' => false));
+                    }else{
+                        $templateProcessor->setImageValue($key, array('path' => $pathImage, 'width' => 200, 'height' => 100, 'ratio' => false));
+                    }
+                }
+            }
+        }
         if($dataRow !== "")
         {
             if ($rahn == "rahn")
             {
-                    $templateProcessor->cloneRowAndSetValues($dataRowTitle, $dataRow);
+                $templateProcessor->cloneRowAndSetValues($dataRowTitle, $dataRow);
             }else{
                 for($i=1; $i<=$this->getPages($template_path); $i++)
                 {
                     $templateProcessor->cloneRowAndSetValues($dataRowTitle, $dataRow);
                 }
             }
-
-
+            
+            
         }
 
         return $templateProcessor;
@@ -125,10 +138,9 @@ class ExportRepositories {
     public function exportWord($type, $data, $rahn="")
     {
         $user = strtolower($data['user']);
-        $export = $this->generateContent($data['template_path'], $data['data_template'], $data['data_template_row'], $data['data_template_row_title'], $rahn);
+        $export = $this->generateContent($data['template_path'], $data['data_template'],$data['data_image'], $data['data_template_row'], $data['data_template_row_title'], $rahn);
         $filename = $type . "_" . str_replace(" ", "_", $user) . "_" . $data['id'] . ".docx";
         $path = public_path('storage/docx/' . $filename);
-        
         $export_to_app = $export->saveAs('storage/docx/' . $filename);
         
         return $data;

@@ -719,7 +719,6 @@ class PembiayaanReporsitory {
         try
         {
             $user_pembiayaan = User::where('no_ktp', $data->nama_nasabah)->first();
-
             $id_pengajuan = DB::select("SHOW TABLE STATUS LIKE 'pengajuan'");
             $nextIdPengajuan = $id_pengajuan[0]->Auto_increment;
             $jenis = Rekening::where('id', $data->pembiayaan)->select('nama_rekening')->first();
@@ -3248,7 +3247,6 @@ class PembiayaanReporsitory {
      * @return Response
     */
     public function exportPerjanjian($dataPembiayaan, $dataForm, $dataJaminan="")
-
     {
 
         $bulanSekarang = Carbon::now('m')->month;
@@ -3285,7 +3283,6 @@ class PembiayaanReporsitory {
 
         $beforeExplodePokok = explode(".",$dataPembiayaan['detail']['pinjaman']);
         $totalPokokHuruf = $this->uangToKalimat($beforeExplodePokok[0]);
-
 
 
         $export_data = array(
@@ -3330,6 +3327,10 @@ class PembiayaanReporsitory {
                 "no_pembiayaan"                 => $no_pembiayaan,
                 "bulan"                         => $bulanSekarang,
                 "total_pokok_huruf"             =>  ucwords($totalPokokHuruf),
+                "kota"                          => json_decode(Auth::user()->detail)->kota
+            ),
+            "data_image"                        => array(
+                "ttd_nasabah"                   => public_path('storage/public/tanda_tangan/'.json_decode($user_pembiayaan->pathfile)->Tanda_tangan)
             ),
             "data_template_row"                 => $data_template_row,  
             "data_template_row_title"           => "barang_titipan_desc_title",
@@ -3337,8 +3338,10 @@ class PembiayaanReporsitory {
         );
 
         if ($namaRekening[1] == "RAHN"){
+            // echo "123";die;
             $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data, "rahn");
         }else{
+            // echo "qwe";die;
             $export = $this->exportRepository->exportWord("perjanjian_pembiayaan", $export_data);
         }
 
@@ -3416,7 +3419,11 @@ class PembiayaanReporsitory {
                 "no_ac_peminjam_pihak_1"        => "001.75.000375.04",
                 "barang_titipan"                => isset($data_pengajuan->detail) ? strtoupper(json_decode($data_pengajuan->detail)->jaminan) : strtoupper(explode(".", $dataForm)[3]),
                 "no_pembiayaan"                 => $no_pembiayaan,
-                "usaha"                         => json_decode($data_pengajuan->detail)->usaha
+                "usaha"                         => json_decode($data_pengajuan->detail)->usaha,
+                "kota"                          => json_decode(Auth::user()->detail)->kota
+            ),
+            "data_image"                        => array(
+                "ttd_nasabah"                   => public_path('storage/public/tanda_tangan/'.json_decode($user_pembiayaan->pathfile)->Tanda_tangan)
             ),
             "data_template_row"                 => $data_template_row,
             "data_template_row_title"           => "barang_titipan_desc_title",
