@@ -1804,6 +1804,7 @@ class AdminController extends Controller
             'filenikah' => 'file|max:2000', // max 2MB
         ]);
 
+        if(preg_match("/^[0-9.]+$/", $request->pendapatan)) $request->pendapatan = str_replace('.',"",$request->pendapatan);
         if(preg_match("/^[0-9,]+$/", $request->pendapatan)) $request->pendapatan = str_replace(',',"",$request->pendapatan);
         $tglLahir = Carbon::createFromFormat('d/m/Y', $request->tglLahir)->format('m/d/Y');
         $detail = [

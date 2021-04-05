@@ -155,7 +155,9 @@ class UserController extends Controller
             'filektp' => 'file|max:2000', // max 2MB
             'fileksk' => 'file|max:2000', // max 2MB
             'filenikah' => 'file|max:2000', // max 2MB
-        ]);
+            ]);
+            
+        if(preg_match("/^[0-9.]+$/", $request->pendapatan)) $request->pendapatan = str_replace('.',"",$request->pendapatan);
         if(preg_match("/^[0-9,]+$/", $request->pendapatan)) $request->pendapatan = str_replace(',',"",$request->pendapatan);
         $tglLahir = Carbon::createFromFormat('d/m/Y', $request->tglLahir)->format('m/d/Y');
         $detail = [
@@ -185,8 +187,8 @@ class UserController extends Controller
         if(Auth::user()->tipe=="teller"){
             $detail['id_rekening'] = json_decode(Auth::user()->detail,true)['id_rekening'];
         }
-
-
+        
+        
         if ($this->informationRepository->addIdentitas($detail, $request)) {
             return redirect()
                 ->back()
