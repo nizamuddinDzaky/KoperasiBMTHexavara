@@ -1494,8 +1494,8 @@
                                             <label for="namaSim" class="control-label">Jenis Barang <star>*</star></label>
                                             <select class="form-control" id="selectJenisBarang" name="usaha" style="width: 100%;" required>
                                                 <option class="bs-title-option" value="">Pilih Barang</option>
-                                            @foreach ($dropdown3 as $rekening)
-                                                <option value="{{ $rekening->id }}">{{ $rekening->nama_rekening }} {{$rekening->id_rekening }}</option>
+                                            @foreach ($dropdown10 as $objMrb)
+                                                <option value="{{ $objMrb->nama }}">{{ $objMrb->nama }}</option>
                                             @endforeach
                                         </select>
                                         </div>
