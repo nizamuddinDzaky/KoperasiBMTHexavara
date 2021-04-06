@@ -582,7 +582,7 @@ class InformationRepository
             ->where([['kategori','like',"% Pembiayaan"],['pengajuan.teller', Auth::user()->id]])
             ->orWhere([['kategori','like',"% Pembiayaan"],['pengajuan.teller', 0]])
             ->join('users', 'users.id', '=', 'pengajuan.id_user')
-            ->join('pembiayaan', 'pengajuan.id', '=', 'pembiayaan.id_pengajuan')
+            ->LeftJoin('pembiayaan', 'pengajuan.id', '=', 'pembiayaan.id_pengajuan')
             ->where('kategori','!=',"Pembiayaan")
             ->where('pengajuan.created_at', ">" , $date['prev'])
             ->where('pengajuan.created_at', "<" , $date['now'])
@@ -598,7 +598,6 @@ class InformationRepository
             ->where([['kategori',"Pembiayaan"],['pengajuan.teller', Auth::user()->id]])
             ->orWhere([['kategori',"Pembiayaan"],['pengajuan.teller', 0]])
             ->orderby('pengajuan.id','DESC')->get()->toArray();
-
         $i=0;
 
         foreach ($data2 as $dt2){
@@ -621,7 +620,6 @@ class InformationRepository
                 $dt['id_tabungan'] =$tab['id'];
             }
         }
-//        dd($data);
         return $data;
     }
 
