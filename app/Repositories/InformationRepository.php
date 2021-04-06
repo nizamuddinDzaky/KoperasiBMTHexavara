@@ -329,6 +329,11 @@ class InformationRepository
         return $data;
     }
 
+    function getActiveObjectMRB(){
+        $data = $this->objectPengajuanMRB->select('id', 'nama', 'is_active')->where('is_active', 1)->get();
+        return $data;
+    }
+
 //    ANGGOTA
     function getAllAnggota()
     {
