@@ -1773,6 +1773,7 @@ class TellerController extends Controller
     */
     public function open_pembiayaan(Request $request)
     {
+        print_r($request->all());die;
         if($request->pembiayaan == 100)
         {
             $pembiayaan = $this->pembiayaanReporsitory->openPembiayaanMRB($request);

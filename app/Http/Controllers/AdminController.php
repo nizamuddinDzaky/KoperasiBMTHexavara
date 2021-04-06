@@ -1849,5 +1849,16 @@ class AdminController extends Controller
         }
     }
 
+    public function item_pengajuan_mrb()
+    {
+        $data = $this->informationRepository->getAllPengajuanMRB();
+        $notification = $this->pengajuanReporsitory->getNotification();
+        
+        return view('admin.datamaster.object_pengajuan_mrb',[
+            'notification' => $notification,
+            'notification_count' =>count($notification),
+            'data' => $data,
+        ]);
+    }
 
 }

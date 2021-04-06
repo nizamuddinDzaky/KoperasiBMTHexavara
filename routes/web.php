@@ -661,6 +661,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
     Route::group(['prefix' => 'datamaster', 'middleware' => ['auth']], function () {
 
 
+        Route::group(['prefix' => 'item-pengajuan-mrb', 'middleware' => ['auth']], function () {
+            Route::get('/', [
+                'as'        => 'item.pengajuan.mrb',
+                'uses'      => 'AdminController@item_pengajuan_mrb'
+            ]);
+
+            Route::post('/add_item_pengajuan_mrb', [
+                'as'        => 'admin.datamaster.anggota.add_item_pengajuan_mrb',
+                'uses'      => 'DatamasterController@add_item_pengajuan_mrb'
+            ]);
+
+            Route::post('/edit_item_pengajuan_mrb', [
+                'as'        => 'admin.datamaster.anggota.edit_item_pengajuan_mrb',
+                'uses'      => 'DatamasterController@edit_item_pengajuan_mrb'
+            ]);
+
+        });
 
         Route::get('/anggota', [
             'as'        => 'data_anggota',
