@@ -64,8 +64,11 @@
                                     href="{{ route('teller.transaksi.pengajuan_simpanan') }}"
                                 @elseif(str_before($item->kategori, " ") == "Perpanjangan" || str_before($item->kategori, " ") == "Pencairan" || $item->kategori == "Deposito")
                                     href="{{ route('pengajuan_deposito') }}"
+                                @elseif(str_before($item->kategori, " ") == "Penutupan")
+                                    href="{{ route('teller.transaksi.pengajuan_penutupan_rekening') }}"
                                 @elseif($item->kategori == "Donasi")
                                     href="{{ route('teller.pengajuan_maal') }}"
+
                                 @endif
                                 
                             >
