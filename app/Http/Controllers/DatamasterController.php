@@ -188,6 +188,7 @@ class DatamasterController extends Controller
 
 //   Data Master ANGGOTA start here
     public function add_anggota(Request $request){
+        
         if($request->tipe=="anggota"){
             $id=$request['no_ktp'];
             $request->validate([
