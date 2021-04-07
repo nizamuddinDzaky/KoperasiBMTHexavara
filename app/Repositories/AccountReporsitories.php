@@ -702,7 +702,8 @@ class AccountReporsitories {
                 "tanggal_penetapan" => Carbon::now()->format('d') . " " . $this->helperRepository->getMonthName() . " " . Carbon::now()->format("Y"),
                 "saldo"             => $total
             ),
-            "data_template_row"                 => $data_template_row,  
+            "data_template_row"                 => $data_template_row, 
+            "data_image"                        => [],
             "data_template_row_title"           => "rekening_title",
             "template_path"                     => public_path('template/anggota_keluar.docx')
         );

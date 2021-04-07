@@ -30,6 +30,7 @@ use App\Repositories\SimpananReporsitory;
 use App\SHU;
 use App\Tabungan;
 use App\Deposito;
+use App\ObjectPengajuanMRB;
 use App\Pembiayaan;
 use App\User;
 use DateTime;
@@ -53,6 +54,7 @@ class InformationRepository
     protected $maal;
     protected $wakaf;
     protected $pengajuan;
+    protected $objectPengajuanMRB;
 
     function __construct(
         Rekening $rekening,
@@ -70,7 +72,8 @@ class InformationRepository
         Pembiayaan $pembiayaan,
         PenyimpananPembiayaan $p_pembiayaan,
         Pengajuan $pengajuan,
-        SimpananReporsitory $simpananReporsitory
+        SimpananReporsitory $simpananReporsitory,
+        ObjectPengajuanMRB $objectPengajuanMRB 
     )
     {
         $this->rekening = $rekening;
@@ -89,6 +92,7 @@ class InformationRepository
         $this->p_pembiayaan = $p_pembiayaan;
         $this->pengajuan = $pengajuan;
         $this->simpananReporsitory = $simpananReporsitory;
+        $this->objectPengajuanMRB = $objectPengajuanMRB;
     }
 
 //=============== ADMIN REPOSITORY =====================
@@ -314,6 +318,22 @@ class InformationRepository
         else return false;
 
     }
+    //Objek Pengajuan MRB
+    function getAllPengajuanMRB(){
+        $data = $this->objectPengajuanMRB->select('id', 'nama', 'is_active')->get();
+        return $data;
+    }
+
+    function getAllPengajuanMrbById($id){
+        $data = $this->objectPengajuanMRB->select('id', 'nama', 'is_active')->where('no_ktp',$id)->first();
+        return $data;
+    }
+
+    function getActiveObjectMRB(){
+        $data = $this->objectPengajuanMRB->select('id', 'nama', 'is_active')->where('is_active', 1)->get();
+        return $data;
+    }
+
 //    ANGGOTA
     function getAllAnggota()
     {

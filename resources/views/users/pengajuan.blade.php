@@ -293,10 +293,18 @@
         $('#rekPem').on('change', function (event){
             if($(this).val() == 100){
                 $('#labelUntukUsaha').html('Barang');
+                $('#divUntukUsaha').addClass('hide')
                 $('#jenisUsaha').val("Lain-lain");
+                $('#inputUntukUsaha').attr('required', false)
+                $('#divSelectUsahaMRB').removeClass('hide');
+                $('#selectJenisBarang').attr('name', "usaha")
             }else{
+                $('#selectJenisBarang').attr('name', "")
+                $('#divSelectUsahaMRB').addClass('hide');
+                $('#inputUntukUsaha').attr('required', true)
+                $('#divUntukUsaha').removeClass('hide')
                 $('#labelUntukUsaha').html('Untuk Usaha');
-            }
+           }
         });
 
 
@@ -809,6 +817,10 @@
                 dropdownParent: $("#openDepModal")
             });
             $("#rekPem").select2({
+                dropdownParent: $("#openPemModal")
+            });
+
+            $("#selectJenisBarang").select2({
                 dropdownParent: $("#openPemModal")
             });
 

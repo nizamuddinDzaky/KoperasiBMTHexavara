@@ -246,7 +246,7 @@ class UserController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
-
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(), 
             'pembiayaanUser' => $this->pembiayaanReporsitory->getPembiayaanSpecificUser(),
             'rekening_tabungan' => $this->tabunganReporsitory->getRekening('TABUNGAN'),
             'all_deposito' => $this->tabunganReporsitory->getRekening('DEPOSITO'),

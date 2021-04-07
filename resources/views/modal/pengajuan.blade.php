@@ -1476,7 +1476,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-5 col-md-offset-1">
+                                    <div class="col-md-5 col-md-offset-1" id="divUntukUsaha">
                                         <div class="form-group">
                                             <label class="control-label" id="labelUntukUsaha">Untuk Usaha</label>
                                             <input class="form-control"
@@ -1484,9 +1484,23 @@
                                                 name="usaha"
                                                 value=""
                                                 required="true"
+                                                id="inputUntukUsaha"
                                             />
                                         </div>
                                     </div>
+
+                                    <div class="col-md-5 col-md-offset-1 hide" id="divSelectUsahaMRB">
+                                        <div class="form-group">
+                                            <label for="namaSim" class="control-label">Jenis Barang <star>*</star></label>
+                                            <select class="form-control" id="selectJenisBarang" name="usaha" style="width: 100%;" required>
+                                                <option class="bs-title-option" value="">Pilih Barang</option>
+                                            @foreach ($dropdown10 as $objMrb)
+                                                <option value="{{ $objMrb->nama }}">{{ $objMrb->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="col-md-5">
                                         <div class="form-group">
                                             <label class="control-label" id="labelJenisUsaha">Jenis Usaha</label>

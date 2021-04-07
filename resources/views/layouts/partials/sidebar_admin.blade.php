@@ -25,6 +25,7 @@
             <li @if(Request::is('admin/datamaster/pembiayaan'))class="active"@endif><a href="{{route('data_pembiayaan')}}">Master Pembiayaan</a></li>
             <li @if(Request::is('admin/datamaster/shu'))class="active"@endif><a href="{{route('data_shu')}}">Master SHU</a></li>
             <li @if(Request::is('admin/datamaster/jaminan'))class="active"@endif><a href="{{route('data_jaminan')}}">Master Jaminan</a></li>
+            <li @if(Request::is('admin/datamaster/item-pengajuan-mrb'))class="active"@endif><a href="{{route('item.pengajuan.mrb')}}">Master Pengajuan MRB</a></li>
         </ul>
     </div>
 </li>

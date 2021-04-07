@@ -1125,6 +1125,7 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller($id_rekening=json_decode(Auth::user()->detail)->id_rekening),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(), 
             'periode'  => $this->informationRepository->periode(),
             'tabungan'  => $this->informationRepository->getAllTab(),
             'notification' => $notification,

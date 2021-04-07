@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BMT;
 use App\Deposito;
+use App\ObjectPengajuanMRB;
 use App\Pembiayaan;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
@@ -188,7 +189,7 @@ class DatamasterController extends Controller
 
 //   Data Master ANGGOTA start here
     public function add_anggota(Request $request){
-        
+
         if($request->tipe=="anggota"){
             $id=$request['no_ktp'];
             $request->validate([
@@ -746,5 +747,46 @@ class DatamasterController extends Controller
             return redirect()
                 ->back()
                 ->withErrors(sprintf('Data Jaminan gagal diubah!.'));
+    }
+
+    public function add_item_pengajuan_mrb(Request $req){
+        $req->validate([
+            'nama' => 'required|string|max:255',
+        ]);
+            // print_r($req->all());die;
+            
+        
+        $inputObjectPengajuanMRB = new ObjectPengajuanMRB();
+        $inputObjectPengajuanMRB->nama = $req->nama;
+        $inputObjectPengajuanMRB->is_active = $req->has('is_active') ? 1 : 0;
+        if($inputObjectPengajuanMRB->save())
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Data Anggota berhasil ditambah!.'));
+        else
+            return redirect()
+                ->back()
+                ->withErrors(sprintf('Data Anggota gagal ditambah!.'));
+    }
+
+    public function edit_item_pengajuan_mrb(Request $req){
+        $req->validate([
+            'nama' => 'required|string|max:255',
+            'id' => 'required'
+        ]);
+
+        
+        $inputObjectPengajuanMRB = ObjectPengajuanMRB::where('id', $req->id)->first();
+        $inputObjectPengajuanMRB->nama = $req->nama;
+        $inputObjectPengajuanMRB->is_active = $req->has('is_active') ? 1 : 0;
+
+        if($inputObjectPengajuanMRB->save())
+            return redirect()
+                ->back()
+                ->withSuccess(sprintf('Data Anggota berhasil ditambah!.'));
+        else
+            return redirect()
+                ->back()
+                ->withErrors(sprintf('Data Anggota gagal ditambah!.'));
     }
 }
