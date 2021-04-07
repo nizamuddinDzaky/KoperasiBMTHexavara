@@ -3261,7 +3261,6 @@ class PembiayaanReporsitory {
         $path = public_path($path_name);
         $no_pembiayaan = $dataPembiayaan['id']."/MUDA/".$namaRekening[1]."/".$bulanRomawi."/".$tahunSekarang;
 
-
         $user_pembiayaan = User::where('id', $dataPembiayaan['id_user'])->first();
         $data_pengajuan = Pengajuan::where('id', $dataPembiayaan['id_pengajuan'])->first();
         if($dataJaminan !== "")
@@ -3284,6 +3283,8 @@ class PembiayaanReporsitory {
         $beforeExplodePokok = explode(".",$dataPembiayaan['detail']['pinjaman']);
         $totalPokokHuruf = $this->uangToKalimat($beforeExplodePokok[0]);
 
+        $path_file = json_decode($user_pembiayaan->pathfile);
+        $path_ttd = property_exists($path_file, 'Tanda_tangan') ? $path_file->Tanda_tangan : "default.png";
 
         $export_data = array(
             "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
@@ -3330,7 +3331,7 @@ class PembiayaanReporsitory {
                 "kota"                          => json_decode(Auth::user()->detail)->kota
             ),
             "data_image"                        => array(
-                "ttd_nasabah"                   => public_path('storage/public/tanda_tangan/'.json_decode($user_pembiayaan->pathfile)->Tanda_tangan)
+                "ttd_nasabah"                   => public_path('storage/public/tanda_tangan/'.$path_ttd)
             ),
             "data_template_row"                 => $data_template_row,  
             "data_template_row_title"           => "barang_titipan_desc_title",
@@ -3380,6 +3381,9 @@ class PembiayaanReporsitory {
 
         $path = public_path($path_name);
 
+        $path_file = json_decode($user_pembiayaan->pathfile);
+        $path_ttd = property_exists($path_file, 'Tanda_tangan') ? $path_file->Tanda_tangan : "default.png";
+
         $export_data = array(
             "user"                              => preg_replace('/[^A-Za-z0-9_\.-]/', ' ', $user_pembiayaan->nama),
             "id"                                => $dataPembiayaan['id'],
@@ -3423,7 +3427,7 @@ class PembiayaanReporsitory {
                 "kota"                          => json_decode(Auth::user()->detail)->kota
             ),
             "data_image"                        => array(
-                "ttd_nasabah"                   => public_path('storage/public/tanda_tangan/'.json_decode($user_pembiayaan->pathfile)->Tanda_tangan)
+                "ttd_nasabah"                   => public_path('storage/public/tanda_tangan/'.$path_ttd)
             ),
             "data_template_row"                 => $data_template_row,
             "data_template_row_title"           => "barang_titipan_desc_title",

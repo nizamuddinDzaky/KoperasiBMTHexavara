@@ -841,6 +841,7 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(), 
             'periode'  => $this->informationRepository->periode()
 
         ]);
@@ -999,6 +1000,7 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(), 
             'periode'  => $this->informationRepository->periode(),
             'notification' => $notification,
             'notification_count' => count($notification)
@@ -1407,6 +1409,7 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(), 
             'periode'  => $this->informationRepository->periode(),
             'notification' => $notification,
             'notification_count' =>count($notification)
@@ -1461,6 +1464,7 @@ class TellerController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getAllNasabah(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(), 
             'periode'  => $this->informationRepository->periode(),
             'notification' => $notification,
             'notification_count' =>count($notification)
