@@ -16,6 +16,7 @@ use App\Repositories\DepositoReporsitories;
 use App\Repositories\HelperRepositories;
 use App\Repositories\ExportRepositories;
 use Carbon\Carbon;
+use Exception;
 
 class AccountReporsitories {
 
@@ -602,6 +603,8 @@ class AccountReporsitories {
                 $user_rekening->save();
 
 
+            }else{
+                throw new Exception(" Sisa saldo direkening tidak mencukupi, dana simpanan khusus yg belum dicairkan Rp ". number_format( json_decode($user_rekening->wajib_pokok)->khusus ,2,',','.') . ", sedangkan sisa saldo setelah pencairan dana wajib pokok Rp ". number_format(  $bmt_teller_pencairan->saldo,2,',','.') );
             }
 
 
@@ -610,8 +613,8 @@ class AccountReporsitories {
 
             $pengajuan->status = "Sudah Dikonfirmasi"; $pengajuan->teller = Auth::user()->id;
 
-        if (count($deposito) > 0 && count($tabungan) > 0 )
-        {
+            if (count($deposito) > 0 && count($tabungan) > 0 )
+            {
                 if ($update_bmt_simpanan_khusus && $update_bmt_simpanan_pokok && $update_bmt_simpanan_wajib && isset($update_bmt_teller_pencairan_deposito) && $update_bmt_teller_pencairan_deposito && isset($update_bmt_teller_pencairan_tabungan) && $update_bmt_teller_pencairan_tabungan && $update_bmt_teller_khusus & $update_bmt_teller_pokok && $update_bmt_teller_wajib ) {
                     $user_rekening->save();
                     $pengajuan->save();
@@ -620,8 +623,9 @@ class AccountReporsitories {
                 }
                 else
                 {
-                    DB::rollback();
-                    $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+                    throw new Exception("Pastikan saldo anda cukup untuk pencairan" );
+                    // DB::rollback();
+                    // $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
                 }
             }
             else if (count($tabungan) > 0 ) {
@@ -633,8 +637,9 @@ class AccountReporsitories {
                 }
                 else
                 {
-                    DB::rollback();
-                    $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+                    throw new Exception("Pastikan saldo anda cukup untuk pencairan");
+                    // DB::rollback();
+                    // $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
                 }
 
             }
@@ -647,15 +652,16 @@ class AccountReporsitories {
                 }
                 else
                 {
-                    DB::rollback();
-                    $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
+                    throw new Exception("Pastikan saldo anda cukup untuk pencairan");
+                    // DB::rollback();
+                    // $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. Pastikan saldo anda cukup untuk pencairan");
                 }
             }
-}
+        }
         catch(Exception $ex)
         {
             DB::rollback();
-            $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal");
+            $response = array("type" => "error", "message" => "Pencairan Penutupan Rekening Gagal. ". $ex->getMessage());
         }
         return $response;
     }
