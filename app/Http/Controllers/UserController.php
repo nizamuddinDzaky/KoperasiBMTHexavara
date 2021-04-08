@@ -326,7 +326,8 @@ class UserController extends Controller
             'dropdown6' => $this->informationRepository->getDdBank(),
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
-            'dropdown9' => $this->informationRepository->getAllJaminanDD()
+            'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(),
         ]);
     }
 
@@ -597,8 +598,9 @@ class UserController extends Controller
             'dropdown7' => $this->informationRepository->getDdTeller(),
             'dropdown8' => $this->informationRepository->getDdTeller(),
             'dropdown9' => $this->informationRepository->getAllJaminanDD(),
+            'dropdown10' =>$this->informationRepository->getActiveObjectMRB(),
             'notification' => $notification,
-            'notification_count' => count($notification)
+            'notification_count' => count($notification),
         ]);
     }
 
