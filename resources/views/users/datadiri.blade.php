@@ -362,7 +362,7 @@
 										<div class="col-md-5 col-md-offset-1 {{ !$errors->has('file') ?: 'has-error' }}">
 											<div class="form-group">
 													<span class="">Upload KTP
-														<input type="file" onchange="readURL(this);" name="filektp" accept=".jpg, .png, .jpeg|images/*"/>
+														<input type="file" onchange="readURL(this);" name="filektp" accept=".jpg, .png, .jpeg|images/*" />
 													</span><br><br>
 												<div class="text-center">
 													@if(Auth::user()->pathfile != null && json_decode(Auth::user()->pathfile, true)['KTP'] != null)
@@ -677,6 +677,11 @@
 
         function readURL(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic')
@@ -691,6 +696,12 @@
 
         function readURL2(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
+
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic2')
@@ -706,6 +717,12 @@
 
         function readURL3(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
+
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic3')
@@ -721,6 +738,11 @@
 
         function readURL4(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic4')
