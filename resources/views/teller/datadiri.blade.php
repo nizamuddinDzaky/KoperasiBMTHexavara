@@ -554,6 +554,11 @@
 
         function readURL(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic')
@@ -568,6 +573,11 @@
 
         function readURL2(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic2')
@@ -583,6 +593,11 @@
 
         function readURL3(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic3')
@@ -598,6 +613,11 @@
 
         function readURL4(input) {
             if (input.files && input.files[0]) {
+				if(input.files[0].size > 207200){
+					alert("File is too big!");
+					this.value = "";
+					return false;
+				};
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pic4')
