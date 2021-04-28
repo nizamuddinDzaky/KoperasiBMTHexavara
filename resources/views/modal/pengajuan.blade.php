@@ -1390,7 +1390,7 @@
                                     <div class="col-md-10 col-md-offset-1">
                                         <div class="form-group">
                                             <label class="control-label">Atas Nama<star>*</star></label>
-                                            <select id="atasnama3" name="atasnama" class="form-control">
+                                            <select id="atasnama3" name="atasnama" class="form-control" required="true">
                                                 <option selected disabled class="bs-title-option" value="">- Pilih -</option>
                                                 <option value="1">Pribadi</option>
                                                 <option value="2">Lembaga</option>

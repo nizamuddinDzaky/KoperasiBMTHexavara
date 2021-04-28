@@ -51,5 +51,10 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
+// $app->configure('cors');
+// $app->middleware([
+//     Spatie\Cors\Cors::class,
+// ]);
+// $app->register(Spatie\Cors\CorsServiceProvider::class);
 
 return $app;
