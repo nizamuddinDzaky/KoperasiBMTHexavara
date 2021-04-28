@@ -615,6 +615,7 @@
                 {
                     angbln = 0.0;
                 }
+                console.log(rekening);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
                 sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
                 bayar_margin_mrb = parseFloat(selRek.val().split(' ')[10]);
@@ -636,11 +637,17 @@
                     // $('#showPok').show()
                     $('#bagi_margin').attr("required",false);
                 }
-                if(rekening!=2) {
+
+                if(rekening==1){
+                    $('#bayar_mar_mrb').show()
                     $('#marginHide').hide()
+                }
+                
+                if(rekening!=2) {
+                    // $('#marginHide').hide()
                     $('#sisa_mar').show()
                     $('#bayar_mar').hide()
-                    $('#bayar_mar_mrb').show()
+                    // $('#bayar_mar_mrb').show()
                     // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
                     if(jenis_mrb == 'MRB'){

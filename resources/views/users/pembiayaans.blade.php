@@ -575,11 +575,17 @@
                     // $('#showPok').show()
                     $('#bagi_margin').attr("required",false);
                 }
-                if(rekening!=2) {
-                    $('#marginHide').hide()
-                    $('#sisa_mar').show()
-                    $('#bayar_mar').hide()
+
+                if(rekening==1){
                     $('#bayar_mar_mrb').show()
+                    $('#marginHide').hide()
+                }
+
+                if(rekening!=2) {
+                    // $('#marginHide').hide()
+                    $('#sisa_mar').show()
+                    // $('#bayar_mar').hide()
+                    // $('#bayar_mar_mrb').show()
                     // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))
                     if(jenis_mrb == 'MRB'){
