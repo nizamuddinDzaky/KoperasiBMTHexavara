@@ -646,7 +646,7 @@
                 if(rekening!=2) {
                     // $('#marginHide').hide()
                     $('#sisa_mar').show()
-                    $('#bayar_mar').hide()
+                    // $('#bayar_mar').hide()
                     // $('#bayar_mar_mrb').show()
                     // $('#bayar_margin').val(formatter.format(marbln))
                     $('#bagi_pokok').val(formatter.format(angbln))

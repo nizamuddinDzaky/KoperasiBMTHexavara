@@ -22,7 +22,7 @@ class Rekening extends Model
         return $this->hasOne('App\BMT', 'id_rekening');
     }
     public function tabungan() {
-        return $this->hasMany('App\Tabungan', 'id_rekening');
+        return $this->hasMany('App\Tabungan', 'id_rekening')->where('status', 'active');
     }
     public function deposito() {
         return $this->hasMany('App\Deposito', 'id_rekening');

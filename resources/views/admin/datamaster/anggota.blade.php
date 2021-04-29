@@ -160,7 +160,7 @@
                                         @if($usr->tipe!="admin")
                                             @if($usr->tipe == "anggota")
                                                 <button type="button" class="btn btn-social btn-success btn-fill" onclick="editDataDiri({{$usr->no_ktp}})"><i class="fa fa-edit"></i></button>
-                                                @elseif($usr->tipe == "teller")
+                                                @endif
                                                 <button type="button" class="btn btn-social btn-success btn-fill" data-toggle="modal" data-target="#editUsrModal" title="Edit"
                                                         data-id      = "{{$usr->no_ktp}}"
                                                         data-nama    = "{{$usr->nama}}"
@@ -179,9 +179,8 @@
                                                         @endif
                                                         @endif
                                                 >
-                                                    <i class="fa fa-edit"></i>
+                                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
                                                 </button>
-                                                @endif
 
 
 
@@ -246,6 +245,8 @@
                var alamat = button.data('alamat');
                var nama = button.data('nama');
                var tipe = button.data('tipe');
+               $('.input-readonly').attr("readonly", false)
+               $('.select-disable').attr("disabled", false); 
                if(tipe == "teller"){
                    var kota = button.data('kota');
                    $('#kotateller2').val(kota);
@@ -254,6 +255,8 @@
                if (tipe == "anggota"){
                    var telepon = button.data('telepon');
                    $('#teleponanggota').val(telepon);
+                   $('.input-readonly').attr("readonly", true)
+                   $('.select-disable').attr("disabled", true); 
                }
                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
