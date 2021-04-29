@@ -20,6 +20,7 @@ class LandingHomeController extends Controller
     }
 
     public function home(){
+        
         $homepage = Homepage::find(1);
         $kategori = DB::table('kategori_kegiatan')->get();
         foreach($kategori as $keys => $value){
