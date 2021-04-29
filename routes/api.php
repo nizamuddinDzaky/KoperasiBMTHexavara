@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/get_list_neraca', [
+    'as'        => 'report.neraca',
+    'uses'      => 'ReportNeracaController@get_neraca'
+]);
