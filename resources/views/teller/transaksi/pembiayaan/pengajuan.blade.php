@@ -602,6 +602,7 @@
             var rekening = 0; var pokok = 0; var margin = 0;var lama = 0; var angke = 0;var angbln = 0;var marbln = 0;
             var selRek = $('#angidRek');
             selRek.on('change', function () {
+                
                 var id = $('#idRekA').val(selRek.find(":selected").text().split(']')[0]);
                 id = id.val().split('[')[1];
                 $('#idRekA').val(id);
@@ -615,7 +616,6 @@
                 {
                     angbln = 0.0;
                 }
-                console.log(rekening);
                 marbln = parseFloat(selRek.val().split(' ')[6]);
                 sisa_pinjaman = parseFloat(selRek.val().split(' ')[8]);
                 bayar_margin_mrb = parseFloat(selRek.val().split(' ')[10]);
@@ -625,6 +625,7 @@
                 $('#angHide').show()
                 $('#marginHide').show()
                 $('#bayar_mar_mrb').hide()
+                $('#bayar_margin').val(formatter.format(0))
                 if(marbln==0) {
                     $('#marginHide').show()
                     $('#bagi_margin').attr("required",false);
@@ -644,6 +645,7 @@
                 }
                 
                 if(rekening!=2) {
+                    
                     // $('#marginHide').hide()
                     $('#sisa_mar').show()
                     // $('#bayar_mar').hide()
@@ -652,6 +654,10 @@
                     $('#bagi_pokok').val(formatter.format(angbln))
                     if(jenis_mrb == 'MRB'){
                         $('#bayar_ang').val(formatter.format(angbln + bayar_margin_mrb))
+                    }else if(jenis_mrb != 'MRB' && rekening == 3){
+                        // console.log("qweew")
+                        $('#bayar_ang').val(formatter.format(angbln))
+                        $('#bayar_margin').val(formatter.format(marbln))
                     }else {
                         $('#bayar_ang').val(formatter.format(angbln + marbln))
                     }
