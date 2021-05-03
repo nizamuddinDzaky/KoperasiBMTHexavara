@@ -109,27 +109,27 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="id_usr_edit" class="control-label">No KTP <star>*</star></label>
-                        <input type="text" class="form-control" id="id_usr_edit" name="no_ktp" required="true">
+                        <input type="text" class="form-control input-readonly" id="id_usr_edit" name="no_ktp" required="true">
                     </div>
 
                     <div class="form-group">
                         <label for="nama_usr" class="control-label">Nama User <star>*</star></label>
-                        <input type="text" class="form-control" id="nama_usr" name="nama" required="true">
+                        <input type="text" class="form-control input-readonly" id="nama_usr" name="nama" required="true">
                     </div>
 
                     <div class="form-group">
                         <label for="alamat_usr" class="control-label">Alamat User <star>*</star></label>
-                        <input type="text" class="form-control" id="alamat_usr" name="alamat" required="true">
+                        <input type="text" class="form-control input-readonly" id="alamat_usr" name="alamat" required="true">
                     </div>
 
                     <div class="form-group" id="toShow4">
                         <label for="teleponAnggota" class="control-label"> Telepon <star>*</star></label>
-                        <input  type="text" class="form-control" id="teleponanggota" name="teleponanggota" required>
+                        <input  type="text" class="form-control input-readonly" id="teleponanggota" name="teleponanggota" required>
                     </div>
 
                     <div class="form-group">
                         <label for="tipe_usr" class="control-label">Tipe User <star>*</star></label>
-                        <select {{--<onchange="IndukCheck(this)">--}} class="form-control" id="tipe_usr" name="tipe" required="true">
+                        <select {{--<onchange="IndukCheck(this)">--}} class="form-control select-disable" id="tipe_usr" name="tipe" required="true">
                             <option value="0" disabled selected>Pilih Tipe</option>
                             <option value="anggota">Anggota</option>
                             <option value="teller">Teller</option>

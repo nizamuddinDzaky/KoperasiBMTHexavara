@@ -67,6 +67,17 @@
                     </div>
                 </a>
             </div>
+            <div class="col-md-4">
+                <a href="javascript:void(0)" id="card-shu-user">
+                    <div class="card dashboard link" style="background-color: #5066c3">
+                        <div class="card-body">
+                            <span class="card-title card-number-large">{{number_format($shu_user['shu_user'],2)}}</span>
+                            <p class="card-category" style="margin-bottom:0">Total SHU</p>
+                            {{-- <span class="card-description">Bersumber dari total pembiayaan anggota</span> --}}
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
 
         <div class="row">
@@ -405,6 +416,10 @@
     </div>
 @endsection
 
+@section('modal')
+    @include('modal.shu_user')
+@endsection
+
 @section('extra_script')
 
 
@@ -429,6 +444,12 @@
         }
 
         $().ready(function(){
+
+            $('#card-shu-user').click(function(){
+                $('#modalShuUser').modal('toggle');
+                $('#modalShuUser').modal('show');
+            })
+
             window.operateEvents = {
                 'click .view': function (e, value, row, index) {
                     info = JSON.stringify(row);
