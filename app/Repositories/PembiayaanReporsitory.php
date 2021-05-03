@@ -4049,6 +4049,9 @@ class PembiayaanReporsitory {
             $total_bayar = $bayar_angsuran + $bayar_margin;
             $dari_rekening = json_decode($penyimpanan_pembiayaan->transaksi)->dari_rekening;
             $untuk_rekening = json_decode($penyimpanan_pembiayaan->transaksi)->untuk_rekening;
+            if (!is_numeric($untuk_rekening)){
+                $untuk_rekening = Rekening::where('nama_rekening', $untuk_rekening)->first()->id;
+            }
             $rekening_tujuan = Rekening::where('id', $untuk_rekening)->first();
             $nama_rekening = explode(' ', $rekening_tujuan->nama_rekening);
             $user_pembiayaan = User::where('id', $id_user)->first();
