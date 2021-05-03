@@ -30,7 +30,9 @@ use App\Repositories\RekeningReporsitories;
 use App\Repositories\ExportRepositories;
 use App\Repositories\HelperRepositories;
 use App\Repositories\TransferTabunganRepositories;
+use App\ShuUser;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -120,11 +122,13 @@ class UserController extends Controller
             $sumdep +=(json_decode($dt->detail,true)['saldo']);
         }
         $user = User::where('id',Auth::user()->id)->first()['wajib_pokok'];
+        $shu_user = ShuUser::where('id_user',Auth::user()->id)->select(DB::raw('SUM(shu_pengelola + shu_pengurus + shu_simpanan) as shu_user, shu_user.* '))->first();
         $notification = $this->pengajuanReporsitory->getNotification();
 
         return view('users.dashboard',[
             'tab' => $sum,
             'tagihan' => $sumtag,
+            'shu_user' => $shu_user,
             'bulanan' => $sumbln,
             'deposito' => $sumdep,
             'pinjaman' => $sumpin,
