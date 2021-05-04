@@ -16,11 +16,11 @@ class CreateTableShuUser extends Migration
         Schema::create('shu_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_user');
-            $table->double('shu_pengelola', 8, 2);
-            $table->double('shu_pengurus', 8, 2);
-            $table->double('shu_simpanan', 8, 2);
-            $table->double('shu_margin', 8, 2);
-            $table->double('total_shu_anggota', 8, 2);
+            $table->unsignedDecimal('shu_pengelola', 15, 2);
+            $table->unsignedDecimal('shu_pengurus', 15, 2);
+            $table->unsignedDecimal('shu_simpanan', 15, 2);
+            $table->unsignedDecimal('shu_margin', 15, 2);
+            $table->unsignedDecimal('total_shu_anggota', 15, 2);
             $table->timestamps();
         });
     }
