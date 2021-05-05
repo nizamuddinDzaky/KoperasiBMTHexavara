@@ -122,7 +122,7 @@ class UserController extends Controller
             $sumdep +=(json_decode($dt->detail,true)['saldo']);
         }
         $user = User::where('id',Auth::user()->id)->first()['wajib_pokok'];
-        $shu_user = ShuUser::where('id_user',Auth::user()->id)->select(DB::raw('SUM(shu_pengelola + shu_pengurus + shu_simpanan) as shu_user, shu_user.* '))->first();
+        $shu_user = ShuUser::where('id_user',Auth::user()->id)->select(DB::raw('SUM(shu_pengelola + shu_pengurus + total_shu_anggota) as shu_user, shu_user.* '))->first();
         $notification = $this->pengajuanReporsitory->getNotification();
 
         return view('users.dashboard',[

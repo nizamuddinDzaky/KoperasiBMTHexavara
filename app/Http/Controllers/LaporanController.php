@@ -771,7 +771,6 @@ class LaporanController extends Controller
     public function shu(){
         $data_shu = $this->shuTahunanRepository->getSHU();
         $data_distribusi = $this->shuTahunanRepository->getDataDistribusiSHU();
-        // echo count($data_distribusi);die;
         $status_distribusi = $this->shuTahunanRepository->checkStatus();
         $notification = $this->pengajuanReporsitory->getNotification();
         $periode = DB::select(DB::raw('SELECT DISTINCT YEAR(created_at) as year FROM penyimpanan_shu'));

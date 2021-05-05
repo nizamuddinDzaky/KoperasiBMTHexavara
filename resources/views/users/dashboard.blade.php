@@ -72,7 +72,7 @@
                     <div class="card dashboard link" style="background-color: #5066c3">
                         <div class="card-body">
                             <span class="card-title card-number-large">{{number_format($shu_user['shu_user'],2)}}</span>
-                            <p class="card-category" style="margin-bottom:0">Estimasi SHU</p>
+                            <p class="card-category" style="margin-bottom:0">Ekstimasi SHU</p>
                             {{-- <span class="card-description">Bersumber dari total pembiayaan anggota</span> --}}
                         </div>
                     </div>
