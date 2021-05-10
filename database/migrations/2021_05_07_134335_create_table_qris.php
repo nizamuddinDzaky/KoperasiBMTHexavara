@@ -16,7 +16,7 @@ class CreateTableQris extends Migration
         Schema::create('qris', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_rekening');
-            $table->string('path_file', 15, 2);
+            $table->string('path_file', 50);
             $table->timestamps();
         });
     }
