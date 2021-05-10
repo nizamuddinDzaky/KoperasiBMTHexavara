@@ -154,7 +154,7 @@
 							<div class="author">
 								<a href="#">
 									@if($data['no_ktp']=="admin" && isset(json_decode(Auth::user()->pathfile,true)['profile']))
-									<img class="avatar border-gray" src="{{ asset('storage/public/file/' . json_decode(Auth::user()->pathfile,true)['profile']) }}" alt="..."/>
+									<img class="avatar border-gray" alt="..." id="imgQris"/>
 									@elseif($data['no_ktp']=="admin")
 										<img class="avatar border-gray" src="{{ URL::asset('bootstrap/assets/img/man.svg') }}" alt="..."/>
 									@else

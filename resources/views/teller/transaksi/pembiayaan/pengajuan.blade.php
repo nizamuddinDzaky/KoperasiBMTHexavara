@@ -497,6 +497,21 @@
             }
         }
 
+        function readURLQris(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#picQris')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(auto)
+                };
+
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function readURLPelunasan(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -722,8 +737,17 @@
             var jenis = $('#debit');
             var bukti = $('#bukti');
 
+            var divQris = $('#toHideQris')
+            var divImgQris = $('#divImgQris')
+            var buktiQris = $("#buktiQris")
+            var bankQris = $("#bankQris")
+            var imgQris = $('#imgQris')
+
             selAr.hide(); selArB.hide(); selArB2.hide(); $("#toHideTabungan").hide();
             selA.hide(); selA2.hide(); selA3.hide();selA4.hide();selA5.hide();
+
+            divQris.hide(); divImgQris.hide();
+            
             jenis.on('change', function () {
                 if(jenis .val() == 1) {
                     bukti.attr("required",true);
@@ -732,6 +756,11 @@
                     nobank.attr("required",true);
                     selAr.show();
                     selArB.show(); selArB2.show()
+                    $("#toHideTabungan").hide();
+                    $("#tabungan").attr("required", false);
+                    divQris.hide(); divImgQris.hide();
+                    buktiQris.attr("required",false);
+                    bankQris.attr("required",false);
                 }
                 else if (jenis .val() == 0) {
                     $('#bank').val(0);
@@ -741,6 +770,11 @@
                     bukti.attr("required",false);
                     selAr.hide();
                     selArB.hide();selArB2.hide();
+                    $("#toHideTabungan").hide();
+                    $("#tabungan").attr("required", false);
+                    divQris.hide(); divImgQris.hide();
+                    buktiQris.attr("required",false);
+                    bankQris.attr("required",false);
                 }
                 else if (jenis .val() == 2) {
                     $('#bank').val(0);
@@ -752,8 +786,33 @@
                     selArB.hide();selArB2.hide();
                     $("#toHideTabungan").show();
                     $("#tabungan").attr("required", true);
+                    divQris.hide(); divImgQris.hide();
+                    buktiQris.attr("required",false);
+                    bankQris.attr("required",false);
+                }else if(jenis.val() == 3){
+                    selArB.show();selArB2.show();
+                    bank.attr("required",true);
+                    atasnama.attr("required",true);
+                    nobank.attr("required",true);
+                    bukti.attr("required",false);
+                    selAr.hide();
+                    $("#toHideTabungan").hide();
+                    $("#tabungan").attr("required", false);
+
+                    divQris.show(); divImgQris.show();
+                    buktiQris.attr("required",true);
+                    bankQris.attr("required",true);
                 }
             });
+
+            bankQris.change(function(){
+                let urlQris = $("#bankQris option:selected").data('qris');
+                console.log(urlQris)
+                if(urlQris != ''){
+                    divImgQris.show();
+                    imgQris.attr('src', urlQris);
+                }
+            })
 
 
             var selAr3 = $('#toHide5');

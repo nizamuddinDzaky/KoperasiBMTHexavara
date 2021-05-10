@@ -4256,7 +4256,7 @@ class InformationRepository
     function TransaksiPemUsrAng($data,$request)
     {
         $filename =null;
-        if($data['detail']['angsuran']== "Transfer"){
+        if($data['detail']['angsuran']== "Transfer" || $data['detail']['angsuran']== "Qris"){
             $uploadedFile = $request->file('file');
             $path = $uploadedFile->store('public/transfer');
             $filename =str_after($path, 'public/transfer/');

@@ -814,6 +814,10 @@ class UserController extends Controller
             $kredit = "Tabungan";
             $atasnama = $tabungan->jenis_tabungan;
             $bank = $tabungan->id;
+        }else if ($request->debit == 3) {
+            $kredit = "QRIS";
+            $atasnama = $request->atasnama;
+            $bank = $request->bank;
         } else {
             $kredit = "Tunai";
             $atasnama = Auth::user()->nama;
@@ -1338,6 +1342,19 @@ class UserController extends Controller
             $atasnama = $tabungan->jenis_tabungan;
             $bank = $tabungan->id;
             $fileToUpload = null;
+        }else if ($request->debit == 3) {
+            $kredit = "QRIS";
+            $atasnama = $request->atasnama;
+            $bank = $request->bank;
+            
+            $file_name = $request->file->getClientOriginalName();
+            $file_name_replace = preg_replace('/\s+/', '_', $file_name);
+            $fileToUpload = time() . "-" . $file_name_replace;
+
+            $request->file('file')->storeAs(
+                'public/transfer/', $fileToUpload
+            );
+
         } else {
             $kredit = "Tunai";
             $atasnama = Auth::user()->nama;

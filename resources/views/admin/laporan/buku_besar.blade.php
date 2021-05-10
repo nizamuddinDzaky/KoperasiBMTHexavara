@@ -40,17 +40,26 @@
                                             <div class="row">
                                                 <div class="form-group col-md-5">
                                                     <select class="form-control select2" id="idRekS" name="rekening" style="width: 100%;" required>
-                                                        <option disabled selected > - Rekening -</option>
+                                                        <option disabled  @if(!isset($param_filter['rekening_']) ){{'selected'}} @endif > - Rekening -</option>
                                                         @foreach($rekening as $rek)
-                                                            <option value="{{$rek['id']}}"> [{{isset($rek['id_rekening'])?$rek['id_rekening']:""}}] {{isset($rek['nama_rekening'])?$rek['nama_rekening']:""}}</option>
+                                                            <option value="{{$rek['id']}}"
+                                                                                        @if(isset($param_filter) && isset($param_filter['rekening_']) && $rek['id'] == $param_filter['rekening_'] )
+                                                                                            {{'selected'}} 
+                                                                                        @endif> 
+                                                                [{{isset($rek['id_rekening'])?$rek['id_rekening']:""}}] {{isset($rek['nama_rekening'])?$rek['nama_rekening']:""}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-5">
                                                     <select class="form-control select2" id="periode" name="periode" style="width: 100%;" required>
-                                                        <option disabled selected > - Periode -</option>
+                                                        <option disabled @if(!isset($param_filter['periode']) ){{'selected'}} @endif > - Periode -</option>
                                                         @foreach($periode as $p)
-                                                            <option value="{{$p}}"> {{substr($p,0,4)}} - {{substr($p,4,6)}}</option>
+                                                            <option value="{{$p}}"
+                                                                                @if(isset($param_filter) && isset($param_filter['periode']) && $p == $param_filter['periode'] )
+                                                                                    {{'selected'}} 
+                                                                                @endif
+                                                            > {{substr($p,0,4)}} - {{substr($p,4,6)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -99,10 +108,15 @@
                                             <div class="row">
                                                 <div class="form-group col-md-4">
                                                     <label class="control-label">Rekening</label>
-                                                    <select class="form-control select2" id="idRekSs" name="rekening" style="width: 100%;" required>
-                                                        <option disabled selected > - Rekening -</option>
+                                                    <select class="form-control select2"  name="rekening" style="width: 100%;" required>
+                                                        <option value = ''disabled @if(!isset($param_filter['rekening']) ){{'selected'}} @endif> - Rekening -</option>
                                                         @foreach($rekening as $rek)
-                                                            <option value="{{$rek['id']}}"> [{{isset($rek['id_rekening'])?$rek['id_rekening']:""}}] {{isset($rek['nama_rekening'])?$rek['nama_rekening']:""}}</option>
+                                                            <option value="{{$rek['id']}}" 
+                                                                                        @if(isset($param_filter) && isset($param_filter['rekening']) && $rek['id'] == $param_filter['rekening'] )
+                                                                                            {{'selected'}} 
+                                                                                        @endif> 
+                                                                    [{{isset($rek['id_rekening'])?$rek['id_rekening']:""}}] {{isset($rek['nama_rekening'])?$rek['nama_rekening']:""}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -115,6 +129,11 @@
                                                                id="etgl"
                                                                name="startdate"
                                                                required="true"
+                                                               value="
+                                                                @if(isset($param_filter) && isset($param_filter['start_date']))
+                                                                    {{$param_filter['start_date']}}
+                                                                @endif
+                                                               "
                                                         />
                                                     </div>
                                                 </div>
@@ -127,6 +146,11 @@
                                                                id="etgl"
                                                                name="enddate"
                                                                required="true"
+                                                               value="
+                                                                @if(isset($param_filter) && isset($param_filter['end_date']))
+                                                                    {{$param_filter['end_date']}}
+                                                                @endif
+                                                               "
                                                         />
                                                     </div>
                                                 </div>

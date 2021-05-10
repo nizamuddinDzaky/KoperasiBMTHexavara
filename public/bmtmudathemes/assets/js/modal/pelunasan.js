@@ -1,4 +1,15 @@
 $(document).ready(function() {
+
+    var bankQris= $('#bankLunasQris');
+    var imgQris= $('#imgLunasQris');
+    bankQris.on('change',function(){
+        let urlQris = $("#bankLunasQris option:selected").data('qris');
+        console.log(urlQris)
+        if(urlQris != ''){
+            imgQris.attr('src', urlQris);
+        }
+    })
+
     $('#pelunasanLebihAwalPembiayaanModal').on('show.bs.modal', function (event) {
         $('#wizardCardPelunasanLebihAwal').bootstrapWizard({
             tabClass: 'nav nav-pills',
@@ -55,6 +66,7 @@ $(document).ready(function() {
 
         $(".toHideBankTransfer").hide();
         $("#toHideTabunganPelunasan").hide();
+        $(".toHideBankQris").hide();
         
         var tipe_user = $("#tipe_user").val();
 
@@ -122,19 +134,31 @@ $(document).ready(function() {
             {
                 $(".toHideBankTransfer").hide();
                 $("#toHideTabunganPelunasan").hide();
+                $(".toHideBankQris").hide()
             }
             if($(this).val() == 1)
             {
                 $(".toHideBankTransfer").show();
                 $("#toHideTabunganPelunasan").hide();
+                $(".toHideBankQris").hide()
             }
             if($(this).val() == 2)
             {
                 $(".toHideBankTransfer").hide();
                 $("#toHideTabunganPelunasan").show();
+                $(".toHideBankQris").hide()
+            }
+
+            if($(this).val() == 3)
+            {
+                $(".toHideBankTransfer").hide();
+                $("#toHideTabunganPelunasan").hide();
+                $(".toHideBankQris").show()
             }
 
         });
+
+        
 
         if(tipe_user == "teller") {
             $('#user_pelunasan').attr("required", "required");

@@ -21,6 +21,11 @@ class Rekening extends Model
     public function bmt() {
         return $this->hasOne('App\BMT', 'id_rekening');
     }
+
+    public function qris() {
+        return ($this->hasOne('App\Qris', 'id_rekening') == null ? '' : $this->hasOne('App\Qris', 'id_rekening'));
+    }
+
     public function tabungan() {
         return $this->hasMany('App\Tabungan', 'id_rekening')->where('status', 'active');
     }

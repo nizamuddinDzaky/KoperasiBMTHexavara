@@ -669,6 +669,7 @@ class LaporanController extends Controller
     }
 
     public function rekening_buku(Request $request){
+        // print_r($request->all());die;
         $periode = PenyimpananRekening::select('periode')->distinct()->pluck('periode');
         $data =$this->informationRepository->BukuBesar($request);
         $periodeToday = Carbon::now()->year."".Carbon::now()->format('m');
@@ -680,9 +681,15 @@ class LaporanController extends Controller
             session()->now('message', 'Tidak Ditemukan Data');
         }
 
+        $param_filter = [
+            'periode' => $request->periode,
+            'rekening_' => $request->rekening,
+        ];
+
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
             'notification' => $notification,
+            'param_filter' => $param_filter,
             'notification_count' =>count($notification),
             'data' => $data,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),
@@ -702,9 +709,15 @@ class LaporanController extends Controller
             session()->now('message', 'Tidak Ditemukan Data');
         }
 
+        $param_filter = [
+            'start_date' => $request->startdate,
+            'end_date' => $request->enddate,
+            'rekening' => $request->rekening,
+        ];
         $notification = $this->pengajuanReporsitory->getNotification();
         return view('admin.laporan.buku_besar',[
             'data' => $data,
+            'param_filter' =>$param_filter,
             'rekening' => $this->informationRepository->getAllRekeningDetail(),
             'periode' =>$periode,
             'notification' => $notification,

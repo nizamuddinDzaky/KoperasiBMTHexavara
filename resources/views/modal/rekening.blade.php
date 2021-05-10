@@ -92,7 +92,30 @@
                     </div>
                     <div class="form-group">
                         <label for="namaRek" class="control-label">Kategori Rekening </label>
+                        <select class="form-control" id="kategoriRekening" name="select_kategori" required="true">
+                            <option value="" disabled selected>Pilih Tipe</option>
+                            <option value="BANK">BANK</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="divInputKategori">
                         <input type="text" class="form-control" id="kategori" name="kategori" >
+                    </div>
+
+                    <div class="form-group hidden" id="divFileQris">
+                        <label for="namaSim" class="control-label">Image Qris</label>
+                        <span >
+                            <img  alt="" width="100%" id="imgQris">
+                        </span><br>
+                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                    </div>
+
+                    <div class="form-group hidden" id="divInputFileQris">
+                        <label for="namaSim" class="control-label">File QRIS</label>
+                        <span >
+                            <input type="file" onchange="readURL(this);" id="eformakad" name="file" accept=".png, .jpg, .jpeg" />
+                        </span><br>
+                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                     </div>
 
                     <div class="category"><star>*</star> Required fields</div>

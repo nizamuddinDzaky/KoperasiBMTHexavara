@@ -81,6 +81,7 @@
                                             <option value="0">Tunai</option>
                                             <option value="1">Transfer</option>
                                             <option value="2">Tabungan</option>
+                                            <option value="3">Qris</option>
                                         </select>
                                     </div>
                                 </div>
@@ -153,6 +154,70 @@
                                     </div>
                                 @endif
                             </div>
+
+                            <div class="toHideBankQris">
+                                <div class="text-center">
+                                    <img style="margin: auto;width:200px;height:auto" id="imgLunasQris" src=""/>
+                                </div>
+                            </div>
+
+                            <div class="row toHideBankQris">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Transfer ke Rek. BANK <star>*</star></label>
+                                        <select class="form-control select2" id="bankLunasQris" name="bank" style="width: 100%;" >
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih Rekening BANK-</option>
+                                            @foreach ($dropdown6 as $rekening)
+                                                @if($rekening->qris)
+                                                    <option value="{{ $rekening->id }}" data-qris = " {{asset('storage/public/qris/'.$rekening->qris->path_file)}}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 {{ !$errors->has('file') ?: 'has-error' }}">
+                                    <div class="form-group">
+                                        <label>Upload Bukti Transfer <star>*</star></label><br>
+                                        <span class="btn btn-info btn-fill btn-file center-block"> Browse
+                                            <input type="file" onchange="readURLPelunasan(this);" id="bukti" name="file" accept=".jpg, .png, .jpeg|images/*" />
+                                        </span><br><br>
+                                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                                    </div>
+                                </div>
+                                @if(Auth::user()->tipe == "anggota")
+                                <div class="text-center">
+                                    <img style="margin: auto;width:100px;height:auto" id="picpelunasan" src=""/>
+                                </div>
+                                @else
+                                    <div class="text-center">
+                                        <img style="margin: auto;width:100px;height:auto" id="picpelunasanteller" src=""/>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="row toHideBankQris">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Nama BANK User <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="bankDeb" name="daribank">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">No. Rekening BANK User <star>*</star></label>
+                                        <input type="number" class="form-control text-left"  id="nobankDeb" name="nobank">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row toHideBankQris">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Atas Nama <star>*</star></label>
+                                        <input type="text" class="form-control text-left"  id="atasnamaDeb" name="atasnama">
+                                    </div>
+                                </div>
+                            </div>
+
                             {{--PEMBAYARAN--}}
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1" >

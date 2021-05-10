@@ -92,6 +92,7 @@
                                                 data-namarek    = "{{$rek->nama_rekening}}"
                                                 data-kategori    = "{{$rek->katagori_rekening}}"
                                                 data-induk    = "{{$rek->id_induk}}"
+                                                data-qris     = "@if($rek->qris != null) {{ asset('storage/public/qris/'.$rek->qris->path_file) }}  @endif "
                                                 data-tiperek    = "{{$rek->tipe_rekening}}">
                                         <i class="fa fa-edit"></i>
                                         </button>
@@ -126,21 +127,52 @@
 @section('extra_script')
 
     <script type="text/javascript">
+        var qris = '';
+        $('#kategoriRekening').change(function(){
+            let valueSelect = $(this).val();
+            if(valueSelect != 'BANK'){
+                $('#divInputKategori').removeClass('hidden')
+                $('#divInputFileQris').addClass('hidden')
+                $('#divFileQris').addClass('hidden')
+            }else{
+                $('#divInputKategori').addClass('hidden')
+                $('#divInputFileQris').removeClass('hidden')
+                if(qris != '' && qris != ' '){
+                    $('#divFileQris').removeClass('hidden')
+                }
+            }
+        })
 
         $('#editRekModal').on('show.bs.modal', function (event) {
 
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var idrek = button.data('idrek');
-            var indukrek = button.data('induk');
-            var namarek = button.data('namarek');
-            var tipe_rekening = button.data('tiperek');
+            let button = $(event.relatedTarget); // Button that triggered the modal
+            let idrek = button.data('idrek');
+            let indukrek = button.data('induk');
+            let namarek = button.data('namarek');
+            let tipe_rekening = button.data('tiperek');
+            let kategori = button.data('kategori');
+            let valueSelectKategori = 'BANK'
+            qris = button.data('qris').trim();
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             $("#indukRek").val(indukrek);
             $('#indukRek').select2().trigger('change');
             $('#id_edit').val(idrek);
+            $('#divFileQris').addClass('hidden')
+            $('#imgQris').attr("src", qris)
 
-            $('#kategori').val(button.data('kategori'));
+            if(kategori != 'BANK'){
+                valueSelectKategori = 'lainnya';
+            }else{
+                kategori = ''
+            }
+
+            if(qris != '' && qris != ' '){
+                $('#divFileQris').removeClass('hidden')
+            }
+
+            $('#kategoriRekening').val(valueSelectKategori).change();
+            $('#kategori').val(kategori);
             $('#namaRekening').val(namarek);
             $('#tipeRek').val(tipe_rekening);
             $('#editRekLabel').text("Edit Rekening: " + namarek);

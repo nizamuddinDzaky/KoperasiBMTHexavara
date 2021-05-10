@@ -2,7 +2,7 @@
 <div class="modal fade" id="angsurPemModal" role="dialog" aria-labelledby="addOrgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="card card-wizard" id="wizardCardAng">
-            <form id="wizardFormAng" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('anggota.angsur_pembiayaan')}}" @ENDIF enctype="multipart/form-data">
+            <form id="wizardFormAng" method="POST" @if(Auth::user()->tipe=="admin") action="{{route('admin.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="teller") action="{{route('teller.angsur_pembiayaan')}}" @elseif(Auth::user()->tipe=="anggota") action="{{route('anggota.angsur_pembiayaan')}}" @endif enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if(Auth::user()->tipe!="anggota")
                     <input type="hidden" name="teller" value="teller">
@@ -152,6 +152,7 @@
                                             <option value="0">Tunai</option>
                                             <option value="1">Transfer</option>
                                             <option value="2">Rekening Tabungan</option>
+                                            <option value="3">Qris</option>
                                         </select>
                                     </div>
                                 </div>
@@ -241,6 +242,47 @@
                                 @else
                                     <div class="text-center">
                                         <img style="margin: auto;width:100px;height:auto" id="pic" src=""/>
+                                    </div>
+                                    @endif
+
+                            </div>
+
+                            <div id="divImgQris">
+                                <div class="text-center">
+                                    <img style="margin: auto;width:200px;height:auto" id="imgQris" src=""/>
+                                </div>
+                            </div>
+
+                            <div class="row" id="toHideQris">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="namaSim" class="control-label">Transfer ke Rek. BANK <star>*</star></label>
+                                        <select class="form-control select2" id="bankQris" name="bank" style="width: 100%;" >
+                                            <option class="bs-title-option" selected value="" disabled>-Pilih Rekening BANK-</option>
+                                            @foreach ($dropdown6 as $rekening)
+                                                @if($rekening->qris)
+                                                    <option value="{{ $rekening->id }}" data-qris = " {{asset('storage/public/qris/'.$rekening->qris->path_file)}}"> [{{$rekening->id_rekening }}] {{ $rekening->nama_rekening }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 {{ !$errors->has('file') ?: 'has-error' }}">
+                                    <div class="form-group">
+                                        <label>Upload Bukti Transfer <star>*</star></label><br>
+                                        <span class="btn btn-info btn-fill btn-file center-block"> Browse
+                                            <input type="file" onchange="readURLQris(this);" id="buktiQris" name="file" accept=".jpg, .png, .jpeg|images/*" />
+                                        </span><br><br>
+                                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                                    </div>
+                                </div>
+                                @if(Auth::user()->tipe== "anggota")
+                                    <div class="text-center">
+                                        <img style="margin: auto;width:100px;height:auto" id="picanggota" src=""/>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <img style="margin: auto;width:100px;height:auto" id="picQris" src=""/>
                                     </div>
                                     @endif
 

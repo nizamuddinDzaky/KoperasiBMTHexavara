@@ -1872,7 +1872,6 @@ class PembiayaanReporsitory {
             $rekening_pendapatan = Rekening::where('id', $id_rekening_pembiayaan)->select('detail')->first();
             $id_rekening_pendapatan = Rekening::where('id_rekening', json_decode($rekening_pendapatan->detail)->rek_margin)->select('id')->first();
             $id_rekening_pendapatan = $id_rekening_pendapatan->id;
-            
             if($data->debit == 0) // tunai
             {
                 $bank_tujuan_angsuran = json_decode(Auth::user()->detail)->id_rekening;
@@ -1883,7 +1882,7 @@ class PembiayaanReporsitory {
                 $bank_tujuan_angsuran = $data->bank;
                 $dari_bank = "[" . $data->nobank . "] " . $data->daribank;
             }
-            if($data->debit == 2) // tabungan
+            if($data->debit == 2 || 3) // tabungan
             {
                 $tabungan =  Tabungan::where('id', $data->tabungan)->first();
                 $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
@@ -1891,6 +1890,12 @@ class PembiayaanReporsitory {
                 $bank_tujuan_angsuran = $tabungan->id_rekening;
                 $dari_bank = "[" . $tabungan->id_tabungan . "] " . $tabungan->jenis_tabungan;
             }
+
+            if($data->debit == 3){
+                $bank_tujuan_angsuran = $data->bank;
+                $dari_bank = "[" . $data->nobank . "] " . $data->daribank;
+            }
+
 
             $tagihan_pokok_angsuran = json_decode($pembiayaan->detail)->jumlah_angsuran_bulanan;
             $jumlah_bayar_angsuran = preg_replace('/[^\d.]/', '', $data->bayar_ang);
@@ -2008,6 +2013,7 @@ class PembiayaanReporsitory {
             $saldo_awal_pembiayaan = floatval($bmt_pembiayaan->saldo);
             $saldo_akhir_pembiayaan = floatval($bmt_pembiayaan->saldo) - floatval($jumlah_bayar_angsuran);
 
+            
             if($data->debit == 2)
             {
 
@@ -3464,7 +3470,6 @@ class PembiayaanReporsitory {
     */
     public function pelunasanPembiayaan($data)
     {
-
         $pembiayaan = Pembiayaan::where('id_pembiayaan', explode(" ", $data->idRek)[6])->first(); // ambil pembiayaam
         $user_pembiayaan = User::where('id', $pembiayaan->id_user)->first(); // ambil user yang melakukan pelunasan
 
@@ -3492,7 +3497,7 @@ class PembiayaanReporsitory {
             $rekening_tabungan = Rekening::where('id', $tabungan->id_rekening)->first();
             $id_tujuan_pelunasan = $tabungan->id_rekening;
         }
-        if($data->debit == 1)
+        if($data->debit == 1 || $data->debit == 3)
         {
             $id_tujuan_pelunasan = $data->bank;
         }

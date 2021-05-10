@@ -6,6 +6,7 @@ use App\BMT;
 use App\Deposito;
 use App\ObjectPengajuanMRB;
 use App\Pembiayaan;
+use App\Qris;
 use App\Repositories\InformationRepository;
 use App\Tabungan;
 use App\User;
@@ -13,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rekening;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
 class DatamasterController extends Controller
@@ -146,31 +149,68 @@ class DatamasterController extends Controller
     }
 
     public function edit_rekening(Request $request){
-        $rekening = $this->informationRepository->getRekening($request->id_);
-        if (!$rekening) {
-            $data =$this->get_id($request->indukRek);
-            $rekening = New Rekening();
-            $rekening->id_rekening = $data['id'];
-            $rekening->id_induk = $request->indukRek;
-            $rekening->nama_rekening = $request->namaRek;
-            $rekening->tipe_rekening = $request->tipeRek;
-        } else {
-            if($rekening->id_induk==$request->indukRek)
-                $rekening->id_rekening = $rekening['id_rekening'];
-            else $rekening->id_rekening = $this->get_id($request->indukRek)['id'];
-            $rekening->id_induk = $request->indukRek;
-            $rekening->katagori_rekening = $request->kategori;
-            $rekening->nama_rekening = $request->namaRek;
-            $rekening->tipe_rekening = $request->tipeRek;
+        DB::beginTransaction();
+        try {
+            $rekening = $this->informationRepository->getRekening($request->id_);
+            if (!$rekening) {
+                $data =$this->get_id($request->indukRek);
+                $rekening = New Rekening();
+                $rekening->id_rekening = $data['id'];
+                $rekening->id_induk = $request->indukRek;
+                $rekening->nama_rekening = $request->namaRek;
+                $rekening->tipe_rekening = $request->tipeRek;
+            } else {
+                $kategori = 'BANK';
+                if($request->select_kategori != 'BANK'){
+                    $kategori = $request->kategori;
+                    $qris = Qris::where('id_rekening', $rekening->id)->first();
+                    if($qris != null){
+                        $qris->delete();
+                    }
+                }
+    
+                if($rekening->id_induk==$request->indukRek)
+                    $rekening->id_rekening = $rekening['id_rekening'];
+                else $rekening->id_rekening = $this->get_id($request->indukRek)['id'];
+                $rekening->id_induk = $request->indukRek;
+                $rekening->katagori_rekening = $kategori;
+                $rekening->nama_rekening = $request->namaRek;
+                $rekening->tipe_rekening = $request->tipeRek;
+                
+                if(!$rekening->save()){
+                    throw new \Exception(sprintf('Data Rekening gagal diedit!.'));
+                }
+
+                $file = Input::file('file');
+                
+                if($file != null){
+                    $uploadedFile = $request->file('file');
+                    $path = $uploadedFile->store('public/qris');
+                    $filename =str_after($path, 'public/qris');
+                    $uploadedFile->move('template' , $filename);
+                    
+                    $qris = Qris::where('id_rekening', $rekening->id)->first();
+                    if($qris == null){
+                        $qris = new Qris;
+                    }
+                    $qris->id_rekening = $rekening->id;
+                    $qris->path_file = $filename;
+                    if(!$qris->save()){
+                        throw new \Exception(sprintf('Data Rekening gagal diedit!.'));
+                    }
+                }
+
+                DB::commit();
+                return redirect()
+                ->back()
+                ->withSuccess(sprintf('Data Rekening berhasil diedit!.'));    
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withErrors($e->getMessage());
         }
-        if($rekening->save())
-            return redirect()
-                ->back()
-                ->withSuccess(sprintf('Data Rekening berhasil diedit!.'));
-        else
-            return redirect()
-                ->back()
-                ->withErrors(sprintf('Data Rekening gagal diedit!.'));
     }
 
     public function delete_rekening(Request $request)
