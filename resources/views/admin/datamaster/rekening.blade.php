@@ -93,6 +93,7 @@
                                                 data-kategori    = "{{$rek->katagori_rekening}}"
                                                 data-induk    = "{{$rek->id_induk}}"
                                                 data-qris     = "@if($rek->qris != null) {{ asset('storage/public/qris/'.$rek->qris->path_file) }}  @endif "
+                                                data-delete-qris = "@if($rek->qris != null) {{ route('admin.datamaster.rekening.delete_qris', ['id_rekening'=>$rek->id]) }}  @endif "
                                                 data-tiperek    = "{{$rek->tipe_rekening}}">
                                         <i class="fa fa-edit"></i>
                                         </button>
@@ -121,7 +122,7 @@
 @endsection
 
 @section('modal')
-    @include('modal.rekening')
+@include('modal.rekening')
 @endsection
 
 @section('extra_script')
@@ -152,6 +153,7 @@
             let tipe_rekening = button.data('tiperek');
             let kategori = button.data('kategori');
             let valueSelectKategori = 'BANK'
+            let urlDeleteQris = button.data('delete-qris').trim();
             qris = button.data('qris').trim();
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -160,6 +162,7 @@
             $('#id_edit').val(idrek);
             $('#divFileQris').addClass('hidden')
             $('#imgQris').attr("src", qris)
+            $('#delete-qris').attr("href",urlDeleteQris )
 
             if(kategori != 'BANK'){
                 valueSelectKategori = 'lainnya';

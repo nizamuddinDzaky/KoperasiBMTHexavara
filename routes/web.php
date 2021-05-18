@@ -741,6 +741,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','permissions.required
                 'as'        => 'admin.datamaster.rekening.delete_rekening',
                 'uses'      => 'DatamasterController@delete_rekening'
             ]);
+            
+            Route::get('/delete_qris/{id_rekening}', [
+                'as'        => 'admin.datamaster.rekening.delete_qris',
+                'uses'      => 'DatamasterController@delete_qris'
+            ]);
         });
 
         Route::get('/tabungan', [

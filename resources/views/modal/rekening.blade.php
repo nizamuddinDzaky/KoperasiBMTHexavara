@@ -108,6 +108,7 @@
                             <img  alt="" width="100%" id="imgQris">
                         </span><br>
                         <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                        <a id="delete-qris" href="#">Hapus</a>
                     </div>
 
                     <div class="form-group hidden" id="divInputFileQris">

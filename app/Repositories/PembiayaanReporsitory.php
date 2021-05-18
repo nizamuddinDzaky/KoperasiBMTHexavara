@@ -2461,6 +2461,7 @@ class PembiayaanReporsitory {
         DB::beginTransaction();
         try
         {
+            // echo "asd";die;
             // cari pembiayaan, cari history pembiayaan terakhir, cari user
             $pembiayaan = Pembiayaan::where('id_pembiayaan', $data->id_)->first();
             $penyimpananPembiayaan = PenyimpananPembiayaan::where('id_pembiayaan', $pembiayaan->id)->orderBy('created_at', 'desc')->take(1)->get();

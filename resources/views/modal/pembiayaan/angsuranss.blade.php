@@ -249,7 +249,7 @@
 
                             <div id="divImgQris">
                                 <div class="text-center">
-                                    <img style="margin: auto;width:200px;height:auto" id="imgQris" src=""/>
+                                    <img style="margin: auto;width:100%;height:auto" id="imgQris" src=""/>
                                 </div>
                             </div>
 

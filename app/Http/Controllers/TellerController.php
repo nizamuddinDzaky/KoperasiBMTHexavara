@@ -1835,6 +1835,7 @@ class TellerController extends Controller
      */
     public function angsuran_pembiayaan(Request $request)
     {
+        // print_r($request->all());die;
         $id_rekening = explode(" ", $request->idRek)[7];
         if($id_rekening == 100)
         {

@@ -790,7 +790,7 @@
                     buktiQris.attr("required",false);
                     bankQris.attr("required",false);
                 }else if(jenis.val() == 3){
-                    selArB.show();selArB2.show();
+                    selArB.hide();selArB2.hide();
                     bank.attr("required",true);
                     atasnama.attr("required",true);
                     nobank.attr("required",true);

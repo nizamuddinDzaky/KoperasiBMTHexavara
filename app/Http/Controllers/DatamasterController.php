@@ -190,6 +190,11 @@ class DatamasterController extends Controller
                     $uploadedFile->move('template' , $filename);
                     
                     $qris = Qris::where('id_rekening', $rekening->id)->first();
+                    // echo ;die;
+                    
+                    if(file_exists( public_path('storage/public/qris/'.$qris->path_file))){
+                        unlink(public_path('storage/public/qris/'.$qris->path_file));
+                    }
                     if($qris == null){
                         $qris = new Qris;
                     }
@@ -222,6 +227,35 @@ class DatamasterController extends Controller
         else
             $status = ["danger" ,"Data Rekening gagal dihapus!"];
         return back();
+    }
+
+    public function delete_qris(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $qris = Qris::where('id_rekening', $request->id_rekening)->first();
+            if($qris == null){
+                throw new \Exception(sprintf('Data QRIS Tidak Terdaftar'));
+            }
+
+            if(file_exists( public_path('storage/public/qris/'.$qris->path_file))){
+                unlink(public_path('storage/public/qris/'.$qris->path_file));
+            }
+
+            if(!$qris->delete()){
+                throw new \Exception(sprintf('Data QRIS gagal diedit!.'));
+            }
+            DB::commit();
+                return redirect()
+                ->back()
+                ->withSuccess(sprintf('Data Rekening berhasil diedit!.'));    
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withErrors($e->getMessage());
+        }
+        
     }
 
 //end of Data master REKENING
